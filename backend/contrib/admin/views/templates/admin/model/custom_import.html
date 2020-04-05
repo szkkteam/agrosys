@@ -1,0 +1,41 @@
+{% extends 'admin/master.html' %}
+{% import 'admin/lib.html' as lib with context %}
+{% from 'admin/lib.html' import extra with context %} {# backward compatible #}
+
+{% block head %}
+  {{ super() }}
+  {{ lib.form_css() }}
+{% endblock %}
+
+{% block body %}
+  {% block navlinks %}
+  <ul class="nav nav-tabs">
+    <li>
+        <a href="{{ return_url }}">{{ _gettext('List') }}</a>
+    </li>
+    <li class="active">
+        <a href="javascript:void(0)">{{ _gettext('Import') }}</a>
+    </li>
+  </ul>
+  {% endblock %}
+
+  {% block import_form %}
+    {% call lib.form_tag(action=action) %}
+        {{ lib.render_form_fields(form, form_opts=form_opts) }}
+        <hr>
+            <div class="form-group">
+              <div class="col-md-offset-2 col-md-10 submit-row">
+                <input type="submit" class="btn btn-primary" value="{{ _gettext('Import') }}" />
+                {% if return_url %}
+                  <a href="{{ return_url }}" class="btn btn-danger" role="button" {% if is_modal %}data-dismiss="modal"{% endif %}>{{ _gettext('Cancel') }}</a>
+                {% endif %}
+              </div>
+            </div>
+    {% endcall %}
+  {% endblock %}
+{% endblock %}
+
+{% block tail %}
+  {{ super() }}
+  {{ lib.form_js() }}
+{% endblock %}

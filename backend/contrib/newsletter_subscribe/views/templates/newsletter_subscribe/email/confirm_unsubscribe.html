@@ -1,0 +1,9 @@
+{% extends 'email/layout.html' %}
+
+{% block preview %}
+  <p>You are successfully subscribed to our mailing list</p>
+{% endblock %}
+
+{% block unsubscribe %}
+  <br>Unsubscribed by accident?<a href="{{ resubscribe_link }}">Resubscribe</a>.
+{% endblock %}

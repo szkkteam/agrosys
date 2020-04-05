@@ -1,0 +1,236 @@
+{% extends 'admin/master.html' %}
+{% import 'admin/lib.html' as lib with context %}
+{% from 'admin/lib.html' import extra with context %} {# backward compatible #}
+{% import 'admin/macros.html' as custom_lib with context %}
+{% from 'admin/macros.html' import custom_render_form with context %}
+
+{% block head %}
+  {{ super() }}
+
+
+  {{ lib.form_css() }}
+  <style>
+	.img-preview {
+		max-width: 125px;
+		max-height: 125px;
+		float: left;
+		margin-bottom:10px;
+	}
+  /*
+  .img-name {
+    width: 70%;
+  }*/
+
+  .file-preview-table {
+    width: 100%;
+    margin: 20px;
+  }
+
+  .progress-bar-success {
+    background-image: linear-gradient(to bottom,#1ee333 0,#23a418 100%);
+  }
+
+  .progress-bar-failed {
+    background-image: linear-gradient(to bottom,#d71212 0,#b50b0b 100%);
+  }  
+
+
+  </style>
+{% endblock %}
+
+{% block body %}
+
+
+  {% block navlinks %}
+  <ul class="nav nav-tabs">
+    <li>
+        <a href="{{ return_url }}">{{ _gettext('List') }}</a>
+    </li>
+    <li class="active">
+        <a href="javascript:void(0)">{{ _gettext('Create') }}</a>
+    </li>
+  </ul>
+  {% endblock %}
+
+  {% block create_form %}
+    {{ custom_lib.custom_render_form(form, return_url, extra(), form_opts) }}
+  {% endblock %}
+  <div>
+    <table id="file-preview-list" class="file-preview-table">
+      {# This section will be filled out by js  #}
+    </table>
+  </div>
+{% endblock %}
+
+{% block tail %}
+  {{ super() }}
+  {{ lib.form_js() }}
+
+  <script>
+ 
+    // File extension extract regex
+    const getFileExtension = /(?:\.([^.]+))?$/;
+
+    function getCookie(cname) {
+      var name = cname + "=";
+      var decodedCookie = decodeURIComponent(document.cookie);
+      var ca = decodedCookie.split(';');
+      for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+
+
+
+    function buildPreviewHtml(src, filename) {
+      var progressbar_div = $("<div>", { "class": "progress", "hidden": "", "style": "margin-bottom:0px" }).append(
+          $("<div>", { "class": "progress-bar", "role": "progressbar", "aria-valuenow": "0", "aria-valuemin": "0", "aria-valuemax": "100", "style": "width:0%" })
+        );
+      var table = $("<tr>", { "class" : "image-name-container", "style": "position:relative"});
+
+      table.append(
+          $("<td>", { "style": "width:30%" }).append(
+            "<img class=\"img-preview\" src=\"" + src + "\">"
+        ));
+
+      var input = $("<input>", { "class": "img-name", "type": "text", "placeholder": filename });
+      input.attr('size', input.attr('placeholder').length);
+
+      table.append(
+          $("<td>").append(
+            input
+      ));
+
+      table.append(
+          $("<td>", {"style": "width:200px"}).append(
+            progressbar_div
+        ));
+
+      return table
+    }
+
+    var handleFileSelect = function(e) {
+
+        if(!e.target.files || !window.FileReader) return;
+
+        // Clear the previously added elements
+        $("#file-preview-list").html("");        
+
+        var files = e.target.files;
+        var filesArr = Array.prototype.slice.call(files);
+        filesArr.forEach(function(f) {
+            if(!f.type.match("image.*")) {
+                return;
+            }
+
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("#file-preview-list").append(buildPreviewHtml(e.target.result, f.name));
+            }
+            reader.readAsDataURL(f);
+        });
+    }
+
+    prepareData = function (imgName, imgFile, filename, albumObj, priceObj) {
+      var formData = new FormData();
+
+      formData.append(albumObj.name, albumObj.value);
+      formData.append(priceObj.name, priceObj.value);
+      formData.append('csrf_token', getCookie("csrf_token"));
+      formData.append(imgName, imgFile, filename);
+      //formData.append(button.name, button.value);
+
+      return formData;
+    }
+
+    sendForm = function (url, formData, progressElement) {
+      var request = $.ajax({
+            type: "POST",
+            url: url,
+            xhr: function () {
+              var myXhr = $.ajaxSettings.xhr();
+              if (myXhr.upload) {
+                myXhr.upload.addEventListener('progress', function(e) {
+                      var percent = 0;
+                      var position = event.loaded || event.position;
+                      var total = event.total;
+
+                      if (event.lengthComputable) {
+                          percent = Math.ceil(position / total * 100);
+                      }
+                      progressElement.attr("aria-valuenow", percent);
+                      progressElement.css("width", percent + '%');
+
+                }, false);
+              }
+              return myXhr;
+            },
+            async: true,
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            timeout: 60000
+          });
+      return request;
+    }
+
+
+    var handleSubmit = function(e) {
+        e.preventDefault();
+        const action = this.action;
+        const albumObj = $('select[name=album]')[0];
+        const priceObj = $('input[name=price]')[0];
+        const imgElement = $('input[type=file]')[0];
+        const imgName = imgElement.name;
+        
+        $('#file-preview-list tr').each( function(index) {
+
+          const placeholder = $(this).find("input").attr('placeholder');
+          const userName = $(this).find('input').attr('value');
+
+          const name = userName ? ((!getFileExtension.exec(userName)[1]) ? userName + '.' + getFileExtension.exec(placeholder)[1] : userName) : placeholder;
+                
+          var progressElement = $(this).find('.progress-bar');
+          $(this).find(".progress").removeAttr('hidden');
+
+          var formData = prepareData(imgName, imgElement.files[index], name, albumObj, priceObj);
+
+          var request = sendForm(action, formData, progressElement);
+          request.then(function(response) {
+            console.log(response);       
+            if (response.status == "success") {
+              progressElement.addClass('progress-bar-success');
+              progressElement.append("Success" );              
+            }
+            else {
+              progressElement.addClass('progress-bar-failed');
+              progressElement.append(response.error );               
+            }
+
+          });
+          request.catch(function(err) {
+            console.log(err);
+            progressElement.addClass('progress-bar-failed');
+          });
+
+        });
+    }
+
+
+
+    $(document).ready( function() {
+        document.querySelector('input[type=file]').addEventListener('change', handleFileSelect, false);
+        document.querySelector('form').addEventListener('submit', handleSubmit, false);        
+
+    });
+
+  </script>
+{% endblock %}

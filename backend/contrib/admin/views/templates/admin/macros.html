@@ -1,0 +1,18 @@
+{% import 'admin/static.html' as admin_static with context %}
+{% import 'admin/lib.html' as lib with context %}
+{% from 'admin/lib.html' import extra with context %} {# backward compatible #}
+
+{# ---------------------- Custom Form Macros -------------------------- #}
+{% macro custom_form_tag(id='', action=None) %}
+    <form id="{{ id }}" action="{{ action or '' }}" method="POST" role="form" class="admin-form form-horizontal" enctype="multipart/form-data">
+      {{ caller() }}
+    </form>
+{% endmacro %}
+
+{% macro custom_render_form(form, cancel_url, extra=None, form_opts=None, action=None, is_modal=False, root=None) -%}
+    {% call custom_form_tag(action=action) %}
+        <input type="hidden" name="id" value="{{ root }}"/>
+        {{ lib.render_form_fields(form, form_opts=form_opts) }}
+        {{ lib.render_form_buttons(cancel_url, extra, is_modal) }}
+    {% endcall %}
+{% endmacro %}

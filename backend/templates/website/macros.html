@@ -1,0 +1,18 @@
+{% macro separator() %}
+	<li class="nav-item d-none d-md-inline">
+		<i class="material-icons">label_important</i>
+	</li>			
+{% endmacro %}
+
+{% macro nav_link(endpoint, name) -%}
+    {% if request.endpoint.endswith(endpoint) %}
+		<li class="nav-item active">
+			<a class="nav-link d-inline-block" href="{{ url_for(endpoint) }}">{{name}}</a>
+		</li>
+    {% else %}
+		<li class="nav-item">
+			<a class="nav-link d-inline-block" href="{{ url_for(endpoint) }}">{{name}}</a>
+		</li>
+	{% endif %}
+	{{ separator() }}
+{%- endmacro %}

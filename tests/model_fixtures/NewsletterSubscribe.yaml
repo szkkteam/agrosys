@@ -1,0 +1,10 @@
+---
+newslettersubscribe:
+  email: active@example.com
+  is_active: True
+
+{% for i in range(0, 5) %}
+newslettersubscribe{{ i }}:
+  email: {{ faker.email() }}
+  is_active: {{ faker.boolean(chance_of_getting_true=50) }}
+{% endfor %}

@@ -1,0 +1,50 @@
+{% import 'website/static.html' as static with context %}
+
+{% macro footer(unsubscribe_link="#") %}
+    <tr>
+      <td class="content-block">
+        <span class="apple-link">Fairy Light Event Photography, 9999 Street street, City city ZIP</span>
+      </td>
+    </tr>
+      <tr>
+      <td class="content-block">
+        <span> You are receiving this email because you are subscribed to to Fairy Light mailing list. You can <a href="{{unsubscribe_link}}">Unsubscribe</a> any time from all future events.</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="content-block powered-by">
+        Powered by &copy; Copyright 2020 <a href="https://fairy-light.herokuapp.com/">Fairy Light</a>.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span class="social-icon">
+          <a rel="nofollow" href="https://www.facebook.com/fairylighteventphoto/"><img class="img-fluid" width="75" height="75" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGkAAABpCAMAAAAOXP0IAAAArlBMVEUAAAAAff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff+kSX8dAAAAOXRSTlMAAQIDBAUHCAkLDBMUFRcZHiAiIyQpLjE1REpPWWdobHx/j5GVmp2ipau3usDKzNXX2d7g5Obz+f08JtJlAAAA7ElEQVRo3u3W1wqDQBCF4dEY00zvvfdmuvv+L5YoIRAwLoHZJYTzXbkz4M9eCBIBAAAAAAAA/AzTToSwY9ydxkZ8cOyYnPeZiQj7NF9pIiIdLK5QRUj0uUojWelqMJVOYW+flOKPlWEHhxRTKaRzqz53RnB01JXqpKm0Jl2lVjAvDueLpeJS2R/HvddZXSnnj/NCV6mA0tel1fvO0Vaqais1tZW62kpjdaWt8xD8Opj+0w7fE0p/UfKkpQxTyZWWkkylgax0YQpRVlZqc5WoF11aGaQs9VZaWsQoO3C90NJ5WiMAAAAAAACAX3EHJ/PIxoj/7TsAAAAASUVORK5CYII=" alt="facebook page of fairy light event photography"></a>
+        </span>
+        <span class="social-icon">
+          <a rel="nofollow" href="#"><img class="img-fluid" width="75" height="75" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGkAAABpCAMAAAAOXP0IAAAA81BMVEUAAAAAff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8fKns1AAAAUHRSTlMAAQIDBAUICg0RFBUWGhwdHiAkJicoKi0vMDIzNDc4Ojs8PkVLbXV5fn+DiY+SlZegoqirrbS3ubzBx8jOz9HT1dfZ3uDi5Obr7e/x9/n7/SLhUocAAAFYSURBVGje7dfJUsJAFIXh0zGKioLijAjOiiDOOCKI4ISS+/5P4wLQBCvJ5nYVVZ5vlboL/up0SKoBIiIiIiIiolFhsuV6V4Z0a6UV7VC6KSEeZlRDGxLOW9ZckUTpTuvtUcitSwNIisidWikXspgxAEZEZEGrdBxXOtAqNeJKVa2SF1JK9fdJnrVKwd+/3F3KFI4C/+K2VqnqczLVm7l7vuEZ36GjoDPY+SIAoFD7OHQBYPbnkVAvzQP9t+0VAODNWikBAG0REZkDgAtrpXEATu9yCwAq1kqTQ2u6tVbKB/fJ8ayVes/B5mOn6AL+r4l6Sdb8Y6dlsfSZ/J2ac7FYkq/cYJi4Easlkev1CQM3vR/4kmiV3iWOVuk+LvSiVSrFlU61SqtxpW2tknmKDr06WiWkokuL0BN1ApAdaEqFnmpaGegy2XLjz0nNa1byBkRERERERET/0DfAfwBoJq1vbwAAAABJRU5ErkJggg==" alt="instagram page of fairy light event photography"></a>
+        </span>
+        <span class="social-icon">
+          <a rel="nofollow" href="#"><img class="img-fluid" width="75" height="75" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGkAAABpCAMAAAAOXP0IAAABC1BMVEUAAAAAff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff8Aff+dLOU1AAAAWHRSTlMAAQIDBAYHCAkKCwwNDg8REhMUFRcnKCotLzAzNDc5OkBCQ0ZHSkxPUFFcYWJjZmdobG9xd3l8foCChYiMkpelprS3ub7FyMrP1dne4OLk6Ont8fP19/v9v/WhFwAAAVtJREFUaN7t11lPwkAUhuEpVRQVQUBwR3HBHRAXXFCpC4tYUYqd//9LjI1pA8XOzTkGk++5gpmEN4RhDggBAAAAAAAAMCpi2fzeEPlsnLYzU5O/MqKEocSHDNBNkoVCbRnIDFGVtqXCLlWppio9UpXeVaUeVUkq/dtSz3vl12VdjG9asn7LUTKnm25owlmPxrQ6R+lKhBs/pbR7/nc6DKUTIbSC88jyti453tPd98P4jS3ls7tT5TkRk84TPb1f9p1K2tJ9VfddiDylLf/GFE/J8G8sMH1zc76NM67b6HDgg9IsrtJxqn99g+2GfRg4eR2+u7zct3zNOTWMzJi7mmOdT0+r7uIa23zqHqxnIt6xKzFOwpclze2sNHinu1mcnw1HEovnb1zT/fPPfkc0VaE2VelUVapQleZUJbq/AEfBoaKgUwgKlQSl5EXLHlaxW5WUAAAAAAAAABgVXyQZK06gAuVzAAAAAElFTkSuQmCC"></a>
+        </span>
+      </td>
+    </tr>
+{% endmacro %}
+
+{% macro call_to_action(title, url='#', aligment='center') %}
+  <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
+    <tbody>
+      <tr>
+        <td align="{{aligment}}">
+          <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+            <tbody>
+              <tr>
+                <td> <a href="{{url}}" target="_blank">{{title}}</a> </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+{% endmacro %}

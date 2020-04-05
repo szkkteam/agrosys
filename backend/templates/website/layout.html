@@ -1,0 +1,47 @@
+{# Common global html template files #}
+{% extends 'website/base.html' %}
+{% import 'website/static.html' as site_static with context %}
+
+{# Local html template files #}
+{% import 'modules/hero.html' as hero_img with context %}
+{% import 'modules/navbar.html' as navigation with context %}
+{% import 'modules/footer.html' as footer with context %}
+{% from 'website/macros.html' import nav_link with context %}
+
+{% block head_css %}
+    {{ super() }}
+{% endblock %}
+
+{% block page_body %}
+	{{ super() }}
+	{% block hero_block %}
+		{%- if request.endpoint == 'site.index' -%}
+			{{ hero_img.hero_section( url_for('site.index') ) }}
+		{%- endif -%}    
+	{% endblock %}	
+	{% block header_block %}
+		{% call navigation.navbar() %}
+			{{ nav_link('site.index', 'Home'|upper) }}
+			{{ nav_link('photo_album.index_view', 'Photos'|upper) }}
+			{{ nav_link('site.index', 'Services'|upper) }}
+			{{ nav_link('site.index', 'About'|upper) }}
+			{{ nav_link('site.index', 'Contact'|upper) }}
+			{% block header_nav_element_block %}
+
+			{% endblock %}
+		{% endcall %}
+	{% endblock %}    
+
+	<main id="main">
+	{% block main_block %}
+
+	{% endblock %}    
+	</main>
+	
+	{% block footer_block %}
+		{% call footer.footer() %}
+			{{ footer.link('site.index', 'Home') }}
+			{{ footer.link('site.index', 'About') }}
+		{% endcall %}
+	{% endblock %}    	
+{% endblock %}
