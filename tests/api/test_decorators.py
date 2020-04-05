@@ -22,7 +22,7 @@ from backend.api.decorators import (
 @pytest.mark.parametrize("models",['User(user), Role(ROLE_USER)'], indirect=True)
 class TestParamConverterWithModels:
     def test_it_works(self, models):
-        from backend.contrib.security.models import User, Role
+        from backend.security.models import User, Role
 
         @param_converter(id=User, role_id=Role)
         def method(user, role):
@@ -32,7 +32,7 @@ class TestParamConverterWithModels:
         method(id=models.user.id, role_id=models.ROLE_USER.id)
 
     def test_custom_arg_names(self, models):
-        from backend.contrib.security.models import User, Role
+        from backend.security.models import User, Role
 
         @param_converter(id={'user_arg': User}, role_id={'role_arg': Role})
         def method(user_arg, role_arg):
@@ -42,7 +42,7 @@ class TestParamConverterWithModels:
         method(id=models.user.id, role_id=models.ROLE_USER.id)
 
     def test_404_on_lookup_error(self, models):
-        from backend.contrib.security.models import User, Role
+        from backend.security.models import User, Role
 
         @param_converter(id=User, role_id=Role)
         def method(user, role):
@@ -59,7 +59,7 @@ class TestParamConverterWithModels:
             method(id=models.user.id, role_id=0)
 
     def test_with_model_and_query_param(self, app, models):
-        from backend.contrib.security.models import User
+        from backend.security.models import User
         with app.test_request_context('/?foo=42'):
             @param_converter(id=User, foo=int)
             def method(user, foo):
@@ -111,7 +111,7 @@ class TestParamConverterWithoutModels:
 
 @pytest.mark.parametrize("models", ['(User(user1, user2, user3))'], indirect=True)
 def test_list_loader(models):
-    from backend.contrib.security.models import User
+    from backend.security.models import User
 
     @list_loader(model=User)
     def method(users):
@@ -122,7 +122,7 @@ def test_list_loader(models):
 
 @pytest.mark.parametrize("models", ['(User(user))'], indirect=True)
 def test_patch_loader(app, models, monkeypatch):
-    from backend.contrib.security.serializers import UserSerializer
+    from backend.security.serializers import UserSerializer
 
     with app.test_request_context():
         monkeypatch.setattr('flask.request.get_json', lambda: {
@@ -143,7 +143,7 @@ def test_patch_loader(app, models, monkeypatch):
 @pytest.mark.parametrize("models", ['(User(user))'], indirect=True)
 class TestPutLoader:
     def test_all_loadable_fields_required(self, app, models, monkeypatch):
-        from backend.contrib.security.serializers import UserSerializer
+        from backend.security.serializers import UserSerializer
 
         with app.test_request_context():
             monkeypatch.setattr('flask.request.get_json', lambda: {})
@@ -161,7 +161,7 @@ class TestPutLoader:
             monkeypatch.undo()
 
     def test_valid_submission(self, app, models, monkeypatch):
-        from backend.contrib.security.serializers import UserSerializer
+        from backend.security.serializers import UserSerializer
 
         with app.test_request_context():
             monkeypatch.setattr('flask.request.get_json', lambda: {
@@ -183,7 +183,7 @@ class TestPutLoader:
 
 class TestPostLoader:
     def test_loadable_fields_required(self, app, monkeypatch):
-        from backend.contrib.security.serializers import UserSerializer
+        from backend.security.serializers import UserSerializer
 
         serializer = UserSerializer()
         serializer.context['is_create'] = True
@@ -204,7 +204,7 @@ class TestPostLoader:
             monkeypatch.undo()
 
     def test_valid_submission(self, app, monkeypatch):
-        from backend.contrib.security.serializers import UserSerializer
+        from backend.security.serializers import UserSerializer
 
         serializer = UserSerializer()
         serializer.context['is_create'] = True

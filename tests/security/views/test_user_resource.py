@@ -88,7 +88,7 @@ class TestUserResource:
 
     @pytest.mark.options(SECURITY_CONFIRMABLE=False)
     def test_create(self, api_client, outbox, templates):
-        from backend.contrib.security.models import User
+        from backend.security.models import User
 
         r = api_client.post(url_for('api.users_resource'), data=NEW_USER_DATA)
         assert r.status_code == 201

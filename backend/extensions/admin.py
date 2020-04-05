@@ -6,7 +6,7 @@
 from flask_admin import Admin
 
 # Internal package imports
-from backend.contrib.admin.views import AdminDashboardView
+from backend.admin.views import AdminDashboardView
 
 
 admin = Admin(name='Flask Starter Admin',

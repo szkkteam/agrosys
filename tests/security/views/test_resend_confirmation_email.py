@@ -23,8 +23,8 @@ class TestResendConfirmation:
 
     @pytest.mark.options(SECURITY_CONFIRMABLE=True)
     def test_instructions_resent(self, api_client, outbox, templates):
-        from backend.contrib.security.models import User
-        from backend.contrib.security.views.user_resource import register_user
+        from backend.security.models import User
+        from backend.security.views.user_resource import register_user
         user = User(username='test',
                     email='test@example.com',
                     password='password',

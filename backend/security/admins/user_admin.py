@@ -8,9 +8,9 @@ from wtforms.fields import html5
 from flask_security.forms import EqualTo, unique_user_email
 
 # Internal package imports
-from backend.contrib.admin import ModelAdmin, macro
-from backend.contrib.admin.form import ReorderableForm
-from backend.contrib.security.forms import password_length
+from backend.admin import ModelAdmin, macro
+from backend.admin.form import ReorderableForm
+from backend.security.forms import password_length
 from backend.utils.date import utcnow
 
 from ..models import User

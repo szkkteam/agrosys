@@ -12,8 +12,8 @@ from flask_security import current_user, AnonymousUser
 @pytest.mark.options(SECURITY_CONFIRMABLE=True)
 class TestConfirmEmail:
     def register(self):
-        from backend.contrib.security.models import User
-        from backend.contrib.security.views.user_resource import register_user
+        from backend.security.models import User
+        from backend.security.views.user_resource import register_user
         user = User(username='test',
                     email='test@example.com',
                     password='password',

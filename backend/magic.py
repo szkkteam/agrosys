@@ -13,7 +13,6 @@ from loguru import logger
 
 # Internal package imports
 from flask.helpers import get_debug_flag
-#from backend.utils import title_case
 from backend.utils import *
 
 def safe_import_module(module_name):
@@ -100,13 +99,13 @@ def get_commands():
         yield from get_members(commands, _is_click_command)
 
 def is_model_admin(name, obj):
-    from backend.contrib.admin import ModelAdmin
+    from backend.admin import ModelAdmin
     _is_model_admin = inspect.isclass(obj) and issubclass(obj, ModelAdmin)
     base_classes = ('ModelAdmin',)
     return _is_model_admin and name not in base_classes
 
 def is_file_admin(name, obj):
-    from backend.contrib.admin import FileAdmin
+    from backend.admin import FileAdmin
     _is_file_admin = inspect.isclass(obj) and issubclass(obj, FileAdmin)
     base_classes = ('FileAdmin',)
     return _is_file_admin and name not in base_classes

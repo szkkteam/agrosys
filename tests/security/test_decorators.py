@@ -9,7 +9,7 @@ import pytest
 from werkzeug.exceptions import Forbidden, Unauthorized
 
 # Internal package imports
-from backend.contrib.security.decorators import (
+from backend.security.decorators import (
     anonymous_user_required,
     auth_required,
     auth_required_same_user,

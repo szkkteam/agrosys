@@ -6,7 +6,7 @@
 from flask_admin.actions import action
 
 # Internal package imports
-from backend.contrib.admin import ModelAdmin, macro
+from backend.admin import ModelAdmin, macro
 from backend.utils import string_to_bool
 
 from ..models import NewsletterSubscribe

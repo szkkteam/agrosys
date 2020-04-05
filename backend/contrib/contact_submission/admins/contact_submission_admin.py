@@ -4,7 +4,7 @@
 # Common Python library imports
 # Pip package imports
 # Internal package imports
-from backend.contrib.admin import ModelAdmin, macro
+from backend.admin import ModelAdmin, macro
 
 from ..models import ContactSubmission
 
