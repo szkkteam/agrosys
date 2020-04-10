@@ -1,68 +1,121 @@
 {% import 'website/static.html' as site_static with context %}
+{% import 'website/seo.html' as seo with context %}
 
-<!DOCTYPE html>
+<!doctype html> <!-- HTML5 -->
 <html lang="en">
     <head>
-
-    
+    <!-- Document Title -->
     <title>
         {% block title %}
-
+            {{_('meta.title')}}
         {% endblock %}
     </title>
     {% block head_meta %}
+        <!-- Required meta tags -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="author" content="">
     {% endblock %}
-    {% block head_css %}
-        <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-        {% block custom_css %}
-
-        {% endblock %}
-        
-        <link href="{{ site_static.url(filename='site/css/styles.css') }}" rel="stylesheet">
-        <link href="{{ site_static.url(filename='site/css/animations.css') }}" rel="stylesheet">
-        <link href="{{ site_static.url(filename='site/css/media_queries.css') }}" rel="stylesheet">
+    <!-- Meta Description -->
+    {% block description_meta %}
+        <meta name="description" content="{{_('meta.description')}}">
+        <meta name="keywords" content="{{_('meta.keywords')}}">
     {% endblock %}
+        <!-- Standard favicon -->
+        <link rel="icon" type="image/x-icon" href="{{ site_static.url(filename='img/favicon.ico') }}">
+        <!-- Recommended favicon format -->
+        <link rel="icon" type="image/png" href="{{ site_static.url(filename='img/favicon.png') }}">
+        <!-- Apple Touch Icon (at least 200x200px) -->
+        <link rel="apple-touch-icon" href="{{ site_static.url(filename='img/favicon_200x200.png') }}">
+        <!-- To run web application in full-screen -->
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <!-- Status Bar Style (see Supported Meta Tags below for available values) -->
+        <!-- Has no effect unless you have the previous meta tag -->
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    {% block seo_common %}
+        {{ seo.hreflang_link() }}
+    {% endblock %}
+    {% block seo_specific %}
+        <meta name="description" content="">
+    {% endblock %}
+    {% block seo_social %}
+        {% if facebook %}
+            <meta property="fb:app_id" content="{{facebook.app_id}}" />
+            <meta property="og:url" content="{{facebook.url}}" />
+            <meta property="og:type" content="website" />
+            <meta property="og:title" content="{{_('social.facebook.title')}}" />
+            <meta property="og:description" content="{{facebook.description}}" />
+            <meta property="og:locale" content="{{facebook.locale}}">
+            <meta property="og:image" content="{{facebook.thumbnail}}" />
+            <meta property="og:image:type" content="image/jpeg" />
+            <meta property="og:image:width" content="{{facebook.thumbnail_width}}" />
+            <meta property="og:image:height" content="{{facebook.thumbnail_height}}" />
+            <meta property="og:image:alt" content="{{facebook.thumbnail_alt|lower}}" />
+        {% endif %}
+        {% if twitter %}
+            <meta name="twitter:card" content="{{twitter.summary}}">
+            <meta name="twitter:site" content="{{twitter.account}}">
+            <meta name="twitter:creator" content="{{twitter.creator}}">
+            <meta name="twitter:url" content="{{twitter.url}}">
+            <meta name="twitter:title" content="{{_('social.twitter.title')}}">
+            <meta name="twitter:description" content="{{twitter.description}}">
+            <meta name="twitter:image" content="{{twitter.thumbnail}}">
+        {% endif %}
+    {% endblock %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% assets "site.vendor_css" %}
+        <link rel="preload" href="{{ ASSET_URL }}" as="style" onload="this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="{{ ASSET_URL }}"></noscript>
+    {% endassets %}
+    {% assets "site.css" %}
+        <link rel="preload" href="{{ ASSET_URL }}" as="style" onload="this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="{{ ASSET_URL }}"></noscript>
+    {% endassets %}
+    {% block head_css %}
+    {% endblock %}
+  <script>
+    /*! loadCSS. */
+    !function(a){"use strict";var b=function(b,c,d){function j(a){if(e.body)return a();setTimeout(function(){j(a)})}function l(){f.addEventListener&&f.removeEventListener("load",l),f.media=d||"all"}var g,e=a.document,f=e.createElement("link");if(c)g=c;else{var h=(e.body||e.getElementsByTagName("head")[0]).childNodes;g=h[h.length-1]}var i=e.styleSheets;f.rel="stylesheet",f.href=b,f.media="only x",j(function(){g.parentNode.insertBefore(f,c?g:g.nextSibling)});var k=function(a){for(var b=f.href,c=i.length;c--;)if(i[c].href===b)return a();setTimeout(function(){k(a)})};return f.addEventListener&&f.addEventListener("load",l),f.onloadcssdefined=k,k(l),f};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+    /*! loadCSS rel=preload polyfill. */
+    !function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(a){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+  </script>
     {% block head %}
 
     {% endblock %}
     {% block head_tail %}
 
     {% endblock %}
+        {% if config['GOOGLE_ANALYTICS_TRACKING_ID'] %}
+            {{seo.google_analytics(config['GOOGLE_ANALYTICS_TRACKING_ID'])}}
+        {% endif %}
+        
         
     </head>
-    <body>
+    <body style="opacity: 0;">
         {% block page_body %}
 
         {% endblock %}
-        {% block tail_js %}
-        <script src="{{ site_static.url(filename='site/js/app.js') }}" type="text/javascript"></script>
-
 
         <script type="text/javascript">
-            var csrf_token = "{{ csrf_token() }}";  // the token is set by Jinja2
-        
-            $.ajaxSetup({
-                beforeSend: function(xhr, settings) {
-                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-                        xhr.setRequestHeader("X-CSRFToken", csrf_token);  // insert custom header
-                    }
-                }
-            });
+            const csrf_token = "{{ csrf_token() }}";  // the token is set by Jinja2
+            {% block globals_js %}
+            {% endblock %}
         </script>
+        {% block import_js %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        {% assets "site.vendor_js" %}
+            <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+        {% endassets %}
+        {% assets "site.common_js" %}
+            <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+        {% endassets %}
+        {% endblock %}
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js?forceLang={{language}}&theme=grey&tracking=1&thirdparty=1&always=1&bottom=1&showPolicyLink=1"></script>
+
+        {% block tail_js %}
         {% endblock %}
         {% block tail %}
-
         {% endblock %}
     </body>
 </html>

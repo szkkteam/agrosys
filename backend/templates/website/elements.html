@@ -1,0 +1,211 @@
+
+{% macro card_base(class='') %}
+    {% set classes = classlist(class) %}
+    {% do classes.add('card') %}
+    <div {{classes}} {{kwargs|xmlattr}}>
+        {{ caller() }}
+    </div>
+{% endmacro %}
+
+{% macro card_header(class='') %}
+    {% set classes = classlist(class) %}
+    {% do classes.add('card-header') %}
+    <div {{classes}} {{kwargs|xmlattr}}>
+        {{ caller() }}
+    </div>
+{% endmacro %}
+
+{% macro card_body(class='') %}
+    {% set classes = classlist(class) %}
+    {% do classes.add('card-body') %}
+    <div {{classes}} {{kwargs|xmlattr}}>
+        {{ caller() }}
+    </div>
+{% endmacro %}
+
+{% macro card_footer(class='') %}
+    {% set classes = classlist(class) %}
+    {% do classes.add('card-footer') %}
+    <div {{classes}} {{kwargs|xmlattr}}>
+        {{ caller() }}
+    </div>
+{% endmacro %}
+
+
+{% macro modal_base(class='', animation='') %}
+    {% set classes = classlist(class) %}
+    {% set animations = classlist(animation) %}
+    {% do classes.add('modal-dialog') %}
+    {% do animations.add('modal') %}
+    <div {{animations}} {{kwargs|xmlattr}} tabindex="-1" role="dialog" aria-labelledby="{{id}}-label" aria-hidden="true">
+        <div {{classes}} role="document">
+            <div class="modal-content">
+                {{ caller() }}
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro modal_header(class='', close_button=True) %}
+    {% set classes = classlist(class) %}
+    {% do classes.add('modal-header') %}
+    <div {{classes}} {{kwargs|xmlattr}} >
+        {{ caller() }}
+        {% if close_button %}
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro modal_body(class='') %}
+    {% set classes = classlist(class) %}
+    {% do classes.add('modal-body') %}
+    <div {{classes}} {{kwargs|xmlattr}}>
+        {{ caller() }}
+    </div>
+{% endmacro %}
+
+{% macro modal_footer(class='') %}
+    {% set classes = classlist(class) %}
+    {% do classes.add('modal-footer') %}
+    <div {{classes}} {{kwargs|xmlattr}}>
+        {{ caller() }}
+    </div>
+{% endmacro %}
+
+{% macro table_base(class='') %}
+    {% set classes = classlist(class) %}
+    {% do classes.add('table') %}
+    <table {{classes}} {{kwargs|xmlattr}}>
+        {{ caller() }}
+    </table>
+{% endmacro %}
+
+{% macro table_header(list_item, class='', tr_class='') %}
+    {% set classes = classlist(class) %}
+    {% set tr_classes = classlist(tr_class) %}
+    <thead {{classes}}>
+        {% for item in list_item %}
+            <th {{tr_classes}} {{kwargs|xmlattr}}>
+                {{ caller(item) }}
+            </th>
+        {% endfor %}
+    </thead>
+{% endmacro %}
+
+{% macro table_body(list_item, class='', tr_class='') %}
+    {% set classes = classlist(class) %}
+    {% set tr_classes = classlist(tr_class) %}
+    <tbody {{classes}}>
+        {% if list_item and list_item is iterable %}
+            {% for item in list_item %}
+                <tr {{tr_classes}} {{kwargs|xmlattr}}>
+                    {{ caller(item) }}
+                </tr>
+            {% endfor %}
+        {% else %}
+            {{ caller() }}
+        {% endif %}
+    </tbody>
+{% endmacro %}
+
+{% macro table_footer(list_item, class='', tr_class='') %}
+    {% set classes = classlist(class) %}
+    {% set tr_classes = classlist(tr_class) %}
+    <tfoot {{classes}}>
+        {% if list_item %}
+            {% for item in list_item %}
+                <tr {{tr_classes}} {{kwargs|xmlattr}}>
+                    {{ caller(item) }}
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr {{tr_classes}} {{kwargs|xmlattr}}>
+                {{ caller() }}
+            </tr>
+        {% endif %}
+    </tfoot>
+{% endmacro %}
+
+{% macro lazysizes_img(image, placeholder='', class='') %}
+    {% set classes = classlist(class) %}
+    <noscript>
+        <img {{classes}} src="{{image}}" {{kwargs|xmlattr}}>
+    </noscript>
+    {% do classes.add('lazyload') %}
+    <img {{classes}} src="{{placeholder}}" data-src="{{image}}" {{kwargs|xmlattr}}>
+{% endmacro %}
+
+{% macro lazysizes_iframe(src, class="") %}
+    {% set classes = classlist(class) %}
+    <noscript>
+        <iframe src="{{src}}" {{classes}} {{kwargs|xmlattr}}</iframe>
+    </noscript>
+    {% do classes.add('lazyload') %}
+    <iframe data-src="{{src}}" {{classes}} {{kwargs|xmlattr}}</iframe>
+{% endmacro %}
+
+{% macro button(text=none, style='default', type='button', class='') %}
+    {% set classes = classlist(class) %}
+    {% do classes.add('btn', 'btn-' + style) %}
+    <button type="{{type}}" {{classes}} {{kwargs|xmlattr}}>
+    {% if text is not none %}
+        {{ text }}
+    {% else %}
+        {{ caller() }}
+    {% endif %}
+    </button>
+{% endmacro %}
+
+{% macro a_button(text=none, style='default', class='') %}
+    {% set classes = classlist(class) %}
+    {% do classes.add('btn', 'btn-' + style) %}
+    <a {{classes}} {{kwargs|xmlattr}}>
+    {% if text is not none %}
+        {{ text }}
+    {% else %}
+        {{ caller() }}
+    {% endif %}
+    </a>
+{% endmacro %}
+
+{% macro carousel(id, class="", list_item=None, indicators=None, show_navigation=True, next_text="Next", prev_text="Previous") %}
+    {% set classes = classlist(class) %}
+    {% do classes.add('carousel', 'slide') %}
+    <div id={{id}} {{classes}} {{kwargs|xmlattr}} data-ride="carousel">       
+        <div class="carousel-inner">
+        {% if list_item %}
+            {% for item in list_item %}
+                <div class="carousel-item {{'active' if loop.first else ''}}">
+                    {{ caller(item) }}
+                </div>
+            {% endfor %}
+        {% else %}
+            {{ caller() }}
+        {% endif %}
+        </div>
+        {% if indicators %} 
+        <ol class="carousel-indicators position-relative">
+            {% for i in range(indicators) %}
+                {% if i.first %}
+                    <li data-target="#{{id}}" data-slide-to="{{i}}" class="active"></li>
+                {% else %}
+                    <li data-target="#{{id}}" data-slide-to="{{i}}"></li>
+                {% endif %}                
+            {% endfor %}
+        </ol>
+        {% endif %}
+        {% if show_navigation %}
+            <a class="carousel-control-prev" href="#{{id}}" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">{{prev_text}}</span>
+            </a>
+            <a class="carousel-control-next" href="#{{id}}" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">{{next_text}}</span>
+            </a>
+        {% endif %}
+    </div>
+{% endmacro %}

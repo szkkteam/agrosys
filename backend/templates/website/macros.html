@@ -1,18 +1,55 @@
-{% macro separator() %}
-	<li class="nav-item d-none d-md-inline">
-		<i class="material-icons">label_important</i>
-	</li>			
+{% import 'website/elements.html' as element with context %}
+
+{% macro subscribe(subscribe_endpoint='api.newsletter_subscribes_resource') %}
+    <form id="subscribe-form" action="{{ url_for(subscribe_endpoint) }}" method="post" class="subscribe-form needs-validation ajax-form">
+        <input type="email" name="email">
+        {% call element.button(type="submit", style="primary") %}
+            <span class="submit-btn-idle">
+                {{_('contact.subscribe')}}
+            </span>
+            <span class="submit-btn-processing" style="display: none;">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+            </span>
+        {% endcall %}
+        <div class="form-errors text-danger" role="alert">
+        </div>
+        <div class="form-success text-success" role="alert">
+        </div>
+        <small class="form-text text-muted">{{_('subscribe.never_share_email')}}</small>
+    </form>
 {% endmacro %}
 
-{% macro nav_link(endpoint, name) -%}
-    {% if request.endpoint.endswith(endpoint) %}
-		<li class="nav-item active">
-			<a class="nav-link d-inline-block" href="{{ url_for(endpoint) }}">{{name}}</a>
-		</li>
-    {% else %}
-		<li class="nav-item">
-			<a class="nav-link d-inline-block" href="{{ url_for(endpoint) }}">{{name}}</a>
-		</li>
-	{% endif %}
-	{{ separator() }}
-{%- endmacro %}
+{% macro contact(contact_endpoint='api.contact_submissions_resource') %}
+    <form id="contact-form" action="{{ url_for(contact_endpoint) }}" method="post" role="form" class="contactform needs-validation ajax-form">
+        <div class="form-group">
+            <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 character">
+            <div class="form-errors text-danger" role="alert">
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control" name="email" placeholder="Your Email" data-msg="Pleae enter a valid email">
+            <div class="form-errors text-danger" role="alert">
+            </div>
+        </div>
+        <div class="form-group">
+            <textarea name="message" rows="5" class="form-control" data-rule="required" data-msg="Please write something for us" placeholder="Message">
+            </textarea>
+            <div class="form-errors text-danger" role="alert">
+            </div>
+        </div>
+        <div class="text-center">
+            {% call element.button(type="submit", style="primary") %}
+                <span class="submit-btn-idle">
+                    {{_('contact.send_message')}}
+                </span>
+                <span class="submit-btn-processing" style="display: none;">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                </span>
+            {% endcall %}
+            <div class="form-success text-success" role="alert">
+            </div>
+        </div>
+    </form>
+{% endmacro %}
