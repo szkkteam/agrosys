@@ -6,3 +6,4 @@
 # Internal package imports
 from .farm_user_roles import FarmRole
 from .farm import Farm
+from .field import Field

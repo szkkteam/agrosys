@@ -13,7 +13,6 @@ from backend.database import (
     foreign_key,
     relationship,
 )
-from backend.security.models import User
 
 class FarmRole(Model):
     """Join table between Farm and User"""

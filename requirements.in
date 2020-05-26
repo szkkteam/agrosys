@@ -18,6 +18,8 @@ flask-babel
 flask-assets
 flask-s3
 
+geoalchemy2
+shapely
 boto3
 jsmin
 cssmin
