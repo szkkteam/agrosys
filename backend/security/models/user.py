@@ -17,6 +17,8 @@ from backend.database import (
     relationship,
 )
 from .user_role import UserRole
+from backend.farm_management.models import FarmRole
+
 
 class User(Model, UserMixin):
     username = Column(String(50), unique=True, index=True)
@@ -33,6 +35,11 @@ class User(Model, UserMixin):
     # last_login_ip = Column(String(100))
     # current_login_ip = Column(String(100))
     # login_count = Column(Integer)
+
+    user_farms = relationship('FarmRole', back_populates='user',
+                              cascade='all, delete-orphan')
+    farms = association_proxy('user_farms', 'farm',
+                              creator=lambda farm: FarmRole(farm=farm))
 
     user_roles = relationship('UserRole', back_populates='user',
                               cascade='all, delete-orphan')

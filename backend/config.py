@@ -232,7 +232,7 @@ class ProdConfig(BaseConfig):
     ##########################################################################
     # session/cookies                                                        #
     ##########################################################################
-    SESSION_COOKIE_DOMAIN = os.environ.get('FLASK_DOMAIN', 'flask-starter.herokuapp.com')
+    SESSION_COOKIE_DOMAIN = os.environ.get('FLASK_DOMAIN', 'agrosys.herokuapp.com')
     SESSION_COOKIE_SECURE = get_boolean_env('SESSION_COOKIE_SECURE', True)
 
     # SECURITY_TOKEN_MAX_AGE is fixed from time of token generation;
@@ -287,7 +287,7 @@ class DevConfig(BaseConfig):
     # mail                                                                   #
     ##########################################################################
     MAIL_PORT = 1025  # MailHog
-    MAIL_DEFAULT_SENDER = ('Flask-starter', 'noreply@localhost')
+    MAIL_DEFAULT_SENDER = ('Agro Systems', 'noreply@localhost')
 
     ##########################################################################
     # security                                                               #
