@@ -8,6 +8,7 @@ from marshmallow import fields, pre_load, post_dump, ValidationError
 import geoalchemy2
 from geoalchemy2.shape import from_shape, to_shape
 import marshmallow_sqlalchemy as msqla
+from marshmallow import Schema
 from shapely import geometry
 
 # Internal package imports
@@ -99,12 +100,6 @@ class GeometryField(fields.Field):
             return None
         return from_shape(geometry.shape(value))
 
-
-msqla.ModelConverter.SQLA_TYPE_MAPPING[geoalchemy2.Geography] = GeometryField
-msqla.ModelConverter.SQLA_TYPE_MAPPING[geoalchemy2.Geometry] = GeometryField
-msqla.ModelConverter.SQLA_TYPE_MAPPING[geoalchemy2.Raster] = fields.Raw
-msqla.ModelConverter.SQLA_TYPE_MAPPING[geoalchemy2.RasterElement] = fields.Raw
-
 class GeoJSONSerializer(ModelSerializer):
     """
     Base class for wrappping and unwrapping GeoJSON objects.
@@ -121,6 +116,10 @@ class GeoJSONSerializer(ModelSerializer):
         'many': None,
     }
 
+    Schema.TYPE_MAPPING[geoalchemy2.Geography] = GeometryField
+    Schema.TYPE_MAPPING[geoalchemy2.Geometry] = GeometryField
+    Schema.TYPE_MAPPING[geoalchemy2.Raster] = fields.Raw
+    Schema.TYPE_MAPPING[geoalchemy2.RasterElement] = fields.Raw
 
     __geometry_field_name__ = 'geom'  # or geom, or shape, or ....
 
