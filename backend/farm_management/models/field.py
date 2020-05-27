@@ -20,11 +20,9 @@ from .farm import Farm
 class Field(Model):
     name = Column(String(64))
     value = Column(Float(), nullable=True)
-    shape = Column(Geometry("POLYGON"))
+    shape = Column(Geometry("POLYGON", srid=900913))
 
     farm_id = foreign_key('Farm', nullable=False)
     farm = relationship('Farm', back_populates='fields')
-
-    # TODO: GeoJSON coordinates
 
     __repr_props__ = ('id', 'name', 'value')
