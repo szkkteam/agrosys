@@ -58,31 +58,12 @@ def api_client(app):
 
 @pytest.fixture(autouse=True, scope='session')
 def db():
-
-    @event.listens_for(db_ext.engine, "first_connect")
-    def load_spatialite(dbapi_conn, connection_record):
-        # From https://geoalchemy-2.readthedocs.io/en/latest/spatialite_tutorial.html
-        dbapi_conn.enable_load_extension(True)
-        #dbapi_conn.load_extension('/usr/lib/x86_64-linux-gnu/mod_spatialite.so')
-        dbapi_conn.load_extension('libspatialite.so')
-        try:
-            dbapi_conn.execute('select load_extension("libspatialite")')
-            current_app.spatialite_modulename = 'libspatialite'
-        except Exception as e:
-            dbapi_conn.execute('select load_extension("mod_spatialite")')
-            current_app.spatialite_modulename = 'mod_spatialite'
-        dbapi_conn.enable_load_extension(False)
-
-    @event.listens_for(db_ext.engine, "connect")
-    def connect(sqlite, connection_rec):
-        sqlite.enable_load_extension(True)
-        sqlite.execute('select load_extension("libspatialite.so")')
-        sqlite.execute('select load_extension("%s")' % current_app.spatialite_modulename)
-        sqlite.enable_load_extension(False)
-
+    # Because we are using a persisent db, make sure if the test fails, on the next execution the schema is set from 0
+    db_ext.drop_all()
     db_ext.create_all()
     yield db_ext
-    db_ext.drop_all()
+    # TODO: Maybe this is not needed, because we reset the db at the begining
+    #db_ext.drop_all()
 
 
 @pytest.fixture(autouse=True)
@@ -176,6 +157,10 @@ def password_resets(app):
 @pytest.fixture()
 def user(model_factory):
     yield model_factory.create('User', 'user')
+
+@pytest.fixture()
+def profile(model_factory):
+    yield model_factory.create('Profile', 'profile')
 
 @pytest.fixture()
 def newslettersubscribe(model_factory):

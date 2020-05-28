@@ -32,6 +32,7 @@ BUNDLES = [
     'backend.security',
     'backend.contrib.contact_submission',
     'backend.contrib.newsletter_subscribe',
+    'backend.farm_management',
 ]
 
 # ordered list of extensions to register before the bundles
