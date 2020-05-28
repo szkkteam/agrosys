@@ -12,15 +12,15 @@ from backend.database import (
     association_proxy,
     relationship,
 )
-from .farm_user_roles import FarmRole
+from .profile_farm import ProfileFarm
 
 class Farm(Model):
     name = Column(String(64))
 
-    farm_users = relationship('FarmRole', back_populates='farm',
+    farm_profiles = relationship('ProfileFarm', back_populates='farm',
                               cascade='all, delete-orphan')
-    users = association_proxy('farm_users', 'user',
-                              creator=lambda user: FarmRole(user=user))
+    profiles = association_proxy('farm_profiles', 'profile',
+                              creator=lambda profile: ProfileFarm(profile=profile))
 
     fields = relationship('Field', back_populates='farm')
 

@@ -11,7 +11,7 @@ from backend.farm_management.models import Field
 
 FIELD_DATA = {'name': 'test farm 1',
               'value': 5.0,
-              'shape': 'POLYGON((0 0,1 0,1 1,0 1,0 0))'}
+              'shape': 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'}
 
 
 @pytest.mark.usefixtures('db_session')

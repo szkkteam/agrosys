@@ -6,7 +6,7 @@
 # Internal package imports
 from backend.database import (
     Column,
-    Model,
+    BaseModel,
     String,
     Float,
     Boolean,
@@ -14,19 +14,21 @@ from backend.database import (
     relationship,
 )
 
-class FarmRole(Model):
-    """Join table between Farm and User"""
-    user_id = foreign_key('User', primary_key=True)
-    user = relationship('User', back_populates='user_farms')
+class ProfileFarm(BaseModel):
+    """Join table between User and Role"""
+    # TODO: Define user rules for that farm
 
-    farm_id = foreign_key('Farm', primary_key=True)
-    farm = relationship('Farm', back_populates='farm_users')
+    profile_id = foreign_key('Profile', primary_key=True, unique=True)
+    profile = relationship('Profile', back_populates='profile_farms')
 
-    __repr_props__ = ('user_id', 'role_id')
+    farm_id = foreign_key('Farm', primary_key=True, unique=True)
+    farm = relationship('Farm', back_populates='farm_profiles')
 
-    def __init__(self, user=None, farm=None, **kwargs):
+    __repr_props__ = ('profile_id', 'farm_id')
+
+    def __init__(self, profile=None, farm=None, **kwargs):
         super().__init__(**kwargs)
-        if user:
-            self.user = user
+        if profile:
+            self.user = profile
         if farm:
             self.farm = farm

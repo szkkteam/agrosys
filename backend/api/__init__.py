@@ -30,3 +30,4 @@ from .decorators import param_converter
 from .model_resource import ModelResource
 from .model_serializer import ModelSerializer
 from .wrapped_serializer import WrappedSerializer
+from .model_converter import GeometryModelConverter
