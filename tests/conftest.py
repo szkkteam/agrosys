@@ -7,12 +7,13 @@ import pytest
 
 # Pip package imports
 from collections import namedtuple
-from flask import template_rendered
+from flask import template_rendered, current_app
 from flask_security.signals import (
     reset_password_instructions_sent,
     user_confirmed,
     user_registered,
 )
+from sqlalchemy import event
 
 # Internal package imports
 from backend.app import _create_app
@@ -57,9 +58,12 @@ def api_client(app):
 
 @pytest.fixture(autouse=True, scope='session')
 def db():
+    # Because we are using a persisent db, make sure if the test fails, on the next execution the schema is set from 0
+    db_ext.drop_all()
     db_ext.create_all()
     yield db_ext
-    db_ext.drop_all()
+    # TODO: Maybe this is not needed, because we reset the db at the begining
+    #db_ext.drop_all()
 
 
 @pytest.fixture(autouse=True)
@@ -153,6 +157,10 @@ def password_resets(app):
 @pytest.fixture()
 def user(model_factory):
     yield model_factory.create('User', 'user')
+
+@pytest.fixture()
+def profile(model_factory):
+    yield model_factory.create('Profile', 'profile')
 
 @pytest.fixture()
 def newslettersubscribe(model_factory):

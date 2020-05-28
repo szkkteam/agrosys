@@ -32,6 +32,7 @@ BUNDLES = [
     'backend.security',
     'backend.contrib.contact_submission',
     'backend.contrib.newsletter_subscribe',
+    'backend.farm_management',
 ]
 
 # ordered list of extensions to register before the bundles
@@ -281,7 +282,7 @@ class DevConfig(BaseConfig):
         port=os.environ.get('FLASK_DATABASE_PORT', 5432),
         db_name=os.environ.get('FLASK_DATABASE_NAME', 'flask_api'),
     )
-    # SQLALCHEMY_ECHO = True
+    SQLALCHEMY_ECHO = True
 
     ##########################################################################
     # mail                                                                   #
@@ -316,7 +317,14 @@ class TestConfig(BaseConfig):
     TESTING = True
     DEBUG = True
     PRESERVE_CONTEXT_ON_EXCEPTION = False
-    SQLALCHEMY_DATABASE_URI = 'sqlite://'  # :memory:
+    #SQLALCHEMY_DATABASE_URI = 'sqlite://'  # :memory:
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{user}:{password}@{host}:{port}/{db_name}'.format(
+        user=os.environ.get('FLASK_DATABASE_USER', 'flask_api'),
+        password=os.environ.get('FLASK_DATABASE_PASSWORD', 'flask_api'),
+        host=os.environ.get('FLASK_DATABASE_HOST', '127.0.0.1'),
+        port=os.environ.get('FLASK_DATABASE_PORT', 5432),
+        db_name='unit_test',
+    )
 
     WTF_CSRF_ENABLED = False
     SECURITY_PASSWORD_HASH_OPTIONS = dict(bcrypt={'rounds': 4})
