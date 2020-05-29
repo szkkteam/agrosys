@@ -9,14 +9,14 @@ from sqlalchemy.exc import IntegrityError
 # Internal package imports
 from backend.farm_management .models import Profile
 
-PROFILE_DATA = {'user_id': '1'}
+PROFILE_DATA = {'id': '1', 'display_name': 'test name'}
 
 
 @pytest.mark.usefixtures('db_session')
 class TestFarmModels:
     def test_user_id_required(self):
         data = PROFILE_DATA.copy()
-        data['user_id'] = None
+        data['id'] = None
         with pytest.raises(IntegrityError):
             Profile.create(**data, commit=True)
 

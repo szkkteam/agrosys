@@ -29,5 +29,4 @@ user{{ i }}:
   first_name: {{ faker.first_name() }}
   last_name: {{ faker.last_name() }}
   roles: ['Role(ROLE_USER)']
-  profile: 'Profile(PROFILE_USER)'
 {% endfor %}
