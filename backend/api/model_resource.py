@@ -319,6 +319,8 @@ class ModelResource(Resource):
             elif method_name in [PATCH, PUT]:
                 method = self._update
 
+        print("####method_name: ", method_name)
+
         for decorator in self._get_decorators_for_method(method_name, param_name):
             method = decorator(method)
 

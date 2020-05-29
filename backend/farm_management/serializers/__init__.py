@@ -5,3 +5,4 @@
 # Pip package imports
 # Internal package imports
 from .field import FieldSerializer
+from .profile import ProfileSerializer

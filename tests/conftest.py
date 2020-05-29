@@ -159,10 +159,6 @@ def user(model_factory):
     yield model_factory.create('User', 'user')
 
 @pytest.fixture()
-def profile(model_factory):
-    yield model_factory.create('Profile', 'profile')
-
-@pytest.fixture()
 def newslettersubscribe(model_factory):
     yield model_factory.create('NewsletterSubscribe', 'newslettersubscribe')
 

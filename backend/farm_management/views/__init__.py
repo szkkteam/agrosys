@@ -6,3 +6,4 @@
 # Internal package imports
 from .blueprint import farm_management
 from .field_resource import FieldResource
+from .profile_resource import ProfileResource

@@ -7,4 +7,4 @@ from flask import Blueprint
 
 # Internal package imports
 
-farm_management = Blueprint('farm_management', __name__, url_prefix='/farm', template_folder='templates')
+farm_management = Blueprint('farm_management', __name__, template_folder='templates')
