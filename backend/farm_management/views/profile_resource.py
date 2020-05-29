@@ -10,6 +10,7 @@ from backend.api import ModelResource, CREATE, DELETE, GET, LIST, PATCH, PUT, pa
 from backend.security.decorators import auth_required_same_user
 from backend.security.models import User
 from backend.extensions.api import api
+from backend.utils import DecoratorGenerator
 
 from ..models import Profile
 from .blueprint import farm_management
@@ -19,7 +20,7 @@ from .blueprint import farm_management
 class ProfileResource(ModelResource):
     include_methods = [GET, PATCH, PUT]
     method_decorators = {
-        GET: [auth_required_same_user],
+        GET: [DecoratorGenerator(auth_required_same_user, 'id')],
         PATCH: [auth_required_same_user],
         PUT: [auth_required_same_user],
     }

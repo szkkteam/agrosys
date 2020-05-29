@@ -9,13 +9,12 @@ from backend.database import (
     BaseModel,
     TimestampMixin,
     String,
-    Boolean,
     association_proxy,
     relationship,
     foreign_key,
 )
-from .profile_farm import ProfileFarm
 from backend.security.models import User
+
 
 class Profile(TimestampMixin, BaseModel):
 
@@ -25,10 +24,6 @@ class Profile(TimestampMixin, BaseModel):
     user = relationship('User', back_populates='profile',
                         cascade='all, delete-orphan', single_parent=True)
 
-    profile_farms = relationship('ProfileFarm', back_populates='profile',
-                              cascade='all, delete-orphan')
-    farms = association_proxy('profile_farms', 'farm',
-                              creator=lambda farm: ProfileFarm(farm=farm))
 
     __repr_props__ = ('display_name', 'user_id')
 
