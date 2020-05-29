@@ -1,4 +1,9 @@
 ---
-profile:
-  user: ['User(id=1)' ]
+PROFILE_USER:
+  display_name: user
 
+PROFILE_ADMIN:
+  display_name: admin
+
+PROFILE_1:
+  display_name: user

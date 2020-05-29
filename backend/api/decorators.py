@@ -82,9 +82,12 @@ def _convert_models(view_kwargs: dict,
 
         if not arg_name:
             arg_name = camel_to_snake_case(model.__name__)
-
+        print("url_param_name: ", url_param_name)
+        print("view_kwargs: ", view_kwargs)
         filter_by = url_param_name.replace(
             camel_to_snake_case(model.__name__) + '_', '')
+        print("filter_by: ", filter_by)
+        print("model: ", model)
         instance = model.query.filter_by(**{
             filter_by: view_kwargs.pop(url_param_name),
         }).first()

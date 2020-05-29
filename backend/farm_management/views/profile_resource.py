@@ -23,19 +23,3 @@ class ProfileResource(ModelResource):
         PATCH: [auth_required_same_user],
         PUT: [auth_required_same_user],
     }
-
-    @param_converter(id=User)
-    def get(self, user):
-        print("####User: ", user)
-        print("####kwargs: ", kwargs)
-        return user
-
-    def put(self, user, errors):
-        if errors:
-            return self.errors(errors)
-        return self.updated(user)
-
-    def patch(self, user, errors):
-        if errors:
-            return self.errors(errors)
-        return self.updated(user)

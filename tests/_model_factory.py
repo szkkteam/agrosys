@@ -12,11 +12,13 @@ from collections import defaultdict, namedtuple
 from faker import Faker
 from jinja2 import Environment, PackageLoader
 from sqlalchemy.ext.associationproxy import ObjectAssociationProxyInstance
+from sqlalchemy.orm import RelationshipProperty
 
 # Internal package imports
 from backend.database import Date, DateTime
 from backend.utils.date import parse_datetime, utcnow
 
+class_name_re = re.compile(r'(\w+)')
 identifier_re = re.compile('(?P<class_name>\w+)\((?P<identifiers>[\w,\s]+)\)')
 Identifier = namedtuple('Identifier', 'class_name id')
 
@@ -42,6 +44,7 @@ class ModelFactory:
         self.model_instances = {}
 
     def get_models(self, identifiers):
+        print("identifiers: ", identifiers)
         return AttrGetter(self.create_all(identifiers))
 
     def create_all(self, identifiers):
@@ -61,6 +64,7 @@ class ModelFactory:
         return model
 
     def _create(self, identifier):
+        print("identifier: ", identifier)
         if not identifier.class_name:
             raise Exception('Identifier must have a class name!')
         self._maybe_load_data([identifier])
@@ -81,7 +85,13 @@ class ModelFactory:
         ret = data.copy()
         for col_name, value in data.items():
             col = getattr(model_class, col_name)
+            if (isinstance(value, str) or isinstance(value, list)):
+                result = class_name_re.findall(value[0] if isinstance(value, list) else value)
+            else:
+                result = None
             if isinstance(col, ObjectAssociationProxyInstance):
+                ret[col_name] = self.convert_identifiers(value)
+            elif result is not None and (len(result) > 1 and result[0] in self.model_classes):
                 ret[col_name] = self.convert_identifiers(value)
             elif not hasattr(col, 'type'):
                 continue
@@ -95,6 +105,7 @@ class ModelFactory:
                     ret[col_name] = utcnow()
                 elif not isinstance(value, datetime.datetime):
                     ret[col_name] = parse_datetime(value)
+
         return ret
 
     def convert_identifiers(self, identifiers):

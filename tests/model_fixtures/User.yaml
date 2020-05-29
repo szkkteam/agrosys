@@ -8,6 +8,7 @@ user:
   active: yes
   confirmed_at: now
   roles: ['Role(ROLE_USER, ROLE_USER1)']
+  profile: 'Profile(PROFILE_USER)'
 
 admin:
   username: admin
@@ -18,6 +19,7 @@ admin:
   active: True
   confirmed_at: utcnow
   roles: ['Role(ROLE_ADMIN)']
+  profile: 'Profile(PROFILE_ADMIN)'
 
 {% for i in range(0, 5) %}
 user{{ i }}:
@@ -27,4 +29,5 @@ user{{ i }}:
   first_name: {{ faker.first_name() }}
   last_name: {{ faker.last_name() }}
   roles: ['Role(ROLE_USER)']
+  profile: 'Profile(PROFILE_USER)'
 {% endfor %}
