@@ -8,20 +8,24 @@ import geoalchemy2
 from marshmallow import pre_load, post_dump
 
 # Internal package imports
+from backend.extensions.api import api
 from backend.api import WrappedSerializer, fields, validates, ValidationError, GeometryModelConverter
 
 from ..models import Field
 
-
+FIELD_FIELDS = (
+    'name',
+    'value',
+    'shape'
+)
 
 class FieldSerializer(WrappedSerializer):
-    name = fields.String(required=True)
-    value = fields.Float(missing=True, allow_none=True)
+    #name = fields.String(required=True)
+    #value = fields.Float(missing=True, allow_none=True)
 
     class Meta:
         model = Field
-        exclude = ('created_at', 'updated_at')
-        #dump_only = ('name', 'value', 'shape')
+        fields = FIELD_FIELDS
         model_converter = GeometryModelConverter
 
     __geometry_field_name__ = 'shape'  # or geom, or shape, or ....
@@ -81,3 +85,14 @@ class FieldSerializer(WrappedSerializer):
             'type': 'FeatureCollection',
             'features': [self.wrap_feature(feature) for feature in data]
         }}
+
+@api.serializer(many=True)
+class FieldListSerializer(FieldSerializer):
+
+    class Meta:
+        model = Field
+        exclude = ('created_at', 'updated_at')
+        #dump_only = ('name', 'value', 'shape')
+        model_converter = GeometryModelConverter
+
+    __geometry_field_name__ = 'shape'  # or geom, or shape, or ....

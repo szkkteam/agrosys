@@ -172,6 +172,13 @@ def newslettersubscribe(model_factory):
 def admin(model_factory):
     yield model_factory.create('User', 'admin')
 
+@pytest.fixture()
+def farm(model_factory):
+    yield model_factory.create('Farm', 'farm_one')
+
+@pytest.fixture()
+def farm_owner(model_factory):
+    yield model_factory.create('User', 'farm_owner')
 
 @pytest.fixture()
 def models(request, model_factory):

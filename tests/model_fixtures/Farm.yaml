@@ -1,0 +1,12 @@
+---
+farm_one:
+  name: First farm
+
+FARMER_USER_FARM1:
+  name: Farmers farm 1
+
+FARMER_USER_FARM2:
+  name: Farmers farm 2
+
+FARMER_USER_FARM3:
+  name: Farmers farm 3

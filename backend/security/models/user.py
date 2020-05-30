@@ -37,7 +37,7 @@ class User(Model, UserMixin):
 
     profile = relationship('Profile', uselist=False, back_populates='user')
 
-    farmers = relationship('Farmer', back_populates='users')
+    farmers = relationship('Farmer', back_populates='user')
 
     user_roles = relationship('UserRole', back_populates='user',
                               cascade='all, delete-orphan')

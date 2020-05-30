@@ -20,7 +20,7 @@ from .blueprint import farm_management
 class ProfileResource(ModelResource):
     include_methods = [GET, PATCH, PUT]
     method_decorators = {
-        GET: [DecoratorGenerator(auth_required_same_user, 'id')],
+        GET: [auth_required_same_user],
         PATCH: [auth_required_same_user],
         PUT: [auth_required_same_user],
     }

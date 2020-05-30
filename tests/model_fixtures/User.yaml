@@ -10,6 +10,42 @@ user:
   roles: ['Role(ROLE_USER, ROLE_USER1)']
   profile: 'Profile(PROFILE_USER)'
 
+farm_owner:
+  username: farowner
+  email: farmer@owner.com
+  password: password
+  first_name: Farm
+  last_name: User
+  active: yes
+  confirmed_at: now
+  roles: ['Role(ROLE_USER, ROLE_USER1)']
+  profile: 'Profile(PROFILE_USER)'
+  farmers: [Farmer(FARMER_USER_OWNER)]
+
+farm_collaborator:
+  username: farmcollaborator
+  email: farmer@collaborator.com
+  password: password
+  first_name: Farm
+  last_name: User
+  active: yes
+  confirmed_at: now
+  roles: ['Role(ROLE_USER, ROLE_USER1)']
+  profile: 'Profile(PROFILE_USER)'
+  farmers: [Farmer(FARMER_USER_COLLABORATOR)]
+
+farm_mix:
+  username: farmmix
+  email: farmer@mix.com
+  password: password
+  first_name: Farm
+  last_name: User
+  active: yes
+  confirmed_at: now
+  roles: ['Role(ROLE_USER, ROLE_USER1)']
+  profile: 'Profile(PROFILE_USER)'
+  farmers: [Farmer(FARMER_USER_COLLABORATOR, FARMER_USER_OWNER)]
+
 admin:
   username: admin
   email: admin@example.com
@@ -29,5 +65,4 @@ user{{ i }}:
   first_name: {{ faker.first_name() }}
   last_name: {{ faker.last_name() }}
   roles: ['Role(ROLE_USER)']
-  profile: 'Profile(PROFILE_USER)'
 {% endfor %}

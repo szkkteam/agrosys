@@ -10,6 +10,7 @@ from backend.database import (
     Model,
     String,
     Float,
+    Boolean,
     association_proxy,
     relationship,
     foreign_key
@@ -19,8 +20,10 @@ from .farm import Farm
 
 class Farmer(Model):
 
+    is_owner = Column(Boolean(name='owner'), default=True)
+
     user_id = foreign_key('User', nullable=False)
-    users = relationship('User', back_populates='farmers')
+    user = relationship('User', uselist=False, back_populates='farmers')
 
     farmer_farms = relationship('FarmerFarm', back_populates='farmer',
                                  cascade='all, delete-orphan')
@@ -28,3 +31,11 @@ class Farmer(Model):
                               creator=lambda farm: FarmerFarm(farm=farm))
 
     __repr_props__ = ('id', 'user_id')
+
+    @classmethod
+    def get_or_create_owner(cls, user=None):
+        instance = cls.get_or_create(is_owner=True, commit=False)
+        if not instance.user and user:
+            instance.user = user
+            #instance.save(True)
+        return instance
