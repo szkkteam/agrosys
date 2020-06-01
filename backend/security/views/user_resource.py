@@ -55,6 +55,7 @@ def register_user(user):
 
     # Create the user profile resource
     profile = Profile.create_default_profile(user=user)
+    user.profile = profile
 
     confirmation_link, token = None, None
     if _security.confirmable:

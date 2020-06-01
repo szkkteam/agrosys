@@ -13,7 +13,9 @@ from flask_security.signals import (
     user_confirmed,
     user_registered,
 )
-from sqlalchemy import event
+
+from sqlalchemy.schema import DropTable
+from sqlalchemy.ext.compiler import compiles
 
 # Internal package imports
 from backend.app import _create_app
@@ -55,6 +57,10 @@ def api_client(app):
     with app.test_client() as client:
         yield client
 
+# Needed when schema is fucked up and have to force delete the DB
+@compiles(DropTable, "postgresql")
+def _compile_drop_table(element, compiler, **kwargs):
+    return compiler.visit_drop_table(element) + " CASCADE"
 
 @pytest.fixture(autouse=True, scope='session')
 def db():
@@ -166,6 +172,17 @@ def newslettersubscribe(model_factory):
 def admin(model_factory):
     yield model_factory.create('User', 'admin')
 
+@pytest.fixture()
+def farm(model_factory):
+    yield model_factory.create('Farm', 'farm_one')
+
+@pytest.fixture()
+def farm_owner(model_factory):
+    yield model_factory.create('User', 'farm_owner')
+
+@pytest.fixture()
+def farm_mix(model_factory):
+    yield model_factory.create('User', 'farm_mix')
 
 @pytest.fixture()
 def models(request, model_factory):

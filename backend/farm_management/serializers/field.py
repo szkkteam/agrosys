@@ -2,82 +2,67 @@
 # -*- coding: utf-8 -*-
 
 # Common Python library imports
+from collections.abc import Iterable
+
 # Pip package imports
 
 import geoalchemy2
-from marshmallow import pre_load, post_dump
+from marshmallow import pre_load, post_dump, validates_schema
 
 # Internal package imports
-from backend.api import WrappedSerializer, fields, validates, ValidationError, GeometryModelConverter
+from backend.extensions.api import api
+from backend.api import WrappedSerializer, ModelSerializer, fields, validates, ValidationError, GeometryModelConverter, GeometryField
 
 from ..models import Field
 
+FIELD_FIELDS = (
+    'name',
+    'value',
+    'shape'
+)
 
 
-class FieldSerializer(WrappedSerializer):
-    name = fields.String(required=True)
-    value = fields.Float(missing=True, allow_none=True)
+class FieldSerializer(ModelSerializer):
+    #name = fields.String(required=True)
+    #value = fields.Float(missing=True, allow_none=True)
+    shape = GeometryField(load_from='shape')
 
     class Meta:
         model = Field
-        exclude = ('created_at', 'updated_at')
+        fields = FIELD_FIELDS + ('shape', )
+        model_converter = GeometryModelConverter
+
+    def _validate_geojson(self, data, **kwargs):
+        shape = data['shape']
+        if 'type' not in shape:
+            raise ValidationError('GeoJSON type could not be found.', 'shape')
+        if shape['type'] != 'Feature':
+            raise ValidationError('Expecting a Feature object', 'shape')
+        if 'geometry' not in shape:
+            raise ValidationError('Expecting a geometry field', 'shape')
+
+    # TODO: Check why validation happen after deserialization. That does not make sense
+    @pre_load(pass_many=True)
+    def validate_geojson(self, data, **kwargs):
+        print("Data: ", data)
+        if isinstance(data, tuple):
+            loc_data = data[0]
+        else:
+            loc_data = data
+        if isinstance(loc_data, list):
+            for d in loc_data:
+                self._validate_geojson(d)
+        else:
+            self._validate_geojson(loc_data)
+        return loc_data
+
+
+@api.serializer(many=True)
+class FieldListSerializer(FieldSerializer):
+
+    class Meta:
+        model = Field
+        fields = FIELD_FIELDS + ('shape', )
         #dump_only = ('name', 'value', 'shape')
         model_converter = GeometryModelConverter
 
-    __geometry_field_name__ = 'shape'  # or geom, or shape, or ....
-
-    def unwrap_feature(self, data):
-        """
-        Unwrap an individual feature object
-        Pull down all the properties field, and then under the geometry
-        field name put in the actual geometry data
-        """
-        if data['type'] != 'Feature':
-            raise ValidationError('Expecting a Feature object')
-        flat = data['properties']
-        flat[self.__geometry_field_name__] = data['geometry']
-        # TODO: Dirty testing
-        return data['geometry']
-
-    @pre_load(pass_many=True)
-    def unwrap_envelope(self, data, many, **kwargs):
-        shape = data[self.__geometry_field_name__]
-
-        if 'type' not in shape:
-            raise ValidationError('GeoJSON type could not be found')
-        if many and shape['type'] != 'FeatureCollection':
-            raise ValidationError('Expecting a FeatureCollection object')
-
-        if not many:
-            data[self.__geometry_field_name__] = self.unwrap_feature(shape)
-            print("Unwrap: ", data)
-            return data
-
-        raise NotImplementedError("Feature collection is not implemented yet.")
-        return [self.unwrap_feature(feature) for feature in data['features']]
-
-    def wrap_feature(self, data):
-        """
-        Wrap the individual feature as a GeoJSON feature object
-        """
-        feature = {
-            'type': 'Feature',
-            # TODO: This is currently empty.
-            'properties': {},
-            'geometry': data.pop(self.__geometry_field_name__)
-        }
-        print("Wrap: ", feature)
-        return feature
-
-    @post_dump(pass_many=True)
-    def wrap_with_envelope(self, data, many, **kwargs):
-        if not many:
-            data[self.__geometry_field_name__] = self.wrap_feature(data)
-            print("Data from wrap_with_envelope: ", data)
-            return data
-
-        raise NotImplementedError("Feature collection is not implemented yet.")
-        return {'shape': {
-            'type': 'FeatureCollection',
-            'features': [self.wrap_feature(feature) for feature in data]
-        }}

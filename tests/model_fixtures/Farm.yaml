@@ -1,0 +1,16 @@
+---
+farm_one:
+  name: First farm
+  fields: ['Field(FIELD_FIELD_1, FIELD_FIELD_2)']
+
+FARMER_USER_FARM1:
+  name: Farmers farm 1
+  fields: ['Field(FIELD_FIELD_3, FIELD_FIELD_4)']
+
+FARMER_USER_FARM2:
+  name: Farmers farm 2
+  fields: ['Field(FIELD_FIELD_5, FIELD_FIELD_6)']
+
+FARMER_USER_FARM3:
+  name: Farmers farm 3
+  fields: ['Field(FIELD_FIELD_7)']

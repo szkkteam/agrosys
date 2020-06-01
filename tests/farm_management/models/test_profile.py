@@ -12,6 +12,7 @@ from backend.farm_management .models import Profile
 PROFILE_DATA = {'id': '1', 'display_name': 'test name'}
 
 
+
 @pytest.mark.usefixtures('db_session')
 class TestFarmModels:
     def test_user_id_required(self):
