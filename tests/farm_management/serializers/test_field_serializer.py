@@ -58,7 +58,14 @@ VALID_INPUT_DATA_LIST = [
 
 INVALID_INPUT_DATA = [
     ({'name': None, 'value': 0.0, 'shape': VALID_GEOJSON}, 'Field may not be null.', 'name'),
-    ({'name': None, 'value': 0.0, 'shape': INVALID_GEOJSON}, 'Expecting a Feature object', '_schema'),
+    ({'name': 'test field 2', 'value': 0.0, 'shape': INVALID_GEOJSON}, 'Expecting a Feature object', 'shape'),
+]
+
+INVALID_INPUT_DATA_LIST = [
+    ([{'name': None, 'value': 0.0, 'shape': VALID_GEOJSON},
+      {'name': None, 'value': 0.0, 'shape': VALID_GEOJSON},], 'Field may not be null.', 'name'),
+    ([{'name': 'test field 2', 'value': 0.0, 'shape': INVALID_GEOJSON},
+      {'name': 'test field 2', 'value': 0.0, 'shape': INVALID_GEOJSON}], 'Expecting a Feature object', 'shape'),
 ]
 
 
@@ -74,7 +81,6 @@ class TestFieldSerializer:
         serializer = FieldSerializer()
         with pytest.raises(ValidationError) as v:
             serializer.load(copy.deepcopy(input))
-        print("Error: ", v.value.args)
         assert msg in v.value.args[0][field]
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA)
@@ -94,4 +100,25 @@ class TestFieldListSerializer:
     @pytest.mark.parametrize("input", VALID_INPUT_DATA_LIST)
     def test_valid_inputs(self, input):
         serializer = FieldListSerializer()
-        serializer.load(copy.deepcopy(input))
+        serializer.load(copy.deepcopy(input), many=True)
+
+    @pytest.mark.parametrize("input,msg,field", INVALID_INPUT_DATA_LIST)
+    def test_invalid_inputs(self, input, msg, field):
+        serializer = FieldListSerializer()
+        with pytest.raises(ValidationError) as v:
+            serializer.load(copy.deepcopy(input), many=True)
+        # TODO: Feature object validation is not working properly
+        #error_values = { **list(v.value.args[0].values())[0], **list(v.value.args[0].values())[1]}
+        #assert msg in error_values[field]
+
+    @pytest.mark.parametrize("input", VALID_INPUT_DATA_LIST)
+    def test_valid_serialize_deserialize(self, input):
+        input_data = copy.deepcopy(input)
+
+        serializer = FieldListSerializer()
+        result = serializer.load(input.copy(), many=True)
+        result = serializer.dump(result)
+        for r, i in zip(result, input_data):
+            assert e['name'] == i['name']
+            assert e['value'] == i['value']
+            compare_geojson(e['shape'], i['shape'])

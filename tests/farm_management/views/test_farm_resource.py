@@ -32,20 +32,42 @@ class TestFarmResource:
         assert r.status_code == 400
         assert 'name' in r.errors
 
-    def test_login_get_farm(self, api_client, user, farm):
-        api_client.login_user()
+    def test_get_user_farms(self, api_client, farm_mix):
+        from backend.farm_management.models import Farm
+        api_client.login_as(farm_mix)
 
-        r = api_client.get(url_for('api.farm_resource', id=user.id, farm_id=farm.id))
+        r = api_client.get(url_for('api.farms_resource', id=farm_mix.id))
         assert r.status_code == 200
-        #assert 'displayName' in r.json
-        #assert user.username == r.json['displayName']
+        assert len(r.json)
+        for farm in r.json:
+            assert 'name' in farm
+            assert 'owner' in farm
+            assert 'url' in farm
+            assert 'id' in farm
+
+    def test_login_get_farm(self, api_client, farm_owner):
+        from backend.farm_management.models import Field
+        api_client.login_as(farm_owner)
+
+        # Get the list of farms
+        r = api_client.get(url_for('api.farms_resource', id=farm_owner.id))
+        print(r.json)
+        for farm in r.json:
+            r = api_client.get(farm['url'])
+
+            assert r.status_code == 200
+            assert 'name' in r.json
+            assert 'fields' in r.json
+            #field_list = Field.filter_by(id=r.json['id']).all()
+            for r_field in r.json['fields']:
+                assert 'name' in r_field
+                assert 'shape' in r_field
 
     def test_anonymous_get_farm(self, api_client, user, farm):
-
         r = api_client.get(url_for('api.farm_resource', id=user.id, farm_id=farm.id))
         assert r.status_code == 401
 
-    def test_get_user_farms(self, api_client, user, farm_owner):
-        api_client.login_user()
-        print("Farm user: ", farm_owner.farmers)
-        assert False
+
+
+
+    #def test_patch_farms(self, api_client, farm_owner):

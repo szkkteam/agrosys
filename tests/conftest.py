@@ -181,6 +181,10 @@ def farm_owner(model_factory):
     yield model_factory.create('User', 'farm_owner')
 
 @pytest.fixture()
+def farm_mix(model_factory):
+    yield model_factory.create('User', 'farm_mix')
+
+@pytest.fixture()
 def models(request, model_factory):
     mark = request.param
     if mark is not None:

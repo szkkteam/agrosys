@@ -22,12 +22,21 @@ class GeometryField(fields.Field):
     def _serialize(self, value, attr, obj, **kwargs):
         if value is None:
             return None
-        return geometry.mapping(to_shape(value))
+        return {
+            'type': 'Feature',
+            # TODO: This is currently empty.
+            'properties': {},
+            'geometry': geometry.mapping(to_shape(value))
+        }
+
 
     def _deserialize(self, value, attr, data, **kwargs):
         if value is None:
             return None
-        return from_shape(geometry.shape(value))
+        return from_shape(geometry.shape(value['geometry']))
+
+
+
 
 class GeometryModelConverter(BaseModelConverter):
     SQLA_TYPE_MAPPING = {

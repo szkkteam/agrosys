@@ -302,7 +302,7 @@ class Api(BaseApi):
         if isinstance(data, (list, tuple)) and len(data) and isinstance(data[0], Model):
             model_name = data[0].__class__.__name__
             if model_name in self.serializers_many:
-                data = self.serializers_many[model_name].dump(data).data
+                data = self.serializers_many[model_name].dump(data)
 
         # we got the result of serializer.dump(obj)
         # FIXME: This is no longer present

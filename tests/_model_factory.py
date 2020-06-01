@@ -44,7 +44,6 @@ class ModelFactory:
         self.model_instances = {}
 
     def get_models(self, identifiers):
-        print("identifiers: ", identifiers)
         return AttrGetter(self.create_all(identifiers))
 
     def create_all(self, identifiers):
@@ -64,7 +63,6 @@ class ModelFactory:
         return model
 
     def _create(self, identifier):
-        print("identifier: ", identifier)
         if not identifier.class_name:
             raise Exception('Identifier must have a class name!')
         self._maybe_load_data([identifier])

@@ -7,3 +7,4 @@
 from .field import FieldSerializer, FieldListSerializer
 from .profile import ProfileSerializer
 from .farm import FarmSerializer
+from .farmer import FarmerSerializer
