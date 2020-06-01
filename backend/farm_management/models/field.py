@@ -15,7 +15,6 @@ from backend.database import (
     relationship,
     foreign_key
 )
-from .farm import Farm
 
 class Field(Model):
     name = Column(String(64))

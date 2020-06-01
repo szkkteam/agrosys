@@ -14,7 +14,7 @@ from backend.security.models import User
 from backend.extensions.api import api
 from backend.extensions import db
 
-from ..models import Farm, Farmer, Field, FarmerFarm
+from ..models import Farm, Field
 from .blueprint import farm_management
 
 
@@ -44,11 +44,8 @@ class FarmResource(ModelResource):
     def create(self, farm, errors):
         if errors:
             return self.errors(errors)
-        farmer = Farmer.get_or_create_owner(user=current_user)
         # Add the farm to the farmer instance
-        farmer.farms.append(farm)
-        # Add the farmer to the session
-        farmer.save()
+        user.farms.append(farm)
         return self.created(farm)
 
     def get(self, id, farm):

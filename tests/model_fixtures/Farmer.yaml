@@ -1,9 +1,0 @@
----
-FARMER_USER_OWNER:
-  is_owner: yes
-  farms: ['Farm(FARMER_USER_FARM1, FARMER_USER_FARM2)']
-
-FARMER_USER_COLLABORATOR:
-  is_owner: no
-  farms: ['Farm(FARMER_USER_FARM3)']
-

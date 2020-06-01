@@ -15,7 +15,6 @@ from backend.database import (
 )
 from backend.security.models import User
 
-
 class Profile(TimestampMixin, BaseModel):
 
     display_name = Column(String(64))

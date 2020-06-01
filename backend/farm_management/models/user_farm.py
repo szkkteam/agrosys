@@ -14,8 +14,11 @@ from backend.database import (
     relationship,
 )
 
-class FarmerFarm(BaseModel):
+class UserFarm(BaseModel):
     """Join table between User and Role"""
+
+    # Farm roles
+    is_owner = Column(Boolean(name='owner'), default=True)
 
     # Field roles
     can_create_fields = Column(Boolean(), default=True)
@@ -23,17 +26,20 @@ class FarmerFarm(BaseModel):
     can_delete_fields = Column(Boolean(), default=True)
 
 
-    farmer_id = foreign_key('Farmer', primary_key=True)
-    farmer = relationship('Farmer', back_populates='farmer_farms')
+    user_id = foreign_key('User', primary_key=True)
+    user = relationship('User', back_populates='user_farms')
 
     farm_id = foreign_key('Farm', primary_key=True)
-    farm = relationship('Farm', back_populates='farm_farmers')
+    farm = relationship('Farm', back_populates='farm_users')
 
-    __repr_props__ = ('farmer_id', 'farm_id')
+    __repr_props__ = ('user_id', 'farm_id')
 
-    def __init__(self, farmer=None, farm=None, **kwargs):
+    def __init__(self, user=None, farm=None, **kwargs):
         super().__init__(**kwargs)
-        if farmer:
-            self.farmer = farmer
+        if user:
+            self.user = user
         if farm:
             self.farm = farm
+
+    def create_farm_owner(self, user, farm, **kwargs):
+        return UserFarm(user=user, farm=farm, is_owner=True, **kwargs)

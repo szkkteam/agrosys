@@ -20,7 +20,7 @@ farm_owner:
   confirmed_at: now
   roles: ['Role(ROLE_USER, ROLE_USER1)']
   profile: 'Profile(PROFILE_USER)'
-  farmers: ['Farmer(FARMER_USER_OWNER)']
+  farms: ['Farm(FARMER_USER_FARM1, FARMER_USER_FARM2)']
 
 farm_collaborator:
   username: farmcollaborator
@@ -32,7 +32,7 @@ farm_collaborator:
   confirmed_at: now
   roles: ['Role(ROLE_USER, ROLE_USER1)']
   profile: 'Profile(PROFILE_USER)'
-  farmers: ['Farmer(FARMER_USER_COLLABORATOR)']
+  farms: ['Farm(FARMER_USER_FARM3)']
 
 farm_mix:
   username: farmmix
@@ -44,7 +44,7 @@ farm_mix:
   confirmed_at: now
   roles: ['Role(ROLE_USER, ROLE_USER1)']
   profile: 'Profile(PROFILE_USER)'
-  farmers: ['Farmer(FARMER_USER_COLLABORATOR, FARMER_USER_OWNER)']
+  farms: ['Farm(FARMER_USER_FARM1, FARMER_USER_FARM2, FARMER_USER_FARM3)']
 
 admin:
   username: admin
