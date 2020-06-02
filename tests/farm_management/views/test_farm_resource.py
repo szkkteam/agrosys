@@ -76,6 +76,20 @@ class TestFarmResource:
         assert r.json['name'] == new_name
         assert 'id' in r.json
 
+    def test_patch_others_farm(self, api_client, farm_mix):
+        from backend.farm_management.models import Farm, UserFarm
+        api_client.login_as(farm_mix)
+
+        # Query one of the user's farm
+        farm = Farm.join(UserFarm).filter(UserFarm.user_id == farm_mix.id).first()
+
+        new_name = "New Farm Name"
+        r = api_client.patch(url_for('api.farm_resource', farm_id=farm.id), data=dict(name=new_name))
+
+        assert r.status_code == 200
+        assert r.json['name'] == new_name
+        assert 'id' in r.json
+
     def test_invalid_patch_farm(self, api_client, farm_mix):
         from backend.farm_management.models import Farm, UserFarm
         api_client.login_as(farm_mix)

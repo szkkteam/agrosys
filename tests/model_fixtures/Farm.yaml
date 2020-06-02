@@ -14,3 +14,7 @@ FARMER_USER_FARM2:
 FARMER_USER_FARM3:
   name: Farmers farm 3
   fields: ['Field(FIELD_FIELD_7)']
+
+FARMER_USER_FARM4:
+  name: Farmers farm 3
+  fields: ['Field(FIELD_FIELD_8)']

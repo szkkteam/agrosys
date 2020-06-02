@@ -31,3 +31,7 @@ FIELD_FIELD_6:
 FIELD_FIELD_7:
   name: new 7
   shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
+
+FIELD_FIELD_8:
+  name: new 8
+  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'

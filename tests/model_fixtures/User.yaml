@@ -22,6 +22,30 @@ farm_owner:
   profile: 'Profile(PROFILE_USER)'
   farms: ['Farm(FARMER_USER_FARM1, FARMER_USER_FARM2)']
 
+farm_user_1:
+  username: farmuser1
+  email: user1@farm.com
+  password: password
+  first_name: Farm
+  last_name: User 1
+  active: yes
+  confirmed_at: now
+  roles: ['Role(ROLE_USER, ROLE_USER1)']
+  profile: 'Profile(PROFILE_USER)'
+  farms: ['Farm(FARMER_USER_FARM1, FARMER_USER_FARM2)']
+
+farm_user_2:
+  username: farmuser2
+  email: user2@farm.com
+  password: password
+  first_name: Farm
+  last_name: User 2
+  active: yes
+  confirmed_at: now
+  roles: ['Role(ROLE_USER, ROLE_USER1)']
+  profile: 'Profile(PROFILE_USER)'
+  farms: ['Farm(FARMER_USER_FARM3, FARMER_USER_FARM4)']
+
 farm_collaborator:
   username: farmcollaborator
   email: farmer@collaborator.com
