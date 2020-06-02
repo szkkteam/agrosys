@@ -259,6 +259,8 @@ class ModelResource(Resource):
         return self.created(obj)
 
     def _get(self, *args, **kwargs):
+        print("_get() args: ", args)
+        print("_get() kwargs: ", kwargs)
         """Default implementation for get and list views"""
         return args[0] if args else list(kwargs.values())[0]
 

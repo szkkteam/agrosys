@@ -6,10 +6,6 @@
 # Internal package imports
 
 def was_decorated_without_parenthesis(args):
-    print("Args bool: ", bool(args))
-    if args:
-        print("Callable bool: ", callable(args[0]))
-    print("Return bool: ", args and callable(args[0]))
     return args and callable(args[0])
 
 class wrap_decorator(object):

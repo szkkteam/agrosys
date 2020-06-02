@@ -51,7 +51,7 @@ class TestFarmResource:
     def test_get_farms(self, api_client, farm_mix):
         api_client.login_as(farm_mix)
 
-        r = api_client.get(url_for('api.farms_resource'))
+        r = api_client.get(url_for('api.farms_resource', user_id=farm_mix.id))
         assert r.status_code == 200
         assert len(r.json)
         for e in r.json:

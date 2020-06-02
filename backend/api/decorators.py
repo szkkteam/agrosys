@@ -129,6 +129,8 @@ def list_loader(*args, model):
     def wrapped(fn):
         @wraps(fn)
         def decorated(*args, **kwargs):
+            print("List loader args: ", args)
+            print("List loader args: ", kwargs)
             return fn(model.query.all())
         return decorated
 
