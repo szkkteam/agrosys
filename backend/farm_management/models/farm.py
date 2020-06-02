@@ -13,13 +13,17 @@ from backend.database import (
     relationship,
 )
 
+def create_user_farm(user):
+    from .user_farm import UserFarm
+    return UserFarm(user=user)
+
 class Farm(Model):
     name = Column(String(64))
 
     farm_users = relationship('UserFarm', back_populates='farm',
                               cascade='all, delete-orphan')
     users = association_proxy('farm_users', 'farmer',
-                              creator=lambda user: FarmerFarm(user=user))
+                              creator=lambda user: create_user_farm(user))
 
     fields = relationship('Field', back_populates='farm')
 

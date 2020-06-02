@@ -13,27 +13,25 @@ from ..models import Farm
 FARM_FIELDS = (
     'id',
     'name',
+    'role',
 )
 
 class FarmSerializer(ModelSerializer):
 
     fields = m_fields.Nested('FieldListSerializer', many=True)
-    #is_owner = m_fields.Nested('FarmerSerializer', only=('is_owner',))
-    owner = m_fields.Boolean()
+    role = m_fields.Nested('UserFarmSerializer', many=False)
 
     class Meta:
         model = Farm
         fields = FARM_FIELDS + ('fields',)
-        dump_only = ('owner',)
+        dump_only = ('role',)
 
 @api.serializer(many=True)
 class FarmListSerializer(ModelSerializer):
 
-    #is_owner = m_fields.Nested('FarmerSerializer', only=('is_owner',))
-    owner = m_fields.Boolean()
-    url = m_fields.Url(relative=False)
+    #url = m_fields.Url(relative=False)
 
     class Meta:
         model = Farm
         fields = FARM_FIELDS
-        dump_only = ('owner','url')
+        dump_only = ('role',)

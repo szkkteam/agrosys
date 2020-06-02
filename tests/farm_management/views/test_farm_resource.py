@@ -16,58 +16,80 @@ NEW_FARM_DATA = dict(
 @pytest.mark.usefixtures('user')
 class TestFarmResource:
 
-    def test_login_create_farm(self, api_client, user):
+    def test_create_farm(self, api_client, user):
         api_client.login_user()
 
-        r = api_client.post(url_for('api.farms_resource', id=user.id), data=NEW_FARM_DATA)
+        r = api_client.post(url_for('api.farms_resource'), data=NEW_FARM_DATA)
         assert r.status_code == 201
         assert 'name' in r.json
         assert NEW_FARM_DATA['name'] in r.json['name']
 
-    def test_login_create_farm_missing_name(self, api_client, user):
+    def test_create_farm_missing_name(self, api_client, user):
         api_client.login_user()
         data = NEW_FARM_DATA.copy()
         data['name'] = None
-        r = api_client.post(url_for('api.farms_resource', id=user.id), data=data)
+        r = api_client.post(url_for('api.farms_resource'), data=data)
         assert r.status_code == 400
         assert 'name' in r.errors
 
-    def test_get_user_farms(self, api_client, farm_mix):
-        from backend.farm_management.models import Farm
+    def test_get_farm(self, api_client, farm_mix):
+        from backend.farm_management.models import Farm, UserFarm
         api_client.login_as(farm_mix)
 
-        r = api_client.get(url_for('api.farms_resource', id=farm_mix.id))
+        # Query one of the user's farm
+        farm = Farm.join(UserFarm).filter(UserFarm.user_id == farm_mix.id).first()
+
+        r = api_client.get(url_for('api.farm_resource', farm_id=farm.id))
+        assert r.status_code == 200
+        assert 'id' in r.json
+        assert 'name' in r.json
+        assert 'fields' in r.json
+        assert len(r.json['fields'])
+        assert 'role' in r.json
+        assert 'isOwner' in r.json['role']
+
+    def test_get_farms(self, api_client, farm_mix):
+        api_client.login_as(farm_mix)
+
+        r = api_client.get(url_for('api.farms_resource'))
         assert r.status_code == 200
         assert len(r.json)
-        for farm in r.json:
-            assert 'name' in farm
-            assert 'owner' in farm
-            assert 'url' in farm
-            assert 'id' in farm
+        for e in r.json:
+            assert 'id' in e
+            assert 'name' in e
+            assert 'fields' in e
+            assert len(e['fields'])
+            assert 'role' in e
+            assert 'isOwner' in e['role']
 
-    def test_login_get_farm(self, api_client, farm_owner):
-        from backend.farm_management.models import Field
-        api_client.login_as(farm_owner)
+    def test_patch_farm(self, api_client, farm_mix):
+        from backend.farm_management.models import Farm, UserFarm
+        api_client.login_as(farm_mix)
 
-        # Get the list of farms
-        r = api_client.get(url_for('api.farms_resource', id=farm_owner.id))
-        print(r.json)
-        for farm in r.json:
-            r = api_client.get(farm['url'])
+        # Query one of the user's farm
+        farm = Farm.join(UserFarm).filter(UserFarm.user_id == farm_mix.id).first()
 
-            assert r.status_code == 200
-            assert 'name' in r.json
-            assert 'fields' in r.json
-            #field_list = Field.filter_by(id=r.json['id']).all()
-            for r_field in r.json['fields']:
-                assert 'name' in r_field
-                assert 'shape' in r_field
+        new_name = "New Farm Name"
+        r = api_client.patch(url_for('api.farm_resource', farm_id=farm.id), data=dict(name=new_name))
 
-    def test_anonymous_get_farm(self, api_client, user, farm):
-        r = api_client.get(url_for('api.farm_resource', id=user.id, farm_id=farm.id))
+        assert r.status_code == 200
+        assert r.json['name'] == new_name
+        assert 'id' in r.json
+
+    def test_invalid_patch_farm(self, api_client, farm_mix):
+        from backend.farm_management.models import Farm, UserFarm
+        api_client.login_as(farm_mix)
+
+        # Query one of the user's farm
+        farm = Farm.join(UserFarm).filter(UserFarm.user_id == farm_mix.id).first()
+
+        new_id = 999
+        new_field = None
+        r = api_client.patch(url_for('api.farm_resource', farm_id=farm.id), data=dict(id=new_id, fields=new_field))
+
+        assert r.status_code == 400
+
+    def test_anonymous_get_farm(self, api_client, user):
+        r = api_client.get(url_for('api.farms_resource'))
         assert r.status_code == 401
 
-
-
-
-    #def test_patch_farms(self, api_client, farm_owner):

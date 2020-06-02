@@ -16,10 +16,11 @@ from backend.database import (
     association_proxy,
     relationship,
 )
-#from backend.farm_management.models import UserFarm
 from .user_role import UserRole
 
-
+def create_user_farm(farm):
+    from backend.farm_management.models import UserFarm
+    return UserFarm(farm=farm)
 
 class User(Model, UserMixin):
     username = Column(String(50), unique=True, index=True)
@@ -42,7 +43,7 @@ class User(Model, UserMixin):
     user_farms = relationship('UserFarm', back_populates='user',
                                  cascade='all, delete-orphan')
     farms = association_proxy('user_farms', 'farm',
-                              creator=lambda farm: UserFarm(farm=farm))
+                              creator=lambda farm: create_user_farm(farm))
 
     user_roles = relationship('UserRole', back_populates='user',
                               cascade='all, delete-orphan')

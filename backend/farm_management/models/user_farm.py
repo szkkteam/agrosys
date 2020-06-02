@@ -32,7 +32,7 @@ class UserFarm(BaseModel):
     farm_id = foreign_key('Farm', primary_key=True)
     farm = relationship('Farm', back_populates='farm_users')
 
-    __repr_props__ = ('user_id', 'farm_id')
+    __repr_props__ = ('user_id', 'farm_id', 'is_owner')
 
     def __init__(self, user=None, farm=None, **kwargs):
         super().__init__(**kwargs)
@@ -41,5 +41,6 @@ class UserFarm(BaseModel):
         if farm:
             self.farm = farm
 
+    @classmethod
     def create_farm_owner(self, user, farm, **kwargs):
         return UserFarm(user=user, farm=farm, is_owner=True, **kwargs)
