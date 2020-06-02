@@ -323,6 +323,7 @@ class ModelResource(Resource):
         print("####method_name: ", method_name)
 
         for decorator in self._get_decorators_for_method(method_name, param_name):
+            print("Decorator: ", decorator)
             method = decorator(method)
 
         return method

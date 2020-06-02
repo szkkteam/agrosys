@@ -13,6 +13,7 @@ from backend.security.decorators import auth_required
 from backend.security.models import User
 from backend.extensions.api import api
 from backend.extensions import db
+from backend.utils.decorators import wrap_decorator
 
 from ..models import Farm, Field, UserFarm
 from .blueprint import farm_management
@@ -31,6 +32,7 @@ def get_farm_details(farm):
 @api.model_resource(farm_management, Farm, '/farms', '/farms/<int:farm_id>')
 class FarmResource(ModelResource):
     include_methods = ALL_METHODS
+    #method_decorators = (wrap_decorator(auth_required, role='ROLE_ADMIN'),)
     method_decorators = (auth_required,)
 
     def create(self, farm, errors):

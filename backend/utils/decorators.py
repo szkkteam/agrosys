@@ -6,9 +6,13 @@
 # Internal package imports
 
 def was_decorated_without_parenthesis(args):
+    print("Args bool: ", bool(args))
+    if args:
+        print("Callable bool: ", callable(args[0]))
+    print("Return bool: ", args and callable(args[0]))
     return args and callable(args[0])
 
-class DecoratorGenerator(object):
+class wrap_decorator(object):
 
     def __init__(self, _obj=None, *args, **kwargs):
         self._kwargs = kwargs
@@ -16,6 +20,6 @@ class DecoratorGenerator(object):
 
         self._obj = _obj
 
-    def __call__(self, *local_args, **local_kw):
+    def __call__(self,fnc, *local_args, **local_kw):
         self._kwargs = { **self._kwargs, **local_kw }
-        return self._obj(*(self._args + local_args), **self._kwargs)
+        return self._obj(fnc, *(self._args + local_args), **self._kwargs)

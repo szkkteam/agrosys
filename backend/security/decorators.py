@@ -47,20 +47,22 @@ def auth_required(*args, **kwargs):
     """
     required_roles = []
     one_of_roles = []
-    if not was_decorated_without_parenthesis(args):
-        if 'role' in kwargs and 'roles' in kwargs:
-            raise RuntimeError('can only pass one of `role` or `roles` kwargs to auth_required')
-        elif 'role' in kwargs:
-            required_roles = [kwargs['role']]
-        elif 'roles' in kwargs:
-            required_roles = kwargs['roles']
+    print("ARgs: ", args)
+    print("KWARgs: ", kwargs)
+    #if not was_decorated_without_parenthesis(args):
+    if 'role' in kwargs and 'roles' in kwargs:
+        raise RuntimeError('can only pass one of `role` or `roles` kwargs to auth_required')
+    elif 'role' in kwargs:
+        required_roles = [kwargs['role']]
+    elif 'roles' in kwargs:
+        required_roles = kwargs['roles']
 
-        if 'one_of' in kwargs and 'and_one_of' in kwargs:
-            raise RuntimeError('can only pass one of `one_of` or `and_one_of` kwargs to auth_required')
-        elif 'one_of' in kwargs:
-            one_of_roles = kwargs['one_of']
-        elif 'and_one_of' in kwargs:
-            one_of_roles = kwargs['and_one_of']
+    if 'one_of' in kwargs and 'and_one_of' in kwargs:
+        raise RuntimeError('can only pass one of `one_of` or `and_one_of` kwargs to auth_required')
+    elif 'one_of' in kwargs:
+        one_of_roles = kwargs['one_of']
+    elif 'and_one_of' in kwargs:
+        one_of_roles = kwargs['and_one_of']
 
     def wrapper(fn):
         @wraps(fn)
@@ -89,12 +91,9 @@ def auth_required_same_user(*args, **kwargs):
     @auth_required_same_user('user_id', role='ROLE_ADMIN')
     Aborts with HTTP 403: Forbidden if the user-check fails
     """
-    auth_kwargs = {}
-    user_id_parameter_name = 'id'
-    if not was_decorated_without_parenthesis(args):
-        auth_kwargs = kwargs
-        if args and isinstance(args[0], str):
-            user_id_parameter_name = args[0]
+    auth_kwargs = kwargs
+    user_id_parameter_name = auth_kwargs.get('id', 'id')
+    assert isinstance(user_id_parameter_name, str)
 
     def wrapper(fn):
         @wraps(fn)

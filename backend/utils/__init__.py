@@ -12,7 +12,7 @@ from itsdangerous import URLSafeSerializer, BadData
 from loguru import logger
 
 # Internal package imports
-from .decorators import was_decorated_without_parenthesis, DecoratorGenerator
+from .decorators import was_decorated_without_parenthesis, wrap_decorator
 #from .mail import send_mail, prepare_mail, send_mail_sync
 
 def slugify(string):

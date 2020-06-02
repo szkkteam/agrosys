@@ -309,7 +309,7 @@ class TestAuthRequiredSameUser:
         client.login_user()
         monkeypatch.setattr('flask.request.view_args', {'user_id': models.user.id})
 
-        @auth_required_same_user('user_id')
+        @auth_required_same_user(id='user_id')
         def method():
             raise MethodCalled
 
