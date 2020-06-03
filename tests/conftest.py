@@ -182,11 +182,11 @@ def farm_owner(model_factory):
 
 @pytest.fixture()
 def farm_user1(model_factory):
-    yield model_factory.create('User', 'farm_user_1')
+    yield model_factory.create('User', 'farmer1')
 
 @pytest.fixture()
 def farm_user2(model_factory):
-    yield model_factory.create('User', 'farm_user_2')
+    yield model_factory.create('User', 'farmer2')
 
 @pytest.fixture()
 def farm_collaborator(model_factory):

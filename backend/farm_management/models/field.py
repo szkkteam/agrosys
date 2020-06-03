@@ -3,6 +3,7 @@
 
 # Common Python library imports
 # Pip package imports
+from flask_security import current_user
 from geoalchemy2 import Geometry
 
 # Internal package imports
@@ -25,3 +26,10 @@ class Field(Model):
     farm = relationship('Farm', back_populates='fields')
 
     __repr_props__ = ('id', 'name', 'value')
+
+    @classmethod
+    def all(cls):
+        from .user_farm import UserFarm
+        if current_user and hasattr(current_user, 'id'):
+            return Field.join(UserFarm, UserFarm.farm_id == Field.farm_id).filter(UserFarm.user_id == current_user.id)
+        return super().all()

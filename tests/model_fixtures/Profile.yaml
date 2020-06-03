@@ -7,3 +7,9 @@ PROFILE_ADMIN:
 
 PROFILE_1:
   display_name: user
+
+PROFILE_FARMER_1:
+  display_name: farmer 1
+
+PROFILE_FARMER_2:
+  display_name: farmer 2

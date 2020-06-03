@@ -131,6 +131,8 @@ def list_loader(*args, model):
         def decorated(*args, **kwargs):
             print("List loader args: ", args)
             print("List loader args: ", kwargs)
+            if hasattr(model, 'all'):
+                return fn(model.all())
             return fn(model.query.all())
         return decorated
 

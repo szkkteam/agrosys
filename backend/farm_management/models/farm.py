@@ -3,6 +3,8 @@
 
 # Common Python library imports
 # Pip package imports
+from flask_security import current_user
+
 # Internal package imports
 from backend.database import (
     Column,
@@ -28,3 +30,10 @@ class Farm(Model):
     fields = relationship('Field', back_populates='farm')
 
     __repr_props__ = ('id', 'name')
+
+    @classmethod
+    def all(cls):
+        from .user_farm import UserFarm
+        if current_user and hasattr(current_user, 'id'):
+            return Farm.join(UserFarm).filter(UserFarm.user_id == current_user.id).all()
+        return super().all()

@@ -51,7 +51,7 @@ class TestFarmResource:
     def test_get_farms(self, api_client, farm_mix):
         api_client.login_as(farm_mix)
 
-        r = api_client.get(url_for('api.farms_resource', user_id=farm_mix.id))
+        r = api_client.get(url_for('api.farms_resource'))
         assert r.status_code == 200
         assert len(r.json)
         for e in r.json:
@@ -107,3 +107,37 @@ class TestFarmResource:
         r = api_client.get(url_for('api.farms_resource'))
         assert r.status_code == 401
 
+class TestFarmResourceProtectedResource:
+
+
+    def test_get_farms(self, api_client, farm_user1, farm_user2):
+        # User 1
+        api_client.login_as(farm_user1)
+        user1_resp = api_client.get(url_for('api.farms_resource'))
+        assert user1_resp.status_code == 200
+        assert len(user1_resp.json)
+
+        api_client.logout()
+        # User 2
+        api_client.login_as(farm_user2)
+        user2_resp = api_client.get(url_for('api.farms_resource'))
+        assert user2_resp.status_code == 200
+        assert len(user2_resp.json)
+
+        # Make sure they don't see each other's farm
+        for data1 in user1_resp.json:
+            for data2 in user2_resp.json:
+                assert data1['id'] != data2['id']
+
+    def test_get_farm(self, api_client, farm_user1, farm_user2):
+        # User 1
+        api_client.login_as(farm_user1)
+        user1_resp = api_client.get(url_for('api.farms_resource'))
+        api_client.logout()
+
+        user1_farm_ids = [ farm['id'] for farm in user1_resp.json ]
+
+        api_client.login_as(farm_user2)
+        for id in user1_farm_ids:
+            r = api_client.get(url_for('api.farms_resource', farm_id=id))
+            assert r.status_code == 401

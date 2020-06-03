@@ -29,7 +29,7 @@ def get_farm_details(farm):
             'role': UserFarm.filter(UserFarm.farm_id == farm.id).filter(UserFarm.user_id == current_user.id).first()
         }
 
-@api.model_resource(farm_management, Farm, '/user/<int:user_id>/farms', '/user/<int:user_id>/farms/<int:farm_id>')
+@api.model_resource(farm_management, Farm, '/farms', '/farms/<int:farm_id>')
 class FarmResource(ModelResource):
     include_methods = ALL_METHODS
     #method_decorators = (wrap_decorator(auth_required, role='ROLE_ADMIN'),)
