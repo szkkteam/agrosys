@@ -23,6 +23,10 @@ class UserMixin(BaseModel):
     __table_args__ = {"mysql_engine": "InnoDB", "mysql_charset": "utf8"}
 
     @declared_attr
+    def __tablename__(self):
+        return "users"
+
+    @declared_attr
     def groups_dynamic(self):
         """ returns dynamic relationship for groups - allowing for
         filtering of data """

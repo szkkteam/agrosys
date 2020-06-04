@@ -21,6 +21,10 @@ class GroupMixin(BaseModel):
     __possible_permissions__ = ()
 
     @declared_attr
+    def __tablename__(self):
+        return "groups"
+
+    @declared_attr
     def group_name(self):
         return sa.Column(sa.Unicode(128), nullable=False, unique=True)
 

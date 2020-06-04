@@ -22,6 +22,10 @@ class UserGroupMixin(BaseModel):
     __table_args__ = {"mysql_engine": "InnoDB", "mysql_charset": "utf8"}
 
     @declared_attr
+    def __tablename__(self):
+        return "users_groups"
+
+    @declared_attr
     def group_id(self):
         return sa.Column(
             sa.Integer,

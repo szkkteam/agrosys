@@ -1,3 +1,4 @@
+import pytest
 
 @pytest.fixture()
 def farm(model_factory):

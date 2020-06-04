@@ -27,6 +27,10 @@ class ExternalIdentityMixin(BaseModel):
     )
 
     @declared_attr
+    def __tablename__(self):
+        return "external_identities"
+
+    @declared_attr
     def external_id(self):
         return sa.Column(sa.Unicode(255), default="", primary_key=True)
 

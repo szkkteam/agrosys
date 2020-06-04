@@ -21,6 +21,10 @@ class ResourceMixin(BaseModel):
     __possible_permissions__ = ()
 
     @declared_attr
+    def __tablename__(self):
+        return "resources"
+
+    @declared_attr
     def resource_id(self):
         return sa.Column(
             sa.Integer(), primary_key=True, nullable=False, autoincrement=True

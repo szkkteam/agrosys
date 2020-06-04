@@ -30,6 +30,10 @@ class GroupResourcePermissionMixin(BaseModel):
     )
 
     @declared_attr
+    def __tablename__(self):
+        return "groups_resources_permissions"
+
+    @declared_attr
     def group_id(self):
         return sa.Column(
             sa.Integer,

@@ -29,6 +29,9 @@ class UserResourcePermissionMixin(BaseModel):
         {"mysql_engine": "InnoDB", "mysql_charset": "utf8"},
     )
 
+    @declared_attr
+    def __tablename__(self):
+        return "users_resources_permissions"
 
     @declared_attr
     def user_id(self):
