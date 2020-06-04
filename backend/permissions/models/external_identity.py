@@ -31,6 +31,15 @@ class ExternalIdentityMixin(BaseModel):
         return "external_identities"
 
     @declared_attr
+    def __mapper_args__(cls):
+        if cls.__name__ == 'external_identities':
+            return {
+                    "polymorphic_identity": "external_identities"
+            }
+        else:
+            return {"polymorphic_identity": cls.__name__}
+
+    @declared_attr
     def external_id(self):
         return sa.Column(sa.Unicode(255), default="", primary_key=True)
 

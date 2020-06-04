@@ -42,7 +42,7 @@ class GroupMixin(BaseModel):
         return sa.orm.relationship(
             "User",
             secondary="users_groups",
-            order_by="User.user_name",
+            order_by="User.username",
             passive_deletes=True,
             passive_updates=True,
             backref="groups",
@@ -55,7 +55,7 @@ class GroupMixin(BaseModel):
         """ dynamic relationship for users belonging to this group
             one can use filter """
         return sa.orm.relationship(
-            "User", secondary="users_groups", order_by="User.user_name", lazy="dynamic"
+            "User", secondary="users_groups", order_by="User.username", lazy="dynamic"
         )
 
     @declared_attr

@@ -84,14 +84,14 @@ class ExternalIdentity(ExternalIdentityMixin, Model):
     pass
 
 
-class User(UserMixin, Model):
+class UserTest(UserMixin, Model):
     __possible_permissions__ = ["root", "alter_users", "custom1"]
 
     username = Column(String(50), unique=True, index=True)
     email = Column(String(50), unique=True, index=True)
 
 model_init(
-    User,
+    UserTest,
     Group,
     UserGroup,
     GroupPermission,
@@ -106,7 +106,7 @@ def add_user(session,
              username="username",
              email="email",
              perms=["root", "alter_users"]):
-    user = User(username=username, email=email)
+    user = UserTest(username=username, email=email)
     for perm in perms:
         u_perm = UserPermission(perm_name=perm)
         user.user_permissions.append(u_perm)
