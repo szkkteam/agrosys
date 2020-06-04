@@ -23,7 +23,7 @@ def create_user_farm(farm):
     from backend.farm_management.models import UserFarm
     return UserFarm(farm=farm)
 
-class User(Model, UserMixin):
+class User(Model, UserMixin, PermissionUserMixin):
     username = Column(String(50), unique=True, index=True)
     email = Column(String(50), unique=True, index=True)
     first_name = Column(String(32))

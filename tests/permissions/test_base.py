@@ -5,7 +5,8 @@
 # Pip package imports
 # Internal package imports
 from backend.permissions.services import UserService
-from .conftest import BaseTestCase, UserTest, add_group, add_resource, add_user, add_resource_b
+from backend.security.models import User
+from .conftest import BaseTestCase, add_group, add_resource, add_user, add_resource_b
 
 
 class DummyUserObj(object):
@@ -16,7 +17,7 @@ class DummyUserObj(object):
 
 class TestModel(BaseTestCase):
     def test_get_keys(self, db_session):
-        keys = UserTest._get_keys()
+        keys = User._get_keys()
         assert len(keys) == 9
 
     def test_get_dict(self, db_session):
@@ -104,19 +105,19 @@ class TestModel(BaseTestCase):
         assert created_user.email != test_obj.email
 
     def test_add_object_without_flush(self, db_session):
-        user = UserTest(username="some_new_user", email="foo")
+        user = User(username="some_new_user", email="foo")
         assert user.id is None
         user.persist()
         assert user.id is None
 
     def test_add_object_with_flush(self, db_session):
-        user = UserTest(username="some_new_user", email="foo")
+        user = User(username="some_new_user", email="foo")
         assert user.id is None
         user.persist(flush=True)
         assert user.id is not None
 
     def test_delete_object_with_flush(self, db_session):
-        user = UserTest(username="some_new_user", email="foo")
+        user = User(username="some_new_user", email="foo")
         assert user.id is None
         user.persist(flush=True)
         assert user.id is not None

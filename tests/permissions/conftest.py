@@ -7,62 +7,19 @@ import pytest
 
 # Pip package imports
 # Internal package imports
-from backend.permissions.models import (
-    GroupMixin,
-    GroupPermissionMixin,
-    UserGroupMixin,
-    GroupResourcePermissionMixin,
-    ResourceMixin,
-    UserPermissionMixin,
-    UserResourcePermissionMixin,
-    ExternalIdentityMixin,
-    UserMixin
+from backend.security.models import (
+    User,
+    Resource,
+    UserPermission,
+    Group,
+    GroupPermission,
+    UserResourcePermission,
+    GroupResourcePermission
 )
 from backend.permissions.permissions import (
     ALL_PERMISSIONS,
     Allow
 )
-from backend.permissions.manager import model_init
-from backend.database import PrimaryKeyMixin, Model
-from backend.database import (
-    Boolean,
-    Column,
-    DateTime,
-    Model,
-    String,
-)
-
-class Group(GroupMixin, Model):
-    __possible_permissions__ = (
-        "root_administration",
-        "administration",
-        "backend_admin_panel",
-        "manage_apps",
-    )
-
-
-class GroupPermission(GroupPermissionMixin, Model):
-    pass
-
-
-class UserGroup(UserGroupMixin, Model):
-    pass
-
-
-class GroupResourcePermission(GroupResourcePermissionMixin, Model):
-    pass
-
-
-class Resource(ResourceMixin, Model):
-    def __acl__(self):
-        acls = []
-
-        if self.owner_user_id:
-            acls.extend([(Allow, self.owner_user_id, ALL_PERMISSIONS)])
-
-        if self.owner_group_id:
-            acls.extend([(Allow, "group:%s" % self.owner_group_id, ALL_PERMISSIONS)])
-        return acls
 
 class TestResource(Resource):
     __mapper_args__ = {"polymorphic_identity": "test_resource"}
@@ -72,41 +29,11 @@ class TestResourceB(Resource):
     __mapper_args__ = {"polymorphic_identity": "test_resource_b"}
 
 
-class UserPermission(UserPermissionMixin, Model):
-    pass
-
-
-class UserResourcePermission(UserResourcePermissionMixin, Model):
-    pass
-
-
-class ExternalIdentity(ExternalIdentityMixin, Model):
-    pass
-
-
-class UserTest(UserMixin, Model):
-    __possible_permissions__ = ["root", "alter_users", "custom1"]
-
-    username = Column(String(50), unique=True, index=True)
-    email = Column(String(50), unique=True, index=True)
-
-model_init(
-    UserTest,
-    Group,
-    UserGroup,
-    GroupPermission,
-    UserPermission,
-    UserResourcePermission,
-    GroupResourcePermission,
-    Resource,
-    ExternalIdentity,
-)
-
 def add_user(session,
              username="username",
              email="email",
              perms=["root", "alter_users"]):
-    user = UserTest(username=username, email=email)
+    user = User(username=username, email=email)
     for perm in perms:
         u_perm = UserPermission(perm_name=perm)
         user.user_permissions.append(u_perm)
