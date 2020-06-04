@@ -10,6 +10,7 @@ from sqlalchemy import orm
 #from sqlalchemy.event import listens_for
 from sqlalchemy import Index
 from sqlalchemy.sql import expression
+import sqlalchemy as sa
 
 # Internal package imports
 from backend.extensions import db
@@ -149,6 +150,7 @@ class BaseModel(db.Model):
         """
         db.session.delete(self)
         return commit and db.session.commit()
+
 
     def __repr__(self):
         properties = [f'{prop}={getattr(self, prop)!r}'
