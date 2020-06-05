@@ -22,11 +22,6 @@ def create_user_farm(user):
 class Farm(Model):
     name = Column(String(64))
 
-    farm_users = relationship('UserFarm', back_populates='farm',
-                              cascade='all, delete-orphan')
-    users = association_proxy('farm_users', 'farmer',
-                              creator=lambda user: create_user_farm(user))
-
     fields = relationship('Field', back_populates='farm')
 
     __repr_props__ = ('id', 'name')

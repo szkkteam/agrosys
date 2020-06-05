@@ -6,7 +6,7 @@
 # Internal package imports
 from backend.database import (
     Column,
-    BaseModel,
+    Model,
     String,
     Float,
     Boolean,
@@ -14,7 +14,7 @@ from backend.database import (
     relationship,
 )
 
-class UserFarm(BaseModel):
+class UserFarm(Model):
     """Join table between User and Role"""
 
     # Farm roles
@@ -25,12 +25,6 @@ class UserFarm(BaseModel):
     can_edit_fields = Column(Boolean(), default=True)
     can_delete_fields = Column(Boolean(), default=True)
 
-
-    user_id = foreign_key('User', primary_key=True)
-    user = relationship('User', back_populates='user_farms')
-
-    farm_id = foreign_key('Farm', primary_key=True)
-    farm = relationship('Farm', back_populates='farm_users')
 
     __repr_props__ = ('user_id', 'farm_id', 'is_owner')
 

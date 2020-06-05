@@ -5,10 +5,21 @@
 # Pip package imports
 # Internal package imports
 from backend.database import (
-    Model,
+    BaseModel,
 )
 from backend.permissions.models import ResourceMixin
 
-class Resource(ResourceMixin, Model):
+class Resource(ResourceMixin, BaseModel):
     # TODO: Implement later
-    pass
+    # example implementation of ACLS for pyramid application
+    @property
+    def __acl__(self):
+        acls = []
+
+        if self.owner_user_id:
+            acls.extend([(Allow, self.owner_user_id, ALL_PERMISSIONS,), ])
+
+        if self.owner_group_id:
+            acls.extend([(Allow, "group:%s" % self.owner_group_id,
+                          ALL_PERMISSIONS,), ])
+        return acls

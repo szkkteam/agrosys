@@ -5,10 +5,10 @@
 # Pip package imports
 # Internal package imports
 from backend.database import (
-    Model,
+    BaseModel,
 )
 from backend.permissions.models import GroupPermissionMixin
 
-class GroupPermission(GroupPermissionMixin, Model):
+class GroupPermission(GroupPermissionMixin, BaseModel):
     # TODO: Implement later
     pass

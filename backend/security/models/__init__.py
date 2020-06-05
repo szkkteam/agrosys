@@ -15,3 +15,4 @@ from .role import Role
 from .user import User
 from .user_role import UserRole
 from .external_identity import ExternalIdentity
+from .entity import Entity

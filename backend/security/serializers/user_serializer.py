@@ -15,12 +15,11 @@ NON_ALPHANUMERIC_RE = re.compile(r'[^\w]')
 
 class UserSerializer(ModelSerializer):
     email = fields.Email(required=True)
-    roles = fields.Nested('RoleSerializer', only=('name',), many=True)
 
     class Meta:
         model = User
-        exclude = ('confirmed_at', 'created_at', 'updated_at', 'user_roles')
-        dump_only = ('active', 'roles')
+        exclude = ('confirmed_at', 'created_at', 'updated_at', )
+        dump_only = ('active', )
         load_only = ('password',)
 
     @validates('email')

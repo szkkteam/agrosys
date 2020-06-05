@@ -39,6 +39,11 @@ class UserMixin(BaseModel):
         )
 
     @declared_attr
+    def id(self):
+        """ Unique identifier of user object"""
+        return sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+
+    @declared_attr
     def user_permissions(self):
         """
         returns all direct non-resource permissions for this user,

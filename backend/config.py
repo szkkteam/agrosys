@@ -58,7 +58,7 @@ EXTENSIONS = [
 DEFERRED_EXTENSIONS = [
     'backend.extensions.api:api',
     'backend.extensions.admin:admin',
-    'backend.extensions.permissions.permissions',
+    'backend.extensions.permissions:permissions',
 ]
 
 

@@ -39,18 +39,6 @@ class User(Model, UserMixin, PermissionUserMixin):
     # current_login_ip = Column(String(100))
     # login_count = Column(Integer)
 
-    profile = relationship('Profile', uselist=False, back_populates='user')
-
-    user_farms = relationship('UserFarm', back_populates='user',
-                                 cascade='all, delete-orphan')
-    farms = association_proxy('user_farms', 'farm',
-                              creator=lambda farm: create_user_farm(farm))
-
-    user_roles = relationship('UserRole', back_populates='user',
-                              cascade='all, delete-orphan')
-    roles = association_proxy('user_roles', 'role',
-                              creator=lambda role: UserRole(role=role))
-
     __repr_props__ = ('id', 'username', 'email')
 
     def __init__(self, hash_password=True, **kwargs):

@@ -25,6 +25,10 @@ class GroupMixin(BaseModel):
         return "groups"
 
     @declared_attr
+    def id(self):
+        return sa.Column(sa.Integer(), primary_key=True)
+
+    @declared_attr
     def group_name(self):
         return sa.Column(sa.Unicode(128), nullable=False, unique=True)
 

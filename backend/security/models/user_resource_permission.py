@@ -5,10 +5,10 @@
 # Pip package imports
 # Internal package imports
 from backend.database import (
-    Model,
+    BaseModel,
 )
 from backend.permissions.models import UserResourcePermissionMixin
 
-class UserResourcePermission(UserResourcePermissionMixin, Model):
+class UserResourcePermission(UserResourcePermissionMixin, BaseModel):
     # TODO: Implement later
     pass

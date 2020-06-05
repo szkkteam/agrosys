@@ -5,10 +5,10 @@
 # Pip package imports
 # Internal package imports
 from backend.database import (
-    Model,
+    BaseModel,
 )
 from backend.permissions.models import ExternalIdentityMixin
 
-class ExternalIdentity(ExternalIdentityMixin, Model):
+class ExternalIdentity(ExternalIdentityMixin, BaseModel):
     # TODO: Implement later
     pass

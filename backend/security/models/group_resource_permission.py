@@ -5,10 +5,10 @@
 # Pip package imports
 # Internal package imports
 from backend.database import (
-    Model,
+    BaseModel,
 )
 from backend.permissions.models import GroupResourcePermissionMixin
 
-class GroupResourcePermission(GroupResourcePermissionMixin, Model):
+class GroupResourcePermission(GroupResourcePermissionMixin, BaseModel):
     # TODO: Implement later
     pass

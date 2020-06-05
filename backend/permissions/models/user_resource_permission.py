@@ -24,7 +24,7 @@ class UserResourcePermissionMixin(BaseModel):
             "user_id",
             "resource_id",
             "perm_name",
-            name="pk_users_resources_permissions ",
+            name="pk_users_resources_permissions",
         ),
         {"mysql_engine": "InnoDB", "mysql_charset": "utf8"},
     )
