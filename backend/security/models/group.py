@@ -5,11 +5,11 @@
 # Pip package imports
 # Internal package imports
 from backend.database import (
-    BaseModel,
+    Model,
 )
 from backend.permissions.models import GroupMixin
 
-class Group(GroupMixin, BaseModel):
+class Group(GroupMixin, Model):
     __possible_permissions__ = (
         "root_administration",
         "administration",

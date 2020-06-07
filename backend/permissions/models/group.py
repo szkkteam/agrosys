@@ -7,7 +7,13 @@ import sqlalchemy as sa
 from sqlalchemy.ext.declarative import declared_attr
 
 # Internal package imports
-from backend.database import  PrimaryKeyMixin
+from backend.database import (
+    Column,
+    Model,
+    String,
+    association_proxy,
+    relationship,
+)
 from .base import BaseModel
 
 __all__ = ["GroupMixin"]
@@ -19,14 +25,6 @@ class GroupMixin(BaseModel):
 
     # lists app wide permissions we might want to assign to groups
     __possible_permissions__ = ()
-
-    @declared_attr
-    def __tablename__(self):
-        return "groups"
-
-    @declared_attr
-    def id(self):
-        return sa.Column(sa.Integer(), primary_key=True)
 
     @declared_attr
     def group_name(self):
@@ -45,7 +43,7 @@ class GroupMixin(BaseModel):
         """ relationship for users belonging to this group"""
         return sa.orm.relationship(
             "User",
-            secondary="users_groups",
+            secondary="user_group",
             order_by="User.username",
             passive_deletes=True,
             passive_updates=True,
@@ -59,7 +57,7 @@ class GroupMixin(BaseModel):
         """ dynamic relationship for users belonging to this group
             one can use filter """
         return sa.orm.relationship(
-            "User", secondary="users_groups", order_by="User.username", lazy="dynamic"
+            "User", secondary="user_group", order_by="User.username", lazy="dynamic"
         )
 
     @declared_attr

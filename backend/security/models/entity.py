@@ -16,11 +16,10 @@ class Entity(Resource):
     Resource of `entry` type
     """
 
-    __tablename__ = 'entities'
     __mapper_args__ = {'polymorphic_identity': 'entity'}
 
     resource_id = sa.Column(sa.Integer(),
-                            sa.ForeignKey('resources.resource_id',
+                            sa.ForeignKey('resource.id',
                                           onupdate='CASCADE',
                                           ondelete='CASCADE', ),
                             primary_key=True, )

@@ -6,9 +6,10 @@
 # Internal package imports
 from backend.database import (
     BaseModel,
+    TimestampMixin
 )
 from backend.permissions.models import UserGroupMixin
 
-class UserGroup(UserGroupMixin, BaseModel):
+class UserGroup(UserGroupMixin, BaseModel, TimestampMixin):
     # TODO: Implement later
     pass

@@ -6,9 +6,10 @@
 # Internal package imports
 from backend.database import (
     BaseModel,
+    TimestampMixin
 )
 from backend.permissions.models import ExternalIdentityMixin
 
-class ExternalIdentity(ExternalIdentityMixin, BaseModel):
+class ExternalIdentity(ExternalIdentityMixin, BaseModel, TimestampMixin):
     # TODO: Implement later
     pass

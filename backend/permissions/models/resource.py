@@ -8,6 +8,14 @@ from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import validates
 
 # Internal package imports
+from backend.database import (
+    Column,
+    Model,
+    String,
+    association_proxy,
+    relationship,
+    TimestampMixin
+)
 from .base import BaseModel
 
 __all__ = ["ResourceMixin"]
@@ -21,21 +29,11 @@ class ResourceMixin(BaseModel):
     __possible_permissions__ = ()
 
     @declared_attr
-    def __tablename__(self):
-        return "resources"
-
-    @declared_attr
-    def resource_id(self):
-        return sa.Column(
-            sa.Integer(), primary_key=True, nullable=False, autoincrement=True
-        )
-
-    @declared_attr
     def parent_id(self):
         return sa.Column(
             sa.Integer(),
             sa.ForeignKey(
-                "resources.resource_id", onupdate="CASCADE", ondelete="SET NULL"
+                "resource.id", onupdate="CASCADE", ondelete="SET NULL"
             ),
         )
 
@@ -55,7 +53,7 @@ class ResourceMixin(BaseModel):
     def owner_group_id(self):
         return sa.Column(
             sa.Integer,
-            sa.ForeignKey("groups.id", onupdate="CASCADE", ondelete="SET NULL"),
+            sa.ForeignKey("group.id", onupdate="CASCADE", ondelete="SET NULL"),
             index=True,
         )
 
@@ -63,7 +61,7 @@ class ResourceMixin(BaseModel):
     def owner_user_id(self):
         return sa.Column(
             sa.Integer,
-            sa.ForeignKey("users.id", onupdate="CASCADE", ondelete="SET NULL"),
+            sa.ForeignKey("user.id", onupdate="CASCADE", ondelete="SET NULL"),
             index=True,
         )
 
@@ -92,7 +90,7 @@ class ResourceMixin(BaseModel):
         """ returns all groups that have permissions for this resource"""
         return sa.orm.relationship(
             "Group",
-            secondary="groups_resources_permissions",
+            secondary="group_resource_permission",
             passive_deletes=True,
             passive_updates=True,
         )
@@ -102,7 +100,7 @@ class ResourceMixin(BaseModel):
         """ returns all users that have permissions for this resource"""
         return sa.orm.relationship(
             "User",
-            secondary="users_resources_permissions",
+            secondary="user_resource_permission",
             passive_deletes=True,
             passive_updates=True,
         )
@@ -110,7 +108,7 @@ class ResourceMixin(BaseModel):
     __mapper_args__ = {"polymorphic_on": resource_type}
     __table_args__ = {"mysql_engine": "InnoDB", "mysql_charset": "utf8"}
 
-    __repr_props__ = ('resource_type', 'resource_name', 'resource_id', 'ordering',)
+    __repr_props__ = ('resource_type', 'resource_name', 'id', 'ordering',)
 
     @property
     def __acl__(self):

@@ -7,6 +7,14 @@ import sqlalchemy as sa
 from sqlalchemy.ext.declarative import declared_attr
 
 # Internal package imports
+from backend.database import (
+    Column,
+    Model,
+    String,
+    association_proxy,
+    relationship,
+    TimestampMixin,
+)
 from .base import BaseModel
 
 
@@ -21,23 +29,10 @@ class ExternalIdentityMixin(BaseModel):
             "external_id",
             "local_user_id",
             "provider_name",
-            name="pk_external_identities",
+            name="pk_external_identity",
         ),
         {"mysql_engine": "InnoDB", "mysql_charset": "utf8"},
     )
-
-    @declared_attr
-    def __tablename__(self):
-        return "external_identities"
-
-    @declared_attr
-    def __mapper_args__(cls):
-        if cls.__name__ == 'external_identities':
-            return {
-                    "polymorphic_identity": "external_identities"
-            }
-        else:
-            return {"polymorphic_identity": cls.__name__}
 
     @declared_attr
     def external_id(self):
@@ -51,7 +46,7 @@ class ExternalIdentityMixin(BaseModel):
     def local_user_id(self):
         return sa.Column(
             sa.Integer,
-            sa.ForeignKey("users.id", onupdate="CASCADE", ondelete="CASCADE"),
+            sa.ForeignKey("user.id", onupdate="CASCADE", ondelete="CASCADE"),
             primary_key=True,
         )
 

@@ -34,6 +34,7 @@ from .types import (
     Text,
     Time,
     ImageColumn,
+    Unicode
 )
 
 session = db.session  # type: orm.session.Session

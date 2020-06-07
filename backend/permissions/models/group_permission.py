@@ -8,6 +8,14 @@ from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import validates
 
 # Internal package imports
+from backend.database import (
+    Column,
+    Model,
+    String,
+    association_proxy,
+    relationship,
+    TimestampMixin
+)
 from .base import BaseModel
 
 __all__ = ["GroupPermissionMixin"]
@@ -17,19 +25,15 @@ class GroupPermissionMixin(BaseModel):
     """ Mixin for GroupPermission model"""
 
     __table_args__ = (
-        sa.PrimaryKeyConstraint("group_id", "perm_name", name="pk_groups_permissions"),
+        sa.PrimaryKeyConstraint("group_id", "perm_name", name="pk_group_permission"),
         {"mysql_engine": "InnoDB", "mysql_charset": "utf8"},
     )
-
-    @declared_attr
-    def __tablename__(self):
-        return "groups_permissions"
 
     @declared_attr
     def group_id(self):
         return sa.Column(
             sa.Integer(),
-            sa.ForeignKey("groups.id", onupdate="CASCADE", ondelete="CASCADE"),
+            sa.ForeignKey("group.id", onupdate="CASCADE", ondelete="CASCADE"),
             primary_key=True,
         )
 

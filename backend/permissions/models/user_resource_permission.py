@@ -8,6 +8,14 @@ from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import validates
 
 # Internal package imports
+from backend.database import (
+    Column,
+    Model,
+    String,
+    association_proxy,
+    relationship,
+    TimestampMixin
+)
 from .base import BaseModel
 
 
@@ -24,20 +32,16 @@ class UserResourcePermissionMixin(BaseModel):
             "user_id",
             "resource_id",
             "perm_name",
-            name="pk_users_resources_permissions",
+            name="pk_user_resource_permission",
         ),
         {"mysql_engine": "InnoDB", "mysql_charset": "utf8"},
     )
 
     @declared_attr
-    def __tablename__(self):
-        return "users_resources_permissions"
-
-    @declared_attr
     def user_id(self):
         return sa.Column(
             sa.Integer,
-            sa.ForeignKey("users.id", onupdate="CASCADE", ondelete="CASCADE"),
+            sa.ForeignKey("user.id", onupdate="CASCADE", ondelete="CASCADE"),
             primary_key=True,
         )
 
@@ -46,7 +50,7 @@ class UserResourcePermissionMixin(BaseModel):
         return sa.Column(
             sa.Integer(),
             sa.ForeignKey(
-                "resources.resource_id", onupdate="CASCADE", ondelete="CASCADE"
+                "resource.id", onupdate="CASCADE", ondelete="CASCADE"
             ),
             primary_key=True,
             autoincrement=False,

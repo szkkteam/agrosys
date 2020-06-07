@@ -8,6 +8,14 @@ from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import validates
 
 # Internal package imports
+from backend.database import (
+    Column,
+    Model,
+    String,
+    association_proxy,
+    relationship,
+    TimestampMixin
+)
 from .base import BaseModel
 
 __all__ = ["UserMixin"]
@@ -23,25 +31,16 @@ class UserMixin(BaseModel):
     __table_args__ = {"mysql_engine": "InnoDB", "mysql_charset": "utf8"}
 
     @declared_attr
-    def __tablename__(self):
-        return "users"
-
-    @declared_attr
     def groups_dynamic(self):
         """ returns dynamic relationship for groups - allowing for
         filtering of data """
         return sa.orm.relationship(
             "Group",
-            secondary="users_groups",
+            secondary="user_group",
             lazy="dynamic",
             passive_deletes=True,
             passive_updates=True,
         )
-
-    @declared_attr
-    def id(self):
-        """ Unique identifier of user object"""
-        return sa.Column(sa.Integer, primary_key=True, autoincrement=True)
 
     @declared_attr
     def user_permissions(self):

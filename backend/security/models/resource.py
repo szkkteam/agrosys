@@ -5,11 +5,12 @@
 # Pip package imports
 # Internal package imports
 from backend.database import (
-    BaseModel,
+    Model,
+
 )
 from backend.permissions.models import ResourceMixin
 
-class Resource(ResourceMixin, BaseModel):
+class Resource(ResourceMixin, Model):
     # TODO: Implement later
     # example implementation of ACLS for pyramid application
     @property

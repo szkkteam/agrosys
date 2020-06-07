@@ -26,7 +26,7 @@ SmallInteger = db.SmallInteger  # type: sqlalchemy.types.SmallInteger
 String = db.String              # type: sqlalchemy.types.String
 Text = db.Text                  # type: sqlalchemy.types.Text
 Time = db.Time                  # type: sqlalchemy.types.Time
-
+Unicode = db.Unicode
 
 class DateTime(types.TypeDecorator):
     impl = types.DateTime

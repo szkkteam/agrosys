@@ -8,6 +8,14 @@ from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import validates
 
 # Internal package imports
+from backend.database import (
+    Column,
+    Model,
+    String,
+    association_proxy,
+    relationship,
+    TimestampMixin
+)
 from .base import BaseModel
 
 
@@ -22,14 +30,10 @@ class UserGroupMixin(BaseModel):
     __table_args__ = {"mysql_engine": "InnoDB", "mysql_charset": "utf8"}
 
     @declared_attr
-    def __tablename__(self):
-        return "users_groups"
-
-    @declared_attr
     def group_id(self):
         return sa.Column(
             sa.Integer,
-            sa.ForeignKey("groups.id", onupdate="CASCADE", ondelete="CASCADE"),
+            sa.ForeignKey("group.id", onupdate="CASCADE", ondelete="CASCADE"),
             primary_key=True,
         )
 
@@ -37,7 +41,7 @@ class UserGroupMixin(BaseModel):
     def user_id(self):
         return sa.Column(
             sa.Integer,
-            sa.ForeignKey("users.id", onupdate="CASCADE", ondelete="CASCADE"),
+            sa.ForeignKey("user.id", onupdate="CASCADE", ondelete="CASCADE"),
             primary_key=True,
         )
 

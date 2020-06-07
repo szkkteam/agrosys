@@ -6,9 +6,10 @@
 # Internal package imports
 from backend.database import (
     BaseModel,
+TimestampMixin
 )
 from backend.permissions.models import UserResourcePermissionMixin
 
-class UserResourcePermission(UserResourcePermissionMixin, BaseModel):
+class UserResourcePermission(UserResourcePermissionMixin, BaseModel, TimestampMixin):
     # TODO: Implement later
     pass
