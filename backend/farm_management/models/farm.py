@@ -13,6 +13,7 @@ from backend.database import (
     Boolean,
     association_proxy,
     relationship,
+    db
 )
 
 def create_user_farm(user):
@@ -27,7 +28,7 @@ class Farm(Model):
     users = association_proxy('farm_users', 'farmer',
                               creator=lambda user: create_user_farm(user))
 
-    fields = relationship('Field', back_populates='farm')
+    seasons = relationship('Season', back_populates='farm')
 
     __repr_props__ = ('id', 'name')
 
@@ -37,3 +38,10 @@ class Farm(Model):
         if current_user and hasattr(current_user, 'id'):
             return Farm.join(UserFarm).filter(UserFarm.user_id == current_user.id).all()
         return super().all()
+
+    @classmethod
+    def get_permission(cls, *args):
+        print("Args: ", args)
+        from .user_farm import UserFarm
+        return db.session.query(*args).join(UserFarm, (UserFarm.farm_id == Farm.id)).filter(UserFarm.user_id == current_user.id).all()
+
