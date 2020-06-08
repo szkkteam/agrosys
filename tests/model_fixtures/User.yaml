@@ -7,7 +7,6 @@ user:
   last_name: User
   active: yes
   confirmed_at: now
-  roles: ['Role(ROLE_USER, ROLE_USER1)']
 
 farm_owner:
   username: farowner
@@ -18,7 +17,6 @@ farm_owner:
   active: yes
   confirmed_at: now
   roles: ['Role(ROLE_USER, ROLE_USER1)']
-  farms: ['Farm(FARMER_USER_FARM1, FARMER_USER_FARM2)']
 
 farmer1:
   username: farmuser1
@@ -29,7 +27,6 @@ farmer1:
   active: yes
   confirmed_at: now
   roles: ['Role(ROLE_USER, ROLE_USER1)']
-  farms: ['Farm(FARMER_USER_FARM1, FARMER_USER_FARM2)']
 
 farmer2:
   username: farmuser2
@@ -40,7 +37,6 @@ farmer2:
   active: yes
   confirmed_at: now
   roles: ['Role(ROLE_USER, ROLE_USER1)']
-  farms: ['Farm(FARMER_USER_FARM3, FARMER_USER_FARM4)']
 
 farm_collaborator:
   username: farmcollaborator
@@ -51,7 +47,6 @@ farm_collaborator:
   active: yes
   confirmed_at: now
   roles: ['Role(ROLE_USER, ROLE_USER1)']
-  farms: ['Farm(FARMER_USER_FARM3)']
 
 farm_mix:
   username: farmmix
@@ -62,7 +57,6 @@ farm_mix:
   active: yes
   confirmed_at: now
   roles: ['Role(ROLE_USER, ROLE_USER1)']
-  farms: ['Farm(FARMER_USER_FARM1, FARMER_USER_FARM2, FARMER_USER_FARM3)']
 
 admin:
   username: admin
