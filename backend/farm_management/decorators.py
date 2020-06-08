@@ -13,7 +13,6 @@ from flask_security.decorators import auth_required as flask_security_auth_requi
 
 # Internal package imports
 from backend.utils import was_decorated_without_parenthesis
-from .models import UserFarm
 
 
 def permission_required(*args, **kwargs):

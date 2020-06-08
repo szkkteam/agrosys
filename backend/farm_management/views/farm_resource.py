@@ -38,11 +38,11 @@ class FarmResource(ModelResource):
     #method_decorators = (auth_required, )
     method_decorators = {
         CREATE: (auth_required,),
-        DELETE: (auth_required, wrap_decorator(permission_required, model=Farm, permission='delete')),
-        #GET: (auth_required, wrap_decorator(permission_required, model=Farm, permission='view')),
-        LIST: (auth_required, wrap_decorator(permission_required, model=Farm, permission='view')),
-        PATCH: (auth_required, wrap_decorator(permission_required, model=Farm, permission='edit')),
-        PUT: (auth_required, wrap_decorator(permission_required, model=Farm, permission='edit')),
+        DELETE: (auth_required, ),
+        GET: (auth_required, ),
+        LIST: (auth_required, ),
+        PATCH: (auth_required, ),
+        PUT: (auth_required, ),
     }
 
     def create(self, farm, errors):
@@ -59,7 +59,6 @@ class FarmResource(ModelResource):
     def get(self, farm):
         return self.serializer.dump(get_farm_details(farm))
 
-    @permission_required(model=Farm, permission='view')
     def list(self, farms):
         return self.serializer.dump([get_farm_details(farm) for farm in farms], many=True)
 
