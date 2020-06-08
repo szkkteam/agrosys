@@ -4,19 +4,14 @@
 # Common Python library imports
 import sqlalchemy as sa
 # Pip package imports
-from flask_security import current_user
 
 # Internal package imports
 from backend.database import (
     Column,
-    Model,
     String,
-    Boolean,
-    association_proxy,
-    relationship,
-    db
+    relationship
 )
-from .resource import Resource
+from backend.security.models.resource import Resource
 
 class Farm(Resource):
     __mapper_args__ = {'polymorphic_identity': 'farm'}

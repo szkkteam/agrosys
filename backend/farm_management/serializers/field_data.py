@@ -57,7 +57,7 @@ class FieldDataSerializer(ModelSerializer):
 
 
 @api.serializer(many=True)
-class FieldDataListSerializer(FieldSerializer):
+class FieldDataListSerializer(FieldDataSerializer):
 
     class Meta:
         model = FieldData

@@ -50,10 +50,8 @@ class FarmResource(ModelResource):
             return self.errors(errors)
         # Get the current user object
         user = User.get(current_user.id)
-        # Manually create the association table
-        # TODO: Fixme permission
-        #user_farm = UserFarm.create_farm_owner(user=user, farm=farm)
-        #user_farm.save()
+        # Add farm to user's resource. The user will be the owner of this resource
+        user.resources.append(farm)
         return self.created(farm)
 
     def get(self, farm):

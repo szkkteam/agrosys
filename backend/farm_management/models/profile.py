@@ -8,15 +8,10 @@ import sqlalchemy as sa
 # Internal package imports
 from backend.database import (
     Column,
-    BaseModel,
-    TimestampMixin,
     String,
-    association_proxy,
-    relationship,
-    foreign_key,
 )
 #from backend.security.models import User
-from .resource import Resource
+from backend.security.models.resource import Resource
 
 class Profile(Resource):
 
@@ -28,7 +23,7 @@ class Profile(Resource):
                             sa.ForeignKey('resource.id',
                                           onupdate='CASCADE',
                                           ondelete='CASCADE', ),
-                            primary_key=True, )
+                            primary_key=True)
 
 
     __repr_props__ = ('display_name')

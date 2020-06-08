@@ -9,7 +9,7 @@ import pytest
 from marshmallow.exceptions import ValidationError
 
 # Internal package imports
-from backend.farm_management.serializers import FieldSerializer, FieldListSerializer
+from backend.farm_management.serializers import FieldDataSerializer, FieldDataListSerializer
 
 def compare_geojson(a, b):
     assert a["type"] == b["type"]
@@ -42,30 +42,30 @@ INVALID_GEOJSON = {"type": None,
     }
 
 VALID_INPUT_DATA = [
-    ({'name': 'test field 1', 'value': 0.0, 'shape': VALID_GEOJSON}),
-    ({'name': 'test field 2', 'value': None, 'shape': VALID_GEOJSON}),
-    ({'name': 'test field #$!"1', 'value': 100.999, 'shape': VALID_GEOJSON}),
+    ({'value': 0.0, 'shape': VALID_GEOJSON}),
+    ({'value': None, 'shape': VALID_GEOJSON}),
+    ({'value': 100.999, 'shape': VALID_GEOJSON}),
 ]
 
 VALID_INPUT_DATA_LIST = [
-    ([{'name': 'test field 11', 'value': 0.0, 'shape': VALID_GEOJSON},
-      {'name': 'test field 12', 'value': 0.0, 'shape': VALID_GEOJSON}]),
-    ([{'name': 'test field 21', 'value': None, 'shape': VALID_GEOJSON},
-      {'name': 'test field 22', 'value': None, 'shape': VALID_GEOJSON},]),
-    ([{'name': 'test field #$!"1-31', 'value': 100.999, 'shape': VALID_GEOJSON},
-      {'name': 'test field #$!"1-32', 'value': 100.999, 'shape': VALID_GEOJSON}]),
+    ([{'value': 0.0, 'shape': VALID_GEOJSON},
+      {'value': 0.0, 'shape': VALID_GEOJSON}]),
+    ([{'value': None, 'shape': VALID_GEOJSON},
+      {'value': None, 'shape': VALID_GEOJSON},]),
+    ([{'value': 100.999, 'shape': VALID_GEOJSON},
+      {'value': 100.999, 'shape': VALID_GEOJSON}]),
 ]
 
 INVALID_INPUT_DATA = [
-    ({'name': None, 'value': 0.0, 'shape': VALID_GEOJSON}, 'Field may not be null.', 'name'),
-    ({'name': 'test field 2', 'value': 0.0, 'shape': INVALID_GEOJSON}, 'Expecting a Feature object', 'shape'),
+    #({'name': None, 'value': 0.0, 'shape': VALID_GEOJSON}, 'Field may not be null.', 'name'),
+    ({'value': 0.0, 'shape': INVALID_GEOJSON}, 'Expecting a Feature object', 'shape'),
 ]
 
 INVALID_INPUT_DATA_LIST = [
-    ([{'name': None, 'value': 0.0, 'shape': VALID_GEOJSON},
-      {'name': None, 'value': 0.0, 'shape': VALID_GEOJSON},], 'Field may not be null.', 'name'),
-    ([{'name': 'test field 2', 'value': 0.0, 'shape': INVALID_GEOJSON},
-      {'name': 'test field 2', 'value': 0.0, 'shape': INVALID_GEOJSON}], 'Expecting a Feature object', 'shape'),
+    ([{'value': 0.0, 'shape': INVALID_GEOJSON},
+      {'value': 0.0, 'shape': INVALID_GEOJSON}], 'Expecting a Feature object', 'shape'),
+    ([{'value': 0.0, 'shape': INVALID_GEOJSON},
+      {'value': 0.0, 'shape': INVALID_GEOJSON}], 'Expecting a Feature object', 'shape'),
 ]
 
 
@@ -73,12 +73,12 @@ class TestFieldSerializer:
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA)
     def test_valid_inputs(self, input):
-        serializer = FieldSerializer()
+        serializer = FieldDataSerializer()
         serializer.load(copy.deepcopy(input))
 
     @pytest.mark.parametrize("input,msg,field", INVALID_INPUT_DATA)
     def test_invalid_inputs(self, input, msg, field):
-        serializer = FieldSerializer()
+        serializer = FieldDataSerializer()
         with pytest.raises(ValidationError) as v:
             serializer.load(copy.deepcopy(input))
         assert msg in v.value.args[0][field]
@@ -87,10 +87,9 @@ class TestFieldSerializer:
     def test_valid_serialize_deserialize(self, input):
         input_data = copy.deepcopy(input)
 
-        serializer = FieldSerializer()
+        serializer = FieldDataSerializer()
         result = serializer.load(input.copy())
         result = serializer.dump(result)
-        assert result['name'] == input_data['name']
         assert result['value'] == input_data['value']
         compare_geojson(input_data['shape'], result['shape'])
 
@@ -99,12 +98,12 @@ class TestFieldListSerializer:
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA_LIST)
     def test_valid_inputs(self, input):
-        serializer = FieldListSerializer()
+        serializer = FieldDataListSerializer()
         serializer.load(copy.deepcopy(input), many=True)
 
     @pytest.mark.parametrize("input,msg,field", INVALID_INPUT_DATA_LIST)
     def test_invalid_inputs(self, input, msg, field):
-        serializer = FieldListSerializer()
+        serializer = FieldDataListSerializer()
         with pytest.raises(ValidationError) as v:
             serializer.load(copy.deepcopy(input), many=True)
         # TODO: Feature object validation is not working properly
@@ -115,10 +114,9 @@ class TestFieldListSerializer:
     def test_valid_serialize_deserialize(self, input):
         input_data = copy.deepcopy(input)
 
-        serializer = FieldListSerializer()
+        serializer = FieldDataListSerializer()
         result = serializer.load(input.copy(), many=True)
         result = serializer.dump(result)
         for r, i in zip(result, input_data):
-            assert e['name'] == i['name']
-            assert e['value'] == i['value']
-            compare_geojson(e['shape'], i['shape'])
+            assert r['value'] == i['value']
+            compare_geojson(r['shape'], i['shape'])

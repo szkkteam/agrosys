@@ -17,7 +17,7 @@ PROFILE_DATA = {'id': '1', 'display_name': 'test name'}
 class TestFarmModels:
     def test_user_id_required(self):
         data = PROFILE_DATA.copy()
-        data['id'] = None
+        data['display_name'] = None
         with pytest.raises(IntegrityError):
             Profile.create(**data, commit=True)
 

@@ -9,5 +9,4 @@ from .farm import Farm
 from .season import Season
 from .field_data import FieldData
 from .profile import Profile
-from .resource import Resource
 from .season_field import SeasonField
