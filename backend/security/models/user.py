@@ -19,10 +19,6 @@ from backend.database import (
 from backend.permissions.models import UserMixin as PermissionUserMixin
 from .user_role import UserRole
 
-def create_user_farm(farm):
-    from backend.farm_management.models import UserFarm
-    return UserFarm(farm=farm)
-
 class User(Model, UserMixin, PermissionUserMixin):
     username = Column(String(50), unique=True, index=True)
     email = Column(String(50), unique=True, index=True)
@@ -44,11 +40,6 @@ class User(Model, UserMixin, PermissionUserMixin):
                               cascade='all, delete-orphan')
     roles = association_proxy('user_roles', 'role',
                               creator=lambda role: UserRole(role=role))
-
-    user_farms = relationship('UserFarm', back_populates='user',
-                              cascade='all, delete-orphan')
-    farms = association_proxy('user_farms', 'farm',
-                              creator=lambda farm: create_user_farm(farm))
 
     __repr_props__ = ('id', 'username', 'email')
 

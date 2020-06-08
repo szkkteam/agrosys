@@ -15,7 +15,7 @@ from backend.extensions.api import api
 from backend.extensions import db
 from backend.utils.decorators import wrap_decorator
 
-from ..models import Farm, Field, UserFarm
+from ..models import Farm, Field
 from .blueprint import farm_management
 
 
@@ -26,7 +26,7 @@ def get_farm_details(farm):
             'id': farm.id,
             'name': farm.name,
             'fields': Field.filter(Field.farm_id == farm.id).all(),
-            'role': UserFarm.filter(UserFarm.farm_id == farm.id).filter(UserFarm.user_id == current_user.id).first()
+            #'role': UserFarm.filter(UserFarm.farm_id == farm.id).filter(UserFarm.user_id == current_user.id).first()
         }
 
 @api.model_resource(farm_management, Farm, '/farms', '/farms/<int:farm_id>')
