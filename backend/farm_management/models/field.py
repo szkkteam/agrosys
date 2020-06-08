@@ -4,7 +4,6 @@
 # Common Python library imports
 # Pip package imports
 from flask_security import current_user
-from geoalchemy2 import Geometry
 
 # Internal package imports
 from backend.database import (
@@ -13,17 +12,24 @@ from backend.database import (
     String,
     Float,
     Boolean,
+    association_proxy,
     relationship,
     foreign_key
 )
 
+
+def create_season_field(season):
+    from .season_field import SeasonField
+    return SeasonField(season=season)
+
+
 class Field(Model):
     name = Column(String(64))
-    value = Column(Float(), nullable=True)
-    shape = Column(Geometry("POLYGON", srid=900913))
 
-    farm_id = foreign_key('Farm', nullable=False)
-    farm = relationship('Farm', back_populates='fields')
+    field_seasons = relationship('SeasonField', back_populates='field',
+                              cascade='all, delete-orphan')
+    seasons = association_proxy('field_seasons', 'field',
+                              creator=lambda season: create_season_field(season))
 
     __repr_props__ = ('id', 'name', 'value')
 

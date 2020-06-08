@@ -332,7 +332,7 @@ class ModelResource(Resource):
 
     def _get_decorators_for_method(self, method_name, param_name):
         if isinstance(self.method_decorators, Mapping):
-            decorators = self.method_decorators.get(method_name, []).copy()
+            decorators = list(deepcopy(self.method_decorators.get(method_name, [])))
         elif isinstance(self.method_decorators, tuple):
             decorators = list(deepcopy(self.method_decorators))
         else:

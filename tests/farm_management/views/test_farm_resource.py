@@ -43,8 +43,8 @@ class TestFarmResource:
         assert r.status_code == 200
         assert 'id' in r.json
         assert 'name' in r.json
-        assert 'fields' in r.json
-        assert len(r.json['fields'])
+        assert 'seasons' in r.json
+        assert len(r.json['seasons'])
         assert 'role' in r.json
         assert 'isOwner' in r.json['role']
 
@@ -57,8 +57,8 @@ class TestFarmResource:
         for e in r.json:
             assert 'id' in e
             assert 'name' in e
-            assert 'fields' in e
-            assert len(e['fields'])
+            assert 'seasons' in e
+            assert len(e['seasons'])
             assert 'role' in e
             assert 'isOwner' in e['role']
 

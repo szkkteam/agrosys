@@ -14,6 +14,7 @@ from backend.database import (
     Boolean,
     association_proxy,
     relationship,
+    db
 )
 from .resource import Resource
 
@@ -27,6 +28,6 @@ class Farm(Resource):
                                  ondelete='CASCADE', ),
                    primary_key=True, )
 
-    fields = relationship('Field', back_populates='farm')
+    seasons = relationship('Season', back_populates='farm')
 
     __repr_props__ = ('id', 'name')

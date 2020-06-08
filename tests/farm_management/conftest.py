@@ -1,4 +1,10 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# Common Python library imports
+import os
 import pytest
+
 
 @pytest.fixture()
 def farm(model_factory):
@@ -34,3 +40,4 @@ def farm_mix(model_factory):
     table = UserFarm.filter_by(farm_id=collab_farm.id)
     table.update(dict(is_owner=False))
     yield user
+

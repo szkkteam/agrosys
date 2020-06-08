@@ -20,10 +20,16 @@ class UserFarm(BaseModel):
     # Farm roles
     is_owner = Column(Boolean(name='owner'), default=True)
 
+    # Farm roles
+    can_view_farm = Column(Boolean(), default=True)
+    can_edit_farm = Column(Boolean(), default=True)
+    can_delete_farm = Column(Boolean(), default=True)
+
     # Field roles
-    can_create_fields = Column(Boolean(), default=True)
-    can_edit_fields = Column(Boolean(), default=True)
-    can_delete_fields = Column(Boolean(), default=True)
+    can_view_field = Column(Boolean(), default=True)
+    can_create_field = Column(Boolean(), default=True)
+    can_edit_field = Column(Boolean(), default=True)
+    can_delete_field = Column(Boolean(), default=True)
 
     user_id = foreign_key('User', primary_key=True)
     user = relationship('User', back_populates='user_farms')
