@@ -43,7 +43,7 @@ class ResourceMixin(BaseModel):
 
     @declared_attr
     def resource_name(self):
-        return sa.Column(sa.Unicode(100), nullable=False)
+        return sa.Column(sa.Unicode(100), nullable=False, default=self.__plural__)
 
     @declared_attr
     def resource_type(self):

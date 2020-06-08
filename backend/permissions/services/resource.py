@@ -55,7 +55,7 @@ class ResourceService(BaseService):
             )
         )
         query = query.filter(
-            cls.models_proxy.GroupResourcePermission.resource_id == instance.resource_id
+            cls.models_proxy.GroupResourcePermission.resource_id == instance.id
         )
 
         query2 = db_session.query(
@@ -67,7 +67,7 @@ class ResourceService(BaseService):
             cls.models_proxy.UserResourcePermission.user_id == user.id
         )
         query2 = query2.filter(
-            cls.models_proxy.UserResourcePermission.resource_id == instance.resource_id
+            cls.models_proxy.UserResourcePermission.resource_id == instance.id
         )
         query = query.union(query2)
 
@@ -125,7 +125,7 @@ class ResourceService(BaseService):
         )
         query = query.filter(cls.models_proxy.UserResourcePermission.user_id == user.id)
         query = query.filter(
-            cls.models_proxy.UserResourcePermission.resource_id == instance.resource_id
+            cls.models_proxy.UserResourcePermission.resource_id == instance.id
         )
 
         perms = [
@@ -154,7 +154,7 @@ class ResourceService(BaseService):
         perms = resource_permissions_for_users(
             cls.models_proxy,
             ANY_PERMISSION,
-            resource_ids=[instance.resource_id],
+            resource_ids=[instance.id],
             user_ids=[user.id]
         )
         perms = [p for p in perms if p.type == "group"]
@@ -203,7 +203,7 @@ class ResourceService(BaseService):
         users_perms = resource_permissions_for_users(
             cls.models_proxy,
             [perm_name],
-            [instance.resource_id],
+            [instance.id],
             user_ids=user_ids,
             group_ids=group_ids,
             limit_group_permissions=limit_group_permissions,
@@ -241,7 +241,7 @@ class ResourceService(BaseService):
         :return:
         """
         query = db.session.query(cls.model).filter(
-            cls.model.resource_id == int(resource_id)
+            cls.model.id == int(resource_id)
         )
         return query.first()
 
@@ -294,7 +294,7 @@ class ResourceService(BaseService):
         group_perms = resource_permissions_for_users(
             cls.models_proxy,
             [perm_name],
-            [instance.resource_id],
+            [instance.id],
             group_ids=group_ids,
             limit_group_permissions=limit_group_permissions,
             skip_user_perms=True
@@ -325,6 +325,6 @@ class ResourceService(BaseService):
         :return:
         """
         query = db.session.query(cls.model)
-        query = query.filter(cls.model.resource_id == resource_id)
+        query = query.filter(cls.model.id == resource_id)
         query = query.with_for_update()
         return query.first()

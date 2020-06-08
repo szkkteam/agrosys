@@ -5,7 +5,7 @@
 # Pip package imports
 # Internal package imports
 from backend.database import (
-    Model,
+    Model
 
 )
 from backend.permissions.models import ResourceMixin

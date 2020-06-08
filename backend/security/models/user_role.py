@@ -5,12 +5,12 @@
 # Pip package imports
 # Internal package imports
 from backend.database import (
-    Model,
+    BaseModel,
     foreign_key,
     relationship,
 )
 
-class UserRole(Model):
+class UserRole(BaseModel):
     """Join table between User and Role"""
     user_id = foreign_key('User', primary_key=True)
     user = relationship('User', back_populates='user_roles')

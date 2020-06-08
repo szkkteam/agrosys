@@ -39,10 +39,16 @@ class User(Model, UserMixin, PermissionUserMixin):
     # current_login_ip = Column(String(100))
     # login_count = Column(Integer)
 
+    # TODO: Throw out user_roles and roles table. Use the permission system instead.
     user_roles = relationship('UserRole', back_populates='user',
                               cascade='all, delete-orphan')
     roles = association_proxy('user_roles', 'role',
                               creator=lambda role: UserRole(role=role))
+
+    user_farms = relationship('UserFarm', back_populates='user',
+                              cascade='all, delete-orphan')
+    farms = association_proxy('user_farms', 'farm',
+                              creator=lambda farm: create_user_farm(farm))
 
     __repr_props__ = ('id', 'username', 'email')
 

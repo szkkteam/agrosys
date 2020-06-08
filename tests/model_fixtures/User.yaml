@@ -8,7 +8,6 @@ user:
   active: yes
   confirmed_at: now
   roles: ['Role(ROLE_USER, ROLE_USER1)']
-  profile: 'Profile(PROFILE_USER)'
 
 farm_owner:
   username: farowner
@@ -19,7 +18,6 @@ farm_owner:
   active: yes
   confirmed_at: now
   roles: ['Role(ROLE_USER, ROLE_USER1)']
-  profile: 'Profile(PROFILE_USER)'
   farms: ['Farm(FARMER_USER_FARM1, FARMER_USER_FARM2)']
 
 farmer1:
@@ -31,7 +29,6 @@ farmer1:
   active: yes
   confirmed_at: now
   roles: ['Role(ROLE_USER, ROLE_USER1)']
-  profile: 'Profile(PROFILE_FARMER_1)'
   farms: ['Farm(FARMER_USER_FARM1, FARMER_USER_FARM2)']
 
 farmer2:
@@ -43,7 +40,6 @@ farmer2:
   active: yes
   confirmed_at: now
   roles: ['Role(ROLE_USER, ROLE_USER1)']
-  profile: 'Profile(PROFILE_FARMER_2)'
   farms: ['Farm(FARMER_USER_FARM3, FARMER_USER_FARM4)']
 
 farm_collaborator:
@@ -55,7 +51,6 @@ farm_collaborator:
   active: yes
   confirmed_at: now
   roles: ['Role(ROLE_USER, ROLE_USER1)']
-  profile: 'Profile(PROFILE_USER)'
   farms: ['Farm(FARMER_USER_FARM3)']
 
 farm_mix:
@@ -67,7 +62,6 @@ farm_mix:
   active: yes
   confirmed_at: now
   roles: ['Role(ROLE_USER, ROLE_USER1)']
-  profile: 'Profile(PROFILE_USER)'
   farms: ['Farm(FARMER_USER_FARM1, FARMER_USER_FARM2, FARMER_USER_FARM3)']
 
 admin:
@@ -79,7 +73,6 @@ admin:
   active: True
   confirmed_at: utcnow
   roles: ['Role(ROLE_ADMIN)']
-  profile: 'Profile(PROFILE_ADMIN)'
 
 {% for i in range(0, 5) %}
 user{{ i }}:

@@ -53,9 +53,10 @@ def register_user(user):
     # the user be committed to the database
     user.save(commit=True)
 
+
     # Create the user profile resource
     profile = Profile.create_default_profile(user=user)
-    user.profile = profile
+    user.resources.append(profile)
 
     confirmation_link, token = None, None
     if _security.confirmable:

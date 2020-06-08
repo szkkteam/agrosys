@@ -7,4 +7,4 @@
 from .field import Field
 from .farm import Farm
 from .profile import Profile
-from .user_farm import UserFarm
+from .resource import Resource
