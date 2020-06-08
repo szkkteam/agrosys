@@ -20,20 +20,20 @@ class FarmSerializer(ModelSerializer):
 
     #fields = m_fields.Nested('FieldListSerializer', many=True)
     seasons = m_fields.Nested('SeasonListSerializer', only=('id', 'year'), many=True) # Maybe include more? Just for GET
-    role = m_fields.Nested('UserFarmSerializer', many=False)
+    role = m_fields.Nested('FarmPermissionSerializer', many=False)
 
     class Meta:
         model = Farm
         #fields = FARM_FIELDS + ('fields',)
         fields = FARM_FIELDS + ('seasons',)
-        dump_only = ('role',)
+        dump_only = ('id', 'role', 'seasons',)
 
 @api.serializer(many=True)
 class FarmListSerializer(ModelSerializer):
 
-    seasons = m_fields.Nested('SeasonListSerializer', only=('id', 'year'), many=True)
+    #seasons = m_fields.Nested('SeasonListSerializer', only=('id', 'year'), many=True)
 
     class Meta:
         model = Farm
         fields = FARM_FIELDS + ('seasons',)
-        dump_only = ('role',)
+        dump_only = ('id', 'role', 'seasons', )

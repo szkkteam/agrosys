@@ -21,14 +21,17 @@ from .blueprint import farm_management
 from ..decorators import permission_required
 
 from backend.security.models import UserRole
+from backend.permissions.services import ResourceService
 
 def get_farm_details(farm):
     return {
             'id': farm.id,
             'name': farm.name,
             'seasons': Season.filter(Season.farm_id == farm.id).all(),
-            # TODO: List permissions
-            #'role': UserFarm.filter(UserFarm.farm_id == farm.id).filter(UserFarm.user_id == current_user.id).first()
+            'role': {
+                'is_owner': bool(farm.owner_user_id == current_user.id),
+                'permissions': [str(perm.perm_name) for perm in ResourceService.perms_for_user(farm, User.get(current_user.id))]
+            }
         }
 
 @api.model_resource(farm_management, Farm, '/farms', '/farms/<int:farm_id>')

@@ -66,6 +66,8 @@ def permission_required(*args, **kwargs):
             print("Permission required - function call (request.view_args): ", request.view_args)
             print("Permission required - function call (args): ", args)
             print("Permission required - function call (kwargs): ", kwargs)
+
+
             result = model.get_permission(UserFarm.can_view_farm)
             #print("Result: ", result)
 

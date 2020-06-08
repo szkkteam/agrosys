@@ -20,6 +20,7 @@ class TestFarmResource:
         api_client.login_user()
 
         r = api_client.post(url_for('api.farms_resource'), data=NEW_FARM_DATA)
+        print("Response: ", r.json)
         assert r.status_code == 201
         assert 'name' in r.json
         assert NEW_FARM_DATA['name'] in r.json['name']
@@ -32,12 +33,12 @@ class TestFarmResource:
         assert r.status_code == 400
         assert 'name' in r.errors
 
-    def test_get_farm(self, api_client, farm_mix):
-        from backend.farm_management.models import Farm, UserFarm
-        api_client.login_as(farm_mix)
+    def test_get_farm(self, api_client, farm_owner):
+        from backend.farm_management.models import Farm
+        api_client.login_as(farm_owner)
 
         # Query one of the user's farm
-        farm = Farm.join(UserFarm).filter(UserFarm.user_id == farm_mix.id).first()
+        farm = Farm.all()[0]
 
         r = api_client.get(url_for('api.farm_resource', farm_id=farm.id))
         assert r.status_code == 200
@@ -48,8 +49,8 @@ class TestFarmResource:
         assert 'role' in r.json
         assert 'isOwner' in r.json['role']
 
-    def test_get_farms(self, api_client, farm_mix):
-        api_client.login_as(farm_mix)
+    def test_get_farms(self, api_client, farm_owner):
+        api_client.login_as(farm_owner)
 
         r = api_client.get(url_for('api.farms_resource'))
         assert r.status_code == 200
@@ -62,12 +63,12 @@ class TestFarmResource:
             assert 'role' in e
             assert 'isOwner' in e['role']
 
-    def test_patch_farm(self, api_client, farm_mix):
-        from backend.farm_management.models import Farm, UserFarm
-        api_client.login_as(farm_mix)
+    def test_patch_farm(self, api_client, farm_owner):
+        from backend.farm_management.models import Farm
+        api_client.login_as(farm_owner)
 
         # Query one of the user's farm
-        farm = Farm.join(UserFarm).filter(UserFarm.user_id == farm_mix.id).first()
+        farm = Farm.all()[0]
 
         new_name = "New Farm Name"
         r = api_client.patch(url_for('api.farm_resource', farm_id=farm.id), data=dict(name=new_name))
@@ -76,26 +77,12 @@ class TestFarmResource:
         assert r.json['name'] == new_name
         assert 'id' in r.json
 
-    def test_patch_others_farm(self, api_client, farm_mix):
-        from backend.farm_management.models import Farm, UserFarm
-        api_client.login_as(farm_mix)
+    def test_invalid_patch_farm(self, api_client, farm_owner):
+        from backend.farm_management.models import Farm
+        api_client.login_as(farm_owner)
 
         # Query one of the user's farm
-        farm = Farm.join(UserFarm).filter(UserFarm.user_id == farm_mix.id).first()
-
-        new_name = "New Farm Name"
-        r = api_client.patch(url_for('api.farm_resource', farm_id=farm.id), data=dict(name=new_name))
-
-        assert r.status_code == 200
-        assert r.json['name'] == new_name
-        assert 'id' in r.json
-
-    def test_invalid_patch_farm(self, api_client, farm_mix):
-        from backend.farm_management.models import Farm, UserFarm
-        api_client.login_as(farm_mix)
-
-        # Query one of the user's farm
-        farm = Farm.join(UserFarm).filter(UserFarm.user_id == farm_mix.id).first()
+        farm = Farm.all()[0]
 
         new_id = 999
         new_field = None
@@ -141,3 +128,18 @@ class TestFarmResourceProtectedResource:
         for id in user1_farm_ids:
             r = api_client.get(url_for('api.farms_resource', farm_id=id))
             assert r.status_code == 401
+
+
+    def test_patch_others_farm(self, api_client, farm_mix):
+        from backend.farm_management.models import Farm, UserFarm
+        api_client.login_as(farm_mix)
+
+        # Query one of the user's farm
+        farm = Farm.join(UserFarm).filter(UserFarm.user_id == farm_mix.id).first()
+
+        new_name = "New Farm Name"
+        r = api_client.patch(url_for('api.farm_resource', farm_id=farm.id), data=dict(name=new_name))
+
+        assert r.status_code == 200
+        assert r.json['name'] == new_name
+        assert 'id' in r.json

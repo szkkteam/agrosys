@@ -61,7 +61,7 @@ class Permissions(object):
     def __init__(self, init_fnc):
         self._init_func = init_fnc
 
-    def _init_app(self, app):
+    def init_app(self, app):
         self.model_init(**self._init_func())
 
     def model_init(self,

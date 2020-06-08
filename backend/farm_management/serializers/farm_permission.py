@@ -8,15 +8,15 @@ from backend.extensions.api import api
 from backend.api import ModelSerializer
 from backend.api import fields as m_fields
 
-from ..models import UserFarm
+from ..models import Farm
 
-USER_FARM_FIELDS = (
-    'is_owner',
+FARM_PERMISSION_FIELDS = (
+    'is_owner', 'permissions'
 )
 
-class UserFarmSerializer(ModelSerializer):
+class FarmPermissionSerializer(ModelSerializer):
 
     class Meta:
-        model = UserFarm
-        fields = USER_FARM_FIELDS
-        dump_only = ('owner',)
+        model = Farm
+        fields = FARM_PERMISSION_FIELDS
+        #dump_only = ('owner',)

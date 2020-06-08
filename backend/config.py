@@ -51,7 +51,6 @@ EXTENSIONS = [
     'backend.extensions.babel:babel',
     'backend.extensions.assets:assets',
     'backend.extensions.flask_s3:s3',
-    'backend.extensions.permissions:permissions',
 ]
 
 # list of extensions to register after the bundles
@@ -59,6 +58,7 @@ EXTENSIONS = [
 DEFERRED_EXTENSIONS = [
     'backend.extensions.api:api',
     'backend.extensions.admin:admin',
+    'backend.extensions.permissions:permissions',
 ]
 
 

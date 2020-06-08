@@ -7,6 +7,7 @@ user:
   last_name: User
   active: yes
   confirmed_at: now
+  roles: ['Role(ROLE_USER, ROLE_USER1)']
 
 farm_owner:
   username: farowner

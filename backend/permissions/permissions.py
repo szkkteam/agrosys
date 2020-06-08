@@ -29,6 +29,9 @@ class AllPermissionsList(object):
     def __eq__(self, other):
         return isinstance(other, self.__class__)
 
+    def __repr__(self):
+        return "All Permission"
+
 ALL_PERMISSIONS = AllPermissionsList()
 
 
@@ -47,6 +50,9 @@ class ANY_PERMISSION_CLS(object):
 
     def __ne__(self, other):
         return "__any_permission__" != other
+
+    def __repr__(self):
+        return "Any Permission"
 
 
 ANY_PERMISSION = ANY_PERMISSION_CLS()

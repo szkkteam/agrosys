@@ -58,7 +58,7 @@ class ResourceService(BaseService):
             cls.models_proxy.GroupResourcePermission.resource_id == instance.id
         )
 
-        query2 = db_session.query(
+        query2 = db.session.query(
             cls.models_proxy.UserResourcePermission.user_id.label("owner_id"),
             cls.models_proxy.UserResourcePermission.perm_name,
             sa.literal("user").label("type"),
