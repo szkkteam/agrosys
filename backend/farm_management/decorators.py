@@ -80,11 +80,11 @@ def permission_required(*args, **kwargs):
             if resource_instance:
                 user = User.get(current_user.id)
                 # TODO: Change this to get the permissions instead of the resource
-                resource_instance = UserService.resources_with_perms(user, required_permissions, resource_ids=[resource_instance.id]).first()
-                print("Resource: ", resource)
+                res = UserService.resources_with_perms(user, required_permissions, resource_ids=[resource_instance.id]).first()
+                print("Resource: ", res)
                 print("User: ", user)
-            if not resource_instance:
-                abort(HTTPStatus.FORBIDDEN)
+                if not res:
+                    abort(HTTPStatus.FORBIDDEN)
 
             return fn(*args, **kwargs)
         return decorated

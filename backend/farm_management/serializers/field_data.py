@@ -7,7 +7,7 @@ from collections.abc import Iterable
 # Pip package imports
 
 import geoalchemy2
-from marshmallow import pre_load, post_dump, validates_schema
+from marshmallow import pre_load, post_dump, post_load, validates_schema
 
 # Internal package imports
 from backend.extensions.api import api
@@ -23,22 +23,24 @@ FIELD_DATA_FIELDS = (
 
 class FieldDataSerializer(ModelSerializer):
     #name = fields.String(required=True)
-    #value = fields.Float(missing=True, allow_none=True)
-    shape = GeometryField(load_from='shape')
+    value = fields.Float(missing=True, allow_none=True)
+    shape = GeometryField(load_from='shape', allow_none=True)
 
     class Meta:
         model = FieldData
-        fields = FIELD_DATA_FIELDS + ('shape', )
+        fields = FIELD_DATA_FIELDS
         model_converter = GeometryModelConverter
 
+
     def _validate_geojson(self, data, **kwargs):
-        shape = data['shape']
-        if 'type' not in shape:
-            raise ValidationError('GeoJSON type could not be found.', 'shape')
-        if shape['type'] != 'Feature':
-            raise ValidationError('Expecting a Feature object', 'shape')
-        if 'geometry' not in shape:
-            raise ValidationError('Expecting a geometry field', 'shape')
+        shape = data.get('shape')
+        if shape:
+            if 'type' not in shape:
+                raise ValidationError('GeoJSON type could not be found.', 'shape')
+            if shape['type'] != 'Feature':
+                raise ValidationError('Expecting a Feature object', 'shape')
+            if 'geometry' not in shape:
+                raise ValidationError('Expecting a geometry field', 'shape')
 
     # TODO: Check why validation happen after deserialization. That does not make sense
     @pre_load(pass_many=True)
@@ -56,12 +58,18 @@ class FieldDataSerializer(ModelSerializer):
         return loc_data
 
 
+    @post_load
+    def load_field(self, data, **kwargs):
+        print("Load_field data: ", data)
+        print("Load_field kwargs: ", kwargs)
+        return FieldData(**data)
+
 @api.serializer(many=True)
 class FieldDataListSerializer(FieldDataSerializer):
 
     class Meta:
         model = FieldData
-        fields = FIELD_DATA_FIELDS + ('shape', )
+        fields = FIELD_DATA_FIELDS
         #dump_only = ('name', 'value', 'shape')
         model_converter = GeometryModelConverter
 

@@ -17,9 +17,12 @@ SEASON_FIELDS = (
 
 class SeasonSerializer(ModelSerializer):
 
+    # TODO: Implement a "copy_fields_from" function field, which is 'load_only' and returns with the fields from a different season.
+
     class Meta:
         model = Season
         fields = SEASON_FIELDS
+        dump_only = ('id',)
 
 @api.serializer(many=True)
 class SeasonListSerializer(ModelSerializer):
@@ -29,3 +32,4 @@ class SeasonListSerializer(ModelSerializer):
     class Meta:
         model = Season
         fields = SEASON_FIELDS
+        dump_only = ('id',)
