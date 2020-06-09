@@ -12,7 +12,7 @@ from backend.permissions.models import ResourceMixin
 
 class Resource(ResourceMixin, Model):
 
-    __possible_permissions__ = ('edit_permission', 'view_permission', 'delete_permission', 'create_permission')
+    __possible_permissions__ = ('edit', 'view', 'delete', 'create')
 
     # TODO: Implement later
     # example implementation of ACLS for pyramid application

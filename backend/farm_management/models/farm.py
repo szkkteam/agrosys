@@ -14,8 +14,6 @@ from backend.database import (
     relationship
 )
 from backend.security.models.resource import Resource
-from backend.permissions.services import UserService
-from backend.permissions.permissions import ANY_PERMISSION
 
 class Farm(Resource):
     __mapper_args__ = {'polymorphic_identity': 'farm'}
@@ -27,18 +25,6 @@ class Farm(Resource):
                                  ondelete='CASCADE', ),
                    primary_key=True, )
 
-    seasons = relationship('Season', back_populates='farm')
+    seasons = relationship('Season', cascade="all,delete", back_populates='farm')
 
-    __repr_props__ = ('id', 'name')
-
-    @classmethod
-    def all(cls):
-        if current_user and hasattr(current_user, 'id'):
-            from backend.security.models import User
-            user = User.get(current_user.id)
-            print("User: ", user)
-            res =  UserService.resources_with_perms(user, ['view_permission'], resource_types=['farm']).all()
-            #res = UserService.resources_with_perms(user, ['view_permission'], resource_types=cls.__plural__).all()
-            print("Res: ", res)
-            return res
-        return super().all()
+    __repr_props__ = ('id', 'name', 'owner_user_id')

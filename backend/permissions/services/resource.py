@@ -34,7 +34,7 @@ class ResourceService(BaseService):
         return db.session.query(cls.model).get(resource_id)
 
     @classmethod
-    def perms_for_user(cls, instance, user, db_session=None):
+    def perms_for_user(cls, instance, user):
         """
         returns all permissions that given user has for this resource
             from groups and directly set ones too

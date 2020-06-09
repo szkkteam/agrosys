@@ -2,17 +2,22 @@
 # -*- coding: utf-8 -*-
 
 # Common Python library imports
+import inspect
 from functools import wraps
 from http import HTTPStatus
 
 # Pip package imports
 from flask import abort, request
 from flask_login import current_user
+from flask_sqlalchemy.model import Model
 from flask_principal import Permission, RoleNeed, UserNeed
 from flask_security.decorators import auth_required as flask_security_auth_required
 
 # Internal package imports
+from backend.security.models import User
 from backend.utils import was_decorated_without_parenthesis
+from backend.permissions.permissions import resource_permissions_for_users
+from backend.permissions.services import UserService
 
 
 def permission_required(*args, **kwargs):
@@ -35,30 +40,13 @@ def permission_required(*args, **kwargs):
     elif 'permissions' in kwargs:
         required_permissions = kwargs['permissions']
     else:
-        # By default include all permissions
-        required_permissions = ['view', 'edit', 'delete', 'create']
+        # By default only the owner should access
+        required_permissions = ['All Permission']
 
-    if 'model' in kwargs:
-        model = kwargs['model']
+    if 'resource' in kwargs:
+        resource = kwargs['resource']
     else:
-        raise RuntimeError('model parameter has to be passed as keyword argument')
-
-    print("Before required_permissions: ", required_permissions)
-    permission_fields = []
-    for permission in required_permissions:
-        try:
-            field = getattr(UserFarm, 'can_' + permission + '_' + model.__table__.name)
-            xfield = 'can_' + permission + '_' + model.__table__.name
-            print("Field: ", field)
-            permission_fields.append(field)
-        except AttributeError:
-            pass
-    print("After required_permissions: ", permission_fields)
-
-    if not hasattr(model, 'get_permission'):
-        raise RuntimeError('model has to implement `get_permission` method')
-
-
+        raise RuntimeError('resource_instance parameter has to be passed as keyword argument')
 
     def wrapper(fn):
         @wraps(fn)
@@ -66,11 +54,37 @@ def permission_required(*args, **kwargs):
             print("Permission required - function call (request.view_args): ", request.view_args)
             print("Permission required - function call (args): ", args)
             print("Permission required - function call (kwargs): ", kwargs)
+            if callable(resource):
+                fnc = kwargs['resource']
+                # Get the resource
+                resource_instance = fnc(**request.view_args)
+            elif resource in kwargs:
+                # Get the direct instance from the keyword arguments
+                resource_instance = kwargs[resource]
+            else:
+                sig = inspect.signature(fn)
+                if resource in sig.parameters:
+                    resource_instance = args[list(sig.parameters.keys()).index(resource)]
+                    print("resource_instance extracted from signatere: ", resource_instance)
+                    # TODO: Find a way how to validate if it's a model instance.
+                    #if not (inspect.isclass(resource_instance) and issubclass(resource_instance, Model)):
+                    #    resource_instance = None
+                else:
+                    resource_instance = None
 
+            if not resource_instance:
+                print("Was not able to determine the role.")
+                print("Signature parameters: ", inspect.signature(fn).parameters)
 
-            result = model.get_permission(UserFarm.can_view_farm)
-            #print("Result: ", result)
-
+            # Get current user
+            if resource_instance:
+                user = User.get(current_user.id)
+                # TODO: Change this to get the permissions instead of the resource
+                resource_instance = UserService.resources_with_perms(user, required_permissions, resource_ids=[resource_instance.id]).first()
+                print("Resource: ", resource)
+                print("User: ", user)
+            if not resource_instance:
+                abort(HTTPStatus.FORBIDDEN)
 
             return fn(*args, **kwargs)
         return decorated

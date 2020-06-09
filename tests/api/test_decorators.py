@@ -115,16 +115,6 @@ def test_list_loader(models):
 
     @list_loader(model=User)
     def method(users):
-        print("User1: ", models.user1)
-        print("User2: ", models.user2)
-        print("User3: ", models.user3)
-        print("User1.profile: ", models.user1.profile)
-        print("User2.profile: ", models.user2.profile)
-        print("User3.profile: ", models.user3.profile)
-        print("----------------------------------------")
-        print("User.all(): ", User.all())
-        print("----------------------------------------")
-        print("users: ", users)
         assert users == User.all() == [models.user1, models.user2, models.user3]
 
     method()

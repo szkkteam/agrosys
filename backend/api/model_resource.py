@@ -280,6 +280,10 @@ class ModelResource(Resource):
         """
         method = self._get_method_for_request()
 
+        print("dispatch_request - function call (request.view_args): ", request.view_args)
+        print("dispatch_request - function call (args): ", args)
+        print("dispatch_request - function call (kwargs): ", kwargs)
+
         resp = method(*args, **kwargs)
         if isinstance(resp, Response):
             return resp

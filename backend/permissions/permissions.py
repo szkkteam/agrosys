@@ -73,8 +73,7 @@ def resource_permissions_for_users(
     resource_types=None,
     limit_group_permissions=False,
     skip_user_perms=False,
-    skip_group_perms=False,
-    db_session=None,
+    skip_group_perms=False
 ):
     """
     Returns permission tuples that match one of passed permission names
@@ -86,11 +85,10 @@ def resource_permissions_for_users(
     user objects returned for group permissions, this might cause performance
     issues for big groups
     """
-    db_session = db.session(db_session)
 
     # fetch groups and their permissions (possibly with users belonging
     # to group if needed)
-    query = db_session.query(
+    query = db.session.query(
         models_proxy.GroupResourcePermission.perm_name,
         models_proxy.User,
         models_proxy.Group,
@@ -104,7 +102,7 @@ def resource_permissions_for_users(
     )
     query = query.join(
         models_proxy.Resource,
-        models_proxy.Resource.resource_id
+        models_proxy.Resource.id
         == models_proxy.GroupResourcePermission.resource_id,
     )
     if limit_group_permissions:
@@ -140,7 +138,7 @@ def resource_permissions_for_users(
         query = query.filter(models_proxy.UserGroup.user_id.in_(user_ids))
 
     # 2nd query that will fetch users with direct resource permissions
-    query2 = db_session.query(
+    query2 = db.session.query(
         models_proxy.UserResourcePermission.perm_name,
         models_proxy.User,
         models_proxy.Group,
@@ -153,7 +151,7 @@ def resource_permissions_for_users(
     )
     query2 = query2.join(
         models_proxy.Resource,
-        models_proxy.Resource.resource_id
+        models_proxy.Resource.id
         == models_proxy.UserResourcePermission.resource_id,
     )
 
