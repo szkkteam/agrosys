@@ -26,5 +26,7 @@ class Farm(Resource):
                    primary_key=True, )
 
     seasons = relationship('Season', cascade="all,delete", back_populates='farm')
+    # TODO: Define later lazy relationship
+    #seasons = relationship('Season', cascade="all,delete", back_populates='farm', lazy='noload')
 
     __repr_props__ = ('id', 'name', 'owner_user_id')

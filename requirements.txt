@@ -42,6 +42,7 @@ flask-session==0.3.1
 flask-sqlalchemy==2.4.1
 flask-wtf==0.14.2
 flask==1.1.1
+geoalchemy2==0.8.3
 gunicorn==20.0.4
 idna==2.8                 # via requests
 importlib-metadata==0.23  # via kombu
@@ -61,7 +62,6 @@ marshmallow-sqlalchemy==0.19.0
 marshmallow==3.2.2        # via flask-marshmallow, marshmallow-sqlalchemy
 more-itertools==7.2.0     # via zipp
 passlib==1.7.2            # via flask-security
-pillow==7.0.0             # via flask-mm
 psycopg2==2.8.4
 pycparser==2.19           # via cffi
 pyexcel-io==0.5.20        # via pyexcel
@@ -74,12 +74,13 @@ pyyaml==5.1.2             # via python-frontmatter
 redis==3.3.11
 requests==2.22.0
 s3transfer==0.3.3         # via boto3
+shapely==1.7.0
 six==1.13.0               # via bcrypt, flask-breadcrumbs, flask-marshmallow, flask-menu, flask-restful, flask-s3, python-dateutil, python-frontmatter, sqlalchemy-utils
 soupsieve==1.9.5          # via beautifulsoup4
 speaklater==1.3           # via flask-babelex
 sqlalchemy-mptt==0.2.5
 sqlalchemy-utils==0.36.1
-sqlalchemy==1.3.11        # via alembic, flask-alembic, flask-sqlalchemy, marshmallow-sqlalchemy, sqlalchemy-mptt, sqlalchemy-utils
+sqlalchemy==1.3.11        # via alembic, flask-alembic, flask-sqlalchemy, geoalchemy2, marshmallow-sqlalchemy, sqlalchemy-mptt, sqlalchemy-utils
 stripe==2.42.0
 texttable==1.6.2          # via pyexcel
 tzlocal==2.0.0
@@ -92,4 +93,4 @@ wtforms==2.2.1            # via flask-admin, flask-wtf
 zipp==0.6.0               # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
-# setuptools==45.3.0        # via gunicorn, markdown
+# setuptools==47.1.1        # via gunicorn, markdown

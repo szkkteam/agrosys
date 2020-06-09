@@ -55,7 +55,7 @@ def permission_required(*args, **kwargs):
             print("Permission required - function call (args): ", args)
             print("Permission required - function call (kwargs): ", kwargs)
             if callable(resource):
-                fnc = kwargs['resource']
+                fnc = resource
                 # Get the resource
                 resource_instance = fnc(**request.view_args)
             elif resource in kwargs:

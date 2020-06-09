@@ -27,7 +27,7 @@ class SeasonField(BaseModel):
     field_data = relationship('FieldData', back_populates='season_field',
                         cascade='all, delete-orphan', single_parent=True, lazy='joined')
 
-    __repr_props__ = ('season_id', 'field_id', 'is_owner')
+    __repr_props__ = ('season_id', 'field_id')
 
     def __init__(self, season=None, field=None, **kwargs):
         super().__init__(**kwargs)

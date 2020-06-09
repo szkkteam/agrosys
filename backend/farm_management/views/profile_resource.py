@@ -44,22 +44,22 @@ class ProfileResource(ModelResource):
     def get(self, profile):
         return profile
 
-	"""
-	api/v1/farms/ POST, LIST
-	api/v1/farms/<farm_id> PUT, PATCH, GET, DELETE
-	
-	api/v1/farms/<farm_id>/seasons POST, LIST
-	api/v1/seasons/<season_id> PUT, PATCH, GET, DELETE
-	
-	api/v1/seasons/<season_id>/fields/ POST, LIST
-	api/v1/seasons/<season_id>/fields/<field_id>/ PUT, PATCH, GET, DELETE
-	
-	api/v1/seasons/<season_id>/field/<field_id>/actions POST, LIST
-	api/v1/actions/<action_id> PUT, PATCH, GET, DELETE
-	
-	api/v1/seasons/<season_id>/field/<field_id>/notes POST, LIST
-	api/v1/notes/<note_id> PUT, PATCH, GET, DELETE
-	
-	api/v1/seasons/<season_id>/field/<field_id>/weather POST, LIST
+"""
+api/v1/farms/ POST, LIST
+api/v1/farms/<farm_id> PUT, PATCH, GET, DELETE
 
-    """
+api/v1/farms/<farm_id>/seasons POST, LIST
+api/v1/seasons/<season_id> PUT, PATCH, GET, DELETE
+
+api/v1/seasons/<season_id>/fields/ POST, LIST
+api/v1/seasons/<season_id>/fields/<field_id>/ PUT, PATCH, GET, DELETE
+
+api/v1/seasons/<season_id>/field/<field_id>/actions POST, LIST
+api/v1/actions/<action_id> PUT, PATCH, GET, DELETE
+
+api/v1/seasons/<season_id>/field/<field_id>/notes POST, LIST
+api/v1/notes/<note_id> PUT, PATCH, GET, DELETE
+
+api/v1/seasons/<season_id>/field/<field_id>/weather POST, LIST
+
+"""

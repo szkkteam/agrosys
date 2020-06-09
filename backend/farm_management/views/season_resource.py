@@ -3,10 +3,13 @@
 
 # Common Python library imports
 from functools import partial
+from http import HTTPStatus
 
 # Pip package imports
-from flask import after_this_request, current_app, url_for, request
+from flask import after_this_request, current_app, url_for, request, abort
 from flask_security import current_user
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm.session import make_transient
 from sqlalchemy import and_
 
 # Internal package imports
@@ -16,7 +19,7 @@ from backend.security.models import User
 from backend.extensions.api import api
 from backend.extensions import db
 
-from ..models import Season
+from ..models import Season, Field, FieldData, SeasonField, Farm
 from .blueprint import farm_management
 from ..decorators import permission_required
 
@@ -35,7 +38,8 @@ def get_farm_details(farm):
         }
 
 def get_permission_post_list(**view_kwargs):
-    pass
+    farm_id = view_kwargs.get('farm_id')
+    return Farm.get(farm_id)
 
 def get_permission_put_path_delete_get():
     pass
@@ -44,10 +48,24 @@ def get_farms_with_permissions(permissions):
     user = User.get(current_user.id)
     return UserService.resources_with_perms(user, permissions, resource_types=['farm']).all()
 
+
+def copy_field(season, field, field_data):
+    # Remove object from session
+    db.session.expunge(field_data)
+    make_transient(field_data)
+    # Generate new ID
+    field_data.id = None
+    field_data.create_at = None
+    # Add to session back
+    field_data.save()
+    obj = SeasonField(season=season, field=field, field_data=field_data)
+    obj.save()
+
+
 @api.model_resource(farm_management, Season, '/farms/<int:farm_id>/seasons', '/seasons/<int:season_id>')
 class SeasonResource(ModelResource):
     include_methods = ALL_METHODS
-    exclude_decorators = (LIST,)
+    exclude_decorators = (LIST, CREATE)
     method_decorators = {
         CREATE: (auth_required,),
         DELETE: (auth_required, ),
@@ -57,27 +75,37 @@ class SeasonResource(ModelResource):
     }
 
     @permission_required(permission='create', resource=get_permission_post_list)
-    def create(self, season, errors):
-        json = request.get_json()
-        copy_from = json.get('copy')
+    def create(self, *args, **kwargs):
         try:
-
-        except
-        try:
-            result = serializer.load(request.get_json())
+            result = self.serializer_create.load(request.get_json())
         except ValidationError as v:
             errors = v.messages
-            result = v.valid_data
-        else:
-            errors = None
-        return fn(result, errors)
-        if errors:
-            return self.errors(errors)
-        # Get the current user object
-        user = User.get(current_user.id)
-        # Add farm to user's resource. The user will be the owner of this resource
-        user.resources.append(farm)
-        return self.created(farm)
+            return errors
+        copy_fields = result.pop('copy_fields', False)
+        copy_from_season_id = result.pop('copy_from_season_id', None)
+
+        # Create new Season object
+        new_season = Season.create(**{ **result, **{'farm_id' :kwargs.get('farm_id') }})
+        # Save the new object, but dont commit it yet
+        new_season.save()
+
+        if copy_fields and copy_from_season_id :
+            # TODO: Validte source season permission
+            try:
+                # source_field_datas = [season_field.field_data for season_field in source_field_datas]
+                #source_fields_ids = Field.query(Field.id).join(SeasonField, (Field.id == SeasonField.field_id)).filter(SeasonField.season_id == copy_from_season_id).all()
+                source_fields = Field.join(SeasonField).filter(SeasonField.season_id == copy_from_season_id).all()
+                source_fields_ids = [field.id for field in source_fields]
+                source_field_datas = SeasonField.query(SeasonField.field_data).filter((SeasonField.field_id.in_(source_fields_ids), SeasonField.season_id == copy_from_season_id))
+
+            except IntegrityError:
+                abort(HTTPStatus.NOTFOUND)
+            else:
+                # Copy the objects
+                for field, field_data in zip(source_fields, source_field_datas):
+                    copy_field(new_season, field, field_data)
+
+        return self.created(new_season)
 
     # TODO: permission_required decorator is not working as method_decorator. Method decorators are called before the instance is present.
     @permission_required(permission='edit', resource='farm')

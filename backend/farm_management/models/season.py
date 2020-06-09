@@ -13,6 +13,7 @@ from backend.database import (
     String,
     Integer,
     Boolean,
+    Date,
     relationship,
     association_proxy,
     foreign_key
@@ -25,7 +26,12 @@ def create_season_field(field):
 
 
 class Season(Model):
-    year = Column(Integer())
+    title = Column(String(32), nullable=False)
+    #start_date = Column(Date, nullable=False)
+    #end_date = Column(Date, nullable=False)
+    start_date = Column(Date, nullable=True)
+    end_date = Column(Date, nullable=True)
+
 
     farm_id = foreign_key('Farm', nullable=False)
     farm = relationship('Farm', back_populates='seasons')
@@ -36,8 +42,7 @@ class Season(Model):
     fields = association_proxy('season_fields', 'field',
                               creator=lambda field: create_season_field(field))
 
-
-    __repr_props__ = ('id', 'year')
+    __repr_props__ = ('title', 'start_date', 'end_date')
 
     @classmethod
     def all(cls):

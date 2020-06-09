@@ -16,7 +16,7 @@ from backend.api import WrappedSerializer, ModelSerializer, fields, validates, V
 from ..models import Field
 
 FIELD_FIELDS = (
-    'name', 'field',
+    'name',
 )
 
 
@@ -24,7 +24,7 @@ class FieldSerializer(ModelSerializer):
 
     #shape = fields.Pluck('FieldDataSerializer', 'shape')
     #value = fields.Pluck('FieldDataSerializer', 'value', missing=True, allow_none=True)
-    field = fields.Nested('FieldDataSerializer', many=False, required=True)
+    #field = fields.Nested('FieldDataSerializer', many=False, required=True)
     #value = fields.Nested('FieldDataSerializer', only=('value',), many=False)
 
 
