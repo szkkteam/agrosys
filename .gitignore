@@ -25,6 +25,8 @@ wheels/
 *.egg
 MANIFEST
 
+# IDE files
+*.code-workspace
 .idea/
 
 # PyInstaller
