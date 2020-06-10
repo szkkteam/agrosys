@@ -29,6 +29,25 @@ def farm_user2(model_factory):
     user.resources.append(farm)
     yield user
 
+@pytest.fixture()
+def farm_owner_with_fields(user, farm, model_factory):
+    from backend.farm_management.models import SeasonField
+    # Add field and field data
+    field1 = model_factory.create('Field', 'FIELD_FIELD_1')
+    field2 = model_factory.create('Field', 'FIELD_FIELD_2')
+
+    field_data1 = model_factory.create('FieldData', 'FIELD_DATA_FIELD_1')
+    field_data2 = model_factory.create('FieldData', 'FIELD_DATA_FIELD_2')
+
+    # Add season
+    season = model_factory.create('Season', 'SEASON_SEASON_2017')
+
+    s = SeasonField(season=season, field=field1, field_data=field_data1)
+    s.save()
+
+    farm.seasons.append(season)
+    user.resources.append(farm)
+    yield user
 
 
 

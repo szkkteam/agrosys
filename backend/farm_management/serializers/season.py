@@ -20,7 +20,6 @@ SEASON_FIELDS = (
 
 class SeasonSerializer(ModelSerializer):
 
-    # TODO: Implement a "copy_fields_from" function field, which is 'load_only' and returns with the fields from a different season.
     start_date = fields.Date(required=True)
     end_date = fields.Date(required=True)
 

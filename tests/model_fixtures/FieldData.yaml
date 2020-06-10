@@ -1,0 +1,29 @@
+---
+FIELD_DATA_FIELD_1:
+  value: 0.0
+  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
+
+FIELD_DATA_FIELD_2:
+  value: 5.0
+  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
+
+FIELD_DATA_FIELD_3:
+  value: 10.0
+  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
+
+FIELD_DATA_FIELD_4:
+  value: 50.0
+  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
+
+FIELD_DATA_FIELD_5:
+  value: 100.0
+  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
+
+FIELD_DATA_FIELD_6:
+  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
+
+FIELD_DATA_FIELD_7:
+  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
+
+FIELD_DATA_FIELD_8:
+  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'

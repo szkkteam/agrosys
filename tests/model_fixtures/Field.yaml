@@ -1,37 +1,24 @@
 ---
 FIELD_FIELD_1:
   name: new 1
-  value: 0.0
-  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
 
 FIELD_FIELD_2:
   name: new 2
-  value: 5.0
-  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
 
 FIELD_FIELD_3:
   name: new 3
-  value: 10.0
-  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
 
 FIELD_FIELD_4:
   name: new 4
-  value: 50.0
-  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
 
 FIELD_FIELD_5:
   name: new 5
-  value: 100.0
-  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
 
 FIELD_FIELD_6:
   name: new 6
-  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
 
 FIELD_FIELD_7:
   name: new 7
-  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
 
 FIELD_FIELD_8:
   name: new 8
-  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
