@@ -19,7 +19,7 @@ FARM_FIELDS = (
 class FarmSerializer(ModelSerializer):
 
     #fields = m_fields.Nested('FieldListSerializer', many=True)
-    seasons = m_fields.Nested('SeasonListSerializer', only=('id', 'year'), many=True) # Maybe include more? Just for GET
+    seasons = m_fields.Nested('SeasonListSerializer', only=('id', 'title', 'start_date', 'end_date'), many=True) # Maybe include more? Just for GET
     role = m_fields.Nested('FarmPermissionSerializer', many=False)
 
     class Meta:

@@ -17,14 +17,14 @@ from ..models import FieldData
 
 FIELD_DATA_FIELDS = (
     'value',
-    'shape'
+    'shape',
 )
 
 
 class FieldDataSerializer(ModelSerializer):
     #name = fields.String(required=True)
     value = fields.Float(missing=True, allow_none=True)
-    shape = GeometryField(load_from='shape', allow_none=True)
+    shape = GeometryField(load_from='shape')
 
     class Meta:
         model = FieldData
@@ -45,7 +45,6 @@ class FieldDataSerializer(ModelSerializer):
     # TODO: Check why validation happen after deserialization. That does not make sense
     @pre_load(pass_many=True)
     def validate_geojson(self, data, **kwargs):
-        print("Data: ", data)
         if isinstance(data, tuple):
             loc_data = data[0]
         else:
@@ -56,13 +55,6 @@ class FieldDataSerializer(ModelSerializer):
         else:
             self._validate_geojson(loc_data)
         return loc_data
-
-
-    @post_load
-    def load_field(self, data, **kwargs):
-        print("Load_field data: ", data)
-        print("Load_field kwargs: ", kwargs)
-        return FieldData(**data)
 
 @api.serializer(many=True)
 class FieldDataListSerializer(FieldDataSerializer):

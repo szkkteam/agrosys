@@ -16,7 +16,8 @@ NEW_USER_DATA = dict(
     lastName='user',
     password='password',
 )
-"""
+
+@pytest.mark.skip(reason="Profile resource need to be reworked.")
 @pytest.mark.usefixtures('user')
 class TestProfileResource:
 
@@ -60,4 +61,3 @@ class TestProfileResource:
 
         r = api_client.patch(url_for('api.profiles_resource', owner_user_id=user.id), data=dict(displayName=new_name))
         assert r.status_code == 401
-"""

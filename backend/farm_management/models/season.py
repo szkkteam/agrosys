@@ -42,11 +42,4 @@ class Season(Model):
     fields = association_proxy('season_fields', 'field',
                               creator=lambda field: create_season_field(field))
 
-    __repr_props__ = ('title', 'start_date', 'end_date')
-
-    @classmethod
-    def all(cls):
-        from .user_farm import UserFarm
-        if current_user and hasattr(current_user, 'id'):
-            return Season.join(UserFarm, UserFarm.farm_id == Season.farm_id).filter(UserFarm.user_id == current_user.id)
-        return super().all()
+    __repr_props__ = ('id', 'title', 'start_date', 'end_date')

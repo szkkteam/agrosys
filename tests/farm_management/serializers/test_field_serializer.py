@@ -68,6 +68,7 @@ INVALID_INPUT_DATA_LIST = [
       {'name': 'test field 2', 'field': None}], 'Field may not be null.', 'field'),
 ]
 
+@pytest.mark.skip(reason="Field and field data handling must be reworked.")
 class TestFieldSerializer:
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA)
@@ -95,6 +96,7 @@ class TestFieldSerializer:
         compare_geojson(input_data['field']['shape'], result['field']['shape'])
 
 
+@pytest.mark.skip(reason="Field and field data handling must be reworked.")
 class TestFieldListSerializer:
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA_LIST)

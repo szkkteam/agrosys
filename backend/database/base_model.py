@@ -151,6 +151,18 @@ class BaseModel(db.Model):
         db.session.delete(self)
         return commit and db.session.commit()
 
+    def clone(self, **kwargs):
+        """Clone an arbitrary sqlalchemy model object without its primary key values."""
+        # Ensure the model’s data is loaded before copying.
+        self.id
+
+        table = self.__table__
+        non_pk_columns = [k for k in table.columns.keys() if k not in table.primary_key]
+        data = {c: getattr(self, c) for c in non_pk_columns}
+        data.update(kwargs)
+
+        clone = self.__class__(**data)
+        return clone
 
     def __repr__(self):
         properties = [f'{prop}={getattr(self, prop)!r}'

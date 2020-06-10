@@ -34,7 +34,7 @@ class TestSeasonResource:
         data = NEW_SEASON_DATA.copy()
         data['title'] = None
         farm = Farm.all()[0]
-        r = api_client.post(url_for('api.seasons_resource', farm_id=farm.id), data=NEW_SEASON_DATA)
+        r = api_client.post(url_for('api.seasons_resource', farm_id=farm.id), data=data)
         assert r.status_code == 400
         assert 'title' in r.errors
 
@@ -56,3 +56,6 @@ class TestSeasonResource:
 
         new_season = Season.get(r.json['id'])
         assert len(new_season.fields) == len(season.fields)
+        for field1, field2 in zip(new_season.fields, season.fields):
+            assert field1.name == field2.name
+            #assert field1.field_data_id != field2.field_data_id

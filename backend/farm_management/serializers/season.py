@@ -34,16 +34,18 @@ class SeasonSerializer(ModelSerializer):
 
     @pre_load(pass_many=False)
     def validate_copy_from_season(self, data, **kwargs):
-        if 'copy_fields' in data and data['copy_fields']:
-            if 'copy_from_season_id' not in data:
-                raise ValidationError('Source season ID is not defined.', 'copy_from_season_id')
+        if 'copyFields' in data and data['copyFields']:
+            if 'copyFromSeasonId' not in data:
+                raise ValidationError('Source season ID is not defined.', 'copyFromSeasonId')
         return data
 
 
 @api.serializer(many=True)
 class SeasonListSerializer(ModelSerializer):
 
-    #url = m_fields.Url(relative=False)
+
+    #start_date = fields.Date(required=True)
+    #end_date = fields.Date(required=True)
 
     class Meta:
         model = Season

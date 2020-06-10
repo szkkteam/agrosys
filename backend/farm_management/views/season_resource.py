@@ -10,6 +10,7 @@ from flask import after_this_request, current_app, url_for, request, abort
 from flask_security import current_user
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.session import make_transient
+from marshmallow.exceptions import ValidationError
 from sqlalchemy import and_
 
 # Internal package imports
@@ -48,17 +49,12 @@ def get_farms_with_permissions(permissions):
     user = User.get(current_user.id)
     return UserService.resources_with_perms(user, permissions, resource_types=['farm']).all()
 
-
 def copy_field(season, field, field_data):
-    # Remove object from session
-    db.session.expunge(field_data)
-    make_transient(field_data)
-    # Generate new ID
-    field_data.id = None
-    field_data.create_at = None
+    # Clone object without id and created_at attribute
+    cloned_field = field_data.clone(id=None, created_at=None)
     # Add to session back
-    field_data.save()
-    obj = SeasonField(season=season, field=field, field_data=field_data)
+    cloned_field.save()
+    obj = SeasonField(season=season, field=field, field_data=cloned_field)
     obj.save()
 
 
@@ -80,7 +76,7 @@ class SeasonResource(ModelResource):
             result = self.serializer_create.load(request.get_json())
         except ValidationError as v:
             errors = v.messages
-            return errors
+            return self.errors(errors)
         copy_fields = result.pop('copy_fields', False)
         copy_from_season_id = result.pop('copy_from_season_id', None)
 
@@ -96,7 +92,11 @@ class SeasonResource(ModelResource):
                 #source_fields_ids = Field.query(Field.id).join(SeasonField, (Field.id == SeasonField.field_id)).filter(SeasonField.season_id == copy_from_season_id).all()
                 source_fields = Field.join(SeasonField).filter(SeasonField.season_id == copy_from_season_id).all()
                 source_fields_ids = [field.id for field in source_fields]
-                source_field_datas = SeasonField.query(SeasonField.field_data).filter((SeasonField.field_id.in_(source_fields_ids), SeasonField.season_id == copy_from_season_id))
+                q = FieldData.query.join(SeasonField, (SeasonField.field_data_id == FieldData.id)).filter(SeasonField.field_id.in_(source_fields_ids)).filter(SeasonField.season_id == copy_from_season_id)
+                #q = db.session.query(SeasonField.field_data).filter(SeasonField.field_id.in_(source_fields_ids)).filter(SeasonField.season_id == copy_from_season_id)
+                print("Query: ", q)
+                source_field_datas = q.all()
+                print("source_field_datas: ", source_field_datas)
 
             except IntegrityError:
                 abort(HTTPStatus.NOTFOUND)
