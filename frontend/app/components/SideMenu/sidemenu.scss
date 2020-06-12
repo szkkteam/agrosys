@@ -1,0 +1,17 @@
+.drawer {
+    width: 240px;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.drawer-open {
+    width: 240px;
+    transition: width ease-in-out 1s;
+}
+
+.drawer-close {
+    transition: width ease-in-out 1s;
+    overflow-x: hidden;
+    width: 50px;
+
+}

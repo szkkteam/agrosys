@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'react-router-redux'
 import Helmet from 'react-helmet'
 
-import { NavBar, ProgressBar } from 'components'
+import { NavBar, ProgressBar, SideMenu } from 'components'
 import { SITE_NAME, COPYRIGHT } from 'config'
 import Routes from 'routes'
 
@@ -15,9 +15,10 @@ const AppLayout = () => (
     />
     <ProgressBar />
     <header>
-      <NavBar />
+      
     </header>
     <main>
+      <SideMenu />
       <Routes />
     </main>
     <footer className="center">

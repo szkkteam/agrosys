@@ -20,6 +20,8 @@
     "test:watch": "NODE_ENV=test jest --watchAll"
   },
   "dependencies": {
+    "@material-ui/core": "^4.10.1",
+    "@material-ui/icons": "^4.9.1",
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.5",
     "date-fns": "^1.28.5",
