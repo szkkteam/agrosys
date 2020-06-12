@@ -4,24 +4,84 @@ import clsx from 'clsx';
 
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
+
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import MenuIcon from '@material-ui/icons/Menu';
+import HomeIcon from "@material-ui/icons/Home";
+import ReceiptIcon from "@material-ui/icons/Receipt";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import DesktopWindowsIcon from "@material-ui/icons/DesktopWindows";
+import SettingsIcon from "@material-ui/icons/Settings";
+
 import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
+
+import { ROUTES } from 'routes'
+import SideBar from './SideBar'
 
 import './sidemenu.scss'
 
-const menuItems = [
-    { name: 'fields', label: 'Fields' },
-    { name: 'messages', label: 'Messages' },
-    { name: 'tasks', label: 'My tasks' },
-    { name: 'clients', label: 'Clients' },
-]
-
+function onClick(e, item) {
+    window.alert(JSON.stringify(item, null, 2));
+  }
+/*
+const items = [
+    { name: "home", label: "Home", Icon: HomeIcon, route: ROUTES.Farms },
+    {
+      name: "billing",
+      label: "Billing",
+      Icon: ReceiptIcon,
+      items: [
+        { name: "statements", label: "Statements", onClick },
+        { name: "reports", label: "Reports", onClick }
+      ]
+    },
+    "divider",
+    {
+      name: "settings",
+      label: "Settings",
+      Icon: SettingsIcon,
+      items: [
+        { name: "profile", label: "Profile" },
+        { name: "insurance", label: "Insurance", onClick },
+        "divider",
+        {
+          name: "notifications",
+          label: "Notifications",
+          Icon: NotificationsIcon,
+          items: [
+            { name: "email", label: "Email", onClick },
+            {
+              name: "desktop",
+              label: "Desktop",
+              Icon: DesktopWindowsIcon,
+              items: [
+                { name: "schedule", label: "Schedule" },
+                { name: "frequency", label: "Frequency" }
+              ]
+            },
+            { name: "sms", label: "SMS" }
+          ]
+        }
+      ]
+    }
+  ];
+*/
+const items = [
+    { 
+        name: "home", 
+        Icon: HomeIcon, 
+        route: ROUTES.Farms,
+        items: [
+            { name: "farm1", label: "Farm 1", onClick },
+            { name: "farm2", label: "Farm 2", onClick }
+        ]
+     },    
+    {
+        name: "contact",
+        Icon: ReceiptIcon,
+        route: ROUTES.Contact,
+      },
+  ];
 
 export default class SideMenu extends React.Component {
     constructor(props) {
@@ -34,14 +94,6 @@ export default class SideMenu extends React.Component {
 
     handleToggleMenu = () => {
         this.setState({ menuOpen: !this.state.menuOpen })
-    }
-
-    handleMenuOpen = () => {
-        this.setState({ menuOpen: true })
-    }
-
-    handleMenuClose = () => {
-        this.setState({ menuOpen: false })
     }
 
     render() {
@@ -68,27 +120,7 @@ export default class SideMenu extends React.Component {
                         TODO: user profile
                     </div>
                     <Divider/>
-                    <List>
-                        {['Fields', 'Messages', 'My tasks', 'Clients'].map((text, index) => (
-                            <ListItem button key={text}>
-                                <ListItemIcon>
-                                    <InboxIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItem>                        
-                        ))}
-                    </List>
-                    <Divider/>
-                    <List>
-                        {['Main Settings', 'Notifications'].map((text, index) => (
-                            <ListItem button key={text}>
-                                <ListItemIcon>
-                                    <InboxIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItem>
-                        ))}
-                    </List>
+                    <SideBar items={items} />
                 </Drawer>
             </div>
         )
@@ -96,7 +128,7 @@ export default class SideMenu extends React.Component {
 
     renderCloseButton = () => {
         return (
-            <IconButton onClick={this.handleMenuClose}>
+            <IconButton className="drawer-toggle-button" onClick={this.handleToggleMenu}>
                 <ChevronLeftIcon/>
             </IconButton>
         )
@@ -105,9 +137,10 @@ export default class SideMenu extends React.Component {
     renderOpenButton = () => {
         return (
             <IconButton
+                className="drawer-toggle-button"
                 color="inherit"
                 aria-label="open drawer"
-                onClick={this.handleMenuOpen}
+                onClick={this.handleToggleMenu}
                 edge="start"
             >
                 <MenuIcon />
