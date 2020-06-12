@@ -74,7 +74,7 @@ class SideBarItem extends React.Component {
                         style={{ paddingLeft: this.props.depth * this.props.depthStep }}
                         className="drawer-item-content"
                     >
-                        {Icon && <Icon className="drawer-item-icon" fontSize="medium" />}
+                        {Icon && <Icon className="drawer-item-icon" fontSize="default" />}
                         { route? (
                             <NavLink className="drawer-item-text" to={route} />
                         ) : label? (

@@ -19,8 +19,10 @@ const AppLayout = () => (
       
     </header>
     <main>
-      <SideMenu />
-      <Routes />
+      <div style={{display: 'flex'}}>
+        <SideMenu />
+        <Routes />
+      </div>            
     </main>
     <footer className="center">
        Copyright {new Date().getFullYear()} {COPYRIGHT}
