@@ -1,12 +1,16 @@
-.drawer {
-    width: 240px;
+
+.side-navigation {
+    display: flex;
+    flex: 0 0 auto;
+    overflow: hidden;
+    width: 220px;
     flex-shrink: 0;
     white-space: nowrap;
     border: 1px solid rgba(0,0,0,0.1)
 }
 
 .drawer-open {
-    width: 240px;
+    width: 220px;
     transition: width ease-in-out 0.3s;
 }
 

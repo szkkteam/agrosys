@@ -26,6 +26,8 @@ export default class Farms extends React.Component {
             Farm View
           </title>
           <link rel="stylesheet" href="//unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+          <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
+          <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
           <script src="https://npmcdn.com/leaflet.path.drag/src/Path.Drag.js"></script>
         </Helmet>
         <VerticalListView>

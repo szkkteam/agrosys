@@ -5,7 +5,7 @@ import { withRouter } from 'react-router'
 import Flash from 'components/Flash'
 import { ScrollIntoView } from 'components/Nav/HashLink'
 
-
+//<div style={{flexGrow: 1}}>
 class PageContent extends React.Component {
 
   static defaultProps = {
@@ -15,14 +15,14 @@ class PageContent extends React.Component {
   render() {
     const { children, className, location: { hash } } = this.props
     return (
-      <div style={{flexGrow: 1}}>
+      <div className="main-container">
         <Flash />
         <div className={`${className} content`}>
           <ScrollIntoView id={hash && hash.slice(1) || null}>
             {children}
           </ScrollIntoView>
         </div>
-      </div>
+      </div> 
     )
   }
 }

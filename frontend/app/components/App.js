@@ -15,11 +15,9 @@ const AppLayout = () => (
             defaultTitle={SITE_NAME}
     />
     <ProgressBar />
-    <main>
-      <div style={{display: 'flex'}}>
-        <SideMenu />
-        <Routes />
-      </div>            
+    <main className="page-container page-panels">
+      <SideMenu />
+      <Routes />
     </main>
     <footer className="center">
        Copyright {new Date().getFullYear()} {COPYRIGHT}

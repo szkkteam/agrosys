@@ -105,30 +105,28 @@ export default class SideMenu extends React.Component {
     render() {
         const isOpen = this.state.menuOpen;
         return (
-            <div>
-                <Drawer className={classnames({
-                    'drawer': true,
-                    'drawer-open': isOpen ,
-                    'drawer-close': !isOpen ,
-                })}
-                    variant="permanent"
-                    classes={{
-                        paper: clsx({
-                          ['drawer-open']: isOpen,
-                          ['drawer-close']: !isOpen,
-                        }),
-                      }}
-                >
-                    <div>
-                       { isOpen? this.renderCloseButton() : this.renderOpenButton() } 
-                    </div>
-                    <div>
-                        TODO: user profile
-                    </div>
-                    <Divider/>
-                    <SideBar items={items} />
-                </Drawer>
-            </div>
+              <Drawer className={classnames({
+                  'side-navigation': true,
+                  'drawer-open': isOpen ,
+                  'drawer-close': !isOpen ,
+              })}
+                  variant="permanent"
+                  classes={{
+                      paper: clsx({
+                        ['drawer-open']: isOpen,
+                        ['drawer-close']: !isOpen,
+                      }),
+                    }}
+              >
+                  <div>
+                      { isOpen? this.renderCloseButton() : this.renderOpenButton() } 
+                  </div>
+                  <div>
+                      TODO: user profile
+                  </div>
+                  <Divider/>
+                  <SideBar items={items} />
+              </Drawer>
         )
     }
 

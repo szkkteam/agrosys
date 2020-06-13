@@ -5,8 +5,11 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import Grid from '@material-ui/core/Grid';
 
+import Carousel from '@brainhubeu/react-carousel';
 
 import CardComponent from './CardComponent'
+
+import '@brainhubeu/react-carousel/lib/style.css';
 
 export default class ListComponent extends React.Component {
     constructor() {
@@ -30,15 +33,24 @@ export default class ListComponent extends React.Component {
     }
 
     render() {
-     
+      
       return (
-          <React.Fragment>
-            {this.renderLeftArrow()}
-            {this.renderRightArrow()}
-            <Grid container direction="row" alignItems="center" justify="space-evenly">
-              <CardComponent/>
-            </Grid>
-          </React.Fragment>
+        <Carousel 
+          arrows
+          clickToChange
+          centered={true}
+          slidesPerPage={8}
+          slidesPerScroll={2}
+        >
+          <CardComponent/>
+          <CardComponent/>
+          <CardComponent/>
+          <CardComponent/>
+          <CardComponent/>
+          <CardComponent/>
+          <CardComponent/>
+          <CardComponent/>
+        </Carousel>
       )
     }
 }

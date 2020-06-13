@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 */
 export default ({ children }) => {
     return (
-        <div style={{position: "relative"}}>
+        <div  >
             {children}
         </div>
     )

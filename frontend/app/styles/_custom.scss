@@ -2,3 +2,21 @@
 aside.cols {
     margin-top: .5rem;
 }
+
+.page-container {
+    height: 100%;
+    position: relative;
+} 
+
+.page-panels {
+    display: flex;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    flex: 1 1 auto;
+    min-width: 0;
+}
