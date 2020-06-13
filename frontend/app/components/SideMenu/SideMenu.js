@@ -68,19 +68,25 @@ const items = [
 */
 const items = [
     { 
-        name: "home", 
-        Icon: HomeIcon, 
-        route: ROUTES.Farms,
-        items: [
-            { name: "farm1", label: "Farm 1", onClick },
-            { name: "farm2", label: "Farm 2", onClick }
-        ]
-     },    
+      name: "farm", 
+      Icon: HomeIcon, 
+      route: ROUTES.Farms,    
+    },    
+    { 
+      name: "field", 
+      Icon: HomeIcon, 
+      route: ROUTES.Fields,    
+    },    
     {
-        name: "contact",
-        Icon: ReceiptIcon,
-        route: ROUTES.Contact,
-      },
+      name: "contact",
+      Icon: ReceiptIcon,
+      route: ROUTES.Contact,
+    },
+    {
+      name: "home",
+      Icon: ReceiptIcon,
+      route: ROUTES.Home,
+    },
   ];
 
 export default class SideMenu extends React.Component {

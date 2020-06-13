@@ -7,6 +7,9 @@ import { PageContent, PageHeader } from 'components'
 
 import {
   EditableMap,
+  VerticalListView,
+  VerticalDetailView,
+  ListComponent,
 } from 'farm/components'
 
 import './farms.scss'
@@ -25,12 +28,12 @@ export default class Farms extends React.Component {
           <link rel="stylesheet" href="//unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
           <script src="https://npmcdn.com/leaflet.path.drag/src/Path.Drag.js"></script>
         </Helmet>
-        <h1>
-          Farm test page
-        </h1>
-        <div>
+        <VerticalListView>
+          <ListComponent/>
+        </VerticalListView>
+        <VerticalDetailView>
           <EditableMap/>
-        </div>
+        </VerticalDetailView>
       </PageContent>
     )
   }

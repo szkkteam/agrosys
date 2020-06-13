@@ -10,14 +10,11 @@ import Routes from 'routes'
 
 
 const AppLayout = () => (
-  <div className="fixed-nav-top">
+  <div>
     <Helmet titleTemplate={`%s - ${SITE_NAME}`}
             defaultTitle={SITE_NAME}
     />
     <ProgressBar />
-    <header>
-      
-    </header>
     <main>
       <div style={{display: 'flex'}}>
         <SideMenu />

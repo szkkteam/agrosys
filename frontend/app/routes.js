@@ -14,6 +14,7 @@ import {
 
 import {
   Farms,
+  Fields,
 } from 'farm/pages'
 
 import {
@@ -44,10 +45,13 @@ import { AnonymousRoute, ProtectedRoute } from 'utils/route'
  * Both keys and values are component class names
  */
 export const ROUTES = {
+  Farms: 'Farms',
+  Fields: 'Fields',
+
+
   ArticleDetail: 'ArticleDetail',
   Articles: 'Articles',
   CategoryDetail: 'CategoryDetail',
-  Farms: 'Farms',
   Contact: 'Contact',
   ForgotPassword: 'ForgotPassword',
   Home: 'Home',
@@ -76,14 +80,21 @@ export const ROUTES = {
  */
 const routes = [
   {
-    key: ROUTES.ArticleDetail,
-    path: '/articles/:slug',
-    component: ArticleDetail,
-  },
-  {
     key: ROUTES.Farms,
     path: '/farm',
     component: Farms,
+  },
+  {
+    key: ROUTES.Fields,
+    path: '/field',
+    component: Fields,
+  },
+
+
+  {
+    key: ROUTES.ArticleDetail,
+    path: '/articles/:slug',
+    component: ArticleDetail,
   },
   {
     key: ROUTES.Articles,
