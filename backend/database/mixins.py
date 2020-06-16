@@ -14,7 +14,7 @@ class PrimaryKeyMixin(object):
     """
     Adds an :attr:`id` primary key column to a Model
     """
-    id = Column(BigInteger, primary_key=True)
+    id = Column(BigInteger, primary_key=True, autoincrement=True)
 
 
 class TimestampMixin(object):

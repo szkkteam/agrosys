@@ -23,7 +23,7 @@ class FieldSerializer(ModelSerializer):
     #value = fields.Pluck('FieldDataSerializer', 'value', missing=True, allow_none=True)
     #field = fields.Nested('FieldDataSerializer', many=False, required=True)
     #value = fields.Nested('FieldDataSerializer', only=('value',), many=False)
-    fields = m_fields.Nested('FieldDetailListSerializer', many=True, dump_to='field_details')
+    field_details = m_fields.Nested('FieldDetailListSerializer', many=True, data_key='fields')
     role = m_fields.Nested('FieldPermissionSerializer', many=False)
 
     class Meta:
@@ -34,7 +34,7 @@ class FieldSerializer(ModelSerializer):
 @api.serializer(many=True)
 class FieldListSerializer(FieldSerializer):
 
-    fields = m_fields.Nested('FieldDetailSerializer', many=False, dump_to='field_details')
+    field_details = m_fields.Nested('FieldDetailSerializer', many=False, data_key='fields')
     role = m_fields.Nested('FieldPermissionSerializer', many=False)
 
     class Meta:

@@ -29,6 +29,7 @@ class FieldDetailSerializer(ModelSerializer):
     value = fields.Float(missing=True, allow_none=True)
     area = fields.Float()
     shape = GeometryField(load_from='shape')
+    soil_type = fields.Nested('SoilTypeSerializer', many=False, data_key='soil')
 
     class Meta:
         model = FieldDetail

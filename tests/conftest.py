@@ -172,20 +172,22 @@ def newslettersubscribe(model_factory):
 def admin(model_factory):
     yield model_factory.create('User', 'admin')
 
-
 @pytest.fixture()
 def farm(model_factory):
     yield model_factory.create('Farm', 'farm_one')
 
 @pytest.fixture()
-def farm_owner(user, farm):
+def farm_owner(user, model_factory):
+    farm = model_factory.create('Farm', 'farm_one')
     user.resources.append(farm)
+    for field in farm.fields:
+        user.resources.append(field)
     yield user
 
 @pytest.fixture()
-def field_owner(user, farm):
+def field_owner(user, farm, model_factory):
     user.resources.append(farm)
-    field1 = model_factory.create('Field', 'FIELD_FIELD_1')
+    field1 = model_factory.create('Field', 'FIELD_FIELD_ONE')
     farm.fields.append(field1)
     yield user
 

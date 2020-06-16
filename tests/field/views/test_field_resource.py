@@ -13,9 +13,14 @@ VALID_GEOJSON = {"type": "Feature",
                  "properties": {},
                  "geometry": {
                     "type": "Polygon",
-                    "coordinates": [[[17.71719217300415,47.12809671910988],[17.721483707427975,47.1230306334327],[17.725925445556637, 47.12485564784686
-                        ],[17.723522186279297,47.12732296778955],[17.721827030181885,47.12662220216394],[17.71946668624878,47.12919163099024],
-                        [17.71719217300415,47.12809671910988]]]
+                    "coordinates": [
+                        [
+                            [17.71719217300415,47.12809671910988],[17.721483707427975,47.1230306334327],[17.725925445556637, 47.12485564784686],
+                            [17.723522186279297,47.12732296778955],[17.721827030181885,47.12662220216394],[17.71946668624878,47.12919163099024],
+                            [17.71719217300415,47.12809671910988]
+                        ]
+                    ],
+                    #"crs":{"type":"name","properties":{"name":"EPSG:4326"}}
                   }
     }
 
@@ -23,20 +28,30 @@ INVALID_GEOJSON = {"type": None,
                  "properties": {},
                  "geometry": {
                     "type": "Polygon",
-                    "coordinates": [[[17.71719217300415,47.12809671910988],[17.721483707427975,47.1230306334327],[17.725925445556637, 47.12485564784686
-                        ],[17.723522186279297,47.12732296778955],[17.721827030181885,47.12662220216394],[17.71946668624878,47.12919163099024],
-                        [17.71719217300415,47.12809671910988]]]
+                    "coordinates": [
+                        [
+                            [17.71719217300415,47.12809671910988],[17.721483707427975,47.1230306334327],[17.725925445556637, 47.12485564784686],
+                            [17.723522186279297,47.12732296778955],[17.721827030181885,47.12662220216394],[17.71946668624878,47.12919163099024],
+                            [17.71719217300415,47.12809671910988]
+                        ]
+                    ],
+                    #"crs":{"type":"name","properties":{"name":"EPSG:4326"}}
                   }
     }
 
-NEW_FIELD_DATA = dict(
-    title='New Field',
-    fields=[dict(
-        value=0.0,
-        area=1.2,
-        shape=VALID_GEOJSON
-    ),],
-)
+NEW_FIELD_DATA = {
+    'title': 'New Field',
+    'fields': [
+        {
+            'value': 0.0,
+            'area': 1.2,
+            'shape': VALID_GEOJSON,
+            'soil': {
+                'id': 1,
+            }
+        },
+    ],
+}
 
 @pytest.mark.usefixtures('user')
 class TestFieldResource:
@@ -54,9 +69,9 @@ class TestFieldResource:
         assert 'title' in r.json
         assert NEW_FIELD_DATA['title'] in r.json['title']
 
-    def test_create_field_missing_name(self, api_client, farm_owner):
+    def test_create_field_missing_name(self, api_client, field_owner):
         from backend.farm_management.models import Farm
-        api_client.login_as(farm_owner)
+        api_client.login_as(field_owner)
 
         # Query one of the user's farm
         farm = Farm.all()[0]

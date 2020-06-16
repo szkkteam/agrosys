@@ -1,0 +1,12 @@
+---
+SOIL_TYPE_1:
+  title: Test soil 1
+  yield_modifier: 1.0
+
+SOIL_TYPE_2:
+  title: Test soil 2
+  yield_modifier: 0.5
+
+SOIL_TYPE_3:
+  title: Test soil 3
+  yield_modifier: 1.5

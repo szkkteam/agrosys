@@ -213,7 +213,7 @@ def post_loader(*args, serializer):
                 result = v.valid_data
             else:
                 errors = None
-            return fn(result, errors)
+            return fn(result, errors, **kwargs)
         return decorated
 
     if was_decorated_without_parenthesis(args):

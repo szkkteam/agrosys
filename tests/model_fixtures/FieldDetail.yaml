@@ -2,36 +2,44 @@
 FIELD_DETAIL_FIELD_1:
   value: 0.0
   area: 1.5
-  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
+  shape: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
+  soil_type: 'SoilType(SOIL_TYPE_1)'
 
 FIELD_DETAIL_FIELD_2:
   value: 5.0
   area: 1.7
-  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
+  shape: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
+  soil_type: 'SoilType(SOIL_TYPE_2)'
 
 FIELD_DETAIL_FIELD_3:
   value: 10.0
   area: 2.0
-  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
+  shape: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
+  soil_type: 'SoilType(SOIL_TYPE_3)'
 
 FIELD_DETAIL_FIELD_4:
   value: 50.0
   area: 1.5
-  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
+  shape: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
+  soil_type: 'SoilType(SOIL_TYPE_1)'
 
 FIELD_DETAIL_FIELD_5:
   value: 100.0
   area: 1.5
-  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
+  shape: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
+  soil_type: 'SoilType(SOIL_TYPE_2)'
 
 FIELD_DETAIL_FIELD_6:
   area: 1.5
-  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
+  shape: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
+  soil_type: 'SoilType(SOIL_TYPE_3)'
 
 FIELD_DETAIL_FIELD_7:
   area: 1.5
-  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
+  shape: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
+  soil_type: 'SoilType(SOIL_TYPE_1)'
 
 FIELD_DETAIL_FIELD_8:
   area: 1.5
-  shape: 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'
+  shape: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
+  soil_type: 'SoilType(SOIL_TYPE_2)'

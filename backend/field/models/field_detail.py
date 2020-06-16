@@ -22,7 +22,8 @@ class FieldDetail(Model):
 
     area = Column(Float())
     value = Column(Float(), nullable=True)
-    shape = Column(Geometry("POLYGON", srid=900913))
+    shape = Column(Geometry("POLYGON")) # TODO: Do I need to specify the srid or not?
+    #shape = Column(Geometry("POLYGON", srid=900913))
 
     soil_type_id = foreign_key('SoilType', nullable=False)
     soil_type = relationship('SoilType', back_populates='field_details')
@@ -30,9 +31,6 @@ class FieldDetail(Model):
     # Field relationship
     field_id = foreign_key('Field', nullable=False)
     field = relationship('Field', back_populates='field_details')
-
-
-
 
 
     __repr_props__ = ('id', 'value')

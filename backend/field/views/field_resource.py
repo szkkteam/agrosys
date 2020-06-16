@@ -65,12 +65,14 @@ class FieldResource(ModelResource):
 
     # TODO: Check if user has permission to create field.
     @permission_required(permission='create', resource=get_field_farm_create_permission)
-    def create(self, field, errors):
+    def create(self, field, errors, **kwargs):
         if errors:
             return self.errors(errors)
         # Get the current user object
         user = User.get(current_user.id)
         # Add farm to user's resource. The user will be the owner of this resource
+        field.farm_id = kwargs.get('farm_id')
+        print("Field: ", field)
         user.resources.append(field)
         return self.created(field)
 
