@@ -1,0 +1,103 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# Common Python library imports
+from functools import partial
+
+# Pip package imports
+from flask import after_this_request, current_app, url_for
+from flask_security import current_user
+from sqlalchemy import desc
+from sqlalchemy import and_
+
+# Internal package imports
+from backend.api import ModelResource, ALL_METHODS, CREATE, DELETE, GET, LIST, PATCH, PUT
+from backend.security.decorators import auth_required
+from backend.security.models import User
+from backend.extensions.api import api
+from backend.permissions.decorators import permission_required
+from backend.extensions import db
+
+from ..models import Field, FieldDetail
+from .blueprint import field as field_bp
+
+from backend.security.models import UserRole
+from backend.permissions.services import ResourceService, UserService
+
+
+def get_field_details(field, only_last=False):
+    if only_last:
+        field_details = FieldDetail.filter_by(field_id=field.id).order_by(desc(FieldDetail.created_at)).first()
+    else:
+        field_details = field.field_details
+    return {
+            'id': field.id,
+            'title': field.title,
+            'field_details': field_details,
+            'role': {
+                'is_owner': bool(field.owner_user_id == current_user.id),
+                'permissions': [str(perm.perm_name) for perm in ResourceService.perms_for_user(field, User.get(current_user.id))]
+            }
+        }
+
+def get_fields_with_permissions(permissions):
+    user = User.get(current_user.id)
+    return UserService.resources_with_perms(user, permissions, resource_types=['field']).all()
+
+def get_field_by_field_id(**view_kwargs):
+    if 'field_id' not in view_kwargs:
+        return None
+    return Field.get(view_kwargs.get('field_id'))
+
+
+@api.model_resource(field_bp, FieldDetail, 'fields/<int:field_id>/detail', '/fields/detail/<int:field_detail_id>')
+class FieldDetailResource(ModelResource):
+    include_methods = ALL_METHODS
+    exclude_decorators = (LIST, )
+    method_decorators = {
+        CREATE: (auth_required,),
+        DELETE: (auth_required, ),
+        GET: (auth_required, ),
+        PATCH: (auth_required, ),
+        PUT: (auth_required, ),
+    }
+
+    # TODO: Check if user has permission to create field.
+    @permission_required(permission='create', resource=get_field_by_field_id)
+    def create(self, field_detail, errors, **kwargs):
+        if errors:
+            return self.errors(errors)
+        return self.created(field_detail)
+
+    # TODO: permission_required decorator is not working as method_decorator. Method decorators are called before the instance is present.
+    @permission_required(permission='edit', resource='field_detail')
+    def put(self, field_detail, errors):
+        if errors:
+            return self.errors(errors)
+        return self.updated(field_detail)
+
+    @permission_required(permission='edit', resource='field_detail')
+    def patch(self, field_detail, errors):
+        if errors:
+            return self.errors(errors)
+        return self.updated(field_detail)
+
+    @permission_required(permission='delete', resource='field_detail')
+    def delete(self, field_detail):
+        return self.deleted(field_detail)
+
+    @permission_required(permission='view', resource='field_detail')
+    def get(self, field_detail):
+        return self.serializer.dump(field_detail)
+
+    @auth_required
+    @permission_required(permission='view', resource=get_field_by_field_id)
+    def list(self, **kwargs):
+        # Get farms with any permissions. TODO: ANY_PERMISSION object is not working ...
+        field = Field.get(kwargs.get('field_id'))
+        return self.serializer.dump(field.field_details, many=True)
+
+
+
+
+

@@ -10,62 +10,34 @@ from marshmallow.exceptions import ValidationError
 
 # Internal package imports
 from backend.field.serializers import FieldSerializer, FieldListSerializer
+from .test_field_detail_serializer import VALID_GEOJSON, INVALID_GEOJSON, compare_geojson
 
-def compare_geojson(a, b):
-    assert a["type"] == b["type"]
-    #assert a["properties"] == b["properties"] properties are not restored yet.
-    assert a["geometry"]["type"] == b["geometry"]["type"]
-    for a_cord, b_cord in zip(a["geometry"]["coordinates"], b["geometry"]["coordinates"]):
-        assert a_cord[0] == pytest.approx(b_cord[0])
-        assert a_cord[1] == pytest.approx(b_cord[1])
-
-
-
-VALID_GEOJSON = {"type": "Feature",
-                 "properties": {},
-                 "geometry": {
-                    "type": "Polygon",
-                    "coordinates": [[[17.71719217300415,47.12809671910988],[17.721483707427975,47.1230306334327],[17.725925445556637, 47.12485564784686
-                        ],[17.723522186279297,47.12732296778955],[17.721827030181885,47.12662220216394],[17.71946668624878,47.12919163099024],
-                        [17.71719217300415,47.12809671910988]]]
-                  }
-    }
-
-INVALID_GEOJSON = {"type": None,
-                 "properties": {},
-                 "geometry": {
-                    "type": "Polygon",
-                    "coordinates": [[[17.71719217300415,47.12809671910988],[17.721483707427975,47.1230306334327],[17.725925445556637, 47.12485564784686
-                        ],[17.723522186279297,47.12732296778955],[17.721827030181885,47.12662220216394],[17.71946668624878,47.12919163099024],
-                        [17.71719217300415,47.12809671910988]]]
-                  }
-    }
 
 VALID_INPUT_DATA = [
-    ({'title': 'test field 1', 'field': {'value': 0.0, 'shape': VALID_GEOJSON}}),
-    ({'title': 'test field 2', 'field': {'value': None, 'shape': VALID_GEOJSON}}),
-    ({'title': 'test field #$!"1', 'field': {'value': 100.999, 'shape': VALID_GEOJSON}}),
+    ({'title': 'test field 1', 'fields': {'value': 0.0, 'area': 15.0, 'shape': VALID_GEOJSON}}),
+    ({'title': 'test field 2', 'fields': {'value': None, 'area': 15.0, 'shape': VALID_GEOJSON}}),
+    ({'title': 'test field #$!"1', 'fields': {'value': 100.999, 'area': 15.0, 'shape': VALID_GEOJSON}}),
 ]
 
 VALID_INPUT_DATA_LIST = [
-    ([{'title': 'test field 11', 'field': {'value': 0.0, 'shape': VALID_GEOJSON}},
-      {'title': 'test field 12', 'field': {'value': 0.0, 'shape': VALID_GEOJSON}}]),
-    ([{'title': 'test field 21', 'field': {'value': None, 'shape': VALID_GEOJSON}},
-      {'title': 'test field 22', 'field': {'value': None, 'shape': VALID_GEOJSON}},]),
-    ([{'title': 'test field #$!"1-31', 'field': {'value': 100.999, 'shape': VALID_GEOJSON}},
-      {'title': 'test field #$!"1-32', 'field': {'value': 100.999, 'shape': VALID_GEOJSON}}]),
+    ([{'title': 'test field 11', 'fields': {'value': 0.0, 'area': 15.0, 'shape': VALID_GEOJSON}},
+      {'title': 'test field 12', 'fields': {'value': 0.0,'area': 15.0, 'shape': VALID_GEOJSON}}]),
+    ([{'title': 'test field 21', 'fields': {'value': None, 'area': 15.0, 'shape': VALID_GEOJSON}},
+      {'title': 'test field 22', 'fields': {'value': None, 'area': 15.0, 'shape': VALID_GEOJSON}},]),
+    ([{'title': 'test field #$!"1-31', 'fields': {'value': 100.999, 'area': 15.0, 'shape': VALID_GEOJSON}},
+      {'title': 'test field #$!"1-32', 'fields': {'value': 100.999, 'area': 15.0, 'shape': VALID_GEOJSON}}]),
 ]
 
 INVALID_INPUT_DATA = [
-    ({'title': None, 'field': {'value': 0.0, 'shape': VALID_GEOJSON}}, 'Field may not be null.', 'title'),
-    ({'title': 'test field 2', 'field': None}, 'Field may not be null.', 'field'),
+    ({'title': None, 'fields': {'value': 0.0, 'area': 15.0, 'shape': VALID_GEOJSON}}, 'Field may not be null.', 'title'),
+    ({'title': 'test field 2', 'fields': None}, 'Field may not be null.', 'field'),
 ]
 
 INVALID_INPUT_DATA_LIST = [
-    ([{'title': None, 'field': {'value': 0.0, 'shape': VALID_GEOJSON}},
-      {'title': None, 'field': {'value': 0.0, 'shape': VALID_GEOJSON}},], 'Field may not be null.', 'title'),
-    ([{'title': 'test field 2', 'field': None},
-      {'title': 'test field 2', 'field': None}], 'Field may not be null.', 'field'),
+    ([{'title': None, 'fields': {'value': 0.0, 'area': 15.0, 'shape': VALID_GEOJSON}},
+      {'title': None, 'fields': {'value': 0.0, 'area': 15.0, 'shape': VALID_GEOJSON}},], 'Field may not be null.', 'title'),
+    ([{'title': 'test field 2', 'fields': None},
+      {'title': 'test field 2', 'fields': None}], 'Field may not be null.', 'field'),
 ]
 
 @pytest.mark.skip(reason="Field and field data handling must be reworked.")

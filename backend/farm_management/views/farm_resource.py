@@ -28,6 +28,7 @@ def get_farm_details(farm):
     return {
             'id': farm.id,
             'title': farm.title,
+            'fields': farm.fields,
             #'seasons': Season.filter(Season.farm_id == farm.id).all(),
             'role': {
                 'is_owner': bool(farm.owner_user_id == current_user.id),

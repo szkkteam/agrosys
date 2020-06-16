@@ -51,3 +51,9 @@ class Field(Resource):
     #seasons = relationship('Season', cascade="all,delete", back_populates='farm', lazy='noload')
 
     __repr_props__ = ('id', 'title', 'owner_user_id')
+
+    def __init__(self, field_details=None, *args, **kwargs):
+        super(Field, self).__init__(*args, **kwargs)
+        field_details = field_details or []
+        for field_detail in field_details:
+            self.field_details.append(field_detail)

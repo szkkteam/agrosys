@@ -18,7 +18,7 @@ FARM_FIELDS = (
 
 class FarmSerializer(ModelSerializer):
 
-    #fields = m_fields.Nested('FieldListSerializer', many=True)
+    fields = m_fields.Nested('FieldListSerializer', many=True)
     role = m_fields.Nested('FarmPermissionSerializer', many=False)
 
     class Meta:
