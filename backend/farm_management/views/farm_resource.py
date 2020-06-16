@@ -16,7 +16,7 @@ from backend.security.models import User
 from backend.extensions.api import api
 from backend.extensions import db
 
-from ..models import Farm, Season
+from ..models import Farm
 from .blueprint import farm_management
 from ..decorators import permission_required
 
@@ -28,7 +28,7 @@ def get_farm_details(farm):
     return {
             'id': farm.id,
             'name': farm.name,
-            'seasons': Season.filter(Season.farm_id == farm.id).all(),
+            #'seasons': Season.filter(Season.farm_id == farm.id).all(),
             'role': {
                 'is_owner': bool(farm.owner_user_id == current_user.id),
                 'permissions': [str(perm.perm_name) for perm in ResourceService.perms_for_user(farm, User.get(current_user.id))]

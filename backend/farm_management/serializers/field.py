@@ -19,7 +19,7 @@ FIELD_FIELDS = (
     'name',
 )
 
-
+"""
 class FieldSerializer(ModelSerializer):
 
     #shape = fields.Pluck('FieldDataSerializer', 'shape')
@@ -41,3 +41,4 @@ class FieldListSerializer(FieldSerializer):
         fields = FIELD_FIELDS
 
 
+"""

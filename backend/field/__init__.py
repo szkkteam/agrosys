@@ -4,6 +4,6 @@
 # Common Python library imports
 # Pip package imports
 # Internal package imports
-from .farm import Farm
-from .profile import Profile
+from backend.magic import Bundle
 
+field_bundle = Bundle(__name__)

@@ -17,7 +17,7 @@ from backend.security.models.resource import Resource
 
 class Farm(Resource):
     __mapper_args__ = {'polymorphic_identity': 'farm'}
-    name = Column(String(64))
+    title = Column(String(64))
 
     id = sa.Column(sa.Integer(),
                    sa.ForeignKey('resource.id',
@@ -25,8 +25,8 @@ class Farm(Resource):
                                  ondelete='CASCADE', ),
                    primary_key=True, )
 
-    seasons = relationship('Season', cascade="all,delete", back_populates='farm')
+    fields = relationship('Field', cascade="all,delete", back_populates='farm')
     # TODO: Define later lazy relationship
     #seasons = relationship('Season', cascade="all,delete", back_populates='farm', lazy='noload')
 
-    __repr_props__ = ('id', 'name', 'owner_user_id')
+    __repr_props__ = ('id', 'title', 'owner_user_id')

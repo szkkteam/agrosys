@@ -13,11 +13,12 @@ from marshmallow import pre_load, post_dump, post_load, validates_schema
 from backend.extensions.api import api
 from backend.api import WrappedSerializer, ModelSerializer, fields, validates, ValidationError, GeometryModelConverter, GeometryField
 
-from ..models import FieldData
+from ..models import FieldDetail
 
 FIELD_DATA_FIELDS = (
     'value',
     'shape',
+    'area',
 )
 
 
@@ -27,7 +28,7 @@ class FieldDataSerializer(ModelSerializer):
     shape = GeometryField(load_from='shape')
 
     class Meta:
-        model = FieldData
+        model = FieldDetail
         fields = FIELD_DATA_FIELDS
         model_converter = GeometryModelConverter
 
@@ -60,7 +61,7 @@ class FieldDataSerializer(ModelSerializer):
 class FieldDataListSerializer(FieldDataSerializer):
 
     class Meta:
-        model = FieldData
+        model = FieldDetail
         fields = FIELD_DATA_FIELDS
         #dump_only = ('name', 'value', 'shape')
         model_converter = GeometryModelConverter
