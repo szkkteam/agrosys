@@ -7,7 +7,7 @@ import pytest
 from sqlalchemy.exc import IntegrityError
 
 # Internal package imports
-from backend.farm_management.models import FieldData
+from backend.field.models import FieldDetail
 
 FIELD_DATA_DATA = {'value': 5.0,
               'shape': 'SRID=900913;POLYGON((0 0,1 0,1 1,0 1,0 0))'}
@@ -20,4 +20,4 @@ class TestFieldDataModels:
         data = FIELD_DATA_DATA.copy()
         data['shape'] = None
         with pytest.raises(IntegrityError):
-            FieldData.create(**data, commit=True)
+            FieldDetail.create(**data, commit=True)

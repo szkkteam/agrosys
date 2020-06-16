@@ -14,6 +14,7 @@ from backend.database import (
     association_proxy
 )
 from backend.security.models.resource import Resource
+from backend.farm_management.models import Farm
 
 
 def create_field_production(production):

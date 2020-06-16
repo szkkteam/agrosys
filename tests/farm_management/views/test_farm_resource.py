@@ -10,7 +10,7 @@ from flask_security import AnonymousUser, current_user
 # Internal package imports
 
 NEW_FARM_DATA = dict(
-    name='New Farm',
+    title='New Farm',
 )
 
 @pytest.mark.usefixtures('user')
@@ -44,7 +44,6 @@ class TestFarmResource:
         assert r.status_code == 200
         assert 'id' in r.json
         assert 'title' in r.json
-        assert len(r.json['seasons'])
         assert 'role' in r.json
         assert 'isOwner' in r.json['role']
 
@@ -68,7 +67,7 @@ class TestFarmResource:
         farm = Farm.all()[0]
 
         new_name = "New Farm Name"
-        r = api_client.patch(url_for('api.farm_resource', farm_id=farm.id), data=dict(name=new_name))
+        r = api_client.patch(url_for('api.farm_resource', farm_id=farm.id), data=dict(title=new_name))
 
         assert r.status_code == 200
         assert r.json['title'] == new_name
@@ -82,7 +81,7 @@ class TestFarmResource:
         farm = Farm.all()[0]
 
         new_name = "New Farm Name"
-        r = api_client.put(url_for('api.farm_resource', farm_id=farm.id), data=dict(name=new_name))
+        r = api_client.put(url_for('api.farm_resource', farm_id=farm.id), data=dict(title=new_name))
 
         assert r.status_code == 200
         assert r.json['title'] == new_name
@@ -108,8 +107,7 @@ class TestFarmResource:
         farm = Farm.all()[0]
 
         new_id = 999
-        new_field = None
-        r = api_client.patch(url_for('api.farm_resource', farm_id=farm.id), data=dict(id=new_id, fields=new_field))
+        r = api_client.patch(url_for('api.farm_resource', farm_id=farm.id), data=dict(id=new_id))
 
         assert r.status_code == 400
 
@@ -165,7 +163,7 @@ class TestFarmResourceProtected:
         api_client.login_as(farm_user2)
         for farm in farms:
             new_name = "New Farm Name"
-            r = api_client.patch(url_for('api.farm_resource', farm_id=farm.id), data=dict(name=new_name))
+            r = api_client.patch(url_for('api.farm_resource', farm_id=farm.id), data=dict(title=new_name))
             assert r.status_code == 403
 
     def test_put_farm(self, api_client, farm_user1, farm_user2):
@@ -179,7 +177,7 @@ class TestFarmResourceProtected:
         api_client.login_as(farm_user2)
         for farm in farms:
             new_name = "New Farm Name"
-            r = api_client.put(url_for('api.farm_resource', farm_id=farm.id), data=dict(name=new_name))
+            r = api_client.put(url_for('api.farm_resource', farm_id=farm.id), data=dict(title=new_name))
             assert r.status_code == 403
 
     def test_delete_farm(self, api_client, farm_user1, farm_user2):

@@ -59,7 +59,7 @@ VALID_INPUT_DATA_LIST = [
 INVALID_INPUT_DATA = [
     #({'name': None, 'value': 0.0, 'shape': VALID_GEOJSON}, 'Field may not be null.', 'name'),
     ({'value': 0.0, 'area': 15.0, 'shape': INVALID_GEOJSON}, 'Expecting a Feature object', 'shape'),
-({'value': 0.0, 'area': None, 'shape': INVALID_GEOJSON}, 'Field may not be null.', 'area'),
+    ({'value': 0.0, 'area': None, 'shape': VALID_GEOJSON}, 'Field may not be null.', 'area'),
 ]
 
 INVALID_INPUT_DATA_LIST = [

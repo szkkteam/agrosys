@@ -9,7 +9,7 @@ import pytest
 from marshmallow.exceptions import ValidationError
 
 # Internal package imports
-from backend.farm_management.serializers import FieldSerializer, FieldListSerializer
+from backend.field.serializers import FieldSerializer, FieldListSerializer
 
 def compare_geojson(a, b):
     assert a["type"] == b["type"]
