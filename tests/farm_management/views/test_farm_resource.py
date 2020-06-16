@@ -22,16 +22,16 @@ class TestFarmResource:
         r = api_client.post(url_for('api.farms_resource'), data=NEW_FARM_DATA)
         print("Response: ", r.json)
         assert r.status_code == 201
-        assert 'name' in r.json
-        assert NEW_FARM_DATA['name'] in r.json['name']
+        assert 'title' in r.json
+        assert NEW_FARM_DATA['title'] in r.json['title']
 
     def test_create_farm_missing_name(self, api_client, user):
         api_client.login_user()
         data = NEW_FARM_DATA.copy()
-        data['name'] = None
+        data['title'] = None
         r = api_client.post(url_for('api.farms_resource'), data=data)
         assert r.status_code == 400
-        assert 'name' in r.errors
+        assert 'title' in r.errors
 
     def test_get_farm(self, api_client, farm_owner):
         from backend.farm_management.models import Farm
@@ -43,8 +43,7 @@ class TestFarmResource:
         r = api_client.get(url_for('api.farm_resource', farm_id=farm.id))
         assert r.status_code == 200
         assert 'id' in r.json
-        assert 'name' in r.json
-        assert 'seasons' in r.json
+        assert 'title' in r.json
         assert len(r.json['seasons'])
         assert 'role' in r.json
         assert 'isOwner' in r.json['role']
@@ -57,9 +56,7 @@ class TestFarmResource:
         assert len(r.json)
         for e in r.json:
             assert 'id' in e
-            assert 'name' in e
-            assert 'seasons' in e
-            assert len(e['seasons'])
+            assert 'title' in e
             assert 'role' in e
             assert 'isOwner' in e['role']
 
@@ -74,7 +71,7 @@ class TestFarmResource:
         r = api_client.patch(url_for('api.farm_resource', farm_id=farm.id), data=dict(name=new_name))
 
         assert r.status_code == 200
-        assert r.json['name'] == new_name
+        assert r.json['title'] == new_name
         assert 'id' in r.json
 
     def test_put_farm(self, api_client, farm_owner):
@@ -88,7 +85,7 @@ class TestFarmResource:
         r = api_client.put(url_for('api.farm_resource', farm_id=farm.id), data=dict(name=new_name))
 
         assert r.status_code == 200
-        assert r.json['name'] == new_name
+        assert r.json['title'] == new_name
         assert 'id' in r.json
 
     def test_delete_farm(self, api_client, farm_owner):

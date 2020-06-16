@@ -12,7 +12,7 @@ from ..models import Farm
 
 FARM_FIELDS = (
     'id',
-    'name',
+    'title',
     'role',
 )
 

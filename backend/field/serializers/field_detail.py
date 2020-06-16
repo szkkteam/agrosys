@@ -16,21 +16,25 @@ from backend.api import WrappedSerializer, ModelSerializer, fields, validates, V
 from ..models import FieldDetail
 
 FIELD_DATA_FIELDS = (
+    'id',
     'value',
     'shape',
     'area',
+    'created_at',
 )
 
 
-class FieldDataSerializer(ModelSerializer):
+class FieldDetailSerializer(ModelSerializer):
     #name = fields.String(required=True)
     value = fields.Float(missing=True, allow_none=True)
+    area = fields.Float()
     shape = GeometryField(load_from='shape')
 
     class Meta:
         model = FieldDetail
         fields = FIELD_DATA_FIELDS
         model_converter = GeometryModelConverter
+        dump_only = ('id', 'created_at', )
 
 
     def _validate_geojson(self, data, **kwargs):
@@ -58,11 +62,12 @@ class FieldDataSerializer(ModelSerializer):
         return loc_data
 
 @api.serializer(many=True)
-class FieldDataListSerializer(FieldDataSerializer):
+class FieldDetailListSerializer(FieldDetailSerializer):
 
     class Meta:
         model = FieldDetail
         fields = FIELD_DATA_FIELDS
         #dump_only = ('name', 'value', 'shape')
         model_converter = GeometryModelConverter
+        dump_only = ('id', 'created_at',)
 

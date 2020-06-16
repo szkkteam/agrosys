@@ -4,3 +4,5 @@
 # Common Python library imports
 # Pip package imports
 # Internal package imports
+from .field import FieldSerializer, FieldListSerializer
+from .field_detail import FieldDetailSerializer, FieldDetailListSerializer

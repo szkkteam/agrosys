@@ -1,20 +1,15 @@
 ---
 farm_one:
-  name: First farm
-  seasons: ['Season(SEASON_SEASON_2017, SEASON_SEASON_2018)']
+  title: First farm
 
 FARMER_USER_FARM1:
-  name: Farmers farm 1
-  seasons: ['Season(SEASON_SEASON_2019_1, SEASON_SEASON_2020_1)']
+  title: Farmers farm 1
 
 FARMER_USER_FARM2:
-  name: Farmers farm 2
-  seasons: ['Season(SEASON_SEASON_2019_2, SEASON_SEASON_2020_2)']
+  title: Farmers farm 2
 
 FARMER_USER_FARM3:
-  name: Farmers farm 3
-  seasons: ['Season(SEASON_SEASON_2019)']
+  title: Farmers farm 3
 
 FARMER_USER_FARM4:
-  name: Farmers farm 3
-  seasons: ['Season(SEASON_SEASON_2020)']
+  title: Farmers farm 3

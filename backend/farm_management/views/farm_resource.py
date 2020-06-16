@@ -14,11 +14,11 @@ from backend.api import ModelResource, ALL_METHODS, CREATE, DELETE, GET, LIST, P
 from backend.security.decorators import auth_required
 from backend.security.models import User
 from backend.extensions.api import api
+from backend.permissions.decorators import permission_required
 from backend.extensions import db
 
 from ..models import Farm
 from .blueprint import farm_management
-from ..decorators import permission_required
 
 from backend.security.models import UserRole
 from backend.permissions.services import ResourceService, UserService
@@ -27,7 +27,7 @@ from backend.permissions.services import ResourceService, UserService
 def get_farm_details(farm):
     return {
             'id': farm.id,
-            'name': farm.name,
+            'title': farm.title,
             #'seasons': Season.filter(Season.farm_id == farm.id).all(),
             'role': {
                 'is_owner': bool(farm.owner_user_id == current_user.id),

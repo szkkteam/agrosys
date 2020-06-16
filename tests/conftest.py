@@ -172,6 +172,31 @@ def newslettersubscribe(model_factory):
 def admin(model_factory):
     yield model_factory.create('User', 'admin')
 
+
+@pytest.fixture()
+def farm(model_factory):
+    yield model_factory.create('Farm', 'farm_one')
+
+@pytest.fixture()
+def farm_owner(user, farm):
+    user.resources.append(farm)
+    yield user
+
+@pytest.fixture()
+def farm_user1(model_factory):
+    user = model_factory.create('User', 'farmer1')
+    farm = model_factory.create('Farm', 'FARMER_USER_FARM1')
+    user.resources.append(farm)
+    yield user
+
+@pytest.fixture()
+def farm_user2(model_factory):
+    user = model_factory.create('User', 'farmer2')
+    farm = model_factory.create('Farm', 'FARMER_USER_FARM2')
+    user.resources.append(farm)
+    yield user
+
+
 @pytest.fixture()
 def models(request, model_factory):
     mark = request.param

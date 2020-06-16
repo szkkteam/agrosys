@@ -13,7 +13,7 @@ from backend.extensions.api import api
 
 from ..models import Profile
 from .blueprint import farm_management
-from ..decorators import permission_required
+from backend.permissions.decorators import permission_required
 from backend.permissions.services import ResourceService, UserService
 
 
