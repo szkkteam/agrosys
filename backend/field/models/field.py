@@ -33,7 +33,7 @@ class Field(Resource):
 
     # Farm relationship
     farm_id = foreign_key('Farm', nullable=False)
-    farm = relationship('Farm', back_populates='fields')
+    farm = relationship('Farm', back_populates='fields', foreign_keys=[farm_id])
 
     # Field relationship
     field_details = relationship('FieldDetail', cascade="all,delete", back_populates='field')
