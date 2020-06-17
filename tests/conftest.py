@@ -185,13 +185,6 @@ def farm_owner(user, model_factory):
     yield user
 
 @pytest.fixture()
-def field_owner(user, farm, model_factory):
-    user.resources.append(farm)
-    field1 = model_factory.create('Field', 'FIELD_FIELD_ONE')
-    farm.fields.append(field1)
-    yield user
-
-@pytest.fixture()
 def farm_user1(model_factory):
     user = model_factory.create('User', 'farmer1')
     farm = model_factory.create('Farm', 'FARMER_USER_FARM1')

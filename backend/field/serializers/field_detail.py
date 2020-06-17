@@ -33,7 +33,7 @@ class FieldDetailSerializer(ModelSerializer):
 
     class Meta:
         model = FieldDetail
-        fields = FIELD_DATA_FIELDS
+        fields = FIELD_DATA_FIELDS + ('soil_type', )
         model_converter = GeometryModelConverter
         dump_only = ('id', 'created_at', )
 
@@ -67,7 +67,7 @@ class FieldDetailListSerializer(FieldDetailSerializer):
 
     class Meta:
         model = FieldDetail
-        fields = FIELD_DATA_FIELDS
+        fields = FIELD_DATA_FIELDS + ('soil_type', )
         #dump_only = ('name', 'value', 'shape')
         model_converter = GeometryModelConverter
         dump_only = ('id', 'created_at',)

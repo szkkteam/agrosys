@@ -59,7 +59,6 @@ class ModelFactory:
         else:
             identifier = _convert_str(class_name_or_identifier)[0]
         model = self._create(identifier)
-        print("Commint: ")
         self.session.commit()
         return model
 
@@ -75,11 +74,8 @@ class ModelFactory:
 
         data = self.model_fixtures[identifier.id]
         cica = self.maybe_convert_values(model_class, data)
-        print("Cica: ", cica)
         instance = model_class(**cica)
-        print("instance: ", instance)
         self.session.add(instance)
-        print("instance.id: ", instance.id)
         self.model_instances[identifier.id] = instance
         return instance
 

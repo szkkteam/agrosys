@@ -30,6 +30,7 @@ class FieldSerializer(ModelSerializer):
         model = Field
         fields = FIELD_FIELDS + ('field_details', 'role',)
         dump_only = ('id', )
+        load_instance = False
 
 @api.serializer(many=True)
 class FieldListSerializer(FieldSerializer):
@@ -41,3 +42,4 @@ class FieldListSerializer(FieldSerializer):
         model = Field
         fields = FIELD_FIELDS + ('field_details', 'role',)
         dump_only = ('id',)
+        load_instance = False

@@ -23,6 +23,6 @@ class SoilType(Model):
     title = Column(String(64), nullable=False)
     yield_modifier = Column(Float())
 
-    field_details = relationship('FieldDetail', cascade="all,delete", back_populates='soil_type')
+    field_details = relationship('FieldDetail', back_populates='soil_type')
 
     __repr_props__ = ('title', 'yield_modifier')

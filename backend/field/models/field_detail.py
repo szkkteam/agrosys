@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Common Python library imports
+import sqlalchemy as sa
 # Pip package imports
 from flask_security import current_user
 from geoalchemy2 import Geometry
@@ -12,6 +13,7 @@ from backend.database import (
     Model,
     String,
     Float,
+    BigInteger,
     Boolean,
     association_proxy,
     relationship,
@@ -29,7 +31,11 @@ class FieldDetail(Model):
     soil_type = relationship('SoilType', back_populates='field_details')
 
     # Field relationship
-    field_id = foreign_key('Field', nullable=False)
+    field_id = sa.Column(BigInteger,
+              sa.ForeignKey('field.id',
+                            ondelete='CASCADE',),
+              nullable=False, )
+    #field_id = foreign_key('Field', nullable=False)
     field = relationship('Field', back_populates='field_details')
 
 

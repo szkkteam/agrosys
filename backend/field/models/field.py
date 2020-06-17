@@ -8,6 +8,7 @@ import sqlalchemy as sa
 # Internal package imports
 from backend.database import (
     Column,
+    BigInteger,
     String,
     relationship,
     foreign_key,
@@ -26,18 +27,22 @@ class Field(Resource):
     __mapper_args__ = {'polymorphic_identity': 'field'}
     title = Column(String(64))
 
-    id = sa.Column(sa.Integer(),
+    id = sa.Column(BigInteger,
                    sa.ForeignKey('resource.resource_id',
                                  onupdate='CASCADE',
                                  ondelete='CASCADE', ),
                    primary_key=True, )
 
     # Farm relationship
-    farm_id = foreign_key('Farm', nullable=False)
+    farm_id = sa.Column(BigInteger,
+              sa.ForeignKey('farm.id',
+                            ondelete='CASCADE',),
+              nullable=False, )
+    #farm_id = foreign_key('Farm', nullable=False, ondelete='CASCADE')
     farm = relationship('Farm', back_populates='fields', foreign_keys=[farm_id])
 
     # Field relationship
-    field_details = relationship('FieldDetail', cascade="all,delete", back_populates='field')
+    field_details = relationship('FieldDetail', cascade="all, delete-orphan", back_populates='field')
 
 
 
