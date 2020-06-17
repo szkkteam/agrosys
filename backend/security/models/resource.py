@@ -5,12 +5,12 @@
 # Pip package imports
 # Internal package imports
 from backend.database import (
-    Model
+    TimestampMixin, BaseModel
 
 )
 from backend.permissions.models import ResourceMixin
 
-class Resource(ResourceMixin, Model):
+class Resource(ResourceMixin, TimestampMixin, BaseModel):
 
     __possible_permissions__ = ('edit', 'view', 'delete', 'create')
 

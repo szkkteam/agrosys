@@ -131,7 +131,7 @@ class UserService(BaseService):
             cls.models_proxy.UserResourcePermission.user_id == instance.id
         )
         query2 = query2.filter(
-            cls.models_proxy.Resource.id
+            cls.models_proxy.resource.resource_id
             == cls.models_proxy.UserResourcePermission.resource_id
         )
         query2 = query2.filter(
@@ -139,10 +139,10 @@ class UserService(BaseService):
         )
         if resource_ids:
             query = query.filter(
-                cls.models_proxy.Resource.id.in_(resource_ids)
+                cls.models_proxy.resource.resource_id.in_(resource_ids)
             )
             query2 = query2.filter(
-                cls.models_proxy.Resource.id.in_(resource_ids)
+                cls.models_proxy.resource.resource_id.in_(resource_ids)
             )
 
         if resource_types:

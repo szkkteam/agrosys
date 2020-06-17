@@ -102,7 +102,7 @@ def resource_permissions_for_users(
     )
     query = query.join(
         models_proxy.Resource,
-        models_proxy.Resource.id
+        models_proxy.Resource.resource_id
         == models_proxy.GroupResourcePermission.resource_id,
     )
     if limit_group_permissions:
@@ -151,7 +151,7 @@ def resource_permissions_for_users(
     )
     query2 = query2.join(
         models_proxy.Resource,
-        models_proxy.Resource.id
+        models_proxy.Resource.resource_id
         == models_proxy.UserResourcePermission.resource_id,
     )
 

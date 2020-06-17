@@ -29,11 +29,17 @@ class ResourceMixin(BaseModel):
     __possible_permissions__ = ()
 
     @declared_attr
+    def resource_id(self):
+        return sa.Column(
+            sa.Integer(), primary_key=True, nullable=False, autoincrement=True
+        )
+
+    @declared_attr
     def parent_id(self):
         return sa.Column(
             sa.Integer(),
             sa.ForeignKey(
-                "resource.id", onupdate="CASCADE", ondelete="SET NULL"
+                "resource.resource_id", onupdate="CASCADE", ondelete="SET NULL"
             ),
         )
 

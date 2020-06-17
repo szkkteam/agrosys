@@ -50,7 +50,7 @@ class UserResourcePermissionMixin(BaseModel):
         return sa.Column(
             sa.Integer(),
             sa.ForeignKey(
-                "resource.id", onupdate="CASCADE", ondelete="CASCADE"
+                "resource.resource_id", onupdate="CASCADE", ondelete="CASCADE"
             ),
             primary_key=True,
             autoincrement=False,

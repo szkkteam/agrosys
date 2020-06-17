@@ -20,7 +20,7 @@ class Farm(Resource):
     title = Column(String(64))
 
     id = sa.Column(sa.Integer(),
-                   sa.ForeignKey('resource.id',
+                   sa.ForeignKey('resource.resource_id',
                                  onupdate='CASCADE',
                                  ondelete='CASCADE', ),
                    primary_key=True, )
