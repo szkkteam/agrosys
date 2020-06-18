@@ -5,6 +5,10 @@
 import os
 import pytest
 
+@pytest.fixture()
+def soil(model_factory):
+    yield model_factory.create('SoilType', 'SOIL_TYPE_1')
+
 """
 @pytest.fixture()
 def farm_owner_with_fields(user, farm, model_factory):

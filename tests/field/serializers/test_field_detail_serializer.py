@@ -41,83 +41,109 @@ INVALID_GEOJSON = {"type": None,
                   }
     }
 
+VALID_SOIL_TYPE = 1
+
 VALID_INPUT_DATA = [
-    ({'value': 0.0, 'area': 15.0, 'shape': VALID_GEOJSON}),
-    ({'value': None, 'area': 999.0, 'shape': VALID_GEOJSON}),
-    ({'value': 100.999, 'area': 0.1, 'shape': VALID_GEOJSON}),
+    ({'value': 0.0, 'area': 15.0, 'shape': VALID_GEOJSON, 'soilTypeId': VALID_SOIL_TYPE}),
+    ({'value': None, 'area': 999.0, 'shape': VALID_GEOJSON, 'soilTypeId': VALID_SOIL_TYPE}),
+    ({'value': 100.999, 'area': 0.1, 'shape': VALID_GEOJSON, 'soilTypeId': VALID_SOIL_TYPE}),
 ]
 
 VALID_INPUT_DATA_LIST = [
-    ([{'value': 0.0, 'area': 15.0, 'shape': VALID_GEOJSON},
-      {'value': 0.0, 'area': 15.0, 'shape': VALID_GEOJSON}]),
-    ([{'value': None, 'area': 15.0, 'shape': VALID_GEOJSON},
-      {'value': None, 'area': 15.0, 'shape': VALID_GEOJSON},]),
-    ([{'value': 100.999, 'area': 15.0, 'shape': VALID_GEOJSON},
-      {'value': 100.999, 'area': 15.0, 'shape': VALID_GEOJSON}]),
+    ([{'value': 0.0, 'area': 15.0, 'shape': VALID_GEOJSON, 'soilTypeId': VALID_SOIL_TYPE},
+      {'value': 0.0, 'area': 15.0, 'shape': VALID_GEOJSON, 'soilTypeId': VALID_SOIL_TYPE}]),
+    ([{'value': None, 'area': 15.0, 'shape': VALID_GEOJSON, 'soilTypeId': VALID_SOIL_TYPE},
+      {'value': None, 'area': 15.0, 'shape': VALID_GEOJSON, 'soilTypeId': VALID_SOIL_TYPE},]),
+    ([{'value': 100.999, 'area': 15.0, 'shape': VALID_GEOJSON, 'soilTypeId': VALID_SOIL_TYPE},
+      {'value': 100.999, 'area': 15.0, 'shape': VALID_GEOJSON, 'soilTypeId': VALID_SOIL_TYPE}]),
 ]
 
 INVALID_INPUT_DATA = [
     #({'name': None, 'value': 0.0, 'shape': VALID_GEOJSON}, 'Field may not be null.', 'name'),
-    ({'value': 0.0, 'area': 15.0, 'shape': INVALID_GEOJSON}, 'Expecting a Feature object', 'shape'),
-    ({'value': 0.0, 'area': None, 'shape': VALID_GEOJSON}, 'Field may not be null.', 'area'),
+    ({'value': 0.0, 'area': 15.0, 'shape': VALID_GEOJSON, 'soilTypeId': None}, 'Field may not be null.', 'soilTypeId'),
+    ({'value': 0.0, 'area': 15.0, 'shape': INVALID_GEOJSON, 'soilTypeId': VALID_SOIL_TYPE}, 'Expecting a Feature object', 'shape'),
+    ({'value': 0.0, 'area': None, 'shape': VALID_GEOJSON, 'soilTypeId': VALID_SOIL_TYPE}, 'Field may not be null.', 'area'),
 ]
 
 INVALID_INPUT_DATA_LIST = [
-    ([{'value': 0.0, 'area': 15.0, 'shape': INVALID_GEOJSON},
-      {'value': 0.0, 'area': 15.0, 'shape': INVALID_GEOJSON}], 'Expecting a Feature object', 'shape'),
-    ([{'value': 0.0, 'area': 15.0, 'shape': INVALID_GEOJSON},
-      {'value': 0.0, 'area': 15.0, 'shape': INVALID_GEOJSON}], 'Expecting a Feature object', 'shape'),
+    ([{'value': 0.0, 'area': 15.0, 'shape': INVALID_GEOJSON, 'soilTypeId': VALID_SOIL_TYPE},
+      {'value': 0.0, 'area': 15.0, 'shape': INVALID_GEOJSON, 'soilTypeId': VALID_SOIL_TYPE}], 'Expecting a Feature object', 'shape'),
+    ([{'value': 0.0, 'area': None, 'shape': VALID_GEOJSON, 'soilTypeId': VALID_SOIL_TYPE},
+      {'value': 0.0, 'area': None, 'shape': VALID_GEOJSON, 'soilTypeId': VALID_SOIL_TYPE}], 'Field may not be null.', 'area'),
+    ([{'value': 0.0, 'area': 15.0, 'shape': VALID_GEOJSON, 'soilTypeId': None},
+      {'value': 0.0, 'area': 15.0, 'shape': VALID_GEOJSON, 'soilTypeId': None}], 'Field may not be null.', 'soilTypeId'),
 ]
 
 
-class TestFieldSerializer:
+@pytest.mark.usefixtures('soil')
+class TestFieldDetailSerializer:
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA)
-    def test_valid_inputs(self, input):
+    def test_valid_inputs(self, input, soil):
+        input_data = copy.deepcopy(input)
+        input_data['soilTypeId'] = soil.id
+
         serializer = FieldDetailSerializer()
-        serializer.load(copy.deepcopy(input))
+        serializer.load(input_data)
 
     @pytest.mark.parametrize("input,msg,field", INVALID_INPUT_DATA)
-    def test_invalid_inputs(self, input, msg, field):
+    def test_invalid_inputs(self, input, msg, field, soil):
+        input_data = copy.deepcopy(input)
+        if input_data['soilTypeId']:
+            input_data['soilTypeId'] = soil.id
+
         serializer = FieldDetailSerializer()
         with pytest.raises(ValidationError) as v:
-            serializer.load(copy.deepcopy(input))
+            serializer.load(copy.deepcopy(input_data))
         assert msg in v.value.args[0][field]
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA)
-    def test_valid_serialize_deserialize(self, input):
+    def test_valid_serialize_deserialize(self, input, soil):
         input_data = copy.deepcopy(input)
+        input_data['soilTypeId'] = soil.id
 
         serializer = FieldDetailSerializer()
-        result = serializer.load(input.copy())
-        result = serializer.dump(result)
+        m_result = serializer.load(input_data.copy())
+        result = serializer.dump(m_result)
+        assert result['soil']['title'] == soil.title
         assert result['value'] == input_data['value']
         assert result['area'] == input_data['area']
         compare_geojson(input_data['shape'], result['shape'])
 
-
-class TestFieldListSerializer:
+@pytest.mark.usefixtures('soil')
+class TestFieldDetailListSerializer:
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA_LIST)
-    def test_valid_inputs(self, input):
+    def test_valid_inputs(self, input, soil):
+        input_data = copy.deepcopy(input)
+        for data in input_data:
+            data['soilTypeId'] = soil.id
+
         serializer = FieldDetailListSerializer()
-        serializer.load(copy.deepcopy(input), many=True)
+        serializer.load(copy.deepcopy(input_data), many=True)
 
     @pytest.mark.parametrize("input,msg,field", INVALID_INPUT_DATA_LIST)
-    def test_invalid_inputs(self, input, msg, field):
+    def test_invalid_inputs(self, input, msg, field, soil):
+        input_data = copy.deepcopy(input)
+        for data in input_data:
+            if data['soilTypeId']:
+                data['soilTypeId'] = soil.id
+
         serializer = FieldDetailListSerializer()
         with pytest.raises(ValidationError) as v:
-            serializer.load(copy.deepcopy(input), many=True)
+            serializer.load(copy.deepcopy(input_data), many=True)
         # TODO: Feature object validation is not working properly
         #error_values = { **list(v.value.args[0].values())[0], **list(v.value.args[0].values())[1]}
         #assert msg in error_values[field]
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA_LIST)
-    def test_valid_serialize_deserialize(self, input):
+    def test_valid_serialize_deserialize(self, input, soil):
         input_data = copy.deepcopy(input)
+        for data in input_data:
+            data['soilTypeId'] = soil.id
 
         serializer = FieldDetailListSerializer()
-        result = serializer.load(input.copy(), many=True)
+        result = serializer.load(input_data.copy(), many=True)
         result = serializer.dump(result)
         for r, i in zip(result, input_data):
             assert r['value'] == i['value']

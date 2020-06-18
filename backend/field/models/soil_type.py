@@ -25,4 +25,4 @@ class SoilType(Model):
 
     field_details = relationship('FieldDetail', back_populates='soil_type')
 
-    __repr_props__ = ('title', 'yield_modifier')
+    __repr_props__ = ('id', 'title', 'yield_modifier')

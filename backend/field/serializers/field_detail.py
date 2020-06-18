@@ -11,9 +11,11 @@ from marshmallow import pre_load, post_dump, post_load, validates_schema
 
 # Internal package imports
 from backend.extensions.api import api
+from backend.database import db
 from backend.api import WrappedSerializer, ModelSerializer, fields, validates, ValidationError, GeometryModelConverter, GeometryField
 
 from ..models import FieldDetail
+from ..models import SoilType
 
 FIELD_DATA_FIELDS = (
     'id',
@@ -33,10 +35,18 @@ class FieldDetailSerializer(ModelSerializer):
 
     class Meta:
         model = FieldDetail
-        fields = FIELD_DATA_FIELDS + ('soil_type', )
+        include_fk = True
+        fields = FIELD_DATA_FIELDS + ('soil_type_id', 'soil_type', )
         model_converter = GeometryModelConverter
-        dump_only = ('id', 'created_at', )
+        dump_only = ('id', 'created_at', 'soil_type')
+        load_only = ('soil_type_id', )
 
+    @validates('soil_type_id')
+    def validate_id(self, soil_type_id):
+        inst = db.session.query(SoilType).get(soil_type_id)
+        if not inst:
+            raise ValidationError('Not a valid ID.', 'soil_type_id')
+        return
 
     def _validate_geojson(self, data, **kwargs):
         shape = data.get('shape')
@@ -62,13 +72,29 @@ class FieldDetailSerializer(ModelSerializer):
             self._validate_geojson(loc_data)
         return loc_data
 
+    def load(self, data, many=None, partial=None, unknown=None):
+
+        def _load_soil_type(result, soil_type_id):
+            result.soil_type = SoilType.get(soil_type_id)
+            return result
+
+        result = self._do_load(
+            data, many=many, partial=partial, unknown=unknown, postprocess=True
+        )
+        if many:
+            result = [_load_soil_type(r, d['soilTypeId']) for d, r in zip(data, result)]
+        else:
+            result = _load_soil_type(result, data['soilTypeId'])
+        return result
+
 @api.serializer(many=True)
 class FieldDetailListSerializer(FieldDetailSerializer):
 
     class Meta:
         model = FieldDetail
-        fields = FIELD_DATA_FIELDS + ('soil_type', )
+        fields = FIELD_DATA_FIELDS + ('soil_type_id', 'soil_type', )
         #dump_only = ('name', 'value', 'shape')
         model_converter = GeometryModelConverter
-        dump_only = ('id', 'created_at',)
+        dump_only = ('id', 'created_at', 'soil_type')
+        load_only = ('soil_type_id', )
 

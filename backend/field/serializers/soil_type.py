@@ -22,4 +22,4 @@ class SoilTypeSerializer(ModelSerializer):
         fields = SOIL_TYPE_FIELDS
         dump_only = ('id', 'title')
         load_only = ('id', )
-        load_instance = False
+        #load_instance = False

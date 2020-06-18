@@ -28,7 +28,7 @@ class FieldDetail(Model):
     #shape = Column(Geometry("POLYGON", srid=900913))
 
     soil_type_id = foreign_key('SoilType', nullable=False)
-    soil_type = relationship('SoilType', back_populates='field_details')
+    soil_type = relationship('SoilType', back_populates='field_details', uselist=False)
 
     # Field relationship
     field_id = sa.Column(BigInteger,
@@ -39,4 +39,4 @@ class FieldDetail(Model):
     field = relationship('Field', back_populates='field_details')
 
 
-    __repr_props__ = ('id', 'value')
+    __repr_props__ = ('id', 'value', 'area', 'soil_type_id', 'field_id')
