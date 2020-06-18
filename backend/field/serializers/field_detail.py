@@ -72,16 +72,15 @@ class FieldDetailSerializer(ModelSerializer):
             self._validate_geojson(loc_data)
         return loc_data
 
-    def load(self, data, many=None, partial=None, unknown=None):
+    def load(self, data, many=None, partial=None, unknown=None, session=None, instance=None, transient=False, **kwargs):
 
         def _load_soil_type(result, soil_type_id):
             result.soil_type = SoilType.get(soil_type_id)
             return result
 
-        result = self._do_load(
-            data, many=many, partial=partial, unknown=unknown, postprocess=True
-        )
-        if many:
+        result = super().load(data, many=many, partial=partial, unknown=unknown, session=session, instance=instance, transient=transient, **kwargs)
+
+        if many or isinstance(data, list):
             result = [_load_soil_type(r, d['soilTypeId']) for d, r in zip(data, result)]
         else:
             result = _load_soil_type(result, data['soilTypeId'])

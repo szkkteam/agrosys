@@ -46,24 +46,29 @@ NEW_FIELD_DETAIL_DATA = {
     'soilTypeId': 1,
 }
 
+def get_field_and_soil(user):
+    from backend.field.models import Field, SoilType
+    # Query one of the user's farm
+    field = Field.all()[0]
+    # Add the field as owner to the user
+    user.resources.append(field)
+    # Add the soil type ID
+    soil = SoilType.all()[0]
+    return field, soil
+
 @pytest.mark.usefixtures('user')
 class TestFieldDetailResource:
 
     def test_create(self, api_client, farm_owner):
-        from backend.field.models import Field, SoilType
         api_client.login_as(farm_owner)
 
-        # Query one of the user's farm
-        field = Field.all()[0]
-        # Add the field as owner to the user
-        farm_owner.resources.append(field)
-        # Add the soil type ID
-        soil = SoilType.all()[0]
+        # Get neccesry data
+        field, soil = get_field_and_soil(farm_owner)
 
         data = NEW_FIELD_DETAIL_DATA.copy()
         data['soilTypeId'] = soil.id
 
-        r = api_client.post(url_for('api.field_details_resource', field_id=field.id), data=NEW_FIELD_DETAIL_DATA)
+        r = api_client.post(url_for('api.field_details_resource', field_id=field.id), data=data)
         assert r.status_code == 201
         assert 'value' in r.json
         assert 'area' in r.json
@@ -73,127 +78,173 @@ class TestFieldDetailResource:
         assert NEW_FIELD_DETAIL_DATA['area'] == r.json['area']
         assert soil.title == r.json['soil']['title']
 
-    """
-    def test_create_field_missing_name(self, api_client, field_owner):
-        from backend.farm_management.models import Farm
-        api_client.login_as(field_owner)
 
-        # Query one of the user's farm
-        farm = Farm.all()[0]
+    def test_create_missing_shape(self, api_client, farm_owner):
+        api_client.login_as(farm_owner)
 
-        data = NEW_FIELD_DATA.copy()
-        data['title'] = None
-        r = api_client.post(url_for('api.fields_resource', farm_id=farm.id), data=data)
+        # Get neccesry data
+        field, soil = get_field_and_soil(farm_owner)
+
+        data = NEW_FIELD_DETAIL_DATA.copy()
+        data['soilTypeId'] = soil.id
+        data['shape'] = None
+
+        r = api_client.post(url_for('api.field_details_resource', field_id=field.id), data=data)
         assert r.status_code == 400
-        assert 'title' in r.errors
+        assert 'shape' in r.errors
 
-    def test_get_field(self, api_client, field_owner):
-        from backend.field.models import Field
-        api_client.login_as(field_owner)
 
-        # Query one of the user's farm
-        field = Field.all()[0]
+    def test_get(self, api_client, farm_owner):
+        api_client.login_as(farm_owner)
 
-        r = api_client.get(url_for('api.field_resource', field_id=field.id))
+        # Get neccesry data
+        field, _ = get_field_and_soil(farm_owner)
+        field_detail = field.field_details[0]
+
+        r = api_client.get(url_for('api.field_detail_resource', field_detail_id=field_detail.id))
         assert r.status_code == 200
         assert 'id' in r.json
-        assert 'title' in r.json
-        assert 'fields' in r.json
+        assert 'value' in r.json
+        assert 'area' in r.json
+        assert 'soil' in r.json
 
-    def test_get_fields(self, api_client, field_owner):
-        from backend.farm_management.models import Farm
-        api_client.login_as(field_owner)
+    def test_list(self, api_client, farm_owner):
+        api_client.login_as(farm_owner)
 
-        # Query one of the user's farm
-        farm = Farm.all()[0]
+        # Get neccesry data
+        field, _ = get_field_and_soil(farm_owner)
 
-        r = api_client.get(url_for('api.fields_resource', farm_id=farm.id))
+        r = api_client.get(url_for('api.field_details_resource', field_id=field.id))
         assert r.status_code == 200
         assert len(r.json)
         for e in r.json:
             assert 'id' in e
-            assert 'title' in e
-            assert 'fields' in e
+            assert 'value' in e
+            assert 'area' in e
+            assert 'soil' in e
 
-    def test_patch_field(self, api_client, field_owner):
-        from backend.field.models import Field
-        api_client.login_as(field_owner)
+    def test_patch(self, api_client, farm_owner):
+        api_client.login_as(farm_owner)
 
-        # Query one of the user's farm
-        field = Field.all()[0]
+        # Get neccesry data
+        field, soil = get_field_and_soil(farm_owner)
+        field_detail = field.field_details[0]
 
-        new_name = "New Field Name"
-        r = api_client.patch(url_for('api.field_resource', field_id=field.id), data=dict(title=new_name))
-
-        assert r.status_code == 200
-        assert r.json['title'] == new_name
-        assert 'id' in r.json
-
-    def test_put_field(self, api_client, field_owner):
-        from backend.field.models import Field
-        api_client.login_as(field_owner)
-
-        # Query one of the user's farm
-        field = Field.all()[0]
-
-        new_name = "New Field Name"
-        r = api_client.put(url_for('api.field_resource', field_id=field.id), data=dict(title=new_name))
+        new_soil = soil.id
+        r = api_client.patch(url_for('api.field_detail_resource', field_detail_id=field_detail.id), data=dict(soilTypeId=new_soil))
 
         assert r.status_code == 200
-        assert r.json['title'] == new_name
+        assert r.json['soil']['title'] == soil.title
         assert 'id' in r.json
 
-    def test_delete_field(self, api_client, field_owner):
-        from backend.field.models import Field
-        api_client.login_as(field_owner)
+    def test_put(self, api_client, farm_owner):
+        api_client.login_as(farm_owner)
 
-        # Query one of the user's farm
-        field = Field.all()[0]
+        # Get neccesry data
+        field, soil = get_field_and_soil(farm_owner)
+        field_detail = field.field_details[0]
 
-        r = api_client.delete(url_for('api.field_resource', field_id=field.id))
+        data = NEW_FIELD_DETAIL_DATA.copy()
+        data['value'] = 2.0
+        data['area'] = 11.6
+        data['soilTypeId'] = soil.id
+        r = api_client.put(url_for('api.field_detail_resource', field_detail_id=field_detail.id), data=data)
+
+        assert r.status_code == 200
+        assert r.json['value'] == pytest.approx(data['value'])
+        assert r.json['area'] == pytest.approx(data['area'])
+        assert r.json['soil']['title'] == soil.title
+        assert 'id' in r.json
+
+    def test_delete(self, api_client, farm_owner):
+        from backend.field.models import FieldDetail
+        api_client.login_as(farm_owner)
+
+        # Get neccesry data
+        field, soil = get_field_and_soil(farm_owner)
+        field_detail = field.field_details[0]
+
+        r = api_client.delete(url_for('api.field_detail_resource', field_detail_id=field_detail.id))
 
         assert r.status_code == 204
-        assert not Field.get(field.id)
+        assert not FieldDetail.get(field_detail.id)
 
-    def test_invalid_patch_farm(self, api_client, farm_owner):
-        from backend.field.models import Field
-        api_client.login_as(field_owner)
 
-        # Query one of the user's farm
-        field = Field.all()[0]
+    def test_invalid_patch(self, api_client, farm_owner):
+        api_client.login_as(farm_owner)
 
-        new_id = 999
-        r = api_client.patch(url_for('api.field_resource', field_id=field.id), data=dict(id=new_id))
+        # Get neccesry data
+        field, _ = get_field_and_soil(farm_owner)
+        field_detail = field.field_details[0]
 
+        r = api_client.patch(url_for('api.field_detail_resource', field_detail_id=field_detail.id), data=dict(soilTypeId=999))
         assert r.status_code == 400
 
 
-    def test_anonymous_get_farm(self, api_client, user):
-        r = api_client.get(url_for('api.farms_resource'))
+    def test_anonymous_list(self, api_client, farm_owner):
+        # Get neccesry data
+        field, _ = get_field_and_soil(farm_owner)
+
+        r = api_client.get(url_for('api.field_details_resource', field_id=field.id))
         assert r.status_code == 401
 
-class TestFarmResourceProtected:
 
+class TestFieldDetailResourceProtected:
 
-    def test_get_farms(self, api_client, farm_user1, farm_user2):
+    def test_create(self, api_client, farm_user1, farm_user2):
         # User 1
         api_client.login_as(farm_user1)
-        user1_resp = api_client.get(url_for('api.farms_resource'))
+        field, soil = get_field_and_soil(farm_user1)
+
+        data = NEW_FIELD_DETAIL_DATA.copy()
+        data['soilTypeId'] = soil.id
+
+        r = api_client.post(url_for('api.field_details_resource', field_id=field.id), data=data)
+        assert r.status_code == 201
+        api_client.logout()
+
+        # User 2
+        api_client.login_as(farm_user2)
+
+        # Try to create object in other user's protected resource
+        r = api_client.post(url_for('api.field_details_resource', field_id=field.id), data=data)
+        assert r.status_code == 403
+
+    def test_list(self, api_client, farm_user1, farm_user2):
+        from backend.database import db
+        from sqlalchemy.orm import with_polymorphic
+        from backend.field.models import Field
+        from backend.security.models import Resource
+        # User 1
+        api_client.login_as(farm_user1)
+
+        # Get neccesry data from User 1
+        field_name = with_polymorphic(Resource, Field, flat=True)
+        field1 = db.session.query(field_name).filter(field_name.owner_user_id == farm_user1.id).all()[0]
+        assert False
+
+        user1_resp = api_client.get(url_for('api.field_details_resource', field_id=field1.id))
         assert user1_resp.status_code == 200
         assert len(user1_resp.json)
 
         api_client.logout()
         # User 2
         api_client.login_as(farm_user2)
-        user2_resp = api_client.get(url_for('api.farms_resource'))
+        # Get neccesry data from User 2
+
+        field2, _ = get_field_and_soil(farm_user2)
+
+        user2_resp = api_client.get(url_for('api.field_details_resource', field_id=field2.id))
         assert user2_resp.status_code == 200
         assert len(user2_resp.json)
 
         # Make sure they don't see each other's farm
         for data1 in user1_resp.json:
             for data2 in user2_resp.json:
+                # Compareing ID is enough, because of laziness probably the other fields are similar
                 assert data1['id'] != data2['id']
 
+    """
     def test_get_farm(self, api_client, farm_user1, farm_user2):
         from backend.permissions.services import UserService
 

@@ -5,9 +5,11 @@ farm_one:
 
 FARMER_USER_FARM1:
   title: Farmers farm 1
+  fields: ['Field(FIELD_FIELD_TWO)']
 
 FARMER_USER_FARM2:
   title: Farmers farm 2
+  fields: ['Field(FIELD_FIELD_THREE)']
 
 FARMER_USER_FARM3:
   title: Farmers farm 3
