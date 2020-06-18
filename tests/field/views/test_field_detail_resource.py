@@ -189,6 +189,17 @@ class TestFieldDetailResource:
         assert r.status_code == 401
 
 
+def get_user_field(user):
+    from backend.field.models import Field
+    from backend.permissions.services import UserService
+    farm = UserService.resources_with_perms(user, ['edit', 'view', 'delete', 'create'],
+                                             resource_types=['farm']).first()
+    # TODO: Farm.fields is empty. Don't know why.
+    field = Field.get_by(farm_id=farm.id)
+    user.resources.append(field)
+    return field
+
+
 class TestFieldDetailResourceProtected:
 
     def test_create(self, api_client, farm_user1, farm_user2):
@@ -211,17 +222,11 @@ class TestFieldDetailResourceProtected:
         assert r.status_code == 403
 
     def test_list(self, api_client, farm_user1, farm_user2):
-        from backend.database import db
-        from sqlalchemy.orm import with_polymorphic
-        from backend.field.models import Field
-        from backend.security.models import Resource
         # User 1
         api_client.login_as(farm_user1)
 
         # Get neccesry data from User 1
-        field_name = with_polymorphic(Resource, Field, flat=True)
-        field1 = db.session.query(field_name).filter(field_name.owner_user_id == farm_user1.id).all()[0]
-        assert False
+        field1 = get_user_field(farm_user1)
 
         user1_resp = api_client.get(url_for('api.field_details_resource', field_id=field1.id))
         assert user1_resp.status_code == 200
@@ -231,8 +236,7 @@ class TestFieldDetailResourceProtected:
         # User 2
         api_client.login_as(farm_user2)
         # Get neccesry data from User 2
-
-        field2, _ = get_field_and_soil(farm_user2)
+        field2 = get_user_field(farm_user2)
 
         user2_resp = api_client.get(url_for('api.field_details_resource', field_id=field2.id))
         assert user2_resp.status_code == 200
@@ -244,59 +248,46 @@ class TestFieldDetailResourceProtected:
                 # Compareing ID is enough, because of laziness probably the other fields are similar
                 assert data1['id'] != data2['id']
 
-    """
-    def test_get_farm(self, api_client, farm_user1, farm_user2):
-        from backend.permissions.services import UserService
-
-        # Because there is no shared farms, for this test this query is sufficient
-        farms = UserService.resources_with_possible_perms(farm_user1, resource_types='farm')
-        farms = [i.resource for i in farms]
-
+    def test_get(self, api_client, farm_user1, farm_user2):
         # User 2
         api_client.login_as(farm_user2)
-        for farm in farms:
-            r = api_client.get(url_for('api.farm_resource', farm_id=farm.id))
+
+        # Get neccesry data from User 1
+        field1 = get_user_field(farm_user1)
+
+        for field_detail in field1.field_details:
+            r = api_client.get(url_for('api.field_detail_resource', field_detail_id=field_detail.id))
             assert r.status_code == 403
 
 
-    def test_patch_farm(self, api_client, farm_user1, farm_user2):
-        from backend.permissions.services import UserService
-
-        # Because there is no shared farms, for this test this query is sufficient
-        farms = UserService.resources_with_possible_perms(farm_user1, resource_types='farm')
-        farms = [i.resource for i in farms]
-
+    def test_patch(self, api_client, farm_user1, farm_user2):
         # User 2
         api_client.login_as(farm_user2)
-        for farm in farms:
-            new_name = "New Farm Name"
-            r = api_client.patch(url_for('api.farm_resource', farm_id=farm.id), data=dict(title=new_name))
-            assert r.status_code == 403
 
-    def test_put_farm(self, api_client, farm_user1, farm_user2):
-        from backend.permissions.services import UserService
+        # Get neccesry data from User 1
+        field1 = get_user_field(farm_user1)
 
-        # Because there is no shared farms, for this test this query is sufficient
-        farms = UserService.resources_with_possible_perms(farm_user1, resource_types='farm')
-        farms = [i.resource for i in farms]
+        new_area = 999.0
+        r = api_client.patch(url_for('api.field_detail_resource', field_detail_id=field1.field_details[0].id), data=dict(area=new_area))
+        assert r.status_code == 403
 
+    def test_put(self, api_client, farm_user1, farm_user2):
         # User 2
         api_client.login_as(farm_user2)
-        for farm in farms:
-            new_name = "New Farm Name"
-            r = api_client.put(url_for('api.farm_resource', farm_id=farm.id), data=dict(title=new_name))
-            assert r.status_code == 403
 
-    def test_delete_farm(self, api_client, farm_user1, farm_user2):
-        from backend.permissions.services import UserService
+        # Get neccesry data from User 1
+        field1 = get_user_field(farm_user1)
 
-        # Because there is no shared farms, for this test this query is sufficient
-        farms = UserService.resources_with_possible_perms(farm_user1, resource_types='farm')
-        farms = [i.resource for i in farms]
+        new_area = 999.0
+        r = api_client.put(url_for('api.field_detail_resource', field_detail_id=field1.field_details[0].id), data=dict(area=new_area))
+        assert r.status_code == 403
 
+    def test_delete(self, api_client, farm_user1, farm_user2):
         # User 2
         api_client.login_as(farm_user2)
-        for farm in farms:
-            r = api_client.delete(url_for('api.farm_resource', farm_id=farm.id))
-            assert r.status_code == 403
-    """
+
+        # Get neccesry data from User 1
+        field1 = get_user_field(farm_user1)
+
+        r = api_client.delete(url_for('api.field_detail_resource', field_detail_id=field1.field_details[0].id))
+        assert r.status_code == 403

@@ -44,6 +44,11 @@ def get_fields_with_permissions(permissions):
     user = User.get(current_user.id)
     return UserService.resources_with_perms(user, permissions, resource_types=['field']).all()
 
+def get_field_by_parent(**view_kwargs):
+    fd = FieldDetail.get(view_kwargs.get('field_detail_id'))
+    if fd:
+        return fd.field
+
 def get_field_by_field_id(**view_kwargs):
     if 'field_id' not in view_kwargs:
         return None
@@ -74,23 +79,23 @@ class FieldDetailResource(ModelResource):
         return self.created(field_detail)
 
     # TODO: permission_required decorator is not working as method_decorator. Method decorators are called before the instance is present.
-    @permission_required(permission='edit', resource='field_detail')
+    @permission_required(permission='edit', resource=get_field_by_parent)
     def put(self, field_detail, errors):
         if errors:
             return self.errors(errors)
         return self.updated(field_detail)
 
-    @permission_required(permission='edit', resource='field_detail')
+    @permission_required(permission='edit', resource=get_field_by_parent)
     def patch(self, field_detail, errors):
         if errors:
             return self.errors(errors)
         return self.updated(field_detail)
 
-    @permission_required(permission='delete', resource='field_detail')
+    @permission_required(permission='delete', resource=get_field_by_parent)
     def delete(self, field_detail):
         return self.deleted(field_detail)
 
-    @permission_required(permission='view', resource='field_detail')
+    @permission_required(permission='view', resource=get_field_by_parent)
     def get(self, field_detail):
         return self.serializer.dump(field_detail)
 

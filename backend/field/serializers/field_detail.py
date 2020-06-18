@@ -74,16 +74,17 @@ class FieldDetailSerializer(ModelSerializer):
 
     def load(self, data, many=None, partial=None, unknown=None, session=None, instance=None, transient=False, **kwargs):
 
-        def _load_soil_type(result, soil_type_id):
-            result.soil_type = SoilType.get(soil_type_id)
+        def _load_soil_type(result, data):
+            if 'soilTypeId' in data:
+                result.soil_type = SoilType.get(data.get('soilTypeId'))
             return result
 
         result = super().load(data, many=many, partial=partial, unknown=unknown, session=session, instance=instance, transient=transient, **kwargs)
 
         if many or isinstance(data, list):
-            result = [_load_soil_type(r, d['soilTypeId']) for d, r in zip(data, result)]
+            result = [_load_soil_type(r, d) for d, r in zip(data, result)]
         else:
-            result = _load_soil_type(result, data['soilTypeId'])
+            result = _load_soil_type(result, data)
         return result
 
 @api.serializer(many=True)
