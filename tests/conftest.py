@@ -180,8 +180,11 @@ def farm(model_factory):
 def farm_owner(user, model_factory):
     farm = model_factory.create('Farm', 'farm_one')
     user.resources.append(farm)
+    # TODO: Currently I'm not sure why the farm.fields list is empty at this point.
+    # The model factory created the model structure correctly, but after commit the list is become empty.
     for field in farm.fields:
         user.resources.append(field)
+
     yield user
 
 @pytest.fixture()

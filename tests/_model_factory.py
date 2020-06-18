@@ -59,7 +59,9 @@ class ModelFactory:
         else:
             identifier = _convert_str(class_name_or_identifier)[0]
         model = self._create(identifier)
+        #print("Model before commit: ", model)
         self.session.commit()
+        #print("Model after commit: ", model)
         return model
 
     def _create(self, identifier):
@@ -76,11 +78,13 @@ class ModelFactory:
         cica = self.maybe_convert_values(model_class, data)
         instance = model_class(**cica)
         self.session.add(instance)
+        #print("Instance added to session: ", instance)
         self.model_instances[identifier.id] = instance
         return instance
 
     def maybe_convert_values(self, model_class, data):
         ret = data.copy()
+        #print("Ret: ", ret)
         for col_name, value in data.items():
             col = getattr(model_class, col_name)
             if (isinstance(value, str) or isinstance(value, list)):
@@ -88,9 +92,13 @@ class ModelFactory:
             else:
                 result = None
             if isinstance(col, ObjectAssociationProxyInstance):
+                #print("AssociationProxy ret['%s']: %s" % (col_name, ret[col_name]))
                 ret[col_name] = self.convert_identifiers(value)
+                #print("AssociationProxy Converted ret['%s']: %s" % (col_name, ret[col_name]))
             elif result is not None and (len(result) > 1 and result[0] in self.model_classes):
+                #print("OneToMany ret['%s']: %s" % (col_name, ret[col_name]))
                 ret[col_name] = self.convert_identifiers(value)
+                #print("OneToMany Converted ret['%s']: %s" % (col_name, ret[col_name]))
             elif not hasattr(col, 'type'):
                 continue
             elif isinstance(col.type, Date):

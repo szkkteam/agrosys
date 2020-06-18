@@ -29,4 +29,14 @@ class Farm(Resource):
     # TODO: Define later lazy relationship
     #seasons = relationship('Season', cascade="all,delete", back_populates='farm', lazy='noload')
 
-    __repr_props__ = ('id', 'title', 'owner_user_id')
+    __repr_props__ = ('id', 'title', 'owner_user_id', 'fields')
+
+    def __init__(self, **kwargs):
+        if 'fields' in kwargs:
+            fields = kwargs.pop('fields')
+            print("Appending fields: ", fields)
+            if isinstance(fields, list):
+                self.fields.extend(fields)
+            else:
+                self.fields.append(fields)
+        super().__init__(**kwargs)

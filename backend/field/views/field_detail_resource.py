@@ -55,18 +55,22 @@ class FieldDetailResource(ModelResource):
     include_methods = ALL_METHODS
     exclude_decorators = (LIST, )
     method_decorators = {
-        CREATE: (auth_required,),
+        CREATE: (auth_required, partial(permission_required, **dict(permission='create', resource=get_field_by_field_id))),
         DELETE: (auth_required, ),
         GET: (auth_required, ),
         PATCH: (auth_required, ),
         PUT: (auth_required, ),
     }
 
-    # TODO: Check if user has permission to create field.
-    @permission_required(permission='create', resource=get_field_by_field_id)
+    # TODO: For POST request the method decorator is not working here because we have an incomplete model (field_id = None, which is not valid)
+    # Therefore the permission query is executed and SQLAlchemy tries to perform a flush before querying. This causing an integrity error
+    #@permission_required(permission='create', resource=get_field_by_field_id)
     def create(self, field_detail, errors, **kwargs):
         if errors:
             return self.errors(errors)
+        field = Field.get(kwargs.get('field_id'))
+        # Assign the field_detail to the parent field
+        field_detail.field = field
         return self.created(field_detail)
 
     # TODO: permission_required decorator is not working as method_decorator. Method decorators are called before the instance is present.

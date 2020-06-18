@@ -43,7 +43,11 @@ def permission_required(*args, **kwargs):
     if 'resource' in kwargs:
         resource = kwargs['resource']
     else:
-        raise RuntimeError('resource_instance parameter has to be passed as keyword argument')
+        raise RuntimeError('resource parameter has to be passed as keyword argument')
+
+    # TODO: check if it was decorated without parenthesis and ensure the resource is only callable
+    if was_decorated_without_parenthesis(args):
+        assert callable(resource), "resource parameter must be callable if it's used without parenthesis"
 
     def wrapper(fn):
         @wraps(fn)
@@ -76,13 +80,14 @@ def permission_required(*args, **kwargs):
             # Get current user
             if resource_instance:
                 user = User.get(current_user.id)
+                print("Resource instance: ", resource_instance)
                 # TODO: Change this to get the permissions instead of the resource
                 res = UserService.resources_with_perms(user, required_permissions, resource_ids=[resource_instance.id]).first()
                 print("Resource: ", res)
                 print("User: ", user)
                 if not res:
                     abort(HTTPStatus.FORBIDDEN)
-
+                print("***** Permission test success!!!! *****")
             return fn(*args, **kwargs)
         return decorated
 

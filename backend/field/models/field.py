@@ -39,7 +39,7 @@ class Field(Resource):
                             ondelete='CASCADE',),
               nullable=False, )
     #farm_id = foreign_key('Farm', nullable=False, ondelete='CASCADE')
-    farm = relationship('Farm', back_populates='fields', foreign_keys=[farm_id])
+    farm = relationship('Farm', back_populates='fields', foreign_keys=farm_id)
 
     # Field relationship
     field_details = relationship('FieldDetail', cascade="all, delete-orphan", back_populates='field')
@@ -55,7 +55,7 @@ class Field(Resource):
     # TODO: Define later lazy relationship
     #seasons = relationship('Season', cascade="all,delete", back_populates='farm', lazy='noload')
 
-    __repr_props__ = ('id', 'title', 'owner_user_id')
+    __repr_props__ = ('id', 'title', 'owner_user_id', 'field_details', 'farm_id')
 
     def __init__(self, field_details=None, *args, **kwargs):
         super(Field, self).__init__(*args, **kwargs)

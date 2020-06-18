@@ -41,7 +41,7 @@ class User(Model, UserMixin, PermissionUserMixin):
     roles = association_proxy('user_roles', 'role',
                               creator=lambda role: UserRole(role=role))
 
-    __repr_props__ = ('id', 'username', 'email')
+    __repr_props__ = ('id', 'username', 'email', 'roles')
 
     def __init__(self, hash_password=True, **kwargs):
         super().__init__(**kwargs)

@@ -208,6 +208,7 @@ def post_loader(*args, serializer):
         def decorated(*args, **kwargs):
             try:
                 result = serializer.load(request.get_json())
+                print("Post loader result: ", result)
             except ValidationError as v:
                 errors = v.messages
                 result = v.valid_data

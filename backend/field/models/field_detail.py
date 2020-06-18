@@ -39,4 +39,4 @@ class FieldDetail(Model):
     field = relationship('Field', back_populates='field_details')
 
 
-    __repr_props__ = ('id', 'value', 'area', 'soil_type_id', 'field_id')
+    __repr_props__ = ('id', 'value', 'area', 'soil_type_id', 'field_id', 'soil_type', 'field_id')
