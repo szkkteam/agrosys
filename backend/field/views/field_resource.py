@@ -29,7 +29,7 @@ from backend.permissions.services import ResourceService, UserService
 
 def get_field_details(field, only_last=False):
     if only_last:
-        field_details = FieldDetail.filter_by(field_id=field.id).order_by(desc(FieldDetail.created_at)).first()
+        field_details = [FieldDetail.filter_by(field_id=field.id).order_by(desc(FieldDetail.created_at)).first()]
     else:
         field_details = field.field_details
     return {
@@ -55,9 +55,9 @@ def get_field_farm_create_permission(**view_kwargs):
 @api.model_resource(field_bp, Field, '/farms/<int:farm_id>/fields', '/fields/<int:field_id>')
 class FieldResource(ModelResource):
     include_methods = ALL_METHODS
-    exclude_decorators = (LIST, CREATE)
+    exclude_decorators = (LIST, )
     method_decorators = {
-        CREATE: (auth_required,),
+        CREATE: (auth_required, partial(permission_required, **dict(permission='create', resource=get_field_farm_create_permission))),
         DELETE: (auth_required, ),
         GET: (auth_required, ),
         PATCH: (auth_required, ),
@@ -65,16 +65,10 @@ class FieldResource(ModelResource):
     }
 
     # TODO: Check if user has permission to create field.
-    @permission_required(permission='create', resource=get_field_farm_create_permission)
-    def create(self, *args, **kwargs):
-        try:
-            result = self.serializer_create.load(request.get_json())
-        except ValidationError as v:
-            errors = v.messages
-            print("Errors: ", errors)
+    #def create(self, *args, **kwargs):
+    def create(self, field, errors, **kwargs):
+        if errors:
             return self.errors(errors)
-        print("REsult: ", result)
-        assert False
         # Get the current user object
         user = User.get(current_user.id)
         # Add farm to user's resource. The user will be the owner of this resource

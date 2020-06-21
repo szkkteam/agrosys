@@ -16,6 +16,11 @@ FARM_FIELDS = (
     'role',
 )
 
+FARM_PERMISSION_FIELDS = (
+    'is_owner', 'permissions'
+)
+
+
 class FarmSerializer(ModelSerializer):
 
     fields = m_fields.Nested('FieldListSerializer', many=True)
@@ -36,3 +41,11 @@ class FarmListSerializer(ModelSerializer):
         model = Farm
         fields = FARM_FIELDS
         dump_only = ('id', 'role', )
+
+
+class FarmPermissionSerializer(ModelSerializer):
+
+    class Meta:
+        model = Farm
+        fields = FARM_PERMISSION_FIELDS
+        #dump_only = ('owner',)

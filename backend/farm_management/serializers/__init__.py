@@ -5,5 +5,4 @@
 # Pip package imports
 # Internal package imports
 from .profile import ProfileSerializer
-from .farm import FarmSerializer
-from .farm_permission import FarmPermissionSerializer
+from .farm import FarmSerializer, FarmPermissionSerializer

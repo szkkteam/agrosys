@@ -9,14 +9,3 @@ from backend.api import ModelSerializer
 from backend.api import fields as m_fields
 
 from ..models import Farm
-
-FARM_PERMISSION_FIELDS = (
-    'is_owner', 'permissions'
-)
-
-class FarmPermissionSerializer(ModelSerializer):
-
-    class Meta:
-        model = Farm
-        fields = FARM_PERMISSION_FIELDS
-        #dump_only = ('owner',)

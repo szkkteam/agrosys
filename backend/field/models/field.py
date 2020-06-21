@@ -57,8 +57,12 @@ class Field(Resource):
 
     __repr_props__ = ('id', 'title', 'owner_user_id', 'field_details', 'farm_id')
 
-    def __init__(self, field_details=None, *args, **kwargs):
-        super(Field, self).__init__(*args, **kwargs)
-        field_details = field_details or []
-        for field_detail in field_details:
-            self.field_details.append(field_detail)
+    def __init__(self, **kwargs):
+        if 'field_details' in kwargs:
+            field_details = kwargs.pop('field_details')
+            print("Appending field_details: ", field_details)
+            if isinstance(field_details, list):
+                self.field_details.extend(field_details)
+            else:
+                self.field_details.append(field_details)
+        super().__init__(**kwargs)

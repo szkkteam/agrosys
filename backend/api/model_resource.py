@@ -362,4 +362,5 @@ class ModelResource(Resource):
 
         # reverse the decorators so that they get applied in the top-to-bottom
         # order they were specified in
+        print("Decorators: ", decorators)
         return reversed(decorators)

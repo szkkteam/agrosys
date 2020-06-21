@@ -16,6 +16,9 @@ FIELD_FIELDS = (
     'title',
 )
 
+FIELD_PERMISSION_FIELDS = (
+    'is_owner', 'permissions'
+)
 
 class FieldSerializer(ModelSerializer):
 
@@ -29,17 +32,23 @@ class FieldSerializer(ModelSerializer):
     class Meta:
         model = Field
         fields = FIELD_FIELDS + ('field_details', 'role',)
-        dump_only = ('id', )
-        load_instance = False
+        dump_only = ('id', 'role')
 
 @api.serializer(many=True)
 class FieldListSerializer(FieldSerializer):
 
-    field_details = m_fields.Nested('FieldDetailSerializer', many=False, data_key='fields')
+    field_details = m_fields.Nested('FieldDetailListSerializer', many=True, data_key='fields')
     role = m_fields.Nested('FieldPermissionSerializer', many=False)
 
     class Meta:
         model = Field
         fields = FIELD_FIELDS + ('field_details', 'role',)
-        dump_only = ('id',)
-        load_instance = False
+        dump_only = ('id', 'role')
+
+
+class FieldPermissionSerializer(ModelSerializer):
+
+    class Meta:
+        model = Field
+        fields = FIELD_PERMISSION_FIELDS
+        dump_only = ('owner', 'permissions')
