@@ -13,14 +13,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import { Icon } from 'leaflet';
 
-import NavLink from './NavLink'
+import { NavLink } from 'components'
 
 class SideBarItem extends React.Component {
     constructor(props) {
       super(props)
-
       
-
       this.state = {
         collapsed: true,
       }

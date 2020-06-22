@@ -18,6 +18,8 @@ import Divider from '@material-ui/core/Divider';
 import { ROUTES } from 'routes'
 import SideBar from './SideBar'
 
+import { FarmMenu } from 'farm/menu.js'
+
 import './sidemenu.scss'
 
 function onClick(e, item) {
@@ -67,16 +69,12 @@ const items = [
   ];
 */
 const items = [
-    { 
-      name: "farm", 
-      Icon: HomeIcon, 
-      route: ROUTES.Farms,    
-    },    
+    FarmMenu,    
     { 
       name: "field", 
       Icon: HomeIcon, 
-      route: ROUTES.Fields,    
-    },    
+      route: ROUTES.FieldList,
+    },
     {
       name: "contact",
       Icon: ReceiptIcon,

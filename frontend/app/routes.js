@@ -4,18 +4,13 @@ import startCase from 'lodash/startCase'
 import { compile } from 'path-to-regexp'
 
 import {
-  ArticleDetail,
-  Articles,
-  CategoryDetail,
-  Series,
-  SeriesDetail,
-  TagDetail,
-} from 'blog/pages'
-
-import {
   Farms,
   Fields,
 } from 'farm/pages'
+
+import {
+  FieldList,
+} from 'field/pages'
 
 import {
   ForgotPassword,
@@ -30,6 +25,7 @@ import {
 
 import {
   Contact,
+  Dashboard,
   Home,
   NotFound,
   Styles,
@@ -45,13 +41,21 @@ import { AnonymousRoute, ProtectedRoute } from 'utils/route'
  * Both keys and values are component class names
  */
 export const ROUTES = {
+  /**
+   * Farm
+   */
   Farms: 'Farms',
-  Fields: 'Fields',
+  /**
+   * Field
+   */
+  FieldList: 'FieldList',
 
 
-  ArticleDetail: 'ArticleDetail',
-  Articles: 'Articles',
-  CategoryDetail: 'CategoryDetail',
+  /**
+   * Site
+   */
+  Dashboard: 'Dashboard',
+  
   Contact: 'Contact',
   ForgotPassword: 'ForgotPassword',
   Home: 'Home',
@@ -60,12 +64,9 @@ export const ROUTES = {
   PendingConfirmation: 'PendingConfirmation',
   Profile: 'Profile',
   ResendConfirmation: 'ResendConfirmation',
-  ResetPassword: 'ResetPassword',
-  Series: 'Series',
-  SeriesDetail: 'SeriesDetail',
+  ResetPassword: 'ResetPassword',  
   SignUp: 'SignUp',
-  Styles: 'Styles',
-  TagDetail: 'TagDetail',
+  Styles: 'Styles',  
 }
 
 /**
@@ -79,33 +80,34 @@ export const ROUTES = {
  *  - label: optional, label to use for links (default: startCase(key))
  */
 const routes = [
+  /**
+   * Modules
+   */
   {
     key: ROUTES.Farms,
     path: '/farm',
     component: Farms,
   },
+  /**
+   * Field
+   */
   {
-    key: ROUTES.Fields,
-    path: '/field',
-    component: Fields,
+    key: ROUTES.FieldList,
+    path: '/field-list',
+    component: FieldList,
   },
 
 
+
+  /**
+   * Site
+   */
   {
-    key: ROUTES.ArticleDetail,
-    path: '/articles/:slug',
-    component: ArticleDetail,
+    key: ROUTES.Dashboard,
+    path: '/dashboard',
+    component: Dashboard,
   },
-  {
-    key: ROUTES.Articles,
-    path: '/articles',
-    component: Articles,
-  },
-  {
-    key: ROUTES.CategoryDetail,
-    path: '/articles/categories/:slug',
-    component: CategoryDetail,
-  },
+
   {
     key: ROUTES.Contact,
     path: '/contact',
@@ -164,18 +166,7 @@ const routes = [
     routeComponent: AnonymousRoute,
     label: 'Reset Password',
   },
-  {
-    key: ROUTES.Series,
-    path: '/series',
-    component: Series,
-    label: 'Article Series',
-  },
-  {
-    key: ROUTES.SeriesDetail,
-    path: '/series/:slug',
-    component: SeriesDetail,
-  },
-  {
+    {
     key: ROUTES.SignUp,
     path: '/sign-up',
     component: SignUp,
@@ -186,12 +177,7 @@ const routes = [
     key: ROUTES.Styles,
     path: '/styles',
     component: Styles,
-  },
-  {
-    key: ROUTES.TagDetail,
-    path: '/articles/tags/:slug',
-    component: TagDetail,
-  },
+  },  
 ]
 
 /**
