@@ -18,7 +18,7 @@ import Divider from '@material-ui/core/Divider';
 import { ROUTES } from 'routes'
 import SideBar from './SideBar'
 
-import { FarmMenu } from 'farm/menu.js'
+import { FarmMenu } from 'farm/menus'
 
 import './sidemenu.scss'
 
@@ -68,8 +68,10 @@ const items = [
     }
   ];
 */
+    /*
 const items = [
     FarmMenu,    
+
     { 
       name: "field", 
       Icon: HomeIcon, 
@@ -85,7 +87,9 @@ const items = [
       Icon: ReceiptIcon,
       route: ROUTES.Home,
     },
+
   ];
+      */
 
 export default class SideMenu extends React.Component {
     constructor(props) {
@@ -101,7 +105,12 @@ export default class SideMenu extends React.Component {
     }
 
     render() {
-        const isOpen = this.state.menuOpen;
+        const isOpen = this.state.menuOpen;        
+
+        let items = [
+          FarmMenu
+        ]
+
         return (
               <Drawer className={classnames({
                   'side-navigation': true,
