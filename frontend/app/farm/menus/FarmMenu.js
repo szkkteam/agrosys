@@ -20,7 +20,10 @@ export const FarmMenu = {
 
 const defaultFarmMenu = [{ 
   label: "Create New",
-  Icon: HomeIcon,
+  Icon: {
+    src: HomeIcon,
+    props: { className: "drawer-item-icon", fontSize: "default" }
+  },
   route: ROUTES.Farms,
  }];
 

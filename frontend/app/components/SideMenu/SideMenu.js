@@ -19,6 +19,7 @@ import { ROUTES } from 'routes'
 import SideBar from './SideBar'
 
 import { FarmMenu } from 'farm/menus'
+import { UserMenu } from 'user/menus'
 
 import './sidemenu.scss'
 
@@ -91,6 +92,15 @@ const items = [
   ];
       */
 
+
+let items = [
+  UserMenu,
+  Divider,
+  FarmMenu,
+
+]
+
+
 export default class SideMenu extends React.Component {
     constructor(props) {
       super(props)
@@ -106,10 +116,6 @@ export default class SideMenu extends React.Component {
 
     render() {
         const isOpen = this.state.menuOpen;        
-
-        let items = [
-          FarmMenu
-        ]
 
         return (
               <Drawer className={classnames({
@@ -127,9 +133,6 @@ export default class SideMenu extends React.Component {
               >
                   <div>
                       { isOpen? this.renderCloseButton() : this.renderOpenButton() } 
-                  </div>
-                  <div>
-                      TODO: user profile
                   </div>
                   <Divider/>
                   <SideBar items={items} />

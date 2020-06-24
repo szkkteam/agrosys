@@ -15,6 +15,7 @@ import { Icon } from 'leaflet';
 
 import { NavLink } from 'components'
 
+//{Icon && <Icon className="drawer-item-icon" fontSize="default" />}
 
 export default class SideBarItem extends React.Component {
     constructor(props) {
@@ -73,7 +74,7 @@ export default class SideBarItem extends React.Component {
                         style={{ paddingLeft: this.props.depth * this.props.depthStep }}
                         className="drawer-item-content"
                     >
-                        {Icon && <Icon className="drawer-item-icon" fontSize="default" />}
+                        { Icon && Icon.src && React.createElement(Icon.src, Icon.props) }
                         { route? (
                             <NavLink className="drawer-item-text" to={route}>
                                 {label}
