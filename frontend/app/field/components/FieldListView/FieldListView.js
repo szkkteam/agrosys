@@ -3,8 +3,19 @@ import Grid from '@material-ui/core/Grid';
 import { FieldListElement, FieldListCreate } from '../FieldListElement'
 import './fieldlistview.scss'
 
+//
+/*
+                            <FieldListElement 
+                                item={item}
+                            />
+
+*/
+
 export default class FieldListView extends React.Component 
 {
+    constructor(props) {
+        super(props)
+      }
 
     render() {
 
@@ -16,11 +27,8 @@ export default class FieldListView extends React.Component
                     <Grid item xs={12}>
                         <FieldListCreate />
                     </Grid>
-                    {items.map( (item, index) => (
+                    {Array.isArray(items) && items.map( (item, index) => (
                         <Grid item xs={12}>
-                            <FieldListElement 
-                                item={item}
-                            />
                         </Grid>
                     ))}
                 </Grid>

@@ -19,6 +19,7 @@ import { ROUTES } from 'routes'
 import SideBar from './SideBar'
 
 import { FarmMenu } from 'farm/menus'
+import { FieldMenu } from 'field/menus'
 import { UserMenu } from 'user/menus'
 
 import './sidemenu.scss'
@@ -94,10 +95,22 @@ const items = [
 
 
 let items = [
-  UserMenu,
-  Divider,
-  FarmMenu,
-
+  {
+    src: UserMenu,
+    type: "userMenu"
+  },
+  {
+    src: Divider,
+    type: "divider",
+  },
+  {
+    src: FarmMenu,
+    type: "menuItem"
+  },
+  {
+    src: FieldMenu,
+    type: "menuItem",
+  }    
 ]
 
 

@@ -3,11 +3,11 @@ import React from 'react'
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Paper from '@material-ui/core/Paper';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CardMedia from '@material-ui/core/CardMedia';
 
-import FiledListCard from './FieldListCard'
+import FieldListCard from './FieldListCard'
 
-import './fieldlistviewelement.scss'
 
 class FieldListElementBase extends React.Component {
 
@@ -15,11 +15,11 @@ class FieldListElementBase extends React.Component {
         const { children, ...rest} = this.props;
         return (
             <Paper elevation={3}>
-                <FiledListCard
-                    cardData={...rest}
+                <FieldListCard
+                    cardData={rest}
                 >
                     { children }
-                </FiledListCard>
+                </FieldListCard>
             </Paper>
         )
     }
@@ -41,6 +41,8 @@ export const FieldListElement = ( {coverImage, ...rest} ) => (
 export const FieldListCreate = () => (
     <FieldListElementBase
         title={"Create New"}
+        description={"Click here to create a new field."}        
     >
+        <AddCircleIcon />
     </FieldListElementBase>            
 )

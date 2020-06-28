@@ -40,7 +40,10 @@ export default class FarmMenu extends React.Component {
     const { farmMenu } = this.state;
     const item = {
       route: ROUTES.Farm,
-      Icon: HomeIcon,
+      Icon: {
+        src: HomeIcon,
+        props: { className: "drawer-item-icon", fontSize: "default" }
+      },
       label: 'Farm',
       items: farmMenu,
     }

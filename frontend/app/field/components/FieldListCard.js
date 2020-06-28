@@ -1,10 +1,12 @@
 import React from 'react'
 
 import Card from '@material-ui/core/Card';
+import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 
-export default ({title, description, children}) => {
+export default ({cardData, children}) => {
+    const {title, description} = cardData
     return (
         <Card>
             { children }

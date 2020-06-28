@@ -1,7 +1,13 @@
 import React from 'react'
+import Helmet from 'react-helmet'
 
 import { PageContent } from 'components'
-import { FIELD_VIEW_TYPES } from '.../constants'
+import { FieldListView } from 'field/components'
+
+const FIELD_VIEW_TYPES = {
+    LIST_VIEW: "list-view",
+    CARD_VIEW: "card-view"
+}
 
 export default class FieldList extends React.Component {
     constructor(props) {
@@ -23,9 +29,13 @@ export default class FieldList extends React.Component {
     render() {
         return (
             <PageContent>
-                <h1>
-                    Field List view
-                </h1>
+                <Helmet>
+                <title>
+                    Field List
+                </title>
+                </Helmet>
+                <FieldListView>
+                </FieldListView>
             </PageContent>
         )
     }
