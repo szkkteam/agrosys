@@ -6,6 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CardMedia from '@material-ui/core/CardMedia';
 
+import { ROUTES } from 'routes'
 import FieldListCard from './FieldListCard'
 
 
@@ -14,13 +15,13 @@ class FieldListElementBase extends React.Component {
     render() {
         const { children, ...rest} = this.props;
         return (
-            <Paper elevation={3}>
+            <React.Fragment>
                 <FieldListCard
                     cardData={rest}
                 >
                     { children }
                 </FieldListCard>
-            </Paper>
+            </React.Fragment>
         )
     }
 }
@@ -41,7 +42,8 @@ export const FieldListElement = ( {coverImage, ...rest} ) => (
 export const FieldListCreate = () => (
     <FieldListElementBase
         title={"Create New"}
-        description={"Click here to create a new field."}        
+        description={"Click here to create a new field."}
+        route={ROUTES.FieldList}        
     >
         <AddCircleIcon />
     </FieldListElementBase>            

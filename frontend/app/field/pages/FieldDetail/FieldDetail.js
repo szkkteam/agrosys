@@ -1,4 +1,5 @@
 import React from 'react'
+import { PageContent } from 'components'
 
 
 export default class FieldDetail extends React.Component {
@@ -11,13 +12,13 @@ export default class FieldDetail extends React.Component {
     render() {
         retrun (
             <PageContent>
-            <Helmet>
-            <title>
-                Field - title
-            </title>
-            </Helmet>
-            Im a field detail
-        </PageContent>
+                <Helmet>
+                    <title>
+                        Field - title
+                    </title>
+                </Helmet>
+                Im a field detail
+            </PageContent>
         )
     }
 }
