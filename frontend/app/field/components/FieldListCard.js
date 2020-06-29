@@ -5,19 +5,23 @@ import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 
+import { NavLink } from 'components'
+
 export default ({cardData, children}) => {
-    const {title, description} = cardData
+    const {title, description, route} = cardData
     return (
-        <Card>
-            { children }
-            <CardContent className="card-content">
-                <Typography component="h5" variant="h5">
-                    {title}
-                </Typography>
-                {description && <Typography variant="subtitle1" color="textSecondary">
-                    {description}
-                </Typography> }
-            </CardContent>
-        </Card>
+        <NavLink to={route}>
+            <Card>
+                { children }
+                <CardContent className="card-content" style={{display: "inlineBlock"}}>
+                    <Typography component="h5" variant="h5">
+                        {title}
+                    </Typography>
+                    {description && <Typography variant="subtitle1" color="textSecondary">
+                        {description}
+                    </Typography> }
+                </CardContent>
+            </Card>
+        </NavLink>
     )
 }
