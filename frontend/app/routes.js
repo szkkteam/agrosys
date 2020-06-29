@@ -10,6 +10,7 @@ import {
 
 import {
   FieldList,
+  FieldDetail,
 } from 'field/pages'
 
 import {
@@ -49,6 +50,7 @@ export const ROUTES = {
    * Field
    */
   FieldList: 'FieldList',
+  FieldDetail: 'FieldDetail',
 
 
   /**
@@ -93,10 +95,14 @@ const routes = [
    */
   {
     key: ROUTES.FieldList,
-    path: '/field-list',
+    path: '/fields-list',
     component: FieldList,
   },
-
+  {
+    key: ROUTES.FieldDetail,
+    path: '/fields/:id',
+    component: FieldDetail,
+  },
 
 
   /**
