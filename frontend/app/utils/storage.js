@@ -11,6 +11,11 @@ class Storage {
     localStorage.setItem('user', JSON.stringify(user))
   }
 
+  activateFarm(farm) {
+    this.farm = farm
+    localStorage.setItem('activeFarm', JSON.stringify(farm))
+  }
+
   doLogout() {
     this.token = null
     this.user = null
@@ -40,6 +45,19 @@ class Storage {
     }
     return this.user
   }
+
+  getActiveFarm() {
+    if (!this.farm) {
+      try {
+        farm = JSON.parse(localStorage.getItem('activeFarm'))
+      } catch (e) {
+        farm = null
+      }      
+      this.farm = farm
+    }
+    return this.farm
+  }
+  
 }
 
 export default new Storage()

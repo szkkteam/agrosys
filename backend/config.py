@@ -283,7 +283,7 @@ class DevConfig(BaseConfig):
         password=os.environ.get('FLASK_DATABASE_PASSWORD', 'flask_api'),
         host=os.environ.get('FLASK_DATABASE_HOST', '127.0.0.1'),
         port=os.environ.get('FLASK_DATABASE_PORT', 5432),
-        db_name=os.environ.get('FLASK_DATABASE_NAME', 'flask_api'),
+        db_name=os.environ.get('FLASK_DATABASE_NAME', 'agro_dev'),
     )
     SQLALCHEMY_ECHO = True
 

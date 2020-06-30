@@ -1,5 +1,6 @@
 import React from 'react'
 import { PageContent } from 'components'
+import Helmet from 'react-helmet'
 
 
 export default class FieldDetail extends React.Component {
@@ -10,7 +11,7 @@ export default class FieldDetail extends React.Component {
     }
 
     render() {
-        retrun (
+        return (
             <PageContent>
                 <Helmet>
                     <title>

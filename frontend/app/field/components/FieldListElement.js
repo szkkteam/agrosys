@@ -43,8 +43,8 @@ export const FieldListCreate = () => (
     <FieldListElementBase
         title={"Create New"}
         description={"Click here to create a new field."}
-        route={ROUTES.FieldList}        
+        route={ROUTES.FieldCreate}        
     >
         <AddCircleIcon />
-    </FieldListElementBase>            
+    </FieldListElementBase>             
 )

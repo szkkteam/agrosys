@@ -10,7 +10,7 @@ import { NavLink } from 'components'
 export default ({cardData, children}) => {
     const {title, description, route} = cardData
     return (
-        <NavLink to={route}>
+        <NavLink strict exact to={route}>
             <Card>
                 <div className={"field-item"}>
                     { children }
@@ -25,5 +25,5 @@ export default ({cardData, children}) => {
                 </div>
             </Card>
         </NavLink>
-    )
+    ) 
 }

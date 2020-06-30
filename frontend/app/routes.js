@@ -5,12 +5,14 @@ import { compile } from 'path-to-regexp'
 
 import {
   Farms,
+  FarmCreate,
   Fields,
 } from 'farm/pages'
 
 import {
   FieldList,
   FieldDetail,
+  FieldCreate,
 } from 'field/pages'
 
 import {
@@ -46,11 +48,13 @@ export const ROUTES = {
    * Farm
    */
   Farms: 'Farms',
+  FarmCreate: 'FarmCreate',
   /**
    * Field
    */
   FieldList: 'FieldList',
   FieldDetail: 'FieldDetail',
+  FieldCreate: 'FieldCreate',
 
 
   /**
@@ -90,12 +94,17 @@ const routes = [
     path: '/farm',
     component: Farms,
   },
+  {
+    key: ROUTES.FarmCreate,
+    path: '/farms-new',
+    component: FarmCreate,
+  },
   /**
    * Field
    */
   {
     key: ROUTES.FieldList,
-    path: '/fields-list',
+    path: '/fields',
     component: FieldList,
   },
   {
@@ -103,6 +112,12 @@ const routes = [
     path: '/fields/:id',
     component: FieldDetail,
   },
+  {
+    key: ROUTES.FieldCreate,
+    path: '/fields-new/',
+    component: FieldCreate,
+  },
+
 
 
   /**

@@ -41,6 +41,15 @@
       "role_id": 2
     }
   ]},
+
+  {
+    "model": "Farm", "items": [
+      {
+        "id": 1,
+        "title": "My Farm"
+      }
+    ]
+  },
   { "model": "NewsletterSubscribe", "items": [
     {
       "id": 1,
