@@ -85,7 +85,6 @@ class FarmMenu extends React.Component {
     if (farms.length == 1) {
       storage.activateFarm(farms[0])
     }
-    console.log(farms)
     const { farmMenu } = this.state;
     farmMenu.items = this.getFarmMenu(farms, defaultFarmMenuSubItems)
     return (

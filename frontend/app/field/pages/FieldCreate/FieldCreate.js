@@ -3,15 +3,39 @@ import { PageContent } from 'components'
 import Helmet from 'react-helmet'
 
 import { Map, Marker, Popup, TileLayer } from "react-leaflet";
-
-
 import { 
     SplitPane,
     EditableMap,
     MapEditable,
 } from 'field/components'
+import { getArea } from 'field/components/MapComponents/utils'
 
 class TestComponent extends React.Component {
+
+    onEndDraw = (e) => {
+        console.log(e)
+        //console.log(e.layer.dragging)
+        //console.log(e.layer.toGeoJSON())
+        console.log(getArea(e.layer.toGeoJSON()))
+
+        if (e.layer.dragging) {
+            e.layer.dragging.disable()
+        }
+
+        e.layer._map.flyToBounds(e.layer.getBounds())
+
+        e.layer._map.doubleClickZoom.enable(); 
+    }
+
+    onStartDraw = (e) => {
+        console.log(e)
+        e.editTools.map.doubleClickZoom.disable(); 
+    }
+
+    onDrag = (e) => {
+        console.log(getArea(e.layer.toGeoJSON()))
+        //e.preventDefault()
+    }
 
     render() {
         return (
@@ -26,7 +50,11 @@ class TestComponent extends React.Component {
                     attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
                     id='mapbox.satellite'
                 />
-                <MapEditable />
+                <MapEditable
+                    onEndDrawing={this.onEndDraw}
+                    onStartDrawing={this.onStartDraw}
+                    onVertexMarkerDragEnd={this.onDrag}
+                />
             </Map>
         )
     }
