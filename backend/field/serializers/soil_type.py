@@ -21,5 +21,14 @@ class SoilTypeSerializer(ModelSerializer):
         model = SoilType
         fields = SOIL_TYPE_FIELDS
         dump_only = ('id', 'title')
-        load_only = ('id', )
+        #load_instance = False
+
+
+@api.serializer(many=True)
+class SoilTypeListSerializer(SoilTypeSerializer):
+
+    class Meta:
+        model = SoilType
+        fields = SOIL_TYPE_FIELDS
+        dump_only = ('id', 'title')
         #load_instance = False

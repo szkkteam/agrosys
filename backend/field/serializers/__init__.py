@@ -6,4 +6,4 @@
 # Internal package imports
 from .field import FieldSerializer, FieldListSerializer, FieldPermissionSerializer
 from .field_detail import FieldDetailSerializer, FieldDetailListSerializer
-from .soil_type import SoilTypeSerializer
+from .soil_type import SoilTypeSerializer, SoilTypeListSerializer

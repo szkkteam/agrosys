@@ -1,4 +1,4 @@
-import { createRoutineActions } from 'actions'
+import { createRoutineActions, createRoutine } from 'actions'
 
 
 export const createFieldActionTypes = [
@@ -8,4 +8,4 @@ export const createFieldActionTypes = [
   
 
 export const createFieldShape = createRoutineActions('fields/CREATE_FIELDS_SHAPE', createFieldActionTypes)
-//export const createFieldShape = createRoutine('fields/CREATE_FIELDS_SHAPE')
+export const listSoilTypes = createRoutine('soils/LIST_SOILS')
