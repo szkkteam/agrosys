@@ -1,12 +1,14 @@
 import { listFarms } from 'farm/actions'
+import { storage } from 'utils'
 
 export const KEY = 'farms'
 
 const initialState = {
     isLoading: false,
     isLoaded: false,
-    titles: [],
-    byTitle: {},
+    // Store the previously activated farm
+    selectedFarm: storage.getActiveFarm(),
+    farmsMenuList: [],
     error: null,
 }
 
@@ -29,8 +31,8 @@ const initialState = {
 
 export default function(state = initialState, action) {
     const { type, payload } = action
-    const { farms } = payload || {}
-    const { byTitle } = state
+    const { farms } = payload || []
+    const { selectedFarm } = state
 
     switch(type) {
         case listFarms.REQUEST:
@@ -39,14 +41,17 @@ export default function(state = initialState, action) {
             }
 
         case listFarms.SUCCESS:
+            // Activate the farm
+            let activateFarm = false
+            if (farms.length == 1 && !selectedFarm) {
+                storage.activateFarm(farms[0])
+                activateFarm = true
+            }
             return { ...state,
-                titles: farms.map((farm) => farm.title),
-                byTitle: farms.reduce((byTitle, farm) => {
-                    byTitle[farm.title] = farm
-                    return byTitle
-                }, byTitle),
+                farmsMenuList: farms,
                 isLoaded: true,
-             }
+                selectedFarm: activateFarm? farms[0]: selectedFarm,
+            }
         
         case listFarms.FAILURE:
             return { ...state, 
@@ -64,7 +69,12 @@ export default function(state = initialState, action) {
 }
 
 export const selectFarms = (state) => state[KEY]
-export const selectFarmsList = (state) => {
+export const selectFarmsMenu = (state) => {
     const farms = selectFarms(state)
-    return farms.titles.map((title) => farms.byTitle[title])
+    return farms.farmsMenuList.map((farm, id) => {
+        return {
+            title: farm.title,
+            id: farm.id,
+        }
+    })
 }

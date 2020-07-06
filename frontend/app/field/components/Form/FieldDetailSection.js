@@ -10,6 +10,8 @@ import { listSoilTypes } from 'field/actions'
 import { selectSoilTypesList } from 'field/reducers/soilTypes'
 import { HiddenField, PasswordField, TextField } from 'components/Form'
 
+import { SelectSoil } from 'soil/components'
+
 /*
 <Field name={`${namespace}.soilTypeId`} component="select">
                 { soilTypes.map((soilType, index) => {
@@ -17,7 +19,7 @@ import { HiddenField, PasswordField, TextField } from 'components/Form'
                 }) }
             </Field>
 */
-
+/*
 class SoilTypeSelect extends React.Component {
     componentWillMount () {
         this.props.listSoilTypes.maybeTrigger()
@@ -48,7 +50,7 @@ const WithSoilTypeSelect = compose(
   withSaga,
   withConnect,
 )(SoilTypeSelect)
-
+*/
 
 export const FieldDetailSection = ({ namespace, ...rest }) => (
     <div>
@@ -61,7 +63,7 @@ export const FieldDetailSection = ({ namespace, ...rest }) => (
                     className="full-width"
                     autoFocus/>
         <HiddenField name={`${namespace}.shape`} />
-        <WithSoilTypeSelect
+        <SelectSoil
             namespace={namespace}
             {...rest}
         />

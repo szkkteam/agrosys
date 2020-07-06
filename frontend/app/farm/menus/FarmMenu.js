@@ -12,7 +12,7 @@ import { injectReducer, injectSagas } from 'utils/async'
 import { storage } from 'utils'
 
 import { listFarms } from 'farm/actions'
-import { selectFarmsList } from 'farm/reducers/farms'
+import { selectFarmsMenu } from 'farm/reducers/farms'
 
 var onClick = () => {
     
@@ -62,9 +62,9 @@ class FarmMenu extends React.Component {
     this.props.listFarms.maybeTrigger()
   }
 
-  getFarmMenu = (farms, subItems) => {
+  getFarmMenu = (menuList, subItems) => {
     const items = []
-    farms.map(({id, title}) => {
+    menuList.map(({id, title}) => {
       items.push({
         name: title,
         label: title,
@@ -80,13 +80,9 @@ class FarmMenu extends React.Component {
   }
 
   render() {
-    const { farms } = this.props
-    // If only one farm exists, activate it
-    if (farms.length == 1) {
-      storage.activateFarm(farms[0])
-    }
+    const { farmsMenuList } = this.props
     const { farmMenu } = this.state;
-    farmMenu.items = this.getFarmMenu(farms, defaultFarmMenuSubItems)
+    farmMenu.items = this.getFarmMenu(farmsMenuList, defaultFarmMenuSubItems)
     return (
       <SideBarItem
         item={farmMenu}
@@ -101,7 +97,7 @@ const withReducer = injectReducer(require('farm/reducers/farms'))
 const withSaga = injectSagas(require('farm/sagas/farms'))
 
 const withConnect = connect(
-  (state) => ({ farms: selectFarmsList(state) }),
+  (state) => ({ farmsMenuList: selectFarmsMenu(state) }),
   (dispatch) => bindRoutineCreators({ listFarms }, dispatch),
 )
 

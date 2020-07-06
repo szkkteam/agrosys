@@ -2,19 +2,8 @@ import React from 'react'
 import { PageContent } from 'components'
 import Helmet from 'react-helmet'
 
-import { Map, Marker, Popup, TileLayer } from "react-leaflet";
-import { 
-    SplitPane,
-    EditableMap,
-    MapEditable,
-    MapCreateShape,
-    FormCreateField,
-} from 'field/components'
-import { getArea } from 'field/components/MapComponents/utils'
 
-import reduxForm from 'redux-form/es/reduxForm'
-import { EmailField, PasswordField, TextField } from 'components/Form'
-
+import { FieldDraw } from 'field/components'
 
 class TestComponent extends React.Component {
 
@@ -36,6 +25,8 @@ class TestComponent extends React.Component {
         )
     }
 }
+//<TestComponent/>
+//<FormCreateField />
 
 export default class FieldCreate extends React.Component { 
  
@@ -51,13 +42,7 @@ export default class FieldCreate extends React.Component {
                     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
                     <script src="https://npmcdn.com/leaflet.path.drag/src/Path.Drag.js"></script>
                 </Helmet>
-                <SplitPane
-                    leftSize={9}
-                    rightSize={3}
-                >
-                    <TestComponent/>
-                    <FormCreateField />
-                </SplitPane>
+                <FieldDraw />
             </PageContent>
         )
     }

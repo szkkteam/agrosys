@@ -48,6 +48,7 @@ class Storage {
 
   getActiveFarm() {
     if (!this.farm) {
+      let farm
       try {
         farm = JSON.parse(localStorage.getItem('activeFarm'))
       } catch (e) {
