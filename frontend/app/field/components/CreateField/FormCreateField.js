@@ -14,7 +14,7 @@ import { ROUTES } from 'routes'
 import { injectSagas } from 'utils/async'
 
 import { injectReducer } from 'utils/async'
-import { createFieldShape, createFieldActionTypes } from 'field/actions'
+import { createFields } from 'field/actions'
 import { selectCreateFieldShape } from 'field/reducers/createFieldShape'
 
 const FORM_NAME = 'create-field'
@@ -32,8 +32,9 @@ const renderFieldDetailMemebers = ({fields, meta: { error, submitFailed}, ...res
 
 const FormCreateField = (props) => {
   const { error, handleSubmit, submitting, shape, area, pristine } = props
+  console.log(error)
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(createFields)}>
         <TextField name="title"
             label="Title of the field"
             className="full-width"
@@ -73,8 +74,12 @@ const withConnect = connect(
     },
 )
 
+const withSagas = injectSagas(require('field/sagas/createField'))
+
 export default compose(
     withReducer,
     withConnect,
     withForm,
+    withSagas,
 )(FormCreateField)
+

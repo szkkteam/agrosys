@@ -55,7 +55,7 @@ def get_field_by_field_id(**view_kwargs):
     return Field.get(view_kwargs.get('field_id'))
 
 
-@api.model_resource(field_bp, FieldDetail, 'fields/<int:field_id>/detail', '/fields/detail/<int:field_detail_id>')
+@api.model_resource(field_bp, FieldDetail, '/fields/<int:field_id>/detail', '/fields/detail/<int:field_detail_id>')
 class FieldDetailResource(ModelResource):
     include_methods = ALL_METHODS
     exclude_decorators = (LIST, )

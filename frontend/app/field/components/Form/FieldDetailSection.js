@@ -26,7 +26,7 @@ class SoilTypeSelect extends React.Component {
     render() {
         const { namespace, soilTypes } = this.props
         return (
-            <Field name={`${namespace}.soilTypeId`} component="select">
+            <Field name={`${namespace}.soilTypeId`}  component="select">
                 { soilTypes.map((soilType, index) => (
                     <option key={index} value={soilType.id}>{soilType.title}</option>    
                 )) }

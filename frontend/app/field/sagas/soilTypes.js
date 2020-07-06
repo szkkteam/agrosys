@@ -3,7 +3,7 @@ import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects'
 import { createRoutineSaga } from 'sagas'
 
 import { listSoilTypes } from 'field/actions'
-import SoilTypeApi from 'field/api'
+import FieldApi from 'field/api'
 import { selectSoilTypes } from 'field/reducers/soilTypes'
 
 export const KEY = 'soilType'
@@ -18,7 +18,7 @@ export const maybeListSoilTypesSaga = function *() {
 export const listSoilTypesSaga = createRoutineSaga(
     listSoilTypes,
     function *successGenerator() {
-        const soilTypes = yield call(SoilTypeApi.listSoilTypes)
+        const soilTypes = yield call(FieldApi.listSoilTypes)
         yield put(listSoilTypes.success({
             soilTypes
         }))

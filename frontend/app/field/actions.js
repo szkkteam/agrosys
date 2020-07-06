@@ -7,5 +7,6 @@ export const createFieldActionTypes = [
   ]
   
 
-export const createFieldShape = createRoutineActions('fields/CREATE_FIELDS_SHAPE', createFieldActionTypes)
+export const createFieldShape = createRoutineActions('field/CREATE_FIELD_SHAPE', createFieldActionTypes)
 export const listSoilTypes = createRoutine('soils/LIST_SOILS')
+export const createFields = createRoutine('field/CREATE_FIELD')

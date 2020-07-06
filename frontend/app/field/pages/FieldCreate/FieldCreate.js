@@ -19,7 +19,6 @@ import { EmailField, PasswordField, TextField } from 'components/Form'
 class TestComponent extends React.Component {
 
     render() {
-        console.log(this.props)
         return (
             <Map 
                 center={[45.4, -75.7]}
