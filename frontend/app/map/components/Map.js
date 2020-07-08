@@ -9,8 +9,10 @@ import { injectReducer } from 'utils/async'
 import { 
     mapEdit,
     mapEvents,
+    mapViewport,
     mapEditFeatureActionsTypes,
-    mapEventActionsTypes
+    mapEventActionsTypes,
+    mapViewportActionsTypes
 } from 'map/actions'
 import { selectMap } from 'map/reducer'
 
@@ -22,14 +24,17 @@ import {
 class Map extends React.Component {
 
     render() {
-        const { mapState, mapEdit, mapEvents } = this.props
-        const { isDrawingStarted, isDrawingFinished, featureInEdit, events } = mapState
+        const { mapState, mapEdit, mapEvents, mapViewport } = this.props
+        const { isDrawingStarted, isDrawingFinished, featureInEdit, events, viewPort } = mapState
         const activateDraw = isDrawingStarted | isDrawingFinished
         return (
             <LeafletMap
+                enableDoubleClickZoom={!isDrawingStarted}
                 editable={activateDraw}
                 events={events}
+                startBounds={viewPort}
                 mapEventAction={mapEvents}
+                mapViewportAction={mapViewport}                
             >
                 {activateDraw && <MapDraw 
                     feature={featureInEdit}
@@ -47,21 +52,22 @@ const withReducer = injectReducer(require('map/reducer'))
 const withConnectMapEdit = connect(
     (state) => ({mapState: selectMap(state)}),
     (dispatch) => bindRoutineCreatorsAction({ mapEdit }, dispatch, mapEditFeatureActionsTypes),
-    // TODO: Wanted to do something with other actions. Dont know what.
-    //(dispatch) => bindRoutineCreatorsAction({ mapEdit }, dispatch, mapEditFeatureActionsTypes),
   )
 
   const withConnectMapEvent = connect(
     (state) => ({mapState: selectMap(state)}),
     (dispatch) => bindRoutineCreatorsAction({ mapEvents }, dispatch, mapEventActionsTypes),
-    // TODO: Wanted to do something with other actions. Dont know what.
-    //(dispatch) => bindRoutineCreatorsAction({ mapEdit }, dispatch, mapEditFeatureActionsTypes),
   )
 
+  const withConnectMapViewport = connect(
+    (state) => ({mapState: selectMap(state)}),
+    (dispatch) => bindRoutineCreatorsAction({ mapViewport }, dispatch, mapViewportActionsTypes),
+)
   
 
 export default compose(
     withReducer,
     withConnectMapEdit,
     withConnectMapEvent,
+    withConnectMapViewport,
 )(Map)

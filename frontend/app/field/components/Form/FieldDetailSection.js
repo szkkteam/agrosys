@@ -6,8 +6,6 @@ import { Field } from 'redux-form'
 import { bindRoutineCreators } from 'actions'
 import { injectReducer, injectSagas } from 'utils/async'
 
-import { listSoilTypes } from 'field/actions'
-import { selectSoilTypesList } from 'field/reducers/soilTypes'
 import { HiddenField, PasswordField, TextField } from 'components/Form'
 
 import { SelectSoil } from 'soil/components'

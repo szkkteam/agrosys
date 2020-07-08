@@ -6,39 +6,39 @@ import { getArea } from 'map/utils'
 
 export default class MapDraw extends React.Component {
 
+    componentWillUnmount() {
+        const { mapEditAction } = this.props
+        mapEditAction && mapEditAction.clear()
+    }
+
     onFinishedDrawing = (e) => {
         const { mapEditAction, mapEventAction } = this.props
         const geoJson = e.layer.toGeoJSON()
-
-        mapEditAction && mapEditAction.drawFinished({
-            featureInEdit: {
-                area: getArea(geoJson),
-                shape: geoJson,
-            }
-        })
-
-        mapEventAction && mapEventAction.addEvent({
-            eventRequest: {
-                type: "fly-to-bounds",
-                config: {
-                    bounds: e.layer.getBounds(),
+        const bounds = e.layer.getBounds()
+        // FIXME: finished drawing event is called when the user changes the page during drawing.
+        // The event handler is called before the componenet dismounted and will return an invalid geojson and bounds
+        if (Object.keys(bounds).length !== 0) {  
+            mapEditAction && mapEditAction.drawFinished({
+                featureInEdit: {
+                    area: getArea(geoJson),
+                    shape: geoJson,
                 }
+            })
+    
+            mapEventAction && mapEventAction.addEvent({
+                eventRequest: {
+                    type: "fly-to-bounds",
+                    config: {
+                        bounds: bounds,
+                    }
+                }
+            })
+            // Disable dragging features on layer
+            if (e.layer.dragging) {
+                e.layer.dragging.disable()
             }
-        })
-
-        if (e.layer.dragging) {
-            e.layer.dragging.disable()
+    
         }
-
-        // TODO: 
-        // map/EDITABLE_FEATURE_DRAW_FINISHED()
-
-        //console.log(e.layer.dragging)
-        //console.log(e.layer.toGeoJSON())
-
-        // TODO: Put this to mapcontrol component
-        //e.layer._map.flyToBounds(e.layer.getBounds())
-        //e.layer._map.doubleClickZoom.enable(); 
     }
 
     onStartDrawing = (e) => {

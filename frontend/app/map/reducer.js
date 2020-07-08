@@ -10,15 +10,17 @@ export const KEY = 'map'
 const initialState = {
     isDrawingStarted: false,
     isDrawingFinished: false,
-    featureInEdit: null,
+    featureInEdit: {},
     // Map events
-    events: []
+    events: [],
+    // Viewport
+    viewPort: null,
 }
 
 
 export default function(state = initialState, action) {
     const { type, payload } = action
-    const { featureInEdit, eventRequest } = payload || {}
+    const { featureInEdit, eventRequest, viewPortChange } = payload || {}
     const { events } = state
 
     switch(type) {
@@ -26,13 +28,18 @@ export default function(state = initialState, action) {
             return { ...state,
                 isDrawingStarted: true,
                 isDrawingFinished: false,
-                featureInEdit: null,                
+                featureInEdit: {},                
             }
 
         case mapEdit.DRAW_STARTED:
             return { ...state,
 
             }            
+        
+        case mapViewport.CHANGED:
+            return { ...state,
+                viewPort: viewPortChange,
+            }
 
         case mapEdit.DRAW_FINISHED:
             return { ...state,
@@ -42,16 +49,15 @@ export default function(state = initialState, action) {
             }
 
         case mapEdit.FEATURE_MODIFIED:
-            console.log("featureInEdit: ", featureInEdit)
             return { ...state,
                 featureInEdit: featureInEdit,
             }
 
-        case mapEdit.FEATURE_CLEAR:
+        case mapEdit.CLEAR:
             return { ...state,
                 isDrawingStarted: false,
                 isDrawingFinished: false,
-                featureInEdit: null,
+                featureInEdit: {},
             }
 
         case mapEvents.ADD_EVENT:

@@ -78,3 +78,7 @@ export const selectFarmsMenu = (state) => {
         }
     })
 }
+export const selectSelectedFarm = (state) => {
+    const farms = selectFarms(state)
+    return farms.selectedFarm
+}

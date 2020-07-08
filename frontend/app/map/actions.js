@@ -6,7 +6,7 @@ export const mapEditFeatureActionsTypes = [
     'DRAW_STARTED',
     'DRAW_FINISHED',
     'FEATURE_MODIFIED',
-    'FEATURE_CLEAR',
+    'CLEAR',
   ]
 
 export const mapViewportActionsTypes = [

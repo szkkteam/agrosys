@@ -15,7 +15,8 @@ import { injectSagas } from 'utils/async'
 
 import { injectReducer } from 'utils/async'
 import { createFields } from 'field/actions'
-import { selectCreateFieldShape } from 'field/reducers/createFieldShape'
+import { selectMapFeautreInEdit } from 'map/reducer'
+import { selectSelectedFarm } from 'farm/reducers/farms'
 
 const FORM_NAME = 'create-field'
 
@@ -31,8 +32,7 @@ const renderFieldDetailMemebers = ({fields, meta: { error, submitFailed}, ...res
     )
 
 const FormCreateField = (props) => {
-  const { error, handleSubmit, submitting, shape, area, pristine } = props
-  console.log(error)
+  const { error, handleSubmit, submitting, pristine } = props
   return (
     <form onSubmit={handleSubmit(createFields)}>
         <TextField name="title"
@@ -41,6 +41,7 @@ const FormCreateField = (props) => {
             autoFocus />
         <FieldArray name="fields" component={renderFieldDetailMemebers}>
         </FieldArray>
+        <HiddenField name={"selectedFarm"} />
         
         <div className="row">
             <button type="submit"
@@ -60,24 +61,28 @@ const withForm = reduxForm({
     keepDirtyOnReinitialize: false,
 })
 
-const withReducer = injectReducer(require('field/reducers/createFieldShape'))
+const withReducerMap = injectReducer(require('farm/reducers/farms'))
+const withReducerFarm = injectReducer(require('map/reducer'))
+const withSagas = injectSagas(require('field/sagas/createField'))
 
 const withConnect = connect(
     (state) => {
-        const { shape, area} = selectCreateFieldShape(state) 
+        const {shape = null, area = null} = selectMapFeautreInEdit(state) 
         return { initialValues: {
             fields: [{
                 shape,
                 area
-            }]
+            }],
+            selectedFarm: selectSelectedFarm(state),
+
         }}
     },
 )
 
-const withSagas = injectSagas(require('field/sagas/createField'))
 
 export default compose(
-    withReducer,
+    withReducerMap,
+    withReducerFarm,
     withConnect,
     withForm,
     withSagas,

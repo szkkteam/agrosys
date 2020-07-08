@@ -2,11 +2,6 @@ import { get, post } from 'utils/request'
 import { v1 } from 'api'
 
 
-function soil(uri) {
-  return v1(`/soils${uri}`)
-}
-
-
 function field(uri) {
   return v1(`/fields${uri}`)
 }
@@ -18,10 +13,6 @@ function farmField(uri) {
 
 
 export default class Field {
-  static listSoilTypes() {
-    return get(soil(''))
-  }
-
   static listFields() {
     return get(field(''))
   }

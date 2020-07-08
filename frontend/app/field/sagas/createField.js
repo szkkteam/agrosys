@@ -6,30 +6,19 @@ import { createRoutineFormSaga } from 'sagas'
 
 import { createFields } from 'field/actions'
 import FieldApi from 'field/api'
-import { storage } from 'utils'
 
 
-export const KEY = 'signUp'
+export const KEY = 'createField'
 
 export const createFieldSaga = createRoutineFormSaga(
   createFields,
-  function *successGenerator(payload) {
-    console.log(payload)
-    const farm = storage.getActiveFarm()
-    const field = yield call(FieldApi.createFields, farm, payload)
+  function *successGenerator(actionPayload) {
+    const { selectedFarm, ...payload} = actionPayload
+    const field = yield call(FieldApi.createFields, selectedFarm, payload)
     yield put(createFields.success({ field }))
     // TODO: Redirect view to the field detail
     // TODO: Clear the MAP's state
-    /*
-    if (token) {
-      yield put(push({
-        pathname: ROUTE_MAP[ROUTES.Home].path,
-        search: '?welcome',
-      }))
-    } else {
-      yield put(push(ROUTE_MAP[ROUTES.PendingConfirmation].path))
-    }
-    */
+    
   },
 )
 

@@ -5,8 +5,29 @@ import { Map, Marker, Popup, TileLayer } from "react-leaflet";
 
 export default class LeafletMap extends React.Component {
 
+    static defaultProps = {
+        enableDoubleClickZoom: true,
+    }
+
     componentDidMount() {
+        const { startBounds } = this.props
         this.map = this.mapInstance.leafletElement
+        startBounds && this.map.flyToBounds(startBounds)
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        // FIXME: Comparing prevEvents and thisEvents will be always the same. Why?
+        this.props.events && this.props.events.map((event, id) => (
+            this.handleEvents(event)
+        ))
+        // FIXME: Double click zoom is still not working with draw double click.
+        if (this.props.enableDoubleClickZoom) {
+            console.log("Enable doubleClickZoom")
+            this.map.doubleClickZoom.enable()
+        } else {
+            console.log("Disable doubleClickZoom")
+            this.map.doubleClickZoom.disable()
+        }
     }
 
     flyTo = ({bounds}) => {
@@ -16,27 +37,24 @@ export default class LeafletMap extends React.Component {
     handleEvents = ({type, config}) => {
         switch(type) {
             case "fly-to-bounds":
-                this.flyTo(config)                
+                config && this.flyTo(config)                
                 break
             
             default:
                 break
         }
-        // TODO: Clear events
     }
     
     onMoveEnd = (e) => {
-        const { mapEventAction, events } = this.props
+        const { mapEventAction, mapViewportAction, events } = this.props
         events.length && mapEventAction && mapEventAction.clearEvents()
-        //console.log("Moveend: ",e)
+        mapViewportAction && mapViewportAction.changed({
+            viewPortChange: this.map.getBounds(),
+        })
     }
 
     render() {
-        const { editable, events } = this.props
-        events && events.map((event, id) => (
-            this.handleEvents(event)
-        ))
-
+        const { editable } = this.props
         return (
             <Map 
                 ref={e => { this.mapInstance = e }}
