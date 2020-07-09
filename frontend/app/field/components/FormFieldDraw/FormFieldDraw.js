@@ -5,12 +5,8 @@ import reduxForm from 'redux-form/es/reduxForm'
 import { parse } from 'query-string'
 import { FieldArray } from 'redux-form'
 
-//import { login } from 'security/actions'
-import { DangerAlert, PageContent } from 'components'
-import { NavLink } from 'components/Nav'
-import { HiddenField, PasswordField, TextField } from 'components/Form'
-import { FieldDetailSection } from 'field/components/Form'
-import { ROUTES } from 'routes'
+import { HiddenField, TextField } from 'components/Form'
+import { FormFieldDetailSection } from './FormFieldDetailSection'
 import { injectSagas } from 'utils/async'
 
 import { injectReducer } from 'utils/async'
@@ -23,7 +19,7 @@ const FORM_NAME = 'create-field'
 const renderFieldDetailMemebers = ({fields, meta: { error, submitFailed}, ...rest}) => (
     <div>
         {fields.map((field, index) => (
-            <FieldDetailSection 
+            <FormFieldDetailSection 
                 namespace={field}
                 key={index}
             />            
@@ -31,7 +27,7 @@ const renderFieldDetailMemebers = ({fields, meta: { error, submitFailed}, ...res
     </div>
     )
 
-const FormCreateField = (props) => {
+const FormFieldDraw = (props) => {
   const { error, handleSubmit, submitting, pristine } = props
   return (
     <form onSubmit={handleSubmit(createFields)}>
@@ -86,5 +82,5 @@ export default compose(
     withConnect,
     withForm,
     withSagas,
-)(FormCreateField)
+)(FormFieldDraw)
 

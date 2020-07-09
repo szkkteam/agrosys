@@ -11,7 +11,7 @@ import { selectMap } from 'map/reducer'
 
 import { 
     SplitPane,
-    FormCreateField,
+    FormFieldDraw,
 } from 'field/components'
 
 import { 
@@ -35,7 +35,7 @@ class FieldDraw extends React.Component {
                 rightSize={3}
             >
                 <Map />
-                <FormCreateField />
+                <FormFieldDraw />
 
             </SplitPane>
         )

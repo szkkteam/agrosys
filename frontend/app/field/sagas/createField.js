@@ -17,7 +17,7 @@ export const createFieldSaga = createRoutineFormSaga(
     const field = yield call(FieldApi.createFields, selectedFarm, payload)
     yield put(createFields.success({ field }))
     // TODO: Redirect view to the field detail
-    // TODO: Clear the MAP's state
+
     
   },
 )

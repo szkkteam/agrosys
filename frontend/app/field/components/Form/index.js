@@ -1,2 +1,0 @@
-export { FieldDetailSection } from './FieldDetailSection'
-  

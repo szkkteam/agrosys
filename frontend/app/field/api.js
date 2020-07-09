@@ -13,11 +13,10 @@ function farmField(uri) {
 
 
 export default class Field {
-  static listFields() {
-    return get(field(''))
+
+  static listFields(farm) {
+    return get(farmField(farm.id))
   }
-
-
   /**
    * @param {Object} payload The field details
    * @param {string} payload.title
@@ -25,7 +24,7 @@ export default class Field {
    * @param {GeoJSON} payload.fields[].shape
    * @param {float} payload.fields[].area
    * @param {float} payload.fields[].value
-   * * @param {integer} payload.fields[].soilTypeId
+   * @param {integer} payload.fields[].soilTypeId
    */
   static createFields(farm, payload) {
     return post(farmField(farm.id), payload)
