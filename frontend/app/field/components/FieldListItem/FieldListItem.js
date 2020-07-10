@@ -8,8 +8,8 @@ import { NavLink } from 'components'
 import { ROUTES } from 'routes'
 
 export const FieldListElement = ( {item, ...props} ) => {
-    const { title, fields } = item    
-    const { coverImage, area, value } = fields[0] && Array.isArray(fields) && fields.length
+    const { title, fields } = item
+    const { coverImage, area, value } = fields[0] 
     return (
         <React.Fragment>
             <NavLink strict exact to={ROUTES.FieldCreate}>

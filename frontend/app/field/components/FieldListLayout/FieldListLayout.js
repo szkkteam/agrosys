@@ -52,7 +52,7 @@ export default class FieldListLayout extends React.Component
                         </Component>
                     </Grid>
                     {Array.isArray(items) && items.map( (item, index) => (
-                        <Grid item xs={12}>
+                        <Grid item xs={12} key={index}>
                             <Component
                             >
                                 <FieldListElement 

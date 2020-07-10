@@ -20,7 +20,7 @@ export const maybeListFieldsSaga = function *() {
 
 export const listFieldsSaga = createRoutineFormSaga(
     listFields,
-    function *successGenerator() {
+    function *successGenerator(payload) {
         const selectedFarm = yield select(selectSelectedFarm)
         const fields = yield call(FieldApi.listFields, selectedFarm, payload)
         yield put(listFields.success({

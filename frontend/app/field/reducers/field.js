@@ -51,3 +51,7 @@ export default function(state = initialState, action) {
 }
 
 export const selectFields = (state) => state[KEY]
+export const selecFieldsList = (state) => {
+    const fields = selectFields(state)
+    return fields.fields
+}
