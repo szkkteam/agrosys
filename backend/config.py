@@ -213,6 +213,21 @@ class BaseConfig(object):
         }
 
     }
+    ##########################################################################
+    # Mapbox - Static Map                                                    #
+    ##########################################################################
+    MAPBOX_ACCESS_KEY = "pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw"
+    MAPBOX_STATIC_WIDTH = "300"
+    MAPBOX_STATIC_HEIGHT = "200"
+    MAPBOX_STATIC_SHOW_ATTRIBUTION = False
+    MAPBOX_STATIC_SHOW_LOGO = True
+    MAPBOX_STATIC_PROPERTIES = {
+        "stroke": "#ffffff",
+        "stroke-width": 3,
+        "stroke-opacity": 1,
+        "fill": "#2fb3eb",
+        "fill-opacity": 0.2
+    }
 
 class ProdConfig(BaseConfig):
     ##########################################################################
