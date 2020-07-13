@@ -7,21 +7,23 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { NavLink } from 'components'
 import { ROUTES } from 'routes'
 
+import './fieldlistitem.scss'
+
 export const FieldListElement = ( {item, ...props} ) => {
     const { title, fields } = item
     const { coverImage, area, value } = fields[0] 
     return (
         <React.Fragment>
-            <NavLink strict exact to={ROUTES.FieldCreate}>
-                { coverImage? 
-                    <CardMedia
-                            className={"field-cover"}
-                            image={coverImage}
-                            title="Whatever image name"
-                    /> : 
-                    "Image Placeholder" }                
+            <NavLink strict exact to={ROUTES.FieldDetail} params={item}>
+                <CardMedia
+                        className={"field-cover"}
+                        image={coverImage? coverImage : "https://via.placeholder.com/100/100"}
+                        title="Whatever image name"
+                /> 
             </NavLink>  
-            <div style={{display: "inline-block"}}>
+            <div 
+                className={"field-title"}
+            >
                 <Typography component="h5" variant="h5">
                     {title}
                 </Typography>

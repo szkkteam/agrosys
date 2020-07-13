@@ -1,16 +1,38 @@
 import React from 'react'
 import { PageContent } from 'components'
 import Helmet from 'react-helmet'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
 
 
-export default class FieldDetail extends React.Component {
+import { bindRoutineCreators } from 'actions'
+import { injectReducer, injectSagas } from 'utils/async'
+
+import { loadFieldDetail } from 'field/actions'
+import { selectFieldDetailById } from 'field/reducers/fieldDetail'
+
+
+class FieldDetail extends React.Component {
 
     componentWillMount() {
-        const { id } = this.props
-        //TODO: Fetch data based on "id"
+        const { loadFieldDetail, id } = this.props
+        loadFieldDetail.maybeTrigger({ id })
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const { loadFieldDetail, id } = nextProps
+        if (id != this.props.id) {
+            console.log("Trigger: ", id)
+            loadFieldDetail.maybeTrigger({ id })
+        }
     }
 
     render() {
+        const { isLoaded, field } = this.props
+        if ( !isLoaded ) {
+            return null
+        }
+
         return (
             <PageContent>
                 <Helmet>
@@ -18,8 +40,30 @@ export default class FieldDetail extends React.Component {
                         Field - title
                     </title>
                 </Helmet>
-                Im a field detail
+                {field.title}
             </PageContent>
         )
     }
 }
+
+const withReducer = injectReducer(require('field/reducers/fieldDetail'))
+const withSagas = injectSagas(require('field/sagas/fieldDetail'))
+
+const withConnect = connect(
+  (state, props) => {
+    const id = props.match.params.id
+    const field = selectFieldDetailById(state, id)
+    return {
+      id,
+      field,
+      isLoaded: !!field,
+    }
+  },
+  (dispatch) => bindRoutineCreators({ loadFieldDetail }, dispatch),
+)
+
+export default compose(
+    withReducer,
+    withSagas,
+    withConnect,
+  )(FieldDetail)

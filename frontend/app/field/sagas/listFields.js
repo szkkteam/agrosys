@@ -2,7 +2,7 @@ import { call, put, takeEvery, takeLatest, select } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
 
 import { ROUTES, ROUTE_MAP } from 'routes'
-import { createRoutineFormSaga } from 'sagas'
+import { createRoutineSaga } from 'sagas'
 
 import { listFields } from 'field/actions'
 import FieldApi from 'field/api'
@@ -18,7 +18,7 @@ export const maybeListFieldsSaga = function *() {
     }
 }
 
-export const listFieldsSaga = createRoutineFormSaga(
+export const listFieldsSaga = createRoutineSaga(
     listFields,
     function *successGenerator(payload) {
         const selectedFarm = yield select(selectSelectedFarm)

@@ -30,4 +30,8 @@ export default class Field {
     return post(farmField(farm.id), payload)
   }
 
+  static loadFieldDetail(fieldIn) {    
+    return get(field(`/${fieldIn.id}`))
+  }
+
 }
