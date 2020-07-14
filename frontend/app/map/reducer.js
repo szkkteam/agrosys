@@ -24,16 +24,10 @@ export default function(state = initialState, action) {
     const { events } = state
 
     switch(type) {
-        case mapEdit.DRAW_REQUESTED:
-            return { ...state,
-                isDrawingStarted: true,
-                isDrawingFinished: false,
-                featureInEdit: {},                
-            }
 
         case mapEdit.DRAW_STARTED:
             return { ...state,
-
+                isDrawingStarted: true,
             }            
         
         case mapViewport.CHANGED:

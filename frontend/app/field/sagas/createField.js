@@ -15,8 +15,8 @@ export const createFieldSaga = createRoutineFormSaga(
   function *successGenerator(actionPayload) {
     const { selectedFarm, ...payload} = actionPayload
     const field = yield call(FieldApi.createFields, selectedFarm, payload)
-    yield put(createFields.success({ field }))
-    // TODO: Redirect view to the field detail
+    yield put(createFields.success({ field }))    
+    yield put(push(ROUTE_MAP[ROUTES.FieldDetail].toPath(field)))
 
     
   },

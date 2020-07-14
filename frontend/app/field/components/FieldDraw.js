@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { bindRoutineCreatorsAction } from 'actions'
 import { injectReducer } from 'utils/async'
 
-import { mapEdit, mapEditFeatureActionsTypes } from 'map/actions'
+import { mapEvents, mapEventActionsTypes } from 'map/actions'
 import { selectMap } from 'map/reducer'
 
 import { 
@@ -16,40 +16,71 @@ import {
 
 import { 
     Map,
+    MapEditFeature,
  } from 'map/components'
 
 class FieldDraw extends React.Component { 
- 
-    componentWillMount() {
-        const { mapState, mapEdit } = this.props
-        const { isDrawingStarted, isDrawingFinished } = mapState
-        if (!(isDrawingStarted && isDrawingFinished)) {            
-            mapEdit.drawRequested()
+    
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            startDraw: true,
+            featureInEdit: null,
         }
-      }
+    }
+
+   onFinishedEditing = ( {featureInEdit} ) => {
+        this.setState({
+            featureInEdit: featureInEdit,
+        })
+   }
+
+   onFinishedDrawing = ( {featureInEdit, bounds} ) => {
+       const { mapEvents } = this.props
+        mapEvents && mapEvents.addEvent({
+            eventRequest: {
+                type: "fly-to-bounds",
+                config: {
+                    bounds: bounds,
+                }
+            }
+        })
+        this.setState({
+            featureInEdit: featureInEdit,
+        })
+   }
 
     render() {
+        const { startDraw, featureInEdit } = this.state
         return (
             <SplitPane
                 leftSize={9}
                 rightSize={3}
             >
-                <Map />
-                <FormFieldDraw />
+                <Map
+                    enableEdit={startDraw}
+                > 
+                    <MapEditFeature
+                        onFinished={this.onFinishedDrawing}
+                        onEdit={this.onFinishedEditing}
+                        startDraw={startDraw}
+                    />
+                </Map>
+                <FormFieldDraw
+                    featureInEdit={featureInEdit}
+                />
 
             </SplitPane>
         )
     }
 }
 
-
 const withReducer = injectReducer(require('map/reducer'))
 
 const withConnect = connect(
     (state) => ({mapState: selectMap(state)}),
-    (dispatch) => bindRoutineCreatorsAction({ mapEdit }, dispatch, mapEditFeatureActionsTypes),
-    // TODO: Wanted to do something with other actions. Dont know what.
-    //(dispatch) => bindRoutineCreatorsAction({ mapEdit }, dispatch, mapEditFeatureActionsTypes),
+    (dispatch) => bindRoutineCreatorsAction({ mapEvents }, dispatch, mapEventActionsTypes),
   )
 
 export default compose(

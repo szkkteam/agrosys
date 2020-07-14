@@ -54,16 +54,15 @@ const FormFieldDraw = (props) => {
 const withForm = reduxForm({
     form: FORM_NAME,
     enableReinitialize: true,
-    keepDirtyOnReinitialize: false,
+    keepDirtyOnReinitialize: true,
 })
 
-const withReducerMap = injectReducer(require('farm/reducers/farms'))
 const withReducerFarm = injectReducer(require('map/reducer'))
 const withSagas = injectSagas(require('field/sagas/createField'))
 
 const withConnect = connect(
-    (state) => {
-        const {shape = null, area = null} = selectMapFeautreInEdit(state) 
+    (state, props) => {
+        const {shape = null, area = null} = props.featureInEdit || {}
         return { initialValues: {
             fields: [{
                 shape,
@@ -77,7 +76,6 @@ const withConnect = connect(
 
 
 export default compose(
-    withReducerMap,
     withReducerFarm,
     withConnect,
     withForm,

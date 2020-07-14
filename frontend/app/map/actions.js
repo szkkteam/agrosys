@@ -2,7 +2,6 @@ import { createRoutineActions, createRoutine } from 'actions'
 
 export const mapEditFeatureActionsTypes = [
     // Feature edit actions
-    'DRAW_REQUESTED',
     'DRAW_STARTED',
     'DRAW_FINISHED',
     'FEATURE_MODIFIED',

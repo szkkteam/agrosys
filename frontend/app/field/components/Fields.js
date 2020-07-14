@@ -8,7 +8,7 @@ import { bindRoutineCreators } from 'actions'
 import { injectReducer, injectSagas } from 'utils/async'
 
 import { listFields } from 'field/actions'
-import { selecFieldsList } from 'field/reducers/field'
+import { selectFieldsList } from 'field/reducers/field'
 
 class Fields extends React.Component {
    
@@ -32,7 +32,7 @@ const withReducer = injectReducer(require('field/reducers/field'))
 const withSaga = injectSagas(require('field/sagas/listFields'))
 
 const withConnect = connect(
-  (state) => ({fields: selecFieldsList(state)}),
+  (state) => ({fields: selectFieldsList(state)}),
   (dispatch) => bindRoutineCreators({ listFields }, dispatch),
 )
 

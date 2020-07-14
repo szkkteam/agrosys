@@ -22,10 +22,8 @@ export default class LeafletMap extends React.Component {
         ))
         // FIXME: Double click zoom is still not working with draw double click.
         if (this.props.enableDoubleClickZoom) {
-            console.log("Enable doubleClickZoom")
             this.map.doubleClickZoom.enable()
         } else {
-            console.log("Disable doubleClickZoom")
             this.map.doubleClickZoom.disable()
         }
     }

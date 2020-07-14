@@ -10,7 +10,7 @@ import { selectFields } from 'field/reducers/field'
 import { selectSelectedFarm } from 'farm/reducers/farms'
 
 export const KEY = 'listFields'
-
+ 
 export const maybeListFieldsSaga = function *() {
     const { isLoading, isLoaded } = yield select(selectFields)
     if (!(isLoading || isLoaded)) {

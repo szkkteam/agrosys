@@ -5,11 +5,8 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import Grid from '@material-ui/core/Grid';
 
-import Carousel from '@brainhubeu/react-carousel';
-
 import CardComponent from './CardComponent'
 
-import '@brainhubeu/react-carousel/lib/style.css';
 
 export default class ListComponent extends React.Component {
     constructor() {
@@ -35,6 +32,7 @@ export default class ListComponent extends React.Component {
     render() {
       
       return (
+        /*
         <Carousel 
           arrows
           clickToChange
@@ -51,6 +49,8 @@ export default class ListComponent extends React.Component {
           <CardComponent/>
           <CardComponent/>
         </Carousel>
+        */
+       null
       )
     }
 }

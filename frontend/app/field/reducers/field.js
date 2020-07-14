@@ -7,6 +7,8 @@ const initialState = {
     isLoading: false,
     isLoaded: false,
     fields: [],
+    ids: [],
+    displayShapesById: {},
     // createFields
     selectedField: null,
     error: null,
@@ -15,6 +17,7 @@ const initialState = {
 export default function(state = initialState, action) {
     const { type, payload } = action
     const { fields } = payload || []
+    const { displayShapesById } = state
 
     switch(type) {
         case listFields.REQUEST:
@@ -26,6 +29,11 @@ export default function(state = initialState, action) {
             return { ...state,
                 isLoaded: true,
                 fields: fields,
+                displayShapesById: fields.reduce((displayShapesById, field) => {
+                    displayShapesById[field.id] = field.fields[field.fields.length - 1].shape
+                    return displayShapesById
+                }, displayShapesById),
+                ids: fields.map((field) => field.id)
             }
 
         case createFields.SUCCESS:
@@ -51,7 +59,12 @@ export default function(state = initialState, action) {
 }
 
 export const selectFields = (state) => state[KEY]
-export const selecFieldsList = (state) => {
+export const selectFieldsList = (state) => {
     const fields = selectFields(state)
     return fields.fields
 }
+export const selectFieldsShapeList = (state) => {
+    const fields = selectFields(state)
+    //return fields.ids.map((id) => fields.displayShapesById[id])
+    return fields.displayShapesById
+  }

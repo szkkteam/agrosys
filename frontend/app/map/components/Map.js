@@ -25,7 +25,7 @@ import {
 class Map extends React.Component {
 
     render() {
-        const { mapState, mapEdit, mapEvents, mapViewport, children } = this.props
+        const { mapState, mapEdit, mapEvents, mapViewport, children, enableEdit = false } = this.props
         const { isDrawingStarted, isDrawingFinished, featureInEdit, events, viewPort } = mapState
         const activateDraw = (isDrawingStarted | isDrawingFinished) 
         return (
@@ -36,17 +36,12 @@ class Map extends React.Component {
                 </Helmet>
                 <LeafletMap
                     enableDoubleClickZoom={!isDrawingStarted}
-                    editable={activateDraw}
+                    editable={enableEdit}
                     events={events}
                     startBounds={viewPort}
                     mapEventAction={mapEvents}
                     mapViewportAction={mapViewport}                
                 >
-                    {activateDraw && <MapDraw  
-                        feature={featureInEdit}
-                        mapEditAction={mapEdit}
-                        mapEventAction={mapEvents}
-                    />}
                     {children}
                 </LeafletMap>
             </React.Fragment>
