@@ -54,7 +54,7 @@ export default class LeafletMap extends React.Component {
     }
 
     render() {
-        const { editable } = this.props
+        const { editable, children } = this.props
         return (
             <Map 
                 ref={e => { this.mapInstance = e }}
@@ -68,7 +68,7 @@ export default class LeafletMap extends React.Component {
                     attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
                     id='mapbox.satellite'
                 />
-                {this.props.children}
+                {children}
             </Map>
         )
     }

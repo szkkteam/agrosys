@@ -1,4 +1,5 @@
 import React from 'react'
+import Helmet from 'react-helmet'
 
 import { compose } from 'redux'
 import { connect } from 'react-redux'
@@ -24,24 +25,31 @@ import {
 class Map extends React.Component {
 
     render() {
-        const { mapState, mapEdit, mapEvents, mapViewport } = this.props
+        const { mapState, mapEdit, mapEvents, mapViewport, children } = this.props
         const { isDrawingStarted, isDrawingFinished, featureInEdit, events, viewPort } = mapState
-        const activateDraw = isDrawingStarted | isDrawingFinished
+        const activateDraw = (isDrawingStarted | isDrawingFinished) 
         return (
-            <LeafletMap
-                enableDoubleClickZoom={!isDrawingStarted}
-                editable={activateDraw}
-                events={events}
-                startBounds={viewPort}
-                mapEventAction={mapEvents}
-                mapViewportAction={mapViewport}                
-            >
-                {activateDraw && <MapDraw 
-                    feature={featureInEdit}
-                    mapEditAction={mapEdit}
+            <React.Fragment>
+                <Helmet>
+                    <link rel="stylesheet" href="//unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+                    <script src="https://npmcdn.com/leaflet.path.drag/src/Path.Drag.js"></script>
+                </Helmet>
+                <LeafletMap
+                    enableDoubleClickZoom={!isDrawingStarted}
+                    editable={activateDraw}
+                    events={events}
+                    startBounds={viewPort}
                     mapEventAction={mapEvents}
-                />}
-            </LeafletMap>
+                    mapViewportAction={mapViewport}                
+                >
+                    {activateDraw && <MapDraw  
+                        feature={featureInEdit}
+                        mapEditAction={mapEdit}
+                        mapEventAction={mapEvents}
+                    />}
+                    {children}
+                </LeafletMap>
+            </React.Fragment>
         )
     }
 }

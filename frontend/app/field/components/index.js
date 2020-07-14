@@ -8,7 +8,9 @@ export { default as FieldListItemCard } from './FieldListItemCard'
 export { FieldListElement, FieldListCreate } from './FieldListItem'
 
 export { default as FieldDetailContainer } from './FieldDetailContainer'
-
+export { default as FieldDetailLayout } from './FieldDetailLayout'
+export { default as FieldDetailTabContainer } from './FieldDetailTabContainer'
+export { default as FieldDetailSideMap } from './FieldDetailSideMap'
 
 
 

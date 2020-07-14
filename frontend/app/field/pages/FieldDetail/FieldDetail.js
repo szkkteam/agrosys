@@ -4,13 +4,13 @@ import Helmet from 'react-helmet'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 
-
 import { bindRoutineCreators } from 'actions'
 import { injectReducer, injectSagas } from 'utils/async'
 
 import { loadFieldDetail } from 'field/actions'
 import { selectFieldDetailById } from 'field/reducers/fieldDetail'
 
+import { FieldDetailLayout } from 'field/components'
 
 class FieldDetail extends React.Component {
 
@@ -40,6 +40,9 @@ class FieldDetail extends React.Component {
                         Field - title
                     </title>
                 </Helmet>
+                <FieldDetailLayout
+                    field={field}
+                />
                 {field.title}
             </PageContent>
         )
