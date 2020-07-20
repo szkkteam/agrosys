@@ -24,6 +24,9 @@ class FieldDetailTabContainer extends React.Component {
         super(props)
 
         this.selectedFieldDetail = this.props.field.fields[this.props.field.fields.length - 1]
+        this.state = {
+            isAddNewDetail: false,
+        }
     }
 
     componentWillMount() {
@@ -42,11 +45,18 @@ class FieldDetailTabContainer extends React.Component {
         
     }
 
-    onDetailSelected = ({fieldDetail}) => {
+    onDetailSelected = (fieldDetail) => {
+        console.log("fieldDetail: ", fieldDetail)
         this.selectedFieldDetail = fieldDetail
     }
 
-
+    onDetailAdd = () => {
+        console.log("onDetailAdd")
+        this.selectedFieldDetail = null
+        this.setState({
+            isAddNewDetail: true,
+        })
+    }
 
     onEditFinished = ({featureInEdit}) => {
         if (featureInEdit) {
@@ -58,10 +68,13 @@ class FieldDetailTabContainer extends React.Component {
         const { field, fieldList } = this.props
         const fields = fieldList.filter(el => el.id != field.id)
         // Feature in edit should be null, if new shape will be created
-        const featureInEdit = {
-            shape: this.selectedFieldDetail.shape,
-            area: this.selectedFieldDetail.area,
-        }
+        let featureInEdit = null
+        if (this.selectedFieldDetail) {
+            featureInEdit = {
+                shape: this.selectedFieldDetail.shape,
+                area: this.selectedFieldDetail.area,
+            } 
+        } 
         return (
             <SplitPane
                 leftSize={9}
@@ -76,6 +89,8 @@ class FieldDetailTabContainer extends React.Component {
                     <Grid item xs={1}>
                         <FieldDetailCarousel
                             items={field.fields}
+                            onClick={this.onDetailSelected}
+                            onAdd={this.onDetailAdd}
                         />
                     </Grid> 
                     <Grid item xs={11}>

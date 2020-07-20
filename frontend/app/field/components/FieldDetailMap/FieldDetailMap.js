@@ -78,11 +78,13 @@ class FieldDetailMap extends React.Component
     }
 
     onClickCancel = (e) => {
+        console.log("this.featureInEdit before: ", this.featureInEdit)
+        this.featureInEdit = this.props.featureInEdit
+        console.log("this.featureInEdit after: ", this.featureInEdit)
         this.setState({
             enableDrawing: false
         })
-        this.featureInEdit = this.props.featureInEdit
-        this.forceUpdate();
+        
     }
 
     onEdit = ({featureInEdit}) => {
@@ -105,8 +107,10 @@ class FieldDetailMap extends React.Component
     }
   
     render() {
-        const { fields, featureInEdit, onClickFeature } = this.props
+        const { fields, onClickFeature } = this.props
         const { enableDrawing } = this.state
+        console.log("this.featureInEdit render: ", this.featureInEdit)
+        const isFeaturesIdentical = this.featureInEdit === this.props.featureInEdit
         return(
             <Map
                 enableEdit={true}
@@ -126,7 +130,7 @@ class FieldDetailMap extends React.Component
                             >
                                 Cancel
                             </button>      
-                        </div>
+                        </div> 
                     :
                         <button 
                             style={{backgroundColor: "white"}}
@@ -136,8 +140,8 @@ class FieldDetailMap extends React.Component
                         </button>      
                     }                    
                 </MapControl>
-                <MapEditFeature
-                    featureInEdit={this.featureInEdit? this.featureInEdit.shape : featureInEdit && featureInEdit.shape}
+                <MapEditFeature 
+                    featureInEdit={this.featureInEdit.shape}
                     enableEdit={enableDrawing}
                     onEdit={this.onEdit}
                     onAdd={this.onAdd}

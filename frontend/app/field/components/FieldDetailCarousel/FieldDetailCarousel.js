@@ -1,4 +1,5 @@
 import React from 'react'
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Carousel from '@brainhubeu/react-carousel';
 import CardMedia from '@material-ui/core/CardMedia';
 import Card from '@material-ui/core/Card';
@@ -35,21 +36,29 @@ export default class FieldDetailCarousel extends React.Component {
     }
 
     render() {
-      const { items } = this.props
+      const { items, onClick, onAdd } = this.props
       return (
-        <ul>
+        <ul className={"detail-list"}>
           { items && Array.isArray(items) && items.map((item, id) => (
-            <li 
+            <a 
+                onClick={e => onClick&&onClick(item)}
                 key={id}
-
             >
-            <img
-                style={{width: "50px", height: "50px"}}
-                src={item.coverImage? item.coverImage : "https://via.placeholder.com/50/50"}
-                alt={item.area}                    
-            />
-        </li>
+            <li 
+            >
+                <img
+                    style={{width: "50px", height: "50px"}}
+                    src={item.coverImage? item.coverImage : "https://via.placeholder.com/50/50"}
+                    alt={item.area}                    
+                />
+            </li>
+        </a>
           ))}
+            <a onClick={onAdd}>
+            <AddCircleIcon 
+                fontSize={"large"}
+            />
+            </a>
         </ul>
       )
     }

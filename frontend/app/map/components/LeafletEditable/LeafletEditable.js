@@ -135,7 +135,7 @@ class LeafletEditable extends React.Component {
         // Fire event for feature added
         onFeatureAdded && onFeatureAdded({
             layer: polygon,
-        })
+        }) 
         return polygon
     }
 
@@ -154,8 +154,8 @@ class LeafletEditable extends React.Component {
         if (this.props.enableEdit != nextProps.enableEdit) {
             this.toggleEdit(nextProps.enableEdit)
         }        
-        //console.log("nextProps.featureInEdit: ", nextProps.featureInEdit)
-        //console.log("this.props.featureInEdit: ", this.props.featureInEdit)
+        console.log("nextProps.featureInEdit: ", nextProps.featureInEdit)
+        console.log("this.props.featureInEdit: ", this.props.featureInEdit)
         if (nextProps.featureInEdit !== this.props.featureInEdit) {
             // Add polygon to the map
             // FIXME: Removing layer is causing the feature flickering on the map.
