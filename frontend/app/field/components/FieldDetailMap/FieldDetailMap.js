@@ -40,15 +40,29 @@ class FieldDetailMap extends React.Component
         this.state = {
             // Set the default props for drawing
             enableDrawing: this.props.enableDrawing,
+            featureInEdit: null
         }
-        this.featureInEdit = this.props.featureInEdit
+        
     }   
-
+/*
     componentWillReceiveProps(nextProps) {
-        console.log("componentDidUpdate")
-        if ((this.featureInEdit !== this.props.featureInEdit) && !this.state.enableDrawing ) {
-            this.featureInEdit = this.props.featureInEdit
+        if ((this.state.featureInEdit !== this.props.featureInEdit)) {
+            this.setState({
+                featureInEdit: this.props.featureInEdit,
+                enableDrawing: false,
+            })
         }        
+    }
+
+*/
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.state.enableDrawing && nextState.enableDrawing) {
+            //console.log("shouldComponentUpdate -> false | nextState: " + nextState.enableDrawing + " thisState: " + this.state.enableDrawing)
+            return false
+        }
+        //console.log("shouldComponentUpdate -> true | nextState: " + nextState.enableDrawing + " thisState: " + this.state.enableDrawing)
+        return true
     }
 
     onMouseHover = (field, e) => {
@@ -70,30 +84,31 @@ class FieldDetailMap extends React.Component
     onClickFinish = (e) => {
         const { onEditFinished } = this.props
         this.setState({
-            enableDrawing: false
+            enableDrawing: false,
         })
         onEditFinished && onEditFinished({
-            featureInEdit: this.featureInEdit,
+            featureInEdit: this.state.featureInEdit,
         })
     }
 
     onClickCancel = (e) => {
-        console.log("this.featureInEdit before: ", this.featureInEdit)
-        this.featureInEdit = this.props.featureInEdit
-        console.log("this.featureInEdit after: ", this.featureInEdit)
+        console.log("onClickCancel")
         this.setState({
-            enableDrawing: false
+            enableDrawing: false,
+            featureInEdit: null
         })
         
     }
 
     onEdit = ({featureInEdit}) => {
-        console.log("onEdit: ", featureInEdit)
+        //console.log("onEdit: ", featureInEdit)
         if (featureInEdit) {
-            this.featureInEdit = featureInEdit
+            this.setState({
+                featureInEdit: featureInEdit
+            })
         }
     }
-
+ 
     onAdd = ({bounds}) => {
         const { mapEvents } = this.props
         mapEvents && mapEvents.addEvent({
@@ -105,12 +120,43 @@ class FieldDetailMap extends React.Component
             }
         })
     }
+
+    renderStaticFeature = (featureInEdit) => {
+        //console.log("renderStaticFeature: ", featureInEdit.area)
+        return (
+             <MapEditFeature key={`static-${featureInEdit.area}`}
+                    featureInEdit={featureInEdit.shape}
+                    onAdd={this.onAdd}
+                />
+        )
+    }
+
+    renderEditableFeature = (featureInEdit) => {
+        return (
+            <MapEditFeature key={`editable-${featureInEdit.id}`}
+                featureInEdit={featureInEdit.shape}
+                enableEdit={true}
+                onEdit={this.onEdit}
+                onAdd={this.onAdd}
+        />
+        )
+    }
+
+    renderDrawableFeature = () => {
+        return (
+            <MapEditFeature key={`drawable-${featureInEdit.id}`}
+                    onEdit={this.onEdit}
+                />
+        )
+    }
   
     render() {
-        const { fields, onClickFeature } = this.props
+        const { fields, onClickFeature, featureInEdit } = this.props
         const { enableDrawing } = this.state
-        console.log("this.featureInEdit render: ", this.featureInEdit)
-        const isFeaturesIdentical = this.featureInEdit === this.props.featureInEdit
+
+        //const { featureInEdit } = this.state
+
+        //console.log("this.featureInEdit render: ", featureInEdit)
         return(
             <Map
                 enableEdit={true}
@@ -140,12 +186,9 @@ class FieldDetailMap extends React.Component
                         </button>      
                     }                    
                 </MapControl>
-                <MapEditFeature 
-                    featureInEdit={this.featureInEdit.shape}
-                    enableEdit={enableDrawing}
-                    onEdit={this.onEdit}
-                    onAdd={this.onAdd}
-                />
+                { enableDrawing? 
+                    this.renderEditableFeature(featureInEdit) :
+                    this.renderStaticFeature(featureInEdit) }
                 { fields && Array.isArray(fields) && fields.map((field, id) => {
                     return <MapFeature
                                 key={field.id}

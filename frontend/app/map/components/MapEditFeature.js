@@ -21,6 +21,13 @@ import { getArea } from 'map/utils'
 
 export default class MapEditFeature extends React.Component {
 
+    componentDidMount() {
+        console.log("MapEditFeature -> componentDidMount")
+    }
+
+    componentWillUnmount() {
+        console.log("MapEditFeature -> componentWillUnmount")
+    }
     
     onFinishedDrawing = (e) => {
         const { onFinished } = this.props
