@@ -12,7 +12,7 @@ export default class LeafletMap extends React.Component {
     componentDidMount() {
         const { startBounds } = this.props
         this.map = this.mapInstance.leafletElement
-        startBounds && this.map.flyToBounds(startBounds)
+        //startBounds && this.map.flyToBounds(startBounds)
     }
 
     componentDidUpdate(prevProps, prevState) {

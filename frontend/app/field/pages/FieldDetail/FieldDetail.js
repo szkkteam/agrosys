@@ -22,6 +22,7 @@ class FieldDetail extends React.Component {
     componentWillReceiveProps(nextProps) {
         const { loadFieldDetail, id } = nextProps
         if (id != this.props.id) {
+            console.log("Maybe trigger: ", id)
             loadFieldDetail.maybeTrigger({ id })
         }
     }
@@ -31,6 +32,8 @@ class FieldDetail extends React.Component {
         if ( !isLoaded ) {
             return null
         }
+        console.log("Field id: ", field.id)
+        console.log("this.props: ", this.props)
         return (
             <PageContent>
                 <Helmet>

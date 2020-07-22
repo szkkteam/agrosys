@@ -44,24 +44,13 @@ class FieldDetailMap extends React.Component
         }
         
     }   
-/*
-    componentWillReceiveProps(nextProps) {
-        if ((this.state.featureInEdit !== this.props.featureInEdit)) {
-            this.setState({
-                featureInEdit: this.props.featureInEdit,
-                enableDrawing: false,
-            })
-        }        
-    }
-
-*/
 
     shouldComponentUpdate(nextProps, nextState) {
         if (this.state.enableDrawing && nextState.enableDrawing) {
-            //console.log("shouldComponentUpdate -> false | nextState: " + nextState.enableDrawing + " thisState: " + this.state.enableDrawing)
+            console.log("shouldComponentUpdate -> false | nextState: " + nextState.enableDrawing + " thisState: " + this.state.enableDrawing)
             return false
         }
-        //console.log("shouldComponentUpdate -> true | nextState: " + nextState.enableDrawing + " thisState: " + this.state.enableDrawing)
+        console.log("shouldComponentUpdate -> true | nextState: " + nextState.enableDrawing + " thisState: " + this.state.enableDrawing)
         return true
     }
 
@@ -110,6 +99,7 @@ class FieldDetailMap extends React.Component
     }
  
     onAdd = ({bounds}) => {
+        console.log("onAdd call with bounds: ", bounds)
         const { mapEvents } = this.props
         mapEvents && mapEvents.addEvent({
             eventRequest: {
@@ -122,7 +112,7 @@ class FieldDetailMap extends React.Component
     }
 
     renderStaticFeature = (featureInEdit) => {
-        //console.log("renderStaticFeature: ", featureInEdit.area)
+        console.log("renderStaticFeature: ", featureInEdit.area)
         return (
              <MapEditFeature key={`static-${featureInEdit.area}`}
                     featureInEdit={featureInEdit.shape}
@@ -156,7 +146,7 @@ class FieldDetailMap extends React.Component
 
         //const { featureInEdit } = this.state
 
-        //console.log("this.featureInEdit render: ", featureInEdit)
+        console.log("this.featureInEdit render: ", featureInEdit)
         return(
             <Map
                 enableEdit={true}

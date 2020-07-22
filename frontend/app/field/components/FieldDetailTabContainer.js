@@ -23,9 +23,9 @@ class FieldDetailTabContainer extends React.Component {
     constructor(props) {
         super(props)
 
-        this.selectedFieldDetail = this.props.field.fields[this.props.field.fields.length - 1]
         this.state = {
             isAddNewDetail: false,
+            selectedFieldDetail: this.props.field.fields[this.props.field.fields.length - 1]
         }
     }
 
@@ -36,7 +36,9 @@ class FieldDetailTabContainer extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.field !== this.props.field) {
-            this.selectedFieldDetail = this.props.field.fields[this.props.field.fields.length - 1]
+            this.setState({
+                selectedFieldDetail: nextProps.field.fields[nextProps.field.fields.length - 1]
+            })
         }
     }
 
@@ -47,34 +49,42 @@ class FieldDetailTabContainer extends React.Component {
 
     onDetailSelected = (fieldDetail) => {
         console.log("fieldDetail: ", fieldDetail)
-        this.selectedFieldDetail = fieldDetail
+        this.setState({
+            selectedFieldDetail: fieldDetail,
+        })
     }
 
     onDetailAdd = () => {
         console.log("onDetailAdd")
-        this.selectedFieldDetail = null
+        //this.selectedFieldDetail = null
         this.setState({
             isAddNewDetail: true,
         })
     }
 
     onEditFinished = ({featureInEdit}) => {
+        console.log("onEditFinished: ", featureInEdit)
         if (featureInEdit) {
-            this.selectedFieldDetail.shape = featureInEdit
+            let newFeature = this.state.selectedFieldDetail
+            newFeature.shape = featureInEdit.shape
+            newFeature.area = featureInEdit.area
+            this.setState({
+                selectedFieldDetail: newFeature,
+            })
+        }
+    }
+
+    getShapeAndArea = ({shape, area}) => {
+        return {
+            shape,
+            area
         }
     }
 
     render() {
         const { field, fieldList } = this.props
         const fields = fieldList.filter(el => el.id != field.id)
-        // Feature in edit should be null, if new shape will be created
-        let featureInEdit = null
-        if (this.selectedFieldDetail) {
-            featureInEdit = {
-                shape: this.selectedFieldDetail.shape,
-                area: this.selectedFieldDetail.area,
-            } 
-        } 
+        
         return (
             <SplitPane
                 leftSize={9}
@@ -97,7 +107,7 @@ class FieldDetailTabContainer extends React.Component {
                         <FieldDetailMap
                             onClickFeature={this.onClickFeature}
                             onEditFinished={this.onEditFinished}
-                            featureInEdit={featureInEdit}
+                            featureInEdit={this.getShapeAndArea(this.state.selectedFieldDetail)}
                             fields={fields}
                         />
                     </Grid>
