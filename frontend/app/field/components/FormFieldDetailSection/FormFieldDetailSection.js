@@ -5,17 +5,17 @@ import { HiddenField, TextField } from 'components/Form'
 import { SelectSoil } from 'soil/components'
 
 
-export const FormFieldDetailSection = ({ namespace, ...rest }) => (
+export default ({ namespace, ...rest }) => (
     <div>
-        <TextField name={`${namespace}.value`}
+        <TextField name={namespace? `${namespace}.value`: "value"}
                     label="Field value"
                     className="full-width"
                     autoFocus />
-        <TextField name={`${namespace}.area`} 
+        <TextField name={namespace? `${namespace}.area`: "area"} 
                     label="Field area in m2"
                     className="full-width"
                     autoFocus/>
-        <HiddenField name={`${namespace}.shape`} />
+        <HiddenField name={namespace? `${namespace}.shape`: "shape"} />
         <SelectSoil
             namespace={namespace}
             {...rest}

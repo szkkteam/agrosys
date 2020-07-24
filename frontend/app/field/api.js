@@ -34,4 +34,8 @@ export default class Field {
     return get(field(`/${fieldIn.id}`))
   }
 
+  static createFieldDetails(fieldIn, payload) {
+    return post(field(`/${fieldIn.id}/detail`), payload)
+  }
+
 }

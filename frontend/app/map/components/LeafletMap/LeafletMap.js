@@ -29,7 +29,7 @@ export default class LeafletMap extends React.Component {
     }
 
     flyTo = ({bounds}) => {
-        console.log("flyTo: ", bounds)
+        //console.log("flyTo: ", bounds)
         this.map.flyToBounds(bounds)
     }
 

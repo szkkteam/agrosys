@@ -100,11 +100,11 @@ class LeafletEditable extends React.Component {
     }
 
     toggleEdit = (state) => {
-        console.log("this.editLayer: ", this.editLayer)
+        //console.log("this.editLayer: ", this.editLayer)
         if (this.editLayer) {
             if (state) {
                 this.editLayer.enableEdit()
-                console.log("this.editLayer.enableEdit()")
+                //console.log("this.editLayer.enableEdit()")
                 // Dragging is re-enabled after editing enabled
                 this.editLayer.dragging && this.editLayer.dragging.disable()
             } else {
@@ -116,7 +116,7 @@ class LeafletEditable extends React.Component {
     drawOrAddPolygon = () => {
         const { map } = this.state
         const { featureInEdit, enableEdit } = this.props
-        console.log("drawOrAddPolygon.props: ", this.props)
+        //console.log("drawOrAddPolygon.props: ", this.props)
         if (featureInEdit) {
             this.editLayer = this.addPolygonToLayer(map, featureInEdit)            
             this.toggleEdit(enableEdit)
@@ -144,7 +144,7 @@ class LeafletEditable extends React.Component {
 
 
     componentDidMount() {
-        console.log("LeafletEditable -> componentDidMount")
+        //console.log("LeafletEditable -> componentDidMount")
         // Registering all the event handlers
         this._registerListeners()
         // Add or Draw polygon 
@@ -152,6 +152,7 @@ class LeafletEditable extends React.Component {
     }
 
     componentWillUpdate(nextProps) {        
+        //console.log("LeafletEditable -> componentWillUpdate")
         const { map } = this.state
         const { enableEdit, reDraw } = nextProps
         if (this.props.enableEdit != nextProps.enableEdit) {
@@ -160,6 +161,7 @@ class LeafletEditable extends React.Component {
         //console.log("nextProps.featureInEdit: ", nextProps.featureInEdit)
         //console.log("this.props.featureInEdit: ", this.props.featureInEdit)
         if ((nextProps.featureInEdit !== this.props.featureInEdit) || reDraw) {
+            //console.log("LeafletEditable -> drawOrAddPolygon")
             // Add polygon to the map
             // FIXME: Removing layer is causing the feature flickering on the map.
             this.editLayer && map.removeLayer(this.editLayer)
@@ -169,7 +171,7 @@ class LeafletEditable extends React.Component {
 
     componentWillUnmount() {
         const { map } = this.state
-        console.log("LeafletEditable -> componentWillUnmount")
+        //console.log("LeafletEditable -> componentWillUnmount")
         this._unregisterListener()
         this.editLayer && map.removeLayer(this.editLayer)
         this.editLayer = null

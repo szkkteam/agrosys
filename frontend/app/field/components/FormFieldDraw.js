@@ -6,7 +6,6 @@ import { parse } from 'query-string'
 import { FieldArray } from 'redux-form'
 
 import { HiddenField, TextField } from 'components/Form'
-import { FormFieldDetailSection } from './FormFieldDetailSection'
 import { injectSagas } from 'utils/async'
 
 import { injectReducer } from 'utils/async'
@@ -14,42 +13,12 @@ import { createFields } from 'field/actions'
 import { selectMapFeautreInEdit } from 'map/reducer'
 import { selectSelectedFarm } from 'farm/reducers/farms'
 
+import { 
+    FormField,
+} from 'field/components'
+
 const FORM_NAME = 'create-field'
 
-const renderFieldDetailMemebers = ({fields, meta: { error, submitFailed}, ...rest}) => (
-    <div>
-        {fields.map((field, index) => (
-            <FormFieldDetailSection 
-                namespace={field}
-                key={index}
-            />            
-        ))}
-    </div>
-    )
-
-const FormFieldDraw = (props) => {
-  const { error, handleSubmit, submitting, pristine } = props
-  return (
-    <form onSubmit={handleSubmit(createFields)}>
-        <TextField name="title"
-            label="Title of the field"
-            className="full-width"
-            autoFocus />
-        <FieldArray name="fields" component={renderFieldDetailMemebers}>
-        </FieldArray>
-        <HiddenField name={"selectedFarm"} />
-        
-        <div className="row">
-            <button type="submit"
-                    className="btn btn-primary"
-                    disabled={submitting}
-            >
-            {submitting ? 'Creating...' : 'Create'}
-            </button>
-        </div>
-    </form>
-  )
-}
 
 const withForm = reduxForm({
     form: FORM_NAME,
@@ -74,11 +43,17 @@ const withConnect = connect(
     },
 )
 
+const withAction = WrappedComponent => (
+    props => (
+        <WrappedComponent action={createFields} {...props}/>
+    )    
+)
 
 export default compose(
     withReducerFarm,
     withConnect,
     withForm,
     withSagas,
-)(FormFieldDraw)
+    withAction,
+)(FormField) 
 

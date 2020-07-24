@@ -1,4 +1,4 @@
-import { loadFieldDetail } from 'field/actions'
+import { loadFieldDetail, createFieldDetails } from 'field/actions'
 
 export const KEY = 'fieldDetail'
 
@@ -24,10 +24,15 @@ export default function(state = initialState, action) {
             return { ...state,
                 byId,
             }
-
+            
         case loadFieldDetail.FULFILL:
             return { ...state, 
                 isLoading: false, 
+            }
+
+        case createFieldDetails.FAILURE:
+            return { ...state, 
+                error: payload.error,
             }
 
         default:
