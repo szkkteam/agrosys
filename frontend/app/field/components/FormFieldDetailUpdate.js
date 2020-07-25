@@ -6,13 +6,13 @@ import reduxForm from 'redux-form/es/reduxForm'
 import { injectSagas } from 'utils/async'
 
 import { injectReducer } from 'utils/async'
-import { createFieldDetails } from 'field/actions'
+import { updateFieldDetails } from 'field/actions'
 
 import { 
     FormFieldDetail,
 } from 'field/components'
 
-const FORM_NAME = 'create-field-detail'
+const FORM_NAME = 'update-field-detail'
 
 
 const withForm = reduxForm({
@@ -21,16 +21,19 @@ const withForm = reduxForm({
     keepDirtyOnReinitialize: true,
 })
 
-const withSagas = injectSagas(require('field/sagas/createFieldDetail'))
+const withSagas = injectSagas(require('field/sagas/updateFieldDetail'))
 
 const withConnect = connect(
     (state, props) => {
         //console.log("featureInEdit: ", props.featureInEdit)
-        const {shape = null, area = null} = props.featureInEdit || {}
+        const {shape = null, area = null, value = 0, soil = null} = props.featureInEdit || {}
         const { selectedId } = props
+        const { id: soilId } = soil || {}
         return { initialValues: {
             shape,
             area,
+            value,
+            soilTypeId: soilId,
             selectedId,
         }}
     },
@@ -39,7 +42,7 @@ const withConnect = connect(
 
 const withAction = WrappedComponent => (
     props => (
-        <WrappedComponent action={createFieldDetails} {...props}/>
+        <WrappedComponent action={updateFieldDetails} {...props}/>
     )    
 )
 

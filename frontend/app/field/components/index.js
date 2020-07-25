@@ -4,6 +4,7 @@ export { default as FormFieldDetail } from './FormFieldDetail'
 
 export { default as FormFieldDraw } from './FormFieldDraw'
 export { default as FormFieldDetailDraw } from './FormFieldDetailDraw'
+export { default as FormFieldDetailUpdate } from './FormFieldDetailUpdate'
 
 export { default as SplitPane } from './SplitPane'
 export { default as FieldDraw } from './FieldDraw'

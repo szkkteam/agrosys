@@ -12,10 +12,11 @@ export default class FieldDetailLayout extends React.Component
      * TODO: This component should render all the child elements on the screen. (Breadcrumbs, Top-right carousel, main tabbed window.)
      */
     render() {
-        const { field } = this.props
+        const { field, ...rest } = this.props
         return(
             <FieldDetailTabContainer
                 field={field}
+                {...rest}
             />
         )
     }

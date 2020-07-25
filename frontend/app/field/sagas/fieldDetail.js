@@ -13,11 +13,11 @@ export const KEY = 'fieldDetail'
 
 export const maybeLoadFieldDetailSaga = function *(field) {   
     const { byId, isLoading } = yield select(selectFieldDetail)
-    console.log("field: ", field)
-    console.log("field.id: ", field.payload.id)
+    //console.log("field: ", field)
+    //console.log("field.id: ", field.payload.id)
     const isLoaded = !!byId[field.payload.id]
-    console.log("isLoaded: ", isLoaded)
-    console.log("isLoading: ", isLoading)
+    //console.log("isLoaded: ", isLoaded)
+    //console.log("isLoading: ", isLoading)
     if (!(isLoaded || isLoading)) {
       yield put(loadFieldDetail.trigger(field))
     }
@@ -27,7 +27,7 @@ export const maybeLoadFieldDetailSaga = function *(field) {
 export const loadFieldDetailSaga = createRoutineSaga(
     loadFieldDetail,
     function *successGenerator({ payload: payloadField }) {
-      console.log("loadFieldDetailSaga::payloadField: ", payloadField)
+      //console.log("loadFieldDetailSaga::payloadField: ", payloadField)
         const field = yield call(FieldApi.loadFieldDetail, payloadField)
         yield put(loadFieldDetail.success({
             field: field,

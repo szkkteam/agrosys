@@ -144,7 +144,7 @@ class LeafletEditable extends React.Component {
 
 
     componentDidMount() {
-        //console.log("LeafletEditable -> componentDidMount")
+        console.log("LeafletEditable -> componentDidMount")
         // Registering all the event handlers
         this._registerListeners()
         // Add or Draw polygon 
@@ -152,7 +152,7 @@ class LeafletEditable extends React.Component {
     }
 
     componentWillUpdate(nextProps) {        
-        //console.log("LeafletEditable -> componentWillUpdate")
+        console.log("LeafletEditable -> componentWillUpdate")
         const { map } = this.state
         const { enableEdit, reDraw } = nextProps
         if (this.props.enableEdit != nextProps.enableEdit) {
@@ -171,8 +171,11 @@ class LeafletEditable extends React.Component {
 
     componentWillUnmount() {
         const { map } = this.state
-        //console.log("LeafletEditable -> componentWillUnmount")
+        console.log("LeafletEditable -> componentWillUnmount")
         this._unregisterListener()
+        if (map.editTools.drawing()) {
+            map.editTools.stopDrawing()
+        }
         this.editLayer && map.removeLayer(this.editLayer)
         this.editLayer = null
     }

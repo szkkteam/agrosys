@@ -23,6 +23,8 @@ import {
     FieldDetailMap,
     FieldDetailCarousel,
     FieldDetailMapControl,
+    FormFieldDetailDraw,
+    FormFieldDetailUpdate,
 } from 'field/components'
 
 import { 
@@ -114,6 +116,9 @@ class FieldDetailTabContainer extends React.Component {
         //console.log("fieldDetail: ", fieldDetail)
         this.setState({
             selectedFieldDetail: fieldDetail,
+            isAddNewDetail: false,
+            enableDrawing: false,
+            featureInEdit: null,
         })
     }
 
@@ -197,9 +202,8 @@ class FieldDetailTabContainer extends React.Component {
         }
     }
 
-  
     render() {
-        const { field, fieldList } = this.props
+        const { field, fieldList, onRefreshPage } = this.props
         const fields = fieldList.filter(el => el.id != field.id)
         const { isAddNewDetail, enableDrawing, featureInEdit, selectedFieldDetail } = this.state
         
@@ -207,9 +211,12 @@ class FieldDetailTabContainer extends React.Component {
         if (featureInEdit) {
             feature.shape = featureInEdit.shape
             feature.area = featureInEdit.area
+        } else if (isAddNewDetail && !featureInEdit) {
+            feature.shape = null
+            feature.area = null
         }
 
-        //console.log("Render feature: ", feature)
+        //console.log("Field: ", field)
         //console.log("Render selectedFieldDetail: ", selectedFieldDetail)
 
         return (
@@ -237,12 +244,24 @@ class FieldDetailTabContainer extends React.Component {
                             fields={fields}
                         >
                             <FieldDetailMapControl
-                                featureInEdit={feature}
-                                field={field}
                                 onClickFinish={this.onClickFinish}
                                 onClickEdit={this.onClickEdit}
                                 onClickCancel={this.onClickCancel}
                                 menuOpen={enableDrawing}
+                                form={
+                                    isAddNewDetail?
+                                    <FormFieldDetailDraw
+                                        featureInEdit={feature}
+                                        selectedId={field}
+                                        onSubmitSuccess={onRefreshPage}
+                                    />   
+                                    :
+                                    <FormFieldDetailUpdate
+                                        featureInEdit={feature}
+                                        selectedId={feature}
+                                        onSubmitSuccess={onRefreshPage}
+                                    />
+                                }
                             />          
                             { !isAddNewDetail ? 
                                 enableDrawing? 
@@ -282,3 +301,4 @@ export default compose(
     withConnectFields,
     withConnectMap,
 )(FieldDetailTabContainer)
+

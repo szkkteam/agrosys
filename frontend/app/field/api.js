@@ -1,4 +1,4 @@
-import { get, post } from 'utils/request'
+import { get, post, patch } from 'utils/request'
 import { v1 } from 'api'
 
 
@@ -36,6 +36,10 @@ export default class Field {
 
   static createFieldDetails(fieldIn, payload) {
     return post(field(`/${fieldIn.id}/detail`), payload)
+  }
+
+  static updateFieldDetails(fieldDetailIn, payload) {
+    return patch(field(`/detail/${fieldDetailIn.id}`), payload)
   }
 
 }

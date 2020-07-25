@@ -27,6 +27,11 @@ class FieldDetail extends React.Component {
         }
     }
 
+    onRefreshPage = () => {
+        const { loadFieldDetail, id } = this.props
+        loadFieldDetail.trigger({payload: {id} })
+    }
+
     render() {
         const { isLoaded, field } = this.props
         if ( !isLoaded ) {
@@ -43,6 +48,7 @@ class FieldDetail extends React.Component {
                 </Helmet>
                 <FieldDetailLayout
                     field={field}
+                    onRefreshPage={this.onRefreshPage}
                 />
                 {field.title}
             </PageContent>

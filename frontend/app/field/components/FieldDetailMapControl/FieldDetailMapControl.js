@@ -4,12 +4,8 @@ import {
     MapControl,
 } from 'map/components'
 
-import { 
-    FormFieldDetailDraw,
-} from 'field/components'
 
-
-export default ({onClickCancel, onClickEdit, menuOpen, featureInEdit, field}) => (
+export default ({onClickCancel, onClickEdit, menuOpen, form}) => (
     <MapControl>
         { menuOpen? 
             <div>
@@ -19,10 +15,7 @@ export default ({onClickCancel, onClickEdit, menuOpen, featureInEdit, field}) =>
                 >
                     Cancel
                 </button>      
-                <FormFieldDetailDraw
-                    featureInEdit={featureInEdit}
-                    selectedField={field}
-                />                      
+                {form}                   
             </div> 
         :
             <button 

@@ -96,14 +96,14 @@ class FieldResource(ModelResource):
 
     @permission_required(permission='view', resource='field')
     def get(self, field):
-        return self.serializer.dump(get_field_details(field, only_last=True))
+        return self.serializer.dump(get_field_details(field))
 
     @auth_required
     def list(self, **kwargs):
         # Get farms with any permissions. TODO: ANY_PERMISSION object is not working ...
         fields = get_fields_with_permissions(['edit', 'view', 'delete', 'create'])
         print("field authorized: ", fields)
-        return self.serializer.dump([get_field_details(field) for field in fields], many=True)
+        return self.serializer.dump([get_field_details(field, only_last=True) for field in fields], many=True)
 
 
 

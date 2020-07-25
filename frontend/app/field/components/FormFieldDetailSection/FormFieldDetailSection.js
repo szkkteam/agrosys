@@ -4,20 +4,27 @@ import { HiddenField, TextField } from 'components/Form'
 
 import { SelectSoil } from 'soil/components'
 
+import './formfielddetailsection.scss'
 
 export default ({ namespace, ...rest }) => (
     <div>
         <TextField name={namespace? `${namespace}.value`: "value"}
                     label="Field value"
-                    className="full-width"
+                    className="form-detailsection-row"
                     autoFocus />
-        <TextField name={namespace? `${namespace}.area`: "area"} 
-                    label="Field area in m2"
-                    className="full-width"
-                    autoFocus/>
-        <HiddenField name={namespace? `${namespace}.shape`: "shape"} />
+        <TextField 
+            name={namespace? `${namespace}.area`: "area"} 
+            label="Field area in m2"
+            className="form-detailsection-row"
+            onBlur={(e) => {e.preventDefault() }}
+            autoFocus/> 
+        <HiddenField
+            name={namespace? `${namespace}.shape`: "shape"}
+            onBlur={(e) => {e.preventDefault() }}
+        />
         <SelectSoil
             namespace={namespace}
+            className="form-detailsection-row"
             {...rest}
         />
     </div>
