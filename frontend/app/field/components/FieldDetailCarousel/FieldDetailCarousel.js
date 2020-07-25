@@ -35,13 +35,18 @@ export default class FieldDetailCarousel extends React.Component {
         ) 
     }
 
+    onHover = (e) => {
+        console.log("Item: ", e)
+    }
+
     render() {
       const { items, onClick, onAdd } = this.props
       return (
         <ul className={"detail-list"}>
-          { items && Array.isArray(items) && items.map((item, id) => (
+          { items && Array.isArray(items) && items.slice().reverse().map((item, id) => (
             <a 
                 onClick={e => onClick&&onClick(item)}
+                onMouseEnter={e => this.onHover(item)}
                 key={id}
             >
             <li 

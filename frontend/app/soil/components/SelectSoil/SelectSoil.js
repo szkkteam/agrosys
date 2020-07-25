@@ -11,7 +11,7 @@ import { selectSoilTypesList } from 'soil/reducer'
 
 
 class SelectSoil extends React.Component {
-    componentWillMount () {
+    componentDidMount () {
         this.props.listSoilTypes.maybeTrigger()
     }
 

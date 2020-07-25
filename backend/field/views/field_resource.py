@@ -31,7 +31,7 @@ def get_field_details(field, only_last=False):
     if only_last:
         field_details = [FieldDetail.filter_by(field_id=field.id).order_by(desc(FieldDetail.created_at)).first()]
     else:
-        field_details = field.field_details
+        field_details = FieldDetail.filter_by(field_id=field.id).order_by(desc(FieldDetail.created_at))
     return {
             'id': field.id,
             'title': field.title,

@@ -42,7 +42,7 @@ class FieldDetailTabContainer extends React.Component {
 
         this.state = {
             isAddNewDetail: false,
-            selectedFieldDetail: this.props.field.fields[this.props.field.fields.length - 1],
+            selectedFieldDetail: this.props.field.fields[0],
             enableDrawing: this.props.enableDrawing,
             featureInEdit: null,
         }
@@ -57,7 +57,7 @@ class FieldDetailTabContainer extends React.Component {
         if (nextProps.field !== this.props.field) {
             this.setState({
                 isAddNewDetail: false,
-                selectedFieldDetail: nextProps.field.fields[nextProps.field.fields.length - 1],
+                selectedFieldDetail: nextProps.field.fields[0],
                 enableDrawing: this.props.enableDrawing,
                 featureInEdit: null,
             })
@@ -85,8 +85,10 @@ class FieldDetailTabContainer extends React.Component {
         })
     }
 
-    onClickFinish = (e) => {
+    onClickFinish = () => {
         //console.log("onClickFinish")
+        const { listFields, onRefreshPage } = this.props
+        /*
         let newFeature = this.state.selectedFieldDetail
             newFeature.shape = this.state.featureInEdit.shape
             newFeature.area = this.state.featureInEdit.area
@@ -96,7 +98,9 @@ class FieldDetailTabContainer extends React.Component {
             selectedFieldDetail: newFeature,
             featureInEdit: null,
         })
-        // TODO: Make a post request?        
+        */
+        listFields.trigger()
+        onRefreshPage && onRefreshPage()
     }
 
     onClickCancel = (e) => {
@@ -141,12 +145,15 @@ class FieldDetailTabContainer extends React.Component {
                 featureInEdit: featureInEdit
             })
         }
-        this.flyToBounds(bounds)
+        
     }
  
     onFeatureAdd = ({bounds}) => {
         //console.log("onFeatureAdd: ", bounds)
-        this.flyToBounds(bounds)
+        if (!this.state.featureInEdit) {
+            this.flyToBounds(bounds)
+        }
+
     }
 
     renderStaticFeature = (featureInEdit) => {
@@ -203,7 +210,7 @@ class FieldDetailTabContainer extends React.Component {
     }
 
     render() {
-        const { field, fieldList, onRefreshPage } = this.props
+        const { field, fieldList } = this.props
         const fields = fieldList.filter(el => el.id != field.id)
         const { isAddNewDetail, enableDrawing, featureInEdit, selectedFieldDetail } = this.state
         
@@ -244,7 +251,6 @@ class FieldDetailTabContainer extends React.Component {
                             fields={fields}
                         >
                             <FieldDetailMapControl
-                                onClickFinish={this.onClickFinish}
                                 onClickEdit={this.onClickEdit}
                                 onClickCancel={this.onClickCancel}
                                 menuOpen={enableDrawing}
@@ -253,13 +259,13 @@ class FieldDetailTabContainer extends React.Component {
                                     <FormFieldDetailDraw
                                         featureInEdit={feature}
                                         selectedId={field}
-                                        onSubmitSuccess={onRefreshPage}
+                                        onSubmitSuccess={this.onClickFinish}
                                     />   
                                     :
                                     <FormFieldDetailUpdate
                                         featureInEdit={feature}
                                         selectedId={feature}
-                                        onSubmitSuccess={onRefreshPage}
+                                        onSubmitSuccess={this.onClickFinish}
                                     />
                                 }
                             />          
