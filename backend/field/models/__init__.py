@@ -7,5 +7,3 @@
 from .field_detail import FieldDetail
 from .field import Field
 from .soil_type import SoilType
-from .production import Production
-from .field_production import FieldProduction

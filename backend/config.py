@@ -35,6 +35,8 @@ BUNDLES = [
     'backend.contrib.newsletter_subscribe',
     'backend.farm_management',
     'backend.field',
+    'backend.production',
+    'backend.crop',
 ]
 
 # ordered list of extensions to register before the bundles

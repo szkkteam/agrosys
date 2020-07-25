@@ -20,6 +20,13 @@ from backend.database import (
     foreign_key
 )
 
+
+
+def create_field_detail_production(production):
+    from backend.production.field_detail_production import FieldDetailProduction
+    return FieldDetailProduction(production=production)
+
+
 class FieldDetail(Model):
 
     area = Column(Float())
@@ -37,6 +44,12 @@ class FieldDetail(Model):
               nullable=False, )
     #field_id = foreign_key('Field', nullable=False)
     field = relationship('Field', back_populates='field_details')
+
+    # Production relationship
+    field_detail_productions = relationship('FieldDetailProduction', back_populates='field_detail',
+                                 cascade='all, delete-orphan')
+    productions = association_proxy('field_detail_productions', 'field_detail',
+                              creator=lambda production: create_field_detail_production(production))
 
 
     __repr_props__ = ('id', 'value', 'area', 'soil_type_id', 'field_id', 'soil_type', 'field_id')
