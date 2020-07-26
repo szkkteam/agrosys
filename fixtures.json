@@ -12,10 +12,30 @@
     },
     {
       "id": 2,
-      "email": "a@b.com",
-      "username": "user",
-      "first_name": "The",
-      "last_name": "User",
+      "email": "user1@user.com",
+      "username": "user1",
+      "first_name": "User",
+      "last_name": "1",
+      "password": "password",
+      "active": true,
+      "confirmed_at": "2017-08-30 00:00:00 UTC"
+    },
+      {
+      "id": 3,
+      "email": "user2@user.com",
+      "username": "user2",
+      "first_name": "User",
+      "last_name": "2",
+      "password": "password",
+      "active": true,
+      "confirmed_at": "2017-08-30 00:00:00 UTC"
+    },
+      {
+      "id": 4,
+      "email": "user3@user.com",
+      "username": "user3",
+      "first_name": "User",
+      "last_name": "3",
       "password": "password",
       "active": true,
       "confirmed_at": "2017-08-30 00:00:00 UTC"
@@ -46,6 +66,14 @@
     "model": "Farm", "items": [
       {
         "id": 1,
+        "title": "My Farm"
+      },
+      {
+        "id": 2,
+        "title": "My Farm"
+      },
+      {
+        "id": 3,
         "title": "My Farm"
       }
     ]

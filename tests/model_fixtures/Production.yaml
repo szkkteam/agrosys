@@ -1,0 +1,47 @@
+---
+PRODUCTION_AS_TMP_1:
+  title: owner
+  use_as_template: true
+  crop_template: 'CropTemplate(CROP_TEMPLATE_1)'
+
+PRODUCTION_AS_TMP_2:
+  title: anonymus
+  use_as_template: true
+  crop_template: 'CropTemplate(CROP_TEMPLATE_2)'
+
+PRODUCTION_AS_TMP_3:
+  title: anonymus
+  use_as_template: true
+  crop_template: 'CropTemplate(CROP_TEMPLATE_3)'
+
+PRODUCTION_1:
+  title: owner
+  use_as_template: false
+  crop_template: 'CropTemplate(CROP_TEMPLATE_4)'
+
+PRODUCTION_2:
+  title: anonymus
+  use_as_template: false
+  crop_template: 'CropTemplate(CROP_TEMPLATE_5)'
+
+PRODUCTION_3:
+  title: anonymus
+  use_as_template: false
+  crop_template: 'CropTemplate(CROP_TEMPLATE_6)'
+
+PRODUCTION_TMP_1:
+  title: template
+  use_as_template: true
+  crop_template: 'CropTemplate(CROP_TEMPLATE_1)'
+
+PRODUCTION_TMP_2:
+  title: template
+  use_as_template: true
+  crop_template: 'CropTemplate(CROP_TEMPLATE_2)'
+
+PRODUCTION_TMP_3:
+  title: template
+  use_as_template: true
+  crop_template: 'CropTemplate(CROP_TEMPLATE_3)'
+
+

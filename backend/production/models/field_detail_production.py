@@ -30,5 +30,5 @@ class FieldDetailProduction(BaseModel, TimestampMixin):
         super().__init__(**kwargs)
         if production:
             self.production = production
-        if field:
+        if field_detail:
             self.field_detail = field_detail

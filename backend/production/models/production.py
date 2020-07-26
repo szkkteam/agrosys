@@ -39,10 +39,12 @@ class Production(Resource):
     # Field relationship
     production_field_details = relationship('FieldDetailProduction', back_populates='production',
                                             cascade='all, delete-orphan')
-    fields = association_proxy('field_detail_productions', 'field_detail',
+    field_details = association_proxy('field_detail_productions', 'field_detail',
                                creator=lambda field_detail: create_field_detail_production(field_detail))
+
+    tasks = relationship('Task', back_populates='production')
 
     crop_template_id = foreign_key('CropTemplate', nullable=False)
     crop_template = relationship('CropTemplate', uselist=False)
 
-    __repr_props__ = ('title')
+    __repr_props__ = ('id', 'title', 'use_as_template', 'crop_template_id')

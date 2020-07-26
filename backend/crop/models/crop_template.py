@@ -28,4 +28,6 @@ class CropTemplate(Model):
     crop_variant_id = foreign_key('CropVariant', nullable=False)
     crop_variant = relationship('CropVariant', back_populates='crop_templates')
 
+    productions = relationship('Production', back_populates='crop_template')
+
     __repr_props__ = ('id', 'title')

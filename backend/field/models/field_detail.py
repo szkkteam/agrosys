@@ -19,11 +19,11 @@ from backend.database import (
     relationship,
     foreign_key
 )
-
+from backend.production.models import FieldDetailProduction
 
 
 def create_field_detail_production(production):
-    from backend.production.field_detail_production import FieldDetailProduction
+    from backend.production.models import FieldDetailProduction
     return FieldDetailProduction(production=production)
 
 
@@ -48,7 +48,7 @@ class FieldDetail(Model):
     # Production relationship
     field_detail_productions = relationship('FieldDetailProduction', back_populates='field_detail',
                                  cascade='all, delete-orphan')
-    productions = association_proxy('field_detail_productions', 'field_detail',
+    productions = association_proxy('field_detail_productions', 'production',
                               creator=lambda production: create_field_detail_production(production))
 
 

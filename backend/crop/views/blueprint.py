@@ -7,4 +7,4 @@ from flask import Blueprint
 
 # Internal package imports
 
-crop = Blueprint('crop', __name__, template_folder='templates')
+crop = Blueprint('crop', __name__, url_prefix='/crops', template_folder='templates')

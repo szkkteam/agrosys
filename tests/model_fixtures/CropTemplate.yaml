@@ -1,0 +1,36 @@
+---
+CROP_TEMPLATE_1:
+  title: Corn, cultivation type 1, variant 1
+  crop_base: 'CropBase(CROP_BASE_CORN)'
+  crop_cultivation_type: 'CropCultivationType(CROP_CULTIVATION_TYPE_1)'
+  crop_variant: 'CropVariant(CROP_VARIANT_1)'
+
+CROP_TEMPLATE_2:
+  title: Corn, cultivation type 2, variant "1"
+  crop_base: 'CropBase(CROP_BASE_CORN)'
+  crop_cultivation_type: 'CropCultivationType(CROP_CULTIVATION_TYPE_1)'
+  crop_variant: 'CropVariant(CROP_VARIANT_2)'
+
+CROP_TEMPLATE_3:
+  title: Corn, cultivation type 2, variant "1"
+  crop_base: 'CropBase(CROP_BASE_CORN)'
+  crop_cultivation_type: 'CropCultivationType(CROP_CULTIVATION_TYPE_2)'
+  crop_variant: 'CropVariant(CROP_VARIANT_2)'
+
+CROP_TEMPLATE_4:
+  title: Corn, cultivation type 2, variant "1"
+  crop_base: 'CropBase(CROP_BASE_CORN)'
+  crop_cultivation_type: 'CropCultivationType(CROP_CULTIVATION_TYPE_2)'
+  crop_variant: 'CropVariant(CROP_VARIANT_1)'
+
+CROP_TEMPLATE_5:
+  title: Wheat, cultivation type 2, variant "1"
+  crop_base: 'CropBase(CROP_BASE_WHEAT)'
+  crop_cultivation_type: 'CropCultivationType(CROP_CULTIVATION_TYPE_2)'
+  crop_variant: 'CropVariant(CROP_VARIANT_1)'
+
+CROP_TEMPLATE_6:
+  title: Wheat, cultivation type 2, variant "2"
+  crop_base: 'CropBase(CROP_BASE_WHEAT)'
+  crop_cultivation_type: 'CropCultivationType(CROP_CULTIVATION_TYPE_2)'
+  crop_variant: 'CropVariant(CROP_VARIANT_2)'

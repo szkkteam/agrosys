@@ -83,7 +83,7 @@ class UserService(BaseService):
 
     @classmethod
     def resources_with_perms(
-        cls, instance, perms, resource_ids=None, resource_types=None):
+        cls, instance, perms, resource_ids=None, resource_types=None, without_owners=False, query_class=None):
         """
         returns all resources that user has perms for
             (note that at least one perm needs to be met)
@@ -98,7 +98,10 @@ class UserService(BaseService):
         # owned entities have ALL permissions so we return those resources too
         # even without explict perms set
         # TODO: implement admin superrule perm - maybe return all apps
-        query = db.session.query(cls.models_proxy.Resource).distinct()
+        if query_class:
+            query = db.session.query(query_class).distinct()
+        else:
+            query = db.session.query(cls.models_proxy.Resource).distinct()
         group_ids = [gr.id for gr in instance.groups]
         # if user has some groups lets try to join based on their permissions
         if group_ids:
@@ -115,18 +118,37 @@ class UserService(BaseService):
             # dont add empty rows from join
             # conditions are - join ON possible group permissions
             # OR owning group/user
+            filter_cond = [
+                cls.models_proxy.Resource.owner_user_id == instance.id,
+                cls.models_proxy.Resource.owner_group_id.in_(group_ids),
+                cls.models_proxy.GroupResourcePermission.perm_name != None,
+            ]
+            if without_owners:
+                filter_cond.extend([
+                    cls.models_proxy.Resource.owner_user_id == None,
+                    cls.models_proxy.Resource.owner_group_id == None,
+                ])
+
             query = query.filter(
                 sa.or_(
-                    cls.models_proxy.Resource.owner_user_id == instance.id,
-                    cls.models_proxy.Resource.owner_group_id.in_(group_ids),
-                    cls.models_proxy.GroupResourcePermission.perm_name != None,
+                    *filter_cond
                 )  # noqa
             )
         else:
             # filter just by username
-            query = query.filter(cls.models_proxy.Resource.owner_user_id == instance.id)
+            if without_owners:
+                query = query.filter(sa.or_(
+                    cls.models_proxy.Resource.owner_user_id == instance.id,
+                    cls.models_proxy.Resource.owner_user_id == None,
+                ))
+            else:
+                query = query.filter(cls.models_proxy.Resource.owner_user_id == instance.id)
         # lets try by custom user permissions for resource
-        query2 = db.session.query(cls.models_proxy.Resource).distinct()
+        if query_class:
+            query2 = db.session.query(query_class).distinct()
+        else:
+            query2 = db.session.query(cls.models_proxy.Resource).distinct()
+
         query2 = query2.filter(
             cls.models_proxy.UserResourcePermission.user_id == instance.id
         )
