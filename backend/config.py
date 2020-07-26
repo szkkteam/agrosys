@@ -33,6 +33,7 @@ BUNDLES = [
     'backend.security',
     'backend.contrib.contact_submission',
     'backend.contrib.newsletter_subscribe',
+    'backend.site',
     'backend.farm_management',
     'backend.field',
     'backend.production',
