@@ -8,7 +8,6 @@ from datetime import timedelta
 # Pip package imports
 import redis
 from appdirs import AppDirs
-from flask_mm.postprocess import Watermarker
 
 # Internal package imports
 from backend.utils.date import utcnow
