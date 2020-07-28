@@ -16,11 +16,11 @@ from backend.database import (
     association_proxy
 )
 from backend.security.models.resource import Resource
-
+from backend.crop.models import CropTemplate
 
 def create_field_detail_production(field_detail):
-    from backend.field.models import FieldDetail
-    return FieldDetail(field_detail=field_detail)
+    from .field_detail_production import FieldDetailProduction
+    return FieldDetailProduction(field_detail=field_detail)
 
 
 class Production(Resource):

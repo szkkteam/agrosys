@@ -19,8 +19,6 @@ from backend.database import (
     relationship,
     foreign_key
 )
-from backend.production.models import FieldDetailProduction
-
 
 def create_field_detail_production(production):
     from backend.production.models import FieldDetailProduction

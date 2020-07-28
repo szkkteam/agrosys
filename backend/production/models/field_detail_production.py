@@ -14,6 +14,7 @@ from backend.database import (
     foreign_key,
     relationship,
 )
+from backend.field.models import FieldDetail
 
 class FieldDetailProduction(BaseModel, TimestampMixin):
     """Join table between User and Role"""

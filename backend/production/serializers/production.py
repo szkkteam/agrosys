@@ -8,65 +8,39 @@ from marshmallow import pre_load, post_dump, post_load, validates_schema
 # Internal package imports
 from backend.extensions.api import api
 from backend.database import db
-from backend.api import ModelSerializer, validates, ValidationError
-from backend.api import fields
+from backend.api import ModelSerializer, validates, ValidationError, fields
 from backend.crop.models import CropTemplate
 
 from ..models import Production
+
 
 PRODUCTION_FIELDS = (
     'id',
     'title',
 )
 
+def object_id_exists(object_id, model):
+    if not model.get_by(id=object_id):
+        raise ValidationError('ID %i does not exist.' % (object_id))
 
 class ProductionSerializer(ModelSerializer):
 
-    #shape = fields.Pluck('FieldDataSerializer', 'shape')
-    #value = fields.Pluck('FieldDataSerializer', 'value', missing=True, allow_none=True)
-    #field = fields.Nested('FieldDataSerializer', many=False, required=True)
-    #value = fields.Nested('FieldDataSerializer', only=('value',), many=False)
-    #field_details = m_fields.Nested('FieldDetailListSerializer', many=True, data_key='fields')
-    #role = m_fields.Nested('FieldPermissionSerializer', many=False)
+    use_as_template = fields.Boolean(required=False, allow_none=True)
+    crop_template_id = fields.Integer(required=True, validate=lambda x: object_id_exists(x, CropTemplate))
 
     class Meta:
         model = Production
-        fields = PRODUCTION_FIELDS + ('crop_template_id',)
-        #dump_only = ('id', 'created_at', 'soil_type')
-        #load_only = ('crop_template_id',)
-        #include_fk = True
-        #exclude = tuple(prop.key
-        #                for prop in Production.__mapper__.iterate_properties
-        #                if hasattr(prop, 'direction'))
-
-    """
-    @validates('crop_template_id')
-    def validate_id(self, crop_template_id):
-        inst = db.session.query(CropTemplate).get(crop_template_id)
-        if not inst:
-            raise ValidationError('Not a valid ID.', 'crop_template_id')
-        return
-
-    def load(self, data, many=None, partial=None, unknown=None, session=None, instance=None, transient=False, **kwargs):
-
-        def _load_cop_template(result, data):
-            if 'cropTemplateId' in data:
-                result.soil_type = CropTemplate.get(data.get('cropTemplateId'))
-            return result
-
-        result = super().load(data, many=many, partial=partial, unknown=unknown, session=session, instance=instance, transient=transient, **kwargs)
-
-        if many or isinstance(data, list):
-            result = [_load_cop_template(r, d) for d, r in zip(data, result)]
-        else:
-            result = _load_cop_template(result, data)
-        return result
-    """
+        fields = PRODUCTION_FIELDS + ('crop_template_id', 'use_as_template',)
+        dump_only = ('id', )
+        load_only = ('use_as_template', )
+        include_fk = True
 
 @api.serializer(many=True)
 class ProductionListSerializer(ProductionSerializer):
 
     class Meta:
         model = Production
-        fields = PRODUCTION_FIELDS
-        #dump_only = ('id', 'role')
+        fields = PRODUCTION_FIELDS + ('crop_template_id', 'use_as_template',)
+        dump_only = ('id', )
+        load_only = ('use_as_template', )
+        include_fk = True

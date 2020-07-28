@@ -39,6 +39,7 @@ jinja2-time
 lxml
 markdown
 marshmallow-sqlalchemy
+marshmallow-enum
 redis
 psycopg2
 python-dateutil
