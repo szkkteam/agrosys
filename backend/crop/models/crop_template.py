@@ -3,6 +3,10 @@
 
 # Common Python library imports
 # Pip package imports
+import sqlalchemy as sa
+from sqlalchemy.orm import with_polymorphic
+from flask_security import current_user
+
 # Internal package imports
 from backend.database import (
     Column,
@@ -30,4 +34,20 @@ class CropTemplate(Model):
 
     productions = relationship('Production', back_populates='crop_template')
 
-    __repr_props__ = ('id', 'title')
+    @property
+    def production_templates(self):
+        from backend.security.models import User, Resource
+        from backend.production.models import Production
+        from backend.permissions.services import UserService
+
+        user = User.get(current_user.id)
+        res_prod = with_polymorphic(Resource, [Production])
+        return UserService.resources_with_perms(user, ['edit', 'view', 'delete', 'create'], resource_types=['production'], without_owners=True,
+                                                query_class=res_prod). \
+            filter(sa.and_(
+            res_prod.Production.use_as_template == True,
+            res_prod.Production.crop_template_id == self.id
+        )). \
+            all()
+
+    __repr_props__ = ('id', 'title', 'production_templates')

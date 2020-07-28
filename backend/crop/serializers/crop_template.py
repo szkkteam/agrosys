@@ -12,19 +12,17 @@ from ..models import CropTemplate
 
 CROP_TEMPLATE_FIELDS = (
     'id',
-)
-
-CROP_TEMPLATE_LIST_FIELDS = (
-    'id',
     'title',
 )
 
 
 class CropTemplateSerializer(ModelSerializer):
 
+    production_templates = fields.Nested('ProductionSerializer', only=('id', 'title',), many=True)
+
     class Meta:
         model = CropTemplate
-        fields = CROP_TEMPLATE_FIELDS
+        fields = CROP_TEMPLATE_FIELDS + ('production_templates', )
         #dump_only = ('unit',)
         #load_instance = False
 
@@ -32,10 +30,8 @@ class CropTemplateSerializer(ModelSerializer):
 @api.serializer(many=True)
 class CropTemplateListSerializer(ModelSerializer):
 
-    productions = fields.Nested('ProductionSerializer', only=('id', 'title',), many=True)
-
     class Meta:
         model = CropTemplate
-        fields = CROP_TEMPLATE_LIST_FIELDS
+        fields = CROP_TEMPLATE_FIELDS + ('production_templates', )
         #dump_only = ('unit', )
         #load_instance = False

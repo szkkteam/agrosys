@@ -35,8 +35,11 @@ class TestCropTemplateResource:
         assert len(r.json)
         for e in r.json:
             assert 'id' in e
-            print(r.json)
-            assert False
+            assert 'title' in e
+            assert 'productionTemplates' in e
+            for t in e['productionTemplates']:
+                assert 'id' in t
+                assert 'title' in t
 
     def test_list_query_cultivation_type(self, api_client, farm_owner, models):
         api_client.login_as(farm_owner)
@@ -47,6 +50,11 @@ class TestCropTemplateResource:
         assert len(r.json)
         for e in r.json:
             assert 'id' in e
+            assert 'title' in e
+            assert 'productionTemplates' in e
+            for t in e['productionTemplates']:
+                assert 'id' in t
+                assert 'title' in t
 
     def test_list_query_variant(self, api_client, farm_owner, models):
         api_client.login_as(farm_owner)
@@ -57,6 +65,11 @@ class TestCropTemplateResource:
         assert len(r.json)
         for e in r.json:
             assert 'id' in e
+            assert 'title' in e
+            assert 'productionTemplates' in e
+            for t in e['productionTemplates']:
+                assert 'id' in t
+                assert 'title' in t
 
     def test_list_query_all_variant(self, api_client, farm_owner, models):
         api_client.login_as(farm_owner)
@@ -69,4 +82,9 @@ class TestCropTemplateResource:
         assert len(r.json)
         for e in r.json:
             assert 'id' in e
+            assert 'title' in e
+            assert 'productionTemplates' in e
+            for t in e['productionTemplates']:
+                assert 'id' in t
+                assert 'title' in t
 

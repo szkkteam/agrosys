@@ -5,6 +5,7 @@
 # Pip package imports
 from flask import after_this_request, current_app, url_for, request, abort
 from marshmallow.exceptions import ValidationError
+import sqlalchemy as sa
 from flask_security import current_user
 from sqlalchemy.orm import with_polymorphic
 
@@ -22,14 +23,6 @@ from ..models import CropBase, CropCultivationType, CropVariant, CropTemplate
 
 from .blueprint import crop
 
-
-def get_productions_with_permissions(permissions):
-    user = User.get(current_user.id)
-    res_prod = with_polymorphic(Resource, [Production])
-    return UserService.resources_with_perms(user, permissions, resource_types=['production'], without_owners=True, query_class=res_prod). \
-        filter(res_prod.Production.use_as_template == True). \
-        all()
-
 @api.model_resource(crop, CropTemplate, '/templates')
 class CropTemplateResource(ModelResource):
     include_methods = (LIST, )
@@ -41,12 +34,6 @@ class CropTemplateResource(ModelResource):
 
     @param_converter(base=int, cultivation_type=int, variant=int)
     def list(self, base=None, cultivation_type=None, variant=None, *args, **kwargs):
-
-        productions = get_productions_with_permissions(['edit', 'view', 'delete', 'create'])
-
-        print("productions: ", productions)
-        assert False
-
         if cultivation_type or variant or base:
             q = db.session.query(CropTemplate)
             if base:
@@ -58,11 +45,10 @@ class CropTemplateResource(ModelResource):
             print("Base: ", base)
             print("cultivation_type: ", cultivation_type)
             print("variant: ", variant)
-            print("Query: ", q)
             result = q.all()
-            print("Result: ", result)
         else:
             result = CropTemplate.all()
+        print("crops: ", result)
         return self.serializer.dump(result, many=True)
 
 
