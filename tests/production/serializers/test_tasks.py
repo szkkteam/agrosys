@@ -1,0 +1,140 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# Common Python library imports
+import copy
+
+# Pip package imports
+import pytest
+from marshmallow.exceptions import ValidationError
+
+# Internal package imports
+from backend.production.serializers import TaskSerializer, TaskListSerializer
+
+TASK_GENERAL_1 = {
+    'title': 'task general',
+    'taskType': 'TaskGeneral',
+    'description': 'some text',
+    'startDate': '2020-07-21T20:00:00',
+    'endDate': '2020-07-22T20:00:00',
+    'predictedCost': 1,
+    'actualCost': 2,
+}
+
+TASK_PRUNING_1 = {
+    'title': 'task general',
+    'taskType': 'TaskPruning',
+    'description': 'some text',
+    'startDate': '2020-07-21T20:00:00',
+    'endDate': '2020-07-22T20:00:00',
+    'predictedCost': 1,
+    'actualCost': 2,
+}
+
+TASK_INVALID_TASK_TYPE = {
+    'title': 'task general',
+    'taskType': 'TaskRandom',
+    'description': 'some text',
+    'startDate': '2020-07-21T20:00:00',
+    'endDate': '2020-07-22T20:00:00',
+    'predictedCost': 1,
+    'actualCost': 2,
+}
+
+
+TASK_INVALID_DATETIME = {
+    'title': 'task general',
+    'taskType': 'TaskPruning',
+    'description': 'some text',
+    'startDate': 'cicamica',
+    'endDate': '2020-07-22T20:00:00',
+    'predictedCost': 1,
+    'actualCost': 2,
+}
+
+VALID_INPUT_DATA = [
+    TASK_GENERAL_1, TASK_PRUNING_1
+]
+
+INVALID_INPUT_DATA = [
+    (TASK_INVALID_TASK_TYPE, 'Unsupported value: TaskRandom', 'taskType'),
+    (TASK_INVALID_DATETIME, 'Not a valid datetime.', 'startDate'),
+]
+
+VALID_INPUT_DATA_LIST = [
+    ([TASK_GENERAL_1,
+      TASK_PRUNING_1,])
+]
+
+INVALID_INPUT_DATA_LIST = [
+    ([TASK_INVALID_TASK_TYPE, TASK_INVALID_DATETIME], 'Field may not be null.', 'title'),
+]
+
+class TestTaskSerializer:
+
+    @pytest.mark.parametrize("input", VALID_INPUT_DATA)
+    def test_valid_inputs(self, input, crop_template):
+        serializer = TaskSerializer()
+        serializer.load(copy.deepcopy(input.copy()))
+
+
+    @pytest.mark.parametrize("input,msg,field", INVALID_INPUT_DATA)
+    def test_invalid_inputs(self, input, msg, field, crop_template):
+        serializer = TaskSerializer()
+        with pytest.raises(ValidationError) as v:
+            serializer.load(copy.deepcopy(input.copy()))
+        assert msg in v.value.args[0][field]
+
+
+    @pytest.mark.parametrize("input", VALID_INPUT_DATA)
+    def test_valid_serialize_deserialize(self, input, crop_template):
+        serializer = TaskSerializer()
+        input_data = input.copy()
+
+        result = serializer.load(input)
+        result = serializer.dump(result)
+        assert result['title'] == input_data['title']
+        assert result['taskType'] == input_data['taskType']
+        assert result['description'] == input_data['description']
+        assert input_data['startDate'] in result['startDate']
+        assert input_data['endDate'] in result['endDate']
+        assert result['predictedCost'] == str(input_data['predictedCost'])
+        assert result['actualCost'] == str(input_data['actualCost'])
+
+
+class TestTaskListSerializer:
+
+    @pytest.mark.parametrize("input", VALID_INPUT_DATA_LIST)
+    def test_valid_inputs(self, input, crop_template):
+        serializer = TaskListSerializer()
+        serializer.load(copy.deepcopy(input), many=True)
+
+    @pytest.mark.parametrize("input,msg,field", INVALID_INPUT_DATA_LIST)
+    def test_invalid_inputs(self, input, msg, field, crop_template):
+        serializer = TaskListSerializer()
+        with pytest.raises(ValidationError) as v:
+            serializer.load(copy.deepcopy(input), many=True)
+
+
+    @pytest.mark.parametrize("input", VALID_INPUT_DATA_LIST)
+    def test_valid_serialize_deserialize(self, input, crop_template):
+        input_data = copy.deepcopy(input)
+
+        serializer = TaskListSerializer()
+        result = serializer.load(input, many=True)
+        print("Load: ", result)
+        result = serializer.dump(result, many=True)
+        print("dump: ", result)
+
+        for r, i in zip(result, input_data):
+            assert r['title'] == i['title']
+            assert r['taskType'] == i['taskType']
+            assert r['description'] == i['description']
+            assert i['startDate'] in r['startDate']
+            assert i['endDate'] in r['endDate']
+            assert r['predictedCost'] == str(i['predictedCost'])
+            assert r['actualCost'] == str(i['actualCost'])
+
+
+
+

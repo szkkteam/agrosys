@@ -16,7 +16,7 @@ from backend.database import (
     association_proxy
 )
 from backend.security.models.resource import Resource
-from backend.crop.models import CropTemplate
+#from backend.crop.models import CropTemplate
 
 def create_field_detail_production(field_detail):
     from .field_detail_production import FieldDetailProduction
@@ -42,7 +42,8 @@ class Production(Resource):
     field_details = association_proxy('field_detail_productions', 'field_detail',
                                creator=lambda field_detail: create_field_detail_production(field_detail))
 
-    tasks = relationship('Task', back_populates='production')
+    tasks = relationship('Task', back_populates='production',
+                         cascade='all, delete-orphan')
 
     crop_template_id = foreign_key('CropTemplate', nullable=False)
     crop_template = relationship('CropTemplate', uselist=False)

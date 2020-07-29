@@ -25,7 +25,7 @@ class Farm(Resource):
                                  ondelete='CASCADE', ),
                    primary_key=True, )
 
-    fields = relationship('Field', cascade="all, delete-orphan", foreign_keys="Field.id", back_populates='farm')
+    fields = relationship('Field', cascade="all, delete", foreign_keys="Field.id", back_populates='farm')
     # TODO: Define later lazy relationship
     #seasons = relationship('Season', cascade="all,delete", back_populates='farm', lazy='noload')
 

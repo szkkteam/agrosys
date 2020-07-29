@@ -85,7 +85,7 @@ def _convert_models(view_kwargs: dict,
         print("url_param_name: ", url_param_name)
         print("view_kwargs: ", view_kwargs)
         filter_by = url_param_name.replace(
-            camel_to_snake_case(model.__name__) + '_', '')
+            camel_to_snake_case(model.__name__) + '_', '', 1)
         print("filter_by: ", filter_by)
         print("model: ", model)
         instance = model.query.filter_by(**{
@@ -152,12 +152,15 @@ def patch_loader(*args, serializer):
         @wraps(fn)
         def decorated(*args, **kwargs):
             try:
+                print("Instance: ", kwargs.get('instance'))
                 result = serializer.load(request.get_json(),
                                          instance=kwargs.pop('instance'),
                                          partial = True)
+                print("patch_loader res: ", result)
             except ValidationError as v:
                 errors = v.messages
                 result = v.valid_data
+                print("patch_loader errors: ", errors)
             else:
                 errors = None
             # TODO: When to abort the request?

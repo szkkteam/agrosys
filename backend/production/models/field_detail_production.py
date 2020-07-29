@@ -3,6 +3,8 @@
 
 # Common Python library imports
 # Pip package imports
+import sqlalchemy as sa
+
 # Internal package imports
 from backend.database import (
     Column,
@@ -10,7 +12,7 @@ from backend.database import (
     TimestampMixin,
     String,
     Float,
-    Boolean,
+    BigInteger,
     foreign_key,
     relationship,
 )
@@ -19,11 +21,11 @@ from backend.field.models import FieldDetail
 class FieldDetailProduction(BaseModel, TimestampMixin):
     """Join table between User and Role"""
 
-    field_detail_id = foreign_key('FieldDetail', primary_key=True)
-    field_detail = relationship('FieldDetail', back_populates='field_detail_productions')
+    field_detail_id = foreign_key('FieldDetail', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
+    field_detail = relationship('FieldDetail', back_populates='field_detail_productions', cascade='all, delete')
 
-    production_id = foreign_key('Production', primary_key=True)
-    production = relationship('Production', back_populates='production_field_details')
+    production_id = foreign_key('Production', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
+    production = relationship('Production', back_populates='production_field_details', cascade='all, delete')
 
     __repr_props__ = ('field_detail_id', 'production_id')
 

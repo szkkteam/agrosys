@@ -19,6 +19,7 @@ from backend.database import (
     association_proxy,
     foreign_key
 )
+from backend.production.models import Production
 
 class CropTemplate(Model):
     title = Column(String(64), nullable=True)

@@ -25,6 +25,7 @@ Identifier = namedtuple('Identifier', 'class_name id')
 
 class AttrGetter:
     def __init__(self, dict_):
+        print("Dict: ", dict_)
         self.dict_ = dict_
 
     def __getattr__(self, name):

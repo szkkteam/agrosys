@@ -17,9 +17,9 @@ from backend.database import (
 from .task import Task
 
 
-class TaskGeneral(Task):
-    __mapper_args__ = {'polymorphic_identity': 'task_general'}
+class TaskPruning(Task):
+    __mapper_args__ = {'polymorphic_identity': 'task_pruning'}
 
     id = foreign_key('Task', fk_col='task_id', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
 
-    __repr_props__ = ('id', 'title', 'task_type', )
+    __repr_props__ = ('id', 'title', 'task_type',)

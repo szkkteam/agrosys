@@ -87,7 +87,7 @@ class TestFarmResource:
         assert r.json['title'] == new_name
         assert 'id' in r.json
 
-    def test_delete_farm(self, api_client, farm_owner):
+    def test_delete(self, api_client, farm_owner):
         from backend.farm_management.models import Farm
         api_client.login_as(farm_owner)
 

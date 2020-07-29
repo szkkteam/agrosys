@@ -1,0 +1,18 @@
+---
+TASK_PRUNING_1:
+  title: Pruning task
+  description: Some text
+  status: Pending
+  start_date: now
+  end_date: now
+  predicted_cost: 1
+  actual_cost: 2
+
+TASK_PRUNING_2:
+  title: Pruning task 2
+  description: Some text 2
+  status: Pending
+  start_date: now
+  end_date: now
+  predicted_cost: 1
+  actual_cost: 2

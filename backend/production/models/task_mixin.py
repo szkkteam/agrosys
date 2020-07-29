@@ -35,7 +35,7 @@ class TaskMixin(object):
         return sa.Column(
             sa.Integer(),
             sa.ForeignKey(
-                "task.task_id", onupdate="CASCADE", ondelete="SET NULL"
+                "task.task_id", onupdate="CASCADE", ondelete="CASCADE"
             ),
         )
 

@@ -35,6 +35,13 @@ class GeometryField(fields.Field):
             return None
         return from_shape(geometry.shape(value['geometry']))
 
+# TODO: Define a money field, where the input is like money = {'amount': 1, 'currency': 'USD'} and convert it to sa.Decimal format
+# https://github.com/marshmallow-code/marshmallow/issues/172
+# https://pypi.org/project/python-money/
+class MoneyField(fields.Field):
+
+    def _deserialize( self, value, attr, data, **kwargs):
+        pass
 
 
 

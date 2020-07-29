@@ -1,0 +1,18 @@
+---
+TASK_GENERAL_1:
+  title: General task
+  description: Some text
+  status: Pending
+  start_date: now
+  end_date: now
+  predicted_cost: 1
+  actual_cost: 2
+
+TASK_GENERAL_2:
+  title: General task 2
+  description: Some text 2
+  status: Pending
+  start_date: now
+  end_date: now
+  predicted_cost: 1
+  actual_cost: 2

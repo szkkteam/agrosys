@@ -33,7 +33,7 @@ backref = db.backref            # type: __relationship_type_hinter__
 relationship = db.relationship  # type: __relationship_type_hinter__
 
 
-def foreign_key(model_or_table_name, fk_col=None, primary_key=False, **kwargs):
+def foreign_key(model_or_table_name, fk_col=None, primary_key=False, *args, **kwargs):
     """Helper method to add a foreign key Column to a model.
 
     For example::
@@ -71,7 +71,14 @@ def foreign_key(model_or_table_name, fk_col=None, primary_key=False, **kwargs):
     elif table_name != table_name.lower():
         table_name = camel_to_snake_case(table_name)
 
+    kf_kwargs = {}
+    if 'ondelete' in kwargs:
+        kf_kwargs['ondelete'] = kwargs.pop('ondelete')
+
+    if 'onupdate' in kwargs:
+        kf_kwargs['onupdate'] = kwargs.pop('onupdate')
+
     return Column(db.BigInteger,
-                  db.ForeignKey(f'{table_name}.{fk_col}' ),
+                  db.ForeignKey(f'{table_name}.{fk_col}' , **kf_kwargs),
                   primary_key=primary_key,
                   **kwargs)

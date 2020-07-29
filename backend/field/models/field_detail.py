@@ -45,7 +45,7 @@ class FieldDetail(Model):
 
     # Production relationship
     field_detail_productions = relationship('FieldDetailProduction', back_populates='field_detail',
-                                 cascade='all, delete-orphan')
+                                 cascade='all, delete')
     productions = association_proxy('field_detail_productions', 'production',
                               creator=lambda production: create_field_detail_production(production))
 
