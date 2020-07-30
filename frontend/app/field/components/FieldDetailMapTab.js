@@ -31,7 +31,7 @@ import {
     MapEditFeature,
 } from 'map/components'
 
-class FieldDetailTabContainer extends React.Component {
+class FieldDetailMapTab extends React.Component {
 
     static defaultProps = {
         enableDrawing: false,
@@ -42,7 +42,6 @@ class FieldDetailTabContainer extends React.Component {
 
         this.state = {
             isAddNewDetail: false,
-            selectedFieldDetail: this.props.field.fields[0],
             enableDrawing: this.props.enableDrawing,
             featureInEdit: null,
         }
@@ -57,7 +56,6 @@ class FieldDetailTabContainer extends React.Component {
         if (nextProps.field !== this.props.field) {
             this.setState({
                 isAddNewDetail: false,
-                selectedFieldDetail: nextProps.field.fields[0],
                 enableDrawing: this.props.enableDrawing,
                 featureInEdit: null,
             })
@@ -113,18 +111,6 @@ class FieldDetailTabContainer extends React.Component {
         
     }
 
-    /**
-     * Field detail carousel event handlers
-     */
-    onDetailSelected = (fieldDetail) => {
-        //console.log("fieldDetail: ", fieldDetail)
-        this.setState({
-            selectedFieldDetail: fieldDetail,
-            isAddNewDetail: false,
-            enableDrawing: false,
-            featureInEdit: null,
-        })
-    }
 
     onDetailAdd = () => {
         //console.log("onDetailAdd")
@@ -210,9 +196,9 @@ class FieldDetailTabContainer extends React.Component {
     }
 
     render() {
-        const { field, fieldList } = this.props
+        const { field, fieldList, onDetailSelected, selectedFieldDetail } = this.props
         const fields = fieldList.filter(el => el.id != field.id)
-        const { isAddNewDetail, enableDrawing, featureInEdit, selectedFieldDetail } = this.state
+        const { isAddNewDetail, enableDrawing, featureInEdit } = this.state
         
         let feature = Object.assign({}, selectedFieldDetail);
         if (featureInEdit) {
@@ -240,7 +226,7 @@ class FieldDetailTabContainer extends React.Component {
                     <Grid item xs={1}>
                         <FieldDetailCarousel
                             items={field.fields}
-                            onClick={this.onDetailSelected}
+                            onClick={onDetailSelected}
                             onAdd={this.onDetailAdd}
                         />
                     </Grid> 
@@ -306,5 +292,5 @@ export default compose(
     withRouter,
     withConnectFields,
     withConnectMap,
-)(FieldDetailTabContainer)
+)(FieldDetailMapTab)
 

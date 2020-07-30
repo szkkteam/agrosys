@@ -16,7 +16,7 @@ export { FieldListElement, FieldListCreate } from './FieldListItem'
 
 export { default as FieldDetailContainer } from './FieldDetailContainer'
 export { default as FieldDetailLayout } from './FieldDetailLayout'
-export { default as FieldDetailTabContainer } from './FieldDetailTabContainer'
+export { default as FieldDetailMapTab } from './FieldDetailMapTab'
 export { default as FieldDetailMap } from './FieldDetailMap'
 export { default as FieldDetailMapControl } from './FieldDetailMapControl'
 export { default as FieldDetailCarousel } from './FieldDetailCarousel'
