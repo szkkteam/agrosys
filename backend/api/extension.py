@@ -75,6 +75,8 @@ class Api(BaseApi):
         self.serializers = {}
         self.serializers_many = {}
 
+        self.registered_endpoints = {}
+
     def _init_app(self, app):
         super()._init_app(app)
         self._got_registered_once = True
@@ -179,7 +181,10 @@ class Api(BaseApi):
 
         def decorator(cls):
             cls.model = model
-            endpoint = self._get_endpoint(cls, kwargs.pop('endpoint', None))
+            kw_endpoint = kwargs.pop('endpoint', None)
+            if kw_endpoint:
+                self.registered_endpoints[cls.__name__] = kw_endpoint
+            endpoint = self._get_endpoint(cls, kw_endpoint)
             self.add_resource(cls, *urls, endpoint=endpoint, **kwargs)
             return cls
         return decorator
@@ -260,8 +265,12 @@ class Api(BaseApi):
         self.deferred_functions.append(fn)
 
     def _get_endpoint(self, view_func, endpoint=None, plural=False):
+        endpoint = self.registered_endpoints.get(view_func.__name__, endpoint)
+        # Store each endpoint with the view func name
         if endpoint:
             assert '.' not in endpoint, 'Api endpoints should not contain dots'
+            if isinstance(endpoint, (list, tuple)):
+                endpoint = endpoint[1] if plural else endpoint[0]
         elif isinstance(view_func, MethodViewType):
             endpoint = camel_to_snake_case(view_func.__name__)
             if hasattr(view_func, 'model') and plural:

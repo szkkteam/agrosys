@@ -21,9 +21,13 @@ def get_production_data():
     data['cropTemplateId'] = CropTemplate.all()[0].id
     return data
 
-def get_field_detail(user, field):
+
+def get_field_details(user, field):
     user.resources.append(field)
-    return field.field_details[0]
+    return field.field_details
+
+def get_field_detail(user, field):
+    return get_field_details(user, field)[0]
 
 def get_production(user, field_detail):
     production = field_detail.productions[0]
@@ -31,11 +35,21 @@ def get_production(user, field_detail):
     return production
 
 def assign_productions(user, field_detail):
-    ret = []
-    for production in field_detail.productions:
-        user.resources.append(production)
-        ret.append(production)
-    return ret
+    def assign(field_detail):
+        ret = []
+        for production in field_detail.productions:
+            if 'owner' in production.title:
+                user.resources.append(production)
+                ret.append(production)
+        return ret
+
+    if isinstance(field_detail, (list, tuple)):
+        ret = []
+        for f in field_detail:
+            ret.extend(assign(f))
+        return ret
+    else:
+        return assign((field_detail))
 
 @pytest.mark.parametrize("models", ['Field(FIELD_FIELD_ONE)'], indirect=True)
 class TestProductionResource:
@@ -88,8 +102,8 @@ class TestProductionResource:
         api_client.login_as(farm_owner)
 
         # Get the field detail for that field
-        field_detail = get_field_detail(farm_owner, models.FIELD_FIELD_ONE)
-        _ = get_production(farm_owner, field_detail)
+        field_detail = get_field_details(farm_owner, models.FIELD_FIELD_ONE)[0]
+        _ = assign_productions(farm_owner, field_detail)
 
         r = api_client.get(url_for('api.productions_resource', field_detail_id=field_detail.id))
         assert r.status_code == 200
@@ -98,6 +112,26 @@ class TestProductionResource:
             assert 'id' in e
             assert 'title' in e
             assert 'cropTemplateId' in e
+            assert 'useAsTemplate' in e
+
+    def test_list_all(self, api_client, farm_owner, models):
+        api_client.login_as(farm_owner)
+
+        # Get the field detail for that field
+        field_detail = get_field_details(farm_owner, models.FIELD_FIELD_ONE)
+        assign_productions(farm_owner, field_detail)
+
+        r = api_client.get(url_for('api.list_productions_resource'))
+        assert r.status_code == 200
+        assert len(r.json)
+        for e in r.json:
+            assert 'id' in e
+            assert 'title' in e
+            assert 'cropTemplateId' in e
+            assert 'useAsTemplate' in e
+            assert 'fieldDetails' in e
+            for i in e['fieldDetails']:
+                assert 'field' in i
 
     def test_patch(self, api_client, farm_owner, models):
         api_client.login_as(farm_owner)

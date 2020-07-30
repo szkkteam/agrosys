@@ -39,7 +39,7 @@ class Production(Resource):
     # Field relationship
     production_field_details = relationship('FieldDetailProduction', back_populates='production',
                                             cascade='all, delete-orphan')
-    field_details = association_proxy('field_detail_productions', 'field_detail',
+    field_details = association_proxy('production_field_details', 'field_detail',
                                creator=lambda field_detail: create_field_detail_production(field_detail))
 
     tasks = relationship('Task', back_populates='production',

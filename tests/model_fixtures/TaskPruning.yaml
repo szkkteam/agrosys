@@ -16,3 +16,21 @@ TASK_PRUNING_2:
   end_date: now
   predicted_cost: 1
   actual_cost: 2
+
+TASK_PRUNING_3:
+  title: Pruning task 3
+  description: Some text 3
+  status: Pending
+  start_date: now
+  end_date: now
+  predicted_cost: 1
+  actual_cost: 2
+
+TASK_PRUNING_4:
+  title: Pruning task 4
+  description: Some text 4
+  status: Pending
+  start_date: now
+  end_date: now
+  predicted_cost: 1
+  actual_cost: 2

@@ -90,11 +90,12 @@ class FieldDetailSerializer(ModelSerializer):
 @api.serializer(many=True)
 class FieldDetailListSerializer(FieldDetailSerializer):
 
+    field = fields.Nested('FieldSerializer', only=('id', 'title'), dump_only=True, required=False, many=False)
+
     class Meta:
         model = FieldDetail
-        fields = FIELD_DATA_FIELDS + ('soil_type_id', 'soil_type', )
+        fields = FIELD_DATA_FIELDS + ('soil_type_id', 'soil_type', 'field', )
         #dump_only = ('name', 'value', 'shape')
         model_converter = GeometryModelConverter
-        dump_only = ('id', 'created_at', 'soil_type')
+        dump_only = ('id', 'created_at', 'soil_type', 'field',)
         load_only = ('soil_type_id', )
-

@@ -1,7 +1,7 @@
 ---
 FIELD_FIELD_ONE:
   title: new 1
-  field_details: ['FieldDetail(FIELD_DETAIL_FIELD_1)']
+  field_details: ['FieldDetail(FIELD_DETAIL_FIELD_1, FIELD_DETAIL_FIELD_7, FIELD_DETAIL_FIELD_8)']
 
 FIELD_FIELD_TWO:
   title: new 2

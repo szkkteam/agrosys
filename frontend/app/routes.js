@@ -16,6 +16,10 @@ import {
 } from 'field/pages'
 
 import {
+  ProductionList,
+} from 'production/pages'
+
+import {
   ForgotPassword,
   Login,
   Logout,
@@ -56,6 +60,10 @@ export const ROUTES = {
   FieldDetail: 'FieldDetail',
   FieldCreate: 'FieldCreate',
 
+  /**
+   * Production
+   */
+  ProductionList: 'ProductionList',
 
   /**
    * Site
@@ -118,6 +126,14 @@ const routes = [
     component: FieldCreate,
   },
 
+  /**
+   * Production
+   */
+  {
+    key: ROUTES.ProductionList,
+    path: '/productions',
+    component: ProductionList,
+  },
 
 
   /**

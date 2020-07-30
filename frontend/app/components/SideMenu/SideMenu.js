@@ -21,6 +21,7 @@ import SideBar from './SideBar'
 import { FarmMenu } from 'farm/menus'
 import { FieldMenu } from 'field/menus'
 import { UserMenu } from 'user/menus'
+import { ProductionMenu } from 'production/menus'
 
 import './sidemenu.scss'
 
@@ -110,7 +111,11 @@ let items = [
   {
     src: FieldMenu,
     type: "menuItem",
-  }    
+  },
+  {
+    src: ProductionMenu,
+    type: "menuItem"
+  },    
 ]
 
 

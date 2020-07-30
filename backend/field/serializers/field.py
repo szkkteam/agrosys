@@ -45,10 +45,11 @@ class FieldListSerializer(FieldSerializer):
         fields = FIELD_FIELDS + ('field_details', 'role',)
         dump_only = ('id', 'role')
 
-
 class FieldPermissionSerializer(ModelSerializer):
 
     class Meta:
         model = Field
         fields = FIELD_PERMISSION_FIELDS
         dump_only = ('owner', 'permissions')
+
+

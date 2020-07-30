@@ -38,9 +38,10 @@ class ProductionSerializer(ModelSerializer):
 @api.serializer(many=True)
 class ProductionListSerializer(ProductionSerializer):
 
+    field_details = fields.Nested('FieldDetailListSerializer', dump_only=True, only=('id', 'area', 'field'),required=False, many=True)
+
     class Meta:
         model = Production
-        fields = PRODUCTION_FIELDS + ('crop_template_id', 'use_as_template',)
-        dump_only = ('id', )
-        load_only = ('use_as_template', )
-        include_fk = True
+        fields = PRODUCTION_FIELDS + ('crop_template_id', 'use_as_template', 'field_details', )
+        dump_only = ('id', 'field_details', )
+        #include_relationships = True

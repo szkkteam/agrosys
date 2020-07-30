@@ -21,28 +21,30 @@ FIELD_DETAIL_FIELD_3:
 
 FIELD_DETAIL_FIELD_4:
   value: 50.0
-  area: 1.5
+  area: 2.5
   shape: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
   soil_type: 'SoilType(SOIL_TYPE_1)'
   productions: ['Production(PRODUCTION_AS_TMP_3, PRODUCTION_3, PRODUCTION_AS_TMP_TASKS_2)']
 
 FIELD_DETAIL_FIELD_5:
   value: 100.0
-  area: 1.5
+  area: 3.0
   shape: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
   soil_type: 'SoilType(SOIL_TYPE_2)'
 
 FIELD_DETAIL_FIELD_6:
-  area: 1.5
+  area: 3.5
   shape: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
   soil_type: 'SoilType(SOIL_TYPE_3)'
 
 FIELD_DETAIL_FIELD_7:
-  area: 1.5
+  area: 4.0
   shape: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
   soil_type: 'SoilType(SOIL_TYPE_1)'
+  productions: ['Production(PRODUCTION_AS_TMP_TASKS_3)']
 
 FIELD_DETAIL_FIELD_8:
-  area: 1.5
+  area: 4.5
   shape: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
   soil_type: 'SoilType(SOIL_TYPE_2)'
+  productions: ['Production(PRODUCTION_AS_TMP_TASKS_4)']
