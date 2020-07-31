@@ -27,7 +27,7 @@ class CropVariantResource(ModelResource):
     def list(self, base=None, cultivation_type=None, *args, **kwargs):
         if base or cultivation_type:
             q = db.session.query(CropVariant). \
-                join(CropTemplate, (CropTemplate.crop_cultivation_type_id == CropVariant.id)). \
+                join(CropTemplate, (CropTemplate.crop_variant_id == CropVariant.id)). \
                 distinct()
             if base:
                 q = q.filter(CropTemplate.crop_base_id == base)

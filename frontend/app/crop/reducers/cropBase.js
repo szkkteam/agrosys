@@ -45,5 +45,5 @@ export default function(state = initialState, action) {
 export const selectCropBases = (state) => state[KEY]
 export const selectCropBasesList = (state) => {
     const crop = selectCropBases(state)
-    return crop.cropBase
+    return crop.cropBases
 }

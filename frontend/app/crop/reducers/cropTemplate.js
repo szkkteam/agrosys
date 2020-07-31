@@ -2,7 +2,7 @@ import {
     listCropTemplates,
 } from 'crop/actions'
 
-export const KEY = 'cropBase'
+export const KEY = 'cropTemplate'
 
 const initialState = {
     isLoading: false,
