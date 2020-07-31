@@ -9,7 +9,7 @@ export default () => (
     <PageContent>
         <Helmet>
         <title>
-            Field List
+            Production List
         </title>
         </Helmet>
         <ProductionListContainer />

@@ -18,7 +18,7 @@ from .blueprint import crop
 
 
 
-@api.model_resource(crop, CropVariant, '/variant')
+@api.model_resource(crop, CropVariant, '/variants')
 class CropVariantResource(ModelResource):
     include_methods = (LIST,)
     exclude_decorators = (LIST,)

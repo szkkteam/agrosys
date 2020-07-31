@@ -17,6 +17,7 @@ import {
 
 import {
   ProductionList,
+  ProductionCreate,
 } from 'production/pages'
 
 import {
@@ -64,6 +65,7 @@ export const ROUTES = {
    * Production
    */
   ProductionList: 'ProductionList',
+  ProductionCreate: 'ProductionCreate',
 
   /**
    * Site
@@ -133,6 +135,11 @@ const routes = [
     key: ROUTES.ProductionList,
     path: '/productions',
     component: ProductionList,
+  },
+  {
+    key: ROUTES.ProductionCreate,
+    path: '/productions-new/',
+    component: ProductionCreate
   },
 
 

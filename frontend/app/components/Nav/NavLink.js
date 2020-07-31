@@ -35,12 +35,12 @@ export default class LoadableNavLink extends React.Component {
   }
 
   render() {
-    const { children, to, params, ...props } = this.props
+    const { children, to, params, dataProps = null, ...props } = this.props    
     return (
       <NavLink {...props}
                activeClassName="active"
                onMouseOver={this.maybePreloadComponent}
-               to={this.route ? this.route.toPath(params) : to}
+               to={this.route ? { pathname: this.route.toPath(params), ...dataProps} : to}
       >
         {children || this.route.label}
       </NavLink>

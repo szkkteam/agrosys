@@ -63,13 +63,40 @@ class TestProductionResource:
         # Get the new filed data
         data = get_production_data()
 
-        r = api_client.post(url_for('api.productions_resource', field_detail_id=field_detail.id), data=data)
+        r = api_client.post(url_for('api.productions_resource'), data=data)
+        #r = api_client.post(url_for('api.productions_resource', field_detail_id=field_detail.id), data=data)
         assert r.status_code == 201
         assert 'id' in r.json
         assert 'title' in r.json
         assert 'cropTemplateId' in r.json
         assert data['title'] == r.json['title']
         assert data['cropTemplateId'] == r.json['cropTemplateId']
+
+    def test_assign(self, api_client, farm_owner, models):
+        from backend.field.models import FieldDetail
+        from backend.production.models import Production
+        api_client.login_as(farm_owner)
+
+        # Get the field detail for that field
+        field_detail = get_field_detail(farm_owner, models.FIELD_FIELD_ONE)
+
+        # Get the new filed data
+        data = get_production_data()
+
+        r = api_client.post(url_for('api.productions_resource'), data=data)
+        field_detail = FieldDetail.get(field_detail.id)
+        production = Production.get(r.json['id'])
+        assert production not in field_detail.productions
+        #r = api_client.post(url_for('api.productions_resource', field_detail_id=field_detail.id), data=data)
+        assert r.status_code == 201
+        production_id = r.json['id']
+        # Assign resource
+        r = api_client.put(url_for('api.assign_productions_resource', field_detail_id=field_detail.id, production_id=production_id))
+        assert r.status_code == 200
+        field_detail = FieldDetail.get(field_detail.id)
+        production = Production.get(r.json['id'])
+        assert production in field_detail.productions
+
 
     def test_create_missing_crop_template_id(self, api_client, farm_owner, models):
         api_client.login_as(farm_owner)
@@ -98,7 +125,7 @@ class TestProductionResource:
         assert 'title' in r.json
         assert 'cropTemplateId' in r.json
 
-    def test_list(self, api_client, farm_owner, models):
+    def test_list_filter(self, api_client, farm_owner, models):
         api_client.login_as(farm_owner)
 
         # Get the field detail for that field
@@ -114,14 +141,14 @@ class TestProductionResource:
             assert 'cropTemplateId' in e
             assert 'useAsTemplate' in e
 
-    def test_list_all(self, api_client, farm_owner, models):
+    def test_list(self, api_client, farm_owner, models):
         api_client.login_as(farm_owner)
 
         # Get the field detail for that field
         field_detail = get_field_details(farm_owner, models.FIELD_FIELD_ONE)
         assign_productions(farm_owner, field_detail)
 
-        r = api_client.get(url_for('api.list_productions_resource'))
+        r = api_client.get(url_for('api.productions_resource'))
         assert r.status_code == 200
         assert len(r.json)
         for e in r.json:
@@ -175,6 +202,25 @@ class TestProductionResource:
         assert r.status_code == 204
         assert not Production.get(production.id)
 
+    def test_remove(self, api_client, farm_owner, models):
+        from backend.production.models import Production
+        from backend.field.models import FieldDetail
+        api_client.login_as(farm_owner)
+
+        # Get the field detail for that field
+        field_detail = get_field_detail(farm_owner, models.FIELD_FIELD_ONE)
+        production = get_production(farm_owner, field_detail)
+
+        r = api_client.delete(url_for('api.assign_productions_resource', field_detail_id=field_detail.id, production_id=production.id))
+        assert r.status_code == 204
+        production = Production.get(production.id)
+        assert production
+
+        field_detail = FieldDetail.get(field_detail.id)
+        production = Production.get(production.id)
+        assert production not in field_detail.productions
+
+
     def test_invalid_patch(self, api_client, farm_owner, models):
         api_client.login_as(farm_owner)
 
@@ -191,6 +237,7 @@ class TestProductionResource:
 @pytest.mark.parametrize("models", ['Field(FIELD_FIELD_TWO, FIELD_FIELD_THREE)'], indirect=True)
 class TestProductionResourceProtected:
 
+    @pytest.mark.skip(reason="Test skipped because POST-ing Production resource is no longer prohibited.")
     def test_create(self, api_client, farm_user1, farm_user2, models):
         # User 1
         api_client.login_as(farm_user1)

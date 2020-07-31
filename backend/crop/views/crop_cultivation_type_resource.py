@@ -18,7 +18,7 @@ from .blueprint import crop
 
 
 
-@api.model_resource(crop, CropCultivationType, '/cultivation-type')
+@api.model_resource(crop, CropCultivationType, '/cultivation-types')
 class CropCultivationTypeResource(ModelResource):
     include_methods = (LIST,)
     exclude_decorators = (LIST,)

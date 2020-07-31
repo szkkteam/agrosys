@@ -3,15 +3,15 @@ import { v1 } from 'api'
 
 
 function production(uri) {
-  return v1(`/fields/details/productions/${uri}`)
+  return v1(`/field-details/productions/${uri}`)
 }
 
 function productions() {
-    return v1('/productions')
+    return v1('/field-details/productions')
 }
 
-function fieldProductions(uri) {
-  return v1(`/fields/details/${uri}/productions`)
+function fieldProductions(field, production) {
+  return v1(`field-details/${field}/productions/${production}`)
 }
 
 
