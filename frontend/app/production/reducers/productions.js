@@ -1,6 +1,6 @@
 import { listProductions } from 'production/actions'
 
-export const KEY = 'productions'
+export const KEY = 'production'
 
 const initialState = {
     // listFields

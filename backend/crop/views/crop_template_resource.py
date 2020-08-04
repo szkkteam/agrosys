@@ -42,13 +42,9 @@ class CropTemplateResource(ModelResource):
                 q = q.filter(CropTemplate.crop_cultivation_type_id == cultivation_type)
             if variant:
                 q = q.filter(CropTemplate.crop_variant_id == variant)
-            print("Base: ", base)
-            print("cultivation_type: ", cultivation_type)
-            print("variant: ", variant)
             result = q.all()
         else:
             result = CropTemplate.all()
-        print("crops: ", result)
         return self.serializer.dump(result, many=True)
 
 
