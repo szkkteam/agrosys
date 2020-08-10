@@ -6,9 +6,6 @@ function production(uri) {
   return v1(`/field-details/productions/${uri}`)
 }
 
-function productions() {
-    return v1('/field-details/productions')
-}
 
 function fieldProductions(field, production) {
   return v1(`field-details/${field}/productions/${production}`)
@@ -22,7 +19,10 @@ export default class Production {
   }
   
   static listProductions() {
-    return get(productions())
+    return get(production(''))
   }
 
+  static createProductions(payload) {
+    return post(production(''), payload)
+  }
 }

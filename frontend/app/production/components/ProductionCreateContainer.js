@@ -10,8 +10,9 @@ import { selectFieldsList } from 'field/reducers/field'
 
 import { CropTemplateContainer } from 'crop/components'
 import { 
-    FormProduction,
-    ProductionFieldAssigment
+    FormProductionCreate,
+    ProductionFieldAssigment,
+    ProductionTaskContainer
 } from 'production/components'
 
 class ProductionCreateContainer extends React.Component {
@@ -24,7 +25,8 @@ class ProductionCreateContainer extends React.Component {
         super(props)
 
         this.state = {
-            
+            assignedFieldDetails: [],
+            cropTemplateId: null,
         }
     }
 
@@ -36,10 +38,26 @@ class ProductionCreateContainer extends React.Component {
 
     onTemplateSelected = (value) => {
         console.log("Template: ", value)
+        this.setState({
+            cropTemplateId: value
+        })
     }
 
     onProductionSelected = (value) => {
         console.log("Template: ", value)
+    }
+
+    onFieldClick = (fieldDetail) => {
+        const { assignedFieldDetails } = this.state
+        if (!assignedFieldDetails.find(e => e.id == fieldDetail.id)) {
+            this.setState({
+                assignedFieldDetails: [...this.state.assignedFieldDetails, fieldDetail]
+            })           
+        } else {
+            this.setState({
+                assignedFieldDetails: this.state.assignedFieldDetails.filter(e => e.id != fieldDetail.id)
+            }) 
+        }
     }
                 /*
                 <FormProduction
@@ -47,7 +65,11 @@ class ProductionCreateContainer extends React.Component {
                 />
                 */
     render() {
-        const { fields } = this.props
+        const { fields, routerParams } = this.props
+        const { cropTemplateId, assignedFieldDetails } = this.state
+        const { useAsTemplate } = routerParams
+        console.log("Included fields: ", this.state.assignedFieldDetails)
+
         return (
             <div>
                 <div>
@@ -59,9 +81,22 @@ class ProductionCreateContainer extends React.Component {
                 <div>
                     <ProductionFieldAssigment
                         fields={fields}
+                        onSelect={this.onFieldClick}
                     />
                 </div>
-
+                <div>
+                    { cropTemplateId && 
+                        <FormProductionCreate
+                            useAsTemplate={useAsTemplate}
+                            cropTemplateId={cropTemplateId}
+                            fieldDetails={assignedFieldDetails}
+                        /> 
+                    }
+                </div>
+                <div>
+                    <ProductionTaskContainer
+                    />
+                </div>
             </div>
             
         )

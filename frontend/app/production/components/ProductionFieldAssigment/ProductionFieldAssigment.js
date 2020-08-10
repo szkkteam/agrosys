@@ -23,22 +23,22 @@ export default class ProductionFieldAssigment extends React.Component {
     }
 
     render() {
-        const { fields} = this.props
+        const { fields, onSelect } = this.props
         const { isExtended } = this.state
         return (
         <div>
             <Carousel 
                 arrows
-                centered={true}
+                centered={false}
                 slidesPerPage={8}
                 slidesPerScroll={1}
             >
                 { fields && Array.isArray(fields) && fields.map((field, i) => {
-                    console.log("ProductionFieldItem: ", ProductionFieldItem)
                     return (
                         <ProductionFieldItem
                             key={i}
                             field={field}
+                            onClick={() => onSelect && onSelect(field.fields[0])}
                         />
                     )
                 })

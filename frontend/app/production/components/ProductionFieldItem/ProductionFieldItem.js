@@ -18,7 +18,7 @@ import './productionfielditem.scss'
 
 
 
-export default ({field, ...props}) => {
+export default ({field, onClick, ...props}) => {
     const [selected, setSelected] = useState(false);
 
     return (                
@@ -26,7 +26,7 @@ export default ({field, ...props}) => {
             className={classnames("item-holder", { selected })}
         >
             <div className="item-click"
-                onClick={() => { selected? setSelected(false) : setSelected(true)}}
+                onClick={() => { selected? setSelected(false) : setSelected(true); onClick && onClick()}}
             >
                 <CardHeader
                     className="item-header"                

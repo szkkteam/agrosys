@@ -12,8 +12,8 @@ export default (props) => (
             New Production Template
         </title>
         </Helmet>
-        <ProductionCreateContainer />
-        <div>Create new production</div>
-        <div>props: {JSON.stringify(props, null, 2)}</div>
+        <ProductionCreateContainer
+            routerParams={props.location}
+        />
     </PageContent>
 )

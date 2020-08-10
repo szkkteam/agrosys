@@ -9,7 +9,7 @@ export const EmailField = (props) =>
 
 export const HiddenField = (props) =>
   <Field component="input" type="hidden" {...props} />
-
+ 
 export const PasswordField = (props) =>
   <Field component={_renderInput} type="password" {...props} />
 
@@ -19,6 +19,13 @@ export const TextField = (props) =>
 export const TextArea = (props) =>
   <Field component={_renderTextArea} {...props} />
 
+export const BooleanField = (props) =>
+  <Field component={_renderInput} type="checkbox" {...props} />
+
+export const SelectField = (props) =>
+  <Field component={_renderSelect} {...props} />
+
+const _renderSelect = (props) => _renderField({ component: 'select', ...props})
 
 const _renderInput = (props) => _renderField({ component: 'input', ...props })
 

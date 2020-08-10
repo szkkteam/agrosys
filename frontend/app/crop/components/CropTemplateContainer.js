@@ -44,6 +44,7 @@ class CropTemplateContainer extends React.Component {
     }
 
     onCropBaseSelected = (e) => {
+        const { onTemplateSelected } = this.props
         const value = e.target.value
         this.setState({
             selectedCropBaseId: value,
@@ -52,9 +53,12 @@ class CropTemplateContainer extends React.Component {
             selectedCropTemplateId: null,
         })
         this.props.listCropVariants.trigger({base: value})
+
+        onTemplateSelected && onTemplateSelected(null)
     }
 
     onCropVariantSelected = (e) => {
+        const { onTemplateSelected } = this.props
         const { selectedCropBaseId } = this.state
         const value = e.target.value
         this.setState({
@@ -62,9 +66,12 @@ class CropTemplateContainer extends React.Component {
             selectedCropCultivationTypeId: null,
         })
         this.props.listCropCultivationTypes.trigger({base: selectedCropBaseId, variant: value})
+
+        onTemplateSelected && onTemplateSelected(null)
     }
 
     onCropCultivationTypeSelected = (e) => {
+        const { onTemplateSelected } = this.props
         const { selectedCropBaseId, selectedCropVariantId } = this.state
         const value = e.target.value
         this.setState({
@@ -72,6 +79,8 @@ class CropTemplateContainer extends React.Component {
             selectedCropTemplateId: null
         })
         this.props.listCropTemplates.trigger({base: selectedCropBaseId, variant: selectedCropVariantId, cultivation_type: value})
+
+        onTemplateSelected && onTemplateSelected(null)
     }
 
     onTemplateSelected = (e) => {
