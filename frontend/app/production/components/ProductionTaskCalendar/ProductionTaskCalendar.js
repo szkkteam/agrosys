@@ -5,6 +5,7 @@ import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 
 import {
     TaskComponent,
+    CalendarListView,
 } from 'production/components'
 
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
@@ -28,7 +29,7 @@ export default ({...props}) => (
     <div className="task-container">
         <DCalendar
             selectable
-            views={allViews}
+            views={{month: true, agenda: CalendarListView}}
             step={60}
             showMultiDayTimes
             components={{

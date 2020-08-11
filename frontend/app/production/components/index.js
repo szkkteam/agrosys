@@ -7,6 +7,7 @@ export { default as ProductionFieldItem } from './ProductionFieldItem'
 export { default as ProductionFieldAssigment } from './ProductionFieldAssigment'
 
 export { TaskComponent } from './ProductionCalendarComponents'
+export { default as CalendarListView } from './CalendarListView'
 export { default as ProductionTaskCalendar } from './ProductionTaskCalendar'
 export { default as ProductionTaskContainer } from './ProductionTaskContainer'
 
