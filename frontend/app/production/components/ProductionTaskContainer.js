@@ -14,7 +14,12 @@ import {
     SubmitButton,
 } from 'production/components'
 
+import { 
+    Calendar,
+} from 'components/Calendar'
+
 //import { SubmitButton } from 'components/Form'
+
 
 export default class ProductionTaskContainer extends React.Component {
 
@@ -28,14 +33,20 @@ export default class ProductionTaskContainer extends React.Component {
                 {
                     startDate: moment().toDate(),
                     endDate: moment().add(1, "days").toDate(),
-                    title: "1st event",
-                    id: 1,
+                    title: "Some pruning task",
+                    taskType: 'TaskPruning',
+                    description: "Some random text for this task",
+                    status: "Pending",
+                    plannedCost: 1234,
                 },
                 {
                     startDate: moment().add(3, "days").toDate(),
                     endDate: moment().add(5, "days").toDate(),
-                    title: "2nd event",
-                    id: 2,
+                    title: "Some genral task",
+                    taskType: 'TaskGeneral',
+                    description: "Some random text for this task",
+                    status: "Pending",
+                    plannedCost: 1234,
                 },
             ],
         }
@@ -119,7 +130,7 @@ export default class ProductionTaskContainer extends React.Component {
         const { tasks, openDialog, selectedDate } = this.state
         return (
             <div>
-            <ProductionTaskCalendar
+            <Calendar
                 events={tasks}
                 onEventDrop={this.onEventDrop}
                 onEventResize={this.onEventResize}

@@ -4,13 +4,13 @@ import moment from 'moment'
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 
 import {
-    TaskComponent,
+    CalendarTask,
     CalendarListView,
-} from 'production/components'
+} from 'components/Calendar'
 
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import './productiontaskcalendar.scss'
+import './draggablecalendar.scss'
 
 const localizer = momentLocalizer(moment)
 let allViews = Object.keys(Views).map(k => Views[k])
@@ -29,12 +29,18 @@ export default ({...props}) => (
     <div className="task-container">
         <DCalendar
             selectable
-            views={{month: true, agenda: CalendarListView}}
+            views={{
+              month: true,
+              list: CalendarListView,
+            }}
+            messages={{
+              list: 'List',
+            }}
             step={60}
             showMultiDayTimes
             components={{
                 timeSlotWrapper: ColoredDateCellWrapper,
-                event: TaskComponent,
+                event: CalendarTask,
             }}
             localizer={localizer}
             {...props}
