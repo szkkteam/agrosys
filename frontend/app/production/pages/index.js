@@ -1,2 +1,2 @@
 export { default as ProductionList } from './ProductionList'
-export { default as ProductionCreate } from './ProductionCreate'
+export { default as ProductionTemplateCreate } from './ProductionTemplateCreate'

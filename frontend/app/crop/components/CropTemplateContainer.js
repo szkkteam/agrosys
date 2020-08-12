@@ -18,9 +18,8 @@ import { selectCropVariantsList } from 'crop/reducers/cropVariant'
 import { selectCropCultivationTypesList } from 'crop/reducers/cropCultivationType'
 import { selectCropTemplatesList } from 'crop/reducers/cropTemplate'
 
-import { 
-    SelectCrop,
-} from 'crop/components'
+import { SelectCrop } from 'crop/components'
+
 
 class CropTemplateContainer extends React.Component {
 
@@ -30,35 +29,44 @@ class CropTemplateContainer extends React.Component {
 
     constructor(props) {
         super(props)
-
+        const { initialCropBaseId = null, initialCropVariantId = null, initialCropCultivationTypeId = null, initialProductionId = null } = props
         this.state = {
-            selectedCropBaseId: null,
-            selectedCropVariantId: null,
-            selectedCropCultivationTypeId: null,
-            selectedProductionId: null,
+            selectedCropBaseId: initialCropBaseId,
+            selectedCropVariantId: initialCropVariantId,
+            selectedCropCultivationTypeId: initialCropCultivationTypeId,
+            selectedProductionId: initialProductionId,
         }
     }
 
     componentDidMount = () => {
+        const { selectedCropBaseId, selectedCropVariantId, selectedCropCultivationTypeId } = this.state
         this.props.listCropBases.trigger()
+        if (selectedCropBaseId) this.props.listCropVariants.trigger({base: selectedCropBaseId})
+        if (selectedCropVariantId) this.props.listCropCultivationTypes.trigger({base: selectedCropBaseId, variant: selectedCropVariantId})
+        if (selectedCropCultivationTypeId) this.props.listCropTemplates.trigger({base: selectedCropBaseId, variant: selectedCropVariantId, cultivation_type: selectedCropCultivationTypeId})
+    }
+
+    componentDidUpdate = () => {
+        const { cropTemplates, onTemplateSelected } = this.props
+        Array.isArray(cropTemplates) && cropTemplates.length > 0 && onTemplateSelected && onTemplateSelected({
+            cropTemplateId: cropTemplates[0].id,
+            cropBaseId: this.state.selectedCropBaseId,
+            cropVariantId: this.state.selectedCropVariantId,
+            cropCultivationTypeId: this.state.selectedCropCultivationTypeId,
+        })
     }
 
     onCropBaseSelected = (e) => {
-        const { onTemplateSelected } = this.props
         const value = e.target.value
         this.setState({
             selectedCropBaseId: value,
             selectedCropCultivationTypeId: null,
             selectedCropVariantId: null,
-            selectedCropTemplateId: null,
         })
         this.props.listCropVariants.trigger({base: value})
-
-        onTemplateSelected && onTemplateSelected(null)
     }
 
     onCropVariantSelected = (e) => {
-        const { onTemplateSelected } = this.props
         const { selectedCropBaseId } = this.state
         const value = e.target.value
         this.setState({
@@ -66,101 +74,51 @@ class CropTemplateContainer extends React.Component {
             selectedCropCultivationTypeId: null,
         })
         this.props.listCropCultivationTypes.trigger({base: selectedCropBaseId, variant: value})
-
-        onTemplateSelected && onTemplateSelected(null)
     }
 
     onCropCultivationTypeSelected = (e) => {
-        const { onTemplateSelected } = this.props
         const { selectedCropBaseId, selectedCropVariantId } = this.state
         const value = e.target.value
         this.setState({
             selectedCropCultivationTypeId: value,
-            selectedCropTemplateId: null
         })
         this.props.listCropTemplates.trigger({base: selectedCropBaseId, variant: selectedCropVariantId, cultivation_type: value})
-
-        onTemplateSelected && onTemplateSelected(null)
     }
-
-    onTemplateSelected = (e) => {
-        const { onTemplateSelected } = this.props
-        const value = e.target.value
-        this.setState({
-            selectedCropTemplateId: value,
-            selectedCropTemplateId: null,
-        })
-
-        onTemplateSelected && onTemplateSelected(value)
-    }
-
+  
     onProductionSelected = (e) => {
-        const { onProductionSelected, cropTemplates } = this.props
-        const { selectedCropTemplateId } = this.state
-
-        onProductionSelected && onProductionSelected(cropTemplates.find( e => e.id == selectedCropTemplateId))
+        const { onProductionSelected } = this.props
+        const value = e.target.value
+        onProductionSelected && onProductionSelected(value)
     }
 
     render() {
-        const { cropBases, cropVariants, cropCultivationTypes, cropTemplates } = this.props
+        const { cropBases, cropVariants, cropCultivationTypes, cropTemplates, onNewAdd } = this.props
         const { 
             selectedCropBaseId,
             selectedCropVariantId,
             selectedCropCultivationTypeId,
-            selectedCropTemplateId,
             selectedProductionId
         } = this.state
-        const availableProductionTemplates = selectedCropTemplateId? cropTemplates.find( e => e.id == selectedCropTemplateId).productionTemplates : []
+        console.log("selectedCultivationTypeId: ", selectedCropCultivationTypeId)
+        const productions = Array.isArray(cropTemplates) && cropTemplates.length > 0? cropTemplates[0].productionTemplates : []
         return (
-            <div>
-                <div>
-                    <SelectCrop 
-                        id="crop-base-selector"
-                        label="Select a crop"
-                        value={selectedCropBaseId? selectedCropBaseId : ""}
-                        items={cropBases}
-                        onChange={this.onCropBaseSelected}
-                    />
-                    <SelectCrop
-                        disabled={ selectedCropBaseId && cropVariants.length? false: true }
-                        id="crop-variant-selector"
-                        label="Select a variant"
-                        helper="Select a crop first"
-                        value={selectedCropVariantId? selectedCropVariantId : ""}
-                        items={cropVariants}
-                        onChange={this.onCropVariantSelected}
-                    />
-                    <SelectCrop
-                        disabled={ selectedCropVariantId && cropCultivationTypes.length? false: true }
-                        id="crop-cultivationtype-selector"
-                        label="Select a cultivation type"
-                        helper="Select a crop variant first"
-                        value={selectedCropCultivationTypeId? selectedCropCultivationTypeId : ""}
-                        items={cropCultivationTypes}
-                        onChange={this.onCropCultivationTypeSelected}
-                    />
-                </div>
-                <div>
-                    <SelectCrop
-                        disabled={ selectedCropCultivationTypeId && cropTemplates.length? false: true }
-                        id="crop-template-selector"
-                        label="Select a template"
-                        helper="Select a crop cultivation type first"
-                        value={selectedCropTemplateId? selectedCropTemplateId : ""}
-                        items={cropTemplates}
-                        onChange={this.onTemplateSelected}
-                    />
-                    <SelectCrop
-                        disabled={ selectedCropTemplateId && availableProductionTemplates.length? false: true }
-                        id="crop-production-selector"
-                        label="Select a production"
-                        helper="Select a crop template first"
-                        value={selectedProductionId? selectedProductionId : ""}
-                        items={availableProductionTemplates}
-                        onChange={this.onProductionSelected}
-                    />
-                </div>
-            </div>
+            <SelectCrop
+                crops={cropBases}
+                variants={cropVariants}
+                cultivationTypes={cropCultivationTypes}
+                templates={cropTemplates}
+                productions={productions}
+                selectedCropId={selectedCropBaseId}
+                selectedVariantId={selectedCropVariantId}
+                selectedCultivationTypeId={selectedCropCultivationTypeId}
+                selectedProductionId={selectedProductionId}
+
+                onClick={onNewAdd}
+                onCropSelected={this.onCropBaseSelected}
+                onVariantSelected={this.onCropVariantSelected}
+                onCultivationTypeSelected={this.onCropCultivationTypeSelected}
+                onProductionSelected={this.onProductionSelected}
+            />            
         )
     }
 }

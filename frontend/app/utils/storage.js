@@ -59,6 +59,45 @@ class Storage {
     return this.farm
   }
   
+  storeProductionForm(productionForm) {
+    this.productionForm = productionForm
+    localStorage.setItem('productionForm', JSON.stringify(productionForm))
+  }
+
+  getProductionForm() {
+    if (!this.productionForm) {
+      let productionForm
+      try {
+        productionForm = JSON.parse(localStorage.getItem('productionForm'))
+      } catch (e) {
+        productionForm = null
+      }
+      this.productionForm = productionForm
+    }
+    if (this.productionForm) {
+      console.log("this.productionForm: ", this.productionForm)
+      for (var i = 0; i < this.productionForm.tasks.length; ++i) {
+        {
+          var date = new Date(this.productionForm.tasks[i].startDate) 
+          date.setDate(date.getDate());
+          //date.setDate(date.getDate() + 7);
+          this.productionForm.tasks[i].startDate = date
+        }
+        {
+          var date = new Date(this.productionForm.tasks[i].endDate) 
+          date.setDate(date.getDate());
+          this.productionForm.tasks[i].endDate = date
+        }
+      }
+    }
+    return this.productionForm
+  }
+
+  clearProductionForm() {
+    this.productionForm = null
+    localStorage.removeItem('productionForm')
+  }
+
 }
 
 export default new Storage()

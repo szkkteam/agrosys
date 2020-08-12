@@ -37,7 +37,7 @@ export const ListElement = ( {item, ...props} ) => {
 
 export const ListCreate = () => (
     <React.Fragment>
-        <NavLink strict exact to={ROUTES.ProductionCreate} dataProps={{useAsTemplate: true}}>
+        <NavLink strict exact to={ROUTES.ProductionTemplateCreate} dataProps={{useAsTemplate: true}}>
             <AddCircleIcon 
                 fontSize={"large"}
             />
