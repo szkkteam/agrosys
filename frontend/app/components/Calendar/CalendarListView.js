@@ -23,7 +23,8 @@ function CalendarListView({
   components,
   length,
   date,
-  events,
+  events,  
+  tableProps,
 }) {
   const headerRef = useRef(null)
   const dateColRef = useRef(null)
@@ -34,36 +35,39 @@ function CalendarListView({
   const columns = React.useMemo(
     () => [
         {
-            Header: 'Start Date',
-            //accessor: 'startDate',
-            //Cell: props => <span>{localizer.format(accessors.start(props.value), 'agendaDateFormat')}</span>
-            Cell: row => (
-              <div>
-                <span>{localizer.format(accessors.start(row.row), 'agendaDateFormat')}</span>
-                <span> - </span>
-                <span>{localizer.format(accessors.end(row.row), 'agendaDateFormat')}</span>
-              </div>
-            )
+          title: 'Start Date',
+          cellStyle: {whiteSpace: "nowrap"},
+          customSort: (a, b) => +accessors.start(a) - +accessors.start(b),
+          type: 'datetime',
+          //accessor: 'startDate',
+          //Cell: props => <span>{localizer.format(accessors.start(props.value), 'agendaDateFormat')}</span>
+          render: (rowData) => (
+            <div>
+              <span>{localizer.format(accessors.start(rowData), 'agendaDateFormat')}</span>
+              <span> - </span>
+              <span>{localizer.format(accessors.end(rowData), 'agendaDateFormat')}</span>
+            </div>
+          )
         },
         {
-            Header: 'Title',
-            accessor: 'title',
+          title: 'Title',
+          field: 'title',
         },
         {
-          Header: 'Task Type',
-          accessor: 'taskType',
+          title: 'Task Type',
+          field: 'taskType',
         },
         {
-          Header: 'Description',
-          accessor: 'description',
+          title: 'Description',
+          field: 'description',
         },
         {
-          Header: 'Status',
-          accessor: 'status',
+          title: 'Status',
+          field: 'status',
         },
         {
-          Header: 'Planned Cost',
-          accessor: 'plannedCost',
+          title: 'Planned Cost',
+          field: 'plannedCost',
         },
 
     ],
@@ -86,6 +90,7 @@ function CalendarListView({
           <CalendarTable
             columns={columns}
             data={events}
+            {...tableProps}
           />          
         </React.Fragment>
       ) : (

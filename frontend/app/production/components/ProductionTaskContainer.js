@@ -20,6 +20,40 @@ import {
 
 //import { SubmitButton } from 'components/Form'
 
+const findTaskIdInlist = (list, data) => {
+    return list.findIndex(e => {
+        //console.log("e: ", e)
+        return e.startDate == data.startDate && e.endDate == data.endDate && e.title == data.title
+    }
+    )
+}
+
+const updateListElements = (list, data, findData = null) => {
+    //console.log("List: ", list)
+    //console.log("data: ", data)
+    //console.log("findData: ", findData)
+            /*
+        this.setState(({items}) => ({
+            items: [
+                ...items.slice(0,1),
+                {
+                    ...items[1],
+                    name: 'newName',
+                },
+                ...items.slice(2)
+            ]
+        }));
+        */
+    let items = [...list]
+    let currentIdx = findTaskIdInlist(items, (findData === null || findData === undefined)? data: findData)
+    let current = {...items[currentIdx]}
+    // Update each element
+    for (const [key, value] of Object.entries(data)) {
+        current[key] = value
+      }
+    items[currentIdx] = current
+    return items
+}
 
 export default class ProductionTaskContainer extends React.Component {
 
@@ -33,7 +67,7 @@ export default class ProductionTaskContainer extends React.Component {
                 {
                     startDate: moment().toDate(),
                     endDate: moment().add(1, "days").toDate(),
-                    title: "Some pruning task",
+                    title: "Task for pruning",
                     taskType: 'TaskPruning',
                     description: "Some random text for this task",
                     status: "Pending",
@@ -42,11 +76,11 @@ export default class ProductionTaskContainer extends React.Component {
                 {
                     startDate: moment().add(3, "days").toDate(),
                     endDate: moment().add(5, "days").toDate(),
-                    title: "Some genral task",
+                    title: "Typical generic task",
                     taskType: 'TaskGeneral',
                     description: "Some random text for this task",
                     status: "Pending",
-                    plannedCost: 1234,
+                    plannedCost: 6789,
                 },
             ],
         }
@@ -89,41 +123,22 @@ export default class ProductionTaskContainer extends React.Component {
         })
     }
 
+    onUpdate = (newData, oldData) => {
+        console.log("newData: ", newData)
+        console.log("oldData: ", oldData)
+        this.setState({tasks: updateListElements(this.state.tasks, newData, oldData)})
+    }
+
     onEventResize = (data) => {
         console.log("onEventResize Data: ", data)
-        const { start, end } = data;
-        /*
-        this.setState(({items}) => ({
-            items: [
-                ...items.slice(0,1),
-                {
-                    ...items[1],
-                    name: 'newName',
-                },
-                ...items.slice(2)
-            ]
-        }));
-        */
-        let items = [...this.state.tasks]
-        let currentIdx = items.findIndex(e => e.startDate == data.event.startDate && e.endDate == data.event.endDate && e.title == data.event.title)
-        let current = {...items[currentIdx]}
-        current.startDate = start
-        current.endDate = end
-        items[currentIdx] = current
-        this.setState({tasks: items})
+        const { start, end, event } = data;        
+        this.setState({tasks: updateListElements(this.state.tasks, {startDate: start, endDate: end}, event)})
       }
     
       onEventDrop = (data) => {
         console.log("onEventResize Data: ", data);
-        const { start, end } = data;
-    
-        let items = [...this.state.tasks]
-        let currentIdx = items.findIndex(e => e.startDate == data.event.startDate && e.endDate == data.event.endDate && e.title == data.event.title)
-        let current = {...items[currentIdx]}
-        current.startDate = start
-        current.endDate = end
-        items[currentIdx] = current
-        this.setState({tasks: items})
+        const { start, end, event } = data;
+        this.setState({tasks: updateListElements(this.state.tasks, {startDate: start, endDate: end}, event)})
       }
 
     render() {
@@ -138,6 +153,23 @@ export default class ProductionTaskContainer extends React.Component {
                 onSelectSlot={this.handleSelect}
                 startAccessor={(e) => e.startDate }
                 endAccessor={(e) => e.endDate }
+                tableProps={{
+                    options: {
+                        //selection: true,
+                    },
+                    editable: {
+                        onBulkUpdate: () => null,
+                        onRowUpdate: (newData, oldData) => 
+                            new Promise((resolve, reject) => {
+                                setTimeout(() => {
+                                    {
+                                        this.onUpdate(newData, oldData)                                                
+                                    }                                    
+                                    resolve()
+                                }, 1000)
+                            })
+                    }
+                }}
             />
             { openDialog &&
                 <Dialog open={openDialog} onClose={this.onDialogClose} aria-labelledby="form-dialog-title">
