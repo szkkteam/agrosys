@@ -57,37 +57,49 @@ class CropTemplateContainer extends React.Component {
     }
 
     onCropBaseSelected = (e) => {
+        const { listCropVariants, onSelection } = this.props
         const value = e.target.value
         this.setState({
             selectedCropBaseId: value,
             selectedCropCultivationTypeId: null,
             selectedCropVariantId: null,
+            selectedProductionId: null,
         })
-        this.props.listCropVariants.trigger({base: value})
+        onSelection && onSelection()
+        listCropVariants.trigger({base: value})
     }
 
     onCropVariantSelected = (e) => {
+        const { listCropCultivationTypes, onSelection } = this.props
         const { selectedCropBaseId } = this.state
         const value = e.target.value
         this.setState({
             selectedCropVariantId: value,
             selectedCropCultivationTypeId: null,
+            selectedProductionId: null,
         })
-        this.props.listCropCultivationTypes.trigger({base: selectedCropBaseId, variant: value})
+        onSelection && onSelection()
+        listCropCultivationTypes.trigger({base: selectedCropBaseId, variant: value})
     }
 
     onCropCultivationTypeSelected = (e) => {
+        const { listCropTemplates, onSelection } = this.props
         const { selectedCropBaseId, selectedCropVariantId } = this.state
         const value = e.target.value
         this.setState({
             selectedCropCultivationTypeId: value,
+            selectedProductionId: null,
         })
+        onSelection && onSelection()
         this.props.listCropTemplates.trigger({base: selectedCropBaseId, variant: selectedCropVariantId, cultivation_type: value})
     }
   
-    onProductionSelected = (e) => {
+    onProductionSelected = (e) => {        
         const { onProductionSelected } = this.props
         const value = e.target.value
+        this.setState({
+            selectedProductionId: value
+        })        
         onProductionSelected && onProductionSelected(value)
     }
 
@@ -99,7 +111,6 @@ class CropTemplateContainer extends React.Component {
             selectedCropCultivationTypeId,
             selectedProductionId
         } = this.state
-        console.log("selectedCultivationTypeId: ", selectedCropCultivationTypeId)
         const productions = Array.isArray(cropTemplates) && cropTemplates.length > 0? cropTemplates[0].productionTemplates : []
         return (
             <SelectCrop

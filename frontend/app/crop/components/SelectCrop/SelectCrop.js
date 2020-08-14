@@ -66,7 +66,7 @@ export default ({
             </div>
             <div>
                 <SelectComponent
-                    disabled={ productions.length? false: true }
+                    disabled={ selectedCultivationTypeId && productions.length? false: true }
                     label="Select a production"
                     helper="Select a crop template first"
                     formProps={{className: "crop-select-form"}}

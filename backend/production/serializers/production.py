@@ -27,10 +27,11 @@ class ProductionSerializer(ModelSerializer):
 
     use_as_template = fields.Boolean(required=False, allow_none=True)
     crop_template_id = fields.Integer(required=True, validate=lambda x: object_id_exists(x, CropTemplate))
+    tasks = fields.Nested('TaskListSerializer', many=True, required=False)
 
     class Meta:
         model = Production
-        fields = PRODUCTION_FIELDS + ('crop_template_id', 'use_as_template',)
+        fields = PRODUCTION_FIELDS + ('crop_template_id', 'use_as_template', 'tasks')
         dump_only = ('id', )
         load_only = ('use_as_template', )
         include_fk = True

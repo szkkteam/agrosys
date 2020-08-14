@@ -8,8 +8,6 @@ export { default as ProductionFieldAssigment } from './ProductionFieldAssigment'
 
 export { default as ProductionTaskContainer } from './ProductionTaskContainer'
 
-export { default as SubmitButton } from './SubmitButton'
-
 export { default as FormProduction } from './FormProduction'
 export { default as FormTask } from './FormTask'
 export { default as FormProductionCreate } from './FormProductionCreate'

@@ -18,8 +18,20 @@ TASK_GENERAL_1 = {
     'startDate': '2020-07-21T20:00:00',
     'endDate': '2020-07-22T20:00:00',
     'predictedCost': 1,
+    'status': 'Pending',
     'actualCost': 2,
 }
+
+
+TASK_GENERAL_NO_COST = {
+    'title': 'task general',
+    'taskType': 'TaskGeneral',
+    'description': 'some text',
+    'startDate': '2020-07-21T20:00:00',
+    'endDate': '2020-07-22T20:00:00',
+    'status': 'Pending',
+}
+
 
 TASK_PRUNING_1 = {
     'title': 'task general',
@@ -28,6 +40,7 @@ TASK_PRUNING_1 = {
     'startDate': '2020-07-21T20:00:00',
     'endDate': '2020-07-22T20:00:00',
     'predictedCost': 1,
+    'status': 'Pending',
     'actualCost': 2,
 }
 
@@ -38,6 +51,7 @@ TASK_INVALID_TASK_TYPE = {
     'startDate': '2020-07-21T20:00:00',
     'endDate': '2020-07-22T20:00:00',
     'predictedCost': 1,
+    'status': 'Pending',
     'actualCost': 2,
 }
 
@@ -49,11 +63,12 @@ TASK_INVALID_DATETIME = {
     'startDate': 'cicamica',
     'endDate': '2020-07-22T20:00:00',
     'predictedCost': 1,
+    'status': 'Pending',
     'actualCost': 2,
 }
 
 VALID_INPUT_DATA = [
-    TASK_GENERAL_1, TASK_PRUNING_1
+    TASK_GENERAL_1, TASK_PRUNING_1, TASK_GENERAL_NO_COST
 ]
 
 INVALID_INPUT_DATA = [
@@ -98,8 +113,9 @@ class TestTaskSerializer:
         assert result['description'] == input_data['description']
         assert input_data['startDate'] in result['startDate']
         assert input_data['endDate'] in result['endDate']
-        assert result['predictedCost'] == str(input_data['predictedCost'])
-        assert result['actualCost'] == str(input_data['actualCost'])
+        if 'predictedCost' and 'actualCost' in input_data:
+            assert result['predictedCost'] == str(input_data['predictedCost'])
+            assert result['actualCost'] == str(input_data['actualCost'])
 
 
 class TestTaskListSerializer:

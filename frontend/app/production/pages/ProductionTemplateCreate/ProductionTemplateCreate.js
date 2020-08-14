@@ -6,7 +6,6 @@ import { PageContent } from 'components'
 import { ProductionCreateContainer } from 'production/components'
 
 export default (props) => {
-    console.log("Props: ", props)
     const { useAsTemplate = true } = props.location
     return (
         <PageContent>

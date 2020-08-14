@@ -9,10 +9,37 @@ from flask_security import AnonymousUser, current_user
 
 # Internal package imports
 
+
+TASK_GENERAL_1 = {
+    'title': 'task general',
+    'taskType': 'TaskGeneral',
+    'description': 'some text',
+    'startDate': '2020-07-21T20:00:00',
+    'endDate': '2020-07-22T20:00:00',
+    'predictedCost': 1,
+    'actualCost': 2,
+}
+
+TASK_PRUNING_1 = {
+    'title': 'task general',
+    'taskType': 'TaskPruning',
+    'description': 'some text',
+    'startDate': '2020-07-21T20:00:00',
+    'endDate': '2020-07-22T20:00:00',
+    'predictedCost': 1,
+    'actualCost': 2,
+}
+
+VALID_INPUT_DATA = [
+    TASK_GENERAL_1, TASK_PRUNING_1
+]
+
+
 NEW_PRODUCTION_DATA = {
     'title': 'Production 1',
     'useAsTemplate': True,
     'cropTemplateId': 1,
+    'tasks': VALID_INPUT_DATA,
 }
 
 def get_production_data():
@@ -71,6 +98,7 @@ class TestProductionResource:
         assert 'cropTemplateId' in r.json
         assert data['title'] == r.json['title']
         assert data['cropTemplateId'] == r.json['cropTemplateId']
+        assert 'tasks' in r.json
 
     def test_assign(self, api_client, farm_owner, models):
         from backend.field.models import FieldDetail
@@ -124,6 +152,7 @@ class TestProductionResource:
         assert 'id' in r.json
         assert 'title' in r.json
         assert 'cropTemplateId' in r.json
+        assert 'tasks' in r.json
 
     def test_list_filter(self, api_client, farm_owner, models):
         api_client.login_as(farm_owner)

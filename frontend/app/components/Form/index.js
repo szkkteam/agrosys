@@ -9,8 +9,8 @@ export {
   SelectComponent,
   SelectOption,
 } from './Input'
-/*
+
 export { 
-  SubmitButton,
-} from './Button'
-*/ 
+  default as SubmitButton,
+} from './SubmitButton'
+ 

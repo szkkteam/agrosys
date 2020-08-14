@@ -15,30 +15,32 @@ const renderFieldDetailMemebers = ({fields, meta: { error, submitFailed}, ...res
   </div>
   )
 
+const renderTasks = ({fields, meta: { error, submitFailed}, ...rest}) => (
+  <div>
+  { fields.map((task, index) => (
+      Object.keys(task).map((itemKey, i) => (
+        <HiddenField 
+          name={`${task}.${itemKey}`}                
+          key={`${index}-${i}`}
+        />  
+      ))
+  ))
+  }
+  </div>
+)
 
 export default (props) => {
   const { error, handleSubmit, submitting, pristine, action } = props
   return (
-    <form onSubmit={handleSubmit(action)}>
+    <form onSubmit={handleSubmit}>
         <TextField name="title"
             label="Title of the production plan"
             className="full-width"
             autoFocus />
-        <BooleanField name="useAsTemplate"
-            label="Use later as template"
-            autoFocus
-        />
+        <HiddenField name="useAsTemplate"/>
+        <FieldArray name="tasks" component={renderTasks}/>
         <HiddenField name="cropTemplateId" />
         <FieldArray name="details" component={renderFieldDetailMemebers} />
-
-        <div className="row">
-            <button type="submit"
-                    className="btn btn-primary"
-                    disabled={submitting}
-            >
-            {submitting ? 'Creating...' : 'Create'}
-            </button>
-        </div>
     </form>
   )
 }

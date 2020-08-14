@@ -75,7 +75,6 @@ class Storage {
       this.productionForm = productionForm
     }
     if (this.productionForm) {
-      console.log("this.productionForm: ", this.productionForm)
       for (var i = 0; i < this.productionForm.tasks.length; ++i) {
         {
           var date = new Date(this.productionForm.tasks[i].startDate) 

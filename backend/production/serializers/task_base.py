@@ -16,6 +16,7 @@ from ..models import Task, TaskStatus, TaskTypes
 TASK_BASE_FIELDS = (
     'id',
     'title',
+    'status',
     'description',
     'start_date',
     'end_date',
@@ -34,5 +35,5 @@ class TaskBaseSerializer(ModelSerializer):
     start_date =fields.AwareDateTime(default_timezone=dt.timezone.utc)
     end_date = fields.AwareDateTime(default_timezone=dt.timezone.utc)
 
-    predicted_cost = fields.Decimal(as_string=True)
-    actual_cost = fields.Decimal(as_string=True)
+    predicted_cost = fields.Decimal(as_string=True, required=False)
+    actual_cost = fields.Decimal(as_string=True, required=False)

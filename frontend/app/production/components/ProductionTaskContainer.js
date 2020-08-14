@@ -10,8 +10,11 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { 
     ProductionTaskCalendar,
     FormTaskCreate,
-    SubmitButton,
 } from 'production/components'
+
+import {
+    SubmitButton,
+} from 'components/Form'
 
 import { 
     Calendar,
@@ -19,42 +22,56 @@ import {
 
 //import { SubmitButton } from 'components/Form'
 
+const dialogStatusEnum = {
+    CLOSE: "close",
+    OPEN_ADD: "open add",
+    OPEN_EDIT: "open edit",
+}
+
 export default class ProductionTaskContainer extends React.Component {
 
     constructor(props) {
         super(props)
 
         this.state = {
-            openDialog: false,
-            selectedDate: null,            
+            dialogStatus: dialogStatusEnum.CLOSE,
+            selectedTask: null,            
         }
     }
    
     handleSelect = ({ start, end }) => {
         //const title = window.prompt('New Event name')
         this.setState({
-            selectedDate: {
+            selectedTask: {
                 startDate: start,
                 endDate: end,
             },
-            openDialog: true,
+            dialogStatus: dialogStatusEnum.OPEN_ADD,
         })        
       }
 
       
     onClose = (e) => {
         this.setState({
-            openDialog: false,
+            dialogStatus: dialogStatusEnum.CLOSE,
         })
     }
 
     onSave = (value) => {
         const { onTaskAdded } = this.props
-        console.log(value)
-        this.setState({
-            openDialog: false,
-        })
         onTaskAdded && onTaskAdded(value)
+        this.setState({
+            dialogStatus: dialogStatusEnum.CLOSE,
+        })
+    }
+
+    onUpdate = (value) => {
+        const { onTaskUpdate } = this.props
+        const { selectedTask } = this.state 
+        onTaskUpdate && onTaskUpdate(value, selectedTask)    
+        this.setState({
+            dialogStatus: dialogStatusEnum.CLOSE,
+        })
     }
 
     
@@ -70,21 +87,33 @@ export default class ProductionTaskContainer extends React.Component {
         onTaskDragNDrop && onTaskDragNDrop({ startDate: start, endDate: end}, event)
     }
 
+    onDoubleClick = (data) => {
+        const { onTaskSelect } = this.props
+        this.setState({
+            selectedTask: {
+                ...data,
+            },
+            dialogStatus: dialogStatusEnum.OPEN_EDIT,
+        })   
+        //onTaskSelect && onTaskSelect(data)
+    }
 
     render() {
         const { 
             tasks,
-
+            onTaskSelect,
             onTaskUpdate,
         } = this.props
-        const { openDialog, selectedDate } = this.state
+        const { dialogStatus, selectedTask } = this.state
+        
         return (
             <div>
             <Calendar
                 events={tasks}
                 onEventDrop={this.onDragNDrop}
                 onEventResize={this.onResize}
-                onSelectEvent={event => alert(event.title)}
+                onSelectEvent={onTaskSelect}
+                onDoubleClickEvent={this.onDoubleClick}
                 onSelectSlot={this.handleSelect}
                 startAccessor={(e) => e.startDate }
                 endAccessor={(e) => e.endDate }
@@ -106,21 +135,28 @@ export default class ProductionTaskContainer extends React.Component {
                     }
                 }}
             />
-            { openDialog &&
-                <Dialog open={openDialog} onClose={this.onClose} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Add Task</DialogTitle>
+            { true &&
+                <Dialog open={dialogStatus !== dialogStatusEnum.CLOSE} onClose={this.onClose} aria-labelledby="form-dialog-title">
+                    <DialogTitle id="form-dialog-title">
+                        {dialogStatus === dialogStatusEnum.OPEN_EDIT? "Task Edit": "Task Add"}
+                    </DialogTitle>
                     <DialogContent>
                         <FormTaskCreate
-                            {...selectedDate}
-                            onSubmit={this.onSave}
+                            initialValues={{...selectedTask}}
+                            onSubmit={dialogStatus === dialogStatusEnum.OPEN_EDIT? this.onUpdate: this.onSave}
                         />
                     </DialogContent>
                     <DialogActions>
-                    <Button onClick={this.onClose} color="primary">
+                    <Button 
+                        onClick={this.onClose} 
+                        color="primary"
+                        variant="contained"
+                    >
                         Cancel
                     </Button>
                     <SubmitButton 
                         color="primary"
+                        variant="contained"
                         formName="create-task"
                     >
                         Save

@@ -21,15 +21,19 @@ const withForm = reduxForm({
 
 const withConnect = connect(
     (state, props) => {
-        //console.log("Form props: ", props)
-        const { startDate, endDate } = props
+        //console.log("Form task props: ", props) 
+        const { initialValues = {} } = props        
+        const { 
+            taskType = 'TaskGeneral',
+            status = 'Pending',
+            ...rest,
+        } = initialValues
         const selectedTaskType = selector(state, 'taskType')
         return { 
             initialValues: {
-                startDate,
-                endDate,
-                taskType: 'TaskGeneral',
-                status: 'Pending',
+                taskType: taskType,
+                status: status,
+                ...rest,
             },
             selectedTaskType,
 

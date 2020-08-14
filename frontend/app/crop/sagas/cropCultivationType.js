@@ -10,7 +10,6 @@ export const KEY = 'cropCultivationType'
 export const listCropCultivationTypesSaga = createRoutineSaga(
     listCropCultivationTypes,
     function *successGenerator(payload) {
-        console.log("Saga: ", payload)
         const cropCultivationTypes = yield call(CropApi.listCropCultivationTypes, payload)
         yield put(listCropCultivationTypes.success({
             cropCultivationTypes

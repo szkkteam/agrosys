@@ -67,7 +67,7 @@ function CalendarListView({
         },
         {
           title: 'Planned Cost',
-          field: 'plannedCost',
+          field: 'predictedCost',
         },
 
     ],
