@@ -44,54 +44,15 @@ const findTaskIdInlist = (list, data) => {
 }
 
 const updateListElements = (list, data, findData = null) => {
-    //console.log("List: ", list)
-    //console.log("data: ", data)
-    //console.log("findData: ", findData)
-            /*
-        this.setState(({items}) => ({
-            items: [
-                ...items.slice(0,1),
-                {
-                    ...items[1],
-                    name: 'newName',
-                },
-                ...items.slice(2)
-            ]
-        }));
-        */
     let items = [...list]
     let currentIdx = findTaskIdInlist(items, (findData === null || findData === undefined)? data: findData)
     let current = {...items[currentIdx]}
-    // Update each element
-    for (const [key, value] of Object.entries(data)) {
-        current[key] = value
-      }
+    Object.keys(data).map((key, idx) => {
+        current[key] = data[key]
+    })    
     items[currentIdx] = current
     return items
 }
-
-const TestTasks =  [
-    {
-        id: 1,
-        startDate: moment().toDate(),
-        endDate: moment().add(1, "days").toDate(),
-        title: "Task for pruning",
-        taskType: 'TaskPruning',
-        description: "Some random text for this task",
-        status: "Pending",
-        predictedCost: 1234,
-    },
-    {
-        id: 2,
-        startDate: moment().add(3, "days").toDate(),
-        endDate: moment().add(5, "days").toDate(),
-        title: "Typical generic task",
-        taskType: 'TaskGeneral',
-        description: "Some random text for this task",
-        status: "Pending",
-        predictedCost: 6789,
-    },
-]
 
 class ProductionCreateContainer extends React.Component {
 
@@ -103,7 +64,7 @@ class ProductionCreateContainer extends React.Component {
                 cropCultivationTypeId: null
             },
             cropTemplateId: null,
-            tasks: TestTasks // TODO: Fixme
+            tasks: []
     }
     constructor(props) {
         super(props)
@@ -155,15 +116,9 @@ class ProductionCreateContainer extends React.Component {
                 tasks: tasksFromString(tasks),
                 id: tasks.length? tasks[tasks.length -1].id + 1 : 1,
                 enable: true,
+                dirty: false,
             }, this.persistState)
         }
-
-                /** TODO:
-         * 1) Clear the storage
-         * 2) Load Production X 
-         * 3) Store state in the storage
-         */
-
     } 
 
     persistState = () => {
@@ -192,8 +147,9 @@ class ProductionCreateContainer extends React.Component {
 
     onProductionSelected = (id) => {
         const { loadProductionDetail } = this.props
-        // TODO: If it's dirty popup a message
-        loadProductionDetail && loadProductionDetail.trigger({payload: {id}})
+        const { dirty } = this.state
+        const confirmed = dirty? window.confirm("Are you sure you want drop all of your changes?"): true
+        confirmed && loadProductionDetail && loadProductionDetail.trigger({payload: {id}})
     }
 
     onCropSelected = () => {
@@ -208,11 +164,13 @@ class ProductionCreateContainer extends React.Component {
     }
 
     onNewProductionAdded = (value) => {
-        this.persistState()
-        /** TODO:
-         * 1) Clear the storage
-         * 3) Store state in the storage
-         */
+        this.setState({
+            assignedFieldDetails: [],
+            tasks: [],
+            id: 1,
+            enable: true,
+            dirty: false,
+        }, this.persistState)
     }
 
     onFieldClick = (fieldDetail) => {

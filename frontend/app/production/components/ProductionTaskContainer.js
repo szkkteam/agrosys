@@ -109,7 +109,7 @@ export default class ProductionTaskContainer extends React.Component {
         return (
             <div>
             <Calendar
-                events={tasks}
+                tasks={tasks}
                 onEventDrop={this.onDragNDrop}
                 onEventResize={this.onResize}
                 onSelectEvent={onTaskSelect}
