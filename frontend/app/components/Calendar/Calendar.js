@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { momentLocalizer  } from 'react-big-calendar'
+import { Calendar, Views, momentLocalizer  } from 'react-big-calendar'
 import moment from 'moment'
 import * as dates from 'react-big-calendar/lib/utils/dates'
-import { wrapAccessor } from 'react-big-calendar/lib//utils/accessors'
+import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
+import { navigate } from 'react-big-calendar/lib/utils/constants'
 
 import { LocalizationProvider } from '@material-ui/pickers';
 import MomentUtils from '@material-ui/pickers/adapter/moment';
@@ -10,7 +11,6 @@ import MomentUtils from '@material-ui/pickers/adapter/moment';
 import {
     CalendarTask,
     CalendarListView,
-    CalendarView,
     CalendarToolbar,
 } from 'components/Calendar'
 
@@ -24,28 +24,28 @@ const currentViewEnum = {
   CALENDAR: "calendar",
 }
 
-const localizer = momentLocalizer(moment)
+const ColoredDateCellWrapper = ({ children }) =>
+  React.cloneElement(React.Children.only(children), {
+    style: {
+      backgroundColor: 'lightblue',
+    },
+  })
 
-const getAccessors = ({startAccessor, endAccessor, allDayAccessor, tooltipAccessor, titleAccessor, resourceAccessor, resourceIdAccessor, resourceTitleAccessor}) => {
-  return {
-    start: wrapAccessor(startAccessor? startAccessor: (e) = e.start),
-    end: wrapAccessor(endAccessor? endAccessor: (e) => e.end),
-    allDay: wrapAccessor(allDayAccessor? allDayAccessor: (e) => e.allDay),
-    tooltip: wrapAccessor(tooltipAccessor? tooltipAccessor: (e) => e.tooltip),
-    title: wrapAccessor(titleAccessor? titleAccessor: (e) => e.title),
-    resource: wrapAccessor(resourceAccessor? resourceAccessor: (e) => e.resource),
-    resourceId: wrapAccessor(resourceIdAccessor? resourceIdAccessor: (e) => e.resourceId),
-    resourceTitle: wrapAccessor(resourceTitleAccessor? resourceTitleAccessor: (e) => e.resourceTitle),
-  }
-}
+const DCalendar = withDragAndDrop(Calendar);
+
+
+const localizer = momentLocalizer(moment)
 
 export default class MyCalendar extends React.Component {
 
   constructor(props) {
     super(props)
 
+    // Calculate the default range for today
     let startDate = moment(new Date()).toDate()
     let endDate = moment(new Date()).toDate()
+
+    // If tasks are already added before the switch re-calculate the date ranges
     if (props.tasks.length) {
       startDate = props.tasks[0].startDate
       endDate = props.tasks[props.tasks.length - 1].endDate
@@ -59,17 +59,24 @@ export default class MyCalendar extends React.Component {
 
   }
 
+  //onNavigate={(d, v, c) => console.log("D: " + d + " V: " + v + " C: ", c)}
   render() {
     const { tasks, ...props } = this.props
     const { currentView, startDate, endDate } = this.state
 
+    const length = dates.diff(startDate, endDate, 'day')
+    console.log("Calculated length: ", length)
+    console.log("Calculated startDate: ", startDate)
+    console.log("Calculated endDate: ", endDate)
 
     console.log("Calendar props: ", props)
     return (
       <div className="task-container">
         <LocalizationProvider dateAdapter={MomentUtils}>
-          { currentView === currentViewEnum.CALENDAR?
-            <CalendarView
+            <DCalendar
+              selectable
+              step={60}
+              showMultiDayTimes
               events={tasks}
               messages={{
                 list: 'List',
@@ -78,43 +85,23 @@ export default class MyCalendar extends React.Component {
                 month: true,
                 list: CalendarListView,
               }}
-              onView={(view) => {
-                if (view === "list") this.setState({currentView: currentViewEnum.LIST})
-              }}
+              defaultDate={startDate}              
+              length={length}
               defaultView="list"
               components={{
-                toolbar: CalendarToolbar
+                timeSlotWrapper: ColoredDateCellWrapper,
+                event: CalendarTask,
+                toolbar: (props) => <CalendarToolbar
+                                      start={startDate}
+                                      end={endDate}
+                                      onEndDateChange={(data) => this.setState({endDate: data})}
+                                      onStartDateChange={(data) => this.setState({startDate: data})}
+                                      {...props}/>
               }}
               localizer={localizer}
               {...props}
-            /> :
-          <div className="rbc-addons-dnd rbc-calendar">
-            <CalendarToolbar
-              start={startDate}
-              end={endDate}
-              views={{
-                month: true,
-                list: CalendarListView,
-              }}
-              onView={(view) => {
-                this.setState({currentView: currentViewEnum.CALENDAR})
-              }}
-              view="list"
-              messages={{
-                list: 'List',
-              }}
-              localizer={localizer}
-              onStartChange={(date) => this.setState({startDate: date.toDate()})}
-              onEndChange={(date) => this.setState({endDate: date.toDate()})}
-            />
-            <CalendarListView
-              events={tasks}              
-              accessors={getAccessors(props)}
-              localizer={localizer}
-              {...props}
-            />
-          </div>
-          }
+            /> 
+          
         </LocalizationProvider>
       </div>
     )

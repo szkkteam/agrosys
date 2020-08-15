@@ -19,6 +19,15 @@ const addDays = (date, days) => {
 
 export default class CalendarToolbar extends React.Component {
 
+    constructor(props) {
+      super(props)
+
+      this.state = {
+        start: props.start,
+        end: props.end
+      }
+    }
+
     render() {
       let {
         localizer: { messages = {} } = {},
@@ -26,13 +35,15 @@ export default class CalendarToolbar extends React.Component {
         date,
         length,
         view,
-        start = null,
-        end = null,
-        onStartChange = null,
-        onEndChange = null,
+        onStartDateChange,
+        onEndDateChange,
         ...rest,
       } = this.props
 
+      const { start, end } = this.state
+
+        console.log("Start: ", start)
+        console.log("End: ", end)
         return (
         <div className="rbc-toolbar">
           <span className="rbc-btn-group">
@@ -40,12 +51,19 @@ export default class CalendarToolbar extends React.Component {
             <span>
                 <DatePicker
                     value={start}
-                    onChange={onStartChange}
+                    onChange={(data) => {
+                      onStartDateChange && onStartDateChange(data.toDate())
+                      //this.navigate(navigate.PREVIOUS, data.toDate())
+                      this.setState({start: data.toDate()}, () => this.navigate(navigate.PREVIOUS, this.state.start))
+                    }}
                     renderInput={(props) => <TextField {...props} />}
                 />
                 <DatePicker
                     value={end}
-                    onChange={onEndChange}
+                    onChange={(data) => { 
+                      onEndDateChange && onEndDateChange(data.toDate())
+                      this.setState({end: data.toDate()}, () => this.navigate(navigate.NEXT, this.state.start))
+                    }}
                     renderInput={(props) => <TextField {...props} />}
                 />
             </span>:
@@ -75,28 +93,14 @@ export default class CalendarToolbar extends React.Component {
   
           <span className="rbc-toolbar-label">{label}</span>
   
-          <span className="rbc-btn-group">
-            <button
-              type="button"
-              key="month"
-              onClick={this.view.bind(null, "month")}
-            >
-              Month
-            </button>
-            <button
-              type="button"
-              key="list"
-              onClick={this.view.bind(null, "list")}
-            >
-              List
-            </button>
-            </span>
+          <span className="rbc-btn-group">{this.viewNamesGroup(messages)}</span>
         </div>
       )
     } 
   
-    navigate = action => {
-      this.props.onNavigate(action)
+    navigate = (action, value) => {
+      console.log("Navigate value: ", value)
+      this.props.onNavigate(action, value)        
     }
   
     view = view => {
