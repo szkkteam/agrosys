@@ -16,21 +16,13 @@ import {
 } from 'components/Calendar'
 
 function CalendarListView({
-  selected,
-  getters,
   accessors,
   localizer,
-  components,
-  length,
-  date,
+  start,
+  end,
   events,  
   tableProps,
 }) {
-  const headerRef = useRef(null)
-  const dateColRef = useRef(null)
-  const timeColRef = useRef(null)
-  const contentRef = useRef(null)
-  const tbodyRef = useRef(null)
 
   const columns = React.useMemo(
     () => [
@@ -73,16 +65,10 @@ function CalendarListView({
     ],
     []
   )
-
   let { messages } = localizer
-  let end = dates.add(date, length, 'day')
-  console.log("Columns: ", columns)
-  let range = dates.range(date, end, 'day')
 
-  events = events.filter(event => inRange(event, date, end, accessors))
+  events = events.filter(event => inRange(event, start, end, accessors))
   events.sort((a, b) => +accessors.start(a) - +accessors.start(b))
-
-  const { event: Event, date: AgendaDate } = components
   return (
     <div className="rbc-agenda-view">
       {events.length !== 0 ? (
@@ -94,7 +80,7 @@ function CalendarListView({
           />          
         </React.Fragment>
       ) : (
-        <span className="rbc-agenda-empty">{messages.noEventsInRange}</span>
+        <span className="rbc-agenda-empty">No events in range</span>
       )}
     </div>
   )
@@ -102,40 +88,11 @@ function CalendarListView({
 
 CalendarListView.propTypes = {
   events: PropTypes.array,
-  date: PropTypes.instanceOf(Date),
-  length: PropTypes.number.isRequired,
-
-  selected: PropTypes.object,
-
-  accessors: PropTypes.object.isRequired,
-  components: PropTypes.object.isRequired,
-  getters: PropTypes.object.isRequired,
   localizer: PropTypes.object.isRequired,
 }
 
-CalendarListView.defaultProps = {
-  length: 30,
-}
-
-CalendarListView.range = (start, { length = Agenda.defaultProps.length }) => {
-  let end = dates.add(start, length, 'day')
-  return { start, end }
-}
-
-CalendarListView.navigate = (date, action, { length = Agenda.defaultProps.length }) => {
-  switch (action) {
-    case navigate.PREVIOUS:
-      return dates.add(date, -length, 'day')
-
-    case navigate.NEXT:
-      return dates.add(date, length, 'day')
-
-    default:
-      return date
-  }
-}
-
 CalendarListView.title = (start, { length = Agenda.defaultProps.length, localizer }) => {
+  console.log("CalendarListView.title: ", start)
   let end = dates.add(start, length, 'day')
   return localizer.format({ start, end }, 'agendaHeaderFormat')
 }
