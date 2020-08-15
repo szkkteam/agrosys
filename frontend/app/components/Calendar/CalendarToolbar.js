@@ -24,7 +24,9 @@ export default class CalendarToolbar extends React.Component {
 
       this.state = {
         start: props.start,
-        end: props.end
+        end: props.end,
+        startOpen: false,
+        endOpen: false,
       }
     }
 
@@ -40,29 +42,35 @@ export default class CalendarToolbar extends React.Component {
         ...rest,
       } = this.props
 
-      const { start, end } = this.state
+      const { start, end, startOpen, endOpen } = this.state
 
-        console.log("Start: ", start)
-        console.log("End: ", end)
-        return (
+      return (
         <div className="rbc-toolbar">
           <span className="rbc-btn-group">
             { view === 'list'? 
             <span>
                 <DatePicker
                     value={start}
+                    open={startOpen}
+                    maxDate={end}
+                    onClose={() => this.setState({startOpen: false})}
+                    onOpen={() => this.setState({startOpen: true, endOpen: false})}
                     onChange={(data) => {
                       onStartDateChange && onStartDateChange(data.toDate())
                       //this.navigate(navigate.PREVIOUS, data.toDate())
-                      this.setState({start: data.toDate()}, () => this.navigate(navigate.PREVIOUS, this.state.start))
+                      this.setState({start: data.toDate(), startOpen: false}, () => this.navigate(navigate.PREVIOUS, this.state.start))
                     }}
                     renderInput={(props) => <TextField {...props} />}
                 />
                 <DatePicker
                     value={end}
+                    open={endOpen}
+                    minDate={start}
+                    onOpen={() => this.setState({endOpen: true, startOpen: false})}
+                    onClose={() => this.setState({endOpen: false})}
                     onChange={(data) => { 
                       onEndDateChange && onEndDateChange(data.toDate())
-                      this.setState({end: data.toDate()}, () => this.navigate(navigate.NEXT, this.state.start))
+                      this.setState({end: data.toDate(), endOpen: false}, () => this.navigate(navigate.NEXT, this.state.start))
                     }}
                     renderInput={(props) => <TextField {...props} />}
                 />
@@ -99,8 +107,9 @@ export default class CalendarToolbar extends React.Component {
     } 
   
     navigate = (action, value) => {
-      console.log("Navigate value: ", value)
-      this.props.onNavigate(action, value)        
+      const view = this.props.view
+      if (view === "list") this.props.onNavigate(action, value)        
+      else this.props.onNavigate(action)        
     }
   
     view = view => {
@@ -111,7 +120,6 @@ export default class CalendarToolbar extends React.Component {
     viewNamesGroup(messages) {
       let viewNames = this.props.views
       const view = this.props.view
-      console.log("viewNames: ", viewNames)
       if (viewNames.length > 1) {
         return viewNames.map(name => (
           <button

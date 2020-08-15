@@ -65,11 +65,6 @@ export default class MyCalendar extends React.Component {
     const { currentView, startDate, endDate } = this.state
 
     const length = dates.diff(startDate, endDate, 'day')
-    console.log("Calculated length: ", length)
-    console.log("Calculated startDate: ", startDate)
-    console.log("Calculated endDate: ", endDate)
-
-    console.log("Calendar props: ", props)
     return (
       <div className="task-container">
         <LocalizationProvider dateAdapter={MomentUtils}>

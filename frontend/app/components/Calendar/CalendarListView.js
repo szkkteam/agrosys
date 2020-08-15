@@ -26,7 +26,6 @@ function CalendarListView({
   events,  
   tableProps,
 }) {
-  console.log("Length: ", length)
   const columns = React.useMemo(
     () => [
         {
@@ -71,9 +70,6 @@ function CalendarListView({
 
   let { messages } = localizer
   let end = dates.add(date, length, 'day')
-  
-  console.log("Filtering for: start: ", date)
-  console.log("Filtering for: end: ", end)
   let range = dates.range(date, end, 'day')
 
   events = events.filter(event => inRange(event, date, end, accessors))
@@ -115,21 +111,13 @@ CalendarListView.defaultProps = {
 }
 
 CalendarListView.range = (start, { length = Agenda.defaultProps.length }) => {
-  console.log("CalendarListView.range-start: ", start)
-  console.log("CalendarListView.range-Length: ", length)
   let end = dates.add(start, length, 'day')
   return { start, end }
 }
 
-CalendarListView.navigate = (date, action, { length = Agenda.defaultProps.length }) => {
-  console.log("CalendarListView.navigate-date: ", date)
-  console.log("CalendarListView.navigate-Length: ", length)
-  return date
-}
+CalendarListView.navigate = (date, action, { length = Agenda.defaultProps.length }) => date
 
 CalendarListView.title = (start, { length = Agenda.defaultProps.length, localizer }) => {
-  console.log("CalendarListView.title-start: ", start)
-  console.log("CalendarListView.title-Length: ", length)
   let end = dates.add(start, length, 'day')
   return localizer.format({ start, end }, 'agendaHeaderFormat')
 }
