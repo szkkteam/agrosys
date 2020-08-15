@@ -103,6 +103,8 @@ export default class ProductionTaskContainer extends React.Component {
             tasks,
             onTaskSelect,
             onTaskUpdate,
+            onTaskDelete,
+            onTaskAdded,
         } = this.props
         const { dialogStatus, selectedTask } = this.state
         
@@ -110,30 +112,18 @@ export default class ProductionTaskContainer extends React.Component {
             <div>
             <Calendar
                 tasks={tasks}
-                onEventDrop={this.onDragNDrop}
-                onEventResize={this.onResize}
                 onSelectEvent={onTaskSelect}
                 onDoubleClickEvent={this.onDoubleClick}
+
                 onSelectSlot={this.handleSelect}
+                onEventDrop={this.onDragNDrop}
+                onEventResize={this.onResize}
+                onTaskUpdate={onTaskUpdate}
+                onTaskDelete={onTaskDelete}    
+                onTaskAdded={onTaskAdded}
+
                 startAccessor={(e) => e.startDate }
                 endAccessor={(e) => e.endDate }
-                tableProps={{
-                    options: {
-                        //selection: true,
-                    },
-                    editable: {
-                        onBulkUpdate: () => null,
-                        onRowUpdate: (newData, oldData) => 
-                            new Promise((resolve, reject) => {
-                                setTimeout(() => {
-                                    {
-                                        onTaskUpdate && onTaskUpdate(newData, oldData)                                                
-                                    }                                    
-                                    resolve()
-                                }, 1000)
-                            })
-                    }
-                }}
             />
             { true &&
                 <Dialog open={dialogStatus !== dialogStatusEnum.CLOSE} onClose={this.onClose} aria-labelledby="form-dialog-title">

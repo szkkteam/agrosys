@@ -54,6 +54,13 @@ const updateListElements = (list, data, findData = null) => {
     return items
 }
 
+const deleteListElements = (list, oldDdata) => {
+    let items = [...list]
+    let currentIdx = findTaskIdInlist(items, oldDdata)
+    return items.splice(currentIdx, 1);
+}
+
+
 class ProductionCreateContainer extends React.Component {
 
     static defaultProps = {
@@ -199,6 +206,13 @@ class ProductionCreateContainer extends React.Component {
         }, this.persistState)
     }
 
+    onTaskDelete = (oldData) => {
+        this.setState({
+            tasks: deleteListElements(this.state.tasks, oldData),
+            dirty: true,
+        }, this.persistState)
+    }
+
     onTaskResize = (newData, oldData) => {
         this.setState({
             tasks: updateListElements(this.state.tasks, newData, oldData),
@@ -283,6 +297,7 @@ class ProductionCreateContainer extends React.Component {
                                 onTaskResize={this.onTaskResize}
                                 onTaskDragNDrop={this.onTaskDragNDrop}
                                 onTaskAdded={this.onTaskAdded}
+                                onTaskDelete={this.onTaskDelete}
 
                             />
                         </div>

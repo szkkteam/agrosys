@@ -24,7 +24,7 @@ function CalendarListView({
   length,
   date,
   events,  
-  tableProps,
+  ...props,
 }) {
   const columns = React.useMemo(
     () => [
@@ -83,7 +83,7 @@ function CalendarListView({
           <CalendarTable
             columns={columns}
             data={events}
-            {...tableProps}
+            {...props}
           />          
         </React.Fragment>
       ) : (

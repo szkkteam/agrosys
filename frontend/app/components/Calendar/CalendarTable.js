@@ -42,15 +42,51 @@ const tableIcons = {
 export default ({
     columns,
     data,
+    onTaskUpdate,
+    onTaskDelete,
+    onTaskAdded,
+
     ...props,
 }) => {
-    
     return (
         <MaterialTable
             icons={tableIcons}
             title="List of production tasks"
             columns={columns}
             data={data}
+            options={{
+                //selection: true,
+            }}
+            editable={{                
+                onRowUpdate: (newData, oldData) => 
+                    new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            onTaskUpdate && onTaskUpdate(newData, oldData)                                                                                 
+                            resolve()
+                        }, 1000)
+                    }),
+                onRowDelete: oldData =>
+                    new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            onTaskDelete && onTaskDelete(oldData)
+                            resolve()
+                        }, 1000)
+                    }),
+                onRowAdd: newData =>
+                    new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            onTaskAdded && onTaskAdded(newData)
+                            resolve()
+                        }, 1000)
+                    }),
+                onBulkUpdate: changes => 
+                    new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            resolve()
+                        }, 1000)
+                    })
+                
+            }}
             {...props}
         />
     )
