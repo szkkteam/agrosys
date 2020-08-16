@@ -37,7 +37,7 @@
     "leaflet-editable": "^1.2.0",
     "leaflet-geometryutil": "^0.9.3",
     "lodash": "^4.17.19",
-    "material-table": "1.66.0",
+    "material-table": "^1.68.0",
     "moment": "^2.27.0",
     "normalize.css": "^4.2.0",
     "path-to-regexp": "^2.0.0",
