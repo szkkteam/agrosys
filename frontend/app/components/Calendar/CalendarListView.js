@@ -140,50 +140,39 @@ function CalendarListView({
   const { event: Event, date: AgendaDate } = components
   return (
     <div className="rbc-agenda-view">
-      {events.length !== 0 ? (
-        <React.Fragment>
-          <CalendarTable
-            columns={columns}
-            data={events}
-            editable={{                
-              onRowUpdate: (newData, oldData) => 
-                  new Promise((resolve, reject) => {
-                      setTimeout(() => {
-                          newData.dates.startDate = moment(newData.dates.startDate).toDate()
-                          newData.dates.endDate = moment(newData.dates.endDate).toDate()
-                          onTaskUpdate && onTaskUpdate(newData, oldData)                                                                                 
-                          resolve()
-                      }, 1000)
-                  }),
-              onRowDelete: oldData =>
-                  new Promise((resolve, reject) => {
-                      setTimeout(() => {
-                          onTaskDelete && onTaskDelete(oldData)
-                          resolve()
-                      }, 1000)
-                  }),
-              onRowAdd: newData =>
-                  new Promise((resolve, reject) => {
-                      setTimeout(() => {
-                          onTaskAdded && onTaskAdded(newData)
-                          resolve()
-                      }, 1000)
-                  }),
-                  /*
-              onBulkUpdate: changes => 
-                  new Promise((resolve, reject) => {
-                      setTimeout(() => {
-                          resolve()
-                      }, 1000)
-                  })*/
-              
-          }}
-            {...props}
-          />          
-        </React.Fragment>
-      ) : (
-        <span className="rbc-agenda-empty">{messages.noEventsInRange}</span>
-      )}
+        <CalendarTable
+          columns={columns}
+          data={events}
+          editable={{                
+            onRowUpdate: (newData, oldData) => 
+                new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        newData.dates.startDate = moment(newData.dates.startDate).toDate()
+                        newData.dates.endDate = moment(newData.dates.endDate).toDate()
+                        onTaskUpdate && onTaskUpdate(newData, oldData)                                                                                 
+                        resolve()
+                    }, 1000)
+                }),
+            onRowDelete: oldData =>
+                new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        onTaskDelete && onTaskDelete(oldData)
+                        resolve()
+                    }, 1000)
+                }),
+            /* FIXME: This is currently disabled, because not working in Material-Table v.1.68.0
+            onRowAdd: newData =>
+                new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        onTaskAdded && onTaskAdded(newData)
+                        resolve()
+                    }, 1000)
+                }),
+              */
+            
+        }}
+          {...props}
+        />          
     </div>
   )
 }
