@@ -17,7 +17,7 @@ import {
 
 import {
   ProductionList,
-  ProductionCreate,
+  ProductionTemplateCreate,
 } from 'production/pages'
 
 import {
@@ -65,7 +65,7 @@ export const ROUTES = {
    * Production
    */
   ProductionList: 'ProductionList',
-  ProductionCreate: 'ProductionCreate',
+  ProductionTemplateCreate: 'ProductionTemplateCreate',
 
   /**
    * Site
@@ -103,11 +103,13 @@ const routes = [
     key: ROUTES.Farms,
     path: '/farm',
     component: Farms,
+    routeComponent: ProtectedRoute,
   },
   {
     key: ROUTES.FarmCreate,
     path: '/farms-new',
     component: FarmCreate,
+    routeComponent: ProtectedRoute,
   },
   /**
    * Field
@@ -116,16 +118,19 @@ const routes = [
     key: ROUTES.FieldList,
     path: '/fields',
     component: FieldList,
+    routeComponent: ProtectedRoute,
   },
   {
     key: ROUTES.FieldDetail,
     path: '/fields/:id',
     component: FieldDetail,
+    routeComponent: ProtectedRoute,
   },
   {
     key: ROUTES.FieldCreate,
     path: '/fields-new/',
     component: FieldCreate,
+    routeComponent: ProtectedRoute,
   },
 
   /**
@@ -135,13 +140,15 @@ const routes = [
     key: ROUTES.ProductionList,
     path: '/productions',
     component: ProductionList,
+    routeComponent: ProtectedRoute,
   },
   {
-    key: ROUTES.ProductionCreate,
+    key: ROUTES.ProductionTemplateCreate,
     path: '/productions-new/',
-    component: ProductionCreate
+    component: ProductionTemplateCreate,
+    routeComponent: ProtectedRoute,
   },
-
+ 
 
   /**
    * Site
@@ -150,6 +157,7 @@ const routes = [
     key: ROUTES.Dashboard,
     path: '/dashboard',
     component: Dashboard,
+    routeComponent: ProtectedRoute,
   },
 
   {
@@ -167,7 +175,8 @@ const routes = [
   {
     key: ROUTES.Home,
     path: '/',
-    component: Home,
+    component: Dashboard,
+    routeComponent: ProtectedRoute,
   },
   {
     key: ROUTES.Login,

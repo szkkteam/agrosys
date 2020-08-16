@@ -25,32 +25,20 @@ const withSagas = injectSagas(require('production/sagas/createProductions'))
 
 const withConnect = connect(
     (state, props) => {
-        console.log("Form props: ", props)
-        const { useAsTemplate = false, cropTemplateId, fieldDetails = [] } = props
+        const { useAsTemplate = false, cropTemplateId, fieldDetails = [], tasks = [] } = props
         return { initialValues: {
             useAsTemplate,
             cropTemplateId,
             details: fieldDetails,
-        }}
-        /*
-        const {shape = null, area = null, value = 0, soil = null} = props.featureInEdit || {}
-        const { selectedId } = props
-        const { id: soilId } = soil || {}
-        return { initialValues: {
-            shape,
-            area,
-            value,
-            soilTypeId: soilId,
-            selectedId,
-        }}
-        */
+            tasks: tasks,
+        }}        
     },
 )
 
 
 const withAction = WrappedComponent => (
     props => (
-        <WrappedComponent action={createProductions} {...props}/>
+        <WrappedComponent action={props.action} {...props}/>
     )    
 )
 

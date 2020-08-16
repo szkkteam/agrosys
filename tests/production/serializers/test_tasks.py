@@ -15,19 +15,38 @@ TASK_GENERAL_1 = {
     'title': 'task general',
     'taskType': 'TaskGeneral',
     'description': 'some text',
-    'startDate': '2020-07-21T20:00:00',
-    'endDate': '2020-07-22T20:00:00',
+    'dates': {
+        'startDate': '2020-07-21T20:00:00',
+        'endDate': '2020-07-22T20:00:00',
+    },
     'predictedCost': 1,
+    'status': 'Pending',
     'actualCost': 2,
 }
+
+
+TASK_GENERAL_NO_COST = {
+    'title': 'task general',
+    'taskType': 'TaskGeneral',
+    'description': 'some text',
+    'dates': {
+        'startDate': '2020-07-21T20:00:00',
+        'endDate': '2020-07-22T20:00:00',
+    },
+    'status': 'Pending',
+}
+
 
 TASK_PRUNING_1 = {
     'title': 'task general',
     'taskType': 'TaskPruning',
     'description': 'some text',
-    'startDate': '2020-07-21T20:00:00',
-    'endDate': '2020-07-22T20:00:00',
+    'dates': {
+        'startDate': '2020-07-21T20:00:00',
+        'endDate': '2020-07-22T20:00:00',
+    },
     'predictedCost': 1,
+    'status': 'Pending',
     'actualCost': 2,
 }
 
@@ -35,9 +54,12 @@ TASK_INVALID_TASK_TYPE = {
     'title': 'task general',
     'taskType': 'TaskRandom',
     'description': 'some text',
-    'startDate': '2020-07-21T20:00:00',
-    'endDate': '2020-07-22T20:00:00',
+    'dates': {
+        'startDate': '2020-07-21T20:00:00',
+        'endDate': '2020-07-22T20:00:00',
+    },
     'predictedCost': 1,
+    'status': 'Pending',
     'actualCost': 2,
 }
 
@@ -46,14 +68,17 @@ TASK_INVALID_DATETIME = {
     'title': 'task general',
     'taskType': 'TaskPruning',
     'description': 'some text',
-    'startDate': 'cicamica',
-    'endDate': '2020-07-22T20:00:00',
+    'dates': {
+        'startDate': 'cicamica',
+        'endDate': '2020-07-22T20:00:00',
+    },
     'predictedCost': 1,
+    'status': 'Pending',
     'actualCost': 2,
 }
 
 VALID_INPUT_DATA = [
-    TASK_GENERAL_1, TASK_PRUNING_1
+    TASK_GENERAL_1, TASK_PRUNING_1, TASK_GENERAL_NO_COST
 ]
 
 INVALID_INPUT_DATA = [
@@ -75,8 +100,7 @@ class TestTaskSerializer:
     @pytest.mark.parametrize("input", VALID_INPUT_DATA)
     def test_valid_inputs(self, input, crop_template):
         serializer = TaskSerializer()
-        serializer.load(copy.deepcopy(input.copy()))
-
+        res = serializer.load(copy.deepcopy(input.copy()))
 
     @pytest.mark.parametrize("input,msg,field", INVALID_INPUT_DATA)
     def test_invalid_inputs(self, input, msg, field, crop_template):
@@ -96,10 +120,12 @@ class TestTaskSerializer:
         assert result['title'] == input_data['title']
         assert result['taskType'] == input_data['taskType']
         assert result['description'] == input_data['description']
-        assert input_data['startDate'] in result['startDate']
-        assert input_data['endDate'] in result['endDate']
-        assert result['predictedCost'] == str(input_data['predictedCost'])
-        assert result['actualCost'] == str(input_data['actualCost'])
+        assert 'dates' in result
+        assert input_data['dates']['startDate'] in result['dates']['startDate']
+        assert input_data['dates']['endDate'] in result['dates']['endDate']
+        if 'predictedCost' and 'actualCost' in input_data:
+            assert result['predictedCost'] == str(input_data['predictedCost'])
+            assert result['actualCost'] == str(input_data['actualCost'])
 
 
 class TestTaskListSerializer:
@@ -130,8 +156,9 @@ class TestTaskListSerializer:
             assert r['title'] == i['title']
             assert r['taskType'] == i['taskType']
             assert r['description'] == i['description']
-            assert i['startDate'] in r['startDate']
-            assert i['endDate'] in r['endDate']
+            assert 'dates' in r
+            assert i['dates']['startDate'] in r['dates']['startDate']
+            assert i['dates']['endDate'] in r['dates']['endDate']
             assert r['predictedCost'] == str(i['predictedCost'])
             assert r['actualCost'] == str(i['actualCost'])
 

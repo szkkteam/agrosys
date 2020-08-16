@@ -58,8 +58,15 @@ class FarmMenu extends React.Component {
     }
   }
 
-  componentWillMount() {
-    this.props.listFarms.maybeTrigger()
+  componentDidMount() {
+    const { isAuthenticated } = this.props
+    isAuthenticated && this.props.listFarms.maybeTrigger()
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.isAuthenticated != this.props.isAuthenticated && this.props.isAuthenticated) {
+      this.props.listFarms.maybeTrigger()
+    }
   }
 
   getFarmMenu = (menuList, subItems) => {
@@ -80,14 +87,18 @@ class FarmMenu extends React.Component {
   }
 
   render() {
-    const { farmsMenuList } = this.props
+    const { farmsMenuList, isAuthenticated } = this.props
     const { farmMenu } = this.state;
     farmMenu.items = this.getFarmMenu(farmsMenuList, defaultFarmMenuSubItems)
     return (
-      <SideBarItem
-        item={farmMenu}
-        { ...this.props }
-      />
+      <div>
+      { isAuthenticated &&
+        <SideBarItem
+          item={farmMenu}
+          { ...this.props }
+        />
+      }
+      </div>
     )
   }
 
@@ -96,13 +107,18 @@ class FarmMenu extends React.Component {
 const withReducer = injectReducer(require('farm/reducers/farms'))
 const withSaga = injectSagas(require('farm/sagas/farms'))
 
-const withConnect = connect(
+const withConnectFarms = connect(
   (state) => ({ farmsMenuList: selectFarmsMenu(state) }),
   (dispatch) => bindRoutineCreators({ listFarms }, dispatch),
+)
+
+const withConnectSecurity = connect(
+  (state) => ({ isAuthenticated: state.security.isAuthenticated }),
 )
 
 export default compose(
   withReducer,
   withSaga,
-  withConnect,
+  withConnectFarms,
+  withConnectSecurity,
 )(FarmMenu)

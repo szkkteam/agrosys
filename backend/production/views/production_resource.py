@@ -37,6 +37,7 @@ def get_production_details(production):
     return {
             'id': production.id,
             'title': production.title,
+            'tasks': production.tasks,
             'crop_template_id': production.crop_template_id,
             'field_details': FieldDetail.join(FieldDetailProduction).filter(FieldDetailProduction.production_id == production.id).all(),
             'use_as_template': production.use_as_template,

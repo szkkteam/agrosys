@@ -1,4 +1,7 @@
 import React from 'react'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+
 import { ROUTES } from 'routes'
 import HomeIcon from "@material-ui/icons/Home";
 import { SideBarItem } from 'components'
@@ -13,9 +16,24 @@ const item = {
     route: ROUTES.ProductionList,
 }
 
-export default ({}) => (
-    <SideBarItem
-        item={item}
-        {...this.proprs}
-    />
+const ProductionMenu = ({isAuthenticated}) => (
+    <div>
+        { isAuthenticated &&
+            <SideBarItem
+            item={item}
+            {...this.proprs}
+        />
+        }
+    </div>
 )
+
+
+const withConnect = connect(
+    (state) => ({ isAuthenticated: state.security.isAuthenticated }),
+  )
+  
+  
+export default compose(
+    //withRouter,
+    withConnect,
+)(ProductionMenu)

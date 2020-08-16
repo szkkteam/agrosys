@@ -12,6 +12,22 @@ import {
 import './productionfieldassigment.scss'
 import '@brainhubeu/react-carousel/lib/style.css';
 
+/*
+
+    onFieldClick = (fieldDetail) => {
+        const { assignedFieldDetails } = this.state
+        if (!assignedFieldDetails.find(e => e.id == fieldDetail.id)) {
+            this.setState({
+                assignedFieldDetails: [...this.state.assignedFieldDetails, fieldDetail]
+            })           
+        } else {
+            this.setState({
+                assignedFieldDetails: this.state.assignedFieldDetails.filter(e => e.id != fieldDetail.id)
+            }) 
+        }
+    }
+*/
+
 export default class ProductionFieldAssigment extends React.Component {
 
     constructor(props) {

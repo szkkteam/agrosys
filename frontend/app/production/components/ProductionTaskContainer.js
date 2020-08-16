@@ -1,5 +1,4 @@
 import React from 'react'
-import moment from "moment";
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -11,10 +10,23 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { 
     ProductionTaskCalendar,
     FormTaskCreate,
-    SubmitButton,
 } from 'production/components'
 
+import {
+    SubmitButton,
+} from 'components/Form'
+
+import { 
+    Calendar,
+} from 'components/Calendar'
+
 //import { SubmitButton } from 'components/Form'
+
+const dialogStatusEnum = {
+    CLOSE: "close",
+    OPEN_ADD: "open add",
+    OPEN_EDIT: "open edit",
+}
 
 export default class ProductionTaskContainer extends React.Component {
 
@@ -22,127 +34,121 @@ export default class ProductionTaskContainer extends React.Component {
         super(props)
 
         this.state = {
-            openDialog: false,
-            selectedDate: null,
-            tasks: [
-                {
-                    startDate: moment().toDate(),
-                    endDate: moment().add(1, "days").toDate(),
-                    title: "1st event",
-                    id: 1,
-                },
-                {
-                    startDate: moment().add(3, "days").toDate(),
-                    endDate: moment().add(5, "days").toDate(),
-                    title: "2nd event",
-                    id: 2,
-                },
-            ],
+            dialogStatus: dialogStatusEnum.CLOSE,
+            selectedTask: null,            
         }
     }
-
+   
     handleSelect = ({ start, end }) => {
         //const title = window.prompt('New Event name')
         this.setState({
-            selectedDate: {
-                startDate: start,
-                endDate: end,
+            selectedTask: {
+                dates: {
+                    startDate: start,
+                    endDate: end,
+                },
             },
-            openDialog: true,
-        })
-        /*
-        if (title)
-          this.setState({
-            tasks: [
-              ...this.state.tasks,
-              {
-                startDate: start,
-                endDate: end,
-                title,
-              },
-            ],
-          })
-          */
+            dialogStatus: dialogStatusEnum.OPEN_ADD,
+        })        
       }
 
+      
     onClose = (e) => {
         this.setState({
-            openDialog: false,
+            dialogStatus: dialogStatusEnum.CLOSE,
         })
     }
 
     onSave = (value) => {
-        console.log(value)
+        const { onTaskAdded } = this.props
+        onTaskAdded && onTaskAdded(value)
         this.setState({
-            openDialog: false,
+            dialogStatus: dialogStatusEnum.CLOSE,
         })
     }
 
-    onEventResize = (data) => {
-        console.log("onEventResize Data: ", data)
-        const { start, end } = data;
-        /*
-        this.setState(({items}) => ({
-            items: [
-                ...items.slice(0,1),
-                {
-                    ...items[1],
-                    name: 'newName',
-                },
-                ...items.slice(2)
-            ]
-        }));
-        */
-        let items = [...this.state.tasks]
-        let currentIdx = items.findIndex(e => e.startDate == data.event.startDate && e.endDate == data.event.endDate && e.title == data.event.title)
-        let current = {...items[currentIdx]}
-        current.startDate = start
-        current.endDate = end
-        items[currentIdx] = current
-        this.setState({tasks: items})
-      }
+    onUpdate = (value) => {
+        const { onTaskUpdate } = this.props
+        const { selectedTask } = this.state 
+        onTaskUpdate && onTaskUpdate(value, selectedTask)    
+        this.setState({
+            dialogStatus: dialogStatusEnum.CLOSE,
+        })
+    }
+
     
-      onEventDrop = (data) => {
-        console.log("onEventResize Data: ", data);
-        const { start, end } = data;
+    onResize = (data) => {
+        const { onTaskResize } = this.props
+        const { start, end, event } = data;        
+        onTaskResize && onTaskResize({...event, ... {dates: { startDate: start, endDate: end}}}, event)
+    }
     
-        let items = [...this.state.tasks]
-        let currentIdx = items.findIndex(e => e.startDate == data.event.startDate && e.endDate == data.event.endDate && e.title == data.event.title)
-        let current = {...items[currentIdx]}
-        current.startDate = start
-        current.endDate = end
-        items[currentIdx] = current
-        this.setState({tasks: items})
-      }
+    onDragNDrop = (data) => {
+        const { onTaskDragNDrop } = this.props
+        const { start, end, event } = data;
+        onTaskDragNDrop && onTaskDragNDrop({...event ,... {dates: { startDate: start, endDate: end}}}, event)
+    }
+
+    onDoubleClick = (data) => {
+        const { onTaskSelect } = this.props
+        this.setState({
+            selectedTask: {
+                ...data,
+            },
+            dialogStatus: dialogStatusEnum.OPEN_EDIT,
+        })   
+        //onTaskSelect && onTaskSelect(data)
+    }
 
     render() {
-        const { tasks, openDialog, selectedDate } = this.state
+        const { 
+            tasks,
+            onTaskSelect,
+            onTaskUpdate,
+            onTaskDelete,
+            onTaskAdded,
+        } = this.props
+        const { dialogStatus, selectedTask } = this.state
+        
         return (
             <div>
-            <ProductionTaskCalendar
-                events={tasks}
-                onEventDrop={this.onEventDrop}
-                onEventResize={this.onEventResize}
-                onSelectEvent={event => alert(event.title)}
+            <Calendar
+                tasks={tasks}
+                onSelectEvent={onTaskSelect}
+                onDoubleClickEvent={this.onDoubleClick}
+
                 onSelectSlot={this.handleSelect}
-                startAccessor={(e) => e.startDate }
-                endAccessor={(e) => e.endDate }
+                onEventDrop={this.onDragNDrop}
+                onEventResize={this.onResize}
+                onTaskUpdate={onTaskUpdate}
+                onTaskDelete={onTaskDelete}    
+                onTaskAdded={onTaskAdded}
+
+                startAccessor={(e) => e.dates.startDate }
+                endAccessor={(e) => e.dates.endDate }
             />
-            { openDialog &&
-                <Dialog open={openDialog} onClose={this.onDialogClose} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Add Task</DialogTitle>
+            { true &&
+                <Dialog open={dialogStatus !== dialogStatusEnum.CLOSE} onClose={this.onClose} aria-labelledby="form-dialog-title">
+                    <DialogTitle id="form-dialog-title">
+                        {dialogStatus === dialogStatusEnum.OPEN_EDIT? "Task Edit": "Task Add"}
+                    </DialogTitle>
                     <DialogContent>
                         <FormTaskCreate
-                            {...selectedDate}
-                            onSubmit={this.onSave}
+                            initialValues={{...selectedTask}}
+                            onSubmit={dialogStatus === dialogStatusEnum.OPEN_EDIT? this.onUpdate: this.onSave}
                         />
                     </DialogContent>
                     <DialogActions>
-                    <Button onClick={this.onClose} color="primary">
+                    <Button 
+                        onClick={this.onClose} 
+                        color="primary"
+                        variant="contained"
+                    >
                         Cancel
                     </Button>
                     <SubmitButton 
                         color="primary"
+                        variant="contained"
                         formName="create-task"
                     >
                         Save

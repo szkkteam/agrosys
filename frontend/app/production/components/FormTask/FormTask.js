@@ -1,17 +1,8 @@
 import React from 'react'
 import { FieldArray } from 'redux-form'
 
-import { HiddenField, TextField, TextArea, SelectField } from 'components/Form'
-
-const statusEnum = [
-    'Pending',
-    'Completed',
-] 
-
-const taskTypesEnum = [
-    'TaskGeneral',
-    'TaskPruning',
-]
+import { HiddenField, TextField, TextArea, SelectField, SelectOption } from 'components/Form'
+import { statusEnum, taskTypesEnum } from 'production/constants'
 
 const renderTaskType = (value) => {
     switch(value) {
@@ -30,28 +21,38 @@ const renderTaskType = (value) => {
 
 
 
+const renderItems = (items) => (
+    items && Array.isArray(items) && items.map((item, index) => (
+        <SelectOption 
+            key={index} 
+            value={item.id}
+        >
+            {item.title}
+        </SelectOption>    
+    ))
+)
+
+
 export default (props) => {
   const { error, handleSubmit, selectedTaskType, submitting, pristine, action } = props
-  console.log("selectedTaskType: ", selectedTaskType)
   return (
     <form onSubmit={handleSubmit}>
         <TextField name="title"
             label="Title of the task"
             className="full-width"
             autoFocus />      
-        <HiddenField name="startDate" />
-        <HiddenField name="endDate" />
+        <HiddenField name="dates.startDate" />
+        <HiddenField name="dates.endDate" />
         <TextArea name="description"
             label="Description"
             className="full-width"
             autoFocus />  
-        <SelectField name="status"
+        <SelectField name="status" 
             label="Task status"
-            className="full-width"            
+            inputName="select-status"
+            formProps={{className:"full-width"}}
         >
-            { statusEnum.map((value, index) => (
-                <option key={index} value={value}>{value}</option>    
-            )) }
+            {renderItems(statusEnum)}
         </SelectField>
         <TextField name="predictedCost"
             label="Planned Cost"
@@ -59,11 +60,10 @@ export default (props) => {
             autoFocus />      
         <SelectField name="taskType"
             label="Task Type"
-            className="full-width"            
+            inputName="select-status"
+            formProps={{className:"full-width"}}
         >
-            { taskTypesEnum.map((value, index) => (
-                <option key={index} value={value}>{value}</option>    
-            )) }
+            {renderItems(taskTypesEnum)}
         </SelectField>
         {selectedTaskType && renderTaskType(selectedTaskType)}
     </form>

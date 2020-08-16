@@ -1,5 +1,5 @@
 import Loadable from 'components/Loadable'
 
 export default Loadable({
-    loader: () => import('./ProductionCreate')
+    loader: () => import('./ProductionTemplateCreate')
 })
