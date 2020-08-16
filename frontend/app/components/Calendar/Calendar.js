@@ -18,12 +18,6 @@ import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import './draggablecalendar.scss'
 
-
-const currentViewEnum = {
-  LIST: "list",
-  CALENDAR: "calendar",
-}
-
 const ColoredDateCellWrapper = ({ children }) =>
   React.cloneElement(React.Children.only(children), {
     style: {
@@ -47,12 +41,11 @@ export default class MyCalendar extends React.Component {
 
     // If tasks are already added before the switch re-calculate the date ranges
     if (props.tasks.length) {
-      startDate = props.tasks[0].startDate
-      endDate = props.tasks[props.tasks.length - 1].endDate
+      startDate = props.tasks[0].dates.startDate
+      endDate = props.tasks[props.tasks.length - 1].dates.endDate
     }
 
     this.state = {
-      currentView: currentViewEnum.LIST,
       startDate,
       endDate,
     }
@@ -62,8 +55,7 @@ export default class MyCalendar extends React.Component {
   //onNavigate={(d, v, c) => console.log("D: " + d + " V: " + v + " C: ", c)}
   render() {
     const { tasks, ...props } = this.props
-    const { currentView, startDate, endDate } = this.state
-
+    const { startDate, endDate } = this.state
     const length = dates.diff(startDate, endDate, 'day')
     return (
       <div className="task-container">
@@ -102,57 +94,3 @@ export default class MyCalendar extends React.Component {
     )
   }
 }
-/*
-export default ({tasks, ...props}) => {
-
-  let s = new Date()
-  let end = new Date()
-  if (tasks.lenght) {
-    s = tasks[0].startĐate
-    end = tasks[tasks.lenght - 1].endDate
-  }
-
-  const [start, setStart] = useState(s)
-  const [length, setLength] = useState(dates.diff(s, end, 'day'))
-  console.log("State length: ", length)
-  
-  return (
-      <div className="task-container">
-        <LocalizationProvider dateAdapter={MomentUtils}>
-          <CalendarMonthView
-          />
-
-          <DCalendar
-              selectable
-              views={{
-                month: true,
-                list: CalendarListView,
-              }}
-              events={tasks}
-              onNavigate={(date, view, action) => {
-                if (view === 'list' && action === "NEXT") {
-                  setLength(dates.diff(start, date, 'day'))
-                } else if (view === 'list' && action === "PREVIOUS") {
-                  setStart(date)
-                }
-              }}
-              onView={(e) => console.log("On view change: ", e)}
-              defaultView="list"
-              messages={{
-                list: 'List',
-              }}
-              length={length}
-              step={60}
-              showMultiDayTimes
-              components={{
-                  timeSlotWrapper: ColoredDateCellWrapper,
-                  event: CalendarTask,
-                  toolbar: DatePickerToolbar
-              }}
-              localizer={localizer}
-              {...props}
-          />
-        </LocalizationProvider>
-      </div>
-  )
-}*/

@@ -41,13 +41,13 @@ export default (props) => {
             label="Title of the task"
             className="full-width"
             autoFocus />      
-        <HiddenField name="startDate" />
-        <HiddenField name="endDate" />
+        <HiddenField name="dates.startDate" />
+        <HiddenField name="dates.endDate" />
         <TextArea name="description"
             label="Description"
             className="full-width"
             autoFocus />  
-        <SelectField name="status"
+        <SelectField name="status" 
             label="Task status"
             inputName="select-status"
             formProps={{className:"full-width"}}

@@ -43,8 +43,10 @@ export default class ProductionTaskContainer extends React.Component {
         //const title = window.prompt('New Event name')
         this.setState({
             selectedTask: {
-                startDate: start,
-                endDate: end,
+                dates: {
+                    startDate: start,
+                    endDate: end,
+                },
             },
             dialogStatus: dialogStatusEnum.OPEN_ADD,
         })        
@@ -78,13 +80,13 @@ export default class ProductionTaskContainer extends React.Component {
     onResize = (data) => {
         const { onTaskResize } = this.props
         const { start, end, event } = data;        
-        onTaskResize && onTaskResize({...event, ...{ startDate: start, endDate: end}}, event)
+        onTaskResize && onTaskResize({...event, ... {dates: { startDate: start, endDate: end}}}, event)
     }
     
     onDragNDrop = (data) => {
         const { onTaskDragNDrop } = this.props
         const { start, end, event } = data;
-        onTaskDragNDrop && onTaskDragNDrop({...event ,...{ startDate: start, endDate: end}}, event)
+        onTaskDragNDrop && onTaskDragNDrop({...event ,... {dates: { startDate: start, endDate: end}}}, event)
     }
 
     onDoubleClick = (data) => {
@@ -122,8 +124,8 @@ export default class ProductionTaskContainer extends React.Component {
                 onTaskDelete={onTaskDelete}    
                 onTaskAdded={onTaskAdded}
 
-                startAccessor={(e) => e.startDate }
-                endAccessor={(e) => e.endDate }
+                startAccessor={(e) => e.dates.startDate }
+                endAccessor={(e) => e.dates.endDate }
             />
             { true &&
                 <Dialog open={dialogStatus !== dialogStatusEnum.CLOSE} onClose={this.onClose} aria-labelledby="form-dialog-title">

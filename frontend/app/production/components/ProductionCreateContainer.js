@@ -94,7 +94,7 @@ class ProductionCreateContainer extends React.Component {
                 cropCultivationTypeId: cropSelection.cropCultivationTypeId,
             },
             cropTemplateId: cropTemplateId,
-            tasks: tasks,
+            tasks: tasksFromString(tasks),
             id: tasks.length? tasks[tasks.length -1].id + 1 : 1,
             dirty: false,
             enable: enable,

@@ -14,8 +14,10 @@ TASK_GENERAL_1 = {
     'title': 'task general',
     'taskType': 'TaskGeneral',
     'description': 'some text',
-    'startDate': '2020-07-21T20:00:00',
-    'endDate': '2020-07-22T20:00:00',
+    'dates': {
+        'startDate': '2020-07-21T20:00:00',
+        'endDate': '2020-07-22T20:00:00',
+    },
     'predictedCost': 1,
     'actualCost': 2,
 }
@@ -24,8 +26,10 @@ TASK_PRUNING_1 = {
     'title': 'task general',
     'taskType': 'TaskPruning',
     'description': 'some text',
-    'startDate': '2020-07-21T20:00:00',
-    'endDate': '2020-07-22T20:00:00',
+    'dates': {
+        'startDate': '2020-07-21T20:00:00',
+        'endDate': '2020-07-22T20:00:00',
+    },
     'predictedCost': 1,
     'actualCost': 2,
 }

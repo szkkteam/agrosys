@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { useRef, useEffect } from 'react'
+import moment from 'moment'
 
 import TextField from "@material-ui/core/TextField";
 import { DateRangePicker, DateRange, DateRangeDelimiter } from "@material-ui/pickers";
@@ -52,11 +53,11 @@ function CalendarListView({
     () => [
         {
           title: 'Start Date',
+          field: 'dates',
+          initialEditValue: [new Date(), new Date()],
           cellStyle: {whiteSpace: "nowrap"},
           customSort: (a, b) => +accessors.start(a) - +accessors.start(b),
           //type: 'datetime',
-          //accessor: 'startDate',
-          //Cell: props => <span>{localizer.format(accessors.start(props.value), 'agendaDateFormat')}</span>
           render: (rowData) => (
             <div>
               <span>{localizer.format(accessors.start(rowData), 'agendaDateFormat')}</span>
@@ -64,9 +65,23 @@ function CalendarListView({
               <span>{localizer.format(accessors.end(rowData), 'agendaDateFormat')}</span>
             </div>
           ),
-          editComponent: (props) => {
+          editComponent: ({value, onChange}) => {
             console.log("Props: ", props)
-            return <div>Blabla</div>
+            return (
+              <DateRangePicker
+                startText="Start"
+                endText="End"
+                value={[value.startDate, value.endDate]}
+                onChange={(newValue) => onChange({startDate: moment(newValue[0]).toDate(), endDate: moment(newValue[1]).toDate()})}
+                renderInput={(startProps, endProps) => (
+                  <React.Fragment>
+                    <TextField {...startProps} helperText="" />
+                    <DateRangeDelimiter> to </DateRangeDelimiter>
+                    <TextField {...endProps} helperText=""/>
+                  </React.Fragment>
+                )}
+              />
+            )
           },
         },
         {
@@ -74,8 +89,10 @@ function CalendarListView({
           field: 'title',
         },
         {
+          
           title: 'Task Type',
           field: 'taskType',
+          initialEditValue: "TaskGeneral",
           editComponent: ({value, onChange}) => (
             <SelectComponent
                 helper="Helper"
@@ -93,6 +110,7 @@ function CalendarListView({
         {
           title: 'Status',
           field: 'status',
+          initialEditValue: "Pending",
           editComponent: (props) => (
             <SelectComponent
                 helper="Helper"
@@ -131,6 +149,8 @@ function CalendarListView({
               onRowUpdate: (newData, oldData) => 
                   new Promise((resolve, reject) => {
                       setTimeout(() => {
+                          newData.dates.startDate = moment(newData.dates.startDate).toDate()
+                          newData.dates.endDate = moment(newData.dates.endDate).toDate()
                           onTaskUpdate && onTaskUpdate(newData, oldData)                                                                                 
                           resolve()
                       }, 1000)

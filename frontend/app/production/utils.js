@@ -20,14 +20,14 @@ export const tasksFromString = (task) => {
 
         let obj = JSON.parse(JSON.stringify(task[i])) 
         {
-            let date = new Date(obj.startDate) 
+            let date = new Date(obj.dates.startDate) 
             date.setDate(date.getDate());
-            obj.startDate = date
+            obj.dates.startDate = date
         }
         {
-            let date = new Date(obj.endDate) 
+            let date = new Date(obj.dates.endDate) 
             date.setDate(date.getDate());
-            obj.endDate = date
+            obj.dates.endDate = date
         }
 
         for (const [key, value] of Object.entries(obj)) {

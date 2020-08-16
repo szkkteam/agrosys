@@ -13,8 +13,10 @@ TASK_GENERAL_1 = {
     'title': 'task general',
     'taskType': 'TaskGeneral',
     'description': 'some text',
-    'startDate': '2020-07-21T20:00:00',
-    'endDate': '2020-07-22T20:00:00',
+    'dates': {
+        'startDate': '2020-07-21T20:00:00',
+        'endDate': '2020-07-22T20:00:00',
+    },
     'predictedCost': 1,
     'actualCost': 2,
 }
@@ -23,8 +25,10 @@ TASK_PRUNING_1 = {
     'title': 'task general',
     'taskType': 'TaskPruning',
     'description': 'some text',
-    'startDate': '2020-07-21T20:00:00',
-    'endDate': '2020-07-22T20:00:00',
+    'dates': {
+        'startDate': '2020-07-21T20:00:00',
+        'endDate': '2020-07-22T20:00:00',
+    },
     'predictedCost': 1,
     'actualCost': 2,
 }
@@ -65,15 +69,16 @@ class TestTaskResource:
         assert 'title' in r.json
         assert 'description' in r.json
         assert 'taskType' in r.json
-        assert 'startDate' in r.json
-        assert 'endDate' in r.json
+        assert 'dates' in r.json
+        assert 'startDate' in r.json['dates']
+        assert 'endDate' in r.json['dates']
         assert 'predictedCost' in r.json
         assert 'actualCost' in r.json
         assert input['title'] == r.json['title']
         assert input['description'] == r.json['description']
         assert input['taskType'] == r.json['taskType']
-        assert input['startDate'] in r.json['startDate']
-        assert input['endDate'] in r.json['endDate']
+        assert input['dates']['startDate'] in r.json['dates']['startDate']
+        assert input['dates']['endDate'] in r.json['dates']['endDate']
         assert str(input['predictedCost']) == r.json['predictedCost']
         assert str(input['actualCost']) == r.json['actualCost']
 
@@ -90,8 +95,9 @@ class TestTaskResource:
         assert 'title' in r.json
         assert 'description' in r.json
         assert 'taskType' in r.json
-        assert 'startDate' in r.json
-        assert 'endDate' in r.json
+        assert 'dates' in r.json
+        assert 'startDate' in r.json['dates']
+        assert 'endDate' in r.json['dates']
         assert 'predictedCost' in r.json
         assert 'actualCost' in r.json
 
@@ -109,8 +115,9 @@ class TestTaskResource:
             assert 'title' in e
             assert 'description' in e
             assert 'taskType' in e
-            assert 'startDate' in e
-            assert 'endDate' in e
+            assert 'dates' in e
+            assert 'startDate' in e['dates']
+            assert 'endDate' in e['dates']
             assert 'predictedCost' in e
             assert 'actualCost' in e
 
@@ -147,8 +154,9 @@ class TestTaskResource:
         assert data['description'] == r.json['description']
         # FIXME: Task type cannot be changed. Maybe the put and patch method has to be handled differently? Like delete old, create new
         #assert data['taskType'] == r.json['taskType']
-        assert data['startDate'] in r.json['startDate']
-        assert data['endDate'] in r.json['endDate']
+        assert 'dates' in r.json
+        assert data['dates']['startDate'] in r.json['dates']['startDate']
+        assert data['dates']['endDate'] in r.json['dates']['endDate']
         assert str(data['predictedCost']) == r.json['predictedCost']
         assert str(data['actualCost']) == r.json['actualCost']
 
