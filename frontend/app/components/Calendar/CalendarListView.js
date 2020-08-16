@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types'
 import React, { useRef, useEffect } from 'react'
 
+import TextField from "@material-ui/core/TextField";
+import { DateRangePicker, DateRange, DateRangeDelimiter } from "@material-ui/pickers";
+
 import addClass from 'dom-helpers/addClass'
 import removeClass from 'dom-helpers/removeClass'
 import getWidth from 'dom-helpers/width'
@@ -15,6 +18,22 @@ import {
   CalendarTable,
 } from 'components/Calendar'
 
+import { SelectComponent, SelectOption } from 'components/Form'
+
+import { statusEnum, taskTypesEnum } from 'production/constants'
+
+
+const renderItems = (items) => (
+  items && Array.isArray(items) && items.map((item, index) => (
+      <SelectOption 
+          key={index} 
+          value={item.id}
+      >
+          {item.title}
+      </SelectOption>    
+  ))
+)
+
 function CalendarListView({
   selected,
   getters,
@@ -23,7 +42,10 @@ function CalendarListView({
   components,
   length,
   date,
-  events,  
+  events,
+  onTaskUpdate,
+  onTaskDelete,
+  onTaskAdded,
   ...props,
 }) {
   const columns = React.useMemo(
@@ -32,7 +54,7 @@ function CalendarListView({
           title: 'Start Date',
           cellStyle: {whiteSpace: "nowrap"},
           customSort: (a, b) => +accessors.start(a) - +accessors.start(b),
-          type: 'datetime',
+          //type: 'datetime',
           //accessor: 'startDate',
           //Cell: props => <span>{localizer.format(accessors.start(props.value), 'agendaDateFormat')}</span>
           render: (rowData) => (
@@ -41,7 +63,11 @@ function CalendarListView({
               <span> - </span>
               <span>{localizer.format(accessors.end(rowData), 'agendaDateFormat')}</span>
             </div>
-          )
+          ),
+          editComponent: (props) => {
+            console.log("Props: ", props)
+            return <div>Blabla</div>
+          },
         },
         {
           title: 'Title',
@@ -50,6 +76,15 @@ function CalendarListView({
         {
           title: 'Task Type',
           field: 'taskType',
+          editComponent: ({value, onChange}) => (
+            <SelectComponent
+                helper="Helper"
+                value={value}
+                onChange={e => onChange(e.target.value)}
+                >
+                    { renderItems(taskTypesEnum) }
+            </SelectComponent>
+          )
         },
         {
           title: 'Description',
@@ -58,6 +93,15 @@ function CalendarListView({
         {
           title: 'Status',
           field: 'status',
+          editComponent: (props) => (
+            <SelectComponent
+                helper="Helper"
+                value={props.value}
+                onChange={e => props.onChange(e.target.value)}
+                >
+                    { renderItems(statusEnum) }
+            </SelectComponent>
+          )
         },
         {
           title: 'Planned Cost',
@@ -83,6 +127,37 @@ function CalendarListView({
           <CalendarTable
             columns={columns}
             data={events}
+            editable={{                
+              onRowUpdate: (newData, oldData) => 
+                  new Promise((resolve, reject) => {
+                      setTimeout(() => {
+                          onTaskUpdate && onTaskUpdate(newData, oldData)                                                                                 
+                          resolve()
+                      }, 1000)
+                  }),
+              onRowDelete: oldData =>
+                  new Promise((resolve, reject) => {
+                      setTimeout(() => {
+                          onTaskDelete && onTaskDelete(oldData)
+                          resolve()
+                      }, 1000)
+                  }),
+              onRowAdd: newData =>
+                  new Promise((resolve, reject) => {
+                      setTimeout(() => {
+                          onTaskAdded && onTaskAdded(newData)
+                          resolve()
+                      }, 1000)
+                  }),
+                  /*
+              onBulkUpdate: changes => 
+                  new Promise((resolve, reject) => {
+                      setTimeout(() => {
+                          resolve()
+                      }, 1000)
+                  })*/
+              
+          }}
             {...props}
           />          
         </React.Fragment>

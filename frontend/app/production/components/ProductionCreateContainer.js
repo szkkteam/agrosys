@@ -46,11 +46,13 @@ const findTaskIdInlist = (list, data) => {
 const updateListElements = (list, data, findData = null) => {
     let items = [...list]
     let currentIdx = findTaskIdInlist(items, (findData === null || findData === undefined)? data: findData)
+    /*
     let current = {...items[currentIdx]}
     Object.keys(data).map((key, idx) => {
         current[key] = data[key]
-    })    
-    items[currentIdx] = current
+    })
+    */    
+    items[currentIdx] = data
     return items
 }
 
@@ -200,6 +202,7 @@ class ProductionCreateContainer extends React.Component {
     }
 
     onTaskUpdate = (newData, oldData) => {
+        console.log("New data: ", newData)
         this.setState({
             tasks: updateListElements(this.state.tasks, newData, oldData),
             dirty: true,

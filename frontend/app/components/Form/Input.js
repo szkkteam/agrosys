@@ -62,12 +62,12 @@ export const renderSelectField = ({
     error={touched && error}
     disabled={disabled}
   >
-    <InputLabel
+    {label? <InputLabel
       {...labelProps}
       htmlFor={htmlFor}
     >
       {label}
-    </InputLabel>
+    </InputLabel> : null }
     <Select
       {...input}
       {...custom}

@@ -78,13 +78,13 @@ export default class ProductionTaskContainer extends React.Component {
     onResize = (data) => {
         const { onTaskResize } = this.props
         const { start, end, event } = data;        
-        onTaskResize && onTaskResize({ startDate: start, endDate: end}, event)
+        onTaskResize && onTaskResize({...event, ...{ startDate: start, endDate: end}}, event)
     }
     
     onDragNDrop = (data) => {
         const { onTaskDragNDrop } = this.props
         const { start, end, event } = data;
-        onTaskDragNDrop && onTaskDragNDrop({ startDate: start, endDate: end}, event)
+        onTaskDragNDrop && onTaskDragNDrop({...event ,...{ startDate: start, endDate: end}}, event)
     }
 
     onDoubleClick = (data) => {
