@@ -2,44 +2,43 @@
 # -*- coding: utf-8 -*-
 
 # Common Python library imports
-import sqlalchemy as sa
+import enum
 # Pip package imports
-
+import sqlalchemy as sa
 # Internal package imports
 from backend.database import (
     Column,
     BigInteger,
     String,
     Boolean,
+    Model,
+    Enum,
     relationship,
     foreign_key,
     association_proxy
 )
 from backend.security.models.resource import Resource
 
-def create_field_detail_production(field_detail):
-    from .field_detail_production import FieldDetailProduction
-    return FieldDetailProduction(field_detail=field_detail)
+
+class ProductionStatus(enum.Enum):
+    Active = 'Active'
+    Archived = 'Archived'
 
 
-class Production(Resource):
-    __mapper_args__ = {'polymorphic_identity': 'production'}
+def create_base_parcel_production(base_parcel):
+    from ..models import BaseParcelProduction
+    return BaseParcelProduction(base_parcel=base_parcel)
 
+
+class Production(Model):
     title = Column(String(128))
     use_as_template = Column(Boolean, default=False)
+    status = Column(Enum(ProductionStatus), default=ProductionStatus.Active)
 
-    id = sa.Column(BigInteger,
-                   sa.ForeignKey('resource.resource_id',
-                                 onupdate='CASCADE',
-                                 ondelete='CASCADE', ),
-                   primary_key=True, )
-
-
-    # Field relationship
-    production_field_details = relationship('FieldDetailProduction', back_populates='production',
+    production_base_parcels = relationship('BaseParcelProduction', back_populates='production',
                                             cascade='all, delete-orphan')
-    field_details = association_proxy('production_field_details', 'field_detail',
-                               creator=lambda field_detail: create_field_detail_production(field_detail))
+    base_parcels = association_proxy('base_parcel_productions', 'base_parcel',
+                                      creator=lambda base_parcel: create_base_parcel_production(base_parcel))
 
     tasks = relationship('Task', back_populates='production',
                          cascade='all, delete-orphan')

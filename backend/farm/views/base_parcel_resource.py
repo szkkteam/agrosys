@@ -16,13 +16,13 @@ from backend.extensions.api import api
 from backend.permissions.decorators import permission_required
 from backend.permissions.services import ResourceService, UserService
 
-from ..models import Field, FieldDetail
-from .blueprint import field as field_bp
+from ..models import ReferenceParcel, BaseParcel
+from .blueprint import parcel
 
 
 def get_field_details(field, only_last=False):
     if only_last:
-        field_details = FieldDetail.filter_by(field_id=field.id).order_by(desc(FieldDetail.created_at)).first()
+        field_details = BaseParcel.filter_by(field_id=field.id).order_by(desc(BaseParcel.created_at)).first()
     else:
         field_details = field.field_details
     return {
@@ -40,18 +40,18 @@ def get_fields_with_permissions(permissions):
     return UserService.resources_with_perms(user, permissions, resource_types=['field']).all()
 
 def get_field_by_parent(**view_kwargs):
-    fd = FieldDetail.get(view_kwargs.get('field_detail_id'))
+    fd = BaseParcel.get(view_kwargs.get('field_detail_id'))
     if fd:
         return fd.field
 
 def get_field_by_field_id(**view_kwargs):
     if 'field_id' not in view_kwargs:
         return None
-    return Field.get(view_kwargs.get('field_id'))
+    return ReferenceParcel.get(view_kwargs.get('field_id'))
 
 
-@api.model_resource(field_bp, FieldDetail, '/fields/<int:field_id>/detail', '/fields/detail/<int:field_detail_id>')
-class FieldDetailResource(ModelResource):
+@api.model_resource(parcel, BaseParcel, '/fields/<int:field_id>/detail', '/fields/detail/<int:field_detail_id>')
+class BaseParcelResource(ModelResource):
     include_methods = ALL_METHODS
     exclude_decorators = (LIST, )
     method_decorators = {
@@ -68,7 +68,7 @@ class FieldDetailResource(ModelResource):
     def create(self, field_detail, errors, **kwargs):
         if errors:
             return self.errors(errors)
-        field = Field.get(kwargs.get('field_id'))
+        field = ReferenceParcel.get(kwargs.get('field_id'))
         # Assign the field_detail to the parent field
         field_detail.field = field
         return self.created(field_detail)
@@ -98,7 +98,7 @@ class FieldDetailResource(ModelResource):
     @permission_required(permission='view', resource=get_field_by_field_id)
     def list(self, **kwargs):
         # Get farms with any permissions. TODO: ANY_PERMISSION object is not working ...
-        field = Field.get(kwargs.get('field_id'))
+        field = ReferenceParcel.get(kwargs.get('field_id'))
         return self.serializer.dump(field.field_details, many=True)
 
 

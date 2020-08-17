@@ -16,15 +16,15 @@ from backend.extensions.api import api
 from backend.permissions.decorators import permission_required
 from backend.permissions.services import ResourceService, UserService
 
-from ..models import Field, FieldDetail
+from ..models import ReferenceParcel, BaseParcel
 from ..models import Farm
-from .blueprint import field as field_bp
+from .blueprint import parcel
 
 def get_field_details(field, only_last=False):
     if only_last:
-        field_details = [FieldDetail.filter_by(field_id=field.id).order_by(desc(FieldDetail.created_at)).first()]
+        field_details = [BaseParcel.filter_by(field_id=field.id).order_by(desc(BaseParcel.created_at)).first()]
     else:
-        field_details = FieldDetail.filter_by(field_id=field.id).order_by(desc(FieldDetail.created_at))
+        field_details = BaseParcel.filter_by(field_id=field.id).order_by(desc(BaseParcel.created_at))
     return {
             'id': field.id,
             'title': field.title,
@@ -45,8 +45,8 @@ def get_field_farm_create_permission(**view_kwargs):
     return Farm.get(view_kwargs.get('farm_id'))
 
 
-@api.model_resource(field_bp, Field, '/farms/<int:farm_id>/fields', '/fields/<int:field_id>')
-class FieldResource(ModelResource):
+@api.model_resource(parcel, ReferenceParcel, '/farms/<int:farm_id>/fields', '/fields/<int:field_id>')
+class ReferenceParcelResource(ModelResource):
     include_methods = ALL_METHODS
     exclude_decorators = (LIST, )
     method_decorators = {

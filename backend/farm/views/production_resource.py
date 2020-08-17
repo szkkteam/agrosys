@@ -16,8 +16,7 @@ from backend.extensions.api import api
 from backend.permissions.decorators import permission_required
 from backend.permissions.services import ResourceService, UserService
 
-from ..models import FieldDetail
-from ..models import Production, FieldDetailProduction
+from ..models import BaseParcel, ReferenceParcel, BaseParcelProduction, Production
 from ..serializers import ProductionListSerializer
 from .blueprint import production
 
@@ -31,7 +30,7 @@ def get_production_details(production):
             'title': production.title,
             'tasks': production.tasks,
             'crop_template_id': production.crop_template_id,
-            'field_details': FieldDetail.join(FieldDetailProduction).filter(FieldDetailProduction.production_id == production.id).all(),
+            'field_details': BaseParcel.join(BaseParcelProduction).filter(BaseParcelProduction.production_id == production.id).all(),
             'use_as_template': production.use_as_template,
             #'field_details': field_details,
             'role': {
@@ -47,7 +46,7 @@ def get_productions_with_permissions(permissions, filter_by_ids=None):
 def get_production_field_edit_permission(**view_kwargs):
     if 'field_detail_id' not in view_kwargs:
         return None
-    return FieldDetail.get(view_kwargs.get('field_detail_id')).field
+    return BaseParcel.get(view_kwargs.get('field_detail_id')).field
 
 
 @api.model_resource(production, Production,
@@ -102,7 +101,7 @@ class ProductionResource(ModelResource):
         # Get farms with any permissions. TODO: ANY_PERMISSION object is not working ...
         production_ids = None
         if field_detail_id:
-            field_details = FieldDetail.get(field_detail_id)
+            field_details = BaseParcel.get(field_detail_id)
             if not field_details:
                 abort(HTTPStatus.NOT_FOUND)
             production_ids = [prod.id for prod in field_details.productions]
@@ -119,34 +118,24 @@ class AssignProductionResource(ModelResource):
     @permission_required(permission='edit', resource=get_production_field_edit_permission)
     @param_converter(field_detail_id=int, production_id=int)
     def put(self, field_detail_id=None, production_id=None, *args, **kwargs):
-        field_detail = FieldDetail.get(field_detail_id)
+        field_detail = BaseParcel.get(field_detail_id)
         production = Production.get(production_id)
         if not field_detail and production:
             abort(HTTPStatus.NOT_FOUND)
 
-        # Get the current production's first date and last date
-        #tasks = Task.filter_by(production_id=production_id).order_by(desc(Task.start_date)).all()
-        #first_date = tasks[0].start_date
-        #last_date = tasks[-1].end_date
-
-        #production_ids = [p.id for p in field_detail.field.field_details.productions]
-        #Task.filter(and_(Task.start_date >= ))
-        #q = db.session.query(Production.id).join(FieldDetailProduction, FieldDetailProduction.)
-
-        # TODO: Check if the newly created production first task's start_date and the last tasks's end_date is not overlapping with any of the details in the current field.
         field_detail.productions.append(production)
 
         return self.updated(production)
 
     @permission_required(permission='delete', resource=get_production_field_edit_permission)
     def delete(self, field_detail_id=None, production_id=None, *args, **kwargs):
-        field_detail = FieldDetail.get(field_detail_id)
+        field_detail = BaseParcel.get(field_detail_id)
         production = Production.get(production_id)
         if not field_detail and production:
             abort(HTTPStatus.NOT_FOUND)
 
 
-        fdp = FieldDetailProduction.filter_by(production_id=production.id, field_detail_id=field_detail.id).first()
+        fdp = BaseParcelProduction.filter_by(production_id=production.id, field_detail_id=field_detail.id).first()
         return self.deleted(fdp)
 
     @auth_required
