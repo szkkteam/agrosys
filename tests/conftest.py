@@ -203,6 +203,11 @@ def farm_user2(model_factory):
 
 
 @pytest.fixture()
+def soil(model_factory):
+    yield model_factory.create('SoilType', 'SOIL_TYPE_1')
+
+
+@pytest.fixture()
 def models(request, model_factory):
     mark = request.param
     if mark is not None:

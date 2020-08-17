@@ -16,7 +16,6 @@ from backend.extensions.api import api
 from .blueprint import security
 from ..decorators import anonymous_user_required, auth_required_same_user
 from ..models import User
-from backend.farm_management.models import Profile
 
 @api.model_resource(security, User, '/users', '/users/<int:id>')
 class UserResource(ModelResource):
@@ -55,8 +54,9 @@ def register_user(user):
 
 
     # Create the user profile resource
-    profile = Profile.create_default_profile(user=user)
-    user.resources.append(profile)
+    # TODO: FIXME
+    #profile = Profile.create_default_profile(user=user)
+    #user.resources.append(profile)
 
     confirmation_link, token = None, None
     if _security.confirmable:
