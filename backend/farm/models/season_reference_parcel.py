@@ -17,20 +17,21 @@ from backend.database import (
     relationship,
 )
 
-class ReferenceParcelBaseParcel(BaseModel, TimestampMixin):
+class SeasonReferenceParcel(BaseModel, TimestampMixin):
     """Join table between User and Role"""
 
+    season_id = foreign_key('Season', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
+    season = relationship('Season', back_populates='season_reference_parcels')
+
     reference_parcel_id = foreign_key('ReferenceParcel', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
-    reference_parcel = relationship('ReferenceParcel', back_populates='reference_parcel_base_parcels')
+    reference_parcel = relationship('ReferenceParcel', back_populates='reference_parcel_seasons')
 
-    base_parcel_id = foreign_key('BaseParcel', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
-    base_parcel = relationship('BaseParcel', back_populates='base_parcel_reference_parcels')
 
-    __repr_props__ = ('reference_parcel_id', 'base_parcel_id')
+    __repr_props__ = ('reference_parcel_id', 'season_id')
 
-    def __init__(self, reference_parcel=None, base_parcel=None, **kwargs):
+    def __init__(self, reference_parcel=None, season=None, **kwargs):
         super().__init__(**kwargs)
-        if base_parcel:
-            self.base_parcel = base_parcel
+        if season:
+            self.season = season
         if reference_parcel:
             self.reference_parcel = reference_parcel

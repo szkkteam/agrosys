@@ -6,3 +6,5 @@
 # Internal package imports
 from .unit import UnitSerializer, UnitListSerializer
 from .soil_type import SoilTypeSerializer, SoilTypeListSerializer
+from .country import CountrySerializer, CountryListSerializer
+from .reference_parcel_type import ReferenceParcelTypeSerializer, ReferenceParcelTypeListSerializer

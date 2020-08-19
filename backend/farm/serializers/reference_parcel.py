@@ -12,7 +12,7 @@ from marshmallow import pre_load, post_dump, post_load, validates_schema
 from backend.extensions.api import api
 from backend.api import ModelSerializer, validates, ValidationError, GeometryModelConverter, GeometryField
 from backend.api import fields
-from backend.reference.models import SoilType
+from backend.reference.models import SoilType, ReferenceParcelType
 
 from ..models import ReferenceParcel
 
@@ -23,10 +23,14 @@ DATA_FIELDS = (
     'geometry',
     'total_area',
     'eligible_area',
+    'reference_parcel_type',
+    'reference_parcel_type_id',
+    'soil_type',
+    'soil_type_id',
 )
 
 def object_id_exists(object_id, model):
-    if not model.get_by(id=object_id):       
+    if not model.get_by(id=object_id):
         raise ValidationError('ID %i does not exist.' % (object_id))
 
 class ReferenceParcelSerializer(ModelSerializer):
@@ -40,14 +44,20 @@ class ReferenceParcelSerializer(ModelSerializer):
     eligible_area = fields.Decimal(as_string=True, required=True)
 
     geometry = GeometryField(load_from='geometry')
-    base_parcels = fields.Nested('BaseParcelListSerializer', many=True, data_key='parcels')
+
     soil_type_id = fields.Integer(required=True, validate=lambda x: object_id_exists(x, SoilType))
+    soil_type = fields.Nested('SoilTypeSerializer', many=False)
+
+    reference_parcel_type_id = fields.Integer(required=True, validate=lambda x: object_id_exists(x, ReferenceParcelType))
+    reference_parcel_type = fields.Nested('ReferenceParcelTypeSerializer', many=False)    
+
 
     class Meta:
         model = ReferenceParcel
         model_converter = GeometryModelConverter
-        fields = DATA_FIELDS + ('base_parcels', 'soil_type_id',)
-        dump_only = ('id',)
+        fields = DATA_FIELDS
+        dump_only = ('id', 'reference_parcel_type', 'soil_type',)
+        load_only = ('reference_parcel_type_id', 'soil_type_id',)
 
     @validates_schema
     def validate_area(self, data, **kwargs):
@@ -72,6 +82,7 @@ class ReferenceParcelListSerializer(ReferenceParcelSerializer):
     class Meta:
         model = ReferenceParcel
         model_converter = GeometryModelConverter
-        fields = DATA_FIELDS + ('base_parcels', 'soil_type_id',)
-        dump_only = ('id', )
+        fields = DATA_FIELDS
+        dump_only = ('id', 'reference_parcel_type', 'soil_type',)
+        load_only = ('reference_parcel_type_id', 'soil_type_id',)
 

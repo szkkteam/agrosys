@@ -1,0 +1,92 @@
+---
+PARCEL_SIMPLE_1:
+  title: Simple parcel 1
+  notes: Some random note
+  total_area: 10
+  eligible_area: 9
+  soil: 'Soil(SOIL_TYPE_1)'
+  geometry: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
+
+PARCEL_SIMPLE_2:
+  title: Simple parcel 2
+  notes: Some random note
+  total_area: 10
+  eligible_area: 9
+  soil: 'Soil(SOIL_TYPE_2)'
+  reference_parcel_type: 'ReferenceParcelType(REFERENCE_PARCEL_TYPE_AGRI_PARCEL)'
+  geometry: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
+
+PARCEL_SIMPLE_3:
+  title: Simple parcel 3
+  notes: Some random note
+  total_area: 10
+  eligible_area: 9
+  soil: 'Soil(SOIL_TYPE_3)'
+  reference_parcel_type: 'ReferenceParcelType(REFERENCE_PARCEL_TYPE_AGRI_PARCEL)'
+  geometry: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
+
+PARCEL_AGRI:
+  title: Agricultural Parcel - simple
+  notes: Some random note
+  total_area: 10
+  eligible_area: 9
+  soil: 'Soil(SOIL_TYPE_1)'
+  reference_parcel_type: 'ReferenceParcelType(REFERENCE_PARCEL_TYPE_AGRI_PARCEL)'
+  geometry: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
+
+PARCEL_CADASTRIAL:
+  title: Cadastrial Parcel - simple
+  notes: Some random note
+  total_area: 10
+  eligible_area: 9
+  soil: 'Soil(SOIL_TYPE_2)'
+  reference_parcel_type: 'ReferenceParcelType(REFERENCE_PARCEL_TYPE_CADASTRIAL_PARCEL)'
+  geometry: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
+
+PARCEL_FARMERS_BLOCK:
+  title: Farmers Block - simple
+  notes: Some random note
+  total_area: 10
+  eligible_area: 9
+  soil: 'Soil(SOIL_TYPE_1)'
+  reference_parcel_type: 'ReferenceParcelType(REFERENCE_PARCEL_TYPE_FARMERS_BLOCK)'
+  geometry: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
+
+PARCEL_PHYSICAL_BLOCK:
+  title: Physical Block - simple
+  notes: Some random note
+  total_area: 10
+  eligible_area: 9
+  soil: 'Soil(SOIL_TYPE_1)'
+  reference_parcel_type: 'ReferenceParcelType(REFERENCE_PARCEL_TYPE_PHYSICAL_BLOCK)'
+  geometry: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
+
+PARCEL_CADASTRIAL_NESTED:
+  title: Cadastrial Parcel - nested
+  notes: Some random note
+  total_area: 10
+  eligible_area: 9
+  soil: 'Soil(SOIL_TYPE_1)'
+  reference_parcel_type: 'ReferenceParcelType(REFERENCE_PARCEL_TYPE_CADASTRIAL_PARCEL)'
+  parcels: ['ReferenceParcel(PARCEL_SIMPLE_1)']
+  geometry: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
+
+PARCEL_FARMERS_BLOCK_NESTED:
+  title: Farmers Block - nested
+  notes: Some random note
+  total_area: 10
+  eligible_area: 9
+  soil: 'Soil(SOIL_TYPE_1)'
+  reference_parcel_type: 'ReferenceParcelType(REFERENCE_PARCEL_TYPE_FARMERS_BLOCK)'
+  parcels: ['ReferenceParcel(PARCEL_SIMPLE_2)']
+  geometry: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
+
+PARCEL_PHYSICAL_BLOCK_NESTED:
+  title: Physical Block - nested
+  notes: Some random note
+  total_area: 10
+  eligible_area: 9
+  soil: 'Soil(SOIL_TYPE_1)'
+  reference_parcel_type: 'ReferenceParcelType(REFERENCE_PARCEL_TYPE_PHYSICAL_BLOCK)'
+  parcels: ['ReferenceParcel(PARCEL_SIMPLE_3)']
+  geometry: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'

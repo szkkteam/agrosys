@@ -21,7 +21,8 @@ def get_farm_details(farm):
     return {
             'id': farm.id,
             'title': farm.title,
-            'fields': farm.fields,
+            'country': farm.country,
+            'seasons': farm.seasons,
             #'seasons': Season.filter(Season.farm_id == farm.id).all(),
             'role': {
                 'is_owner': bool(farm.owner_user_id == current_user.id),
@@ -33,7 +34,7 @@ def get_farms_with_permissions(permissions):
     user = User.get(current_user.id)
     return UserService.resources_with_perms(user, permissions, resource_types=['farm']).all()
 
-@api.model_resource(farm, Farm, '/farms', '/farms/<int:farm_id>')
+@api.model_resource(farm, Farm, '/', '/<int:farm_id>')
 class FarmResource(ModelResource):
     include_methods = ALL_METHODS
     exclude_decorators = (LIST, )
@@ -79,7 +80,6 @@ class FarmResource(ModelResource):
     def list(self):
         # Get farms with any permissions. TODO: ANY_PERMISSION object is not working ...
         farms = get_farms_with_permissions(['edit', 'view', 'delete', 'create'])
-        print("Farms authorized: ", farms)
         return self.serializer.dump([get_farm_details(farm) for farm in farms], many=True)
 
 

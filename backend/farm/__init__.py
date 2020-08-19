@@ -6,4 +6,4 @@
 # Internal package imports
 from backend.magic import Bundle
 
-farm_bundle = Bundle(__name__, blueprint_names=['crop', 'farm', 'parcel', 'production'])
+farm_bundle = Bundle(__name__, blueprint_names=['crop', 'farm'])

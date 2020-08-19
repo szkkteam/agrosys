@@ -44,5 +44,5 @@ class Task(TaskMixin, TimestampMixin, BaseModel):
     predicted_cost = Column(Numeric, nullable=True)
     actual_cost = Column(Numeric, nullable=True)
 
-    production_id = foreign_key('Production', nullable=False, onupdate="CASCADE", ondelete="CASCADE")
-    production = relationship('Production', back_populates='tasks')
+    plan_id = foreign_key('Plan', nullable=False, onupdate="CASCADE", ondelete="CASCADE")
+    plan = relationship('Plan', back_populates='tasks')

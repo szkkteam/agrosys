@@ -5,42 +5,54 @@
 # Pip package imports
 # Internal package imports
 from backend.extensions.api import api
-from backend.api import ModelSerializer
-from backend.api import fields as m_fields
+from backend.api import ModelSerializer, ValidationError
+from backend.api import fields
 
+from backend.reference.models import Country
 from ..models import Farm
 
-FARM_FIELDS = (
+DATA_FIELDS = (
     'id',
     'title',
     'role',
+    'country_id',
+    'country',
+    'seasons',
 )
 
 FARM_PERMISSION_FIELDS = (
     'is_owner', 'permissions'
 )
 
+def object_id_exists(object_id, model):
+    print("Country id: ", object_id)
+    if not model.get_by(id=object_id):
+        print("Countries: ", Country.all())
+        raise ValidationError('ID %i does not exist.' % (object_id))
 
 class FarmSerializer(ModelSerializer):
 
-    fields = m_fields.Nested('FieldListSerializer', many=True)
-    role = m_fields.Nested('FarmPermissionSerializer', many=False)
+    role = fields.Nested('FarmPermissionSerializer', many=False)
+
+    country_id = fields.Integer(required=True, validate=lambda x: object_id_exists(x, Country))
+    country = fields.Nested('CountrySerializer', many=False)
+
+    seasons = fields.Nested('SeasonListSerializer', many=True)
 
     class Meta:
         model = Farm
-        #fields = FARM_FIELDS + ('fields',)
-        fields = FARM_FIELDS
-        dump_only = ('id', 'role',)
+        fields = DATA_FIELDS
+        dump_only = ('id', 'role', 'country',)
+        load_only = ('country_id', )
 
 @api.serializer(many=True)
-class FarmListSerializer(ModelSerializer):
-
-    #seasons = m_fields.Nested('SeasonListSerializer', only=('id', 'year'), many=True)
+class FarmListSerializer(FarmSerializer):
 
     class Meta:
         model = Farm
-        fields = FARM_FIELDS
-        dump_only = ('id', 'role', )
+        fields = DATA_FIELDS
+        dump_only = ('id', 'role', 'country',)
+        load_only = ('country_id', )
 
 
 class FarmPermissionSerializer(ModelSerializer):

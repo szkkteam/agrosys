@@ -21,6 +21,7 @@ from backend.database import (
 
 class Country(Model):
     title = Column(String(64), nullable=False)
-    iso = Column(String(2))
+    iso2 = Column(String(2))
+    iso3 = Column(String(3), unique=True, index=True)
 
-    __repr_props__ = ('id', 'title', 'iso')
+    __repr_props__ = ('id', 'title', 'iso2')

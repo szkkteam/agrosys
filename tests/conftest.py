@@ -174,11 +174,11 @@ def admin(model_factory):
 
 @pytest.fixture()
 def farm(model_factory):
-    yield model_factory.create('Farm', 'farm_one')
+    yield model_factory.create('Farm', 'FARMER_USER')
 
 @pytest.fixture()
 def farm_owner(user, model_factory):
-    farm = model_factory.create('Farm', 'farm_one')
+    farm = model_factory.create('Farm', 'FARMER_USER')
     user.resources.append(farm)
     # TODO: Currently I'm not sure why the farm.fields list is empty at this point.
     # The model factory created the model structure correctly, but after commit the list is become empty.
@@ -198,11 +198,29 @@ def farm_user2(model_factory):
     user.resources.append(farm)
     yield user
 
+@pytest.fixture()
+def country_hu(model_factory):
+    yield model_factory.create('Country', 'COUNTRY_HU')
 
 @pytest.fixture()
 def soil(model_factory):
     yield model_factory.create('SoilType', 'SOIL_TYPE_1')
 
+@pytest.fixture()
+def agri_parcel(model_factory):
+    yield model_factory.create('ReferenceParcelType', 'REFERENCE_PARCEL_TYPE_AGRI_PARCEL')
+
+@pytest.fixture()
+def cadastrial_parcel(model_factory):
+    yield model_factory.create('ReferenceParcelType', 'REFERENCE_PARCEL_TYPE_CADASTRIAL_PARCEL')
+
+@pytest.fixture()
+def farmers_block(model_factory):
+    yield model_factory.create('ReferenceParcelType', 'REFERENCE_PARCEL_TYPE_FARMERS_BLOCK')
+
+@pytest.fixture()
+def physical_block(model_factory):
+    yield model_factory.create('ReferenceParcelType', 'REFERENCE_PARCEL_TYPE_PHYSICAL_BLOCK')
 
 @pytest.fixture()
 def models(request, model_factory):

@@ -11,6 +11,7 @@ from flask_security import current_user
 from backend.database import (
     Column,
     String,
+    foreign_key,
     relationship
 )
 from backend.security.models.resource import Resource
@@ -25,22 +26,14 @@ class Farm(Resource):
                                  ondelete='CASCADE', ),
                    primary_key=True, )
 
-    reference_parcels = relationship('ReferenceParcel', cascade="all, delete", back_populates='farm')
+    country_id = foreign_key('Country', nullable=False, ondelete='CASCADE',)
+    country = relationship('Country', uselist=False)
+
+    seasons = relationship('Season', cascade="all, delete", back_populates='farm')
     # TODO: Define later lazy relationship
     #seasons = relationship('Season', cascade="all,delete", back_populates='farm', lazy='noload')
 
     __repr_props__ = ('id', 'title', 'owner_user_id', 'fields')
-
-
-    def __init__(self, **kwargs):
-        if 'fields' in kwargs:
-            fields = kwargs.pop('fields')
-            print("Appending fields: ", fields)
-            if isinstance(fields, list):
-                self.fields.extend(fields)
-            else:
-                self.fields.append(fields)
-        super().__init__(**kwargs)
 
     @classmethod
     def query_permission_obj(cls, id, *args, **kwargs):

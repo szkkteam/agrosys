@@ -12,6 +12,7 @@ from backend.database import (
     String,
     Boolean,
     Model,
+    DateTime,
     Enum,
     relationship,
     foreign_key,
@@ -19,31 +20,26 @@ from backend.database import (
 )
 from backend.security.models.resource import Resource
 
-
-class ProductionStatus(enum.Enum):
-    Active = 'Active'
-    Archived = 'Archived'
-
-
-def create_base_parcel_production(base_parcel):
-    from ..models import BaseParcelProduction
-    return BaseParcelProduction(base_parcel=base_parcel)
+def create_base_parcel_production(reference_parcel):
+    from ..models import ReferenceParcelPlan
+    return ReferenceParcelPlan(reference_parcel=reference_parcel)
 
 
-class Production(Model):
+class Plan(Model):
     title = Column(String(128))
     use_as_template = Column(Boolean, default=False)
-    status = Column(Enum(ProductionStatus), default=ProductionStatus.Active)
 
-    production_base_parcels = relationship('BaseParcelProduction', back_populates='production',
+    plan_reference_parcels = relationship('ReferenceParcelPlan', back_populates='plan',
                                             cascade='all, delete-orphan')
-    base_parcels = association_proxy('base_parcel_productions', 'base_parcel',
-                                      creator=lambda base_parcel: create_base_parcel_production(base_parcel))
+    reference_parcels = association_proxy('reference_parcel_plans', 'reference_parcel',
+                                      creator=lambda reference_parcel: create_base_parcel_production(reference_parcel))
 
-    tasks = relationship('Task', back_populates='production',
+    tasks = relationship('Task', back_populates='plan',
                          cascade='all, delete-orphan')
 
     crop_template_id = foreign_key('CropTemplate', nullable=False)
     crop_template = relationship('CropTemplate', uselist=False)
+
+    archived_at = Column(DateTime, default=None, nullable=True)
 
     __repr_props__ = ('id', 'title', 'use_as_template', 'crop_template_id')

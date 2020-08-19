@@ -21,7 +21,7 @@ from backend.database import (
 )
 from backend.security.models import User, Resource
 from backend.permissions.services import UserService
-from ..models import Production
+from ..models import Plan
 
 class CropTemplate(Model):
     title = Column(String(64), nullable=True)
@@ -35,7 +35,7 @@ class CropTemplate(Model):
     crop_variant_id = foreign_key('CropVariant', nullable=False)
     crop_variant = relationship('CropVariant', back_populates='crop_templates')
 
-    productions = relationship('Production', back_populates='crop_template')
+    plans = relationship('Plan', back_populates='crop_template')
 
     @property
     def production_templates(self):

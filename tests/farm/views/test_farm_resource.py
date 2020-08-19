@@ -16,14 +16,18 @@ NEW_FARM_DATA = dict(
 @pytest.mark.usefixtures('user')
 class TestFarmResource:
 
-    def test_create(self, api_client, user):
+    def test_create(self, api_client, user, country_hu):
         api_client.login_user()
 
-        r = api_client.post(url_for('api.farms_resource'), data=NEW_FARM_DATA)
+        data = NEW_FARM_DATA.copy()
+        data['countryId'] = country_hu.id
+
+        r = api_client.post(url_for('api.farms_resource'), data=data)
         print("Response: ", r.json)
         assert r.status_code == 201
         assert 'title' in r.json
         assert NEW_FARM_DATA['title'] in r.json['title']
+        assert 'country' in r.json
 
     def test_create_missing_name(self, api_client, user):
         api_client.login_user()
@@ -32,6 +36,14 @@ class TestFarmResource:
         r = api_client.post(url_for('api.farms_resource'), data=data)
         assert r.status_code == 400
         assert 'title' in r.errors
+
+    def test_create_missing_country_id(self, api_client, user):
+        api_client.login_user()
+        data = NEW_FARM_DATA.copy()
+
+        r = api_client.post(url_for('api.farms_resource'), data=data)
+        assert r.status_code == 400
+        assert 'countryId' in r.errors
 
     def test_get(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
@@ -44,6 +56,7 @@ class TestFarmResource:
         assert 'id' in r.json
         assert 'title' in r.json
         assert 'role' in r.json
+        assert 'country' in r.json
         assert 'isOwner' in r.json['role']
 
     def test_list(self, api_client, farm_owner):
@@ -56,6 +69,7 @@ class TestFarmResource:
             assert 'id' in e
             assert 'title' in e
             assert 'role' in e
+            assert 'country' in e
             assert 'isOwner' in e['role']
 
     def test_patch(self, api_client, farm_owner):
@@ -71,17 +85,19 @@ class TestFarmResource:
         assert r.json['title'] == new_name
         assert 'id' in r.json
 
-    def test_put(self, api_client, farm_owner):
+    def test_put(self, api_client, farm_owner, country_hu):
         api_client.login_as(farm_owner)
 
+        data = NEW_FARM_DATA.copy()
+        data['countryId'] = country_hu.id
+        data['title'] = "New Farm Name"
         # Query one of the user's farm
         farm = Farm.all()[0]
 
-        new_name = "New Farm Name"
-        r = api_client.put(url_for('api.farm_resource', farm_id=farm.id), data=dict(title=new_name))
+        r = api_client.put(url_for('api.farm_resource', farm_id=farm.id), data=data)
 
         assert r.status_code == 200
-        assert r.json['title'] == new_name
+        assert r.json['title'] == "New Farm Name"
         assert 'id' in r.json
 
     def test_delete(self, api_client, farm_owner):
@@ -95,7 +111,7 @@ class TestFarmResource:
         assert r.status_code == 204
         assert not Farm.get(farm.id)
 
-    def test_invalid_patch_farm(self, api_client, farm_owner):
+    def test_patch_invalid(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
         # Query one of the user's farm
@@ -114,7 +130,7 @@ class TestFarmResource:
 class TestFarmResourceProtected:
 
 
-    def test_get_farms(self, api_client, farm_user1, farm_user2):
+    def test_get(self, api_client, farm_user1, farm_user2):
         # User 1
         api_client.login_as(farm_user1)
         user1_resp = api_client.get(url_for('api.farms_resource'))
@@ -133,7 +149,7 @@ class TestFarmResourceProtected:
             for data2 in user2_resp.json:
                 assert data1['id'] != data2['id']
 
-    def test_get_farm(self, api_client, farm_user1, farm_user2):
+    def test_get(self, api_client, farm_user1, farm_user2):
         from backend.permissions.services import UserService
 
         # Because there is no shared farms, for this test this query is sufficient
@@ -147,7 +163,7 @@ class TestFarmResourceProtected:
             assert r.status_code == 403
 
 
-    def test_patch_farm(self, api_client, farm_user1, farm_user2):
+    def test_patch(self, api_client, farm_user1, farm_user2):
         from backend.permissions.services import UserService
 
         # Because there is no shared farms, for this test this query is sufficient
@@ -161,7 +177,7 @@ class TestFarmResourceProtected:
             r = api_client.patch(url_for('api.farm_resource', farm_id=farm.id), data=dict(title=new_name))
             assert r.status_code == 403
 
-    def test_put_farm(self, api_client, farm_user1, farm_user2):
+    def test_put(self, api_client, farm_user1, farm_user2, country_hu):
         from backend.permissions.services import UserService
 
         # Because there is no shared farms, for this test this query is sufficient
@@ -171,11 +187,13 @@ class TestFarmResourceProtected:
         # User 2
         api_client.login_as(farm_user2)
         for farm in farms:
-            new_name = "New Farm Name"
-            r = api_client.put(url_for('api.farm_resource', farm_id=farm.id), data=dict(title=new_name))
+            data = NEW_FARM_DATA.copy()
+            data['countryId'] = country_hu.id
+            data['title'] = "New Farm Name"
+            r = api_client.put(url_for('api.farm_resource', farm_id=farm.id), data=data)
             assert r.status_code == 403
 
-    def test_delete_farm(self, api_client, farm_user1, farm_user2):
+    def test_delete(self, api_client, farm_user1, farm_user2):
         from backend.permissions.services import UserService
 
         # Because there is no shared farms, for this test this query is sufficient

@@ -9,7 +9,7 @@ import pytest
 from marshmallow.exceptions import ValidationError
 
 # Internal package imports
-from backend.farm.serializers import ProductionSerializer, ProductionListSerializer
+from backend.farm.serializers import PlanSerializer, PlanListSerializer
 
 
 VALID_INPUT_DATA = [
@@ -62,23 +62,23 @@ def get_production_data(input, crop_template):
 
     return data
 
-class TestProductionSerializer:
+class TestPlanSerializer:
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA)
     def test_valid_inputs(self, input, crop_template):
-        serializer = ProductionSerializer()
+        serializer = PlanSerializer()
         serializer.load(copy.deepcopy(get_production_data(input, crop_template)))
 
     @pytest.mark.parametrize("input,msg,field", INVALID_INPUT_DATA)
     def test_invalid_inputs(self, input, msg, field, crop_template):
-        serializer = ProductionSerializer()
+        serializer = PlanSerializer()
         with pytest.raises(ValidationError) as v:
             serializer.load(copy.deepcopy(get_production_data(input, crop_template)))
         assert msg in v.value.args[0][field]
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA)
     def test_valid_serialize_deserialize(self, input, crop_template):
-        serializer = ProductionSerializer()
+        serializer = PlanSerializer()
         input_data = get_production_data(input, crop_template)
 
         result = serializer.load(input_data)
@@ -88,16 +88,16 @@ class TestProductionSerializer:
 
 
 
-class TestProductionListSerializer:
+class TestPlanListSerializer:
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA_LIST)
     def test_valid_inputs(self, input, crop_template):
-        serializer = ProductionListSerializer()
+        serializer = PlanListSerializer()
         serializer.load(copy.deepcopy(get_production_data(input, crop_template)), many=True)
 
     @pytest.mark.parametrize("input,msg,field", INVALID_INPUT_DATA_LIST)
     def test_invalid_inputs(self, input, msg, field, crop_template):
-        serializer = ProductionListSerializer()
+        serializer = PlanListSerializer()
         with pytest.raises(ValidationError) as v:
             serializer.load(copy.deepcopy(get_production_data(input, crop_template)), many=True)
 
@@ -106,7 +106,7 @@ class TestProductionListSerializer:
     def test_valid_serialize_deserialize(self, input, crop_template):
         input_data = copy.deepcopy(input)
 
-        serializer = ProductionListSerializer()
+        serializer = PlanListSerializer()
         result = serializer.load(get_production_data(input, crop_template), many=True)
         result = serializer.dump(result)
         for r, i in zip(result, input_data):
