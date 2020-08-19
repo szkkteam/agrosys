@@ -16,7 +16,7 @@ NEW_FARM_DATA = dict(
 @pytest.mark.usefixtures('user')
 class TestFarmResource:
 
-    def test_create_farm(self, api_client, user):
+    def test_create(self, api_client, user):
         api_client.login_user()
 
         r = api_client.post(url_for('api.farms_resource'), data=NEW_FARM_DATA)
@@ -25,7 +25,7 @@ class TestFarmResource:
         assert 'title' in r.json
         assert NEW_FARM_DATA['title'] in r.json['title']
 
-    def test_create_farm_missing_name(self, api_client, user):
+    def test_create_missing_name(self, api_client, user):
         api_client.login_user()
         data = NEW_FARM_DATA.copy()
         data['title'] = None
@@ -33,7 +33,7 @@ class TestFarmResource:
         assert r.status_code == 400
         assert 'title' in r.errors
 
-    def test_get_farm(self, api_client, farm_owner):
+    def test_get(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
         # Query one of the user's farm
@@ -46,7 +46,7 @@ class TestFarmResource:
         assert 'role' in r.json
         assert 'isOwner' in r.json['role']
 
-    def test_get_farms(self, api_client, farm_owner):
+    def test_list(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
         r = api_client.get(url_for('api.farms_resource'))
@@ -58,7 +58,7 @@ class TestFarmResource:
             assert 'role' in e
             assert 'isOwner' in e['role']
 
-    def test_patch_farm(self, api_client, farm_owner):
+    def test_patch(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
         # Query one of the user's farm
@@ -71,7 +71,7 @@ class TestFarmResource:
         assert r.json['title'] == new_name
         assert 'id' in r.json
 
-    def test_put_farm(self, api_client, farm_owner):
+    def test_put(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
         # Query one of the user's farm

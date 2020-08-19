@@ -54,3 +54,9 @@ class ReferenceParcel(Model):
 
 
     __repr_props__ = ('id', 'title')
+
+
+    @classmethod
+    def query_permission_obj(cls, id, *args, **kwargs):
+        from .farm import Farm
+        return Farm.join(cls).filter(cls.id == id)

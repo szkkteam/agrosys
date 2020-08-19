@@ -31,6 +31,7 @@ class Farm(Resource):
 
     __repr_props__ = ('id', 'title', 'owner_user_id', 'fields')
 
+
     def __init__(self, **kwargs):
         if 'fields' in kwargs:
             fields = kwargs.pop('fields')
@@ -40,3 +41,7 @@ class Farm(Resource):
             else:
                 self.fields.append(fields)
         super().__init__(**kwargs)
+
+    @classmethod
+    def query_permission_obj(cls, id, *args, **kwargs):
+        return Farm.get(id)
