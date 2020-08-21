@@ -11,12 +11,12 @@ from geoalchemy2 import Geometry
 # Internal package imports
 from backend.database import (
     Column,
-    Model,
     String,
     Float,
     BigInteger,
     Boolean,
     Enum,
+    Model,
     association_proxy,
     relationship,
     foreign_key
@@ -32,6 +32,7 @@ def create_plan(plan):
     return ReferenceParcelPlan(plan=plan)
 
 class ReferenceParcel(Model):
+    #id = Column(BigInteger, primary_key=True, autoincrement=True)
     title = Column(String(64), nullable=True)
     notes = Column(String(256), nullable=True)
 
@@ -54,16 +55,17 @@ class ReferenceParcel(Model):
                               creator=lambda season: create_season(season))
 
     # Group relationship definition
-    group_parcels = relationship('ReferenceParcelRelation', back_populates='group',
-                                 cascade='all, delete', foreign_keys=ReferenceParcelRelation.group_id)
-    parcels = association_proxy('parcel_groups', 'parcel',
-                              creator=lambda parcel: ReferenceParcelRelation(parcel=parcel))
+    groups = association_proxy('group_parcels', 'group',)
 
     # Parcel relationship definition
-    parcel_groups = relationship('ReferenceParcelRelation', back_populates='parcel',
-                                 cascade='all, delete', foreign_keys=ReferenceParcelRelation.parcel_id)
-    groups = association_proxy('group_parcels', 'group',
-                              creator=lambda group: ReferenceParcelRelation(group=group))
+    parcels_add = association_proxy('parcel_groups', 'parcel',)
+
+    @property
+    def parcels(self):
+        return self.join(ReferenceParcelRelation, (ReferenceParcelRelation.parcel_id == ReferenceParcel.id)).filter(
+            ReferenceParcelRelation.group_id == self.id).all()
+        #return session.query(Node).join(NodeRelation, (NodeRelation.child_id == Node.id)).filter(
+            #NodeRelation.parent_id == self.id).all()
 
     # Production relationship definition
     reference_parcel_plans = relationship('ReferenceParcelPlan', back_populates='reference_parcel',
@@ -71,7 +73,7 @@ class ReferenceParcel(Model):
     plans = association_proxy('production_reference_parcels', 'plan',
                                       creator=lambda plan: create_plan(plan))
 
-    __repr_props__ = ('id', 'title')
+    __repr_props__ = ('id', 'title', 'parcels')
 
 
     @classmethod

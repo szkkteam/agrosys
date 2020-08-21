@@ -5,6 +5,7 @@ PARCEL_SIMPLE_1:
   total_area: 10
   eligible_area: 9
   soil_type: 'SoilType(SOIL_TYPE_1)'
+  reference_parcel_type: 'ReferenceParcelType(REFERENCE_PARCEL_TYPE_AGRI_PARCEL)'
   geometry: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
 
 PARCEL_SIMPLE_2:

@@ -8,7 +8,7 @@ from flask import url_for
 from flask_security import AnonymousUser, current_user
 
 # Internal package imports
-from backend.farm.models import ReferenceParcel, Season, SeasonReferenceParcel
+from backend.farm.models import ReferenceParcel, Season, SeasonReferenceParcel, ReferenceParcelRelation
 
 
 VALID_GEOJSON = {"type": "Feature",
@@ -187,22 +187,97 @@ class TestSeasonReferenceParcelResource:
         
         season = Season.all()[0]
         parcel = models.PARCEL_PHYSICAL_BLOCK
-        parcel = ReferenceParcel.all()[0]    
         r = api_client.put(url_for('api.season_reference_parcel_resource', season_id=season.id, parcel_id=parcel.id))
         assert r.status_code == 200        
         assert 'title' in r.json
         assert 'id' in r.json
-        assert len(ReferenceParcel.join(SeasonReferenceParcel).filter(SeasonReferenceParcel.season_id == season.id, SeasonReferenceParcel.parcel_id == parcel.id))
+        assert len(ReferenceParcel.join(SeasonReferenceParcel).filter(SeasonReferenceParcel.season_id == season.id, SeasonReferenceParcel.reference_parcel_id == parcel.id).all())
 
     def test_delete(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
-        parcel = ReferenceParcel.all()[0] 
-        r = api_client.delete(url_for('api.reference_parcel_resource', id=parcel.id))
+        season = Season.all()[0]
+        parcel = ReferenceParcel.join(SeasonReferenceParcel).filter(SeasonReferenceParcel.season_id == season.id).all()[0]
+
+        r = api_client.delete(url_for('api.season_reference_parcel_resource', season_id=season.id, parcel_id=parcel.id))
 
         assert r.status_code == 204
-        assert not ReferenceParcel.get(parcel.id)
+        assert not len(ReferenceParcel.join(SeasonReferenceParcel).filter(SeasonReferenceParcel.season_id == season.id, SeasonReferenceParcel.reference_parcel_id == parcel.id).all())
 
+
+class TestGroupReferenceParcelResource:
+
+    def test_create(self, api_client, farm_owner, soil, agri_parcel):
+        api_client.login_as(farm_owner)
+
+        data = get_input_data(NEW_DATA, soil, agri_parcel)
+
+        parcel = ReferenceParcel.all()[0]
+        r = api_client.post(url_for('api.group_reference_parcels_resource', group_id=parcel.id), data=data)
+        assert r.status_code == 201
+        assert 'id' in r.json
+        assert 'title' in r.json
+        assert 'notes' in r.json
+        assert 'totalArea' in r.json
+        assert 'eligibleArea' in r.json
+        assert 'geometry' in r.json
+        assert 'referenceParcelType' in r.json
+        assert 'soilType' in r.json
+
+    @pytest.mark.parametrize("models", ['ReferenceParcel(PARCEL_PHYSICAL_BLOCK, PARCEL_CADASTRIAL)'], indirect=True)
+    def test_list(self, api_client, farm_owner, models):
+        api_client.login_as(farm_owner)
+
+        season = Season.all()[0]
+        group = season.reference_parcels[0]
+        group.parcels_add.append(models.PARCEL_PHYSICAL_BLOCK)
+        group.parcels_add.append(models.PARCEL_CADASTRIAL)
+
+        r = api_client.get(url_for('api.group_reference_parcels_resource', group_id=group.id))
+        assert r.status_code == 200
+        assert len(r.json) == 2
+        for r in r.json:
+            assert 'id' in r
+            assert 'title' in r
+            assert 'notes' in r
+            assert 'totalArea' in r
+            assert 'eligibleArea' in r
+            assert 'geometry' in r
+            assert 'referenceParcelType' in r
+            assert 'soilType' in r
+
+    @pytest.mark.parametrize("models", ['ReferenceParcel(PARCEL_PHYSICAL_BLOCK)'], indirect=True)
+    def test_put(self, api_client, farm_owner, models):
+        api_client.login_as(farm_owner)
+
+        season = Season.all()[0]
+        group = season.reference_parcels[0]
+        parcel = models.PARCEL_PHYSICAL_BLOCK
+
+        assert not len(ReferenceParcelRelation.all())
+        r = api_client.put(url_for('api.group_reference_parcel_resource', group_id=group.id, parcel_id=parcel.id))
+        assert r.status_code == 200
+        assert 'title' in r.json
+        assert 'id' in r.json
+        print("Result: ", r.json)
+        assert len(ReferenceParcelRelation.all())
+
+    @pytest.mark.parametrize("models", ['ReferenceParcel(PARCEL_PHYSICAL_BLOCK)'], indirect=True)
+    def test_delete(self, api_client, farm_owner, models):
+        api_client.login_as(farm_owner)
+
+        season = Season.all()[0]
+        group = season.reference_parcels[0]
+        group.parcels_add.append(models.PARCEL_PHYSICAL_BLOCK)
+
+        assert len(ReferenceParcelRelation.all())
+        r = api_client.delete(url_for('api.group_reference_parcel_resource', group_id=group.id, parcel_id=models.PARCEL_PHYSICAL_BLOCK.id))
+
+        assert r.status_code == 204
+        assert not len(ReferenceParcelRelation.all())
+
+
+@pytest.mark.skip(reason="Protected resource is not implemented yet.")
 class TestFieldResourceProtected:
 
     def test_create(self, api_client, farm_user1, farm_user2):

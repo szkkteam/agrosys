@@ -21,10 +21,18 @@ class ReferenceParcelRelation(BaseModel, TimestampMixin):
     """Join table between User and Role"""
 
     group_id = foreign_key('ReferenceParcel', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
-    group = relationship('ReferenceParcel', back_populates='group_parcels', foreign_keys=group_id)
-
     parcel_id = foreign_key('ReferenceParcel', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
-    parcel = relationship('ReferenceParcel', back_populates='parcel_groups', foreign_keys=parcel_id)
+
+    group = relationship('ReferenceParcel',
+                         #primaryjoin="ReferenceParcelRelation.group_id == reference_parcel.c.id",
+                         backref='group_parcels',
+                         foreign_keys=parcel_id)
+
+    parcel = relationship('ReferenceParcel',
+                          #primaryjoin="ReferenceParcelRelation.parcel_id == reference_parcel.c.id",
+                          backref='parcel_groups',
+                          foreign_keys=group_id
+                          )
 
     __repr_props__ = ('group_id', 'parcel_id')
 
