@@ -10,8 +10,7 @@ from .crop_cultivation_type_resource import CropCultivationTypeResource
 from .crop_variant_resource import CropVariantResource
 from .crop_template_resource import CropTemplateResource
 from .farm_resource import FarmResource
-from .season_resource import SeasonResource
-#from .base_parcel_resource import BaseParcelResource
-#from .reference_parcel_resource import ReferenceParcelResource
+from .season_resource import SeasonResource, ArchiveSeasonResource
+from .reference_parcel_resource import ReferenceParcelResource, SeasonReferenceParcelResource, GroupReferenceParcelResource, search_reference_parcels
 #from .production_resource import ProductionResource
 #from .task_resource import TaskResource

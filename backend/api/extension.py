@@ -265,7 +265,14 @@ class Api(BaseApi):
         self.deferred_functions.append(fn)
 
     def _get_endpoint(self, view_func, endpoint=None, plural=False):
-        endpoint = self.registered_endpoints.get(view_func.__name__, endpoint)
+        def extract_endpoint(ep):
+            ep = self.registered_endpoints.get(view_func.__name__, ep)
+            if isinstance(endpoint, (list, tuple)):
+                return ep
+            else:
+                return ep, None
+
+        endpoint, endpoint_plural = extract_endpoint(endpoint)
         # Store each endpoint with the view func name
         if endpoint:
             assert '.' not in endpoint, 'Api endpoints should not contain dots'
@@ -274,8 +281,11 @@ class Api(BaseApi):
         elif isinstance(view_func, MethodViewType):
             endpoint = camel_to_snake_case(view_func.__name__)
             if hasattr(view_func, 'model') and plural:
-                plural_model = camel_to_snake_case(view_func.model.__plural__)
-                endpoint = f'{plural_model}_resource'
+                if endpoint_plural:
+                    endpoint = endpoint_plural
+                else:
+                    plural_model = camel_to_snake_case(view_func.model.__plural__)
+                    endpoint = f'{plural_model}_resource'
         else:
             endpoint = view_func.__name__
 
@@ -332,7 +342,7 @@ class Api(BaseApi):
             return super()._register_view(app, resource, *urls, **kwargs)
 
         for url in urls:
-            endpoint = self._get_endpoint(resource)
+            endpoint = self._get_endpoint(resource)            
             http_methods = []
             has_last_param = get_last_param_name(url)
             if has_last_param:
@@ -350,7 +360,7 @@ class Api(BaseApi):
                     http_methods += ['GET', 'HEAD']
                 if ModelResource.has_method(resource, CREATE):
                     http_methods += ['POST']
-
+                    
             kwargs['endpoint'] = endpoint
             super()._register_view(app, resource, url, **kwargs,
                                    methods=http_methods)

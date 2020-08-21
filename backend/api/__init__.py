@@ -13,6 +13,7 @@ from marshmallow import (
     validates_schema,
     ValidationError,
 )
+from flask_restful import Resource
 
 # Internal package imports
 from .extension import Api

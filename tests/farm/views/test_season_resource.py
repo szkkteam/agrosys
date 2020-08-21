@@ -32,32 +32,17 @@ class TestSeasonResource:
         r = api_client.post(url_for('api.seasons_resource', farm_id=999), data=NEW_SEASON_DATA)
         assert r.status_code == 404
 
-    """
-    def test_assign(self, api_client, farm_owner, models):
+    def test_archive(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
-        # Get the field detail for that field
-        field_detail = get_field_detail(farm_owner, models.FIELD_FIELD_ONE)
+        season = Season.all()[0]
 
-        # Get the new filed data
-        data = get_production_data()
-
-        r = api_client.post(url_for('api.productions_resource'), data=data)
-        field_detail = FieldDetail.get(field_detail.id)
-        production = Production.get(r.json['id'])
-        assert production not in field_detail.productions
-        #r = api_client.post(url_for('api.productions_resource', field_detail_id=field_detail.id), data=data)
-        assert r.status_code == 201
-        production_id = r.json['id']
-        # Assign resource
-        r = api_client.put(url_for('api.assign_productions_resource', field_detail_id=field_detail.id, production_id=production_id))
+        r = api_client.put(url_for('api.archive_season_resource', season_id=season.id))
         assert r.status_code == 200
-        field_detail = FieldDetail.get(field_detail.id)
-        production = Production.get(r.json['id'])
-        assert production in field_detail.productions
-    """
+        assert Season.get(season.id).archived_at != None
 
-    def test_get(self, api_client, farm_owner, models):
+
+    def test_get(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
         season = Season.all()[0]
 
@@ -66,109 +51,71 @@ class TestSeasonResource:
         assert 'id' in r.json
         assert 'title' in r.json
 
-    def test_list_filter(self, api_client, farm_owner, models):
+
+    def test_list_filter(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
         # Get the field detail for that field
-        field_detail = get_field_details(farm_owner, models.FIELD_FIELD_ONE)[0]
-        _ = assign_productions(farm_owner, field_detail)
+        farm = Farm.all()[0]
 
-        r = api_client.get(url_for('api.productions_resource', field_detail_id=field_detail.id))
+        # TODO: Add filtering options here.
+        r = api_client.get(url_for('api.seasons_resource', farm_id=farm.id))
         assert r.status_code == 200
         assert len(r.json)
         for e in r.json:
             assert 'id' in e
             assert 'title' in e
-            assert 'cropTemplateId' in e
-            assert 'useAsTemplate' in e
 
-    def test_list(self, api_client, farm_owner, models):
+    def test_list(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
         # Get the field detail for that field
-        field_detail = get_field_details(farm_owner, models.FIELD_FIELD_ONE)
-        assign_productions(farm_owner, field_detail)
+        farm = Farm.all()[0]
 
-        r = api_client.get(url_for('api.productions_resource'))
+        r = api_client.get(url_for('api.seasons_resource', farm_id=farm.id))
         assert r.status_code == 200
         assert len(r.json)
         for e in r.json:
             assert 'id' in e
             assert 'title' in e
-            assert 'cropTemplateId' in e
-            assert 'useAsTemplate' in e
-            assert 'fieldDetails' in e
-            for i in e['fieldDetails']:
-                assert 'field' in i
 
-    def test_patch(self, api_client, farm_owner, models):
+    def test_patch(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
-
-        # Get the field detail for that field
-        field_detail = get_field_detail(farm_owner, models.FIELD_FIELD_ONE)
-        production = get_production(farm_owner, field_detail)
-
+        season = Season.all()[0]
         new_name = "New Field Name"
-        r = api_client.patch(url_for('api.production_resource', production_id=production.id), data=dict(title=new_name))
+        r = api_client.patch(url_for('api.season_resource', season_id=season.id), data=dict(title=new_name))
 
         assert r.status_code == 200
         assert r.json['title'] == new_name
         assert 'id' in r.json
 
-    def test_put(self, api_client, farm_owner, models):
+    def test_put(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
-
+        season = Season.all()[0]
         # Get the field detail for that field
-        field_detail = get_field_detail(farm_owner, models.FIELD_FIELD_ONE)
-        production = get_production(farm_owner, field_detail)
 
-        data = get_production_data().copy()
+        data = NEW_SEASON_DATA.copy()
         data['title'] = "New Field Name"
-        r = api_client.put(url_for('api.production_resource', production_id=production.id), data=data)
+        r = api_client.put(url_for('api.season_resource', season_id=season.id), data=data)
 
         assert r.status_code == 200
         assert r.json['title'] == data['title']
         assert 'id' in r.json
 
-    def test_delete(self, api_client, farm_owner, models):
+    def test_delete(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
-
-        # Get the field detail for that field
-        field_detail = get_field_detail(farm_owner, models.FIELD_FIELD_ONE)
-        production = get_production(farm_owner, field_detail)
-
-        r = api_client.delete(url_for('api.production_resource', production_id=production.id))
+        season = Season.all()[0]
+        r = api_client.delete(url_for('api.season_resource', season_id=season.id))
 
         assert r.status_code == 204
-        assert not Production.get(production.id)
+        assert not Season.get(season.id)
 
-    def test_remove(self, api_client, farm_owner, models):
+    def test_invalid_patch(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
-
-        # Get the field detail for that field
-        field_detail = get_field_detail(farm_owner, models.FIELD_FIELD_ONE)
-        production = get_production(farm_owner, field_detail)
-
-        r = api_client.delete(url_for('api.assign_productions_resource', field_detail_id=field_detail.id, production_id=production.id))
-        assert r.status_code == 204
-        production = Production.get(production.id)
-        assert production
-
-        field_detail = FieldDetail.get(field_detail.id)
-        production = Production.get(production.id)
-        assert production not in field_detail.productions
-
-
-    def test_invalid_patch(self, api_client, farm_owner, models):
-        api_client.login_as(farm_owner)
-
-        # Get the field detail for that field
-        field_detail = get_field_detail(farm_owner, models.FIELD_FIELD_ONE)
-        production = get_production(farm_owner, field_detail)
+        season = Season.all()[0]
 
         new_id = 999
-        r = api_client.patch(url_for('api.production_resource', production_id=production.id), data=dict(id=new_id))
-
+        r = api_client.patch(url_for('api.season_resource', season_id=season.id), data=dict(id=new_id))
         assert r.status_code == 400
 
 

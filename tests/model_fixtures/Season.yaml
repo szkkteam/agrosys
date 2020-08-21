@@ -1,12 +1,13 @@
 ---
 SEASON_1:
-  title: Season 2017
+  title: S2017
+  reference_parcels: ['ReferenceParcel(PARCEL_AGRI)']
 
 SEASON_2:
-  title: Season 2018
+  title: S2018
 
 SEASON_3:
-  title: Season 2019
+  title: S2019
 
 SEASON_4:
-  title: Season 2020
+  title: S2020

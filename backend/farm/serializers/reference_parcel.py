@@ -61,15 +61,20 @@ class ReferenceParcelSerializer(ModelSerializer):
 
     @validates_schema
     def validate_area(self, data, **kwargs):
+        partial = kwargs.get('partial', False)
         errors = {}
-        if data['eligible_area'] > data['total_area']:
-            errors["eligibleArea"] = ["Field may be not bigger than totalArea."]
-        if data['eligible_area'] <= 0:
-            errors["eligibleArea"] = ["Field may not be 0 or less."]
-        if data['total_area'] <= 0:
-            errors["totalArea"] = ["Field may not be 0 or less."]
-        if errors:
-            raise ValidationError(errors)
+        if partial and 'eligible_area' or 'total_area' in data:
+            # TODO: How to validate against totalArea which is stored in db?
+            pass
+        else:
+            if data['eligible_area'] > data['total_area']:
+                errors["eligibleArea"] = ["Field may be not bigger than totalArea."]
+            if data['eligible_area'] <= 0:
+                errors["eligibleArea"] = ["Field may not be 0 or less."]
+            if data['total_area'] <= 0:
+                errors["totalArea"] = ["Field may not be 0 or less."]
+            if errors:
+                raise ValidationError(errors)
 
 
 
