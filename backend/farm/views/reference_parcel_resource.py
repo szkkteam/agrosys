@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Common Python library imports
-from functools import partial
+from flask import abort
+from http import HTTPStatus
 
 # Pip package imports
 from flask_security import current_user
@@ -16,8 +17,10 @@ from backend.security.models import User
 from backend.extensions.api import api
 from backend.permissions.decorators import permission_required
 from backend.permissions.services import ResourceService, UserService
+from backend.reference.models import Country, ReferenceParcelType
 
 from ..models import ReferenceParcel, Season, SeasonReferenceParcel, ReferenceParcelRelation
+from ..services import SearchReferenceParcel
 from .blueprint import farm
 
 @api.model_resource(farm, ReferenceParcel, '/parcels', '/parcels/<id>')
@@ -124,7 +127,13 @@ class GroupReferenceParcelResource(ModelResource):
 
 
 @api.route('/parcels/search')
-def search_reference_parcels():
-    pass
+@param_converter(name=str, country_id=int, parcel_type_id=int)
+def search_reference_parcels(name, country_id, parcel_type_id):
+    country = Country.query.get_or_404(country_id)
+    parcel_type = ReferenceParcelType.query.get_or_404(parcel_type_id)
+    if country.iso3 == "HUN":
+        SearchReferenceParcel.search_parcel_hu(parcel_type.code, name)
+    else:
+        abort(HTTPStatus.NOT_IMPLEMENTED)
 
 

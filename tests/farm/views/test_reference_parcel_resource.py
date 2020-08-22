@@ -276,6 +276,18 @@ class TestGroupReferenceParcelResource:
         assert r.status_code == 204
         assert not len(ReferenceParcelRelation.all())
 
+class TestSearchParcels:
+
+    def test_valid(self, api_client, farm_owner, country_hu, physical_block):
+        api_client.login_as(farm_owner)
+
+        name = "xnkcfd18"
+        r = api_client.get(url_for('api.search_reference_parcels', name=name, country_id=country_hu.id, parcel_type_id=physical_block.id))
+        print("Result: ", r.json)
+        assert False
+
+
+
 
 @pytest.mark.skip(reason="Protected resource is not implemented yet.")
 class TestFieldResourceProtected:
