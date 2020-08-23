@@ -37,7 +37,7 @@ class FarmSerializer(ModelSerializer):
     country_id = fields.Integer(required=True, validate=lambda x: object_id_exists(x, Country))
     country = fields.Nested('CountrySerializer', many=False)
 
-    seasons = fields.Nested('SeasonListSerializer', many=True)
+    seasons = fields.Nested('SeasonListSerializer', many=True, only=('id', 'title'))
 
     class Meta:
         model = Farm

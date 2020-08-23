@@ -24,7 +24,7 @@ def object_id_exists(object_id, model):
 
 class ProductionSerializer(ModelSerializer):
 
-    crop_template = fields.Nested('CropTemplateSerializer', many=False)
+    crop_template = fields.Nested('CropTemplateSerializer', many=False, exclude=('plans', ))
     crop_template_id = fields.Integer(required=True, validate=lambda x: object_id_exists(x, CropTemplate))
 
     tasks = fields.Nested('TaskListSerializer', many=True, required=False)

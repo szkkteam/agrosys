@@ -18,11 +18,11 @@ CROP_TEMPLATE_FIELDS = (
 
 class CropTemplateSerializer(ModelSerializer):
 
-    production_templates = fields.Nested('ProductionSerializer', only=('id', 'title',), many=True)
+    plans = fields.Nested('TemplateListSerializer', only=('id', 'title',), many=True)
 
     class Meta:
         model = CropTemplate
-        fields = CROP_TEMPLATE_FIELDS + ('production_templates', )
+        fields = CROP_TEMPLATE_FIELDS + ('plans', )
         #dump_only = ('unit',)
         #load_instance = False
 
@@ -32,6 +32,6 @@ class CropTemplateListSerializer(ModelSerializer):
 
     class Meta:
         model = CropTemplate
-        fields = CROP_TEMPLATE_FIELDS + ('production_templates', )
+        fields = CROP_TEMPLATE_FIELDS + ('plans', )
         #dump_only = ('unit', )
         #load_instance = False

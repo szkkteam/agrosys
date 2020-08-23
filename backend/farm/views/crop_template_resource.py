@@ -35,6 +35,7 @@ class CropTemplateResource(ModelResource):
             result = q.all()
         else:
             result = CropTemplate.all()
+            print("result: ", result)
         return self.serializer.dump(result, many=True)
 
 

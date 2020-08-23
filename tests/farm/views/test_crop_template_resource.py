@@ -33,8 +33,8 @@ class TestCropTemplateResource:
         for e in r.json:
             assert 'id' in e
             assert 'title' in e
-            assert 'productionTemplates' in e
-            for t in e['productionTemplates']:
+            assert 'plans' in e
+            for t in e['plans']:
                 assert 'id' in t
                 assert 'title' in t
 
@@ -48,8 +48,8 @@ class TestCropTemplateResource:
         for e in r.json:
             assert 'id' in e
             assert 'title' in e
-            assert 'productionTemplates' in e
-            for t in e['productionTemplates']:
+            assert 'plans' in e
+            for t in e['plans']:
                 assert 'id' in t
                 assert 'title' in t
 
@@ -63,8 +63,8 @@ class TestCropTemplateResource:
         for e in r.json:
             assert 'id' in e
             assert 'title' in e
-            assert 'productionTemplates' in e
-            for t in e['productionTemplates']:
+            assert 'plans' in e
+            for t in e['plans']:
                 assert 'id' in t
                 assert 'title' in t
 
@@ -80,8 +80,8 @@ class TestCropTemplateResource:
         for e in r.json:
             assert 'id' in e
             assert 'title' in e
-            assert 'productionTemplates' in e
-            for t in e['productionTemplates']:
+            assert 'plans' in e
+            for t in e['plans']:
                 assert 'id' in t
                 assert 'title' in t
 

@@ -38,4 +38,4 @@ class CropTemplate(Model):
     plans = relationship('Plan', back_populates='crop_template')
 
 
-    __repr_props__ = ('id', 'title', 'production_templates')
+    __repr_props__ = ('id', 'title', 'plans')

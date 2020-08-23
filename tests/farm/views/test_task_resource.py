@@ -8,7 +8,7 @@ from flask import url_for
 from flask_security import AnonymousUser, current_user
 
 # Internal package imports
-from backend.farm.models import Task
+from backend.farm.models import Task, Farm, Template, Production
 
 TASK_GENERAL_1 = {
     'title': 'task general',
@@ -38,33 +38,15 @@ VALID_INPUT_DATA = [
     TASK_GENERAL_1, TASK_PRUNING_1
 ]
 
-def get_production(user, field):
-    user.resources.append(field)
-    production = field.field_details[0].productions[-1]
-    user.resources.append(production)
-    return production
 
-def get_task(production):
-    return production.tasks[0]
-
-def assign_productions(user, field_detail):
-    ret = []
-    for production in field_detail.productions:
-        user.resources.append(production)
-        ret.append(production)
-    return ret
-
-@pytest.mark.parametrize("models", ['Field(FIELD_FIELD_ONE)'], indirect=True)
 class TestTaskResource:
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA)
-    def test_create(self, api_client, farm_owner, models, input):
+    def test_create_template(self, api_client, farm_owner, input):
         api_client.login_as(farm_owner)
+        template = Template.all()[0]
 
-        # Get the field detail for that field
-        production = get_production(farm_owner, models.FIELD_FIELD_ONE)
-
-        r = api_client.post(url_for('api.tasks_resource', production_id=production.id), data=input)
+        r = api_client.post(url_for('api.tasks_resource', plan_id=template.id), data=input)
         assert r.status_code == 201
         assert 'id' in r.json
         assert 'title' in r.json
@@ -83,12 +65,19 @@ class TestTaskResource:
         assert str(input['predictedCost']) == r.json['predictedCost']
         assert str(input['actualCost']) == r.json['actualCost']
 
-    def test_get(self, api_client, farm_owner, models):
+    @pytest.mark.parametrize("input", VALID_INPUT_DATA)
+    def test_create_production(self, api_client, farm_owner, input):
+        api_client.login_as(farm_owner)
+        production = Production.all()[0]
+
+        r = api_client.post(url_for('api.tasks_resource', plan_id=production.id), data=input)
+        assert r.status_code == 201
+        assert 'id' in r.json
+
+    def test_get(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
-        # Get the field detail for that field
-        production = get_production(farm_owner, models.FIELD_FIELD_ONE)
-        task = get_task(production)
+        task = Template.all()[0].tasks[0]
 
         r = api_client.get(url_for('api.task_resource', task_task_id=task.id))
         assert r.status_code == 200
@@ -102,13 +91,12 @@ class TestTaskResource:
         assert 'predictedCost' in r.json
         assert 'actualCost' in r.json
 
-    def test_list(self, api_client, farm_owner, models):
+    def test_list(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
-        # Get the field detail for that field
-        production = get_production(farm_owner, models.FIELD_FIELD_ONE)
+        production = Production.all()[0]
 
-        r = api_client.get(url_for('api.tasks_resource', production_id=production.id))
+        r = api_client.get(url_for('api.tasks_resource', plan_id=production.id))
         assert r.status_code == 200
         assert len(r.json)
         for e in r.json:
@@ -123,12 +111,10 @@ class TestTaskResource:
             assert 'actualCost' in e
 
 
-    def test_patch(self, api_client, farm_owner, models):
+    def test_patch(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
-        # Get the field detail for that field
-        production = get_production(farm_owner, models.FIELD_FIELD_ONE)
-        task = get_task(production)
+        task = Template.all()[0].tasks[0]
 
         new_name = "Nw fancy title"
         r = api_client.patch(url_for('api.task_resource', task_task_id=task.id), data=dict(title=new_name))
@@ -138,12 +124,10 @@ class TestTaskResource:
         assert 'id' in r.json
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA)
-    def test_put(self, api_client, farm_owner, models, input):
+    def test_put(self, api_client, farm_owner, input):
         api_client.login_as(farm_owner)
 
-        # Get the field detail for that field
-        production = get_production(farm_owner, models.FIELD_FIELD_ONE)
-        task = get_task(production)
+        task = Template.all()[0].tasks[0]
 
         data = input.copy()
         data['title'] = "New Field Name"
@@ -162,18 +146,17 @@ class TestTaskResource:
         assert str(data['actualCost']) == r.json['actualCost']
 
 
-    def test_delete(self, api_client, farm_owner, models):
+    def test_delete(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
-        # Get the field detail for that field
-        production = get_production(farm_owner, models.FIELD_FIELD_ONE)
-        task = get_task(production)
+        task = Template.all()[0].tasks[0]
 
         r = api_client.delete(url_for('api.task_resource', task_task_id=task.id))
         assert r.status_code == 204
         assert not Task.get_by(task_id=task.id)
 
 
+@pytest.mark.skip(reason="Protected resource is not implemented yet.")
 @pytest.mark.parametrize("models", ['Field(FIELD_FIELD_TWO, FIELD_FIELD_THREE)'], indirect=True)
 class TestTaskResourceProtected:
 
