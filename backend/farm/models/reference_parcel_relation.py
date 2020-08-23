@@ -22,16 +22,21 @@ class ReferenceParcelRelation(BaseModel, TimestampMixin):
 
     group_id = foreign_key('ReferenceParcel', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
     parcel_id = foreign_key('ReferenceParcel', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
+    #group_id = foreign_key('ReferenceParcel', primary_key=True)
+    #parcel_id = foreign_key('ReferenceParcel', primary_key=True)
 
     group = relationship('ReferenceParcel',
                          #primaryjoin="ReferenceParcelRelation.group_id == reference_parcel.c.id",
                          backref='group_parcels',
-                         foreign_keys=parcel_id)
+                         foreign_keys=parcel_id,
+                         cascade="all, delete"
+                         )
 
     parcel = relationship('ReferenceParcel',
                           #primaryjoin="ReferenceParcelRelation.parcel_id == reference_parcel.c.id",
                           backref='parcel_groups',
-                          foreign_keys=group_id
+                          foreign_keys=group_id,
+                          cascade="all, delete"
                           )
 
     __repr_props__ = ('group_id', 'parcel_id')

@@ -6,8 +6,8 @@ from flask import abort
 from http import HTTPStatus
 
 # Pip package imports
-from flask_security import current_user
-from sqlalchemy import desc
+from loguru import logger
+from flask import jsonify
 
 # Internal package imports
 from backend.api import ModelResource, Resource, ALL_METHODS, CREATE, DELETE, GET, LIST, PATCH, PUT
@@ -131,9 +131,15 @@ class GroupReferenceParcelResource(ModelResource):
 def search_reference_parcels(name, country_id, parcel_type_id):
     country = Country.query.get_or_404(country_id)
     parcel_type = ReferenceParcelType.query.get_or_404(parcel_type_id)
-    if country.iso3 == "HUN":
-        SearchReferenceParcel.search_parcel_hu(parcel_type.code, name)
+    try:
+        if country.iso3 == "HUN":
+            res = SearchReferenceParcel.search_parcel_hu(parcel_type.code, name)
+        else:
+            abort(HTTPStatus.NOT_IMPLEMENTED)
+    except Exception as e:
+        logger.error("Searching for parcel crashed. Name: %s Country ID: %s Parcel Type ID: %s, Error: %s" %(name, country_id, parcel_type_id, e))
+        abort(HTTPStatus.INTERNAL_SERVER_ERROR)
     else:
-        abort(HTTPStatus.NOT_IMPLEMENTED)
+        return jsonify(res)
 
 

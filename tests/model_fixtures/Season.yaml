@@ -1,7 +1,7 @@
 ---
 SEASON_1:
   title: S2017
-  reference_parcels: ['ReferenceParcel(PARCEL_AGRI)']
+  reference_parcels: ['ReferenceParcel(PARCEL_PHYSICAL_BLOCK_NESTED)']
 
 SEASON_2:
   title: S2018
