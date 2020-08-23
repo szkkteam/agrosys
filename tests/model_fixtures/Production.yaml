@@ -1,69 +1,56 @@
 ---
 PRODUCTION_AS_TMP_1:
   title: owner
-  use_as_template: true
   crop_template: 'CropTemplate(CROP_TEMPLATE_1)'
 
 PRODUCTION_AS_TMP_2:
   title: anonymus
-  use_as_template: true
   crop_template: 'CropTemplate(CROP_TEMPLATE_2)'
 
 PRODUCTION_AS_TMP_3:
   title: anonymus
-  use_as_template: true
   crop_template: 'CropTemplate(CROP_TEMPLATE_3)'
 
 PRODUCTION_1:
   title: owner
-  use_as_template: false
   crop_template: 'CropTemplate(CROP_TEMPLATE_4)'
 
 PRODUCTION_2:
   title: anonymus
-  use_as_template: false
   crop_template: 'CropTemplate(CROP_TEMPLATE_5)'
 
 PRODUCTION_3:
   title: anonymus
-  use_as_template: false
   crop_template: 'CropTemplate(CROP_TEMPLATE_6)'
 
 PRODUCTION_TMP_1:
   title: template
-  use_as_template: true
   crop_template: 'CropTemplate(CROP_TEMPLATE_1)'
 
 PRODUCTION_TMP_2:
   title: template
-  use_as_template: true
   crop_template: 'CropTemplate(CROP_TEMPLATE_2)'
 
 PRODUCTION_TMP_3:
   title: template
-  use_as_template: true
   crop_template: 'CropTemplate(CROP_TEMPLATE_3)'
 
 PRODUCTION_AS_TMP_TASKS:
   title: owner with tasks 1
-  use_as_template: true
   crop_template: 'CropTemplate(CROP_TEMPLATE_3)'
   tasks: ['TaskGeneral(TASK_GENERAL_1)', 'TaskPruning(TASK_PRUNING_1)']
 
 PRODUCTION_AS_TMP_TASKS_2:
   title: owner with tasks 2
-  use_as_template: true
   crop_template: 'CropTemplate(CROP_TEMPLATE_2)'
   tasks: ['TaskGeneral(TASK_GENERAL_2)', 'TaskPruning(TASK_PRUNING_2)']
 
 PRODUCTION_AS_TMP_TASKS_3:
   title: owner with tasks 3
-  use_as_template: true
   crop_template: 'CropTemplate(CROP_TEMPLATE_2)'
   tasks: ['TaskGeneral(TASK_GENERAL_3)', 'TaskPruning(TASK_PRUNING_3)']
 
 PRODUCTION_AS_TMP_TASKS_4:
   title: owner with tasks 4
-  use_as_template: true
   crop_template: 'CropTemplate(CROP_TEMPLATE_2)'
   tasks: ['TaskGeneral(TASK_GENERAL_4)', 'TaskPruning(TASK_PRUNING_4)']

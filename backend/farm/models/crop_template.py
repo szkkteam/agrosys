@@ -37,18 +37,5 @@ class CropTemplate(Model):
 
     plans = relationship('Plan', back_populates='crop_template')
 
-    @property
-    def production_templates(self):
-
-
-        user = User.get(current_user.id)
-        res_prod = with_polymorphic(Resource, [Production])
-        return UserService.resources_with_perms(user, ['edit', 'view', 'delete', 'create'], resource_types=['production'], without_owners=True,
-                                                query_class=res_prod). \
-            filter(sa.and_(
-            res_prod.Production.use_as_template == True,
-            res_prod.Production.crop_template_id == self.id
-        )). \
-            all()
 
     __repr_props__ = ('id', 'title', 'production_templates')

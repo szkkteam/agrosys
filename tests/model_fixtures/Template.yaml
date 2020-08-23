@@ -1,0 +1,15 @@
+---
+TEMPLATE_1:
+  title: template_ 1 with tasks
+  crop_template: 'CropTemplate(CROP_TEMPLATE_2)'
+  tasks: ['TaskGeneral(TASK_GENERAL_2)', 'TaskPruning(TASK_PRUNING_2)']
+
+TEMPLATE_2:
+  title: template_ 2 with tasks
+  crop_template: 'CropTemplate(CROP_TEMPLATE_2)'
+  tasks: ['TaskGeneral(TASK_GENERAL_2)', 'TaskPruning(TASK_PRUNING_2)']
+
+TEMPLATE_3:
+  title: template_ 3 with tasks
+  crop_template: 'CropTemplate(CROP_TEMPLATE_2)'
+  tasks: ['TaskGeneral(TASK_GENERAL_2)', 'TaskPruning(TASK_PRUNING_2)']

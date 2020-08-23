@@ -91,8 +91,9 @@ class TestReferenceParcelResource:
     def test_get(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
-        parcel = ReferenceParcel.all()[0]
-        r = api_client.get(url_for('api.reference_parcel_resource', id=parcel.id))
+        season = Season.all()[0]
+        group = season.reference_parcels[0]
+        r = api_client.get(url_for('api.reference_parcel_resource', id=group.id))
         assert r.status_code == 200
         assert 'id' in r.json
         assert 'title' in r.json
@@ -102,6 +103,17 @@ class TestReferenceParcelResource:
         assert 'geometry' in r.json
         assert 'referenceParcelType' in r.json
         assert 'soilType' in r.json
+        assert 'parcels' in r.json
+        for parcel in r.json['parcels']:
+            assert 'id' in parcel
+            assert 'title' in parcel
+            assert 'notes' in parcel
+            assert 'totalArea' in parcel
+            assert 'eligibleArea' in parcel
+            assert 'geometry' in parcel
+            assert 'referenceParcelType' in parcel
+            assert 'soilType' in parcel
+            assert 'parcels' not in parcel
 
     def test_patch(self, api_client, farm_owner):
         api_client.login_as(farm_owner)

@@ -27,9 +27,9 @@ def create_season(season):
     from ..models import SeasonReferenceParcel
     return SeasonReferenceParcel(season=season)
 
-def create_plan(plan):
-    from ..models import ReferenceParcelPlan
-    return ReferenceParcelPlan(plan=plan)
+def create_production(production):
+    from ..models import ReferenceParcelProduction
+    return ReferenceParcelProduction(production=production)
 
 class ReferenceParcel(Model):
     #id = Column(BigInteger, primary_key=True, autoincrement=True)
@@ -68,10 +68,10 @@ class ReferenceParcel(Model):
             #NodeRelation.parent_id == self.id).all()
 
     # Production relationship definition
-    reference_parcel_plans = relationship('ReferenceParcelPlan', back_populates='reference_parcel',
+    reference_parcel_productions = relationship('ReferenceParcelProduction', back_populates='reference_parcel',
                                             cascade='all, delete-orphan')
-    plans = association_proxy('production_reference_parcels', 'plan',
-                                      creator=lambda plan: create_plan(plan))
+    productions = association_proxy('reference_parcel_productions', 'production',
+                                      creator=lambda production: create_production(production))
 
     __repr_props__ = ('id', 'title', 'parcels')
 

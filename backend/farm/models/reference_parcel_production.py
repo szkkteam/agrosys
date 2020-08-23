@@ -17,20 +17,20 @@ from backend.database import (
     relationship,
 )
 
-class ReferenceParcelPlan(BaseModel, TimestampMixin):
+class ReferenceParcelProduction(BaseModel, TimestampMixin):
     """Join table between User and Role"""
 
-    plan_id = foreign_key('Plan', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
-    plan = relationship('Plan', back_populates='plan_reference_parcels')
+    production_id = foreign_key('Production', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
+    production = relationship('Production', back_populates='production_reference_parcels')
 
     reference_parcel_id = foreign_key('ReferenceParcel', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
-    reference_parcel = relationship('ReferenceParcel', back_populates='reference_parcel_plans')
+    reference_parcel = relationship('ReferenceParcel', back_populates='reference_parcel_productions')
 
-    __repr_props__ = ('plan_id', 'reference_parcel_id')
+    __repr_props__ = ('production_id', 'reference_parcel_id')
 
-    def __init__(self, plan=None, reference_parcel=None, **kwargs):
+    def __init__(self, production=None, reference_parcel=None, **kwargs):
         super().__init__(**kwargs)
         if reference_parcel:
             self.reference_parcel = reference_parcel
-        if plan:
-            self.plan = plan
+        if production:
+            self.production = production

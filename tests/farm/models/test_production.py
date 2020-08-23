@@ -7,7 +7,7 @@ import pytest
 from sqlalchemy.exc import IntegrityError
 
 # Internal package imports
-from backend.farm.models import Plan
+from backend.farm.models import Production
 
 PRODUCTION_DATA = {'title': 'corn 2017', 'crop_template_id': 1}
 
@@ -18,10 +18,10 @@ class TestPlanModels:
         data = PRODUCTION_DATA.copy()
         data['title'] = None
         with pytest.raises(IntegrityError):
-            Plan.create(**data, commit=True)
+            Production.create(**data, commit=True)
 
     def test_crop_template_id_required(self):
         data = PRODUCTION_DATA.copy()
         data['crop_template_id'] = None
         with pytest.raises(IntegrityError):
-            Plan.create(**data, commit=True)
+            Production.create(**data, commit=True)

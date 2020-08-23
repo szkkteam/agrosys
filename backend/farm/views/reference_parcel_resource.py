@@ -23,7 +23,7 @@ from ..models import ReferenceParcel, Season, SeasonReferenceParcel, ReferencePa
 from ..services import SearchReferenceParcel
 from .blueprint import farm
 
-@api.model_resource(farm, ReferenceParcel, '/parcels', '/parcels/<id>')
+@api.model_resource(farm, ReferenceParcel, '/parcels', '/parcels/<int:id>')
 class ReferenceParcelResource(ModelResource):
     """Resource to create a signle parcel without any assignment, or edit, get, delete a parcel based on primary key"""
     include_methods = (CREATE, DELETE, GET, PATCH, PUT)
@@ -37,8 +37,8 @@ class ReferenceParcelResource(ModelResource):
 
 
 @api.model_resource(farm, ReferenceParcel,
-                    '/seasons/<season_id>/parcels',
-                    '/seasons/<season_id>/parcels/<parcel_id>',
+                    '/seasons/<int:season_id>/parcels',
+                    '/seasons/<int:season_id>/parcels/<int:parcel_id>',
                     endpoint=(
                         "season_reference_parcel_resource",
                         "season_reference_parcels_resource",))
@@ -80,8 +80,8 @@ class SeasonReferenceParcelResource(ModelResource):
 
 
 @api.model_resource(farm, ReferenceParcel,
-                    '/groups/<group_id>/parcels',
-                    '/groups/<group_id>/parcels/<parcel_id>',
+                    '/groups/<int:group_id>/parcels',
+                    '/groups/<int:group_id>/parcels/<int:parcel_id>',
                     endpoint=(
                         "group_reference_parcel_resource",
                         "group_reference_parcels_resource",))

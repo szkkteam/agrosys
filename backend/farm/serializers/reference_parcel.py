@@ -27,6 +27,7 @@ DATA_FIELDS = (
     'reference_parcel_type_id',
     'soil_type',
     'soil_type_id',
+    'parcels',
 )
 
 def object_id_exists(object_id, model):
@@ -51,6 +52,7 @@ class ReferenceParcelSerializer(ModelSerializer):
     reference_parcel_type_id = fields.Integer(required=True, validate=lambda x: object_id_exists(x, ReferenceParcelType))
     reference_parcel_type = fields.Nested('ReferenceParcelTypeSerializer', many=False)    
 
+    parcels = fields.Nested('ReferenceParcelListSerializer', many=True, exclude=('parcels',))
 
     class Meta:
         model = ReferenceParcel
@@ -63,10 +65,11 @@ class ReferenceParcelSerializer(ModelSerializer):
     def validate_area(self, data, **kwargs):
         partial = kwargs.get('partial', False)
         errors = {}
-        if partial and 'eligible_area' or 'total_area' in data:
+        if partial and ('eligible_area' or 'total_area') in data:
             # TODO: How to validate against totalArea which is stored in db?
             pass
         else:
+            print("Goind to else branch")
             if data['eligible_area'] > data['total_area']:
                 errors["eligibleArea"] = ["Field may be not bigger than totalArea."]
             if data['eligible_area'] <= 0:

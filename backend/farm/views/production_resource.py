@@ -3,142 +3,83 @@
 
 # Common Python library imports
 # Pip package imports
-from flask import abort
-from flask_security import current_user
-from http import HTTPStatus
-
 # Internal package imports
-from backend.api import ModelResource, ALL_METHODS, CREATE, DELETE, GET, LIST, PATCH, PUT
-from backend.api.decorators import param_converter
+from backend.api import ModelResource, Resource, ALL_METHODS, CREATE, DELETE, GET, LIST, PATCH, PUT
 from backend.security.decorators import auth_required
-from backend.security.models import User
+from backend.api.decorators import param_converter
 from backend.extensions.api import api
-from backend.permissions.decorators import permission_required
-from backend.permissions.services import ResourceService, UserService
 
-from ..models import BaseParcel, ReferenceParcel, BaseParcelProduction, Production
-from ..serializers import ProductionListSerializer
-from .blueprint import production
+from ..models import Template, Farm, Production, ReferenceParcel, ReferenceParcelProduction
+from .blueprint import farm
 
-def get_production_details(production):
-    #if only_last:
-    #    production_details = FieldDetail.filter_by(field_id=field.id).order_by(desc(FieldDetail.created_at)).first()
-    #else:
-    #    production_details = field.field_details
-    return {
-            'id': production.id,
-            'title': production.title,
-            'tasks': production.tasks,
-            'crop_template_id': production.crop_template_id,
-            'field_details': BaseParcel.join(BaseParcelProduction).filter(BaseParcelProduction.production_id == production.id).all(),
-            'use_as_template': production.use_as_template,
-            #'field_details': field_details,
-            'role': {
-                'is_owner': bool(production.owner_user_id == current_user.id),
-                'permissions': [str(perm.perm_name) for perm in ResourceService.perms_for_user(production, User.get(current_user.id))]
-            }
-        }
-
-def get_productions_with_permissions(permissions, filter_by_ids=None):
-    user = User.get(current_user.id)
-    return UserService.resources_with_perms(user, permissions, resource_ids=filter_by_ids, resource_types=['production']).all()
-
-def get_production_field_edit_permission(**view_kwargs):
-    if 'field_detail_id' not in view_kwargs:
-        return None
-    return BaseParcel.get(view_kwargs.get('field_detail_id')).field
-
-
-@api.model_resource(production, Production,
-                    '/field-details/productions',
-                    '/field-details/productions/<int:production_id>')
+@api.model_resource(farm, Production, '/parcels/<int:parcel_id>/productions', '/productions/<int:id>')
 class ProductionResource(ModelResource):
-    include_methods = ALL_METHODS
+    """Resource to create a signle parcel without any assignment, or edit, get, delete a parcel based on primary key"""
     exclude_decorators = (LIST, )
     method_decorators = {
         CREATE: (auth_required, ),
+        LIST: (auth_required, ),
         DELETE: (auth_required, ),
         GET: (auth_required, ),
         PATCH: (auth_required, ),
         PUT: (auth_required, ),
     }
+    # api/v1/farms/parcels/<parcel_id>/templates [POST, LIST] -> post template under farm, list templates
+    # api/v1/farms/templates/<template_id> [GET, PUT, PATCH, DELETE] ->  edit by
 
-    # TODO: Check if user has permission to create field.
-    #def create(self, *args, **kwargs):
-    def create(self, production, errors, **kwargs):
+    # api/v1/farms<farm_id>/templates/<template_id> [PUT, DELETE] -> Relations
+    @param_converter(parcel_id=int)
+    def create(self, production, errors, parcel_id, **kwargs):
         if errors:
             return self.errors(errors)
-        # Get the current user object
-        user = User.get(current_user.id)
-        # Add production to user's resource. The user will be the owner of this resource
-        user.resources.append(production)
+        # Get the season object
+        parcel = ReferenceParcel.query.get_or_404(parcel_id)
+        parcel.productions.append(production)
         return self.created(production)
 
-    # TODO: permission_required decorator is not working as method_decorator. Method decorators are called before the instance is present.
-    @permission_required(permission='edit', resource='production')
-    def put(self, production, errors):
-        if errors:
-            return self.errors(errors)
-        return self.updated(production)
+    @param_converter(parcel_id=int)
+    def list(self, parcel_id, *args, **kwargs):
+        productions = Production.join(ReferenceParcelProduction).filter(ReferenceParcelProduction.reference_parcel_id == parcel_id).all()
+        return self.serializer.dump(productions, many=True)
 
-    @permission_required(permission='edit', resource='production')
-    def patch(self, production, errors):
-        if errors:
-            return self.errors(errors)
-        return self.updated(production)
 
-    @permission_required(permission='delete', resource='production')
-    def delete(self, production):
-        return self.deleted(production)
+@api.model_resource(farm, Production, '/<int:farm_id>/productions', endpoint='filter_productions_resource')
+class FilterProductionResource(ModelResource):
+    """Resource to create a signle parcel without any assignment, or edit, get, delete a parcel based on primary key"""
+    include_decorators = (LIST, )
+    method_decorators = {
+        LIST: (auth_required, ),
+    }
 
-    @permission_required(permission='view', resource='production')
-    def get(self, production):
-        return self.serializer.dump(get_production_details(production))
-
-    @auth_required
-    @param_converter(field_detail_id=int)
-    def list(self, field_detail_id=None, **kwargs):
-        # Get farms with any permissions. TODO: ANY_PERMISSION object is not working ...
-        production_ids = None
-        if field_detail_id:
-            field_details = BaseParcel.get(field_detail_id)
-            if not field_details:
-                abort(HTTPStatus.NOT_FOUND)
-            production_ids = [prod.id for prod in field_details.productions]
-
-        return get_productions_with_permissions(['edit', 'view', 'delete', 'create'], filter_by_ids=production_ids)
+    @param_converter(farm_id=int)
+    def list(self, farm_id, *args, **kwargs):
+        assert False
+        # TODO: Implement a lot of filtering logic
+        productions = Production.join(ReferenceParcelProduction).filter(ReferenceParcelProduction.reference_parcel_id == parcel_id).all()
+        return self.serializer.dump(productions, many=True)
 
 
 
-@api.model_resource(production, Production, '/field-details/<int:field_detail_id>/productions/<int:production_id>', endpoint="assign_productions_resource")
-class AssignProductionResource(ModelResource):
-    include_methods = (PUT, DELETE)
+@api.model_resource(farm, Production,
+                    '/parcels/<int:parcel_id>/productions/<int:production_id>',
+                    endpoint='reference_parcel_production_resource')
+class ReferenceParcelProductionResource(ModelResource):
+    include_methods = (DELETE, PUT)
     exclude_decorators = (PUT, DELETE)
+    method_decorators = {
+        DELETE: (auth_required,),
+        PUT: (auth_required,),
+    }
 
-    @permission_required(permission='edit', resource=get_production_field_edit_permission)
-    @param_converter(field_detail_id=int, production_id=int)
-    def put(self, field_detail_id=None, production_id=None, *args, **kwargs):
-        field_detail = BaseParcel.get(field_detail_id)
-        production = Production.get(production_id)
-        if not field_detail and production:
-            abort(HTTPStatus.NOT_FOUND)
-
-        field_detail.productions.append(production)
-
+    @param_converter(parcel_id=int, production_id=int)
+    def put(self, parcel_id, production_id, *args, **kwargs):
+        parcel = ReferenceParcel.query.get_or_404(parcel_id)
+        production = Production.query.get_or_404(production_id)
+        parcel.productions.append(production)
         return self.updated(production)
 
-    @permission_required(permission='delete', resource=get_production_field_edit_permission)
-    def delete(self, field_detail_id=None, production_id=None, *args, **kwargs):
-        field_detail = BaseParcel.get(field_detail_id)
-        production = Production.get(production_id)
-        if not field_detail and production:
-            abort(HTTPStatus.NOT_FOUND)
+    @param_converter(parcel_id=int, production_id=int)
+    def delete(self, parcel_id, production_id):
+        ft = ReferenceParcelProduction.filter_by(reference_parcel_id=parcel_id, production_id=production_id).first_or_404()
+        return self.deleted(ft)
 
-
-        fdp = BaseParcelProduction.filter_by(production_id=production.id, field_detail_id=field_detail.id).first()
-        return self.deleted(fdp)
-
-    @auth_required
-    def list(self, *args, **kwargs):
-        # Get farms with any permissions. TODO: ANY_PERMISSION object is not working ...
-        return ProductionListSerializer().dump(get_productions_with_permissions(['edit', 'view', 'delete', 'create']), many=True)

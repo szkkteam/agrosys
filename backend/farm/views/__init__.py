@@ -12,5 +12,6 @@ from .crop_template_resource import CropTemplateResource
 from .farm_resource import FarmResource
 from .season_resource import SeasonResource, ArchiveSeasonResource
 from .reference_parcel_resource import ReferenceParcelResource, SeasonReferenceParcelResource, GroupReferenceParcelResource, search_reference_parcels
-#from .production_resource import ProductionResource
+from .template_resource import TemplateResource, FarmTemplateResource
+from .production_resource import ProductionResource, FilterProductionResource, ReferenceParcelProductionResource
 #from .task_resource import TaskResource

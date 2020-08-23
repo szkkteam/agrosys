@@ -8,7 +8,7 @@ from flask import url_for
 from flask_security import AnonymousUser, current_user
 
 # Internal package imports
-from backend.farm.models import CropTemplate, Production, ReferenceParcel, ReferenceParcelProduction
+from backend.farm.models import CropTemplate, Production, Farm, Template
 
 TASK_GENERAL_1 = {
     'title': 'task general',
@@ -61,15 +61,15 @@ def get_input_data(input, crop_template):
     return data
 
 
-class TestProductionResource:
+class TestTemplateResource:
 
     def test_create(self, api_client, farm_owner, crop_template):
         api_client.login_as(farm_owner)
 
         data = get_input_data(NEW_PRODUCTION_DATA, crop_template)
-        parcel = ReferenceParcel.all()[-1]
+        farm = Farm.all()[0]
 
-        r = api_client.post(url_for('api.productions_resource', parcel_id=parcel.id), data=data)
+        r = api_client.post(url_for('api.templates_resource', farm_id=farm.id), data=data)
         assert r.status_code == 201
         assert 'id' in r.json
         assert 'title' in r.json
@@ -81,9 +81,9 @@ class TestProductionResource:
     def test_get(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
-        production = Production.all()[0]
+        template = Template.all()[0]
 
-        r = api_client.get(url_for('api.production_resource', id=production.id))
+        r = api_client.get(url_for('api.template_resource', id=template.id))
         assert r.status_code == 200
         assert 'id' in r.json
         assert 'title' in r.json
@@ -95,10 +95,8 @@ class TestProductionResource:
     def test_list(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
-
-        parcel = ReferenceParcel.join(ReferenceParcelProduction).all()[0]
-
-        r = api_client.get(url_for('api.productions_resource', parcel_id=parcel.id))
+        farm = Farm.all()[0]
+        r = api_client.get(url_for('api.templates_resource', farm_id=farm.id))
         assert r.status_code == 200
         assert len(r.json)
         for e in r.json:
@@ -112,9 +110,9 @@ class TestProductionResource:
     def test_patch(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
-        production = Production.all()[0]
-        new_name = "New production name"
-        r = api_client.patch(url_for('api.production_resource', id=production.id), data=dict(title=new_name))
+        template = Template.all()[0]
+        new_name = "New template name"
+        r = api_client.patch(url_for('api.template_resource', id=template.id), data=dict(title=new_name))
 
         assert r.status_code == 200
         assert r.json['title'] == new_name
@@ -123,10 +121,10 @@ class TestProductionResource:
     def test_put(self, api_client, farm_owner, crop_template):
         api_client.login_as(farm_owner)
 
-        production = Production.all()[0]
+        template = Template.all()[0]
         data = get_input_data(NEW_PRODUCTION_DATA, crop_template)
         data['title'] = "New template name"
-        r = api_client.put(url_for('api.production_resource', id=production.id), data=data)
+        r = api_client.put(url_for('api.template_resource', id=template.id), data=data)
 
         assert r.status_code == 200
         assert r.json['title'] == data['title']
@@ -136,37 +134,37 @@ class TestProductionResource:
     def test_delete(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
-        production = Production.all()[0]
-        r = api_client.delete(url_for('api.production_resource', id=production.id))
+        template = Template.all()[0]
+        r = api_client.delete(url_for('api.template_resource', id=template.id))
 
         assert r.status_code == 204
-        assert not Production.get(production.id)
+        assert not Template.get(template.id)
 
-class TestReferenceParcelProductionResource:
+class TestFarmTemplateResource:
 
-    @pytest.mark.parametrize("models", ['Production(PRODUCTION_AS_TMP_TASKS_4)'], indirect=True)
+    @pytest.mark.parametrize("models", ['Template(TEMPLATE_3)'], indirect=True)
     def test_put(self, api_client, farm_owner, models):
         api_client.login_as(farm_owner)
 
-        parcel = ReferenceParcel.all()[0]
-        production = models.PRODUCTION_AS_TMP_TASKS_4
+        farm = Farm.all()[0]
+        template = models.TEMPLATE_3
 
-        len_productions = len(parcel.productions)
-        r = api_client.put(url_for('api.reference_parcel_production_resource', parcel_id=parcel.id, production_id=production.id))
+        len_templates = len(farm.templates)
+        r = api_client.put(url_for('api.farm_template_resource', farm_id=farm.id, template_id=template.id))
         assert r.status_code == 200
         print("result: ", r.json)
         assert 'id' in r.json
-        assert (len_productions + 1) == len(ReferenceParcel.get(parcel.id).productions)
+        assert (len_templates + 1) == len(Farm.all()[0].templates)
 
     def test_delete(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
-        parcel = ReferenceParcel.join(ReferenceParcelProduction).all()[0]
-        production = parcel.productions[0]
+        farm = Farm.all()[0]
+        template = Template.all()[0]
 
-        len_productions = len(parcel.productions)
-        r = api_client.delete(url_for('api.reference_parcel_production_resource', parcel_id=parcel.id, production_id=production.id))
+        len_templates = len(farm.templates)
+        r = api_client.delete(url_for('api.farm_template_resource', farm_id=farm.id, template_id=template.id))
 
         assert r.status_code == 204
-        assert (len_productions - 1) == len(ReferenceParcel.get(parcel.id).productions)
+        assert (len_templates - 1) == len(Farm.all()[0].templates)
 

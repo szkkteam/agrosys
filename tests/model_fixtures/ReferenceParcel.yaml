@@ -34,6 +34,7 @@ PARCEL_SIMPLE_4:
   soil_type: 'SoilType(SOIL_TYPE_3)'
   reference_parcel_type: 'ReferenceParcelType(REFERENCE_PARCEL_TYPE_AGRI_PARCEL)'
   geometry: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
+  productions: ['Production(PRODUCTION_AS_TMP_TASKS_3)']
 
 PARCEL_AGRI:
   title: Agricultural Parcel - simple

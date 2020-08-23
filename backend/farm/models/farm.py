@@ -12,9 +12,14 @@ from backend.database import (
     Column,
     String,
     foreign_key,
-    relationship
+    relationship,
+    association_proxy
 )
 from backend.security.models.resource import Resource
+
+def create_template(template):
+    from ..models import FarmTemplate
+    return FarmTemplate(template=template)
 
 class Farm(Resource):
     __mapper_args__ = {'polymorphic_identity': 'farm'}
@@ -32,6 +37,8 @@ class Farm(Resource):
     seasons = relationship('Season', cascade="all, delete", back_populates='farm')
     # TODO: Define later lazy relationship
     #seasons = relationship('Season', cascade="all,delete", back_populates='farm', lazy='noload')
+    templates = association_proxy('farm_templates', 'template',
+                                          creator=lambda template: create_template(template))
 
     __repr_props__ = ('id', 'title', 'owner_user_id', 'fields')
 

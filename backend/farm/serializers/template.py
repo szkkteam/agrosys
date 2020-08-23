@@ -7,38 +7,43 @@
 from backend.extensions.api import api
 from backend.api import ModelSerializer, validates, ValidationError, fields
 from ..models import CropTemplate
-from ..models import Plan
+from ..models import Template
 
 
 DATA_FIELDS = (
     'id',
     'title',
+    'tasks',
+    'crop_template',
+    'crop_template_id',
 )
 
 def object_id_exists(object_id, model):
     if not model.get_by(id=object_id):
         raise ValidationError('ID %i does not exist.' % (object_id))
 
-class PlanSerializer(ModelSerializer):
+class TemplateSerializer(ModelSerializer):
 
-    use_as_template = fields.Boolean(required=False, allow_none=True)
+    crop_template = fields.Nested('CropTemplateSerializer', many=False, exclude=('production_templates', ))
     crop_template_id = fields.Integer(required=True, validate=lambda x: object_id_exists(x, CropTemplate))
+
     tasks = fields.Nested('TaskListSerializer', many=True, required=False)
 
     class Meta:
-        model = Plan
-        fields = DATA_FIELDS + ('crop_template_id', 'use_as_template', 'tasks')
-        dump_only = ('id', )
-        load_only = ('use_as_template', )
-        include_fk = True
+        model = Template
+        fields = DATA_FIELDS
+        dump_only = ('id', 'crop_template',)
+        load_only = ('crop_template_id', )
+        #include_fk = True
 
 @api.serializer(many=True)
-class PlanListSerializer(PlanSerializer):
+class TemplateListSerializer(TemplateSerializer):
 
     #field_details = fields.Nested('FieldDetailListSerializer', dump_only=True, only=('id', 'area', 'field'),required=False, many=True)
 
     class Meta:
-        model = Plan
-        fields = DATA_FIELDS + ('crop_template_id', 'use_as_template', )
-        dump_only = ('id', )
+        model = Template
+        fields = DATA_FIELDS
+        dump_only = ('id', 'crop_template',)
+        load_only = ('crop_template_id', )
         #include_relationships = True

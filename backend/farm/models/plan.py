@@ -11,28 +11,21 @@ from backend.database import (
     BigInteger,
     String,
     Boolean,
-    Model,
+    TimestampMixin,
+    BaseModel,
     DateTime,
     Enum,
     relationship,
     foreign_key,
     association_proxy
 )
+from .plan_mixin import PlanMixin
 from backend.security.models.resource import Resource
 
-def create_base_parcel_production(reference_parcel):
-    from ..models import ReferenceParcelPlan
-    return ReferenceParcelPlan(reference_parcel=reference_parcel)
 
+class Plan(PlanMixin, TimestampMixin, BaseModel):
 
-class Plan(Model):
     title = Column(String(128))
-    use_as_template = Column(Boolean, default=False)
-
-    plan_reference_parcels = relationship('ReferenceParcelPlan', back_populates='plan',
-                                            cascade='all, delete-orphan')
-    reference_parcels = association_proxy('reference_parcel_plans', 'reference_parcel',
-                                      creator=lambda reference_parcel: create_base_parcel_production(reference_parcel))
 
     tasks = relationship('Task', back_populates='plan',
                          cascade='all, delete-orphan')
@@ -40,6 +33,4 @@ class Plan(Model):
     crop_template_id = foreign_key('CropTemplate', nullable=False)
     crop_template = relationship('CropTemplate', uselist=False)
 
-    archived_at = Column(DateTime, default=None, nullable=True)
-
-    __repr_props__ = ('id', 'title', 'use_as_template', 'crop_template_id')
+    __repr_props__ = ('plan_id', 'title', 'use_as_template', 'crop_template_id')

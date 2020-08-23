@@ -11,5 +11,6 @@ from .crop_template import CropTemplateSerializer, CropTemplateListSerializer
 from .farm import FarmSerializer, FarmListSerializer, FarmPermissionSerializer
 from .season import SeasonSerializer, SeasonListSerializer
 from .reference_parcel import ReferenceParcelSerializer, ReferenceParcelListSerializer
-from .plan import PlanSerializer, PlanListSerializer
+from .production import ProductionSerializer, ProductionListSerializer
+from .template import TemplateSerializer, TemplateListSerializer
 from .task import TaskSerializer, TaskListSerializer
