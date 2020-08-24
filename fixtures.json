@@ -61,20 +61,50 @@
       "role_id": 2
     }
   ]},
-
+  {
+    "model": "Country", "items": [
+      {
+        "id": 1,
+        "title": "Hungary",
+        "iso2": "HU",
+        "iso3": "HUN"
+      }
+    ]
+  },
+  {
+    "model": "ReferenceParcelType", "items": [
+      {
+        "id": 1,
+        "code": "AgriculturalParcel",
+        "title": "Agricultural Parcel",
+        "description": ""
+      },
+      {
+        "id": 2,
+        "code": "CadastralParcel",
+        "title": "Cadastral Parcel",
+        "description": ""
+      },
+      {
+        "id": 3,
+        "code": "FarmersBlock",
+        "title": "Farmers Block",
+        "description": ""
+      },
+      {
+        "id": 4,
+        "code": "PhysicalBlock",
+        "title": "Physical Block",
+        "description": ""
+      }
+    ]
+  },
   {
     "model": "Farm", "items": [
       {
         "id": 1,
-        "title": "My Farm"
-      },
-      {
-        "id": 2,
-        "title": "My Farm"
-      },
-      {
-        "id": 3,
-        "title": "My Farm"
+        "title": "My Farm",
+        "country_id": 1
       }
     ]
   },
