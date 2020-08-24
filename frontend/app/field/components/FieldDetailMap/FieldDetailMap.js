@@ -4,7 +4,7 @@ import {
     Map,
     MapFeature,
     MapControl,
-} from 'map/components'
+} from 'components/Map/components'
 
 import { 
     FormFieldDetailDraw,

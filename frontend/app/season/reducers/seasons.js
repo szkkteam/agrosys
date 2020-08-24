@@ -6,6 +6,7 @@ import {
     updateSeason,
     setSeason,
 } from 'season/actions'
+import { storage } from 'utils'
 
 export const KEY = 'seasons'
 
@@ -15,7 +16,7 @@ const initialState = {
     ids: [],
     byId: [],
     error: null,
-    selected: null,
+    selected: storage.getSelectedSeason(),
 }
 
 export default function(state = initialState, action) {
@@ -31,7 +32,7 @@ export default function(state = initialState, action) {
 
         case actionSeason.SET:
             const { selected } = payload
-            console.log("season/SET_SEASON: ", payload)
+            storage.selectSeason(selected)
             return { ...state,
                 selected,
             }
@@ -66,3 +67,6 @@ export const selectSeasonsList = (state) => {
     const seasons = selectSeasons(state)
     return seasons.ids.map((id) => seasons.byId[id])
 }
+export const selectSelectedSeasons = (state) => (
+    selectSeasons(state).selected
+)

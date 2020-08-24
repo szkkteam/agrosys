@@ -2,7 +2,7 @@ import React from 'react'
 
 import { 
     MapControl,
-} from 'map/components'
+} from 'components/Map/components'
 
 
 export default ({onClickCancel, onClickEdit, menuOpen, form}) => (

@@ -5,27 +5,15 @@ import { Map, Marker, Popup, TileLayer } from "react-leaflet";
 
 export default class LeafletMap extends React.Component {
 
-    static defaultProps = {
-        enableDoubleClickZoom: true,
-    }
-
     componentDidMount() {
-        const { startBounds } = this.props
         this.map = this.mapInstance.leafletElement
-        //startBounds && this.map.flyToBounds(startBounds)
     }
 
     componentDidUpdate(prevProps, prevState) {
         // FIXME: Comparing prevEvents and thisEvents will be always the same. Why?
         this.props.events && this.props.events.map((event, id) => (
             this.handleEvents(event)
-        ))
-        // FIXME: Double click zoom is still not working with draw double click.
-        if (this.props.enableDoubleClickZoom) {
-            this.map.doubleClickZoom.enable()
-        } else {
-            this.map.doubleClickZoom.disable()
-        }
+        ))        
     }
 
     flyTo = ({bounds}) => {
@@ -45,6 +33,7 @@ export default class LeafletMap extends React.Component {
     }
     
     onMoveEnd = (e) => {
+        console.log("onMoveEnd: ", e)
         const { mapEventAction, mapViewportAction, events } = this.props
         events.length && mapEventAction && mapEventAction.clearEvents()
         mapViewportAction && mapViewportAction.changed({
@@ -53,12 +42,13 @@ export default class LeafletMap extends React.Component {
     }
 
     render() {
-        const { editable, children } = this.props
+        const { editable, children, startBounds } = this.props
         return (
             <Map 
                 ref={e => { this.mapInstance = e }}
-                center={[45.4, -75.7]}
-                zoom={12}
+                //center={[45.4, -75.7]}
+                //zoom={12}
+                bounds={startBounds}
                 editable={editable}
                 onMoveEnd={this.onMoveEnd}
             >

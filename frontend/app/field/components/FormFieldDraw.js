@@ -10,7 +10,7 @@ import { injectSagas } from 'utils/async'
 
 import { injectReducer } from 'utils/async'
 import { createFields } from 'field/actions'
-import { selectMapFeautreInEdit } from 'map/reducer'
+import { selectMapFeautreInEdit } from 'components/Map/reducer'
 import { selectSelectedFarm } from 'farm/reducers/farms'
 
 import { 
@@ -26,7 +26,7 @@ const withForm = reduxForm({
     keepDirtyOnReinitialize: true,
 })
 
-const withReducerFarm = injectReducer(require('map/reducer'))
+const withReducerFarm = injectReducer(require('components/Map/reducer'))
 const withSagas = injectSagas(require('field/sagas/createField'))
 
 const withConnect = connect(

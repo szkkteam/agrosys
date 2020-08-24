@@ -5,8 +5,8 @@ import { connect } from 'react-redux'
 
 import { injectReducer } from 'utils/async'
 
-import { mapEvents, mapEventActionsTypes } from 'map/actions'
-import { selectMap } from 'map/reducer'
+import { mapEvents, mapEventActionsTypes } from 'components/Map/actions'
+import { selectMap } from 'components/Map/reducer'
 
 import { 
     SplitPane,
@@ -16,7 +16,7 @@ import {
 import { 
     Map,
     MapEditFeature,
- } from 'map/components'
+ } from 'components/Map/components'
 
 class FieldDraw extends React.Component { 
     
@@ -75,7 +75,7 @@ class FieldDraw extends React.Component {
     }
 }
 
-const withReducer = injectReducer(require('map/reducer'))
+const withReducer = injectReducer(require('components/Map/reducer'))
 
 const withConnect = connect(
     (state) => ({mapState: selectMap(state)}),

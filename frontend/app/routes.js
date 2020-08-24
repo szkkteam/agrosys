@@ -10,6 +10,10 @@ import {
 } from 'farm/pages'
 
 import {
+  MapPage,
+} from 'map/pages'
+
+import {
   FieldList,
   FieldDetail,
   FieldCreate,
@@ -54,6 +58,12 @@ export const ROUTES = {
    */
   Farms: 'Farms',
   FarmCreate: 'FarmCreate',
+  /**
+   * Map
+   */
+  MapPage: 'MapPage',
+
+
   /**
    * Field
    */
@@ -109,6 +119,16 @@ const routes = [
     key: ROUTES.FarmCreate,
     path: '/farms-new',
     component: FarmCreate,
+    routeComponent: ProtectedRoute,
+  },
+
+  /**
+   * Map
+   */
+  {
+    key: ROUTES.MapPage,
+    path: '/map',
+    component: MapPage,
     routeComponent: ProtectedRoute,
   },
   /**

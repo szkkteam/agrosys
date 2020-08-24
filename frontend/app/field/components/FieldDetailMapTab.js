@@ -15,8 +15,8 @@ import { selectFieldsList } from 'field/reducers/field'
 import { 
     mapEvents,
     mapEventActionsTypes,
-} from 'map/actions'
-import { selectMap } from 'map/reducer'
+} from 'components/Map/actions'
+import { selectMap } from 'components/Map/reducer'
 
 import { 
     SplitPane,
@@ -29,7 +29,7 @@ import {
 
 import { 
     MapEditFeature,
-} from 'map/components'
+} from 'components/Map/components'
 
 class FieldDetailMapTab extends React.Component {
 
@@ -272,7 +272,7 @@ class FieldDetailMapTab extends React.Component {
 
 const withReducerFields = injectReducer(require('field/reducers/field'))
 const withSaga = injectSagas(require('field/sagas/listFields'))
-const withReducerMap = injectReducer(require('map/reducer'))
+const withReducerMap = injectReducer(require('components/Map/reducer'))
 
 const withConnectFields = connect(
     (state) => ({fieldList: selectFieldsList(state)}),

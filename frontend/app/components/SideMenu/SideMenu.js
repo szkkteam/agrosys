@@ -20,6 +20,8 @@ import SideBar from './SideBar'
 
 import { FarmMenu } from 'farm/menus'
 import { SeasonMenu } from 'season/menus'
+import { MapMenu } from 'map/menus'
+
 import { FieldMenu } from 'field/menus'
 import { UserMenu } from 'user/menus'
 import { ProductionMenu } from 'production/menus'
@@ -111,6 +113,10 @@ let items = [
   },
   {
     src: SeasonMenu,
+    type: "menuItem",
+  },
+  {
+    src: MapMenu,
     type: "menuItem",
   },
   {

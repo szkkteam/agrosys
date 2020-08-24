@@ -11,13 +11,13 @@ import {
     mapEvents,
     mapEditFeatureActionsTypes,
     mapEventActionsTypes,
-} from 'map/actions'
+} from 'components/Map/actions'
 
-import { selectMap } from 'map/reducer'
+import { selectMap } from 'components/Map/reducer'
 
-import { LeafletEditable } from 'map/components'
+import { LeafletEditable } from 'components/Map/components'
 
-import { getArea } from 'map/utils'
+import { getArea } from 'components/Map/utils'
 
 export default class MapEditFeature extends React.Component {
 
