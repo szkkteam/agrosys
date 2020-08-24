@@ -4,7 +4,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Prompt } from 'react-router'
 
-import { bindRoutineCreators, bindRoutineCreatorsAction } from 'actions'
+import { bindRoutineCreators } from 'actions'
 import { injectReducer, injectSagas } from 'utils/async'
 
 import { listFields } from 'field/actions'
@@ -345,7 +345,7 @@ const withConnectProductionTemplate = connect(
 
 const withConnectTemplateClear = connect(
     (state) => ({selectedTemplate: selectProductionTemplate(state)}),
-    (dispatch) => bindRoutineCreatorsAction({ productionTemplate }, dispatch, productionTemplateActionTypes),
+    (dispatch) => bindRoutineCreators({ productionTemplate }, dispatch),
 )
 
 

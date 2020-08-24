@@ -3,7 +3,6 @@ import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 
-import { bindRoutineCreatorsAction } from 'actions'
 import { injectReducer } from 'utils/async'
 
 import { mapEvents, mapEventActionsTypes } from 'map/actions'
@@ -80,7 +79,7 @@ const withReducer = injectReducer(require('map/reducer'))
 
 const withConnect = connect(
     (state) => ({mapState: selectMap(state)}),
-    (dispatch) => bindRoutineCreatorsAction({ mapEvents }, dispatch, mapEventActionsTypes),
+    (dispatch) => bindRoutineCreators({ mapEvents }, dispatch),
   )
 
 export default compose(

@@ -4,7 +4,7 @@ import Helmet from 'react-helmet'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 
-import { bindRoutineCreatorsAction } from 'actions'
+import { bindRoutineCreators } from 'actions'
 import { injectReducer } from 'utils/async'
 
 import { 
@@ -54,17 +54,17 @@ const withReducer = injectReducer(require('map/reducer'))
 
 const withConnectMapEdit = connect(
     (state) => ({mapState: selectMap(state)}),
-    (dispatch) => bindRoutineCreatorsAction({ mapEdit }, dispatch, mapEditFeatureActionsTypes),
+    (dispatch) => bindRoutineCreators({ mapEdit }, dispatch),
   )
 
   const withConnectMapEvent = connect(
     (state) => ({mapState: selectMap(state)}),
-    (dispatch) => bindRoutineCreatorsAction({ mapEvents }, dispatch, mapEventActionsTypes),
+    (dispatch) => bindRoutineCreators({ mapEvents }, dispatch),
   )
 
   const withConnectMapViewport = connect(
     (state) => ({mapState: selectMap(state)}),
-    (dispatch) => bindRoutineCreatorsAction({ mapViewport }, dispatch, mapViewportActionsTypes),
+    (dispatch) => bindRoutineCreators({ mapViewport }, dispatch),
 )
   
 

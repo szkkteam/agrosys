@@ -6,7 +6,7 @@ import { withRouter } from "react-router";
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 
-import { bindRoutineCreators, bindRoutineCreatorsAction } from 'actions'
+import { bindRoutineCreators } from 'actions'
 import { injectReducer, injectSagas } from 'utils/async'
 
 import { listFields } from 'field/actions'
@@ -281,7 +281,7 @@ const withConnectFields = connect(
 
 const withConnectMap = connect(
     (state) => ({mapState: selectMap(state)}),
-    (dispatch) => bindRoutineCreatorsAction({ mapEvents }, dispatch, mapEventActionsTypes),
+    (dispatch) => bindRoutineCreators({ mapEvents }, dispatch),
   )
 
 

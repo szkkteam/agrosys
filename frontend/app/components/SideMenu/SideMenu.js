@@ -19,6 +19,7 @@ import { ROUTES } from 'routes'
 import SideBar from './SideBar'
 
 import { FarmMenu } from 'farm/menus'
+import { SeasonMenu } from 'season/menus'
 import { FieldMenu } from 'field/menus'
 import { UserMenu } from 'user/menus'
 import { ProductionMenu } from 'production/menus'
@@ -107,6 +108,10 @@ let items = [
   {
     src: FarmMenu,
     type: "menuItem"
+  },
+  {
+    src: SeasonMenu,
+    type: "menuItem",
   },
   {
     src: FieldMenu,

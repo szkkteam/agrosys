@@ -46,11 +46,13 @@ export function createRoutine(routineName) {
 export function createRoutineActions(routineName, actionList) {
   const routine = actionList.reduce((routine, actionType) => {
     const actionName = `${routineName}_${actionType}`
+    //console.log("createRoutineActions-actionName: ", actionName)
     routine[actionType] = actionName
     routine[camelCase(actionType)] = (payload) => ({
       type: actionName,
       payload,
     })
+    //console.log("createRoutineActions-routine: ", routine)
     return routine
   }, {})
 
@@ -64,8 +66,8 @@ export function createRoutineActions(routineName, actionList) {
       },
     }))
   }
-
-  return Object.assign(routinePromise, routine)
+  let o = Object.assign(routinePromise, routine)
+  return Object.assign(o, {actionList})
 }
 
 
@@ -89,9 +91,6 @@ export function createRoutineActions(routineName, actionList) {
  *   },
  * }
  */
-export function bindRoutineCreators(routines, dispatch) {
-  return bindRoutineCreatorsAction(routines, dispatch, actionTypes)
-}
 
 function _bindRoutine(routine, dispatch, actionList) {
   return actionList.reduce((boundRoutine, actionType) => {
@@ -102,15 +101,16 @@ function _bindRoutine(routine, dispatch, actionList) {
 }
 
 
-export function bindRoutineCreatorsAction(routines, dispatch, actionList) {
+export function bindRoutineCreators(routines, dispatch) {
   if (!isObject(routines)) {
     throw new Error('routines must be an object')
   }
   if (!isFunction(dispatch)) {
     throw new Error('dispatch must be a function')
   }
-
+  console.log("Routines: ", routines)
   return Object.keys(routines).reduce((boundRoutines, routineName) => {
+    const { actionList } = routines[routineName]
     boundRoutines[routineName] = _bindRoutine(routines[routineName], dispatch, actionList)
     return boundRoutines
   }, {})
