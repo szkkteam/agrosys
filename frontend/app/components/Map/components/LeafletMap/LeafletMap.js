@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Map, Marker, Popup, TileLayer } from "react-leaflet";
+import { Map, ZoomControl, Popup, TileLayer } from "react-leaflet";
 
 
 export default class LeafletMap extends React.Component {
@@ -46,12 +46,16 @@ export default class LeafletMap extends React.Component {
         return (
             <Map 
                 ref={e => { this.mapInstance = e }}
-                //center={[45.4, -75.7]}
-                //zoom={12}
+                center={[45.4, -75.7]}
+                zoom={12}
                 bounds={startBounds}
                 editable={editable}
                 onMoveEnd={this.onMoveEnd}
+                zoomControl={false}
             >
+                <ZoomControl
+                    position="topright"
+                />
                 <TileLayer
                     url="https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw"
                     attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'

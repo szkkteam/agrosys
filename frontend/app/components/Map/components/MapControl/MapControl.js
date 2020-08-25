@@ -1,18 +1,17 @@
 import React from 'react'
 import Control from 'react-leaflet-control';
 
-export default class MapControl  extends React.Component {
-
-    render() {
-        const { children } = this.props
-        return (
-            <Control position="topright" >
-                <div>
-                    {children}
-                </div>
-            </Control>
-        )
-    }
-
-}
-                
+export default ({
+    children,
+    position = "topright",
+    ...props
+}) => (
+    <Control
+        position={position}
+        {...props}
+    >
+        <div>
+            {children}
+        </div>
+    </Control>
+)

@@ -126,7 +126,7 @@ class GroupReferenceParcelResource(ModelResource):
         return self.deleted(fdp)
 
 
-@api.route('/parcels/search')
+@api.route(farm, '/parcels/search')
 @param_converter(name=str, country_id=int, parcel_type_id=int)
 def search_reference_parcels(name, country_id, parcel_type_id):
     country = Country.query.get_or_404(country_id)

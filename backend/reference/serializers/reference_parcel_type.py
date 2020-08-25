@@ -26,7 +26,6 @@ class ReferenceParcelTypeSerializer(ModelSerializer):
         model = ReferenceParcelType
         fields = DATA_FIELDS
         dump_only = ('id',)
-        load_only = ('code', )
         #load_instance = False
 
 
@@ -37,5 +36,4 @@ class ReferenceParcelTypeListSerializer(ReferenceParcelTypeSerializer):
         model = ReferenceParcelType
         fields = DATA_FIELDS
         dump_only = ('id',)
-        load_only = ('code', )
         #load_instance = False

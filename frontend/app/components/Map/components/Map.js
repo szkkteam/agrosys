@@ -18,25 +18,16 @@ import {
     LeafletMap,
  } from 'components/Map/components'
 
-const defaultLatLong = {
-    _southWest: {
-      lat: 45.00073807829067,
-      lng: -75.88394165039064
-    },
-    _northEast: {
-      lat: 45.77231259889581,
-      lng: -74.83062744140626
-    }
-  }
-
 const Map = ({
-    viewPort = defaultLatLong,
+    viewPort,
     events,
     mapEvents,
     mapViewport,
     children,
     ...props,
-}) => (
+}) => {
+    console.log("viewPort: ", viewPort)
+    return (
     <React.Fragment>
         <Helmet>
             <link rel="stylesheet" href="//unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
@@ -51,7 +42,8 @@ const Map = ({
             {children}
         </LeafletMap>
     </React.Fragment>
-)
+    )
+}
 
 const withReducer = injectReducer(require('components/Map/reducer'))
 

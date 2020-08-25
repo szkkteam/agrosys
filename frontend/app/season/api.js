@@ -3,7 +3,7 @@ import { farm } from 'api'
 
 
 function season(uri) {
-  return farm(`/season${uri}`)
+  return farm(`/seasons${uri}`)
 }
 
 

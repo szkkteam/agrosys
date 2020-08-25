@@ -38,13 +38,15 @@ export default function(state = initialState, action) {
             }
 
         case listSeasons.SUCCESS:
+            const currentSeason = selected? selected: seasons[seasons.length - 1]
             return { ...state,
                 ids: seasons.map((season) => season.id),
                 byId: seasons.reduce((byId, season) => {
                     byId[season.id] = season
                     return byId
                 }, byId),
-                isLoaded: true,                
+                isLoaded: true,  
+                selected: currentSeason,
             }
 
         case listSeasons.FAILURE:
