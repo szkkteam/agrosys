@@ -1,7 +1,7 @@
 import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { Field } from 'redux-form'
+import { SelectField, SelectOption } from 'components/Form'
 
 import { bindRoutineCreators } from 'actions'
 import { injectReducer, injectSagas } from 'utils/async'
@@ -9,20 +9,45 @@ import { injectReducer, injectSagas } from 'utils/async'
 import { listParcelTypes } from 'reference/actions'
 import { selectParcelTypesList } from 'reference/reducers/parcelTypes'
 
+/**
+ 
+ */
 
 class SelectReferenceParcelType extends React.Component {
+
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            value: 0,
+        }
+    }
+
     componentDidMount () {
         this.props.listParcelTypes.maybeTrigger()
     }
 
     render() {
         const { parcels, listParcelTypes, ...rest } = this.props
+        const { value } = this.state
+        console.log("Parcels: ", parcels)
+        
         return (
-            <Field name="referenceParcelTypeId" {...rest}  component="select">
-                { parcels && parcels.map((referenceParcelType, index) => (
-                    <option key={index} value={referenceParcelType.id}>{referenceParcelType.title}</option>    
-                )) }
-            </Field>
+            <SelectField
+                name="referenceParcelTypeId"
+                label="Select a parcel type"
+                formProps={{fullWidth: true}}
+                {...rest}
+            >
+                { parcels && Array.isArray(parcels) && parcels.map((item, index) => (
+                    <SelectOption 
+                        key={index} 
+                        value={item.id}
+                    >
+                        {item.title}
+                    </SelectOption>    
+                ))}
+            </SelectField>
         )
     }
 }

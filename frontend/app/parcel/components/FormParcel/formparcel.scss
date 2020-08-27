@@ -1,4 +1,20 @@
-.form-cancel {
-    float: left;
-    margin-right: 20px
+.form-parcel {
+    background-color: rgba($color: #ffffff, $alpha: 0.95);
+    border-radius: 25px;
+    max-width: 300px;   
+    padding: 15px;
+}
+
+.from-section {
+    width: 100%;
+    //margin: 5px 5px;
+}
+
+.form-button {
+    width: 70%;
+}
+
+.form-button-grp {
+    margin-top: 30px;
+    text-align: center;
 }

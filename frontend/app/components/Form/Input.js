@@ -8,6 +8,7 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
+import { TextField as MuiTextField } from '@material-ui/core'
 
 export const EmailField = (props) =>
   <Field component={_renderInput} type="email" {...props} />
@@ -19,7 +20,10 @@ export const PasswordField = (props) =>
   <Field component={_renderInput} type="password" {...props} />
 
 export const TextField = (props) =>
-  <Field component={_renderInput} type="text" {...props} />
+  <Field component={TextComponent} {...props} />
+
+export const TextComponent = (props) =>
+  renderTextField({...props})
 
 export const TextArea = (props) =>
   <Field component={_renderTextArea} {...props} />
@@ -31,10 +35,34 @@ export const SelectField = (props) =>
   <Field component={SelectComponent} {...props} />
 
 export const SelectComponent = (props) =>
-    renderSelectField({...props})
+  renderSelectField({...props})
 
 export const SelectOption = React.forwardRef(({children, ...props}, ref) =>
   <MenuItem {...props} ref={ref}>{children}</MenuItem>)
+
+const renderTextField = ({
+  label,
+  input,
+  formProps,
+  meta: { touched, invalid, error },
+  ...custom
+}) => {
+  console.log("MuiText label: ", label)
+  return (
+    <FormControl
+      {...formProps}
+    >
+      <MuiTextField
+        label={label}
+        placeholder={label}
+        error={touched && invalid}
+        helperText={touched && error}
+        {...input}
+        {...custom}
+      />
+    </FormControl>
+  )
+}
 
 
 const renderFromHelper = ({ touched, error }) => {
@@ -56,8 +84,10 @@ export const renderSelectField = ({
   meta: { touched = null, error = null } = {},
   children,
   ...custom
-}) => (
-  <FormControl
+}) => {
+  console.log("Children: ", children)
+  return (
+    <FormControl
     {...formProps}
     error={touched && error}
     disabled={disabled}
@@ -80,7 +110,10 @@ export const renderSelectField = ({
     </Select>
     {renderFromHelper({ touched, error })}
   </FormControl>
-)
+  )
+}
+  
+
   
 const _renderInput = (props) => _renderField({ component: 'input', ...props })
 
