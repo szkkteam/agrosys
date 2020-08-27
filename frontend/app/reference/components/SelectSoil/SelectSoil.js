@@ -16,19 +16,19 @@ class SelectSoil extends React.Component {
     }
 
     render() {
-        const { namespace, soils, listSoilTypes, ...rest } = this.props
+        const { soils, listSoilTypes, ...rest } = this.props
         return (
-            <Field name={namespace? `${namespace}.soilTypeId`: "soilTypeId"} {...rest}  component="select">
+            <Field name="soilTypeId" {...rest}  component="select">
                 { soils && soils.map((soilType, index) => (
                     <option key={index} value={soilType.id}>{soilType.title}</option>    
                 )) }
             </Field>
-        )
+        ) 
     }
 }
 
-const withReducer = injectReducer(require('soil/reducer'))
-const withSaga = injectSagas(require('soil/saga'))
+const withReducer = injectReducer(require('reference/reducers/soilTypes'))
+const withSaga = injectSagas(require('reference/sagas/listSoilsTypes'))
 
 const withConnect = connect(
   (state) => ({ soils: selectSoilTypesList(state) }),

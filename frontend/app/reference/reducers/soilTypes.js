@@ -51,6 +51,6 @@ export default function(state = initialState, action) {
 
 export const selectSoilsTypes = (state) => state[KEY]
 export const selectSoilTypesList = (state) => {
-    const soils = selectSoils(state)
+    const soils = selectSoilsTypes(state)
     return soils.ids.map((id) => soils.byId[id])
 }

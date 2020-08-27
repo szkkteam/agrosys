@@ -10,6 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
+import Divider from '@material-ui/core/Divider';
 
 
 const SplitButton = ({
@@ -77,6 +78,7 @@ const SplitButton = ({
                         <ClickAwayListener onClickAway={handleClose}>
                         <MenuList id="split-button-menu">
                             {options.map((option, index) => (
+                            option.type === "item"? 
                             <MenuItem
                                 key={`item-${index}`}
                                 disabled={option.disabled}
@@ -85,7 +87,11 @@ const SplitButton = ({
                                 {...option.props}
                             >
                                 {option.title}
-                            </MenuItem>
+                            </MenuItem> :
+                                <Divider
+                                    key={`divider-${index}`}
+                                    style={{ margin: "6px 0" }} 
+                                />      
                             ))}
                         </MenuList>
                         </ClickAwayListener>

@@ -1,2 +1,2 @@
 export { default as MapContainer } from './MapContainer'
-export { default as MapToolbar } from './MapToolbar'
+export { default as MapUpperToolbar } from './MapUpperToolbar'

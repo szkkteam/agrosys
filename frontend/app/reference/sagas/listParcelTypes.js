@@ -9,7 +9,7 @@ import { selectParcelTypes } from 'reference/reducers/parcelTypes'
 export const KEY = 'soilType'
 
 export const maybeListParcelTypesSaga = function *() {
-    const { isLoading, isLoaded } = yield select(selectSoilsTypes)
+    const { isLoading, isLoaded } = yield select(selectParcelTypes)
     if (!(isLoaded || isLoading)) {
         yield put(listParcelTypes.trigger())
     }

@@ -63,6 +63,7 @@ class LeafletEditable extends React.Component {
         this.state = {
             map: props.leaflet.map
         }
+        this.redoBuffer = []
         this.editLayer = null
     }
 
@@ -89,8 +90,8 @@ class LeafletEditable extends React.Component {
             map.off(eventHandlers[key])
         })
     }
-
-    geoJsonToLatLong = (feature) => {
+        
+    _geoJsonToLatLong = (feature) => {
         let latLong = []
         // Fix latlongs
         feature.geometry.coordinates[0].map((location, index) => {
@@ -99,20 +100,58 @@ class LeafletEditable extends React.Component {
         return latLong
     }
 
-    toggleEdit = (state) => {
-        //console.log("this.editLayer: ", this.editLayer)
-        if (this.editLayer) {
-            if (state) {
-                this.editLayer.enableEdit()
-                //console.log("this.editLayer.enableEdit()")
-                // Dragging is re-enabled after editing enabled
-                this.editLayer.dragging && this.editLayer.dragging.disable()
-            } else {
-                this.editLayer.disableEdit()
-            }
+
+    performRedo = () => {
+        const { map } = this.state
+        if (!map.editTools._drawingEditor) return
+        if (this.redoBuffer.length) {
+            map.editTools._drawingEditor.push(this.redoBuffer.pop())
         }
     }
 
+    performUndo = () => {
+        const { map } = this.state
+        if (!map.editTools._drawingEditor) return
+        var latLong = map.editTools._drawingEditor.pop()
+        if (latLong) this.redoBuffer.push(latLong)
+    }
+
+    setEdit = (status) => {
+        if (this.editLayer) {
+            if (status) this.editLayer.enableEdit()
+            else this.editLayer.disableEdit()
+        }
+    }
+
+    addPolygon = (feature) => {
+        const { map } = this.state
+        const { onFeatureAdded } = this.props
+        const polygonData = ('geometry' in feature) ? this._geoJsonToLatLong(feature) : feature
+        this.editLayer = L.polygon(polygonData).addTo(map)
+        onFeatureAdded && onFeatureAdded({
+            layer: this.editLayer,
+        }) 
+    }
+
+    drawPolygon = () => {
+        const { map } = this.state
+        this.editLayer = map.editTools.startPolygon()
+    }
+
+    stopDraw = () => {
+        const { map } = this.state
+        if (map.editTools.drawing()) {
+            map.editTools.stopDrawing()            
+        }
+        this.clear()
+    }
+
+    clear = () => {
+        const { map } = this.state
+        this.editLayer && map.removeLayer(this.editLayer)
+    }
+
+    /*
     drawOrAddPolygon = () => {
         const { map } = this.state
         const { featureInEdit, enableEdit } = this.props
@@ -147,6 +186,11 @@ class LeafletEditable extends React.Component {
         console.log("LeafletEditable -> componentDidMount")
         // Registering all the event handlers
         this._registerListeners()
+        // Subscribe to draw:end event
+        const {map} = this.state
+        map&&map.on('editable:drawing:end', () => {
+            this.redoBuffer = []
+        })
         // Add or Draw polygon 
         this.drawOrAddPolygon()       
     }
@@ -167,6 +211,12 @@ class LeafletEditable extends React.Component {
             this.editLayer && map.removeLayer(this.editLayer)
             this.drawOrAddPolygon(map, nextProps.featureInEdit, enableEdit)
         }
+    }*/
+    componentDidMount() {
+        if (this.props.onRef != null) {
+            this.props.onRef(this)
+        }
+        this._registerListeners()
     }
 
     componentWillUnmount() {
@@ -178,6 +228,7 @@ class LeafletEditable extends React.Component {
         }
         this.editLayer && map.removeLayer(this.editLayer)
         this.editLayer = null
+        this.redoBuffer = []
     }
 
     render() {

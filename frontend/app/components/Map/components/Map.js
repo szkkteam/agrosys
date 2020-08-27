@@ -31,13 +31,13 @@ const Map = ({
     <React.Fragment>
         <Helmet>
             <link rel="stylesheet" href="//unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
-            <script src="https://npmcdn.com/leaflet.path.drag/src/Path.Drag.js"></script>
         </Helmet>
         <LeafletMap
             events={events}
             startBounds={viewPort}
             mapEventAction={mapEvents}
-            mapViewportAction={mapViewport}                
+            mapViewportAction={mapViewport}   
+            {...props}             
         >
             {children}
         </LeafletMap>
