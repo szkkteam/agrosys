@@ -43,7 +43,14 @@ class ReferenceParcel(Model):
 
     soil_type_id = foreign_key('SoilType', nullable=False)
     soil_type = relationship('SoilType', uselist=False)
-    
+
+    # Self ancestor relation
+    ancestor_id = sa.Column(
+            sa.Integer(),
+            sa.ForeignKey(
+                "reference_parcel.id", onupdate="CASCADE", ondelete="CASCADE"
+            ))
+
     # Reference Parcel Type relationship definition
     reference_parcel_type_id = foreign_key('ReferenceParcelType', nullable=False)
     reference_parcel_type = relationship('ReferenceParcelType', uselist=False)

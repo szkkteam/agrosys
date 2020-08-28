@@ -17,9 +17,10 @@ from backend.security.models import User
 from backend.extensions.api import api
 from backend.permissions.decorators import permission_required
 from backend.permissions.services import ResourceService, UserService
-from backend.reference.models import Country, ReferenceParcelType
+from backend.reference.models import Country, ReferenceParcelType, ReferenceParcelTypeEnum
+from backend.reference.serializers import ReferenceParcelTypeSerializer
 
-from ..models import ReferenceParcel, Season, SeasonReferenceParcel, ReferenceParcelRelation
+from ..models import ReferenceParcel, Season, SeasonReferenceParcel, ReferenceParcelRelation, Farm
 from ..services import SearchReferenceParcel
 from .blueprint import farm
 
@@ -124,20 +125,38 @@ class GroupReferenceParcelResource(ModelResource):
     def delete(self, group_id, parcel_id, **kwargs):
         fdp = ReferenceParcelRelation.filter_by(group_id=group_id, parcel_id=parcel_id).first()
         return self.deleted(fdp)
+"""
+@api.route(farm, '/<int:farm_id>/parcels/legal')
+@param_converter(farm_id=int)
+def support_reference_parcels(farm_id):
+    farm = Farm.query.get_or_404(farm_id)
+    try:
+        res = []
+        if farm.country.iso3 == "HUN":
+            res.append({
+                'referenceParcelType': ReferenceParcelTypeSerializer().dumps(ReferenceParcelType.get_by(code=ReferenceParcelTypeEnum.PhysicalBlock)) ,
+                'provider': 
+            } )
+            
+        else:
+            abort(HTTPStatus.NOT_IMPLEMENTED)
+    except Exception as e:
+        logger.error("Searching for parcel crashed. Name: %s Country ID: %s Parcel Type ID: %s, Error: %s" %(name, farm_id, parcel_type_id, e))
+        abort(HTTPStatus.INTERNAL_SERVER_ERROR)
+"""
 
-
-@api.route(farm, '/parcels/search')
-@param_converter(name=str, country_id=int, parcel_type_id=int)
-def search_reference_parcels(name, country_id, parcel_type_id):
-    country = Country.query.get_or_404(country_id)
+@api.route(farm, '/<int:farm_id>/parcels/legal/search')
+@param_converter(farm_id=int, name=str, parcel_type_id=int)
+def search_reference_parcels(farm_id, name, parcel_type_id):
+    farm = Farm.query.get_or_404(farm_id)
     parcel_type = ReferenceParcelType.query.get_or_404(parcel_type_id)
     try:
-        if country.iso3 == "HUN":
+        if farm.country.iso3 == "HUN":
             res = SearchReferenceParcel.search_parcel_hu(parcel_type.code, name)
         else:
             abort(HTTPStatus.NOT_IMPLEMENTED)
     except Exception as e:
-        logger.error("Searching for parcel crashed. Name: %s Country ID: %s Parcel Type ID: %s, Error: %s" %(name, country_id, parcel_type_id, e))
+        logger.error("Searching for parcel crashed. Name: %s Country ID: %s Parcel Type ID: %s, Error: %s" %(name, farm_id, parcel_type_id, e))
         abort(HTTPStatus.INTERNAL_SERVER_ERROR)
     else:
         return jsonify(res)

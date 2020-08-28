@@ -19,6 +19,8 @@ class SearchReferenceParcel:
 
     class PhysicalBlockMeparHu:
 
+
+
         @classmethod
         def parse_area(cls, html_str):
             tree = html.fromstring(html_str)

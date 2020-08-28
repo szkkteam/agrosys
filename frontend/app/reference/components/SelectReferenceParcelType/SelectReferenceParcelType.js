@@ -9,19 +9,7 @@ import { injectReducer, injectSagas } from 'utils/async'
 import { listParcelTypes } from 'reference/actions'
 import { selectParcelTypesList } from 'reference/reducers/parcelTypes'
 
-/**
- 
- */
-
 class SelectReferenceParcelType extends React.Component {
-
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            value: 0,
-        }
-    }
 
     componentDidMount () {
         this.props.listParcelTypes.maybeTrigger()
@@ -29,23 +17,18 @@ class SelectReferenceParcelType extends React.Component {
 
     render() {
         const { parcels, listParcelTypes, ...rest } = this.props
-        const { value } = this.state
-        console.log("Parcels: ", parcels)
-        
         return (
             <SelectField
-                name="referenceParcelTypeId"
-                label="Select a parcel type"
-                formProps={{fullWidth: true}}
+                //value={1}
                 {...rest}
             >
                 { parcels && Array.isArray(parcels) && parcels.map((item, index) => (
-                    <SelectOption 
+                    <SelectOption  
                         key={index} 
                         value={item.id}
                     >
                         {item.title}
-                    </SelectOption>    
+                    </SelectOption >    
                 ))}
             </SelectField>
         )

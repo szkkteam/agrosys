@@ -108,7 +108,6 @@ export function bindRoutineCreators(routines, dispatch) {
   if (!isFunction(dispatch)) {
     throw new Error('dispatch must be a function')
   }
-  console.log("Routines: ", routines)
   return Object.keys(routines).reduce((boundRoutines, routineName) => {
     const { actionList } = routines[routineName]
     boundRoutines[routineName] = _bindRoutine(routines[routineName], dispatch, actionList)

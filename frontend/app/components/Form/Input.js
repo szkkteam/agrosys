@@ -38,16 +38,18 @@ export const SelectComponent = (props) =>
   renderSelectField({...props})
 
 export const SelectOption = React.forwardRef(({children, ...props}, ref) =>
-  <MenuItem {...props} ref={ref}>{children}</MenuItem>)
+  //<MenuItem {...props} ref={ref}>{children}</MenuItem>)
+  // FIXME: Redux-Form is not working with not native select. No option given. It said  the MenuItem must be direct descendant of select, but still not working.
+  <option {...props} ref={ref}>{children}</option>)
 
 const renderTextField = ({
   label,
   input,
   formProps,
-  meta: { touched, invalid, error },
+  meta: { touched, invalid, error, dirty, pristine, initial, autofilled },
   ...custom
 }) => {
-  console.log("MuiText label: ", label)
+  //console.log("Label: " + label + " touched: ", touched, " invalid: " + invalid + " dirty: ", dirty, " pristine: ", pristine, " autofilled: ", autofilled, " initial: ", initial)
   return (
     <FormControl
       {...formProps}
@@ -85,31 +87,33 @@ export const renderSelectField = ({
   children,
   ...custom
 }) => {
-  console.log("Children: ", children)
   return (
     <FormControl
-    {...formProps}
-    error={touched && error}
-    disabled={disabled}
-  >
-    {label? <InputLabel
-      {...labelProps}
-      htmlFor={htmlFor}
+      {...formProps}
+      error={touched && !!error }
+      disabled={disabled}
     >
-      {label}
-    </InputLabel> : null }
-    <Select
-      {...input}
-      {...custom}
-      inputProps={{
-        name: inputName,
-        id: htmlFor,
-      }}
-    >
-      {children}
-    </Select>
-    {renderFromHelper({ touched, error })}
-  </FormControl>
+      {label? <InputLabel
+        {...labelProps}
+        htmlFor={htmlFor}
+      >
+        {label}
+      </InputLabel> : null }
+      <Select
+        // FIXME: Without native, it's not working properly. See menuitem issue.
+        // Consider using: https://github.com/erikras/redux-form-material-ui or Formik
+        native
+        {...input}
+        {...custom}
+        inputProps={{
+          name: inputName,
+          id: htmlFor,
+        }}
+      >
+        {children}
+      </Select>
+      {renderFromHelper({ touched, error })}
+    </FormControl>
   )
 }
   

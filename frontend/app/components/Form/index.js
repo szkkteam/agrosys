@@ -17,3 +17,7 @@ export {
 export { 
   default as ModalForm,
 } from './ModalForm'
+
+export {
+  onlyDecimal,
+} from './normalizers'

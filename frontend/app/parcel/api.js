@@ -20,53 +20,53 @@ export default class Parcel {
      * Season - Parcel
      */
     static listSeasonParcels(seasonData) {
-        return get(seasonParcel(`/${seasonData}/parcels`))
+        return get(seasonParcel(`/${seasonData.id}/parcels`))
     }
 
-    static createSeasonParcels(seasonData) {
-        return post(seasonParcel(`/${seasonData}/parcels`))
+    static createSeasonParcels(seasonData, payload) {
+        return post(seasonParcel(`/${seasonData.id}/parcels`), payload)
     }
         
     static assignSeasonParcel(seasonData, parcelData) {
-        return put(seasonParcel(`/${seasonData}/parcels/${parcelData}`))
+        return put(seasonParcel(`/${seasonData.id}/parcels/${parcelData.id}`))
     }
 
     static removeSeasonParcel(seasonData, parcelData) {
-        return delete_(seasonParcel(`/${seasonData}/parcels/${parcelData}`))
+        return delete_(seasonParcel(`/${seasonData.id}/parcels/${parcelData.id}`))
     }
 
     /**
      * Parcel
      */
-    static updateParcel(parcelData) {
-        return put(parcel(`/${parcelData}`))
+    static updateParcel(parcelData, payload) {
+        return put(parcel(`/${parcelData.id}`), payload)
     }
 
     static getParcel(parcelData) {
-        return get(parcel(`/${parcelData}`))
+        return get(parcel(`/${parcelData.id}`))
     }
 
     static deleteParcel(parcelData) {
-        return get(parcel(`/${parcelData}`))
+        return get(parcel(`/${parcelData.id}`))
     }
 
     /**
      * Group - Parcel
      */
     static listGroupParcel(groupDate) {
-        return get(group(`/${groupDate}/parcels`))
+        return get(group(`/${groupDate.id}/parcels`))
     }
 
     static createGroupParcels(groupDate) {
-        return post(group(`/${groupDate}/parcels`))
+        return post(group(`/${groupDate.id}/parcels`))
     }
         
     static assignGroupParcel(groupDate, parcelData) {
-        return put(group(`/${groupDate}/parcels/${parcelData}`))
+        return put(group(`/${groupDate.id}/parcels/${parcelData.id}`))
     }
 
     static removeGroupParcel(groupDate, parcelData) {
-        return delete_(group(`/${groupDate}/parcels/${parcelData}`))
+        return delete_(group(`/${groupDate.id}/parcels/${parcelData.id}`))
     }
 
 }

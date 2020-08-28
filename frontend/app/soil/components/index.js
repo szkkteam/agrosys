@@ -1,2 +1,0 @@
-export { SelectSoil } from './SelectSoil'
-  

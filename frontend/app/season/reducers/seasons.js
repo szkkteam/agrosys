@@ -6,6 +6,14 @@ import {
     updateSeason,
     setSeason,
 } from 'season/actions'
+
+import {
+    normalizeSeasons,
+    deNormalizeSeasons
+} from 'season/schemas'
+
+import { selectParcels } from 'parcel/reducers/parcels'
+
 import { storage } from 'utils'
 
 export const KEY = 'seasons'
@@ -14,7 +22,7 @@ const initialState = {
     isLoading: false,
     isLoaded: false,
     ids: [],
-    byId: [],
+    byId: {},
     error: null,
     selected: storage.getSelectedSeason(),
 }
@@ -38,13 +46,11 @@ export default function(state = initialState, action) {
             }
 
         case listSeasons.SUCCESS:
+            const flatData = normalizeSeasons(seasons)
             const currentSeason = selected? selected: seasons[seasons.length - 1]
             return { ...state,
-                ids: seasons.map((season) => season.id),
-                byId: seasons.reduce((byId, season) => {
-                    byId[season.id] = season
-                    return byId
-                }, byId),
+                byId: {...byId, ...flatData.byId},
+                ids: flatData.ids,
                 isLoaded: true,  
                 selected: currentSeason,
             }
@@ -65,9 +71,15 @@ export default function(state = initialState, action) {
 }
 
 export const selectSeasons = (state) => state[KEY]
+export const selectSeasonsEntities = (state) => {
+    const seasons = selectSeasons(state)
+    return { seasons: seasons.byId,  }
+}
+
 export const selectSeasonsList = (state) => {
     const seasons = selectSeasons(state)
-    return seasons.ids.map((id) => seasons.byId[id])
+    return deNormalizeSeasons({ ids: seasons.ids, entities: selectSeasonsEntities(state) })
+    //return seasons.ids.map((id) => seasons.byId[id])
 }
 export const selectSelectedSeasons = (state) => (
     selectSeasons(state).selected

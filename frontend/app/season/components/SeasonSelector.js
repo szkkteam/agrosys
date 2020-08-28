@@ -36,7 +36,7 @@ class SeasonSelector extends React.Component {
         const { isModalOpen } = this.state
         return (
             <SeasonPopover
-                label={selectedSeason.title}                
+                label={selectedSeason? selectedSeason.title: "Select a Season!"}               
             >
                 <SeasonCreateContainer
                     open={isModalOpen}

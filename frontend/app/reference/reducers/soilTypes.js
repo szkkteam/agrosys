@@ -1,7 +1,11 @@
 import { 
     listSoilTypes
 } from 'reference/actions'
-import { storage } from 'utils'
+
+import {
+    normalizeSoilTypes,
+    deNormalizeSoilTypes
+} from 'reference/schemas'
 
 export const KEY = 'soilTypes'
 
@@ -9,7 +13,7 @@ const initialState = {
     isLoading: false,
     isLoaded: false,
     ids: [],
-    byId: [],
+    byId: {},
     error: null,
 }
 
@@ -17,7 +21,6 @@ export default function(state = initialState, action) {
     const { type, payload } = action
     const { soilTypes } = payload || {}
     const { byId } = state
-
     switch(type) {
         case listSoilTypes.REQUEST:
             return { ...state,
@@ -25,12 +28,10 @@ export default function(state = initialState, action) {
             }
 
         case listSoilTypes.SUCCESS:
+            const flatData = normalizeSoilTypes(soilTypes)
             return { ...state,
-                ids: soilTypes.map((soilType) => soilType.id),
-                byId: soilTypes.reduce((byId, soilType) => {
-                    byId[soilType.id] = soilType
-                    return byId
-                }, byId),
+                byId: {...byId, ...flatData.byId},
+                ids: flatData.ids,
                 isLoaded: true,  
             }
 
@@ -50,7 +51,14 @@ export default function(state = initialState, action) {
 }
 
 export const selectSoilsTypes = (state) => state[KEY]
+
+export const selectSoilTypesEntities = (state) => {
+    const soils = selectSoilsTypes(state)
+    return { soilTypes: soils.byId  } 
+}
+
 export const selectSoilTypesList = (state) => {
     const soils = selectSoilsTypes(state)
-    return soils.ids.map((id) => soils.byId[id])
+    return deNormalizeSoilTypes({ ids: soils.ids, entities: selectSoilTypesEntities(state) })
+
 }

@@ -8,7 +8,7 @@ from flask import url_for
 from flask_security import AnonymousUser, current_user
 
 # Internal package imports
-from backend.farm.models import ReferenceParcel, Season, SeasonReferenceParcel, ReferenceParcelRelation
+from backend.farm.models import ReferenceParcel, Season, SeasonReferenceParcel, ReferenceParcelRelation, Farm
 
 
 VALID_GEOJSON = {"type": "Feature",
@@ -295,8 +295,9 @@ class TestSearchParcels:
     def test_valid(self, api_client, farm_owner, country_hu, physical_block):
         api_client.login_as(farm_owner)
 
+        farm = Farm.all()[0]
         name = "xnkcfd18"
-        r = api_client.get(url_for('api.search_reference_parcels', name=name, country_id=country_hu.id, parcel_type_id=physical_block.id))
+        r = api_client.get(url_for('api.search_reference_parcels', name=name, farm_id=farm.id, parcel_type_id=physical_block.id))
         assert r.status_code == 200
         for d in r.json:
             assert 'title' in d
@@ -305,25 +306,27 @@ class TestSearchParcels:
             assert 'geometry' in d
             assert name in d['title']
 
-    def test_invalid_country(self, api_client, farm_owner, physical_block):
+    def test_invalid_farm(self, api_client, farm_owner, physical_block):
         api_client.login_as(farm_owner)
 
         name = "xnkcfd18"
-        r = api_client.get(url_for('api.search_reference_parcels', name=name, country_id=99, parcel_type_id=physical_block.id))
+        r = api_client.get(url_for('api.search_reference_parcels', name=name, farm_id=99, parcel_type_id=physical_block.id))
         assert r.status_code == 404
 
     def test_invalid_parcel_type(self, api_client, farm_owner, country_hu):
         api_client.login_as(farm_owner)
 
+        farm = Farm.all()[0]
         name = "xnkcfd18"
-        r = api_client.get(url_for('api.search_reference_parcels', name=name, country_id=country_hu.id, parcel_type_id=99))
+        r = api_client.get(url_for('api.search_reference_parcels', name=name, farm_id=farm.id, parcel_type_id=99))
         assert r.status_code == 404
 
     def test_not_found(self, api_client, farm_owner, country_hu, physical_block):
         api_client.login_as(farm_owner)
 
+        farm = Farm.all()[0]
         name = "xnkcfd76"
-        r = api_client.get(url_for('api.search_reference_parcels', name=name, country_id=country_hu.id, parcel_type_id=physical_block.id))
+        r = api_client.get(url_for('api.search_reference_parcels', name=name, farm_id=farm.id, parcel_type_id=physical_block.id))
         assert r.status_code == 200
         assert not len(r.json)
 

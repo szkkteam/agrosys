@@ -6,7 +6,7 @@ import { listParcelTypes } from 'reference/actions'
 import ParcelApi from 'reference/api'
 import { selectParcelTypes } from 'reference/reducers/parcelTypes'
 
-export const KEY = 'soilType'
+export const KEY = 'parcelType'
 
 export const maybeListParcelTypesSaga = function *() {
     const { isLoading, isLoaded } = yield select(selectParcelTypes)

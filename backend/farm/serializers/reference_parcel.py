@@ -28,6 +28,7 @@ DATA_FIELDS = (
     'soil_type',
     'soil_type_id',
     'parcels',
+    'ancestor_id',
 )
 
 def object_id_exists(object_id, model):
@@ -54,12 +55,14 @@ class ReferenceParcelSerializer(ModelSerializer):
 
     parcels = fields.Nested('ReferenceParcelListSerializer', many=True, exclude=('parcels',))
 
+    ancestor_id = fields.Integer(required=False, default=None, validate=lambda x: object_id_exists(x, ReferenceParcel))
+
     class Meta:
         model = ReferenceParcel
         model_converter = GeometryModelConverter
         fields = DATA_FIELDS
         dump_only = ('id', 'reference_parcel_type', 'soil_type',)
-        load_only = ('reference_parcel_type_id', 'soil_type_id',)
+        load_only = ('reference_parcel_type_id', 'soil_type_id', 'ancestor_id',)
 
     @validates_schema
     def validate_area(self, data, **kwargs):
@@ -94,5 +97,5 @@ class ReferenceParcelListSerializer(ReferenceParcelSerializer):
         model_converter = GeometryModelConverter
         fields = DATA_FIELDS
         dump_only = ('id', 'reference_parcel_type', 'soil_type',)
-        load_only = ('reference_parcel_type_id', 'soil_type_id',)
+        load_only = ('reference_parcel_type_id', 'soil_type_id', 'ancestor_id', )
 

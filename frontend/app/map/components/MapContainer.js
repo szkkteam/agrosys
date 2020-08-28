@@ -5,8 +5,13 @@ import { connect } from 'react-redux'
 import { bindRoutineCreators } from 'actions'
 import { injectReducer, injectSagas } from 'utils/async'
 
-import { listParcelTypes } from 'reference/actions'
-import { selectParcelTypesList } from 'reference/reducers/parcelTypes'
+import { 
+    createSeasonParcel,
+    listSeasonParcel,
+} from 'parcel/actions'
+import { mapEvents } from 'components/Map/actions'
+import { selectParcelsListById } from 'parcel/reducers/parcels'
+import { selectSelectedSeasons } from 'season/reducers/seasons'
 
 import Grid from '@material-ui/core/Grid';
 
@@ -15,11 +20,8 @@ import {
 } from 'season/components'
 
 import {
-    SplitButton
-} from 'components/Button'
-
-import {
     MapUpperToolbar,
+    AddParcelButton
 } from 'map/components'
 
 import {
@@ -31,76 +33,92 @@ import {
     FormParcel,
 } from 'parcel/components'
 
-const renderButtonSwitch = (data) => {
-    let retval = {
-        type: "item",
-        data: data,
-        disabled: false,           
-    }
-    switch(data.code) {
-        case 1: // Agricultural Parcel
-            return Object.assign(retval, {
-                title: "Add Agricultural Parcel",
-            }) 
-        case 2: // Agricultural Parcel
-            return Object.assign(retval, {
-                title: "Add Cadastral Parcel",
-            }) 
-        case 3: // Agricultural Parcel
-            return Object.assign(retval, {
-                title: "Add Farmer's Block",
-            }) 
-        case 4: // Agricultural Parcel
-            return Object.assign(retval, {
-                title: "Add Physical Block",
-            }) 
-        default:
-            return {}
-    }
-}
 
 class MapContainer extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            featureInEdit: null,
+            formInitialValues: {
+                title: "",
+                geometry: null,
+                eligibleArea: 0,
+                totalArea: 0,
+                referenceParcelTypeId: 0,
+            },
+            //featureInEdit: null,
             isDrawing: false,            
         }
         this.draw = React.createRef();
     }
 
     componentDidMount() {
-        this.props.listParcelTypes.maybeTrigger()
+        const { listSeasonParcel } = this.props
+        listSeasonParcel && listSeasonParcel.maybeTrigger()
     }
 
-    onClick = (e, i) => {
+    onClick = (e, i) => {        
         console.log(e,i)
         this.draw.current.drawPolygon()
-        this.setState({ isDrawing: true })
+        this.setState({ 
+            isDrawing: true,
+            formInitialValues: {
+                ...this.state.formInitialValues,
+                referenceParcelTypeId: i.data.id,
+            }
+        })
+
     }
 
     onCancel = () => {
         this.draw.current.stopDraw()
-        this.setState({ isDrawing: false })
+        this.setState({ 
+                isDrawing: false,
+                formInitialValues: {
+                    geometry: null,
+                    eligibleArea: 0,
+                    totalArea: 0,
+                },
+            })
     }
 
     onFinished = ({featureInEdit, bounds}) => {
+        const { mapEvents } = this.props
+        this.setState({ formInitialValues: {
+            ...this.state.formInitialValues,
+                geometry: featureInEdit.geometry,
+                eligibleArea: featureInEdit.area,
+                totalArea: featureInEdit.area,
+        }})
+        // Force the map bounds to the new geometry
+        mapEvents && mapEvents.addEvent({
+            eventRequest: {
+                type: "fly-to-bounds",
+                config: {
+                    bounds: bounds,
+                }
+            }
+        })
+         
         console.log("featureInEdit: ", featureInEdit)
         console.log("bounds: ", bounds)
     }
 
     onUpdate = ({featureInEdit}) => {
+        this.setState({ formInitialValues: {
+            ...this.state.formInitialValues,
+                geometry: featureInEdit.geometry,
+                eligibleArea: featureInEdit.area,
+                totalArea: featureInEdit.area,
+        }})
+
         console.log("featureInEdit: ", featureInEdit)
     }
 
     render() {
-        const { parcelTypes } = this.props
-        const { featureInEdit, isDrawing } = this.state
-        const buttons = parcelTypes && parcelTypes.map((parcelType, id) => (
-            renderButtonSwitch(parcelType)
-        )).concat({ type: "divider" })
-
+        const { parcels } = this.props
+        console.log("parcels: ", parcels)
+        const { formInitialValues = {}, isDrawing } = this.state
         return (
             <Grid
                 container
@@ -125,13 +143,16 @@ class MapContainer extends React.Component {
                         <MapUpperToolbar>
                             { isDrawing? 
                                 <FormParcel
-                                    action={() => null}
+                                    action={createSeasonParcel}
                                     onCancel={this.onCancel}
+                                    initialValues={{
+                                        ...formInitialValues,
+                                    }}
+                                    //onSubmit={() => console.log("Form submit finished.")}
                                 />
                                 :
-                                <SplitButton            
-                                    options={buttons}
-                                    handleClick={this.onClick}
+                                <AddParcelButton            
+                                    onParcelAdd={this.onClick}
                                 />
                             }
                         </MapUpperToolbar>
@@ -142,17 +163,26 @@ class MapContainer extends React.Component {
     }
 }
 
+const withSagaCreate = injectSagas(require('parcel/sagas/createSeasonParcel'))
+const withSagaList = injectSagas(require('parcel/sagas/listSeasonParcel'))
 
-const withReducer = injectReducer(require('reference/reducers/parcelTypes'))
-const withSaga = injectSagas(require('reference/sagas/listParcelTypes'))
+const withReducerParcels = injectReducer(require('parcel/reducers/parcels'))
+const withReducerSoilTypes = injectReducer(require('reference/reducers/soilTypes'))
+const withReducerParcelTypes = injectReducer(require('reference/reducers/parcelTypes'))
 
 const withConnect = connect(
-  (state) => ({parcelTypes: selectParcelTypesList(state) }),
-  (dispatch) => bindRoutineCreators({ listParcelTypes }, dispatch),
+  (state) => ({parcels: selectParcelsListById(state, selectSelectedSeasons(state).referenceParcels) }),
+  //null,
+  (dispatch) => bindRoutineCreators({ mapEvents, listSeasonParcel }, dispatch),
 )
 
+
+
 export default compose(
-  withReducer,
-  withSaga,
-  withConnect,
+    withSagaCreate,
+    withSagaList,
+    withReducerParcels,
+    withReducerSoilTypes,
+    withReducerParcelTypes,
+    withConnect,
 )(MapContainer)

@@ -33,8 +33,9 @@ export default class LeafletMap extends React.Component {
     }
     
     onMoveEnd = (e) => {
-        console.log("onMoveEnd: ", e)
+        //console.log("onMoveEnd: ", e)
         const { mapEventAction, mapViewportAction, events } = this.props
+        
         events.length && mapEventAction && mapEventAction.clearEvents()
         mapViewportAction && mapViewportAction.changed({
             viewPortChange: this.map.getBounds(),
@@ -52,6 +53,7 @@ export default class LeafletMap extends React.Component {
                 editable={editable}
                 onMoveEnd={this.onMoveEnd}
                 zoomControl={false}
+                doubleClickZoom={false}
             >
                 <ZoomControl
                     position="topright"

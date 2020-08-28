@@ -2,6 +2,10 @@ import {
     listParcelTypes
 } from 'reference/actions'
 
+import {
+    normalizeReferenceParcelTypes,
+    deNormalizeReferenceParcelTypes
+} from 'reference/schemas'
 
 export const KEY = 'parcelTypes'
 
@@ -9,7 +13,7 @@ const initialState = {
     isLoading: false,
     isLoaded: false,
     ids: [],
-    byId: [],
+    byId: {},
     error: null,
 }
 
@@ -25,12 +29,10 @@ export default function(state = initialState, action) {
             }
 
         case listParcelTypes.SUCCESS:
+            const flatData = normalizeReferenceParcelTypes(parcelTypes)
             return { ...state,
-                ids: parcelTypes.map((parcelType) => parcelType.id),
-                byId: parcelTypes.reduce((byId, parcelType) => {
-                    byId[parcelType.id] = parcelType
-                    return byId
-                }, byId),
+                byId: {...byId, ...flatData.byId},
+                ids: flatData.ids,
                 isLoaded: true,  
             }
 
@@ -50,7 +52,14 @@ export default function(state = initialState, action) {
 }
 
 export const selectParcelTypes = (state) => state[KEY]
+
+export const selectParcelTypesEntities = (state) => {
+    const parcels = selectParcelTypes(state)
+    return { referenceParcelTypes: parcels.byId,  } 
+}
+
 export const selectParcelTypesList = (state) => {
     const parcels = selectParcelTypes(state)
-    return parcels.ids.map((id) => parcels.byId[id])
+    return deNormalizeReferenceParcelTypes({ ids: parcels.ids, entities: selectParcelTypesEntities(state) })
 }
+

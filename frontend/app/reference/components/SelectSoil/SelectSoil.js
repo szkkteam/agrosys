@@ -1,7 +1,7 @@
 import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { Field } from 'redux-form'
+import { SelectField, SelectOption } from 'components/Form'
 
 import { bindRoutineCreators } from 'actions'
 import { injectReducer, injectSagas } from 'utils/async'
@@ -16,13 +16,21 @@ class SelectSoil extends React.Component {
     }
 
     render() {
-        const { soils, listSoilTypes, ...rest } = this.props
+        const { soils, listSoilTypes, ...rest } = this.props       
         return (
-            <Field name="soilTypeId" {...rest}  component="select">
-                { soils && soils.map((soilType, index) => (
-                    <option key={index} value={soilType.id}>{soilType.title}</option>    
-                )) }
-            </Field>
+            <SelectField
+                //value={1}
+                {...rest}
+            >
+            { soils && Array.isArray(soils) && soils.map((item, index) => (
+                <SelectOption  
+                    key={index} 
+                    value={item.id}
+                >
+                    {item.title}
+                </SelectOption >    
+            ))}
+        </SelectField>
         ) 
     }
 }

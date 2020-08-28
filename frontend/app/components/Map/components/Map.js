@@ -26,7 +26,6 @@ const Map = ({
     children,
     ...props,
 }) => {
-    console.log("viewPort: ", viewPort)
     return (
     <React.Fragment>
         <Helmet>

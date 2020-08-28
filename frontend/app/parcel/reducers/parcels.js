@@ -1,6 +1,20 @@
 import { 
     listSeasonParcel,   
+    createSeasonParcel,
 } from 'parcel/actions'
+
+import {
+    normalizeParcels,
+    deNormalizeParcels
+} from 'parcel/schemas'
+
+import {
+    selectParcelTypesEntities,
+} from 'reference/reducers/parcelTypes'
+
+import {
+    selectSoilTypesEntities,
+} from 'reference/reducers/soilTypes'
 
 export const KEY = 'parcels'
 
@@ -14,8 +28,9 @@ const initialState = {
 
 export default function(state = initialState, action) {
     const { type, payload } = action
-    const { seasons } = payload || {}
+    const { parcels } = payload || {}
     const { byId } = state
+    
 
     switch(type) {
         case listSeasonParcel.REQUEST:
@@ -23,13 +38,12 @@ export default function(state = initialState, action) {
                 isLoading: true 
             }
 
+        case createSeasonParcel.SUCCESS:
         case listSeasonParcel.SUCCESS:
+            const flatData = normalizeParcels(parcels)
             return { ...state,
-                ids: seasons.map((season) => season.id),
-                byId: seasons.reduce((byId, season) => {
-                    byId[season.id] = season
-                    return byId
-                }, byId),
+                byId: {...byId, ...flatData.byId},
+                ids: flatData.ids,
                 isLoaded: true,  
             }
 
@@ -49,7 +63,24 @@ export default function(state = initialState, action) {
 }
 
 export const selectParcels = (state) => state[KEY]
-export const selectParcelsListById = (state, idList = []) => {
+
+
+export const selectParcelsEntities = (state) => {
+    const parcel = selectParcels(state)
+    return {
+        ...selectSoilTypesEntities(state),
+        ...selectSoilTypesEntities(state),
+        ...{ parcels: parcel.byId,  }
+    }
+}
+
+export const selectParcelsList = (state) => {
     const parcels = selectParcels(state)
-    return idList.map((id) => parcels.byId[id])
+    return deNormalizeParcels({ ids: parcels.ids, entities: selectParcelsEntities(state) })
+
+}
+
+export const selectParcelsListById = (state, ids = []) => {
+    return deNormalizeParcels({ ids, entities: selectParcelsEntities(state) })
+
 }

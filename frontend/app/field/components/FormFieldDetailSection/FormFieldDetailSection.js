@@ -2,7 +2,7 @@ import React from 'react'
 
 import { HiddenField, TextField } from 'components/Form'
 
-import { SelectSoil } from 'soil/components'
+//import { SelectSoil } from 'soil/components'
 
 import './formfielddetailsection.scss'
 
@@ -22,10 +22,6 @@ export default ({ namespace, ...rest }) => (
             name={namespace? `${namespace}.shape`: "shape"}
             onBlur={(e) => {e.preventDefault() }}
         />
-        <SelectSoil
-            namespace={namespace}
-            className="form-detailsection-row"
-            {...rest}
-        />
+  
     </div>
 )
