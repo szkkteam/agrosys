@@ -16,13 +16,17 @@ import {
     selectSoilTypesEntities,
 } from 'reference/reducers/soilTypes'
 
+import {
+    selectSelectedSeasons
+} from 'season/reducers/seasons'
+
 export const KEY = 'parcels'
 
 const initialState = {    
     isLoading: false,
     isLoaded: false,
     ids: [],
-    byId: [],
+    byId: {},
     error: null,
 }
 
@@ -69,7 +73,7 @@ export const selectParcelsEntities = (state) => {
     const parcel = selectParcels(state)
     return {
         ...selectSoilTypesEntities(state),
-        ...selectSoilTypesEntities(state),
+        ...selectParcelTypesEntities(state),
         ...{ parcels: parcel.byId,  }
     }
 }
@@ -79,6 +83,15 @@ export const selectParcelsList = (state) => {
     return deNormalizeParcels({ ids: parcels.ids, entities: selectParcelsEntities(state) })
 
 }
+
+export const selectSeasonParcelsList = (state) => {
+    const selected = selectSelectedSeasons(state) || null
+    if (selected) {
+        return selectParcelsListById(state, selected.referenceParcels)
+    }
+    return []
+}
+
 
 export const selectParcelsListById = (state, ids = []) => {
     return deNormalizeParcels({ ids, entities: selectParcelsEntities(state) })

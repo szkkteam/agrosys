@@ -10,8 +10,8 @@ import {
     listSeasonParcel,
 } from 'parcel/actions'
 import { mapEvents } from 'components/Map/actions'
-import { selectParcelsListById } from 'parcel/reducers/parcels'
-import { selectSelectedSeasons } from 'season/reducers/seasons'
+import { selectSeasonParcelsList } from 'parcel/reducers/parcels'
+//import { selectSelectedSeasons } from 'season/reducers/seasons'
 
 import Grid from '@material-ui/core/Grid';
 
@@ -27,6 +27,7 @@ import {
 import {
     Map,
     Draw,
+    Feature,
 } from 'components/Map/components'
 
 import {
@@ -48,6 +49,7 @@ class MapContainer extends React.Component {
             },
             //featureInEdit: null,
             isDrawing: false,            
+            selectedParcel: null,
         }
         this.draw = React.createRef();
     }
@@ -68,6 +70,12 @@ class MapContainer extends React.Component {
             }
         })
 
+    }
+
+    onSelect = (parcel, e) => {
+        this.setState({ 
+            selectedParcel: (this.state.selectedParcel && parcel.id == this.state.selectedParcel.id? null : parcel) 
+        })
     }
 
     onCancel = () => {
@@ -116,8 +124,14 @@ class MapContainer extends React.Component {
     }
 
     render() {
+        const { selectedParcel } = this.state
         const { parcels } = this.props
+
+        const otherParcels = parcels.filter(x => selectedParcel? x.id != selectedParcel.id: true)
+
         console.log("parcels: ", parcels)
+        console.log("otherParcels: ", otherParcels)
+        console.log("selectedParcel: ", selectedParcel)
         const { formInitialValues = {}, isDrawing } = this.state
         return (
             <Grid
@@ -133,6 +147,7 @@ class MapContainer extends React.Component {
                 </Grid>
                 <Grid item sm={10}>
                     <Map
+                        onClick={(e) => console.log("Map click: ", e)}
                         editable={true}
                     >
                         <Draw
@@ -156,6 +171,13 @@ class MapContainer extends React.Component {
                                 />
                             }
                         </MapUpperToolbar>
+                        { parcels && parcels.map((parcel, i) => (
+                            <Feature
+                                key={i}
+                                onClick={this.onSelect}
+                                data={parcel}
+                            />
+                        )) }
                     </Map>
                 </Grid>
             </Grid>
@@ -171,8 +193,7 @@ const withReducerSoilTypes = injectReducer(require('reference/reducers/soilTypes
 const withReducerParcelTypes = injectReducer(require('reference/reducers/parcelTypes'))
 
 const withConnect = connect(
-  (state) => ({parcels: selectParcelsListById(state, selectSelectedSeasons(state).referenceParcels) }),
-  //null,
+  (state) => ({parcels: selectSeasonParcelsList(state)}),
   (dispatch) => bindRoutineCreators({ mapEvents, listSeasonParcel }, dispatch),
 )
 

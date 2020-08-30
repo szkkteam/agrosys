@@ -74,6 +74,7 @@ class Storage {
       }      
       this.season = season
     }
+    console.log("Storage season: ", this.season)
     return this.season
   }
   

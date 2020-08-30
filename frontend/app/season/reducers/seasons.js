@@ -9,7 +9,9 @@ import {
 
 import {
     normalizeSeasons,
-    deNormalizeSeasons
+    normalizeSeason,
+    deNormalizeSeasons,
+    deNormalizeSeason
 } from 'season/schemas'
 
 import { selectParcels } from 'parcel/reducers/parcels'
@@ -40,9 +42,10 @@ export default function(state = initialState, action) {
 
         case actionSeason.SET:
             const { selected } = payload
-            storage.selectSeason(selected)
+            const data = normalizeSeason(selected)
+            storage.selectSeason(data.ids)
             return { ...state,
-                selected,
+                selected: data.ids,
             }
 
         case listSeasons.SUCCESS:
@@ -52,7 +55,7 @@ export default function(state = initialState, action) {
                 byId: {...byId, ...flatData.byId},
                 ids: flatData.ids,
                 isLoaded: true,  
-                selected: currentSeason,
+                selected: normalizeSeason(currentSeason).ids,
             }
 
         case listSeasons.FAILURE:
@@ -81,6 +84,7 @@ export const selectSeasonsList = (state) => {
     return deNormalizeSeasons({ ids: seasons.ids, entities: selectSeasonsEntities(state) })
     //return seasons.ids.map((id) => seasons.byId[id])
 }
-export const selectSelectedSeasons = (state) => (
-    selectSeasons(state).selected
-)
+export const selectSelectedSeasons = (state) => {
+    const seasons = selectSeasons(state)
+    return seasons.byId[seasons.selected]
+}

@@ -43,7 +43,7 @@ export default class LeafletMap extends React.Component {
     }
 
     render() {
-        const { editable, children, startBounds } = this.props
+        const { editable, children, startBounds, ...props } = this.props
         return (
             <Map 
                 ref={e => { this.mapInstance = e }}
@@ -54,6 +54,7 @@ export default class LeafletMap extends React.Component {
                 onMoveEnd={this.onMoveEnd}
                 zoomControl={false}
                 doubleClickZoom={false}
+                {...props}
             >
                 <ZoomControl
                     position="topright"

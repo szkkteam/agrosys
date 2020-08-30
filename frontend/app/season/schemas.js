@@ -16,9 +16,24 @@ export const normalizeSeasons = (data) => {
     }
 }
 
+export const normalizeSeason = (data) => {
+    const { entities, result} = normalize(data, seasonSchema)
+    return {
+        byId: entities.seasons,
+        ids: result
+    }
+}
+
 
 export const deNormalizeSeasons = (data) => {
     const { entities, ids } = data
     return denormalize(ids, seasonsSchema, entities)
+
+}
+
+
+export const deNormalizeSeason = (data) => {
+    const { entities, ids } = data
+    return denormalize(ids, seasonSchema, entities)
 
 }
