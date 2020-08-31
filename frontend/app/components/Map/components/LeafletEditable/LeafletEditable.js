@@ -116,7 +116,7 @@ class LeafletEditable extends React.Component {
         if (latLong) this.redoBuffer.push(latLong)
     }
 
-    setEdit = (status) => {
+    toggleEdit = (status) => {
         if (this.editLayer) {
             if (status) this.editLayer.enableEdit()
             else this.editLayer.disableEdit()
@@ -130,6 +130,7 @@ class LeafletEditable extends React.Component {
         this.editLayer = L.polygon(polygonData).addTo(map)
         onFeatureAdded && onFeatureAdded({
             layer: this.editLayer,
+            bounds: this.editLayer.getBounds(),
         }) 
     }
 

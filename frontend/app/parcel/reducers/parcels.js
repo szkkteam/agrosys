@@ -1,6 +1,7 @@
 import { 
     listSeasonParcel,   
     createSeasonParcel,
+    updateParcel
 } from 'parcel/actions'
 
 import {
@@ -40,6 +41,12 @@ export default function(state = initialState, action) {
         case listSeasonParcel.REQUEST:
             return { ...state,
                 isLoading: true 
+            }
+        
+        case updateParcel.SUCCESS:
+            return {
+                ...state,
+                byId: {...byId, ...normalizeParcels(parcels).byId},
             }
 
         case createSeasonParcel.SUCCESS:

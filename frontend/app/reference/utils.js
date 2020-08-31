@@ -8,7 +8,6 @@ export const getAvailableTypes = (parcelTypes, storeData = null, filter = null) 
     // Go trough on the parcel types which are available for this country
     const result = parcelTypes.reduce((collection, parcelType) => {
         let item = { data: parcelType }
-        console.log("Filter: ", filter)
         if (filter && typeof filter === "function" && !filter(item.data)) {
             return collection    
         }        

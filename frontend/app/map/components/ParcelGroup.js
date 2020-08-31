@@ -11,6 +11,7 @@ export default ({
     ...rest,
 }) => {
     const byParcelType = parcels.reduce((grouped, parcel) => {
+        if (!parcel.referenceParcelType) { return grouped} 
         let item = grouped[parcel.referenceParcelType.title] || []
         item.push(parcel)
         grouped[parcel.referenceParcelType.title] = item
@@ -19,7 +20,7 @@ export default ({
     //console.log("byParcelType: ", byParcelType)
     return (
         <React.Fragment>
-            { Object.keys(byParcelType).length && Object.keys(byParcelType).map((key, i) => (
+            { Object.keys(byParcelType).length? Object.keys(byParcelType).map((key, i) => (
                 <FeatureGroup key={`${key}-${i}`} name={key} {...rest}>
                     { byParcelType[key] && byParcelType[key].map((parcel, i) => (
                         <Feature
@@ -29,7 +30,8 @@ export default ({
                         />
                     )) }
                 </FeatureGroup>       
-            )) }
+            )) : null }
         </React.Fragment>        
     )    
 }  
+

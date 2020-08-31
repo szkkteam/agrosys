@@ -24,30 +24,30 @@ const validate = values => {
         'geometry',
         'totalArea',
         'eligibleArea',
-        'soilTypeId',
-        'referenceParcelTypeId',
+        //'soilTypeId',
+        //'referenceParcelTypeId',
     ]
     requiredFields.forEach(field => {
         if (!values.geometry) {
             errors.title = 'Must draw a shape'
         }
-        //console.log("field", field + " val: ", values[field] + " compare: ", !values[field])
         if (!values[field]) {
             errors[field] = 'Required'
         }
 
-        if (values.eligibleArea && values.totalArea) {
-            if (values.totalArea > values.eligibleArea) errors.totalArea = 'Cannot be bigger than Eliglible Area'
+        if (values.eligibleArea && values.totalArea && values.totalArea < values.eligibleArea) {
+            errors.totalArea = 'Cannot be bigger than Eliglible Area'
         }
     })
     return errors
 }
 
 const FormParcel = (props) => {
-  const { invalid, handleSubmit, onCancel, submitting, pristine, action, dirty, values, resetSection, ...rest } = props
+  const { invalid, handleSubmit, onCancel, submitting, pristine, action, dirty, resetSection, ...rest } = props
 
-  console.log("action: ", action)
-  console.log("handleSubmit: ", handleSubmit)
+  //console.log("rest: ", rest)
+  //console.log("action: ", action)
+  //console.log("handleSubmit: ", handleSubmit)
   return (      
     <form onSubmit={handleSubmit(action)} className="form-parcel">
         <Grid
@@ -132,7 +132,7 @@ const FormParcel = (props) => {
                 <Grid item xs={6}>
                     <button type="submit"
                         className="btn btn-primary form-button"
-                        disabled={submitting || pristine || invalid}
+                        disabled={submitting }
                     >
                     {submitting ? 'Saving...' : 'Save'}
                     </button>
@@ -159,8 +159,8 @@ const withConnect = connect(
         return { 
             initialValues: {
                 ...{
-                    soilTypeId: 0,
-                    referenceParcelTypeId: 0,
+                    soilTypeId: 1,
+                    referenceParcelTypeId: 1,
                 }, ...locinitialValues
             },
             ...rest

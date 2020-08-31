@@ -2,8 +2,8 @@ import { createRoutine, createRoutineActions } from 'actions'
 
 const seasonActionsTypes = [
     'SET',
+    'ADD_PARCEL',
 ]
-
 
 export const listSeasons = createRoutine('season/LIST_SEASONS')
 export const loadSeasonDetail = createRoutine('season/DETAIL_SEASON')

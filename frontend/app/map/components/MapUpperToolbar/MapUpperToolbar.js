@@ -10,7 +10,7 @@ export default ({
     ...props,
 }) => (
     <React.Fragment>
-    <MapControl position="topleft">
+    <MapControl position="topleft" options={{className: "map-uppertoolbar"}}>
         {children}
     </MapControl>
     </React.Fragment>

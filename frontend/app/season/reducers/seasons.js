@@ -5,6 +5,7 @@ import {
     createSeason,
     updateSeason,
     setSeason,
+    addParcelToSeason,
 } from 'season/actions'
 
 import {
@@ -38,6 +39,18 @@ export default function(state = initialState, action) {
         case listSeasons.REQUEST:
             return { ...state,
                 isLoading: true 
+            }
+
+        case actionSeason.ADD_PARCEL:
+            const { seasonId, parcelId } = payload
+            const seasonById = state.byId[seasonId]
+            return {
+                ...state,
+                byId: { ...byId, [seasonId]: {
+                        ...seasonById,
+                        referenceParcels: seasonById.referenceParcels.concat(parcelId)
+                    }
+                }
             }
 
         case actionSeason.SET:

@@ -36,8 +36,6 @@ const draw = (Component) => {
             }
         }
         
-        
-
         render() {            
             const {forwardedRef, ...rest} = this.props;
             return (
