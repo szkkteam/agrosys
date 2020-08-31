@@ -1,7 +1,14 @@
 import React from 'react'
 
-import { Map, ZoomControl, Popup, TileLayer } from "react-leaflet";
+import { Map,
+    ZoomControl,
+    Popup,
+    TileLayer,
+    LayersControl,
+    LayerGroup
+} from "react-leaflet";
 
+const { BaseLayer, Overlay } = LayersControl
 
 export default class LeafletMap extends React.Component {
 
@@ -43,7 +50,7 @@ export default class LeafletMap extends React.Component {
     }
 
     render() {
-        const { editable, children, startBounds, ...props } = this.props
+        const { editable, children, startBounds, overlay, ...props } = this.props
         return (
             <Map 
                 ref={e => { this.mapInstance = e }}
@@ -59,11 +66,16 @@ export default class LeafletMap extends React.Component {
                 <ZoomControl
                     position="topright"
                 />
-                <TileLayer
-                    url="https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw"
-                    attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
-                    id='mapbox.satellite'
-                />
+                <LayersControl position="topright">
+                    <BaseLayer checked name="Satelite">
+                        <TileLayer
+                            url="https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw"
+                            attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
+                            id='mapbox.satellite'
+                        />
+                    </BaseLayer>
+                    {overlay}
+                </LayersControl>                
                 {children}
             </Map>
         )

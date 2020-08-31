@@ -21,19 +21,24 @@ import {
 
 import {
     MapUpperToolbar,
-    AddParcelButton
+    AddParcelButton,
+    EditParcelButton,
+    ParcelGroup,
+    ParcelSelected
 } from 'map/components'
 
 import {
     Map,
     Draw,
-    Feature,
 } from 'components/Map/components'
 
 import {
     FormParcel,
 } from 'parcel/components'
 
+import {
+    parcelTypesEnum
+} from 'reference/constants'
 
 class MapContainer extends React.Component {
 
@@ -76,6 +81,10 @@ class MapContainer extends React.Component {
         this.setState({ 
             selectedParcel: (this.state.selectedParcel && parcel.id == this.state.selectedParcel.id? null : parcel) 
         })
+    }
+
+    onSelectEmpty = () => {
+        this.setState({ selectedParcel: null })
     }
 
     onCancel = () => {
@@ -129,6 +138,8 @@ class MapContainer extends React.Component {
 
         const otherParcels = parcels.filter(x => selectedParcel? x.id != selectedParcel.id: true)
 
+        const addButtons = 
+
         console.log("parcels: ", parcels)
         console.log("otherParcels: ", otherParcels)
         console.log("selectedParcel: ", selectedParcel)
@@ -147,8 +158,11 @@ class MapContainer extends React.Component {
                 </Grid>
                 <Grid item sm={10}>
                     <Map
-                        onClick={(e) => console.log("Map click: ", e)}
+                        onClick={this.onSelectEmpty}
                         editable={true}
+                        overlay={
+                            <ParcelGroup checked parcels={otherParcels} onClick={this.onSelect} />
+                        }
                     >
                         <Draw
                             ref={this.draw}
@@ -166,24 +180,40 @@ class MapContainer extends React.Component {
                                     //onSubmit={() => console.log("Form submit finished.")}
                                 />
                                 :
-                                <AddParcelButton            
-                                    onParcelAdd={this.onClick}
-                                />
+                                <span>
+                                    <AddParcelButton       
+                                        filterButtons={(x) => selectedParcel? (((selectedParcel.referenceParcelType.code != parcelTypesEnum.AGRICULTURAL_PARCEL) && 
+                                            (x.code == parcelTypesEnum.AGRICULTURAL_PARCEL))? true : false) : true }
+                                        selectedParcel={selectedParcel}
+                                        onParcelAdd={this.onClick}
+                                    />
+                                    { selectedParcel &&
+                                        <EditParcelButton
+                                            title={selectedParcel.title}
+                                        />
+                                    }
+                                </span>                                
                             }
-                        </MapUpperToolbar>
-                        { parcels && parcels.map((parcel, i) => (
-                            <Feature
-                                key={i}
-                                onClick={this.onSelect}
-                                data={parcel}
-                            />
-                        )) }
+                        </MapUpperToolbar>                    
+                        <ParcelSelected
+                            parcel={selectedParcel} onClick={this.onSelect}
+                        />
                     </Map>
                 </Grid>
             </Grid>
         ) 
     }
 }
+
+/*
+                        { parcels && parcels.map((parcel, i) => {
+                            return (parcel && <Feature
+                                    key={i}
+                                    onClick={this.onSelect}
+                                    data={parcel}
+                                />)
+                        }) }
+*/
 
 const withSagaCreate = injectSagas(require('parcel/sagas/createSeasonParcel'))
 const withSagaList = injectSagas(require('parcel/sagas/listSeasonParcel'))

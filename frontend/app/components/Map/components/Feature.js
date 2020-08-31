@@ -1,8 +1,19 @@
 import React from 'react'
-import { GeoJSON } from "react-leaflet";
+import { Polygon } from "react-leaflet";
 
 export default class Feature extends React.Component 
 {   
+
+    _geoJsonToLatLong = (feature) => {
+        let latLong = []
+        // Fix latlongs
+        feature.geometry.coordinates[0].map((location, index) => {
+            latLong.push([location[1] , location[0]])
+        })
+        return latLong
+    }
+    
+
     onMouseHover = (data,e ) => {
         const { onMouseHover } = this.props
         onMouseHover && onMouseHover(data, e)
@@ -14,20 +25,14 @@ export default class Feature extends React.Component
         onClick && onClick(data,e )
     }
 
-    onEachFeature = (data, feature, layer) => {
-        layer.on({
-            mouseover: this.onMouseHover.bind(null, data),
-            click: this.onClick.bind(null, data),
-        })
-    }
-
     render() {
-        const { data } = this.props
+        const { data, onClick, ...props } = this.props
         return(
-            <GeoJSON 
-                key={data.id}
-                data={data.geometry}
-                onEachFeature={this.onEachFeature.bind(null, data)}
+            <Polygon                
+                positions={this._geoJsonToLatLong(data.geometry)}
+                onclick={this.onClick.bind(null, data)}
+                onMouseOver={this.onMouseHover.bind(null, data)}
+                {...props}
             />
         )
     }

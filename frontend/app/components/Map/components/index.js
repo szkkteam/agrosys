@@ -5,5 +5,7 @@ export { default as MapEditFeature } from './MapEditFeature'
 export { default as Map } from './Map'
 export { default as Draw } from './Draw'
 export { default as Feature } from './Feature'
+export { default as FeatureGroup } from './FeatureGroup'
 export { default as MapControl } from './MapControl'
+
 export { default as MapFeature } from './MapFeature'

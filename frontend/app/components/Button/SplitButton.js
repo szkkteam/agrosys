@@ -12,9 +12,15 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import Divider from '@material-ui/core/Divider';
 
+import Tooltip from '@material-ui/core/Tooltip';
+
+import {
+    EllipsisText
+} from 'components/Text'
 
 const SplitButton = ({
     options,
+    disabled = false,
     selectedIndex = 0,
     handleClick,
     }) => 
@@ -48,23 +54,25 @@ const SplitButton = ({
         <Grid container direction="column" alignItems="center">
             <Grid item xs={12}>
                 <ButtonGroup variant="contained" color="primary" ref={anchorRef} aria-label="split button">
-                <Button 
-                    onClick={(e) => handleClick && handleClick(e, options[selectedIndex])}
-                    {...options[selectedIndex].props}
-                >
-                    {options[selectedIndex].title}
-                </Button>
-                <Button
-                    color="primary"
-                    size="small"
-                    aria-controls={open ? 'split-button-menu' : undefined}
-                    aria-expanded={open ? 'true' : undefined}
-                    aria-label="select merge strategy"
-                    aria-haspopup="menu"
-                    onClick={handleToggle}
-                >
-                    <ArrowDropDownIcon />
-                </Button>
+                    <Button 
+                        disabled={disabled}
+                        onClick={(e) => handleClick && handleClick(e, options[selectedIndex])}
+                        {...options[selectedIndex].props}
+                    >
+                        {options[selectedIndex].title}
+                    </Button>
+                    <Button
+                        disabled={disabled}
+                        color="primary"
+                        size="small"
+                        aria-controls={open ? 'split-button-menu' : undefined}
+                        aria-expanded={open ? 'true' : undefined}
+                        aria-label="select merge strategy"
+                        aria-haspopup="menu"
+                        onClick={handleToggle}
+                    >
+                        <ArrowDropDownIcon />
+                    </Button>
                 </ButtonGroup>
                 <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
                 {({ TransitionProps, placement }) => (

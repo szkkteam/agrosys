@@ -16,6 +16,12 @@ import {
     parcelTypesEnum
 } from 'reference/constants'
 
+
+import {
+    getAvailableTypes
+} from 'reference/utils'
+
+
 class AddParcelButton extends React.Component {
 
 
@@ -28,7 +34,8 @@ class AddParcelButton extends React.Component {
         let retval = {
             type: "item",
             data: data,
-            disabled: false,           
+            disabled: false,
+            code: data.code,           
         }
         switch(data.code) {
             case parcelTypesEnum.AGRICULTURAL_PARCEL: // Agricultural Parcel
@@ -42,6 +49,7 @@ class AddParcelButton extends React.Component {
             case parcelTypesEnum.FARMERS_BLOCK: // Farmer's Block
                 return Object.assign(retval, {
                     title: "Add Farmer's Block",
+                    key: "FARMERS_BLOCK",
                 }) 
             case parcelTypesEnum.PHYSICAL_BLOCK: // Physical Block
                 return Object.assign(retval, {
@@ -56,17 +64,17 @@ class AddParcelButton extends React.Component {
         const { 
             parcelTypes,
             onParcelAdd,
-            onParcelSearch,
+            filterButtons,
          } = this.props
-        const buttons = parcelTypes && parcelTypes.map((parcelType, id) => (
-            this.renderButtonSwitch(parcelType)
-        )).concat({ type: "divider" })
 
+        const buttons = getAvailableTypes(parcelTypes, this.renderButtonSwitch, filterButtons).concat({ type: "divider" })
         return (
-            <SplitButton            
-                options={buttons}
-                handleClick={onParcelAdd}
-            />
+            <React.Fragment>
+                <SplitButton 
+                    options={buttons}
+                    handleClick={onParcelAdd}
+                />
+            </React.Fragment>
         )
     }
 }
