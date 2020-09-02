@@ -32,12 +32,11 @@ import {
 import {
     MapUpperToolbar,
     AddEditToolbar,
-    ParcelGroup,
+    MapParcels,
     ParcelSelected
 } from 'map/components'
 
 import {
-    Map,
     Draw,
 } from 'components/Map/components'
 
@@ -66,7 +65,6 @@ class MapContainer extends React.Component {
             //featureInEdit: null,
             status: mapStateEnum.IDLE,            
             selectedParcelId: null,
-            selectedChildId: null,
         }
         this.draw = React.createRef();
     }
@@ -92,87 +90,41 @@ class MapContainer extends React.Component {
     }
 
     onEdit = () => {
-        const { selectedParcelId, selectedChildId } = this.state
-        const { parcels } = this.props
-
-        const selectedParcel = parcels.find(x => x.id == selectedParcelId)
-        if (selectedChildId) {
-            const selectedChild = selectedParcel.parcels.find(x => x.id == selectedChildId)
-            console.log("selectedChild: ", selectedChildId)
-            this.draw.current.addPolygon(selectedChild.geometry)
-            this.draw.current.toggleEdit(true)
-    
-            // Excluding some parts
-            const correctedParcelData = { 
-                id: selectedChild.id,
-                geometry: selectedChild.geometry,
-                title: selectedChild.title,
-                notes: selectedChild.notes,
-                eligibleArea: selectedChild.eligibleArea,
-                totalArea: selectedChild.totalArea,
-                referenceParcelTypeId: selectedChild.referenceParcelType.id,
-                soilTypeId: selectedChild.soilType.id,
-              }
-    
-            this.setState({
-                status: mapStateEnum.EDIT,
-                formInitialValues: {
-                    ...correctedParcelData,
-                }
-            })
-
-        } else if (selectedParcelId) {            
-
-            console.log("selectedParcel: ", selectedParcelId)
-            this.draw.current.addPolygon(selectedParcel.geometry)
-            this.draw.current.toggleEdit(true)
-    
-            // Excluding some parts
-            const correctedParcelData = { 
-                id: selectedParcel.id,
-                geometry: selectedParcel.geometry,
-                title: selectedParcel.title,
-                notes: selectedParcel.notes,
-                eligibleArea: selectedParcel.eligibleArea,
-                totalArea: selectedParcel.totalArea,
-                referenceParcelTypeId: selectedParcel.referenceParcelType.id,
-                soilTypeId: selectedParcel.soilType.id,
-              }
-    
-            this.setState({
-                status: mapStateEnum.EDIT,
-                formInitialValues: {
-                    ...correctedParcelData,
-                }
-            })
-        }        
-    }
-
-    onSelect = (parcel, e) => {
-        console.log("On select: ", parcel)
         const { selectedParcelId } = this.state
-        const isSameSelected =  (selectedParcelId && parcel.id == selectedParcelId)
-        this.setState({ 
-            selectedParcelId: (isSameSelected? null : parcel.id) ,
-            selectedChildId: null,
+        const { selectChildParels } = this.props
+
+        const selectedParcel = selectedParcelId? selectChildParels([selectedParcelId])[0]: null
+        console.log("selectedParcel: ", selectedParcelId)
+        console.log("selectedParcel: ", selectedParcel)
+
+
+        this.draw.current.addPolygon(selectedParcel.geometry)
+        this.draw.current.toggleEdit(true)
+
+        // Excluding some parts
+        const correctedParcelData = { 
+            id: selectedParcel.id,
+            geometry: selectedParcel.geometry,
+            title: selectedParcel.title,
+            notes: selectedParcel.notes,
+            eligibleArea: selectedParcel.eligibleArea,
+            totalArea: selectedParcel.totalArea,
+            referenceParcelTypeId: selectedParcel.referenceParcelType.id,
+            soilTypeId: selectedParcel.soilType.id,
+            }
+
+        this.setState({
+            status: mapStateEnum.EDIT,
+            formInitialValues: {
+                ...correctedParcelData,
+            }
         })
     }
 
-    onSelectChild = (parcel, e) => {
-        console.log("On select child: ", parcel)
-        const { selectedChildId } = this.state
+    onSelect = (selectedParcelId) => {
         this.setState({ 
-            selectedChildId: (selectedChildId && parcel.id == selectedChildId? null : parcel.id) 
+            selectedParcelId
         })
-    }
-
-    onSelectEmpty = () => {
-        if (this.state.status === mapStateEnum.IDLE) {
-            this.setState({
-                selectedParcelId: null,
-                selectedChildId: null,
-            })
-        }            
     }
 
     onCancel = () => {
@@ -229,18 +181,12 @@ class MapContainer extends React.Component {
     }
 
     render() {
-        const { selectedParcelId, selectedChildId, formInitialValues = {}, status } = this.state
-        const { selectedSeason, parcels } = this.props
-        console.log("parcels: ", parcels)
-        const selectedParcel = selectedParcelId? parcels.find(x => x.id == selectedParcelId) : null
-        const selectedChild = selectedParcel? selectedParcel.parcels.find(x => x.id == selectedChildId) : null
-
-        const otherParcels = parcels.filter(x => selectedParcelId? x.id != selectedParcelId: true)
-
-        //console.log("selectChildParels: ", this.props.selectChildParels)
-        //console.log("selectChildParels: ", this.props.selectChildParels(parcels.find(x => x.id == 13).parcels))
+        const { selectedParcelId, formInitialValues = {}, status } = this.state
+        const { selectedSeason, selectChildParels } = this.props
+        
+        const selectedParcel = selectedParcelId? selectChildParels([selectedParcelId])[0]: null
         console.log("selectedParcel: ", selectedParcel)
-        //console.log("formInitialValues: ", formInitialValues)
+        //console.log("parcels: ", parcels)
         return (
             <Grid
                 container
@@ -254,13 +200,10 @@ class MapContainer extends React.Component {
                     </div>
                 </Grid>
                 <Grid item sm={10}>
-                    <Map
-                        onClick={this.onSelectEmpty}
-                        editable={true}
-                        overlay={
-                            <ParcelGroup checked parcels={otherParcels} onClick={this.onSelect} />
-                        }
-                    >
+                    <MapParcels
+                        isDrawing={status != mapStateEnum.IDLE}
+                        onSelect={this.onSelect}
+                    >   
                         <Draw
                             ref={this.draw}
                             onUpdate={this.onUpdate}
@@ -281,33 +224,13 @@ class MapContainer extends React.Component {
                                 />
                                 :
                                 <AddEditToolbar
-                                    selectedParcel={selectedChild? selectedChild: selectedParcel}
+                                    selectedParcel={selectedParcel}
                                     onAdd={this.onAdd}
                                     onEdit={this.onEdit}
                                 />                            
                             }
-                        </MapUpperToolbar>                    
-                        { status === mapStateEnum.IDLE && <ParcelSelected
-                            parcel={selectedParcel} onClick={this.onSelect}
-                        /> }
-                        {selectedParcel && this.props.selectChildParels(selectedParcel.parcels).map((p, i) => {
-                            console.log("Child parcel: ", p)
-                            return (
-                                <ParcelSelected
-                                    key={`${p.tite}-${i}`}
-                                    color="green"
-                                    parcel={p} onClick={this.onSelectChild}
-                            />  
-                            )
-                        }
-
-                        )}
-                        { status === mapStateEnum.IDLE && <ParcelSelected color="red"
-                            parcel={selectedChild} onClick={this.onSelectChild}
-                        /> }
-                        
-                        
-                    </Map>
+                        </MapUpperToolbar> 
+                    </MapParcels>                    
                 </Grid>
             </Grid>
         ) 

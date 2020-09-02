@@ -28,6 +28,9 @@ const ParcelGroup = ({
     parcels,
     onClick,
     parcelTypes,
+    selectedParcel,
+    selectedParcelStyle = {},
+    parcelStyle = {},
     ...rest,
 }) => {    
     // Sort the parcels based on their size. The default behaviour when a polygon is added to the layer is to adding it to the top.
@@ -51,8 +54,9 @@ const ParcelGroup = ({
                 <FeatureGroup key={`${key}-${i}`} name={parcelTypes.find(x => x.code == key).title} {...rest}>
                     { byParcelType[key] && byParcelType[key]                        
                         .map((parcel, i) => (
-                                <Feature
+                                 <Feature
                                     key={i}
+                                    { ... (selectedParcel == parcel.id)? selectedParcelStyle: parcelStyle }
                                     onClick={onClick}
                                     data={parcel}
                             /> )
