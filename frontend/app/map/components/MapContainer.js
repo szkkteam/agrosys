@@ -6,7 +6,7 @@ import { bindRoutineCreators } from 'actions'
 import { injectReducer, injectSagas } from 'utils/async'
 
 import { 
-    createSeasonParcel,
+    createParcel,
     listSeasonParcel,
     updateParcel,
 } from 'parcel/actions'
@@ -17,8 +17,11 @@ import {
 } from 'reference/actions'
 
 import { mapEvents } from 'components/Map/actions'
-import { selectSeasonParcelsList } from 'parcel/reducers/parcels'
-//import { selectSelectedSeasons } from 'season/reducers/seasons'
+import {
+    selectSeasonParcelsList,
+    selectParcelsListById,
+} from 'parcel/reducers/parcels'
+import { selectSelectedSeasons } from 'season/reducers/seasons'
 
 import Grid from '@material-ui/core/Grid';
 
@@ -63,6 +66,7 @@ class MapContainer extends React.Component {
             //featureInEdit: null,
             status: mapStateEnum.IDLE,            
             selectedParcelId: null,
+            selectedChildId: null,
         }
         this.draw = React.createRef();
     }
@@ -88,11 +92,36 @@ class MapContainer extends React.Component {
     }
 
     onEdit = () => {
-        const { selectedParcelId } = this.state
+        const { selectedParcelId, selectedChildId } = this.state
         const { parcels } = this.props
 
-        if (selectedParcelId) {
-            const selectedParcel = parcels.find(x => x.id == selectedParcelId)
+        const selectedParcel = parcels.find(x => x.id == selectedParcelId)
+        if (selectedChildId) {
+            const selectedChild = selectedParcel.parcels.find(x => x.id == selectedChildId)
+            console.log("selectedChild: ", selectedChildId)
+            this.draw.current.addPolygon(selectedChild.geometry)
+            this.draw.current.toggleEdit(true)
+    
+            // Excluding some parts
+            const correctedParcelData = { 
+                id: selectedChild.id,
+                geometry: selectedChild.geometry,
+                title: selectedChild.title,
+                notes: selectedChild.notes,
+                eligibleArea: selectedChild.eligibleArea,
+                totalArea: selectedChild.totalArea,
+                referenceParcelTypeId: selectedChild.referenceParcelType.id,
+                soilTypeId: selectedChild.soilType.id,
+              }
+    
+            this.setState({
+                status: mapStateEnum.EDIT,
+                formInitialValues: {
+                    ...correctedParcelData,
+                }
+            })
+
+        } else if (selectedParcelId) {            
 
             console.log("selectedParcel: ", selectedParcelId)
             this.draw.current.addPolygon(selectedParcel.geometry)
@@ -120,15 +149,29 @@ class MapContainer extends React.Component {
     }
 
     onSelect = (parcel, e) => {
+        console.log("On select: ", parcel)
         const { selectedParcelId } = this.state
+        const isSameSelected =  (selectedParcelId && parcel.id == selectedParcelId)
         this.setState({ 
-            selectedParcelId: (selectedParcelId && parcel.id == selectedParcelId? null : parcel.id) 
+            selectedParcelId: (isSameSelected? null : parcel.id) ,
+            selectedChildId: null,
+        })
+    }
+
+    onSelectChild = (parcel, e) => {
+        console.log("On select child: ", parcel)
+        const { selectedChildId } = this.state
+        this.setState({ 
+            selectedChildId: (selectedChildId && parcel.id == selectedChildId? null : parcel.id) 
         })
     }
 
     onSelectEmpty = () => {
         if (this.state.status === mapStateEnum.IDLE) {
-            this.setState({ selectedParcelId: null })
+            this.setState({
+                selectedParcelId: null,
+                selectedChildId: null,
+            })
         }            
     }
 
@@ -186,14 +229,16 @@ class MapContainer extends React.Component {
     }
 
     render() {
-        const { selectedParcelId, formInitialValues = {}, status } = this.state
-        const { parcels } = this.props
-
+        const { selectedParcelId, selectedChildId, formInitialValues = {}, status } = this.state
+        const { selectedSeason, parcels } = this.props
+        console.log("parcels: ", parcels)
         const selectedParcel = selectedParcelId? parcels.find(x => x.id == selectedParcelId) : null
+        const selectedChild = selectedParcel? selectedParcel.parcels.find(x => x.id == selectedChildId) : null
+
         const otherParcels = parcels.filter(x => selectedParcelId? x.id != selectedParcelId: true)
 
-        //console.log("parcels: ", parcels)
-        //console.log("otherParcels: ", otherParcels)
+        //console.log("selectChildParels: ", this.props.selectChildParels)
+        //console.log("selectChildParels: ", this.props.selectChildParels(parcels.find(x => x.id == 13).parcels))
         console.log("selectedParcel: ", selectedParcel)
         //console.log("formInitialValues: ", formInitialValues)
         return (
@@ -225,16 +270,18 @@ class MapContainer extends React.Component {
                         <MapUpperToolbar>
                             { status != mapStateEnum.IDLE? 
                                 <FormParcel
-                                    action={ status === mapStateEnum.ADD? createSeasonParcel : updateParcel}
+                                    action={ status === mapStateEnum.ADD? createParcel : updateParcel}
                                     onCancel={this.onCancel}
                                     onSubmitSuccess={this.onCancel}
                                     initialValues={{
                                         ...formInitialValues,
+                                        parentSeason: selectedSeason,
+                                        parentParcel: selectedParcel,
                                     }}
                                 />
                                 :
                                 <AddEditToolbar
-                                    selectedParcel={selectedParcel}
+                                    selectedParcel={selectedChild? selectedChild: selectedParcel}
                                     onAdd={this.onAdd}
                                     onEdit={this.onEdit}
                                 />                            
@@ -243,6 +290,23 @@ class MapContainer extends React.Component {
                         { status === mapStateEnum.IDLE && <ParcelSelected
                             parcel={selectedParcel} onClick={this.onSelect}
                         /> }
+                        {selectedParcel && this.props.selectChildParels(selectedParcel.parcels).map((p, i) => {
+                            console.log("Child parcel: ", p)
+                            return (
+                                <ParcelSelected
+                                    key={`${p.tite}-${i}`}
+                                    color="green"
+                                    parcel={p} onClick={this.onSelectChild}
+                            />  
+                            )
+                        }
+
+                        )}
+                        { status === mapStateEnum.IDLE && <ParcelSelected color="red"
+                            parcel={selectedChild} onClick={this.onSelectChild}
+                        /> }
+                        
+                        
                     </Map>
                 </Grid>
             </Grid>
@@ -250,7 +314,7 @@ class MapContainer extends React.Component {
     }
 }
 
-const withSagaCreate = injectSagas(require('parcel/sagas/createSeasonParcel'))
+const withSagaCreate = injectSagas(require('parcel/sagas/createParcel'))
 const withSagaUpdate = injectSagas(require('parcel/sagas/updateParcel'))
 const withSagaList = injectSagas(require('parcel/sagas/listSeasonParcel'))
 const withSagaSoilTypes = injectSagas(require('reference/sagas/listSoilsTypes'))
@@ -261,7 +325,11 @@ const withReducerSoilTypes = injectReducer(require('reference/reducers/soilTypes
 const withReducerParcelTypes = injectReducer(require('reference/reducers/parcelTypes'))
 
 const withConnect = connect(
-  (state) => ({parcels: selectSeasonParcelsList(state)}),
+  (state) => ({
+      parcels: selectSeasonParcelsList(state),
+      selectedSeason: selectSelectedSeasons(state),
+      selectChildParels: (ids) => selectParcelsListById(state, ids)
+    }),
   (dispatch) => bindRoutineCreators({ mapEvents, listSeasonParcel, listSoilTypes, listParcelTypes }, dispatch),
 )
 

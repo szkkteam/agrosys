@@ -7,6 +7,7 @@ import {
 export default ({
     parcel,
     onClick,
+    color="white",
     ...rest,
 }) => {
 
@@ -14,7 +15,8 @@ export default ({
         <React.Fragment>
             { parcel? 
                 <Feature
-                    color="white"
+                    //color="white"
+                    color={color}
                     onClick={onClick}
                     data={parcel}
                 />

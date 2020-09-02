@@ -53,20 +53,20 @@ export default class Parcel {
     /**
      * Group - Parcel
      */
-    static listGroupParcel(groupDate) {
-        return get(group(`/${groupDate.id}/parcels`))
+    static listGroupParcel(groupData) {
+        return get(group(`/${groupData.id}/parcels`))
     }
 
-    static createGroupParcels(groupDate) {
-        return post(group(`/${groupDate.id}/parcels`))
+    static createGroupParcels(groupData, payload) {
+        return post(group(`/${groupData.id}/parcels`), payload)
     }
         
-    static assignGroupParcel(groupDate, parcelData) {
-        return put(group(`/${groupDate.id}/parcels/${parcelData.id}`))
+    static assignGroupParcel(groupData, parcelData) {
+        return put(group(`/${groupData.id}/parcels/${parcelData.id}`))
     }
 
-    static removeGroupParcel(groupDate, parcelData) {
-        return delete_(group(`/${groupDate.id}/parcels/${parcelData.id}`))
+    static removeGroupParcel(groupData, parcelData) {
+        return delete_(group(`/${groupData.id}/parcels/${parcelData.id}`))
     }
 
 }

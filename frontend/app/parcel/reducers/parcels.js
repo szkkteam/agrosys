@@ -1,7 +1,8 @@
 import { 
     listSeasonParcel,   
-    createSeasonParcel,
-    updateParcel
+    createParcel,
+    updateParcel,
+    actionParcel,
 } from 'parcel/actions'
 
 import {
@@ -49,12 +50,25 @@ export default function(state = initialState, action) {
                 byId: {...byId, ...normalizeParcels(parcels).byId},
             }
 
-        case createSeasonParcel.SUCCESS:
+        case actionParcel.ADD_PARCEL: 
+            const { groupId, parcelId } = payload
+            const parcelById = state.byId[groupId]
+            return { 
+                ...state,
+                byId: { ...byId, [groupId]: {
+                        ...parcelById,
+                        parcels: parcelById.parcels.concat(parcelId)
+                    }
+                }
+            }
+
+        case createParcel.SUCCESS:
         case listSeasonParcel.SUCCESS:
             const flatData = normalizeParcels(parcels)
+            console.log("createParcel flatData: ", flatData)
             return { ...state,
                 byId: {...byId, ...flatData.byId},
-                ids: flatData.ids,
+                ids: state.ids.concat(flatData.ids),
                 isLoaded: true,  
             }
 

@@ -10,10 +10,13 @@ export const parcelSchema = new schema.Entity('parcels', {
 })
 
 export const parcelsSchema = new schema.Array(parcelSchema)
-parcelSchema.define({ parcels: parcelSchema });
+parcelSchema.define({ parcels: parcelsSchema });
 
 export const normalizeParcels = (data) => {
     const { entities, result} = normalize(data, parcelsSchema)
+    console.log("Normalize data: ", data)
+    console.log("Normalize entities: ", entities)
+    console.log("Normalize result: ", result)
     return {
         byId: entities.parcels,
         ids: result
