@@ -87,6 +87,11 @@ export default function(state = initialState, action) {
 }
 
 export const selectSeasons = (state) => state[KEY]
+export const selectSelectedSeasonParcels = (state) => {
+        const season = selectSeasons(state)
+        return season.byId[season.selected].referenceParcels
+}
+
 export const selectSeasonsEntities = (state) => {
     const seasons = selectSeasons(state)
     return { seasons: seasons.byId,  }

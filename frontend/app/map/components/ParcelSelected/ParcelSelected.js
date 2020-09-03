@@ -5,22 +5,21 @@ import {
 } from 'components/Map/components'
 
 export default ({
-    parcel,
+    data,
     onClick,
     color="white",
     ...rest,
 }) => {
-
     return (
         <React.Fragment>
-            { parcel? 
+            { data && 
                 <Feature
                     //color="white"
                     color={color}
                     onClick={onClick}
-                    data={parcel}
+                    data={data}
                 />
-                : null}
+            }
         </React.Fragment>
     )    
 }  

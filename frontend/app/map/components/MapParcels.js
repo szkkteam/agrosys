@@ -6,9 +6,8 @@ import { bindRoutineCreators } from 'actions'
 import { injectReducer, injectSagas } from 'utils/async'
 
 import { 
-    createParcel,
     listSeasonParcel,
-    updateParcel,
+    actionParcel,
 } from 'parcel/actions'
 
 import {
@@ -18,86 +17,62 @@ import {
 
 import { mapEvents } from 'components/Map/actions'
 import {
-    selectSeasonParcelsList,
-    selectParcelsListById,
+    getSelectedParcel,
+    getSelectedSeasonParcels,
+    getSelectedSiblingParcels,
 } from 'parcel/reducers/parcels'
-import { selectSelectedSeasons } from 'season/reducers/seasons'
-
-import Grid from '@material-ui/core/Grid';
 
 import {
-    SeasonSelector
-} from 'season/components'
-
-import {
-    MapUpperToolbar,
-    AddEditToolbar,
     ParcelGroup,
     ParcelSelected
 } from 'map/components'
 
 import {
     Map,
-    Draw,
+    Feature,
 } from 'components/Map/components'
-
-import {
-    FormParcel,
-} from 'parcel/components'
-
 
 
 class MapParcels extends React.Component {
 
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            selectedGroupParcelId: null,
-            selectedChildParelId: null,
-        }
+    
+    componentDidMount() {
+        const { listSeasonParcel, listSoilTypes, listParcelTypes } = this.props
+        listSeasonParcel && listSeasonParcel.maybeTrigger()
+        listSoilTypes && listSoilTypes.maybeTrigger()
+        listParcelTypes && listParcelTypes.maybeTrigger()
     }
+
 
     onSelectEmpty = () => {
-        const { isDrawing, onSelect } = this.props
+        const { preventEmptyClick, actionParcel } = this.props
         //console.log("isDrawing: ", isDrawing)
-        if (!isDrawing) {
-            this.setState({
-                selectedGroupParcelId: null,
-                selectedChildParelId: null,
-            })
-            onSelect && onSelect(null)
-        } 
+        !preventEmptyClick && actionParcel && actionParcel.selectParcel({selectedParcelId: null})         
     }
 
-    onSelectGroup = (parcel, e) => {
-        const { onSelect } = this.props
-        const { selectedGroupParcelId } = this.state
-        const isSameSelected =  (selectedGroupParcelId && parcel.id == selectedGroupParcelId)
-        this.setState({ 
-            selectedGroupParcelId: (isSameSelected? null : parcel.id) ,
-            selectedChildId: null,
+    onSelect = (parcel, i) => {
+        console.log("Selecting: ", parcel)
+        const { actionParcel } = this.props
+        actionParcel && actionParcel.selectParcel({
+            selectedParcelId: parcel.id
         })
-        onSelect && onSelect((isSameSelected? null : parcel.id))
-    }
-
-    onSelectChild = (parcel, e) => {
-        const { onSelect } = this.props
-        const { selectedChildParelId, selectedGroupParcelId } = this.state
-        const isSameSelected =  (selectedChildParelId && parcel.id == selectedChildParelId)
-        this.setState({ 
-            selectedChildParelId: (isSameSelected? null : parcel.id) ,
-        })
-        onSelect && onSelect((isSameSelected? selectedGroupParcelId : parcel.id))
     }
 
 
     render() {
-        const { children, selectChildParels, parcels } = this.props
-        const { selectedGroupParcelId, selectedChildParelId } = this.state
+        const { children, selectedParcel, seasonParcels, siblingParcels, hideSelection } = this.props
+        // Select the children parcels, take either the siblings or directly the nested parcel object
+        const childParcels = selectedParcel && selectedParcel.parcels && selectedParcel.parcels.length? selectedParcel.parcels : siblingParcels
+        // Select the group parcel if the selected parcel has sub parcels, otherwise null
+        const groupParcel = selectedParcel && selectedParcel.parcels && selectedParcel.parcels.length? selectedParcel: null
+        // Select the children parcel if the selected parcel does not have subparcels, otherwise null
+        const childParcel = selectedParcel && !(selectedParcel.parcels && selectedParcel.parcels.length)? selectedParcel: null
 
-        const selectedGroupParcel = parcels.find(x => x.id == selectedGroupParcelId)
-        //console.log("selectedGroupParcel: ", selectedGroupParcel)
+        //console.log("childParcel: ", childParcel)
+        //console.log("siblingParcels: ", siblingParcels)
+        //console.log("childParcels: ", childParcels)
+        //console.log("groupParcel: ", groupParcel)
+        //console.log("childParcel: ", childParcel)
         return (
             <Map
                 onClick={this.onSelectEmpty}
@@ -105,26 +80,40 @@ class MapParcels extends React.Component {
                 overlay={
                     <ParcelGroup
                         checked
-                        selectedParcel={selectedGroupParcelId}
-                        selectedParcelStyle={{color: "white"}}
-                        parcelStyle={{color: "lightblue"}}
-                        parcels={parcels}
-                        onClick={this.onSelectGroup}
+                        parcels={seasonParcels}
+                        onClick={this.onSelect}
                     />
                 }
-            >
-                <React.Fragment>
-                    {selectedGroupParcelId && selectChildParels(selectedGroupParcel.parcels).map((p, i) => {
-                        console.log("Child parcel: ", p)
-                        return (
-                            <ParcelSelected
-                                key={`${p.tite}-${i}`}
-                                color={ selectedChildParelId == p.id? "red": "green" }
-                                parcel={p} onClick={this.onSelectChild}
-                        />  
-                        )
+            >   
+                <React.Fragment>     
+                    { groupParcel && !hideSelection &&
+                        // Render the active group parcel selection.
+                        <ParcelSelected
+                            color="white"
+                            onClick={this.onSelect}
+                            data={groupParcel}  
+                        />
+                    }        
+                    { // Render child parcels.
+                        childParcels && childParcels.map((parcel, i) => {
+                            return (
+                                <Feature
+                                    key={`${parcel.tite}-${i}`}
+                                    //color="yellow" 
+                                    data={parcel}
+                                    onClick={this.onSelect}
+                                />  
+                            )
+                        })
                     }
-                    )}                    
+                    { childParcel && !hideSelection &&
+                        // Render the active child parcel selection.
+                        <ParcelSelected
+                            color="white"
+                            onClick={this.onSelect}
+                            data={childParcel}  
+                        />
+                    }        
                     {children}
                 </React.Fragment>                
             </Map>
@@ -133,21 +122,32 @@ class MapParcels extends React.Component {
 }
 
 
-const withSaga = injectSagas(require('parcel/sagas/listSeasonParcel'))
-const withReducer = injectReducer(require('parcel/reducers/parcels'))
+
+const withSagaParcels = injectSagas(require('parcel/sagas/listSeasonParcel'))
+const withSagaSoilTypes = injectSagas(require('reference/sagas/listSoilsTypes'))
+const withSagaParcelTypes = injectSagas(require('reference/sagas/listParcelTypes'))
+
+const withReducerParcels = injectReducer(require('parcel/reducers/parcels'))
+const withReducerSoilTypes = injectReducer(require('reference/reducers/soilTypes'))
+const withReducerParcelTypes = injectReducer(require('reference/reducers/parcelTypes'))
+
 
 const withConnect = connect(
   (state) => ({
-      parcels: selectSeasonParcelsList(state),
-      selectChildParels: (ids) => selectParcelsListById(state, ids)
+      selectedParcel: getSelectedParcel(state),
+      seasonParcels: getSelectedSeasonParcels(state),
+      siblingParcels: getSelectedSiblingParcels(state),
     }),
-  null,
+    (dispatch) => bindRoutineCreators({ actionParcel, listSeasonParcel, listSoilTypes, listParcelTypes }, dispatch),
 )
 
 
-
 export default compose(
-    withSaga,
-    withReducer,
+    withSagaParcels,
+    withSagaSoilTypes,
+    withSagaParcelTypes,
+    withReducerParcels,
+    withReducerSoilTypes,
+    withReducerParcelTypes,
     withConnect,
 )(MapParcels)

@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect'
+
 import { 
     listSeasonParcel,   
     createParcel,
@@ -19,16 +21,31 @@ import {
 } from 'reference/reducers/soilTypes'
 
 import {
-    selectSelectedSeasons
+    selectSelectedSeasons,
+    selectSeasons,
 } from 'season/reducers/seasons'
 
+import {
+    parcelTypesEnum
+} from 'reference/constants'
+
 export const KEY = 'parcels'
+
+
+const groupOrder = [
+    parcelTypesEnum.PHYSICAL_BLOCK,
+    parcelTypesEnum.FARMERS_BLOCK,
+    parcelTypesEnum.CADASTRAL_PARCEL,
+    parcelTypesEnum.AGRICULTURAL_PARCEL,
+]
+
 
 const initialState = {    
     isLoading: false,
     isLoaded: false,
     ids: [],
     byId: {},
+    selectedParcelId: null,
     error: null,
 }
 
@@ -62,6 +79,27 @@ export default function(state = initialState, action) {
                 }
             }
 
+        case actionParcel.SELECT_PARCEL:
+            const { selectedParcelId } = payload
+            // If selection is the same, perform deselect logic
+            let selection = selectedParcelId
+            if(state.selectedParcelId == selectedParcelId) {
+                // Check if the old selection is a child
+                let parent = null
+                state.ids.map((id) => {
+                    state.byId[id].parcels.find(x => { if (x == selectedParcelId) { parent = id } })
+                })
+                selection = parent
+            }
+            return { ...state,
+                selectedParcelId: selection,
+            }
+
+        case actionParcel.SELECT_CLEAR:
+            return { ...state,
+                selectedParcelId: null,
+            }
+
         case createParcel.SUCCESS:
         case listSeasonParcel.SUCCESS:
             const flatData = normalizeParcels(parcels)
@@ -87,21 +125,84 @@ export default function(state = initialState, action) {
     }
 }
 
-export const selectParcels = (state) => state[KEY]
+const groupByParcelType = (data) => {
+    const grouped = data.reduce((grouped, parcel) => {        
+        if (!parcel.referenceParcelType) { return grouped}                     
+        let item = grouped[parcel.referenceParcelType.code] || []
+        item.push(parcel)
+        grouped[parcel.referenceParcelType.code] = item
+        return grouped
+    }, {})
+    let keys = []
+    // Make an inner join between keys where the order is fixed. Eg: Phyiscal block -> Farmers block -> Cadastrial parcel -> Agricultural parcel
+    groupOrder.map((item) => item in grouped? keys.push(item): null )
+    return { keys, data: grouped }
+}
+    
+const sortBySize = (data) =>
+    data.sort((a, b) => parseFloat(a.totalArea) > parseFloat(b.totalArea)? -1 : 1)
 
+const excludeId = (ids, id) => ids.filter(x => x != id)
+
+export const selectParcels = (state) => state[KEY]
+export const selectSelectedParcelId = (state) => selectParcels(state).selectedParcelId
+export const selectSelectedParcelParcelIds = (state) => {
+    const parcels = selectParcels(state)
+    return parcels.byId[parcels.selectedParcelId].parcels
+}
+export const selectSelectedSeasonParcels = (state) => {
+    const season = selectSeasons(state)
+    return season.byId[season.selected].referenceParcels
+}
 
 export const selectParcelsEntities = (state) => {
-    const parcel = selectParcels(state)
-    return {
+    return { entities: {
         ...selectSoilTypesEntities(state),
         ...selectParcelTypesEntities(state),
-        ...{ parcels: parcel.byId,  }
-    }
+        ...{ parcels: selectParcels(state).byId,  }
+    }}
 }
+
+
+export const getSelectedParcel = createSelector(
+    [selectSelectedParcelId, selectParcelsEntities],
+    (selectedId, entities) => {
+        const res = selectedId? deNormalizeParcels({ ids: [selectedId], ...entities}) : []
+        return res.length? res[0]: null
+    }
+)
+
+export const getSelectedSeasonParcels = createSelector(
+    [selectSelectedSeasonParcels, selectSelectedParcelId, selectParcelsEntities],
+    (parcelIds, selectedParcelId, entities) => {
+        // Filter out the selected season id
+        const denormalized = deNormalizeParcels({ ids: excludeId(parcelIds, selectedParcelId), ...entities})    
+        // Sort the parcels based on the size    
+        const sorted = sortBySize(denormalized)
+        return groupByParcelType(sorted)        
+    }
+)
+
+export const getSelectedSiblingParcels = createSelector(
+    [selectSelectedParcelId, selectParcels, selectParcelsEntities],
+    (selectedParcelId, parcelState, entities) => {
+        // If no selected, return with empty list
+        if (!selectedParcelId) return []
+        let parent = selectedParcelId
+        parcelState.ids.map((id) => 
+            parcelState.byId[id].parcels.find(x => { if (x == selectedParcelId) { parent = id } }))
+            
+        // TODO: Maybe return with the siblings on the top level also and could be used for more purpose
+        if (!parent) return []        
+        const denormalized = deNormalizeParcels({ ids: excludeId(parcelState.byId[parent].parcels, selectedParcelId), ...entities})    
+        // Sort the parcels based on the size    
+        return sortBySize(denormalized)
+    }
+)
 
 export const selectParcelsList = (state) => {
     const parcels = selectParcels(state)
-    return deNormalizeParcels({ ids: parcels.ids, entities: selectParcelsEntities(state) })
+    return deNormalizeParcels({ ids: parcels.ids, ...selectParcelsEntities(state) })
 
 }
 
@@ -115,6 +216,6 @@ export const selectSeasonParcelsList = (state) => {
 
 
 export const selectParcelsListById = (state, ids = []) => {
-    return deNormalizeParcels({ ids, entities: selectParcelsEntities(state) })
+    return deNormalizeParcels({ ids, ...selectParcelsEntities(state) })
 
 }

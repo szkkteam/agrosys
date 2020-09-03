@@ -2,6 +2,7 @@ import { createRoutine, createRoutineActions } from 'actions'
 
 const parcelActionsTypes = [
     'ADD_PARCEL',
+    'SELECT_PARCEL',
 ]
 
 export const listSeasonParcel = createRoutine('parcel/LIST_SEASON_PARCELS')
