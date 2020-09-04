@@ -7,7 +7,7 @@ import { bindRoutineCreators } from 'actions'
 import { injectReducer, injectSagas } from 'utils/async'
 
 import { listParcelTypes } from 'reference/actions'
-import { selectParcelTypesList } from 'reference/reducers/parcelTypes'
+import { getReferenceParcelTypes } from 'reference/reducers/parcelTypes'
 
 import {
     parcelTypesEnum
@@ -122,9 +122,13 @@ class AddEditToolbar extends React.Component {
 const withReducer = injectReducer(require('reference/reducers/parcelTypes'))
 const withSaga = injectSagas(require('reference/sagas/listParcelTypes'))
 
+const mapStateToProps = state => (
+    {parcelTypes: getReferenceParcelTypes(state) }
+)
+
 const withConnect = connect(
-  (state) => ({parcelTypes: selectParcelTypesList(state) }),
-  (dispatch) => bindRoutineCreators({ listParcelTypes }, dispatch),
+    mapStateToProps,
+    (dispatch) => bindRoutineCreators({ listParcelTypes }, dispatch),
 )
 
 export default compose(

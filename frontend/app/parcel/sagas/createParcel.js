@@ -11,6 +11,7 @@ import {
 } from 'parcel/actions'
 
 import ParcelApi from 'parcel/api'
+import { normalizeParcels } from 'parcel/schemas'
 
 
 export const KEY = 'createParcelSaga'
@@ -30,7 +31,9 @@ export const createParcelSaga = createRoutineFormSaga(
       parcel = yield call(ParcelApi.createGroupParcels, parentParcel, payload)  
       // Trigger the action success
       console.log("Trigger: createParcel.success")
-      yield put(createParcel.success({ parcels: [parcel] }))     
+      yield put(createParcel.success({ 
+        ...normalizeParcels([parcel])
+      }))     
       // Assign the new parcel to the parent parcel
       yield put(actionParcel.addParcel({groupId: parentParcel.id, parcelId: parcel.id})) 
       
@@ -40,7 +43,9 @@ export const createParcelSaga = createRoutineFormSaga(
       console.log("POST response: ", parcel)
       // Trigger the action success
       console.log("Trigger: createParcel.success")
-      yield put(createParcel.success({ parcels: [parcel] }))     
+      yield put(createParcel.success({ 
+        ...normalizeParcels([parcel])
+      }))     
       // Assign the new parcel to the season
       yield put(actionSeason.addParcel({seasonId: parentSeason.id, parcelId: parcel.id})) 
 

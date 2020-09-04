@@ -5,6 +5,7 @@ import { createRoutineSaga } from 'sagas'
 import { listSoilTypes } from 'reference/actions'
 import SoilApi from 'reference/api'
 import { selectSoilsTypes } from 'reference/reducers/soilTypes'
+import { normalizeSoilTypes } from 'reference/schemas'
 
 export const KEY = 'soilType'
 
@@ -20,7 +21,7 @@ export const listSoilTypesSaga = createRoutineSaga(
     function *successGenerator() {
         const soilTypes = yield call(SoilApi.listSoilTypes)
         yield put(listSoilTypes.success({
-            soilTypes
+            ...normalizeSoilTypes(soilTypes)
         }))
     }
 )

@@ -6,11 +6,13 @@ import { listSeasonParcel } from 'parcel/actions'
 import ParcelApi from 'parcel/api'
 import { selectParcels } from 'parcel/reducers/parcels'
 import { selectSelectedSeasons } from 'season/reducers/seasons'
+import { normalizeParcels } from 'parcel/schemas'
 
 export const KEY = 'listSeasonParcel'
 
 export const maybeListSeasonParcelSaga = function *() {
     const { isLoading, isLoaded } = yield select(selectParcels)
+    console.log("isLoading: ", isLoading + "isLoaded: ", isLoaded)
     if (!(isLoaded || isLoading)) {
         yield put(listSeasonParcel.trigger())
     }
@@ -24,7 +26,7 @@ export const listSeasonParcelSaga = createRoutineSaga(
         if (selectedSeason) {
             const parcels = yield call(ParcelApi.listSeasonParcels, selectedSeason)
             yield put(listSeasonParcel.success({
-                parcels
+                ...normalizeParcels(parcels)
             }))
         }
     }

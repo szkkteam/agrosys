@@ -7,7 +7,7 @@ import { bindRoutineCreators } from 'actions'
 import { injectReducer, injectSagas } from 'utils/async'
 
 import { listSoilTypes } from 'reference/actions'
-import { selectSoilTypesList } from 'reference/reducers/soilTypes'
+import { getSoilTypes } from 'reference/reducers/soilTypes'
 
 
 class SelectSoil extends React.Component {
@@ -38,9 +38,13 @@ class SelectSoil extends React.Component {
 const withReducer = injectReducer(require('reference/reducers/soilTypes'))
 const withSaga = injectSagas(require('reference/sagas/listSoilsTypes'))
 
+const mapStateToProps = state => (
+    { soils: getSoilTypes(state) }
+)
+
 const withConnect = connect(
-  (state) => ({ soils: selectSoilTypesList(state) }),
-  (dispatch) => bindRoutineCreators({ listSoilTypes }, dispatch),
+    mapStateToProps,
+    (dispatch) => bindRoutineCreators({ listSoilTypes }, dispatch),
 )
 
 export default compose(

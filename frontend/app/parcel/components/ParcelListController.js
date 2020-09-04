@@ -54,9 +54,10 @@ class ParcelListController extends React.Component {
     }
 }
 
-
+const withSagaSeasons = injectSagas(require('season/sagas/seasons'))
 const withSagaParcels = injectSagas(require('parcel/sagas/listSeasonParcel'))
 const withReducerParcels = injectReducer(require('parcel/reducers/parcels'))
+const withReducerSeasons = injectReducer(require('season/reducers/seasons'))
 
 const withConnect = connect(
   (state) => ({
@@ -69,6 +70,8 @@ const withConnect = connect(
 
 export default compose(
     withSagaParcels,
+    withSagaSeasons,
     withReducerParcels,
+    withReducerSeasons,
     withConnect,
 )(ParcelListController)

@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect'
+
 import { 
     listParcelTypes
 } from 'reference/actions'
@@ -19,7 +21,7 @@ const initialState = {
 
 export default function(state = initialState, action) {
     const { type, payload } = action
-    const { parcelTypes } = payload || {}
+    const { byId: parcelTypesById, ids } = payload || {}
     const { byId } = state
 
     switch(type) {
@@ -29,10 +31,9 @@ export default function(state = initialState, action) {
             }
 
         case listParcelTypes.SUCCESS:
-            const flatData = normalizeReferenceParcelTypes(parcelTypes)
             return { ...state,
-                byId: {...byId, ...flatData.byId},
-                ids: flatData.ids,
+                byId: {...byId, ...parcelTypesById},
+                ids: _.uniq([...state.ids, ...ids]),
                 isLoaded: true,  
             }
 
@@ -52,14 +53,15 @@ export default function(state = initialState, action) {
 }
 
 export const selectParcelTypes = (state) => state[KEY]
+export const selectParcelTypesIds = (state) => selectParcelTypes(state).ids
+export const selectParcelTypesbyId = (state) => selectParcelTypes(state).byId
 
-export const selectParcelTypesEntities = (state) => {
-    const parcels = selectParcelTypes(state)
-    return { referenceParcelTypes: parcels.byId,  } 
-}
-
-export const selectParcelTypesList = (state) => {
-    const parcels = selectParcelTypes(state)
-    return deNormalizeReferenceParcelTypes({ ids: parcels.ids, entities: selectParcelTypesEntities(state) })
-}
-
+export const getReferenceParcelTypes = createSelector(
+    [
+        selectParcelTypesIds,
+        selectParcelTypesbyId,
+    ],
+    (parcelTypeIds, referenceParcelTypes) => {
+        return deNormalizeReferenceParcelTypes({ ids: parcelTypeIds, ...{entities: {referenceParcelTypes}}})
+    }
+)

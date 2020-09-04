@@ -16,7 +16,7 @@ import { flashInfo } from 'site/actions'
 import SecurityApi from 'security/api'
 import { storage } from 'utils'
 
-
+const _ = require("lodash")
 const APP_MOUNT_POINT = document.getElementById('app')
 
 const initialState = {}

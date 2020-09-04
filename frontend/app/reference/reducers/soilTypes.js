@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect'
+
 import { 
     listSoilTypes
 } from 'reference/actions'
@@ -19,7 +21,7 @@ const initialState = {
 
 export default function(state = initialState, action) {
     const { type, payload } = action
-    const { soilTypes } = payload || {}
+    const { byId: soilTypesById, ids } = payload || {}
     const { byId } = state
     switch(type) {
         case listSoilTypes.REQUEST:
@@ -28,10 +30,9 @@ export default function(state = initialState, action) {
             }
 
         case listSoilTypes.SUCCESS:
-            const flatData = normalizeSoilTypes(soilTypes)
             return { ...state,
-                byId: {...byId, ...flatData.byId},
-                ids: flatData.ids,
+                byId: {...byId, ...soilTypesById},
+                ids: _.uniq([...state.ids, ...ids]),
                 isLoaded: true,  
             }
 
@@ -51,14 +52,15 @@ export default function(state = initialState, action) {
 }
 
 export const selectSoilsTypes = (state) => state[KEY]
+export const selectSoilsTypeIds = (state) => selectSoilsTypes(state).ids
+export const selectSoilsTypesbyId = (state) => selectSoilsTypes(state).byId
 
-export const selectSoilTypesEntities = (state) => {
-    const soils = selectSoilsTypes(state)
-    return { soilTypes: soils.byId  } 
-}
-
-export const selectSoilTypesList = (state) => {
-    const soils = selectSoilsTypes(state)
-    return deNormalizeSoilTypes({ ids: soils.ids, entities: selectSoilTypesEntities(state) })
-
-}
+export const getSoilTypes = createSelector(
+    [
+        selectSoilsTypeIds,
+        selectSoilsTypesbyId,
+    ],
+    (soilTypeIds, soilTypes) => {
+        return deNormalizeSoilTypes({ ids: soilTypeIds, ...{entities: {soilTypes}}})
+    }
+)

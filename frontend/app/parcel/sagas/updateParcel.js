@@ -2,7 +2,7 @@ import { call, put, select, takeLatest } from 'redux-saga/effects'
 import { createRoutineFormSaga } from 'sagas'
 import { updateParcel } from 'parcel/actions'
 import ParcelApi from 'parcel/api'
-
+import { normalizeParcels } from 'parcel/schemas'
 
 export const KEY = 'updateParcel'
 
@@ -13,7 +13,9 @@ export const updateParcelSaga = createRoutineFormSaga(
         const { id, parentSeason, parentParcel, ...payload} = actionPayload
         console.log("actionPayload: ", actionPayload)
         const parcel = yield call(ParcelApi.updateParcel, {id}, payload)
-        yield put(updateParcel.success({ parcels: [parcel] }))        
+        yield put(updateParcel.success({ 
+          ...normalizeParcels([parcel])
+        }))        
     },
 )
 

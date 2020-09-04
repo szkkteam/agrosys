@@ -27,12 +27,12 @@ const initialState = {
     ids: [],
     byId: {},
     error: null,
-    selected: storage.getSelectedSeason(),
+    selectedSeasonId: storage.getSelectedSeason(),
 }
 
 export default function(state = initialState, action) {
     const { type, payload } = action
-    const { seasons } = payload || {}
+    const { byId: seasonsById, ids } = payload || {}
     const { byId } = state
 
     switch(type) {
@@ -48,27 +48,25 @@ export default function(state = initialState, action) {
                 ...state,
                 byId: { ...byId, [seasonId]: {
                         ...seasonById,
-                        referenceParcels: seasonById.referenceParcels.concat(parcelId)
+                        referenceParcels: _.uniq(...seasonById.referenceParcels, ...[parcelId])
                     }
                 }
             }
 
         case actionSeason.SET:
             const { selected } = payload
-            const data = normalizeSeason(selected)
-            storage.selectSeason(data.ids)
+            const newSelectedId = normalizeSeason(selected).ids
+            storage.selectSeason(newSelectedId)
             return { ...state,
-                selected: data.ids,
+                selectedSeasonId: newSelectedId,
             }
 
         case listSeasons.SUCCESS:
-            const flatData = normalizeSeasons(seasons)
-            const currentSeason = selected? selected: seasons[seasons.length - 1]
             return { ...state,
-                byId: {...byId, ...flatData.byId},
-                ids: flatData.ids,
+                byId: {...byId, ...seasonsById},
+                ids: _.uniq([...state.ids, ...ids]),
                 isLoaded: true,  
-                selected: normalizeSeason(currentSeason).ids,
+                //selectedSeasonId: state.selectedSeasonId? state.selectedSeasonId: _.last(ids),
             }
 
         case listSeasons.FAILURE:
@@ -88,8 +86,8 @@ export default function(state = initialState, action) {
 
 export const selectSeasons = (state) => state[KEY]
 export const selectSelectedSeasonParcels = (state) => {
-        const season = selectSeasons(state)
-        return season.byId[season.selected].referenceParcels
+    const season = selectSeasons(state)
+    return season.byId[season.selectedSeasonId]? season.byId[season.selectedSeasonId].referenceParcels : []
 }
 
 export const selectSeasonsEntities = (state) => {
@@ -104,5 +102,6 @@ export const selectSeasonsList = (state) => {
 }
 export const selectSelectedSeasons = (state) => {
     const seasons = selectSeasons(state)
-    return seasons.byId[seasons.selected]
+    return seasons.byId[seasons.selectedSeasonId]
 }
+

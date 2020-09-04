@@ -13,8 +13,6 @@ import {
 import { mapEvents } from 'components/Map/actions'
 import {
     getSelectedParcel,
-    selectSeasonParcelsList,
-    selectParcelsListById,
 } from 'parcel/reducers/parcels'
 import { selectSelectedSeasons } from 'season/reducers/seasons'
 
@@ -61,6 +59,24 @@ class MapContainer extends React.Component {
             status: mapStateEnum.IDLE,            
         }
         this.draw = React.createRef();
+    }
+
+    componentDidUpdate(prevProps) {
+        console.log("prevProps.selectedParcel Deep equal compare: ", (prevProps.selectedParcel === this.props.selectedParcel))
+        console.log("prevProps.selectedParcel: ", prevProps.selectedParcel)
+        console.log("this.props.selectedParcel: ", this.props.selectedParcel)
+        console.log("Status: ", this.state.status)
+        if ((prevProps.selectedParcel !== this.props.selectedParcel) && 
+            this.state.status != mapStateEnum.IDLE) {            
+            this.onCancel()
+        }
+        /*
+        if ((
+            (prevProps.selectedParcel == this.props.selectedParcel) ||
+            (prevProps.selectedParcel.id) == (this.props.selectedParcel.id)) && 
+            this.state.status != mapStateEnum.IDLE) {            
+            this.onCancel()
+        }*/
     }
 
     onAdd = (e, i) => {        
@@ -211,19 +227,19 @@ class MapContainer extends React.Component {
 
 const withSagaCreate = injectSagas(require('parcel/sagas/createParcel'))
 const withSagaUpdate = injectSagas(require('parcel/sagas/updateParcel'))
+const withReducerSeasons = injectReducer(require('season/reducers/seasons'))
 const withReducerParcels = injectReducer(require('parcel/reducers/parcels'))
 const withReducerSoilTypes = injectReducer(require('reference/reducers/soilTypes'))
 const withReducerParcelTypes = injectReducer(require('reference/reducers/parcelTypes'))
 
+const mapStateToProps = (state) => ({
+    selectedParcel: getSelectedParcel(state),
+    selectedSeason: selectSelectedSeasons(state),
+  })
 
 const withConnect = connect(
-  (state) => ({
-      selectedParcel: getSelectedParcel(state),
-      parcels: selectSeasonParcelsList(state),
-      selectedSeason: selectSelectedSeasons(state),
-      selectChildParels: (ids) => selectParcelsListById(state, ids)
-    }),
-  (dispatch) => bindRoutineCreators({ mapEvents }, dispatch),
+    mapStateToProps,
+    (dispatch) => bindRoutineCreators({ mapEvents }, dispatch),
 )
 
 
@@ -234,5 +250,6 @@ export default compose(
     withReducerParcels,
     withReducerSoilTypes,
     withReducerParcelTypes,
+    withReducerSeasons,
     withConnect,
 )(MapContainer)

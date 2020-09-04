@@ -7,7 +7,7 @@ import { bindRoutineCreators } from 'actions'
 import { injectReducer, injectSagas } from 'utils/async'
 
 import { listParcelTypes } from 'reference/actions'
-import { selectParcelTypesList } from 'reference/reducers/parcelTypes'
+import { getReferenceParcelTypes } from 'reference/reducers/parcelTypes'
 
 class SelectReferenceParcelType extends React.Component {
 
@@ -38,9 +38,13 @@ class SelectReferenceParcelType extends React.Component {
 const withReducer = injectReducer(require('reference/reducers/parcelTypes'))
 const withSaga = injectSagas(require('reference/sagas/listParcelTypes'))
 
+const mapStateToProps = state => (
+    { parcels: getReferenceParcelTypes(state) }
+)
+
 const withConnect = connect(
-  (state) => ({ parcels: selectParcelTypesList(state) }),
-  (dispatch) => bindRoutineCreators({ listParcelTypes }, dispatch),
+    mapStateToProps,
+    (dispatch) => bindRoutineCreators({ listParcelTypes }, dispatch),
 )
 
 export default compose(

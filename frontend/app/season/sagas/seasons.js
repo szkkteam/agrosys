@@ -6,6 +6,7 @@ import { listSeasons } from 'season/actions'
 import SeasonApi from 'season/api'
 import { selectSeasons } from 'season/reducers/seasons'
 import { selectSelectedFarm } from 'farm/reducers/farms'
+import { normalizeSeasons } from 'season/schemas'
 
 export const KEY = 'seasons'
 
@@ -24,7 +25,7 @@ export const listSeasonsSaga = createRoutineSaga(
         if (selectedFarm) {
             const seasons = yield call(SeasonApi.listSeasons, selectedFarm)
             yield put(listSeasons.success({
-                seasons
+                ...normalizeSeasons(seasons)
             }))
         }
     }

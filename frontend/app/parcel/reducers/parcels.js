@@ -14,10 +14,12 @@ import {
 
 import {
     selectParcelTypesEntities,
+    selectParcelTypesbyId,
 } from 'reference/reducers/parcelTypes'
 
 import {
     selectSoilTypesEntities,
+    selectSoilsTypesbyId,
 } from 'reference/reducers/soilTypes'
 
 import {
@@ -51,7 +53,7 @@ const initialState = {
 
 export default function(state = initialState, action) {
     const { type, payload } = action
-    const { parcels } = payload || {}
+    const { byId: parcelsById, ids } = payload || {}
     const { byId } = state
     
 
@@ -64,7 +66,7 @@ export default function(state = initialState, action) {
         case updateParcel.SUCCESS:
             return {
                 ...state,
-                byId: {...byId, ...normalizeParcels(parcels).byId},
+                byId: {...byId, ...parcelsById},
             }
 
         case actionParcel.ADD_PARCEL: 
@@ -74,7 +76,7 @@ export default function(state = initialState, action) {
                 ...state,
                 byId: { ...byId, [groupId]: {
                         ...parcelById,
-                        parcels: parcelById.parcels.concat(parcelId)
+                        parcels: _.uniq([...parcelById.parcels, ...[parcelId]])
                     }
                 }
             }
@@ -102,11 +104,9 @@ export default function(state = initialState, action) {
 
         case createParcel.SUCCESS:
         case listSeasonParcel.SUCCESS:
-            const flatData = normalizeParcels(parcels)
-            console.log("createParcel flatData: ", flatData)
             return { ...state,
-                byId: {...byId, ...flatData.byId},
-                ids: state.ids.concat(flatData.ids),
+                byId: {...byId, ...parcelsById},
+                ids: _.uniq([...state.ids, ...ids]),
                 isLoaded: true,  
             }
 
@@ -142,60 +142,73 @@ const groupByParcelType = (data) => {
 const sortBySize = (data) =>
     data.sort((a, b) => parseFloat(a.totalArea) > parseFloat(b.totalArea)? -1 : 1)
 
-const excludeId = (ids, id) => ids.filter(x => x != id)
 
 export const selectParcels = (state) => state[KEY]
+export const selectParcelsById = (state) => state[KEY].byId
 export const selectSelectedParcelId = (state) => selectParcels(state).selectedParcelId
-export const selectSelectedParcelParcelIds = (state) => {
-    const parcels = selectParcels(state)
-    return parcels.byId[parcels.selectedParcelId].parcels
-}
 export const selectSelectedSeasonParcels = (state) => {
     const season = selectSeasons(state)
-    return season.byId[season.selected].referenceParcels
-}
-
-export const selectParcelsEntities = (state) => {
-    return { entities: {
-        ...selectSoilTypesEntities(state),
-        ...selectParcelTypesEntities(state),
-        ...{ parcels: selectParcels(state).byId,  }
-    }}
+    return _.get(season.byId, [season.selectedSeasonId, 'referenceParcels'], [])
 }
 
 
 export const getSelectedParcel = createSelector(
-    [selectSelectedParcelId, selectParcelsEntities],
-    (selectedId, entities) => {
-        const res = selectedId? deNormalizeParcels({ ids: [selectedId], ...entities}) : []
-        return res.length? res[0]: null
+    [
+        selectSelectedParcelId,
+        selectSoilsTypesbyId,
+        selectParcelTypesbyId,
+        selectParcelsById
+    ],
+    (selectedParcelId, soilTypes, referenceParcelTypes, parcels) => {
+        // TODO: This is running every time.
+        console.log("getSelectedParcel running")
+        return selectedParcelId? deNormalizeParcels({ ids: [selectedParcelId], ...{entities: {parcels, soilTypes, referenceParcelTypes}}})[0] : null
+    }
+)
+
+export const getSelectedSeasonParcelsDenormalized = createSelector(
+    [
+        selectSelectedSeasonParcels,
+        selectSelectedParcelId,
+        selectSoilsTypesbyId,
+        selectParcelTypesbyId,
+        selectParcelsById
+    ],
+    (parcelIds, selectedParcelId, soilTypes, referenceParcelTypes, parcels) => {
+        console.log("parcelIds: ", parcelIds)
+        // Filter out the selected season id
+        return deNormalizeParcels({ ids: _.without(parcelIds, selectedParcelId), ...{entities: {parcels, soilTypes, referenceParcelTypes}}})
     }
 )
 
 export const getSelectedSeasonParcelsGrouped = createSelector(
-    [selectSelectedSeasonParcels, selectSelectedParcelId, selectParcelsEntities],
-    (parcelIds, selectedParcelId, entities) => {
-        // Filter out the selected season id
-        const denormalized = deNormalizeParcels({ ids: excludeId(parcelIds, selectedParcelId), ...entities})    
+    [getSelectedSeasonParcelsDenormalized],
+    (normalizedParcels) => {
         // Sort the parcels based on the size    
-        const sorted = sortBySize(denormalized)
+        const sorted = sortBySize(normalizedParcels)
         return groupByParcelType(sorted)        
     }
 )
 
-export const getSelectedSeasonParcels = createSelector(
-    [selectSelectedSeasonParcels, selectSelectedParcelId, selectParcelsEntities],
-    (parcelIds, selectedParcelId, entities) => {
+
+export const getSelectedSeasonParcelsTreeDenormalized = createSelector(
+    [
+        selectSelectedSeasonParcels,
+        selectSoilsTypesbyId,
+        selectParcelTypesbyId,
+        selectParcelsById
+    ],
+    (parcelIds, soilTypes, referenceParcelTypes, parcels) => {
         // Filter out the selected season id
-        return deNormalizeParcels({ ids: excludeId(parcelIds, selectedParcelId), ...entities})    
+        return deNormalizeParcels({ ids: parcelIds, ...{entities: {parcels, soilTypes, referenceParcelTypes}}})
     }
 )
 
+
 export const getSelectedSeasonParcelsTree = createSelector(
-    [selectSelectedSeasonParcels, selectParcelsEntities],
-    (parcelIds, entities) => {
-        const denormalized = deNormalizeParcels({ ids: parcelIds, ...entities})    
-        return denormalized.reduce((flatAccu, parcel) => {            
+    [getSelectedSeasonParcelsTreeDenormalized],
+    (normalizedParcels) => {
+        return normalizedParcels.reduce((flatAccu, parcel) => {            
             flatAccu.push(parcel)
             // If parcel has nested parcels
             if (parcel.parcels && parcel.parcels.length) {
@@ -211,39 +224,25 @@ export const getSelectedSeasonParcelsTree = createSelector(
     }
 )
 
-export const getSelectedSiblingParcels = createSelector(
-    [selectSelectedParcelId, selectParcels, selectParcelsEntities],
-    (selectedParcelId, parcelState, entities) => {
+export const getSelectedSiblingParcels = createSelector(    
+    [
+        selectSelectedParcelId, 
+        selectParcels,
+        selectSoilsTypesbyId,
+        selectParcelTypesbyId,
+    ],
+    (selectedParcelId, parcelState, soilTypes, referenceParcelTypes) => {
         // If no selected, return with empty list
         if (!selectedParcelId) return []
         let parent = selectedParcelId
         parcelState.ids.map((id) => 
             parcelState.byId[id].parcels.find(x => { if (x == selectedParcelId) { parent = id } }))
-            
+
         // TODO: Maybe return with the siblings on the top level also and could be used for more purpose
         if (!parent) return []        
-        const denormalized = deNormalizeParcels({ ids: excludeId(parcelState.byId[parent].parcels, selectedParcelId), ...entities})    
+        const denormalized = deNormalizeParcels({ ids: _.without(parcelState.byId[parent].parcels, selectedParcelId), ...{entities: {parcels: parcelState.byId, soilTypes, referenceParcelTypes}}})    
         // Sort the parcels based on the size    
         return sortBySize(denormalized)
     }
 )
 
-export const selectParcelsList = (state) => {
-    const parcels = selectParcels(state)
-    return deNormalizeParcels({ ids: parcels.ids, ...selectParcelsEntities(state) })
-
-}
-
-export const selectSeasonParcelsList = (state) => {
-    const selected = selectSelectedSeasons(state) || null
-    if (selected) {
-        return selectParcelsListById(state, selected.referenceParcels)
-    }
-    return []
-}
-
-
-export const selectParcelsListById = (state, ids = []) => {
-    return deNormalizeParcels({ ids, ...selectParcelsEntities(state) })
-
-}

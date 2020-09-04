@@ -5,6 +5,7 @@ import { createRoutineSaga } from 'sagas'
 import { listParcelTypes } from 'reference/actions'
 import ParcelApi from 'reference/api'
 import { selectParcelTypes } from 'reference/reducers/parcelTypes'
+import { normalizeReferenceParcelTypes } from 'reference/schemas'
 
 export const KEY = 'parcelType'
 
@@ -20,7 +21,7 @@ export const listParcelTypesSaga = createRoutineSaga(
     function *successGenerator() {
         const parcelTypes = yield call(ParcelApi.listParcelTypes)
         yield put(listParcelTypes.success({
-            parcelTypes
+            ...normalizeReferenceParcelTypes(parcelTypes)
         }))
     }
 )
