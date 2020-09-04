@@ -18,7 +18,7 @@ import {
 import { mapEvents } from 'components/Map/actions'
 import {
     getSelectedParcel,
-    getSelectedSeasonParcels,
+    getSelectedSeasonParcelsGrouped,
     getSelectedSiblingParcels,
 } from 'parcel/reducers/parcels'
 
@@ -51,7 +51,7 @@ class MapParcels extends React.Component {
     }
 
     onSelect = (parcel, i) => {
-        console.log("Selecting: ", parcel)
+        //console.log("Selecting: ", parcel)
         const { actionParcel } = this.props
         actionParcel && actionParcel.selectParcel({
             selectedParcelId: parcel.id
@@ -135,7 +135,7 @@ const withReducerParcelTypes = injectReducer(require('reference/reducers/parcelT
 const withConnect = connect(
   (state) => ({
       selectedParcel: getSelectedParcel(state),
-      seasonParcels: getSelectedSeasonParcels(state),
+      seasonParcels: getSelectedSeasonParcelsGrouped(state),
       siblingParcels: getSelectedSiblingParcels(state),
     }),
     (dispatch) => bindRoutineCreators({ actionParcel, listSeasonParcel, listSoilTypes, listParcelTypes }, dispatch),

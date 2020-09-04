@@ -172,7 +172,7 @@ export const getSelectedParcel = createSelector(
     }
 )
 
-export const getSelectedSeasonParcels = createSelector(
+export const getSelectedSeasonParcelsGrouped = createSelector(
     [selectSelectedSeasonParcels, selectSelectedParcelId, selectParcelsEntities],
     (parcelIds, selectedParcelId, entities) => {
         // Filter out the selected season id
@@ -180,6 +180,34 @@ export const getSelectedSeasonParcels = createSelector(
         // Sort the parcels based on the size    
         const sorted = sortBySize(denormalized)
         return groupByParcelType(sorted)        
+    }
+)
+
+export const getSelectedSeasonParcels = createSelector(
+    [selectSelectedSeasonParcels, selectSelectedParcelId, selectParcelsEntities],
+    (parcelIds, selectedParcelId, entities) => {
+        // Filter out the selected season id
+        return deNormalizeParcels({ ids: excludeId(parcelIds, selectedParcelId), ...entities})    
+    }
+)
+
+export const getSelectedSeasonParcelsTree = createSelector(
+    [selectSelectedSeasonParcels, selectParcelsEntities],
+    (parcelIds, entities) => {
+        const denormalized = deNormalizeParcels({ ids: parcelIds, ...entities})    
+        return denormalized.reduce((flatAccu, parcel) => {            
+            flatAccu.push(parcel)
+            // If parcel has nested parcels
+            if (parcel.parcels && parcel.parcels.length) {
+                // Extend the nested parcels with the parent ID
+                const subParcels = parcel.parcels.map((subParcel, i) => {
+                    return Object.assign(subParcel, {parentParcelId: parcel.id})
+                })
+                // Concat the sub parcels to the accumulator
+                flatAccu = flatAccu.concat(subParcels)
+            }
+            return flatAccu
+        }, [])
     }
 )
 

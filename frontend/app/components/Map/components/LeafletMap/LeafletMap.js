@@ -8,12 +8,23 @@ import { Map,
     LayerGroup
 } from "react-leaflet";
 
+import './leafletmap.scss'
+
 const { BaseLayer, Overlay } = LayersControl
 
 export default class LeafletMap extends React.Component {
 
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            height: 800,
+        }
+    }
+
     componentDidMount() {
         this.map = this.mapInstance.leafletElement
+        window.addEventListener("resize", this.updateDimensions)
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -22,6 +33,15 @@ export default class LeafletMap extends React.Component {
             this.handleEvents(event)
         ))        
     }
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.updateDimensions)
+      }
+
+    updateDimensions = () => {
+        const height = window.innerWidth >= 992 ? window.innerHeight : 400        
+        this.setState({ height: height })
+      }
 
     flyTo = ({bounds}) => {
         //console.log("flyTo: ", bounds)
@@ -52,32 +72,34 @@ export default class LeafletMap extends React.Component {
     render() {
         const { editable, children, startBounds, overlay, ...props } = this.props
         return (
-            <Map 
-                ref={e => { this.mapInstance = e }}
-                center={[45.4, -75.7]}
-                zoom={12}
-                bounds={startBounds}
-                editable={editable}
-                onMoveEnd={this.onMoveEnd}
-                zoomControl={false}
-                doubleClickZoom={false}
-                {...props}
-            >
-                <ZoomControl
-                    position="topright"
-                />
-                <LayersControl position="topright">
-                    <BaseLayer checked name="Satelite">
-                        <TileLayer
-                            url="https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw"
-                            attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
-                            id='mapbox.satellite'
-                        />
-                    </BaseLayer>
-                    {overlay}
-                </LayersControl>                
-                {children}
-            </Map>
+            <div style={{height: "900px", position: "relative"}}>
+                <Map 
+                    ref={e => { this.mapInstance = e }}
+                    center={[45.4, -75.7]}
+                    zoom={12}
+                    bounds={startBounds}
+                    editable={editable}
+                    onMoveEnd={this.onMoveEnd}
+                    zoomControl={false}
+                    doubleClickZoom={false}
+                    {...props}
+                >
+                    <ZoomControl
+                        position="topright"
+                    />
+                    <LayersControl position="topright">
+                        <BaseLayer checked name="Satelite">
+                            <TileLayer
+                                url="https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw"
+                                attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
+                                id='mapbox.satellite'
+                            />
+                        </BaseLayer>
+                        {overlay}
+                    </LayersControl>                
+                    {children}
+                </Map>
+            </div>
         )
     }
 }

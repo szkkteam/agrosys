@@ -13,8 +13,6 @@ import {
 import { mapEvents } from 'components/Map/actions'
 import {
     getSelectedParcel,
-
-
     selectSeasonParcelsList,
     selectParcelsListById,
 } from 'parcel/reducers/parcels'
@@ -38,6 +36,7 @@ import {
 
 import {
     FormParcel,
+    ParcelListController,
 } from 'parcel/components'
 
 const mapStateEnum = {
@@ -161,12 +160,14 @@ class MapContainer extends React.Component {
             <Grid
                 container
                 direction="row"
+                style={{overflowY: "hidden", maxHeight: "800px"}}
             >
                 <Grid item sm={2}>
                     <SeasonSelector
                     /> 
-                    <div>
-                        Parcel list
+                    <div> 
+                        <ParcelListController
+                        />
                     </div>
                 </Grid>
                 <Grid item sm={10}>
@@ -211,6 +212,8 @@ class MapContainer extends React.Component {
 const withSagaCreate = injectSagas(require('parcel/sagas/createParcel'))
 const withSagaUpdate = injectSagas(require('parcel/sagas/updateParcel'))
 const withReducerParcels = injectReducer(require('parcel/reducers/parcels'))
+const withReducerSoilTypes = injectReducer(require('reference/reducers/soilTypes'))
+const withReducerParcelTypes = injectReducer(require('reference/reducers/parcelTypes'))
 
 
 const withConnect = connect(
@@ -229,5 +232,7 @@ export default compose(
     withSagaCreate,
     withSagaUpdate,
     withReducerParcels,
+    withReducerSoilTypes,
+    withReducerParcelTypes,
     withConnect,
 )(MapContainer)
