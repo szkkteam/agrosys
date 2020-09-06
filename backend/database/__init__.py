@@ -15,7 +15,7 @@ from backend.extensions import db
 from .base_model import BaseModel
 from .column import Column
 from .events import attach_events, on, slugify
-from .mixins import PrimaryKeyMixin, TimestampMixin
+from .mixins import PrimaryKeyMixin, TimestampMixin, ProxiedDictMixin
 from .model import Model
 from .relationships import backref, foreign_key, relationship
 from .types import (
@@ -34,7 +34,7 @@ from .types import (
     Text,
     Time,
     ImageColumn,
-    Unicode
+    Unicode,
 )
 
 session = db.session  # type: orm.session.Session

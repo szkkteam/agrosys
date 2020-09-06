@@ -9,21 +9,22 @@ from geoalchemy2 import Geometry
 # Internal package imports
 from backend.database import (
     Column,
-    Model,
+    BaseModel,
+    ProxiedDictMixin,
     String,
     Integer,
     Float,
     Date,
+    Unicode,
     relationship,
     association_proxy,
     foreign_key
 )
 
-class Country(Model):
-    title = Column(String(64), nullable=False)
-    iso2 = Column(String(2))
-    iso3 = Column(String(3), unique=True, index=True)
+class SpecificProductProperty(BaseModel):
 
-    regions = relationship('Region', back_populates='country')
+    specific_product_id = foreign_key('SpecificProduct', primary_key=True)
+    key = Column(Unicode(64), primary_key=True)
+    value = Column(String(128))
 
-    __repr_props__ = ('id', 'title', 'iso2')
+    __repr_props__ = ('key', 'value', )
