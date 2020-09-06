@@ -12,4 +12,4 @@ from .agricultural_product import AgriculturalProductSerializer, AgriculturalPro
 from .agricultural_product_fact import AgriculturalProductFactSerializer, AgriculturalProductFactListSerializer
 from .specific_product import SpecificProductSerializer, SpecificProductListSerializer
 
-from .reference_parcel_type import ReferenceParcelTypeSerializer, ReferenceParcelTypeListSerializer
+from .agricultural_type import AgriculturalTypeSerializer, AgriculturalTypeListSerializer

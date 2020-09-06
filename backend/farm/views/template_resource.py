@@ -15,9 +15,6 @@ from backend.security.decorators import auth_required
 from backend.api.decorators import param_converter
 from backend.security.models import User
 from backend.extensions.api import api
-from backend.permissions.decorators import permission_required
-from backend.permissions.services import ResourceService, UserService
-from backend.reference.models import Country, ReferenceParcelType
 
 from ..models import Template, Farm, FarmTemplate
 from .blueprint import farm

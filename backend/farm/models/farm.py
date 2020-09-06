@@ -31,8 +31,8 @@ class Farm(Resource):
                                  ondelete='CASCADE', ),
                    primary_key=True, )
 
-    country_id = foreign_key('Country', nullable=False, ondelete='CASCADE',)
-    country = relationship('Country', uselist=False)
+    region_id = foreign_key('Region', nullable=False, ondelete='CASCADE',)
+    region = relationship('Region', uselist=False)
 
     seasons = relationship('Season', cascade="all, delete", back_populates='farm')
     # TODO: Define later lazy relationship

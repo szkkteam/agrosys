@@ -23,6 +23,11 @@ from .plan_mixin import PlanMixin
 from backend.security.models.resource import Resource
 
 
+def create(specific_product):
+    from ..models import PlanSpecificProduct
+    return PlanSpecificProduct(specific_product=specific_product)
+
+
 class Plan(PlanMixin, TimestampMixin, BaseModel):
 
     title = Column(String(128))
@@ -30,7 +35,10 @@ class Plan(PlanMixin, TimestampMixin, BaseModel):
     tasks = relationship('Task', back_populates='plan',
                          cascade='all, delete-orphan')
 
-    crop_template_id = foreign_key('CropTemplate', nullable=False)
-    crop_template = relationship('CropTemplate', uselist=False)
+    plan_specific_products = relationship('PlanSpecificProduct', back_populates='plan',
+                                                cascade='all, delete-orphan')
+    specific_products = association_proxy('plan_specific_products ', 'specific_product',
+                                          creator=lambda specific_product: create(
+                                              specific_product))
 
-    __repr_props__ = ('plan_id', 'title', 'use_as_template', 'crop_template_id')
+    __repr_props__ = ('plan_id', 'title', 'specific_products', )

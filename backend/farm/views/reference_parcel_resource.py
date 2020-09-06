@@ -13,18 +13,13 @@ from flask import jsonify
 from backend.api import ModelResource, Resource, ALL_METHODS, CREATE, DELETE, GET, LIST, PATCH, PUT
 from backend.security.decorators import auth_required
 from backend.api.decorators import param_converter
-from backend.security.models import User
 from backend.extensions.api import api
-from backend.permissions.decorators import permission_required
-from backend.permissions.services import ResourceService, UserService
-from backend.reference.models import Country, ReferenceParcelType, ReferenceParcelTypeEnum
-from backend.reference.serializers import ReferenceParcelTypeSerializer
 
 from ..models import ReferenceParcel, Season, SeasonReferenceParcel, ReferenceParcelRelation, Farm
 from ..services import SearchReferenceParcel
 from .blueprint import farm
 
-@api.model_resource(farm, ReferenceParcel, '/parcels', '/parcels/<int:id>')
+@api.model_resource(farm, ReferenceParcel, '/parcels', '/parcels/<int:parcel_id>')
 class ReferenceParcelResource(ModelResource):
     """Resource to create a signle parcel without any assignment, or edit, get, delete a parcel based on primary key"""
     include_methods = (CREATE, DELETE, GET, PATCH, PUT)
@@ -146,17 +141,16 @@ def support_reference_parcels(farm_id):
 """
 
 @api.route(farm, '/<int:farm_id>/parcels/legal/search')
-@param_converter(farm_id=int, name=str, parcel_type_id=int)
-def search_reference_parcels(farm_id, name, parcel_type_id):
+@param_converter(farm_id=int, name=str, parcel_type=str)
+def search_reference_parcels(farm_id, name, parcel_type):
     farm = Farm.query.get_or_404(farm_id)
-    parcel_type = ReferenceParcelType.query.get_or_404(parcel_type_id)
     try:
         if farm.country.iso3 == "HUN":
-            res = SearchReferenceParcel.search_parcel_hu(parcel_type.code, name)
+            res = SearchReferenceParcel.search_parcel_hu(parcel_type, name)
         else:
             abort(HTTPStatus.NOT_IMPLEMENTED)
     except Exception as e:
-        logger.error("Searching for parcel crashed. Name: %s Country ID: %s Parcel Type ID: %s, Error: %s" %(name, farm_id, parcel_type_id, e))
+        logger.error("Searching for parcel crashed. Name: %s Country ID: %s Parcel Type ID: %s, Error: %s" %(name, farm_id, parcel_type, e))
         abort(HTTPStatus.INTERNAL_SERVER_ERROR)
     else:
         return jsonify(res)

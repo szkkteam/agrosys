@@ -45,7 +45,7 @@ INVALID_INPUT_DATA_LIST = [
 class TestSeasonSerializer:
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA)
-    def test_valid_inputs(self, input, crop_template):
+    def test_valid_inputs(self, input):
         serializer = SeasonSerializer()
         serializer.load(copy.deepcopy(input))
     """
@@ -58,7 +58,7 @@ class TestSeasonSerializer:
     """
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA)
-    def test_valid_serialize_deserialize(self, input, crop_template):
+    def test_valid_serialize_deserialize(self, input):
         serializer = SeasonSerializer()
         result = serializer.load(input)
         result = serializer.dump(result)
@@ -69,7 +69,7 @@ class TestSeasonSerializer:
 class TestSeasonListSerializer:
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA_LIST)
-    def test_valid_inputs(self, input, crop_template):
+    def test_valid_inputs(self, input):
         serializer = SeasonListSerializer()
         serializer.load(input, many=True)
 
@@ -82,7 +82,7 @@ class TestSeasonListSerializer:
     """
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA_LIST)
-    def test_valid_serialize_deserialize(self, input, crop_template):
+    def test_valid_serialize_deserialize(self, input):
         serializer = SeasonListSerializer()
         result = serializer.load(input, many=True)
         result = serializer.dump(result)

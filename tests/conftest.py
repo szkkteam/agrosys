@@ -199,28 +199,16 @@ def farm_user2(model_factory):
     yield user
 
 @pytest.fixture()
-def country_hu(model_factory):
-    yield model_factory.create('Country', 'COUNTRY_HU')
+def region_1(model_factory):
+    yield model_factory.create('Region', 'REGION_1')
 
 @pytest.fixture()
 def soil(model_factory):
     yield model_factory.create('SoilType', 'SOIL_TYPE_1')
 
 @pytest.fixture()
-def agri_parcel(model_factory):
-    yield model_factory.create('ReferenceParcelType', 'REFERENCE_PARCEL_TYPE_AGRI_PARCEL')
-
-@pytest.fixture()
-def cadastrial_parcel(model_factory):
-    yield model_factory.create('ReferenceParcelType', 'REFERENCE_PARCEL_TYPE_CADASTRIAL_PARCEL')
-
-@pytest.fixture()
-def farmers_block(model_factory):
-    yield model_factory.create('ReferenceParcelType', 'REFERENCE_PARCEL_TYPE_FARMERS_BLOCK')
-
-@pytest.fixture()
-def physical_block(model_factory):
-    yield model_factory.create('ReferenceParcelType', 'REFERENCE_PARCEL_TYPE_PHYSICAL_BLOCK')
+def agri_type(model_factory):
+    yield model_factory.create('AgriculturalType', 'AGRICULTURAL_TYPE_ARABLE_LAND')
 
 @pytest.fixture()
 def products(model_factory):
@@ -241,6 +229,7 @@ def products(model_factory):
     ag_p_region1.specific_product.properties['Hasznosítási terület'] = 'szántó - szemes fehérje takarmánynövények'
     ag_p_region2.specific_product.properties['Hasznosítási terület'] = 'szántó - szemes fehérje takarmánynövények'
     ag_p_region5.specific_product.properties['Hasznosítási terület'] = 'szántó - szemes fehérje takarmánynövények'
+
 
 @pytest.fixture()
 def models(request, model_factory):

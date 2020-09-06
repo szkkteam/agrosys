@@ -1,22 +1,22 @@
 ---
 FARMER_USER:
   title: First farm
-  country: 'Country(COUNTRY_HU)'
+  region: 'Region(REGION_1)'
   seasons: ['Season(SEASON_1, SEASON_2)']
   templates: ['Template(TEMPLATE_1)']
 
 FARMER_USER_FARM1:
   title: Farmers farm 1
-  country: 'Country(COUNTRY_HU)'
+  region: 'Region(REGION_1)'
 
 FARMER_USER_FARM2:
   title: Farmers farm 2
-  country: 'Country(COUNTRY_HU)'
+  region: 'Region(REGION_1)'
 
 FARMER_USER_FARM3:
   title: Farmers farm 3
-  country: 'Country(COUNTRY_HU)'
+  region: 'Region(REGION_1)'
 
 FARMER_USER_FARM4:
   title: Farmers farm 3
-  country: 'Country(COUNTRY_HU)'
+  region: 'Region(REGION_1)'

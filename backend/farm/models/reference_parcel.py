@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Common Python library imports
+from sqlalchemy.orm.collections import attribute_mapped_collection
 import sqlalchemy as sa
 import enum
 
@@ -16,12 +17,15 @@ from backend.database import (
     BigInteger,
     Boolean,
     Enum,
-    Model,
+    TimestampMixin,
+    BaseModel,
     association_proxy,
     relationship,
     foreign_key
 )
 from .reference_parcel_relation import ReferenceParcelRelation
+from .reference_parcel_mixin import ReferenceParcelMixin
+from .reference_parcel_property import ReferenceParcelProperty
 
 def create_season(season):
     from ..models import SeasonReferenceParcel
@@ -31,7 +35,16 @@ def create_production(production):
     from ..models import ReferenceParcelProduction
     return ReferenceParcelProduction(production=production)
 
-class ReferenceParcel(Model):
+
+class ReferenceParcelTypes(enum.Enum):
+    AgriculturalParcel = 'AgriculturalParcel'
+    CadastralParcel = 'CadastralParcel'
+    FarmersBlock = 'FarmersBlock'
+    PhysicalBlock = 'PhysicalBlock'
+
+
+
+class ReferenceParcel(ReferenceParcelMixin, TimestampMixin, BaseModel):
     #id = Column(BigInteger, primary_key=True, autoincrement=True)
     title = Column(String(64), nullable=True)
     notes = Column(String(256), nullable=True)
@@ -44,16 +57,9 @@ class ReferenceParcel(Model):
     soil_type_id = foreign_key('SoilType', nullable=False)
     soil_type = relationship('SoilType', uselist=False)
 
-    # Self ancestor relation
-    ancestor_id = sa.Column(
-            sa.Integer(),
-            sa.ForeignKey(
-                "reference_parcel.id", onupdate="CASCADE", ondelete="CASCADE"
-            ))
-
     # Reference Parcel Type relationship definition
-    reference_parcel_type_id = foreign_key('ReferenceParcelType', nullable=False)
-    reference_parcel_type = relationship('ReferenceParcelType', uselist=False)
+    agricultural_type_id = foreign_key('AgriculturalType', nullable=False)
+    agricultural_type = relationship('AgriculturalType', uselist=False)
 
     # Season relationship definition
     reference_parcel_seasons = relationship('SeasonReferenceParcel', back_populates='reference_parcel',
@@ -69,8 +75,8 @@ class ReferenceParcel(Model):
 
     @property
     def parcels(self):
-        return self.join(ReferenceParcelRelation, (ReferenceParcelRelation.parcel_id == ReferenceParcel.id)).filter(
-            ReferenceParcelRelation.group_id == self.id).all()
+        return ReferenceParcel.join(ReferenceParcelRelation, (ReferenceParcelRelation.parcel_id == ReferenceParcel.parcel_id)).filter(
+            ReferenceParcelRelation.group_id == self.parcel_id).all()
         #return session.query(Node).join(NodeRelation, (NodeRelation.child_id == Node.id)).filter(
             #NodeRelation.parent_id == self.id).all()
 
@@ -80,10 +86,21 @@ class ReferenceParcel(Model):
     productions = association_proxy('reference_parcel_productions', 'production',
                                       creator=lambda production: create_production(production))
 
+
+    property = relationship(
+        "ReferenceParcelProperty", collection_class=attribute_mapped_collection("key")
+    )
+
+    properties = association_proxy(
+        "property",
+        "value",
+        creator=lambda key, value: ReferenceParcelProperty(key=key, value=value),
+    )
+
     __repr_props__ = ('id', 'title', 'parcels')
 
 
     @classmethod
     def query_permission_obj(cls, id, *args, **kwargs):
         from .farm import Farm
-        return Farm.join(cls).filter(cls.id == id)
+        return Farm.join(cls).filter(cls.parcel_id == id)

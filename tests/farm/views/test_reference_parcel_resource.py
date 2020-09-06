@@ -24,38 +24,75 @@ VALID_GEOJSON = {"type": "Feature",
 LONG_TEXT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
 
 
-NEW_DATA = {
-    'title': 'test field 1',
+AGRICULTURAL_PARCEL = {
+    'title': 'Agri parcel field 1',
     'notes': LONG_TEXT,
     'geometry': VALID_GEOJSON,
     'totalArea': 2.0,
+    'referenceParcelType': 'AgriculturalParcel',
     'eligibleArea': 1.5,
-    'referenceParcelTypeId': lambda v,t: t.id,
+    'agriculturalTypeId': lambda v,t: t.id,
+    'soilTypeId': lambda v,t: v.id
+}
+
+CADASTRAL_PARCEL = {
+    'title': 'Cadastral parcel field 1',
+    'notes': LONG_TEXT,
+    'geometry': VALID_GEOJSON,
+    'totalArea': 2.0,
+    'referenceParcelType': 'CadastralParcel',
+    'eligibleArea': 1.5,
+    'agriculturalTypeId': lambda v,t: t.id,
+    'soilTypeId': lambda v,t: v.id
+}
+
+FARMERS_BLOCK = {
+    'title': 'Farmers block field 1',
+    'notes': LONG_TEXT,
+    'geometry': VALID_GEOJSON,
+    'totalArea': 2.0,
+    'referenceParcelType': 'FarmersBlock',
+    'eligibleArea': 1.5,
+    'agriculturalTypeId': lambda v,t: t.id,
+    'soilTypeId': lambda v,t: v.id
+}
+
+PHYSICAL_BLOCK = {
+    'title': 'Physical block field 1',
+    'notes': LONG_TEXT,
+    'geometry': VALID_GEOJSON,
+    'totalArea': 2.0,
+    'referenceParcelType': 'PhysicalBlock',
+    'eligibleArea': 1.5,
+    'agriculturalTypeId': lambda v,t: t.id,
     'soilTypeId': lambda v,t: v.id
 }
 
 
-def get_input_data(input, soil, parcel_type):
+
+
+def get_input_data(input, soil, agri_type):
     data = input.copy()
     if isinstance(input, list):
         for i, v in enumerate(data):
             for key, value in v.items():
-                v[key] = value(soil, parcel_type) if callable(value) else value
+                v[key] = value(soil, agri_type) if callable(value) else value
             data[i] = v
 
     else:
         for key, value in data.items():
-            data[key] = value(soil, parcel_type) if callable(value) else value
+            data[key] = value(soil, agri_type) if callable(value) else value
 
     return data
 
 
 class TestReferenceParcelResource:
 
-    def test_create(self, api_client, farm_owner, soil, agri_parcel):
+    @pytest.mark.parametrize("input", [AGRICULTURAL_PARCEL, CADASTRAL_PARCEL, FARMERS_BLOCK, PHYSICAL_BLOCK])
+    def test_create(self, api_client, farm_owner, soil, agri_type, input):
         api_client.login_as(farm_owner)
 
-        data = get_input_data(NEW_DATA, soil, agri_parcel)
+        data = get_input_data(input, soil, agri_type)
 
         r = api_client.post(url_for('api.reference_parcels_resource'), data=data)
         assert r.status_code == 201
@@ -66,21 +103,24 @@ class TestReferenceParcelResource:
         assert 'eligibleArea' in r.json
         assert 'geometry' in r.json
         assert 'referenceParcelType' in r.json
+        assert 'agriculturalType' in r.json
         assert 'soilType' in r.json
 
-    def test_create_missing_geometry(self, api_client, farm_owner, soil, agri_parcel):
+    @pytest.mark.parametrize("input", [AGRICULTURAL_PARCEL, CADASTRAL_PARCEL, FARMERS_BLOCK, PHYSICAL_BLOCK])
+    def test_create_missing_geometry(self, api_client, farm_owner, soil, agri_type, input):
         api_client.login_as(farm_owner)
 
-        data = get_input_data(NEW_DATA, soil, agri_parcel)
+        data = get_input_data(input, soil, agri_type)
         data['geometry'] = None
         r = api_client.post(url_for('api.reference_parcels_resource'), data=data)
         assert r.status_code == 400
         assert 'geometry' in r.errors
 
-    def test_create_missing_totalarea(self, api_client, farm_owner, soil, agri_parcel):
+    @pytest.mark.parametrize("input", [AGRICULTURAL_PARCEL, CADASTRAL_PARCEL, FARMERS_BLOCK, PHYSICAL_BLOCK])
+    def test_create_missing_totalarea(self, api_client, farm_owner, soil, agri_type, input):
         api_client.login_as(farm_owner)
 
-        data = get_input_data(NEW_DATA, soil, agri_parcel)
+        data = get_input_data(input, soil, agri_type)
         data['totalArea'] = None
         r = api_client.post(url_for('api.reference_parcels_resource'), data=data)
         assert r.status_code == 400
@@ -93,7 +133,7 @@ class TestReferenceParcelResource:
 
         season = Season.all()[0]
         group = season.reference_parcels[0]
-        r = api_client.get(url_for('api.reference_parcel_resource', id=group.id))
+        r = api_client.get(url_for('api.reference_parcel_resource', parcel_id=group.id))
         assert r.status_code == 200
         assert 'id' in r.json
         assert 'title' in r.json
@@ -102,6 +142,7 @@ class TestReferenceParcelResource:
         assert 'eligibleArea' in r.json
         assert 'geometry' in r.json
         assert 'referenceParcelType' in r.json
+        assert 'agriculturalType' in r.json
         assert 'soilType' in r.json
         assert 'parcels' in r.json
         for parcel in r.json['parcels']:
@@ -111,6 +152,7 @@ class TestReferenceParcelResource:
             assert 'totalArea' in parcel
             assert 'eligibleArea' in parcel
             assert 'geometry' in parcel
+            assert 'AgriculturalType' in parcel
             assert 'referenceParcelType' in parcel
             assert 'soilType' in parcel
             assert 'parcels' not in parcel
@@ -120,20 +162,22 @@ class TestReferenceParcelResource:
         new_name = "New Field Name"
 
         parcel = ReferenceParcel.all()[0]        
-        r = api_client.patch(url_for('api.reference_parcel_resource', id=parcel.id), data=dict(title=new_name))
+        r = api_client.patch(url_for('api.reference_parcel_resource', parcel_id=parcel.id), data=dict(title=new_name))
         assert r.status_code == 200
         assert r.json['title'] == new_name
         assert 'id' in r.json
 
-    def test_put(self, api_client, farm_owner, soil, agri_parcel):
+    @pytest.mark.parametrize("input", [AGRICULTURAL_PARCEL, CADASTRAL_PARCEL, FARMERS_BLOCK, PHYSICAL_BLOCK])
+    def test_put(self, api_client, farm_owner, soil, agri_type, input):
         api_client.login_as(farm_owner)
         new_name = "New Field Name"
 
-        data = get_input_data(NEW_DATA, soil, agri_parcel)
+        data = get_input_data(input, soil, agri_type)
         data['title'] = new_name
+        data.pop('referenceParcelType')
 
         parcel = ReferenceParcel.all()[0]    
-        r = api_client.put(url_for('api.reference_parcel_resource', id=parcel.id), data=data)
+        r = api_client.put(url_for('api.reference_parcel_resource', parcel_id=parcel.id), data=data)
 
         assert r.status_code == 200
         assert r.json['title'] == new_name
@@ -144,7 +188,7 @@ class TestReferenceParcelResource:
         api_client.login_as(farm_owner)
 
         parcel = ReferenceParcel.all()[0] 
-        r = api_client.delete(url_for('api.reference_parcel_resource', id=parcel.id))
+        r = api_client.delete(url_for('api.reference_parcel_resource', parcel_id=parcel.id))
 
         assert r.status_code == 204
         assert not ReferenceParcel.get(parcel.id)
@@ -154,16 +198,17 @@ class TestReferenceParcelResource:
         api_client.login_as(farm_owner)
 
         parcel = ReferenceParcel.all()[0]        
-        r = api_client.patch(url_for('api.reference_parcel_resource', id=parcel.id), data=dict(totalArea=0.1))
+        r = api_client.patch(url_for('api.reference_parcel_resource', parcel_id=parcel.id), data=dict(totalArea=0.1))
         assert r.status_code == 400
         assert 'totalArea' in r.errors
 
 class TestSeasonReferenceParcelResource:
 
-    def test_create(self, api_client, farm_owner, soil, agri_parcel):
+    @pytest.mark.parametrize("input", [AGRICULTURAL_PARCEL, CADASTRAL_PARCEL, FARMERS_BLOCK, PHYSICAL_BLOCK])
+    def test_create(self, api_client, farm_owner, soil, agri_type, input):
         api_client.login_as(farm_owner)
 
-        data = get_input_data(NEW_DATA, soil, agri_parcel)
+        data = get_input_data(input, soil, agri_type)
 
         season = Season.all()[0]
         r = api_client.post(url_for('api.season_reference_parcels_resource', season_id=season.id), data=data)
@@ -175,6 +220,7 @@ class TestSeasonReferenceParcelResource:
         assert 'eligibleArea' in r.json
         assert 'geometry' in r.json
         assert 'referenceParcelType' in r.json
+        assert 'agriculturalType' in r.json
         assert 'soilType' in r.json
 
     def test_list(self, api_client, farm_owner):
@@ -192,14 +238,15 @@ class TestSeasonReferenceParcelResource:
             assert 'eligibleArea' in r
             assert 'geometry' in r
             assert 'referenceParcelType' in r
+            assert 'agriculturalType' in r
             assert 'soilType' in r
 
-    @pytest.mark.parametrize("models", ['ReferenceParcel(PARCEL_PHYSICAL_BLOCK)'], indirect=True)
+    @pytest.mark.parametrize("models", ['AgriculturalParcel(AGRICULTURAL_PARCEL_SIMPLE_1)'], indirect=True)
     def test_put(self, api_client, farm_owner, models):
         api_client.login_as(farm_owner)
         
         season = Season.all()[0]
-        parcel = models.PARCEL_PHYSICAL_BLOCK
+        parcel = models.AGRICULTURAL_PARCEL_SIMPLE_1
         r = api_client.put(url_for('api.season_reference_parcel_resource', season_id=season.id, parcel_id=parcel.id))
         assert r.status_code == 200        
         assert 'title' in r.json
@@ -220,10 +267,11 @@ class TestSeasonReferenceParcelResource:
 
 class TestGroupReferenceParcelResource:
 
-    def test_create(self, api_client, farm_owner, soil, agri_parcel):
+    @pytest.mark.parametrize("input", [AGRICULTURAL_PARCEL, CADASTRAL_PARCEL, FARMERS_BLOCK, PHYSICAL_BLOCK])
+    def test_create(self, api_client, farm_owner, soil, agri_type, input):
         api_client.login_as(farm_owner)
 
-        data = get_input_data(NEW_DATA, soil, agri_parcel)
+        data = get_input_data(input, soil, agri_type)
 
         parcel = ReferenceParcel.all()[0]
         r = api_client.post(url_for('api.group_reference_parcels_resource', group_id=parcel.id), data=data)
@@ -235,16 +283,17 @@ class TestGroupReferenceParcelResource:
         assert 'eligibleArea' in r.json
         assert 'geometry' in r.json
         assert 'referenceParcelType' in r.json
+        assert 'agriculturalType' in r.json
         assert 'soilType' in r.json
 
-    @pytest.mark.parametrize("models", ['ReferenceParcel(PARCEL_PHYSICAL_BLOCK, PARCEL_CADASTRIAL)'], indirect=True)
+    @pytest.mark.parametrize("models", ['AgriculturalParcel(AGRICULTURAL_PARCEL_GROUPED_1, AGRICULTURAL_PARCEL_GROUPED_2)'], indirect=True)
     def test_list(self, api_client, farm_owner, models):
         api_client.login_as(farm_owner)
 
         season = Season.all()[0]
         group = season.reference_parcels[0]
-        group.parcels_add.append(models.PARCEL_PHYSICAL_BLOCK)
-        group.parcels_add.append(models.PARCEL_CADASTRIAL)
+        group.parcels_add.append(models.AGRICULTURAL_PARCEL_GROUPED_1)
+        group.parcels_add.append(models.AGRICULTURAL_PARCEL_GROUPED_2)
 
         r = api_client.get(url_for('api.group_reference_parcels_resource', group_id=group.id))
         assert r.status_code == 200
@@ -257,15 +306,16 @@ class TestGroupReferenceParcelResource:
             assert 'eligibleArea' in r
             assert 'geometry' in r
             assert 'referenceParcelType' in r
+            assert 'agriculturalType' in r
             assert 'soilType' in r
 
-    @pytest.mark.parametrize("models", ['ReferenceParcel(PARCEL_PHYSICAL_BLOCK)'], indirect=True)
+    @pytest.mark.parametrize("models", ['AgriculturalParcel(AGRICULTURAL_PARCEL_GROUPED_1)'], indirect=True)
     def test_put(self, api_client, farm_owner, models):
         api_client.login_as(farm_owner)
 
         season = Season.all()[0]
         group = season.reference_parcels[0]
-        parcel = models.PARCEL_PHYSICAL_BLOCK
+        parcel = models.AGRICULTURAL_PARCEL_GROUPED_1
 
         len_relations = len(ReferenceParcelRelation.all())
         r = api_client.put(url_for('api.group_reference_parcel_resource', group_id=group.id, parcel_id=parcel.id))
@@ -276,20 +326,21 @@ class TestGroupReferenceParcelResource:
         assert (len_relations + 1) == len(ReferenceParcelRelation.all())
 
     @pytest.mark.skip(reason="Database cascades not be reworked, because related objects are not deleted.")
-    @pytest.mark.parametrize("models", ['ReferenceParcel(PARCEL_PHYSICAL_BLOCK)'], indirect=True)
+    @pytest.mark.parametrize("models", ['AgriculturalParcel(AGRICULTURAL_PARCEL_GROUPED_1)'], indirect=True)
     def test_delete(self, api_client, farm_owner, models):
         api_client.login_as(farm_owner)
 
         season = Season.all()[0]
         group = season.reference_parcels[0]
-        group.parcels_add.append(models.PARCEL_PHYSICAL_BLOCK)
+        group.parcels_add.append(models.AGRICULTURAL_PARCEL_GROUPED_1)
 
         len_relations = len(ReferenceParcelRelation.all())
-        r = api_client.delete(url_for('api.group_reference_parcel_resource', group_id=group.id, parcel_id=models.PARCEL_PHYSICAL_BLOCK.id))
+        r = api_client.delete(url_for('api.group_reference_parcel_resource', group_id=group.id, parcel_id=models.AGRICULTURAL_PARCEL_GROUPED_1.id))
 
         assert r.status_code == 204
         assert (len_relations - 1) == len(ReferenceParcelRelation.all())
 
+@pytest.mark.skip(reason="Search functionality need to be reworked.")
 class TestSearchParcels:
 
     def test_valid(self, api_client, farm_owner, country_hu, physical_block):

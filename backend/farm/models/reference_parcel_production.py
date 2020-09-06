@@ -23,7 +23,7 @@ class ReferenceParcelProduction(BaseModel, TimestampMixin):
     production_id = foreign_key('Production', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
     production = relationship('Production', back_populates='production_reference_parcels')
 
-    reference_parcel_id = foreign_key('ReferenceParcel', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
+    reference_parcel_id = foreign_key('ReferenceParcel', fk_col='parcel_id', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
     reference_parcel = relationship('ReferenceParcel', back_populates='reference_parcel_productions')
 
     __repr_props__ = ('production_id', 'reference_parcel_id')

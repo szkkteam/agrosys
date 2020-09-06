@@ -6,7 +6,6 @@
 # Internal package imports
 from backend.extensions.api import api
 from backend.api import ModelSerializer, validates, ValidationError, fields
-from ..models import CropTemplate
 from ..models import Template
 
 
@@ -14,8 +13,6 @@ DATA_FIELDS = (
     'id',
     'title',
     'tasks',
-    'crop_template',
-    'crop_template_id',
 )
 
 def object_id_exists(object_id, model):
@@ -24,16 +21,15 @@ def object_id_exists(object_id, model):
 
 class TemplateSerializer(ModelSerializer):
 
-    crop_template = fields.Nested('CropTemplateSerializer', many=False, exclude=('plans', ))
-    crop_template_id = fields.Integer(required=True, validate=lambda x: object_id_exists(x, CropTemplate))
+    #crop_template = fields.Nested('CropTemplateSerializer', many=False, exclude=('plans', ))
+    #crop_template_id = fields.Integer(required=True, validate=lambda x: object_id_exists(x, CropTemplate))
 
     tasks = fields.Nested('TaskListSerializer', many=True, required=False)
 
     class Meta:
         model = Template
         fields = DATA_FIELDS
-        dump_only = ('id', 'crop_template',)
-        load_only = ('crop_template_id', )
+        dump_only = ('id', )
         #include_fk = True
 
 @api.serializer(many=True)
@@ -44,6 +40,5 @@ class TemplateListSerializer(TemplateSerializer):
     class Meta:
         model = Template
         fields = DATA_FIELDS
-        dump_only = ('id', 'crop_template',)
-        load_only = ('crop_template_id', )
+        dump_only = ('id', )
         #include_relationships = True

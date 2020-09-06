@@ -20,6 +20,12 @@ from backend.database import (
     foreign_key
 )
 from .specific_product_property import SpecificProductProperty
+from backend.farm.models import PlanSpecificProduct
+
+def create(plan):
+    from backend.farm.models import PlanSpecificProduct
+    return PlanSpecificProduct(plan=plan)
+
 
 class SpecificProduct(Model):
     title = Column(String(64))
@@ -43,4 +49,9 @@ class SpecificProduct(Model):
         creator=lambda key, value: SpecificProductProperty(key=key, value=value),
     )
 
-    __repr_props__ = ('id', 'title', 'so_id')
+    specific_product_plans = relationship('PlanSpecificProduct', back_populates='specific_product',
+                                                cascade='all, delete-orphan')
+    plans = association_proxy('specific_product_plans', 'plan',
+                                    creator=lambda plan: create(plan))
+
+    __repr_props__ = ('id', 'title', 'unit')

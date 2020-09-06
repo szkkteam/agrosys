@@ -16,18 +16,18 @@ NEW_FARM_DATA = dict(
 @pytest.mark.usefixtures('user')
 class TestFarmResource:
 
-    def test_create(self, api_client, user, country_hu):
+    def test_create(self, api_client, user, region_1):
         api_client.login_user()
 
         data = NEW_FARM_DATA.copy()
-        data['countryId'] = country_hu.id
+        data['regionId'] = region_1.id
 
         r = api_client.post(url_for('api.farms_resource'), data=data)
         print("Response: ", r.json)
         assert r.status_code == 201
         assert 'title' in r.json
         assert NEW_FARM_DATA['title'] in r.json['title']
-        assert 'country' in r.json
+        assert 'region' in r.json
 
     def test_create_missing_name(self, api_client, user):
         api_client.login_user()
@@ -37,13 +37,13 @@ class TestFarmResource:
         assert r.status_code == 400
         assert 'title' in r.errors
 
-    def test_create_missing_country_id(self, api_client, user):
+    def test_create_missing_region_id(self, api_client, user):
         api_client.login_user()
         data = NEW_FARM_DATA.copy()
 
         r = api_client.post(url_for('api.farms_resource'), data=data)
         assert r.status_code == 400
-        assert 'countryId' in r.errors
+        assert 'regionId' in r.errors
 
     def test_get(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
@@ -56,7 +56,7 @@ class TestFarmResource:
         assert 'id' in r.json
         assert 'title' in r.json
         assert 'role' in r.json
-        assert 'country' in r.json
+        assert 'region' in r.json
         assert 'isOwner' in r.json['role']
 
     def test_list(self, api_client, farm_owner):
@@ -69,7 +69,7 @@ class TestFarmResource:
             assert 'id' in e
             assert 'title' in e
             assert 'role' in e
-            assert 'country' in e
+            assert 'region' in e
             assert 'isOwner' in e['role']
 
     def test_patch(self, api_client, farm_owner):
@@ -85,11 +85,11 @@ class TestFarmResource:
         assert r.json['title'] == new_name
         assert 'id' in r.json
 
-    def test_put(self, api_client, farm_owner, country_hu):
+    def test_put(self, api_client, farm_owner, region_1):
         api_client.login_as(farm_owner)
 
         data = NEW_FARM_DATA.copy()
-        data['countryId'] = country_hu.id
+        data['regionId'] = region_1.id
         data['title'] = "New Farm Name"
         # Query one of the user's farm
         farm = Farm.all()[0]
@@ -178,7 +178,7 @@ class TestFarmResourceProtected:
             r = api_client.patch(url_for('api.farm_resource', farm_id=farm.id), data=dict(title=new_name))
             assert r.status_code == 403
 
-    def test_put(self, api_client, farm_user1, farm_user2, country_hu):
+    def test_put(self, api_client, farm_user1, farm_user2, region_1):
         from backend.permissions.services import UserService
 
         # Because there is no shared farms, for this test this query is sufficient
@@ -189,7 +189,7 @@ class TestFarmResourceProtected:
         api_client.login_as(farm_user2)
         for farm in farms:
             data = NEW_FARM_DATA.copy()
-            data['countryId'] = country_hu.id
+            data['regionId'] = region_1.id
             data['title'] = "New Farm Name"
             r = api_client.put(url_for('api.farm_resource', farm_id=farm.id), data=data)
             assert r.status_code == 403

@@ -20,8 +20,8 @@ from backend.database import (
 class ReferenceParcelRelation(BaseModel, TimestampMixin):
     """Join table between User and Role"""
 
-    group_id = foreign_key('ReferenceParcel', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
-    parcel_id = foreign_key('ReferenceParcel', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
+    group_id = foreign_key('ReferenceParcel', fk_col='parcel_id', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
+    parcel_id = foreign_key('ReferenceParcel', fk_col='parcel_id', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
     #group_id = foreign_key('ReferenceParcel', primary_key=True)
     #parcel_id = foreign_key('ReferenceParcel', primary_key=True)
 

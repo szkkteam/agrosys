@@ -98,12 +98,12 @@ INVALID_INPUT_DATA_LIST = [
 class TestTaskSerializer:
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA)
-    def test_valid_inputs(self, input, crop_template):
+    def test_valid_inputs(self, input):
         serializer = TaskSerializer()
         res = serializer.load(copy.deepcopy(input.copy()))
 
     @pytest.mark.parametrize("input,msg,field", INVALID_INPUT_DATA)
-    def test_invalid_inputs(self, input, msg, field, crop_template):
+    def test_invalid_inputs(self, input, msg, field):
         serializer = TaskSerializer()
         with pytest.raises(ValidationError) as v:
             serializer.load(copy.deepcopy(input.copy()))
@@ -111,7 +111,7 @@ class TestTaskSerializer:
 
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA)
-    def test_valid_serialize_deserialize(self, input, crop_template):
+    def test_valid_serialize_deserialize(self, input):
         serializer = TaskSerializer()
         input_data = input.copy()
 
@@ -131,19 +131,19 @@ class TestTaskSerializer:
 class TestTaskListSerializer:
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA_LIST)
-    def test_valid_inputs(self, input, crop_template):
+    def test_valid_inputs(self, input):
         serializer = TaskListSerializer()
         serializer.load(copy.deepcopy(input), many=True)
 
     @pytest.mark.parametrize("input,msg,field", INVALID_INPUT_DATA_LIST)
-    def test_invalid_inputs(self, input, msg, field, crop_template):
+    def test_invalid_inputs(self, input, msg, field):
         serializer = TaskListSerializer()
         with pytest.raises(ValidationError) as v:
             serializer.load(copy.deepcopy(input), many=True)
 
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA_LIST)
-    def test_valid_serialize_deserialize(self, input, crop_template):
+    def test_valid_serialize_deserialize(self, input):
         input_data = copy.deepcopy(input)
 
         serializer = TaskListSerializer()

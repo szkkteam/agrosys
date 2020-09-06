@@ -21,7 +21,7 @@ def get_farm_details(farm):
     return {
             'id': farm.id,
             'title': farm.title,
-            'country': farm.country,
+            'region': farm.region,
             'seasons': farm.seasons,
             #'seasons': Season.filter(Season.farm_id == farm.id).all(),
             'role': {

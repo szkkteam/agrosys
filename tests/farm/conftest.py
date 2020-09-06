@@ -6,5 +6,5 @@ import os
 import pytest
 
 @pytest.fixture()
-def crop_template(model_factory):
-    yield model_factory.create('CropTemplate', 'CROP_TEMPLATE_1')
+def specific_product(model_factory):
+    yield model_factory.create('SpecificProduct', 'SPECIFIC_SPRING_WHEAT')

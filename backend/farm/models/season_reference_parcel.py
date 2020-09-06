@@ -23,7 +23,7 @@ class SeasonReferenceParcel(BaseModel, TimestampMixin):
     season_id = foreign_key('Season', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
     season = relationship('Season', back_populates='season_reference_parcels')
 
-    reference_parcel_id = foreign_key('ReferenceParcel', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
+    reference_parcel_id = foreign_key('ReferenceParcel', fk_col='parcel_id', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
     reference_parcel = relationship('ReferenceParcel', back_populates='reference_parcel_seasons')
 
 

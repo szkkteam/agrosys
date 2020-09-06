@@ -87,6 +87,11 @@ class ModelFactory:
         ret = data.copy()
         #print("Ret: ", ret)
         for col_name, value in data.items():
+            #print("model_class: ", model_class)
+            #print("data: ", data)
+            #print("col_name: ", col_name)
+            #print("value: ", value)
+
             col = getattr(model_class, col_name)
             if (isinstance(value, str) or isinstance(value, list)):
                 result = class_name_re.findall(value[0] if isinstance(value, list) else value)

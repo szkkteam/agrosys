@@ -10,7 +10,7 @@ from geoalchemy2.shape import from_shape, to_shape
 import shapely
 
 # Internal package imports
-from backend.reference.models import ReferenceParcelTypeEnum
+from backend.farm.models import ReferenceParcelTypes
 
 PARSE_NUMBERS = re.compile(r"\-?\d+\.\d+")
 
@@ -75,7 +75,7 @@ class SearchReferenceParcel:
 
     @classmethod
     def search_parcel_hu(cls, parcel_type, name):
-        if parcel_type == ReferenceParcelTypeEnum.PhysicalBlock:
+        if parcel_type == ReferenceParcelTypes.PhysicalBlock:
             return cls.PhysicalBlockMeparHu.search_physical_block_mepar_hu(name)
         else:
             return []

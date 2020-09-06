@@ -13,4 +13,4 @@ from .agricultural_product_fact import AgriculturalProductFact
 from .specific_product import SpecificProduct
 from .specific_product_property import SpecificProductProperty
 
-from .reference_parcel_type import ReferenceParcelType, ReferenceParcelTypeEnum
+from .agricultural_type import AgriculturalType
