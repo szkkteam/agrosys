@@ -47,7 +47,7 @@ PRODUCTION_AS_TMP_TASKS_2:
 
 PRODUCTION_AS_TMP_TASKS_3:
   title: owner with tasks 3
-  #specific_products: ['SpecificProduct(SPECIFIC_SPRING_WHEAT, SPECIFIC_AUTUMN_NOVUM_WHEAT)']
+  specific_products: ['SpecificProduct(SPECIFIC_SPRING_WHEAT, SPECIFIC_AUTUMN_NOVUM_WHEAT)']
   tasks: ['TaskGeneral(TASK_GENERAL_3)', 'TaskPruning(TASK_PRUNING_3)']
 
 PRODUCTION_AS_TMP_TASKS_4:

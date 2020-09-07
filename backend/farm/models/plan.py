@@ -36,8 +36,8 @@ class Plan(PlanMixin, TimestampMixin, BaseModel):
                          cascade='all, delete-orphan')
 
     plan_specific_products = relationship('PlanSpecificProduct', back_populates='plan',
-                                                cascade='all, delete-orphan')
-    specific_products = association_proxy('plan_specific_products ', 'specific_product',
+                                                cascade='all, delete')
+    specific_products = association_proxy('plan_specific_products', 'specific_product',
                                           creator=lambda specific_product: create(
                                               specific_product))
 

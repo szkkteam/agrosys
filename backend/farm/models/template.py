@@ -33,5 +33,5 @@ class Template(Plan):
     farms = association_proxy('farm_templates', 'season',
                                 creator=lambda farm: create_farm(farm))
 
-    __repr_props__ = ('id', 'title', 'plan_type', )
+    __repr_props__ = ('id', 'title', 'plan_type', 'specific_products')
 

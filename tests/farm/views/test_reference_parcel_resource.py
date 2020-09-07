@@ -128,11 +128,13 @@ class TestReferenceParcelResource:
     
     # TODO: More negativ tests
 
-    def test_get(self, api_client, farm_owner):
+    @pytest.mark.parametrize("models", ['AgriculturalParcel(AGRICULTURAL_PARCEL_GROUPED_1)'], indirect=True)
+    def test_get(self, api_client, farm_owner, models):
         api_client.login_as(farm_owner)
 
         season = Season.all()[0]
         group = season.reference_parcels[0]
+        group.parcels_add.append(models.AGRICULTURAL_PARCEL_GROUPED_1)
         r = api_client.get(url_for('api.reference_parcel_resource', parcel_id=group.id))
         assert r.status_code == 200
         assert 'id' in r.json
@@ -152,10 +154,10 @@ class TestReferenceParcelResource:
             assert 'totalArea' in parcel
             assert 'eligibleArea' in parcel
             assert 'geometry' in parcel
-            assert 'AgriculturalType' in parcel
+            assert 'agriculturalType' in parcel
             assert 'referenceParcelType' in parcel
             assert 'soilType' in parcel
-            assert 'parcels' not in parcel
+            #assert 'parcels' not in parcel
 
     def test_patch(self, api_client, farm_owner):
         api_client.login_as(farm_owner)

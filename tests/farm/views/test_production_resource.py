@@ -8,7 +8,7 @@ from flask import url_for
 from flask_security import AnonymousUser, current_user
 
 # Internal package imports
-from backend.farm.models import CropTemplate, Production, ReferenceParcel, ReferenceParcelProduction
+from backend.farm.models import Production, ReferenceParcel, ReferenceParcelProduction
 
 TASK_GENERAL_1 = {
     'title': 'task general',
@@ -41,41 +41,27 @@ VALID_INPUT_DATA = [
 
 NEW_PRODUCTION_DATA = {
     'title': 'Production 1',
-    'cropTemplateId': lambda c: c.id,
     'tasks': VALID_INPUT_DATA,
 }
 
 
-def get_input_data(input, crop_template):
+def get_input_data(input):
     data = input.copy()
-    if isinstance(input, list):
-        for i, v in enumerate(data):
-            for key, value in v.items():
-                v[key] = value(crop_template) if callable(value) else value
-            data[i] = v
-
-    else:
-        for key, value in data.items():
-            data[key] = value(crop_template) if callable(value) else value
-
     return data
-
 
 class TestProductionResource:
 
-    def test_create(self, api_client, farm_owner, crop_template):
+    def test_create(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
-        data = get_input_data(NEW_PRODUCTION_DATA, crop_template)
+        data = get_input_data(NEW_PRODUCTION_DATA)
         parcel = ReferenceParcel.all()[-1]
 
         r = api_client.post(url_for('api.productions_resource', parcel_id=parcel.id), data=data)
         assert r.status_code == 201
         assert 'id' in r.json
         assert 'title' in r.json
-        assert 'cropTemplate' in r.json
         assert 'tasks' in r.json
-        assert 'id' in r.json['cropTemplate']
         assert len(r.json['tasks'])
 
     def test_get(self, api_client, farm_owner):
@@ -87,9 +73,7 @@ class TestProductionResource:
         assert r.status_code == 200
         assert 'id' in r.json
         assert 'title' in r.json
-        assert 'cropTemplate' in r.json
         assert 'tasks' in r.json
-        assert 'id' in r.json['cropTemplate']
         assert len(r.json['tasks'])
 
     def test_list(self, api_client, farm_owner):
@@ -104,9 +88,7 @@ class TestProductionResource:
         for e in r.json:
             assert 'id' in e
             assert 'title' in e
-            assert 'cropTemplate' in e
             assert 'tasks' in e
-            assert 'id' in e['cropTemplate']
             assert len(e['tasks'])
 
     def test_patch(self, api_client, farm_owner):
@@ -120,11 +102,11 @@ class TestProductionResource:
         assert r.json['title'] == new_name
         assert 'id' in r.json
 
-    def test_put(self, api_client, farm_owner, crop_template):
+    def test_put(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
         production = Production.all()[0]
-        data = get_input_data(NEW_PRODUCTION_DATA, crop_template)
+        data = get_input_data(NEW_PRODUCTION_DATA)
         data['title'] = "New template name"
         r = api_client.put(url_for('api.production_resource', id=production.id), data=data)
 

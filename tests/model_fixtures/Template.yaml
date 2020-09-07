@@ -1,7 +1,7 @@
 ---
 TEMPLATE_1:
   title: template_ 1 with tasks
-  #specific_products: ['SpecificProduct(SPECIFIC_SPRING_WHEAT)']
+  specific_products: ['SpecificProduct(SPECIFIC_SPRING_WHEAT)']
   tasks: ['TaskGeneral(TASK_GENERAL_2)', 'TaskPruning(TASK_PRUNING_2)']
 
 TEMPLATE_2:
