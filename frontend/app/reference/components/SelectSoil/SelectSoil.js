@@ -7,7 +7,7 @@ import { bindRoutineCreators } from 'actions'
 import { injectReducer, injectSagas } from 'utils/async'
 
 import { listSoilTypes } from 'reference/actions'
-import { getSoilTypes } from 'reference/reducers/soilTypes'
+import { getSoilTypes } from 'reference/selectors'
 
 
 class SelectSoil extends React.Component {

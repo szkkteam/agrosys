@@ -1,0 +1,45 @@
+import React from 'react'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+
+import {
+    SplitButton
+} from 'components/Button'
+
+import {
+    getAddButtonlist,
+} from 'parcel/selectors'
+
+const AddParcelButton = ({
+    buttons,
+    onParcelAdd,
+}) => {
+    console.log("Buttons: ", buttons)
+    return (
+        <React.Fragment>
+            {buttons && buttons.length && 
+                <SplitButton 
+                    options={buttons}
+                    handleClick={onParcelAdd}
+                />
+            }
+        </React.Fragment>
+    )
+}
+
+const mapStateToProps = state => {
+    console.log("getAddButtonlist(state): ", getAddButtonlist(state))
+    return (
+        {buttons: getAddButtonlist(state) }
+    )
+}
+
+const withConnect = connect(
+    mapStateToProps,
+    null,
+)
+
+export default compose(
+  withConnect,
+)(AddParcelButton)
+

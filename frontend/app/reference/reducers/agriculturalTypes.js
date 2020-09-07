@@ -1,8 +1,8 @@
 import { 
-    listSoilTypes
+    listAgriculturalTypes
 } from 'reference/actions'
 
-export const KEY = 'soilTypes'
+export const KEY = 'agriculturalTypes'
 
 const initialState = {    
     isLoading: false,
@@ -14,27 +14,28 @@ const initialState = {
 
 export default function(state = initialState, action) {
     const { type, payload } = action
-    const { byId: soilTypesById, ids } = payload || {}
+    const { byId: agriculturalTypesById, ids } = payload || {}
     const { byId } = state
+
     switch(type) {
-        case listSoilTypes.REQUEST:
+        case listAgriculturalTypes.REQUEST:
             return { ...state,
                 isLoading: true 
             }
 
-        case listSoilTypes.SUCCESS:
+        case listAgriculturalTypes.SUCCESS:
             return { ...state,
-                byId: {...byId, ...soilTypesById},
+                byId: {...byId, ...agriculturalTypesById},
                 ids: _.uniq([...state.ids, ...ids]),
                 isLoaded: true,  
             }
 
-        case listSoilTypes.FAILURE:
+        case listAgriculturalTypes.FAILURE:
             return { ...state, 
                 error: payload.error,
             }
 
-        case listSoilTypes.FULFILL:
+        case listAgriculturalTypes.FULFILL:
             return { ...state,
                 isLoading: false,
             }
@@ -44,6 +45,6 @@ export default function(state = initialState, action) {
     }
 }
 
-export const selectSoilsTypes = (state) => state[KEY]
-export const selectSoilsTypeIds = (state) => selectSoilsTypes(state).ids
-export const selectSoilsTypesbyId = (state) => selectSoilsTypes(state).byId
+export const selectAgriculturalTypes = (state) => state[KEY]
+export const selectAgriculturalTypesIds = (state) => selectAgriculturalTypes(state).ids
+export const selectAgriculturalTypesbyId = (state) => selectAgriculturalTypes(state).byId

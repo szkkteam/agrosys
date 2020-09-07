@@ -11,13 +11,7 @@ import {
 
 import {
   MapPage,
-} from 'map/pages'
-
-import {
-  FieldList,
-  FieldDetail,
-  FieldCreate,
-} from 'field/pages'
+} from 'pages/pages'
 
 import {
   ProductionList,
@@ -62,14 +56,6 @@ export const ROUTES = {
    * Map
    */
   MapPage: 'MapPage',
-
-
-  /**
-   * Field
-   */
-  FieldList: 'FieldList',
-  FieldDetail: 'FieldDetail',
-  FieldCreate: 'FieldCreate',
 
   /**
    * Production
@@ -131,28 +117,7 @@ const routes = [
     component: MapPage,
     routeComponent: ProtectedRoute,
   },
-  /**
-   * Field
-   */
-  {
-    key: ROUTES.FieldList,
-    path: '/fields',
-    component: FieldList,
-    routeComponent: ProtectedRoute,
-  },
-  {
-    key: ROUTES.FieldDetail,
-    path: '/fields/:id',
-    component: FieldDetail,
-    routeComponent: ProtectedRoute,
-  },
-  {
-    key: ROUTES.FieldCreate,
-    path: '/fields-new/',
-    component: FieldCreate,
-    routeComponent: ProtectedRoute,
-  },
-
+  
   /**
    * Production
    */

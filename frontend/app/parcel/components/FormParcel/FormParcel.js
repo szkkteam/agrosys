@@ -8,7 +8,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { HiddenField, TextField, onlyDecimal } from 'components/Form'
 import { 
     SelectSoil,
-    SelectReferenceParcelType,
+    SelectAgriculturalType,
 } from 'reference/components'
  
 import './formparcel.scss'
@@ -78,6 +78,9 @@ const FormParcel = (props) => {
                         name="geometry"
                         onBlur={(e) => {e.preventDefault() }}
                     />
+                    <HiddenField
+                        name="referenceParcelType"
+                    />
                 </Grid>
                 <Grid item  xs={6}>
                     <TextField name="totalArea"
@@ -108,8 +111,8 @@ const FormParcel = (props) => {
                     />
                 </Grid>
                 <Grid item  xs={12}>
-                    <SelectReferenceParcelType
-                        name="referenceParcelTypeId"
+                    <SelectAgriculturalType
+                        name="agriculturalTypeId"
                         label="Select a parcel type"
                         formProps={{fullWidth: true}}
                         className="from-section"

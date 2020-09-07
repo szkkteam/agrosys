@@ -1,23 +1,23 @@
 import { normalize, schema, denormalize } from 'normalizr';
 
-export const referenceParcelTypeSchema = new schema.Entity('referenceParcelTypes', {
+export const agriculturalTypeSchema = new schema.Entity('agriculturalTypes', {
 })
 
-export const referenceParcelTypesSchema = new schema.Array(referenceParcelTypeSchema)
+export const agriculturalTypesSchema = new schema.Array(agriculturalTypeSchema)
 
-export const normalizeReferenceParcelTypes = (data) => {
-    const { entities, result} = normalize(data, referenceParcelTypesSchema)
+export const normalizeAgriculturalTypes = (data) => {
+    const { entities, result} = normalize(data, agriculturalTypesSchema)
     console.log("entities: ", entities)
     return {
-        byId: entities.referenceParcelTypes,
+        byId: entities.agriculturalTypes,
         ids: result
     }
 }
 
 
-export const deNormalizeReferenceParcelTypes = (data) => {
+export const deNormalizeAgriculturalTypes = (data) => {
     const { entities, ids } = data
-    return denormalize(ids, referenceParcelTypesSchema, entities)
+    return denormalize(ids, agriculturalTypesSchema, entities)
 
 }
 

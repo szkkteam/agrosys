@@ -1,0 +1,78 @@
+import React from 'react'
+import { compose, bindActionCreators  } from 'redux'
+import { connect } from 'react-redux'
+
+import { bindRoutineCreators } from 'actions'
+import { injectReducer, injectSagas } from 'utils/async'
+
+import { 
+    listSeasonParcel,
+    actionParcel,
+} from 'parcel/actions'
+
+import {
+    getSelectedParcel,
+    getSelectedSeasonParcelsTree,
+} from 'parcel/selectors'
+
+import {
+    ParcelList,
+} from 'parcel/components'
+
+class ParcelListContainer extends React.Component {
+
+    
+    componentDidMount() {
+        const { listSeasonParcel } = this.props
+        listSeasonParcel && listSeasonParcel.maybeTrigger()
+    }
+
+    onSelect = (e, row) => {
+        //console.log("Row: ", row)
+        const { actionParcel } = this.props
+        actionParcel && actionParcel.selectParcel({
+            selectedParcelId: row.id
+        })
+    }
+
+    render() {
+        const { seasonParcelsTree, selectedParcel } = this.props
+
+        return (
+            <ParcelList
+                parcels={seasonParcelsTree}
+                onRowClick={(e, d) => console.log("Event: ", e + " data: ", d)}
+                onRowClick={this.onSelect}
+                options={{
+                    rowStyle: rowData => ({
+                        backgroundColor: (selectedParcel && selectedParcel.id === rowData.id) ? '#EEE' : '#FFF'
+                      })
+                }}
+            /> 
+        )
+    }
+}
+
+const withSagaSeasons = injectSagas(require('season/sagas/seasons'))
+const withSagaParcels = injectSagas(require('parcel/sagas/listSeasonParcel'))
+const withReducerParcels = injectReducer(require('parcel/reducers/parcels'))
+const withReducerSeasons = injectReducer(require('season/reducers/seasons'))
+const withReducerSoilTypes = injectReducer(require('reference/reducers/soilTypes'))
+
+const withConnect = connect(
+  (state) => ({
+      seasonParcelsTree: getSelectedSeasonParcelsTree(state),
+      selectedParcel: getSelectedParcel(state),
+    }),
+    (dispatch) => bindRoutineCreators({ actionParcel, listSeasonParcel }, dispatch),
+)
+
+
+export default compose(
+    withSagaParcels,
+    withSagaSeasons,
+    withReducerParcels,
+    withReducerSeasons,
+    withReducerSoilTypes,
+    withConnect,
+)(ParcelListContainer)

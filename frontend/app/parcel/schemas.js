@@ -1,11 +1,11 @@
 import { normalize, schema, denormalize } from 'normalizr';
 import {
     soilTypeSchema,
-    referenceParcelTypeSchema,
+    agriculturalTypeSchema,
 } from 'reference/schemas'
 
 export const parcelSchema = new schema.Entity('parcels', {
-    referenceParcelType: referenceParcelTypeSchema,
+    agriculturalType: agriculturalTypeSchema,
     soilType: soilTypeSchema,
 })
 

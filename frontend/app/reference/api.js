@@ -2,8 +2,8 @@ import { get } from 'utils/request'
 import { reference } from 'api'
 
 
-function parcel(uri) {
-  return reference(`/parceltypes${uri}`)
+function agricultural(uri) {
+  return reference(`/agricultural-types${uri}`)
 }
 
 function soil(uri) {
@@ -12,12 +12,12 @@ function soil(uri) {
 
 export default class Reference {
 
-    static listParcelTypes() {
-        return get(parcel(``))
+    static listAgriculturalTypes() {
+        return get(agricultural(``))
     }
   
-    static getParcelType(parcelType) {
-        return get(parcel(`/${parcelType.id}`))
+    static getAgriculturalType(agriculturalType) {
+        return get(agricultural(`/${agriculturalType.id}`))
     }
 
     static listSoilTypes() {
