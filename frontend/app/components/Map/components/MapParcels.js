@@ -76,7 +76,7 @@ class MapParcels extends React.Component {
                 overlay={
                     <ParcelGroup
                         checked
-                        parcels={seasonParcels}
+                        parcelsGrouped={seasonParcels}
                         onClick={this.onSelect}
                     />
                 }

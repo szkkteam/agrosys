@@ -48,7 +48,7 @@ export default function(state = initialState, action) {
                 ...state,
                 byId: { ...byId, [seasonId]: {
                         ...seasonById,
-                        referenceParcels: _.uniq(...seasonById.referenceParcels, ...[parcelId])
+                        referenceParcels: _.uniq(_.concat(seasonById.referenceParcels, parcelId))
                     }
                 }
             }
@@ -64,7 +64,7 @@ export default function(state = initialState, action) {
         case listSeasons.SUCCESS:
             return { ...state,
                 byId: {...byId, ...seasonsById},
-                ids: _.uniq([...state.ids, ...ids]),
+                ids: _.uniq(_.concat(state.ids, ids)),
                 isLoaded: true,  
                 //selectedSeasonId: state.selectedSeasonId? state.selectedSeasonId: _.last(ids),
             }

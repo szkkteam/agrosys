@@ -8,7 +8,6 @@ import {
 export default ({
     parcelsGrouped,
     onClick,
-    parcelTypes,
     ...rest,
 }) => {        
     console.log("parcelsGrouped: ", parcelsGrouped)
@@ -24,10 +23,10 @@ export default ({
                     >
                         { agriculturalParcel.items.map((parcel, j) => (
                             <Feature
-                                    key={`${i}-${j}`}
-                                    color={agriculturalParcel.color}
-                                    onClick={onClick}
-                                    data={parcel}
+                                key={`${i}-${j}`}
+                                {...agriculturalParcel.props}
+                                onClick={onClick}
+                                data={parcel}
                             />
                         )) }
                     </FeatureGroup>

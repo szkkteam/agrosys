@@ -21,7 +21,7 @@ import {
 
 import {
     parcelTypesEnum,
-    agriculturalTypeColorLookup
+    agriculturalTypePropsLookup
 } from 'parcel/constants'
 
 const renderButton = (parcelType) => {
@@ -64,7 +64,7 @@ const groupByAgriculturalType = (data, agriculturalTypes) => {
     return Object.keys(grouped).map((key, i) => ({
             title: agriculturalTypes[key].title,
             enable: true,
-            color: agriculturalTypes[key].color? agriculturalTypes[key].color : agriculturalTypeColorLookup(key),
+            props: agriculturalTypes[key].color? {color: agriculturalTypes[key].color} : agriculturalTypePropsLookup(key),
             items: grouped[key]
     }))
 }
@@ -94,7 +94,6 @@ export const getSelectedSeasonParcelsDenormalized = createSelector(
         selectParcelsById
     ],
     (parcelIds, selectedParcelId, soilTypes, agriculturalTypes, parcels) => {
-        console.log("parcelIds: ", parcelIds)
         // Filter out the selected season id
         return deNormalizeParcels({ ids: _.without(parcelIds, selectedParcelId), ...{entities: {parcels, soilTypes, agriculturalTypes}}})
     }
@@ -180,11 +179,11 @@ export const getAddButtonlist = createSelector(
                 case parcelTypesEnum.AGRICULTURAL_PARCEL:
                     return null // User cannot add parcel under agricultural parcel
                 case parcelTypesEnum.CADASTRAL_PARCEL:
-                    return renderButton(parcelTypesEnum.AGRICULTURAL_PARCEL)
+                    return [ renderButton(parcelTypesEnum.AGRICULTURAL_PARCEL) ]
                 case parcelTypesEnum.FARMERS_BLOCK:
-                    return renderButton(parcelTypesEnum.AGRICULTURAL_PARCEL)
+                    return [ renderButton(parcelTypesEnum.AGRICULTURAL_PARCEL) ]
                 case parcelTypesEnum.PHYSICAL_BLOCK:
-                    return renderButton(parcelTypesEnum.AGRICULTURAL_PARCEL)
+                    return [ renderButton(parcelTypesEnum.AGRICULTURAL_PARCEL) ]
                 default:
                     return null
             }

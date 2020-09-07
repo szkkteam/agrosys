@@ -8,15 +8,15 @@ export const parcelTypesEnum = {
 }
 
 
-export const agriculturalTypeColorLookup = (typeId) => {
+export const agriculturalTypePropsLookup = (typeId) => {
     switch(typeId) {
         case 1:
-            return "yellow"
+            return {color: "yellow"}
         case 2:
-            return "green"
+            return {color: "green"}
         case 3:
-            return "brown"
+            return {color: "brown"}
         default:
-            return null
+            return {}
     }
 }

@@ -163,7 +163,7 @@ const withConnect = connect(
             initialValues: {
                 ...{
                     soilTypeId: 1,
-                    referenceParcelTypeId: 1,
+                    agriculturalTypeId: 1,
                 }, ...locinitialValues
             },
             ...rest
