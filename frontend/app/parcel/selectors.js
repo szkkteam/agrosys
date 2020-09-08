@@ -129,6 +129,8 @@ export const getSelectedSeasonParcelsTreeDenormalized = createSelector(
 export const getSelectedSeasonParcelsTree = createSelector(
     [getSelectedSeasonParcelsTreeDenormalized],
     (normalizedParcels) => {
+        // Keep this log, because parcelTree is not updated at the first time
+        console.log("normalizedParcels: ", normalizedParcels)
         return normalizedParcels.reduce((flatAccu, parcel) => {            
             flatAccu.push(parcel)
             // If parcel has nested parcels

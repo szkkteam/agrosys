@@ -12,7 +12,7 @@ export const KEY = 'listSeasonParcel'
 
 export const maybeListSeasonParcelSaga = function *() {
     const { isLoading, isLoaded } = yield select(selectParcels)
-    console.log("isLoading: ", isLoading + "isLoaded: ", isLoaded)
+    console.log("isLoading: ", isLoading + " isLoaded: ", isLoaded)
     if (!(isLoaded || isLoading)) {
         yield put(listSeasonParcel.trigger())
     }

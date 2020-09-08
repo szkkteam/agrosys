@@ -15,13 +15,16 @@ import {
 export default ({
     parcels,
     options,
+    components,
     ...props,
 }) => {
+    // Keep this log, because parcelTree is not updated at the first time
+    console.log("Parcels: ", parcels)
     return (     
         <div className="scroll-table">
             <Table
                 columns={[
-                    {
+                    { 
                         title: 'Title',
                         field: 'title',
                         filtering: false,
@@ -36,7 +39,6 @@ export default ({
                 ]} 
                 emptyRowsWhenPaging={false}
                 data={parcels} 
-                title="Parcels"   
                 style={{overflowX: "hidden"}}             
                 parentChildData={(row, rows) => rows.find(a => a.id === row.parentParcelId)}
                 options={{
@@ -51,6 +53,7 @@ export default ({
                     Pagination: props => null,
                     //Toolbar: props => null,
                     //Header: props => (<thead><tr><th>Header</th></tr></thead>),
+                    ...components,
                 }}
                 {...props}
             />                

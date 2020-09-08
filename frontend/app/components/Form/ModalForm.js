@@ -13,16 +13,16 @@ import {
 export default ({
     open,
     title,
-    form,
     submitButtonProps,
     onClose,
+    children,
 }) => (
     <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">
             {title}
         </DialogTitle>
         <DialogContent>
-            {form}
+            {children}
         </DialogContent>
         <DialogActions>
         <Button 

@@ -2,7 +2,7 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid';
 
 import {
-    SeasonSelector
+    SeasonContainer
 } from 'season/components'
 
 import {
@@ -23,7 +23,7 @@ export default (
             style={{overflowY: "hidden", maxHeight: "800px"}}
         >
             <Grid item sm={2}>
-                <SeasonSelector
+                <SeasonContainer
                 /> 
                 <div> 
                     <ParcelListContainer

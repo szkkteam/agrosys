@@ -14,7 +14,7 @@ import {
     SeasonCreateContainer
 } from 'season/components'
 
-class SeasonSelector extends React.Component {
+class SeasonContainer extends React.Component {
 
     constructor(props) {
         super(props)
@@ -68,4 +68,4 @@ export default compose(
   withReducer,
   withSaga,
   withConnectSeasons,
-)(SeasonSelector)
+)(SeasonContainer)
