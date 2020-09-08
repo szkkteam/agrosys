@@ -4,4 +4,13 @@
     overflow-y: auto;    
     overflow-x: hidden;
     */
+    overflow-x: hidden;
+}
+
+.scroll-table > div > div > div > div > div {
+    overflow-x: hidden;
+}
+
+.scroll-table .MuiTableCell-root {
+    padding: 12px 5px;
 }

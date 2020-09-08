@@ -173,7 +173,6 @@ export const getSelectedSiblingParcels = createSelector(
 export const getAddButtonlist = createSelector(
     [getSelectedParcel],
     (selectedParcel) => {
-        console.log("selectedParcel: ", selectedParcel)
         if (selectedParcel) {
             switch(selectedParcel.referenceParcelType) {
                 case parcelTypesEnum.AGRICULTURAL_PARCEL:

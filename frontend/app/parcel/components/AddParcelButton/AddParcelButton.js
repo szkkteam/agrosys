@@ -14,7 +14,6 @@ const AddParcelButton = ({
     buttons,
     onParcelAdd,
 }) => {
-    console.log("Buttons: ", buttons)
     return (
         <React.Fragment>
             {buttons && buttons.length && 
@@ -27,12 +26,9 @@ const AddParcelButton = ({
     )
 }
 
-const mapStateToProps = state => {
-    console.log("getAddButtonlist(state): ", getAddButtonlist(state))
-    return (
+const mapStateToProps = state => (
         {buttons: getAddButtonlist(state) }
-    )
-}
+)
 
 const withConnect = connect(
     mapStateToProps,

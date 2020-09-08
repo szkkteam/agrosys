@@ -10,7 +10,6 @@ export default ({
     onClick,
     ...rest,
 }) => {        
-    console.log("parcelsGrouped: ", parcelsGrouped)
     return (
         <React.Fragment>
             { parcelsGrouped && parcelsGrouped.map((agriculturalParcel, i) => {

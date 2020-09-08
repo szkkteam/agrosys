@@ -8,6 +8,9 @@ import {
 
 import './parcellist.scss'
 
+import {
+    convertM2ToHa,
+} from 'utils/converter'
 
 export default ({
     parcels,
@@ -15,19 +18,26 @@ export default ({
     ...props,
 }) => {
     return (     
-        <div style={{ maxWidth: "100%", }}>
-            <Table className="scroll-table"
+        <div className="scroll-table">
+            <Table
                 columns={[
                     {
                         title: 'Title',
                         field: 'title',
                         filtering: false,
                         search: false,
-                    }, 
+                    },
+                    {
+                        title: 'Area',
+                        field: 'totalArea',
+                        render: (rowData) => <span>{convertM2ToHa(rowData.totalArea)} Ha</span>,
+                        customSort: (a, b) => b.totalArea - a.totalArea 
+                    }
                 ]} 
                 emptyRowsWhenPaging={false}
                 data={parcels} 
-                title="Parcels"                
+                title="Parcels"   
+                style={{overflowX: "hidden"}}             
                 parentChildData={(row, rows) => rows.find(a => a.id === row.parentParcelId)}
                 options={{
                     pageSize: parcels.length,

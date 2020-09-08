@@ -52,10 +52,6 @@ class MapContainer extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        console.log("prevProps.selectedParcel Deep equal compare: ", (prevProps.selectedParcel === this.props.selectedParcel))
-        console.log("prevProps.selectedParcel: ", prevProps.selectedParcel)
-        console.log("this.props.selectedParcel: ", this.props.selectedParcel)
-        console.log("Status: ", this.state.status)
         if ((prevProps.selectedParcel !== this.props.selectedParcel) && 
             this.state.status != mapStateEnum.IDLE) {            
             this.onCancel()
