@@ -13,16 +13,16 @@ export default class Season {
         return get(farm(`/${farmData.id}/seasons`))
     }
   
-    static createSeasons(farmData) {
-        return post(farm(`/${farmData.id}/seasons`))
+    static createSeasons(farmData, payload) {
+        return post(farm(`/${farmData.id}/seasons`), payload)
     }
 
     static getSeason(seasonData) {
         return get(season(`/${seasonData}`))
     }
 
-    static updateSeason(seasonData) {
-        return put(season(`/${seasonData}`))
+    static updateSeason(seasonData, payload) {
+        return put(season(`/${seasonData}`), payload)
     }
 
     static archiveSeason(seasonData) {

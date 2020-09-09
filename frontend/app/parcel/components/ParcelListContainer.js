@@ -34,14 +34,13 @@ class ParcelListContainer extends React.Component {
             selectedParcelId: row.id
         })
     }
-
+ 
     render() {
         const { seasonParcelsTree, selectedParcel } = this.props
         // Keep this log, because parcelTree is not updated at the first time
         console.log("seasonParcelsTree: ", seasonParcelsTree)
         return (
             <ParcelList
-                key="parcel-list"
                 title="Parcels"   
                 parcels={seasonParcelsTree}
                 onRowClick={(e, d) => console.log("Event: ", e + " data: ", d)}

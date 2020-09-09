@@ -61,6 +61,7 @@ export default function(state = initialState, action) {
                 selectedSeasonId: newSelectedId,
             }
 
+        case createSeason.SUCCESS:
         case listSeasons.SUCCESS:
             return { ...state,
                 byId: {...byId, ...seasonsById},

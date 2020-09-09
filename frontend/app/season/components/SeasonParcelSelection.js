@@ -18,30 +18,32 @@ import {
 } from 'parcel/components'
 
 class SeasonParcelSelection extends React.Component {
-    
+   
+
     componentDidMount() {
         const { listSeasonParcel } = this.props
         listSeasonParcel && listSeasonParcel.maybeTrigger()
     }
 
     render() {
-        const { seasonParcelsTree } = this.props
-        console.log("seasonParcelsTree: ", seasonParcelsTree) 
+        const { seasonParcelsTree, ...rest } = this.props
         return (
             <ParcelList
-                key="season-selector-parcel"
-                parcels={seasonParcelsTree}
+                parcels={seasonParcelsTree.map((parcel, i) => (
+                    Object.assign(parcel, { tableData: { checked: false } })
+                ))}
                 components={{
                     Toolbar: props => null,
-                    //Header: props => null,
+                    //Header: props => null, 
                 }}
+                {...rest}
                 options={{
                     selection: true,
                     showSelectAllCheckbox: true,
                     showTextRowsSelected: false,
                 }}
             />
-        )
+        ) 
     }
 }
 

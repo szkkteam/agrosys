@@ -41,11 +41,11 @@ const validate = values => {
 const FormSeason = (props) => {
   const { invalid, handleSubmit, onCancel, submitting, pristine, action, dirty, resetSection, ...rest } = props
 
-  //console.log("rest: ", rest)
+  console.log("rest: ", rest)
   //console.log("action: ", action)
   //console.log("handleSubmit: ", handleSubmit)
   return (      
-    <form onSubmit={handleSubmit(action)} className="form-parcel">
+    <form onSubmit={handleSubmit} className="form-parcel">
         <Grid
             container
             direction="row"
@@ -60,6 +60,9 @@ const FormSeason = (props) => {
                         className="from-section"
                         variant="outlined"
                         formProps={{fullWidth: true}}
+                    />
+                    <HiddenField
+                        name="referenceParcels"
                     />
                 </Grid>
             </Grid>          
@@ -80,15 +83,12 @@ const withForm = reduxForm({
 
 const withConnect = connect(
     (state, props) => {
-        //const { initialValues : locinitialValues, ...rest } = props
+        const { initialValues : locinitialValues, ...rest } = props
+        console.log("locinitialValues: ", locinitialValues)
         return { 
-            /*
             initialValues: {
-                ...{
-                    soilTypeId: 1,
-                    agriculturalTypeId: 1,
-                }, ...locinitialValues
-            },*/
+                ...locinitialValues
+            },
             ...props
 
         }

@@ -23,6 +23,7 @@ export default ({
     return (     
         <div className="scroll-table">
             <Table
+                
                 columns={[
                     { 
                         title: 'Title',

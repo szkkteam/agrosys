@@ -18,13 +18,13 @@ DATA_FIELDS = (
 
 class SeasonSerializer(ModelSerializer):
 
-    reference_parcels = fields.Nested('ReferenceParcelListSerializer', many=True)
+    reference_parcels = fields.Nested('ReferenceParcelListSerializer', many=True, required=False)
 
     class Meta:
         model = Season
         #fields = FARM_FIELDS + ('fields',)
         fields = DATA_FIELDS
-        dump_only = ('id', 'reference_parcels',)
+        dump_only = ('id', )
 
 @api.serializer(many=True)
 class SeasonListSerializer(ModelSerializer):
@@ -32,5 +32,5 @@ class SeasonListSerializer(ModelSerializer):
     class Meta:
         model = Season
         fields = DATA_FIELDS
-        dump_only = ('id', 'reference_parcels', )
+        dump_only = ('id', )
 

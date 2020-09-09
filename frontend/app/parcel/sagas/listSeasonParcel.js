@@ -23,8 +23,10 @@ export const listSeasonParcelSaga = createRoutineSaga(
     function *successGenerator() {
         // Get the selected farm from the store
         const selectedSeason = yield select(selectSelectedSeasons) 
+        console.log("listSeasonParcelSaga-selectedSeason: ", selectedSeason)
         if (selectedSeason) {
             const parcels = yield call(ParcelApi.listSeasonParcels, selectedSeason)
+            console.log("listSeasonParcelSaga-parcels: ", parcels)
             yield put(listSeasonParcel.success({
                 ...normalizeParcels(parcels)
             }))

@@ -10,18 +10,14 @@ import {
 } from 'season/reducers/seasons'
 
 import {
+    createSeason, 
+} from 'season/actions'
+
+import {
     parcelTypesEnum
 } from 'reference/constants'
 
 export const KEY = 'parcels'
-
-
-const groupOrder = [
-    parcelTypesEnum.PHYSICAL_BLOCK,
-    parcelTypesEnum.FARMERS_BLOCK,
-    parcelTypesEnum.CADASTRAL_PARCEL,
-    parcelTypesEnum.AGRICULTURAL_PARCEL,
-]
 
 
 const initialState = {    
@@ -82,6 +78,12 @@ export default function(state = initialState, action) {
         case actionParcel.SELECT_CLEAR:
             return { ...state,
                 selectedParcelId: null,
+            }
+
+        case createSeason.SUCCESS:
+            return { ...state,
+                isLoading: false,
+                isLoaded: false,
             }
 
         case createParcel.SUCCESS:

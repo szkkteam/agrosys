@@ -17,8 +17,10 @@ export const normalizeSeasons = (data) => {
 }
 
 export const normalizeSeason = (data) => {
-    console.log("Data: ", data)
+    console.log("normalizeSeason-Data: ", data)
     const { entities, result} = normalize(data, seasonSchema)
+    console.log("normalizeSeason-entities: ", entities)
+    console.log("normalizeSeason-result: ", result)
     return {
         byId: entities.seasons,
         ids: result
