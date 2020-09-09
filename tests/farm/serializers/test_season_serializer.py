@@ -28,12 +28,14 @@ VALID_AGRICULTURAL_PARCEL_DATA = {
     'title': 'test field 1', 'referenceParcelType': 'AgriculturalParcel', 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': 2.0, 'eligibleArea': 1.5, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id 
 }
 
-
+VALID_PHYSICAL_BLOCK_DATA = {
+    'title': 'test field 1', 'referenceParcelType': 'PhysicalBlock', 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': 2.0, 'eligibleArea': 1.5, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id, 'parcels': [VALID_AGRICULTURAL_PARCEL_DATA]
+}
 
 VALID_INPUT_DATA = [
-    ({'title': 'Season 2019'}),
+    ({'title': 'Season 2019', 'referenceParcels': [VALID_AGRICULTURAL_PARCEL_DATA]}),
     ({'title': None, 'referenceParcels': [VALID_AGRICULTURAL_PARCEL_DATA]}),
-    ({'title': 'Season #$!"1'}),
+    ({'title': 'Season #$!"1', 'referenceParcels': [VALID_PHYSICAL_BLOCK_DATA]}),
 ]
 """
 INVALID_INPUT_DATA = [
@@ -65,11 +67,15 @@ def get_input_data(input, soil, agri_type):
         for i, v in enumerate(data):
             for key, value in v.items():
                 v[key] = value(soil, agri_type) if callable(value) else value
+                if key == 'parcels':
+                    v[key] = get_input_data(value, soil, agri_type)
             data[i] = v
 
     else:
         for key, value in data.items():
             data[key] = value(soil, agri_type) if callable(value) else value
+            if key == 'parcels':
+                data[key] = get_input_data(value, soil, agri_type)
 
     return data
 
@@ -82,8 +88,7 @@ class TestSeasonSerializer:
         serializer = SeasonSerializer()
         data = copy.deepcopy(input)
         if 'referenceParcels' in data:
-            data = get_input_data(data['referenceParcels'], soil, agri_type)
-        print("data: ", data)
+            data['referenceParcels'] = get_input_data(data['referenceParcels'], soil, agri_type)
         serializer.load(data)
     """
     @pytest.mark.parametrize("input,msg,field", INVALID_INPUT_DATA)
@@ -99,11 +104,10 @@ class TestSeasonSerializer:
         serializer = SeasonSerializer()
         data = copy.deepcopy(input)
         if 'referenceParcels' in data:
-            data = get_input_data(data['referenceParcels'], soil, agri_type)
+            data['referenceParcels'] = get_input_data(data['referenceParcels'], soil, agri_type)
         result = serializer.load(data)
         result = serializer.dump(result)
         assert result['title'] == data['title']
-
 
 
 class TestSeasonListSerializer:

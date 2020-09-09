@@ -28,6 +28,7 @@ REFERENCE_PARCEL_BASE_DATA_FIELDS = (
     'soil_type',
     'soil_type_id',
     'parcels',
+    'parcels_add',
     'ancestor_id',
 )
 
@@ -57,7 +58,8 @@ class ReferenceParcelBaseSerializer(ModelSerializer):
     agricultural_type_id = fields.Integer(required=True, validate=lambda x: object_id_exists(x, AgriculturalType))
     agricultural_type = fields.Nested('AgriculturalTypeSerializer', many=False)
 
-    parcels = fields.Nested('ReferenceParcelListSerializer', many=True, exclude=('parcels',))
+    parcels = fields.Nested('ReferenceParcelListSerializer', many=True, exclude=('parcels',), dump_only=True)
+    parcels_add = fields.Nested('ReferenceParcelListSerializer', many=True, exclude=('parcels',), load_only=True, data_key='parcels')
 
     ancestor_id = fields.Integer(required=False, default=None, validate=lambda x: parcel_id_exists(x, ReferenceParcel))
 
@@ -65,8 +67,8 @@ class ReferenceParcelBaseSerializer(ModelSerializer):
         model = ReferenceParcel
         model_converter = GeometryModelConverter
         fields = REFERENCE_PARCEL_BASE_DATA_FIELDS
-        dump_only = ('id', 'agricultural_type', 'soil_type',)
-        load_only = ('agricultural_type_id', 'soil_type_id', 'ancestor_id',)
+        dump_only = ('id', 'agricultural_type', 'soil_type', 'parcels',)
+        load_only = ('agricultural_type_id', 'soil_type_id', 'ancestor_id', 'parcels_add',)
 
     @validates_schema
     def validate_area(self, data, **kwargs):
@@ -100,6 +102,6 @@ class ReferenceParcelBaseListSerializer(ReferenceParcelBaseSerializer):
         model = ReferenceParcel
         model_converter = GeometryModelConverter
         fields = REFERENCE_PARCEL_BASE_DATA_FIELDS
-        dump_only = ('id', 'agricultural_type', 'soil_type',)
-        load_only = ('agricultural_type_id', 'soil_type_id', 'ancestor_id', )
+        dump_only = ('id', 'agricultural_type', 'soil_type', 'parcels',)
+        load_only = ('agricultural_type_id', 'soil_type_id', 'ancestor_id', 'parcels_add',)
 

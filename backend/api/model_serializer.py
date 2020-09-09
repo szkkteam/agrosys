@@ -83,6 +83,7 @@ class OneOfSchema(ModelSerializer):
         return obj.__class__.__name__
 
     def dump(self, obj, *, many=None, **kwargs):
+        print("Dumping one of sschema", **kwargs)
         errors = {}
         result_data = []
         result_errors = {}
@@ -129,6 +130,7 @@ class OneOfSchema(ModelSerializer):
         return result
 
     def load(self, data, *, many=None, partial=None, unknown=None, **kwargs):
+        print("Loading one of sschema", kwargs)
         errors = {}
         result_data = []
         result_errors = {}

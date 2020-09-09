@@ -15,39 +15,24 @@ from backend.security.decorators import auth_required
 from backend.api.decorators import param_converter
 from backend.extensions.api import api
 
-from ..models import ReferenceParcel, Season, SeasonReferenceParcel, ReferenceParcelRelation, Farm
+from ..models import ReferenceParcel, Season, ReferenceParcelRelation, Farm
 from ..services import SearchReferenceParcel
 from .blueprint import farm
 
-@api.model_resource(farm, ReferenceParcel, '/parcels', '/parcels/<int:parcel_id>')
+@api.model_resource(farm, ReferenceParcel, '/seasons/<int:season_id>/parcels', '/parcels/<int:parcel_id>')
 class ReferenceParcelResource(ModelResource):
     """Resource to create a signle parcel without any assignment, or edit, get, delete a parcel based on primary key"""
-    include_methods = (CREATE, DELETE, GET, PATCH, PUT)
+    include_methods = (CREATE, LIST, DELETE, GET, PATCH, PUT)
+    exclude_decorators = (LIST, )
     method_decorators = {
-        CREATE: (auth_required, ),
         DELETE: (auth_required, ),
         GET: (auth_required, ),
         PATCH: (auth_required, ),
         PUT: (auth_required, ),
-    }
-
-
-@api.model_resource(farm, ReferenceParcel,
-                    '/seasons/<int:season_id>/parcels',
-                    '/seasons/<int:season_id>/parcels/<int:parcel_id>',
-                    endpoint=(
-                        "season_reference_parcel_resource",
-                        "season_reference_parcels_resource",))
-class SeasonReferenceParcelResource(ModelResource):
-    """Resource to create a parcel and immidiatly assign it to a season. Also relationships are handled here."""
-    include_methods = (CREATE, LIST, DELETE, PUT)
-    exclude_decorators = (LIST, PUT, DELETE)
-    method_decorators = {
-        CREATE: (auth_required, ),
+                CREATE: (auth_required, ),
         LIST: (auth_required, ),
-        DELETE: (auth_required, ),
-        PUT: (auth_required, ),
     }
+
 
     def create(self, reference_parcel, errors, **kwargs):
         if errors:
@@ -58,21 +43,10 @@ class SeasonReferenceParcelResource(ModelResource):
         season.save()
         return self.created(reference_parcel)
 
-    def list(self, *args, **kwargs):
-        result = ReferenceParcel.join(SeasonReferenceParcel).filter(SeasonReferenceParcel.season_id == kwargs['season_id'])
+    @param_converter(season_id=int)
+    def list(self, season_id, *args, **kwargs):
+        result = ReferenceParcel.join(Season).filter(Season.id == season_id)
         return self.serializer.dump(result, many=True)
-
-    @param_converter(season_id=int, parcel_id=int)
-    def put(self, season_id=None, parcel_id=None, **kwargs):
-        season = Season.query.get_or_404(season_id)
-        parcel = ReferenceParcel.query.get_or_404(parcel_id)
-        season.reference_parcels.append(parcel)
-        return self.updated(parcel)
-
-    @param_converter(season_id=int, parcel_id=int)
-    def delete(self, season_id, parcel_id, **kwargs):
-        fdp = SeasonReferenceParcel.filter_by(season_id=season_id, reference_parcel_id=parcel_id).first_or_404()
-        return self.deleted(fdp)
 
 
 @api.model_resource(farm, ReferenceParcel,

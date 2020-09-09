@@ -27,10 +27,6 @@ from .reference_parcel_relation import ReferenceParcelRelation
 from .reference_parcel_mixin import ReferenceParcelMixin
 from .reference_parcel_property import ReferenceParcelProperty
 
-def create_season(season):
-    from ..models import SeasonReferenceParcel
-    return SeasonReferenceParcel(season=season)
-
 def create_production(production):
     from ..models import ReferenceParcelProduction
     return ReferenceParcelProduction(production=production)
@@ -62,10 +58,9 @@ class ReferenceParcel(ReferenceParcelMixin, TimestampMixin, BaseModel):
     agricultural_type = relationship('AgriculturalType', uselist=False)
 
     # Season relationship definition
-    reference_parcel_seasons = relationship('SeasonReferenceParcel', back_populates='reference_parcel',
-                                 cascade='all, delete')
-    seasons = association_proxy('season_reference_parcels', 'season',
-                              creator=lambda season: create_season(season))
+    # FIXME: Would be better to set nullable=False, but that require a major update in the unit test setup.
+    season_id = foreign_key('Season', nullable=True, onupdate="CASCADE", ondelete="CASCADE")
+    season = relationship('Season', back_populates='reference_parcels')
 
     # Group relationship definition
     groups = association_proxy('group_parcels', 'group',)

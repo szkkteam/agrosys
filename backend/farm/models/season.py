@@ -19,9 +19,6 @@ from backend.database import (
     foreign_key
 )
 
-def create(reference_parcel):
-    from ..models import SeasonReferenceParcel
-    return SeasonReferenceParcel(reference_parcel=reference_parcel)
 
 class Season(Model):
     title = Column(String(64), nullable=True)
@@ -29,10 +26,8 @@ class Season(Model):
     farm_id = foreign_key('Farm', nullable=False, ondelete='CASCADE',)
     farm = relationship('Farm', back_populates='seasons')
 
-    season_reference_parcels = relationship('SeasonReferenceParcel', back_populates='season',
-                                 cascade='all, delete')
-    reference_parcels = association_proxy('season_reference_parcels', 'reference_parcel',
-                              creator=lambda reference_parcel: create(reference_parcel))
+    reference_parcels = relationship('ReferenceParcel', back_populates='season',
+                         cascade='all, delete-orphan')
 
     archived_at = Column(DateTime, default=None, nullable=True)
 
