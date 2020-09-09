@@ -11,7 +11,7 @@ export const seasonsSchema = new schema.Array(seasonSchema)
 export const normalizeSeasons = (data) => {
     const { entities, result} = normalize(data, seasonsSchema)
     return {
-        byId: entities.seasons,
+        ...entities,
         ids: result
     }
 }
@@ -22,7 +22,7 @@ export const normalizeSeason = (data) => {
     console.log("normalizeSeason-entities: ", entities)
     console.log("normalizeSeason-result: ", result)
     return {
-        byId: entities.seasons,
+        ...entities,
         ids: result
     }
 }

@@ -14,7 +14,7 @@ const initialState = {
 
 export default function(state = initialState, action) {
     const { type, payload } = action
-    const { byId: agriculturalTypesById, ids } = payload || {}
+    const { agriculturalTypes: agriculturalTypesById, ids } = payload || {}
     const { byId } = state
 
     switch(type) {
@@ -26,7 +26,7 @@ export default function(state = initialState, action) {
         case listAgriculturalTypes.SUCCESS:
             return { ...state,
                 byId: {...byId, ...agriculturalTypesById},
-                ids: _.uniq([...state.ids, ...ids]),
+                ids: _.uniq(_.concat(state.ids, ids)),
                 isLoaded: true,  
             }
 

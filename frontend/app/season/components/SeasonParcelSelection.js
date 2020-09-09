@@ -10,7 +10,7 @@ import {
 } from 'parcel/actions'
 
 import {
-    getSelectedSeasonParcelsTree,
+    getLastSeasonParcelsTree,
 } from 'parcel/selectors'
 
 import {
@@ -55,7 +55,7 @@ const withReducerSeasons = injectReducer(require('season/reducers/seasons'))
 const withReducerSoilTypes = injectReducer(require('reference/reducers/soilTypes'))
 
 const mapStateToProps = (state) => (
-    { seasonParcelsTree: getSelectedSeasonParcelsTree(state) }
+    { seasonParcelsTree: getLastSeasonParcelsTree(state) }
 )
 
 const withConnect = connect(

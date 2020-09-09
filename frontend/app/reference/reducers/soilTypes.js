@@ -14,7 +14,7 @@ const initialState = {
 
 export default function(state = initialState, action) {
     const { type, payload } = action
-    const { byId: soilTypesById, ids } = payload || {}
+    const { soilTypes: soilTypesById, ids } = payload || {}
     const { byId } = state
     switch(type) {
         case listSoilTypes.REQUEST:
@@ -25,7 +25,7 @@ export default function(state = initialState, action) {
         case listSoilTypes.SUCCESS:
             return { ...state,
                 byId: {...byId, ...soilTypesById},
-                ids: _.uniq([...state.ids, ...ids]),
+                ids: _.uniq(_.concat(state.ids, ids)),
                 isLoaded: true,  
             }
 

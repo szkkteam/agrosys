@@ -19,7 +19,7 @@ export const normalizeParcels = (data) => {
     console.log("Normalize entities: ", entities)
     console.log("Normalize result: ", result)
     return {
-        byId: entities.parcels,
+        ...entities,
         ids: result
     }
 }

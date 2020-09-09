@@ -34,7 +34,7 @@ export default ({
                     Toolbar: props => null,
                     Header: props => null,
                 }}
-                //{...props}
+                {...props}
             />
             <Button
                 style={{width: "100%"}}

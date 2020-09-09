@@ -32,7 +32,7 @@ const initialState = {
 
 export default function(state = initialState, action) {
     const { type, payload } = action
-    const { byId: seasonsById, ids } = payload || {}
+    const { seasons: seasonsById, ids } = payload || {}
     const { byId } = state
 
     switch(type) {
@@ -53,12 +53,11 @@ export default function(state = initialState, action) {
                 }
             }
 
-        case actionSeason.SET:
-            const { selected } = payload
-            const newSelectedId = normalizeSeason(selected).ids
-            storage.selectSeason(newSelectedId)
+        case actionSeason.SET_SEASON:
+            const { selectedSeasonId } = payload
+            storage.selectSeason(selectedSeasonId)
             return { ...state,
-                selectedSeasonId: newSelectedId,
+                selectedSeasonId,
             }
 
         case createSeason.SUCCESS:

@@ -29,7 +29,7 @@ export const createSeasonSaga = createRoutineFormSaga(
         ...normalizeSeason(season)
       }))  
       // Set the current season to the new one
-      yield put(actionSeason.set({selected: season}))  
+      yield put(actionSeason.setSeason({selectedSeasonId: season}))  
     }
     
 

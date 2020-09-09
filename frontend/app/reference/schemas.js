@@ -9,7 +9,7 @@ export const normalizeAgriculturalTypes = (data) => {
     const { entities, result} = normalize(data, agriculturalTypesSchema)
     console.log("entities: ", entities)
     return {
-        byId: entities.agriculturalTypes,
+        ...entities,
         ids: result
     }
 }
@@ -29,7 +29,7 @@ export const soilTypesSchema = new schema.Array(soilTypeSchema)
 export const normalizeSoilTypes = (data) => {
     const { entities, result} = normalize(data, soilTypesSchema)
     return {
-        byId: entities.soilTypes,
+        ...entities,
         ids: result
     }
 }

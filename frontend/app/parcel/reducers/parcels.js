@@ -11,6 +11,7 @@ import {
 
 import {
     createSeason, 
+    actionSeason,
 } from 'season/actions'
 
 import {
@@ -31,7 +32,7 @@ const initialState = {
 
 export default function(state = initialState, action) {
     const { type, payload } = action
-    const { byId: parcelsById, ids } = payload || {}
+    const { parcels: parcelsById, ids } = payload || {}
     const { byId } = state
     
 
@@ -54,9 +55,16 @@ export default function(state = initialState, action) {
                 ...state,
                 byId: { ...byId, [groupId]: {
                         ...parcelById,
-                        parcels: _.uniq([...parcelById.parcels, ...[parcelId]])
+                        parcels: _.uniq(_.concat(parcelById.parcels, parcelId))
                     }
                 }
+            }
+
+        case actionSeason.SET_SEASON:
+            return { ...state,
+                isLoading: false,
+                isLoaded: false,
+                selectedParcelId: null,
             }
 
         case actionParcel.SELECT_PARCEL:
@@ -81,16 +89,27 @@ export default function(state = initialState, action) {
             }
 
         case createSeason.SUCCESS:
-            return { ...state,
-                isLoading: false,
-                isLoaded: false,
+            console.log("createSeason.SUCCESS-payload: ", payload)
+            // Handle the case, when a season is created with new parcels
+            if (parcelsById) {
+                return { ...state,
+                    byId: {...byId, ...parcelsById},
+                    ids: _.uniq(_.concat(state.ids, Object.keys(parcelsById).map((parcel, i) => ( parcel.id )))),
+                    isLoaded: true,  
+                }
+            // Handle the case, when a season is without any new parcel
+            } else {
+                return { ...state,
+                    isLoaded: true,  
+                }
             }
+
 
         case createParcel.SUCCESS:
         case listSeasonParcel.SUCCESS:
             return { ...state,
                 byId: {...byId, ...parcelsById},
-                ids: _.uniq([...state.ids, ...ids]),
+                ids: _.uniq(_.concat(state.ids, ids)),
                 isLoaded: true,  
             }
 
@@ -116,4 +135,7 @@ export const selectSelectedSeasonParcels = (state) => {
     const season = selectSeasons(state)
     return _.get(season.byId, [season.selectedSeasonId, 'referenceParcels'], [])
 }
-
+export const selectLastSeasonParcels = (state) => {
+    const season = selectSeasons(state)
+    return _.get(season.byId, [_.last(season.ids), 'referenceParcels'], [])
+}

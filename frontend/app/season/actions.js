@@ -1,7 +1,7 @@
 import { createRoutine, createRoutineActions } from 'actions'
 
 const seasonActionsTypes = [
-    'SET',
+    'SET_SEASON',
     'ADD_PARCEL',
 ]
 

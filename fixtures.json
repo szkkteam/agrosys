@@ -82,6 +82,20 @@
     ]
   },
   {
+    "model": "SoilType", "items": [
+      {
+        "id": 1,        
+        "title": "Soil Type 1",
+        "yield_modifier": 1.1
+      },
+      {
+        "id": 2,        
+        "title": "Soil Type 2",
+        "yield_modifier": 0.8
+      }
+    ]
+  },
+  {
     "model": "AgriculturalType", "items": [
       {
         "id": 1,

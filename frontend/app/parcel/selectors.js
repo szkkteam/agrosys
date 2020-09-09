@@ -9,6 +9,7 @@ import {
     selectSelectedParcelId,
     selectParcelsById,
     selectSelectedSeasonParcels,
+    selectLastSeasonParcels,
 } from 'parcel/reducers/parcels'
 
 import {
@@ -55,7 +56,7 @@ const renderButton = (parcelType) => {
 
 const groupByAgriculturalType = (data, agriculturalTypes) => {    
     const grouped = data.reduce((grouped, parcel) => {        
-        if (!parcel.agriculturalType) { return grouped}                     
+        if (!parcel || !parcel.agriculturalType) { return grouped}                     
         let item = grouped[parcel.agriculturalType.id] || []
         item.push(parcel)
         grouped[parcel.agriculturalType.id] = item
@@ -71,6 +72,24 @@ const groupByAgriculturalType = (data, agriculturalTypes) => {
     
 const sortBySize = (data) =>
     data.sort((a, b) => parseFloat(a.totalArea) > parseFloat(b.totalArea)? -1 : 1)
+
+
+const constructParcelTree = (normalizedParcels) => (
+    normalizedParcels.reduce((flatAccu, parcel) => {
+        if (!parcel) return flatAccu              
+        flatAccu.push(parcel)
+        // If parcel has nested parcels
+        if (parcel.parcels && parcel.parcels.length) {
+            // Extend the nested parcels with the parent ID
+            const subParcels = parcel.parcels.map((subParcel, i) => {
+                return Object.assign(subParcel, {parentParcelId: parcel.id})
+            })
+            // Concat the sub parcels to the accumulator
+            flatAccu = flatAccu.concat(subParcels)
+        }
+        return flatAccu
+    }, [])
+)
 
 export const getSelectedParcel = createSelector(
     [
@@ -120,6 +139,24 @@ export const getSelectedSeasonParcelsTreeDenormalized = createSelector(
         selectParcelsById
     ],
     (parcelIds, soilTypes, agriculturalTypes, parcels) => {
+        console.log("getSelectedSeasonParcelsTreeDenormalized-parcelIds: ", parcelIds)
+        console.log("getSelectedSeasonParcelsTreeDenormalized-entities: ", {entities: {parcels, soilTypes, agriculturalTypes}})
+        // Filter out the selected season id
+        return deNormalizeParcels({ ids: parcelIds, ...{entities: {parcels, soilTypes, agriculturalTypes}}})
+    }
+)
+
+
+export const getLastSeasonParcelsTreeDenormalized = createSelector(
+    [
+        selectLastSeasonParcels,
+        selectSoilsTypesbyId,
+        selectAgriculturalTypesbyId,
+        selectParcelsById
+    ],
+    (parcelIds, soilTypes, agriculturalTypes, parcels) => {
+        console.log("getSelectedSeasonParcelsTreeDenormalized-parcelIds: ", parcelIds)
+        console.log("getSelectedSeasonParcelsTreeDenormalized-entities: ", {entities: {parcels, soilTypes, agriculturalTypes}})
         // Filter out the selected season id
         return deNormalizeParcels({ ids: parcelIds, ...{entities: {parcels, soilTypes, agriculturalTypes}}})
     }
@@ -130,20 +167,18 @@ export const getSelectedSeasonParcelsTree = createSelector(
     [getSelectedSeasonParcelsTreeDenormalized],
     (normalizedParcels) => {
         // Keep this log, because parcelTree is not updated at the first time
-        console.log("normalizedParcels: ", normalizedParcels)
-        return normalizedParcels.reduce((flatAccu, parcel) => {            
-            flatAccu.push(parcel)
-            // If parcel has nested parcels
-            if (parcel.parcels && parcel.parcels.length) {
-                // Extend the nested parcels with the parent ID
-                const subParcels = parcel.parcels.map((subParcel, i) => {
-                    return Object.assign(subParcel, {parentParcelId: parcel.id})
-                })
-                // Concat the sub parcels to the accumulator
-                flatAccu = flatAccu.concat(subParcels)
-            }
-            return flatAccu
-        }, [])
+        console.log("getSelectedSeasonParcelsTree-normalizedParcels: ", normalizedParcels)
+        return constructParcelTree(normalizedParcels)
+    }
+)
+
+
+export const getLastSeasonParcelsTree = createSelector(
+    [getLastSeasonParcelsTreeDenormalized],
+    (normalizedParcels) => {
+        // Keep this log, because parcelTree is not updated at the first time
+        console.log("getSelectedSeasonParcelsTree-normalizedParcels: ", normalizedParcels)
+        return constructParcelTree(normalizedParcels)
     }
 )
 

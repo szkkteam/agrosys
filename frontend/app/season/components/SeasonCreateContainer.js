@@ -50,6 +50,7 @@ class SeasonCreateContainer extends React.Component {
                 <FormSeason 
                     //action={createSeason}
                     onSubmit={createSeason}
+                    onSubmitSuccess={onClose}
                     initialValues={{
                         referenceParcels: convertReferenceParcels(selectedParcelsList),
                     }}
