@@ -139,8 +139,8 @@ export const getSelectedSeasonParcelsTreeDenormalized = createSelector(
         selectParcelsById
     ],
     (parcelIds, soilTypes, agriculturalTypes, parcels) => {
-        console.log("getSelectedSeasonParcelsTreeDenormalized-parcelIds: ", parcelIds)
-        console.log("getSelectedSeasonParcelsTreeDenormalized-entities: ", {entities: {parcels, soilTypes, agriculturalTypes}})
+        //console.log("getSelectedSeasonParcelsTreeDenormalized-parcelIds: ", parcelIds)
+        //console.log("getSelectedSeasonParcelsTreeDenormalized-entities: ", {entities: {parcels, soilTypes, agriculturalTypes}})
         // Filter out the selected season id
         return deNormalizeParcels({ ids: parcelIds, ...{entities: {parcels, soilTypes, agriculturalTypes}}})
     }
@@ -155,8 +155,8 @@ export const getLastSeasonParcelsTreeDenormalized = createSelector(
         selectParcelsById
     ],
     (parcelIds, soilTypes, agriculturalTypes, parcels) => {
-        console.log("getSelectedSeasonParcelsTreeDenormalized-parcelIds: ", parcelIds)
-        console.log("getSelectedSeasonParcelsTreeDenormalized-entities: ", {entities: {parcels, soilTypes, agriculturalTypes}})
+        //console.log("getSelectedSeasonParcelsTreeDenormalized-parcelIds: ", parcelIds)
+        //console.log("getSelectedSeasonParcelsTreeDenormalized-entities: ", {entities: {parcels, soilTypes, agriculturalTypes}})
         // Filter out the selected season id
         return deNormalizeParcels({ ids: parcelIds, ...{entities: {parcels, soilTypes, agriculturalTypes}}})
     }
@@ -167,7 +167,7 @@ export const getSelectedSeasonParcelsTree = createSelector(
     [getSelectedSeasonParcelsTreeDenormalized],
     (normalizedParcels) => {
         // Keep this log, because parcelTree is not updated at the first time
-        console.log("getSelectedSeasonParcelsTree-normalizedParcels: ", normalizedParcels)
+        //console.log("getSelectedSeasonParcelsTree-normalizedParcels: ", normalizedParcels)
         return constructParcelTree(normalizedParcels)
     }
 )
@@ -177,7 +177,7 @@ export const getLastSeasonParcelsTree = createSelector(
     [getLastSeasonParcelsTreeDenormalized],
     (normalizedParcels) => {
         // Keep this log, because parcelTree is not updated at the first time
-        console.log("getSelectedSeasonParcelsTree-normalizedParcels: ", normalizedParcels)
+        //console.log("getSelectedSeasonParcelsTree-normalizedParcels: ", normalizedParcels)
         return constructParcelTree(normalizedParcels)
     }
 )

@@ -35,7 +35,7 @@ class ParcelListContainer extends React.Component {
         })
     }
  
-    render() {
+    render() { 
         const { seasonParcelsTree, selectedParcel } = this.props
         // Keep this log, because parcelTree is not updated at the first time
         console.log("seasonParcelsTree: ", seasonParcelsTree)
@@ -45,6 +45,7 @@ class ParcelListContainer extends React.Component {
                 parcels={seasonParcelsTree}
                 onRowClick={(e, d) => console.log("Event: ", e + " data: ", d)}
                 onRowClick={this.onSelect}
+                parentChildData={(row, rows) => rows.find(a => a.id === row.parentParcelId)}
                 options={{
                     rowStyle: rowData => ({
                         backgroundColor: (selectedParcel && selectedParcel.id === rowData.id) ? '#EEE' : '#FFF'

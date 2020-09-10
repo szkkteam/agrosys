@@ -10,7 +10,7 @@ import {
 } from 'parcel/actions'
 
 import {
-    getLastSeasonParcelsTree,
+    getLastSeasonParcelsTreeDenormalized,
 } from 'parcel/selectors'
 
 import {
@@ -27,22 +27,29 @@ class SeasonParcelSelection extends React.Component {
 
     render() {
         const { seasonParcelsTree, ...rest } = this.props
+        console.log("SeasonParcelSelection-seasonParcelsTree: ", seasonParcelsTree)
         return (
-            <ParcelList
-                parcels={seasonParcelsTree.map((parcel, i) => (
-                    Object.assign(parcel, { tableData: { checked: false } })
-                ))}
-                components={{
-                    Toolbar: props => null,
-                    //Header: props => null, 
-                }}
-                {...rest}
-                options={{
-                    selection: true,
-                    showSelectAllCheckbox: true,
-                    showTextRowsSelected: false,
-                }}
-            />
+            <React.Fragment>
+                { seasonParcelsTree.length?  
+                    <ParcelList
+                        parcels={seasonParcelsTree.map((parcel, i) => (
+                            Object.assign(parcel, { tableData: { checked: false } })
+                        ))}
+                        components={{
+                            Toolbar: props => null,
+                            //Header: props => null, 
+                        }}
+                        {...rest}
+                        options={{
+                            selection: true,
+                            showSelectAllCheckbox: true,
+                            showTextRowsSelected: false,
+                        }}
+                    />
+                : null }
+            </React.Fragment>
+
+            
         ) 
     }
 }
@@ -55,7 +62,7 @@ const withReducerSeasons = injectReducer(require('season/reducers/seasons'))
 const withReducerSoilTypes = injectReducer(require('reference/reducers/soilTypes'))
 
 const mapStateToProps = (state) => (
-    { seasonParcelsTree: getLastSeasonParcelsTree(state) }
+    { seasonParcelsTree: getLastSeasonParcelsTreeDenormalized(state) }
 )
 
 const withConnect = connect(

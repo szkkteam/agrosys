@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { bindRoutineCreators } from 'actions'
 import { injectReducer, injectSagas } from 'utils/async'
 
-import { listSeasons, actionSeason } from 'season/actions'
+import { listSeasons, setSeason } from 'season/actions'
 import { selectSeasonsList, selectSelectedSeasons } from 'season/reducers/seasons'
 
 import {
@@ -38,8 +38,8 @@ class SeasonContainer extends React.Component {
     
     onSelect = (e, row) => {
         //console.log("Row: ", row)
-        const { actionSeason } = this.props
-        actionSeason && actionSeason.setSeason({
+        const { setSeason } = this.props
+        setSeason && setSeason.maybeTrigger({
             selectedSeasonId: row.id
         })
         //this.popover.handleClose()
@@ -61,6 +61,11 @@ class SeasonContainer extends React.Component {
                     seasons={seasons}
                     onRowClick={this.onSelect}
                     onAdd={this.openModal}
+                    options={{
+                        rowStyle: rowData => ({
+                            backgroundColor: (selectedSeason && selectedSeason.id === rowData.id) ? '#EEE' : '#FFF'
+                          })
+                    }}
                 />
             </SeasonPopover>
         )
@@ -69,7 +74,8 @@ class SeasonContainer extends React.Component {
 
 
 const withReducer = injectReducer(require('season/reducers/seasons'))
-const withSaga = injectSagas(require('season/sagas/seasons'))
+const withSagaList = injectSagas(require('season/sagas/seasons'))
+const withSagaSet = injectSagas(require('season/sagas/setSeason'))
 
 const withConnectSeasons = connect(
   (state) => ({
@@ -77,11 +83,12 @@ const withConnectSeasons = connect(
     isAuthenticated: state.security.isAuthenticated,
     selectedSeason: selectSelectedSeasons(state)
    }),
-  (dispatch) => bindRoutineCreators({ listSeasons, actionSeason }, dispatch),
+  (dispatch) => bindRoutineCreators({ listSeasons, setSeason }, dispatch),
 )
 
 export default compose(
   withReducer,
-  withSaga,
+  withSagaList,
+  withSagaSet,
   withConnectSeasons,
 )(SeasonContainer)

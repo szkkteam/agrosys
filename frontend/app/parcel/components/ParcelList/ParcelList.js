@@ -41,7 +41,6 @@ export default ({
                 emptyRowsWhenPaging={false}
                 data={parcels} 
                 style={{overflowX: "hidden"}}             
-                parentChildData={(row, rows) => rows.find(a => a.id === row.parentParcelId)}
                 options={{
                     pageSize: parcels.length,
                     doubleHorizontalScroll: true,

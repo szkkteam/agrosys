@@ -51,7 +51,7 @@ class MapContainer extends React.Component {
         this.draw = React.createRef();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps) {        
         if ((prevProps.selectedParcel !== this.props.selectedParcel) && 
             this.state.status != mapStateEnum.IDLE) {            
             this.onCancel()

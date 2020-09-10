@@ -12,15 +12,16 @@ import './seasonlist.scss'
 export default ({
     seasons,
     onAdd,
+    options,
     ...props,
 }) => { 
-
+    console.log("SeasonList-seasons: ", seasons)
     return (    
         <div style={{ maxWidth: "100%", minWidth: "200px" }}>
             <Table
                 columns={[
                     {
-                        //title: 'Title',
+                        title: 'Title',
                         field: 'title',
                         filtering: false,
                         search: false,
@@ -32,7 +33,11 @@ export default ({
                 components={{
                     Pagination: props => null,
                     Toolbar: props => null,
-                    Header: props => null,
+                    //Header: props => null,
+                }}
+                options={{
+                    pageSize: seasons.length,
+                    ...options,
                 }}
                 {...props}
             />

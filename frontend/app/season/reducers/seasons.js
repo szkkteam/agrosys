@@ -1,10 +1,10 @@
 import { 
     listSeasons,
     actionSeason,
+    setSeason,
     loadSeasonDetail,
     createSeason,
     updateSeason,
-    setSeason,
     addParcelToSeason,
 } from 'season/actions'
 
@@ -53,8 +53,9 @@ export default function(state = initialState, action) {
                 }
             }
 
-        case actionSeason.SET_SEASON:
+        case setSeason.SUCCESS:
             const { selectedSeasonId } = payload
+            console.log("season-setSeason.SUCCESS-payload: ", payload)
             storage.selectSeason(selectedSeasonId)
             return { ...state,
                 selectedSeasonId,

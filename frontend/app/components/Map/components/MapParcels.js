@@ -39,7 +39,6 @@ class MapParcels extends React.Component {
         listAgriculturalTypes && listAgriculturalTypes.maybeTrigger()
     }
 
-
     onSelectEmpty = () => {
         const { preventEmptyClick, actionParcel } = this.props
         //console.log("isDrawing: ", isDrawing)

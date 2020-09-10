@@ -60,13 +60,6 @@ export default function(state = initialState, action) {
                 }
             }
 
-        case actionSeason.SET_SEASON:
-            return { ...state,
-                isLoading: false,
-                isLoaded: false,
-                selectedParcelId: null,
-            }
-
         case actionParcel.SELECT_PARCEL:
             const { selectedParcelId } = payload
             // If selection is the same, perform deselect logic
