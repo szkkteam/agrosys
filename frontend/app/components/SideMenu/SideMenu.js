@@ -24,6 +24,7 @@ import { ProductionMenu } from 'production/menus'
 
 import {
   MapMenu,
+  TemplateMenu,
 } from 'pages/menus'
 
 import './sidemenu.scss'
@@ -47,6 +48,10 @@ let items = [
   },
   {
     src: MapMenu,
+    type: "menuItem",
+  },
+  {
+    src: TemplateMenu,
     type: "menuItem",
   },
   {

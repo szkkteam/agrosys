@@ -11,6 +11,7 @@ import {
 
 import {
   MapPage,
+  TemplatePage,
 } from 'pages/pages'
 
 import {
@@ -56,6 +57,10 @@ export const ROUTES = {
    * Map
    */
   MapPage: 'MapPage',
+  /**
+   * Templates
+   */
+  TemplatePage: 'TemplatePage',
 
   /**
    * Production
@@ -115,6 +120,15 @@ const routes = [
     key: ROUTES.MapPage,
     path: '/map',
     component: MapPage,
+    routeComponent: ProtectedRoute,
+  },
+  /**
+   * Templates
+   */
+  {
+    key: ROUTES.TemplatePage,
+    path: '/templates',
+    component: TemplatePage,
     routeComponent: ProtectedRoute,
   },
   

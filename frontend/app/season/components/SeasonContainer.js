@@ -67,7 +67,7 @@ class SeasonContainer extends React.Component {
                           })
                     }}
                 />
-            </SeasonPopover>
+            </SeasonPopover> 
         )
     }
 }
