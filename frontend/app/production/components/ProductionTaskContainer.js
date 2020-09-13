@@ -113,7 +113,7 @@ export default class ProductionTaskContainer extends React.Component {
         return (
             <div>
             <Calendar
-                tasks={tasks}
+                events={tasks}
                 onSelectEvent={onTaskSelect}
                 onDoubleClickEvent={this.onDoubleClick}
 

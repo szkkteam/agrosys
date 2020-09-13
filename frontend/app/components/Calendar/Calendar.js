@@ -40,9 +40,9 @@ export default class MyCalendar extends React.Component {
     let endDate = moment(new Date()).toDate()
 
     // If tasks are already added before the switch re-calculate the date ranges
-    if (props.tasks.length) {
-      startDate = props.tasks[0].dates.startDate
-      endDate = props.tasks[props.tasks.length - 1].dates.endDate
+    if (props.events.length) {
+      startDate = props.events[0].dates.startDate
+      endDate = props.events[props.events.length - 1].dates.endDate
     }
 
     this.state = {
@@ -54,7 +54,7 @@ export default class MyCalendar extends React.Component {
 
   //onNavigate={(d, v, c) => console.log("D: " + d + " V: " + v + " C: ", c)}
   render() {
-    const { tasks, ...props } = this.props
+    const { events, ...props } = this.props
     const { startDate, endDate } = this.state
     const length = dates.diff(startDate, endDate, 'day')
     return (
@@ -64,7 +64,7 @@ export default class MyCalendar extends React.Component {
               selectable
               step={60}
               showMultiDayTimes
-              events={tasks}
+              events={events}
               messages={{
                 list: 'List',
               }}
