@@ -230,6 +230,10 @@ def products(model_factory):
     ag_p_region2.specific_product.properties['Hasznosítási terület'] = 'szántó - szemes fehérje takarmánynövények'
     ag_p_region5.specific_product.properties['Hasznosítási terület'] = 'szántó - szemes fehérje takarmánynövények'
 
+@pytest.fixture()
+def specific_product(products):
+    from backend.reference.models import SpecificProduct
+    return SpecificProduct.all()[0]
 
 @pytest.fixture()
 def models(request, model_factory):

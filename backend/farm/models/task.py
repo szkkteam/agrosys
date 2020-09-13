@@ -30,6 +30,7 @@ class TaskStatus(enum.Enum):
 class TaskTypes(enum.Enum):
     TaskGeneral = 'TaskGeneral'
     TaskPruning = 'TaskPruning'
+    TaskHarvesting = 'TaskHarvesting'
 
 
 class Task(TaskMixin, TimestampMixin, BaseModel):

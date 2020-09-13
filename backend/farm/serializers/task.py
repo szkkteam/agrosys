@@ -12,6 +12,7 @@ from backend.api import OneOfSchema
 from ..models import Task, TaskTypes
 from .task_general import TaskGeneralSerializer
 from .task_pruning import TaskPruningSerializer
+from .task_harvesting import TaskHarvestingSerializer
 
 
 
@@ -21,6 +22,7 @@ class TaskSerializer(OneOfSchema):
     type_schemas = {
         TaskTypes.TaskGeneral.value: TaskGeneralSerializer,
         TaskTypes.TaskPruning.value: TaskPruningSerializer,
+        TaskTypes.TaskHarvesting.value: TaskHarvestingSerializer,
     }
 
 

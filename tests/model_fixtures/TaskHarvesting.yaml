@@ -1,0 +1,40 @@
+---
+TASK_HARVESTING_1:
+  title: Harvest task
+  description: Some text
+  status: Pending
+  start_date: now
+  end_date: now
+  predicted_cost: 1
+  actual_cost: 2
+  specific_product: 'SpecificProduct(SPECIFIC_AUTUMN_NOVUM_WHEAT)'
+
+TASK_HARVESTING_2:
+  title: Harvest task 2
+  description: Some text 2
+  status: Pending
+  start_date: now
+  end_date: now
+  predicted_cost: 1
+  actual_cost: 2
+  specific_product: 'SpecificProduct(SPECIFIC_SPRING_WHEAT)'
+
+TASK_HARVESTING_3:
+  title: Harvest task 3
+  description: Some text 3
+  status: Pending
+  start_date: now
+  end_date: now
+  predicted_cost: 1
+  actual_cost: 2
+  specific_product: 'SpecificProduct(SPECIFIC_SPRING_DURUM_WHEAT)'
+
+TASK_HARVESTING_4:
+  title: Harvest task 4
+  description: Some text 4
+  status: Pending
+  start_date: now
+  end_date: now
+  predicted_cost: 1
+  actual_cost: 2
+  specific_product: 'SpecificProduct(SPECIFIC_SPRING_WHEAT)'
