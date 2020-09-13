@@ -3,6 +3,7 @@ import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects'
 import { createRoutineSaga } from 'sagas'
 
 import { listSeasons } from 'season/actions'
+import { listSeasonParcel } from 'parcel/actions'
 import SeasonApi from 'season/api'
 import { selectSeasons } from 'season/reducers/seasons'
 import { selectSelectedFarm } from 'farm/reducers/farms'
@@ -27,6 +28,12 @@ export const listSeasonsSaga = createRoutineSaga(
             yield put(listSeasons.success({
                 ...normalizeSeasons(seasons)
             }))
+            // Get the parcels from the last season
+            if (seasons.length) {
+                yield put(listSeasonParcel.trigger({
+                    selectedSeason: _.last(seasons)
+                }))
+            }
         }
     }
 )

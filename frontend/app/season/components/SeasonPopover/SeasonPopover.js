@@ -2,6 +2,7 @@ import React from 'react'
 import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
 import DateRangeIcon from '@material-ui/icons/DateRange';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 import './seasonpopover.scss'
 
@@ -25,37 +26,41 @@ export default ({
     const id = open ? 'season-popover' : undefined;
     return (
         <div>
-            <Button
-                aria-describedby={id}
-                variant="text"
-                color="primary"
-                onClick={handleClick}
-            >   
+            <ClickAwayListener onClickAway={handleClose}>
                 <div>
-                    <DateRangeIcon
-                        fontSize="large"
-                    />
-                    <span className={"selected-season-title"}>
-                        {label}
-                    </span>
+                <Button
+                    aria-describedby={id}
+                    variant="text"
+                    color="primary"
+                    onClick={handleClick}
+                >   
+                    <div>
+                        <DateRangeIcon
+                            fontSize="large"
+                        />
+                        <span className={"selected-season-title"}>
+                            {label}
+                        </span>
+                    </div>
+                </Button>
+                <Popover 
+                    id={id}
+                    open={open}
+                    anchorEl={anchorEl}
+                    onClose={handleClose}
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                    }}
+                >
+                    {children}
+                </Popover>
                 </div>
-            </Button>
-            <Popover 
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'left',
-                }}
-            >
-                {children}
-            </Popover>
+            </ClickAwayListener>
         </div>
     )
 } 

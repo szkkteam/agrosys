@@ -1,5 +1,5 @@
 import { get } from 'utils/request'
-import { reference } from 'api'
+import { reference, v1 } from 'api'
 
 
 function agricultural(uri) {
@@ -8,6 +8,10 @@ function agricultural(uri) {
 
 function soil(uri) {
     return reference(`/soils${uri}`)
+}
+
+function products(uri, queryParams) {
+    return reference(`/products${uri}`, queryParams)
 }
 
 export default class Reference {
@@ -28,4 +32,11 @@ export default class Reference {
         return get(soil(`/${soilType.id}`))
     }
 
+    static listSpecificProducts(queryParams) {
+        return get(products(``), queryParams)
+    }
+
+    static getSpecificProducts(specificProduct, queryParams) {
+        return get(products(`/${specificProduct.id}`), queryParams)
+    }
 }

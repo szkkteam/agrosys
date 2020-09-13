@@ -15,6 +15,11 @@ import {
     selectSoilsTypesbyId,
 } from 'reference/reducers/soilTypes'
 
+import {
+    selectSpecificProductIds,
+    selectSpecificProductsbyId
+} from 'reference/reducers/specificProducts'
+
 export const getAgriculturalTypes = createSelector(
     [
         selectAgriculturalTypesIds,
@@ -34,5 +39,16 @@ export const getSoilTypes = createSelector(
     ],
     (soilTypeIds, soilTypes) => {
         return deNormalizeSoilTypes({ ids: soilTypeIds, ...{entities: {soilTypes}}})
+    }
+)
+
+export const getSpecificProducts = createSelector(
+    [
+        selectSpecificProductIds,
+        selectSpecificProductsbyId
+    ],
+    (specificProductIds, specificProducts) => {
+        //return deNormalizeSoilTypes({ ids: soilTypeIds, ...{entities: {soilTypes}}})
+        return []
     }
 )

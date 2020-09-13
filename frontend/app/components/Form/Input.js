@@ -9,6 +9,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import { TextField as MuiTextField } from '@material-ui/core'
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 export const EmailField = (props) =>
   <Field component={_renderInput} type="email" {...props} />
@@ -37,10 +38,19 @@ export const SelectField = (props) =>
 export const SelectComponent = (props) =>
   renderSelectField({...props})
 
+export const SearchSelectField = (props) =>
+  <Field component={SearchSelectComponent} type="text" {...props}/>
+
+export const SearchSelectComponent = (props) =>
+  renderAutocomplete({...props})
+
 export const SelectOption = React.forwardRef(({children, ...props}, ref) =>
   //<MenuItem {...props} ref={ref}>{children}</MenuItem>)
   // FIXME: Redux-Form is not working with not native select. No option given. It said  the MenuItem must be direct descendant of select, but still not working.
   <option {...props} ref={ref}>{children}</option>)
+
+export const SelectOptionGrp = ({children, ...props}) => 
+  <optgroup {...props} >{children}</optgroup>
 
 const renderTextField = ({
   label,
@@ -66,6 +76,36 @@ const renderTextField = ({
   )
 }
 
+const renderAutocomplete = ({
+  input = null,
+  label,
+  disabled = false,
+  textProps,
+  formProps,
+  meta: { touched = null, error = null } = {},
+  ...custom
+}) => {
+  const { onChange: onChangeRF, onBlur: onBlurRF, ...inputRest } = input
+  return (
+    <FormControl
+      {...formProps}
+      error={touched && !!error }
+      disabled={disabled}
+    >
+      <Autocomplete
+        autoHighlight
+        freeSolo={false}
+        fullWidth={true}
+        clearOnBlur={true}
+        autoSelect={true}
+        onChange={(e, v) => input.onChange(v)}         
+        {...custom}        
+        {...inputRest}
+        renderInput={(params) => <MuiTextField {...params} label={label} {...textProps} autoComplete="disabled" fullWidth/>}
+      />
+    </FormControl>
+  )
+}
 
 const renderFromHelper = ({ touched, error }) => {
   if (!(touched && error)) {

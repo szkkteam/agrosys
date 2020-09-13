@@ -1,6 +1,10 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid';
 
+import {
+    TemplateCreateContainer
+} from 'template/components'
+
 export default (
     
 ) => {
@@ -8,7 +12,7 @@ export default (
         <Grid
             container
             direction="row"
-            style={{overflowY: "hidden", maxHeight: "800px"}}
+            style={{overflowX: "hidden", maxHeight: "900px"}}
         >
             <Grid item sm={2}>
                 <div>
@@ -16,7 +20,7 @@ export default (
                 </div>
             </Grid>
             <Grid item sm={10}>
-                <div>Template detail</div>
+                <TemplateCreateContainer />
             </Grid>
         </Grid>
     )

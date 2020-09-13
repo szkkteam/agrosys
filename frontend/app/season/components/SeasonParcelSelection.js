@@ -30,7 +30,7 @@ class SeasonParcelSelection extends React.Component {
         console.log("SeasonParcelSelection-seasonParcelsTree: ", seasonParcelsTree)
         return (
             <React.Fragment>
-                { seasonParcelsTree.length?  
+                { seasonParcelsTree && seasonParcelsTree.length && seasonParcelsTree[0]?  // FIXME: This is a quick workaround to prevent error, trigger last season-parcel read somewhere
                     <ParcelList
                         parcels={seasonParcelsTree.map((parcel, i) => (
                             Object.assign(parcel, { tableData: { checked: false } })

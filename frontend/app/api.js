@@ -10,6 +10,6 @@ export function farm(uri) {
 }
 
 
-export function reference(uri) {
-  return v1(`/refs${uri}`)
+export function reference(uri, queryParams = null) {
+  return v1(`/refs${uri}`, queryParams)
 }

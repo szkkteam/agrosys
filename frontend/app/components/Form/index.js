@@ -8,6 +8,9 @@ export {
   SelectField,
   SelectComponent,
   SelectOption,
+  SelectOptionGrp,
+  SearchSelectField,
+  SearchSelectComponent
 } from './Input'
 
 export { 
