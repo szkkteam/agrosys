@@ -54,12 +54,13 @@ export default class MyCalendar extends React.Component {
 
   //onNavigate={(d, v, c) => console.log("D: " + d + " V: " + v + " C: ", c)}
   render() {
-    const { events, ...props } = this.props
+    const { events, children, ...props } = this.props
     const { startDate, endDate } = this.state
     const length = dates.diff(startDate, endDate, 'day')
     return (
       <div className="task-container">
         <LocalizationProvider dateAdapter={MomentUtils}>
+            {children}
             <DCalendar
               selectable
               step={60}

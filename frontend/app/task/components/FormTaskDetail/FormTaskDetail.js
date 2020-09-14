@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
 import reduxForm from 'redux-form/es/reduxForm'
-import { FieldArray, formValueSelector } from 'redux-form'
+import { FieldArray, formValueSelector, FormSection } from 'redux-form'
 
 import { HiddenField, TextField, TextArea , SelectField, SelectOption } from 'components/Form'
 
@@ -58,6 +58,7 @@ const FormTaskDetail = (props) => {
         dirty,
         resetSection,
         selectedTaskType,
+        canChangeTaskType = true,
         ...rest 
     } = props
     console.log("selectedTaskType: ", selectedTaskType)
@@ -81,15 +82,19 @@ const FormTaskDetail = (props) => {
                             label="Description"
                             className="full-width"
                         /> 
-                        <SelectField name="taskType"
+                        {canChangeTaskType && <SelectField name="taskType"
                             label="Task Type"
                             inputName="select-status"
                             formProps={{className:"full-width"}}
                         >
                             {renderItems(taskTypesEnum)}
-                        </SelectField>
-                        <HiddenField name="dates.startDate" />
-                        <HiddenField name="dates.endDate" />
+                        </SelectField> }
+                        <FormSection
+                            name="dates"
+                        >
+                            <HiddenField name="startDate" />
+                            <HiddenField name="endDate" />
+                        </FormSection>
                     </Grid>
                     <Grid item xs={12}>
                         <SelectField name="status" 
