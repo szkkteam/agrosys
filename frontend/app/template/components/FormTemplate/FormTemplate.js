@@ -50,12 +50,8 @@ const FormTemplate = (props) => {
   //console.log("action: ", action)
   //console.log("handleSubmit: ", handleSubmit)
 
-    const doChangeTasks = () => {
-        change('tasks', ['Some random shit', 'asdad'])
-    }
-
   return (      
-    <form onSubmit={handleSubmit(action)} >
+    <form onSubmit={handleSubmit} >
         <Grid
             container
             direction="row"
@@ -89,7 +85,7 @@ const FormTemplate = (props) => {
                         variant="contained"
                         color="primary" 
                         disabled={submitting}
-                        onClick={doChangeTasks}
+                        onClick={onCancel}
                     >
                         Cancel
                     </Button>

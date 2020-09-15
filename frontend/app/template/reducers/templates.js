@@ -1,5 +1,6 @@
 import { 
     listTemplates,
+    createTemplate,
 } from 'template/actions'
 /*
 import {
@@ -29,7 +30,9 @@ export default function(state = initialState, action) {
                 isLoading: true 
             }
 
+        case createTemplate.SUCCESS:
         case listTemplates.SUCCESS:
+            console.log("Tempaltes-createTemplate.SUCCESS: ", templatesById)
             return { ...state,
                 byId: {...byId, ...templatesById},
                 ids: _.uniq(_.concat(state.ids, ids)),
@@ -52,7 +55,9 @@ export default function(state = initialState, action) {
 }
 
 export const selectTemplates = (state) => state[KEY]
+export const selectTemplateIds = (state) => state[KEY].ids
+export const selectTemplatesById = (state) => state[KEY].byId
 export const selectTemplatesEntities = (state) => {
-    const templates = selectSeasons(state)
+    const templates = selectTemplates(state)
     return { templates: templates.byId,  }
 }

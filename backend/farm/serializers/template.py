@@ -13,6 +13,7 @@ DATA_FIELDS = (
     'id',
     'title',
     'tasks',
+    'farms',
 )
 
 def object_id_exists(object_id, model):
@@ -25,11 +26,12 @@ class TemplateSerializer(ModelSerializer):
     #crop_template_id = fields.Integer(required=True, validate=lambda x: object_id_exists(x, CropTemplate))
 
     tasks = fields.Nested('TaskListSerializer', many=True, required=False)
+    farms = fields.Nested('FarmListSerializer', many=True)
 
     class Meta:
         model = Template
         fields = DATA_FIELDS
-        dump_only = ('id', )
+        dump_only = ('id', 'farms',)
         #include_fk = True
 
 @api.serializer(many=True)
@@ -40,5 +42,5 @@ class TemplateListSerializer(TemplateSerializer):
     class Meta:
         model = Template
         fields = DATA_FIELDS
-        dump_only = ('id', )
+        dump_only = ('id', 'farms', )
         #include_relationships = True
