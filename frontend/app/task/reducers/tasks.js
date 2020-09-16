@@ -1,5 +1,6 @@
 import { 
-    listTemplates,
+    listUserTemplates,
+    listDefaultTemplates,
     createTemplate,
 } from 'template/actions'
 
@@ -21,7 +22,8 @@ export default function(state = initialState, action) {
     switch(type) {
         
         case createTemplate.SUCCESS:
-        case listTemplates.SUCCESS:
+        case listUserTemplates.SUCCESS:
+        case listDefaultTemplates.SUCCESS:
             return { ...state,
                 byId: {...byId, ...tasksById},
                 //ids: _.uniq(_.concat(state.ids, ids)), Cannot store IDs here, because we are listening to the templates action

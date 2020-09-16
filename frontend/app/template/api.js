@@ -9,10 +9,14 @@ function template(uri) {
 
 export default class Template {
 
-    static listTemplates(farmData) {
+    static listUserTemplates(farmData) {
         return get(farm(`/${farmData.id}/templates`))
     }
   
+    static listDefaultTemplates() {
+        return get(farm(`/templates`))
+    }
+
     static createTemplates(farmData, payload) {
         return post(farm(`/${farmData.id}/templates`), payload)
     }

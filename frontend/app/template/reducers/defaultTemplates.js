@@ -1,6 +1,5 @@
 import { 
-    listTemplates,
-    createTemplate,
+    listDefaultTemplates,
 } from 'template/actions'
 /*
 import {
@@ -9,7 +8,7 @@ import {
 */
 import { storage } from 'utils'
 
-export const KEY = 'templates'
+export const KEY = 'defaultTemplates'
 
 const initialState = {    
     isLoading: false,
@@ -25,13 +24,12 @@ export default function(state = initialState, action) {
     const { byId } = state
 
     switch(type) {
-        case listTemplates.REQUEST:
+        case listDefaultTemplates.REQUEST:
             return { ...state,
                 isLoading: true 
             }
 
-        case createTemplate.SUCCESS:
-        case listTemplates.SUCCESS:
+        case listDefaultTemplates.SUCCESS:
             console.log("Tempaltes-createTemplate.SUCCESS: ", templatesById)
             return { ...state,
                 byId: {...byId, ...templatesById},
@@ -39,12 +37,12 @@ export default function(state = initialState, action) {
                 isLoaded: true,  
             }
 
-        case listTemplates.FAILURE:
+        case listDefaultTemplates.FAILURE:
             return { ...state, 
                 error: payload.error,
             }
 
-        case listTemplates.FULFILL:
+        case listDefaultTemplates.FULFILL:
             return { ...state,
                 isLoading: false,
             }
@@ -54,10 +52,10 @@ export default function(state = initialState, action) {
     }
 }
 
-export const selectTemplates = (state) => state[KEY]
-export const selectTemplateIds = (state) => state[KEY].ids
-export const selectTemplatesById = (state) => state[KEY].byId
-export const selectTemplatesEntities = (state) => {
-    const templates = selectTemplates(state)
+export const selectDefaultTemplates = (state) => state[KEY]
+export const selectDefaultTemplateIds = (state) => state[KEY].ids
+export const selectDefaultTemplatesById = (state) => state[KEY].byId
+export const selectDefaultTemplatesEntities = (state) => {
+    const templates = selectDefaultTemplates(state)
     return { templates: templates.byId,  }
 }

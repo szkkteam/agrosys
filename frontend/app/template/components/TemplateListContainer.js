@@ -6,7 +6,7 @@ import { bindRoutineCreators } from 'actions'
 import { injectReducer, injectSagas } from 'utils/async'
 
 import { 
-    listTemplates,
+    listUserTemplates,
 } from 'template/actions'
 
 import {
@@ -21,8 +21,8 @@ class TemplateListContainer extends React.Component {
 
     
     componentDidMount() {
-        const { listTemplates } = this.props
-        listTemplates && listTemplates.maybeTrigger()
+        const { listUserTemplates } = this.props
+        listUserTemplates && listUserTemplates.maybeTrigger()
     }
 
     onSelect = (e, row) => {
@@ -58,9 +58,9 @@ class TemplateListContainer extends React.Component {
     }
 }
 
-const withSagaTemplates = injectSagas(require('template/sagas/listTemplates'))
+const withSagaTemplates = injectSagas(require('template/sagas/listUserTemplates'))
 
-const withReducerTemplates = injectReducer(require('template/reducers/templates'))
+const withReducerTemplates = injectReducer(require('template/reducers/userTemplates'))
 const withReducerTasks = injectReducer(require('task/reducers/tasks'))
 
 
@@ -72,7 +72,7 @@ const mapStateToProps = (state) => (
 
 const withConnect = connect(
     mapStateToProps,
-    (dispatch) => bindRoutineCreators({ listTemplates }, dispatch),
+    (dispatch) => bindRoutineCreators({ listUserTemplates }, dispatch),
 )
 
 

@@ -36,11 +36,12 @@ class Farm(Resource):
 
     seasons = relationship('Season', cascade="all, delete", back_populates='farm')
     # TODO: Define later lazy relationship
-    #seasons = relationship('Season', cascade="all,delete", back_populates='farm', lazy='noload')
+
+    farm_templates = relationship('FarmTemplate', cascade="all,delete", back_populates='farm')
     templates = association_proxy('farm_templates', 'template',
                                           creator=lambda template: create_template(template))
 
-    __repr_props__ = ('id', 'title', 'owner_user_id', 'fields')
+    __repr_props__ = ('id', 'title', 'owner_user_id', 'templates')
 
     @classmethod
     def query_permission_obj(cls, id, *args, **kwargs):

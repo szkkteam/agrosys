@@ -11,25 +11,68 @@ import {
 } from 'template/actions'
 
 import {
-    FormTemplate
+    FormTemplate,
+    TemplateLoadModal,
+    FormTemplateLoad,
 } from 'template/components'
+
 
 class TemplateCreateContainer extends React.Component {
 
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            isLoadInitial: false,
+            initialValues: {}
+        }
+    }
+
+    onCancelModal = () => {
+        // TODO: Clear initial state
+        const { onCloseModal } = this.props
+        onCloseModal && onCloseModal()
+        this.setState({
+            isLoadInitial: false,
+        })
+    }
+
+    onLoadModal = () => {
+        // TODO: Save initial state
+        const { onCloseModal } = this.props
+        onCloseModal && onCloseModal()
+        this.setState({
+            isLoadInitial: true,
+        })
+    }
+
     render() {
-        const { onCancel } = this.props
+        const { 
+            onCancel,
+            isModalOpen,
+            onCloseModal
+        } = this.props
 
         return (
-            <FormTemplate
-                onSubmit={createTemplate}
-                onCancel={onCancel}
-            />
+            <React.Fragment>
+                <FormTemplate
+                    onSubmit={createTemplate}
+                    onCancel={onCancel}
+                />
+                <TemplateLoadModal
+                    open={isModalOpen}
+                    onClose={this.onCancelModal}
+                >            
+                    <FormTemplateLoad
+                    />
+                </TemplateLoadModal>
+            </React.Fragment>
         )
     }
 }
 
 
-const withReducerTemplate = injectReducer(require('template/reducers/templates'))
+const withReducerTemplate = injectReducer(require('template/reducers/userTemplates'))
 const withSagaCreate = injectSagas(require('template/sagas/createTemplate'))
 
 

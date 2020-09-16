@@ -30,13 +30,13 @@ export const normalizeTemplate = (data) => {
 export const deNormalizeTemplates = (data) => {
     const { entities, ids } = data
     console.log("deNormalizeTemplates-entities: ", entities)
-    return denormalize(ids, templatesSchema, entities)
+    return (ids && ids.length) ? denormalize(ids, templatesSchema, entities) : []
 
 }
 
 
 export const deNormalizeTemplate = (data) => {
     const { entities, ids } = data
-    return denormalize(ids, templateSchema, entities)
+    return (ids && ids.length) ? denormalize(ids, templateSchema, entities) : []
 
 }

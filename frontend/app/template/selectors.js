@@ -4,25 +4,53 @@ import {
 } from 'template/schemas'
 
 import {
-    selectTemplatesById,
-    selectTemplateIds,
-} from 'template/reducers/templates'
+    selectUserTemplatesById,
+    selectUserTemplateIds,
+} from 'template/reducers/userTemplates'
 
-const getUserTemplates = (templates) => {
-    console.log("getUserTemplates-templates: ", templates)
-    // FIXME: Currently farm is not in objects.
-    //return templates.filter((x => 'farms' in x))
-    return templates
-}
+import {
+    selectDefaultTemplatesById,
+    selectDefaultTemplateIds,
+} from 'template/reducers/defaultTemplates'
 
 export const getUserTemplatesDenormalized = createSelector(
     [
-        selectTemplateIds,
-        selectTemplatesById,
+        selectUserTemplateIds,
+        selectUserTemplatesById,
     ],
     (templateIds, templates) => {
-        const denormalizedTemplates = deNormalizeTemplates({ ids: templateIds, ...{entities: {templates}}})
-        console.log("getUserTemplatesDenormalized-denormalizedTemplates: ", denormalizedTemplates)
-        return getUserTemplates(denormalizedTemplates)
+        return deNormalizeTemplates({ ids: templateIds, ...{entities: {templates}}})
+    }
+)
+
+export const getDefaultTemplatesDenormalized = createSelector(
+    [
+        selectDefaultTemplateIds,
+        selectDefaultTemplatesById,
+    ],
+    (templateIds, templates) => {
+        return deNormalizeTemplates({ ids: templateIds, ...{entities: {templates}}})
+    }
+)
+
+export const getUserDefaultTemplatesGrouped = createSelector(
+    [
+        getUserTemplatesDenormalized,
+        getDefaultTemplatesDenormalized,
+    ],
+    (userTemplates, defaultTemplates) => {
+        const groupedUserTemplates = userTemplates.map((template, i) => (
+            {
+                ...template,
+                groupBy: "User Templates"
+            }
+        ))
+        const groupedDefaultTemplates = defaultTemplates.map((template, i) => (
+            {
+                ...template,
+                groupBy: "Default Templates"
+            }
+        ))
+        return _.concat(groupedDefaultTemplates, groupedUserTemplates)
     }
 )

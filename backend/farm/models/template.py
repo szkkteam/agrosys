@@ -30,7 +30,9 @@ class Template(Plan):
 
     id = foreign_key('Plan', fk_col='plan_id', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
 
-    farms = association_proxy('farm_templates', 'season',
+    template_farms = relationship('FarmTemplate', back_populates='template',
+                                                cascade='all, delete-orphan')
+    farms = association_proxy('template_farms', 'farm',
                                 creator=lambda farm: create_farm(farm))
 
     __repr_props__ = ('id', 'title', 'plan_type', 'specific_products')

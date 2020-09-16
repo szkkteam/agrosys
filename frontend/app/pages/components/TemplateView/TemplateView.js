@@ -37,6 +37,8 @@ export default (
             <Grid item sm={10}>
                 { createState !== createTemplateEnums.IDLE &&
                     <TemplateCreateContainer
+                        isModalOpen={createState === createTemplateEnums.CREATE_FROM_TEMPLATE}
+                        onCloseModal={() => setCreateState(createTemplateEnums.CREATE_FROM_SCRATCH)}
                         onCancel={() => setCreateState(createTemplateEnums.IDLE)}
                     />
                 }

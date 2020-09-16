@@ -90,6 +90,18 @@ class TestTemplateResource:
             assert 'tasks' in e
             assert len(e['tasks'])
 
+    @pytest.mark.parametrize("models", ['Template(TEMPLATE_3)'], indirect=True)
+    def test_list_default(self, api_client, farm_owner, models):
+        api_client.login_as(farm_owner)
+        print("Templates: ", Template.all())
+        r = api_client.get(url_for('api.farm_template_default_resource'))
+        assert r.status_code == 200
+        assert len(r.json)
+        for e in r.json:
+            assert 'id' in e
+            assert 'title' in e
+            assert 'tasks' in e
+
     def test_patch(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
@@ -135,9 +147,9 @@ class TestFarmTemplateResource:
         len_templates = len(farm.templates)
         r = api_client.put(url_for('api.farm_template_resource', farm_id=farm.id, template_id=template.id))
         assert r.status_code == 200
-        print("result: ", r.json)
         assert 'id' in r.json
-        assert (len_templates + 1) == len(Farm.all()[0].templates)
+        assert 'farms' in r.json
+        assert (len_templates + 1) == len(Farm.get(farm.id).templates)
 
     def test_delete(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
@@ -149,5 +161,5 @@ class TestFarmTemplateResource:
         r = api_client.delete(url_for('api.farm_template_resource', farm_id=farm.id, template_id=template.id))
 
         assert r.status_code == 204
-        assert (len_templates - 1) == len(Farm.all()[0].templates)
+        assert (len_templates - 1) == len(Farm.get(farm.id).templates)
 

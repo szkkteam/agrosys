@@ -13,33 +13,49 @@ import {
 export default ({
     open,
     title,
-    submitButtonProps,
     onClose,
+    customDialogActions = null,    
+    submitButtonProps,
     children,
-}) => (
-    <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">
-            {title}
-        </DialogTitle>
-        <DialogContent>
-            {children}
-        </DialogContent>
-        <DialogActions>
-        <Button 
-            onClick={onClose} 
-            color="primary"
-            variant="contained"
+    ...rest,
+}) => {
+    return (
+        <Dialog 
+            open={open} 
+            onClose={onClose} 
+            aria-labelledby="form-dialog-title"
+            {...rest}
         >
-            Cancel
-        </Button>
-        <SubmitButton 
-            color="primary"
-            variant="contained"
-            {...submitButtonProps}
-        >
-            Save
-        </SubmitButton>
-        </DialogActions>
-    </Dialog>
-)
+            <DialogTitle id="form-dialog-title">
+                {title}
+            </DialogTitle>
+            <DialogContent>
+                {children}
+            </DialogContent>
+            <DialogActions>
+            { customDialogActions?
+                customDialogActions()
+                : 
+                <div>
+                    <Button
+                        onClick={onClose} 
+                        color="primary"
+                        variant="contained"
+                    >
+                        Cancel
+                    </Button>
+                    <SubmitButton 
+                        color="primary"
+                        variant="contained"
+                        {...submitButtonProps}
+                    >
+                        Save
+                    </SubmitButton>
+                </div>
+            }
+            </DialogActions>
+            
+        </Dialog>
+    )
+}
 

@@ -15,6 +15,7 @@ from backend.security.decorators import auth_required
 from backend.api.decorators import param_converter
 from backend.security.models import User
 from backend.extensions.api import api
+from backend.database import session
 
 from ..models import Template, Farm, FarmTemplate
 from .blueprint import farm
@@ -46,7 +47,10 @@ class TemplateResource(ModelResource):
 
     @param_converter(farm_id=int)
     def list(self, farm_id, *args, **kwargs):
-        templates = Template.join(FarmTemplate).filter(FarmTemplate.farm_id == farm_id).all()
+        templates = Template\
+            .join(FarmTemplate)\
+            .filter(FarmTemplate.farm_id == farm_id)\
+            .all()
         return  self.serializer.dump(templates, many=True)
 
 
@@ -67,10 +71,32 @@ class FarmTemplateResource(ModelResource):
         farm = Farm.query.get_or_404(farm_id)
         template = Template.query.get_or_404(template_id)
         farm.templates.append(template)
+        farm.save()
         return self.updated(template)
 
     @param_converter(farm_id=int, template_id=int)
     def delete(self, farm_id, template_id):
         ft = FarmTemplate.filter_by(farm_id=farm_id, template_id=template_id).first_or_404()
         return self.deleted(ft)
+
+
+@api.model_resource(farm, Template,
+                    '/templates',
+                    endpoint='farm_template_default_resource')
+class FarmTemplateDefaultResource(ModelResource):
+    include_methods = (LIST, )
+    exclude_decorators = (LIST, )
+    method_decorators = {
+        LIST: (auth_required,),
+    }
+
+    def list(self, *args, **kwargs):
+        templates = Template\
+            .join(FarmTemplate, isouter=True, full=True)\
+            .filter(FarmTemplate.template_id == None)\
+            .all()
+    
+        return self.serializer.dump(templates   , many=True)
+
+
 

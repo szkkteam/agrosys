@@ -85,7 +85,9 @@ const renderAutocomplete = ({
   meta: { touched = null, error = null } = {},
   ...custom
 }) => {
-  const { onChange: onChangeRF, onBlur: onBlurRF, ...inputRest } = input
+  const { onChange: onChangeRF, onBlur: onBlurRF, ...inputRest } = input || {}
+
+  const rfPropsFix = input? { onChange: (e, v) => input.onChange(v) } : {}
   return (
     <FormControl
       {...formProps}
@@ -98,7 +100,8 @@ const renderAutocomplete = ({
         fullWidth={true}
         clearOnBlur={true}
         autoSelect={true}
-        onChange={(e, v) => input.onChange(v)}         
+        {...rfPropsFix} // Used to fix the onChange event handler for redux-form
+        
         {...custom}        
         {...inputRest}
         renderInput={(params) => <MuiTextField {...params} label={label} {...textProps} autoComplete="disabled" fullWidth/>}

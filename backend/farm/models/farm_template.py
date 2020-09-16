@@ -24,14 +24,14 @@ class FarmTemplate(BaseModel, TimestampMixin):
     template_id = foreign_key('Template', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
 
     farm = relationship('Farm',
-                        #back_populates='farm_templates',
-                        backref='farm_templates',
+                        back_populates='farm_templates',
+                        #backref='farm_templates',
                         foreign_keys=farm_id,
                         )
 
     template = relationship('Template',
-                            #back_populates='template_farms',
-                            backref='template_farms',
+                            back_populates='template_farms',
+                            #backref='template_farms',
                             foreign_keys=template_id,
                             )
 
