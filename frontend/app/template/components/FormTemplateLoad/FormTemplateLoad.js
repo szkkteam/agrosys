@@ -20,7 +20,7 @@ import {
 class FormTemplateLoad extends React.Component {
 
     render() {
-        const { templates } = this.props
+        const { templates, onChange } = this.props
 
         console.log("FormTemplateLoad-templates: ", templates)
         return (
@@ -31,13 +31,11 @@ class FormTemplateLoad extends React.Component {
                 groupBy={(option) => option.groupBy}
                 getOptionLabel={(option) => typeof(option) === 'object' ? option.title : option}
                 renderOption={(option, inputValue ) => {
-                    console.log("Render option: ", option)
-                    console.log("Render inputValue: ", inputValue)
                     return (
                         <div>{option.title}</div>
                     )                    
                 }}
-                onChange={(e, v) => console.log("SearchSelectComponent-e: ", e + " v: ", v)}
+                onChange={(e, v) => onChange && onChange(v)}
             />
         )
     }

@@ -29,7 +29,6 @@ export const normalizeTemplate = (data) => {
 
 export const deNormalizeTemplates = (data) => {
     const { entities, ids } = data
-    console.log("deNormalizeTemplates-entities: ", entities)
     return (ids && ids.length) ? denormalize(ids, templatesSchema, entities) : []
 
 }

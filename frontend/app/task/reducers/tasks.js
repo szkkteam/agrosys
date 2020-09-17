@@ -37,7 +37,8 @@ export default function(state = initialState, action) {
 }
 
 export const selectTasks = (state) => state[KEY]
+export const selectTasksById = (state) => selectTasks(state).byId
 export const selectTasksEntities = (state) => {
-    const templates = selectTasks(state)
-    return { templates: templates.byId,  }
+    const tasks = selectTasks(state)
+    return { tasks: tasks.byId,  }
 }

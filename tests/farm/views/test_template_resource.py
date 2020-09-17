@@ -113,6 +113,7 @@ class TestTemplateResource:
         assert r.json['title'] == new_name
         assert 'id' in r.json
 
+
     def test_put(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
@@ -124,6 +125,27 @@ class TestTemplateResource:
         assert r.status_code == 200
         assert r.json['title'] == data['title']
         assert 'id' in r.json
+
+    
+    def test_put_modify_task(self, api_client, farm_owner):
+        from backend.farm.models import Task
+        api_client.login_as(farm_owner)
+
+        template = Template.all()[0]
+        old_tasks = template.tasks
+        data = get_input_data(NEW_PRODUCTION_DATA)
+        data['title'] = "New template name"
+        data['tasks'][0]['title'] = 'Updated task name'
+        data['tasks'][1]['title'] = 'Updated task name'
+        r = api_client.put(url_for('api.template_resource', id=template.id), data=data)
+
+        assert r.status_code == 200
+        assert r.json['title'] == data['title']
+        assert 'id' in r.json
+        for task in r.json['tasks']:
+            assert 'Updated task name' == task['title']
+            for ot in old_tasks:                
+                assert ot.id != task['id']
 
     @pytest.mark.skip(reason="Database cascades not be reworked, because related objects are not deleted.")
     def test_delete(self, api_client, farm_owner):
@@ -148,7 +170,6 @@ class TestFarmTemplateResource:
         r = api_client.put(url_for('api.farm_template_resource', farm_id=farm.id, template_id=template.id))
         assert r.status_code == 200
         assert 'id' in r.json
-        assert 'farms' in r.json
         assert (len_templates + 1) == len(Farm.get(farm.id).templates)
 
     def test_delete(self, api_client, farm_owner):

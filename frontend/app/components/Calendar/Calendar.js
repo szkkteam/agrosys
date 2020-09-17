@@ -52,16 +52,30 @@ export default class MyCalendar extends React.Component {
 
   }
 
+
+  static defaultProps = {
+    disabled: false,
+  }
+
   //onNavigate={(d, v, c) => console.log("D: " + d + " V: " + v + " C: ", c)}
   render() {
-    const { events, children, ...props } = this.props
+    const { 
+      disabled,
+      events,
+      children,
+      ...props
+    } = this.props
     const { startDate, endDate } = this.state
     const length = dates.diff(startDate, endDate, 'day')
+
+    const CalendarComponent = disabled? Calendar: DCalendar
+
     return (
       <div className="task-container">
         <LocalizationProvider dateAdapter={MomentUtils}>
             {children}
-            <DCalendar
+            <CalendarComponent
+              disabled={disabled}
               selectable
               step={60}
               showMultiDayTimes

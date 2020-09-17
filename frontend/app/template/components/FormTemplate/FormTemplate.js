@@ -118,9 +118,11 @@ const withForm = reduxForm({
 const withConnect = connect(
     (state, props) => {
         const { initialValues : locinitialValues, ...rest } = props
-        return {             
+        return {        
+            initialValues: {
+                ...locinitialValues
+            },
             ...rest
-
         }
     },
 )
@@ -130,7 +132,6 @@ const selector = formValueSelector(FORM_NAME)
 const withSelectTasks = connect(
     (state, props) => {
         const tasks = selector(state, 'tasks')
-        console.log("Selector-tasks: ", tasks)
         return {
             tasks
         }

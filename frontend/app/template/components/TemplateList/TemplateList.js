@@ -16,7 +16,7 @@ export default ({
     ...props,
 }) => {
     // Keep this log, because parcelTree is not updated at the first time
-    console.log("templates: ", templates)
+    //console.log("templates: ", templates)
     return (     
         <div className="scroll-table">
             <Table                

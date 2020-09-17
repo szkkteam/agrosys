@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 
 import {
     AddTemplateButton,
-    TemplateCreateContainer,
+    TemplateContainer,
     TemplateListContainer,
 } from 'template/components'
 
@@ -16,8 +16,6 @@ export default (
 ) => {
 
     const [createState, setCreateState] = React.useState(createTemplateEnums.IDLE)
-
-    console.log("createState: ", createState)
 
     return (
         <Grid
@@ -35,13 +33,11 @@ export default (
                 />
             </Grid>
             <Grid item sm={10}>
-                { createState !== createTemplateEnums.IDLE &&
-                    <TemplateCreateContainer
-                        isModalOpen={createState === createTemplateEnums.CREATE_FROM_TEMPLATE}
-                        onCloseModal={() => setCreateState(createTemplateEnums.CREATE_FROM_SCRATCH)}
-                        onCancel={() => setCreateState(createTemplateEnums.IDLE)}
-                    />
-                }
+                <TemplateContainer
+                    createState={createState}
+                    onCloseModal={() => setCreateState(createTemplateEnums.CREATE_FROM_SCRATCH)}
+                    onCancel={() => setCreateState(createTemplateEnums.IDLE)}
+                />
             </Grid>
         </Grid>
     )

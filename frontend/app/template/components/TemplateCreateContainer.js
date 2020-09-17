@@ -29,7 +29,6 @@ class TemplateCreateContainer extends React.Component {
     }
 
     onCancelModal = () => {
-        // TODO: Clear initial state
         const { onCloseModal } = this.props
         onCloseModal && onCloseModal()
         this.setState({
@@ -38,11 +37,20 @@ class TemplateCreateContainer extends React.Component {
     }
 
     onLoadModal = () => {
-        // TODO: Save initial state
         const { onCloseModal } = this.props
         onCloseModal && onCloseModal()
         this.setState({
             isLoadInitial: true,
+        })
+    }
+ 
+    storeLoadedData = ({title, tasks}) => {
+        // TODO: Adjust every tasks to set the year to the current year by default.
+        this.setState({
+            initialValues: {
+                title,
+                tasks,
+            },
         })
     }
 
@@ -50,20 +58,24 @@ class TemplateCreateContainer extends React.Component {
         const { 
             onCancel,
             isModalOpen,
-            onCloseModal
         } = this.props
+
+        const { isLoadInitial, initialValues } = this.state
 
         return (
             <React.Fragment>
                 <FormTemplate
                     onSubmit={createTemplate}
                     onCancel={onCancel}
+                    initialValues={isLoadInitial? initialValues : {}}
                 />
                 <TemplateLoadModal
                     open={isModalOpen}
                     onClose={this.onCancelModal}
+                    onLoad={this.onLoadModal}
                 >            
                     <FormTemplateLoad
+                        onChange={this.storeLoadedData}
                     />
                 </TemplateLoadModal>
             </React.Fragment>

@@ -17,6 +17,7 @@ import {
 } from 'components/Calendar'
 
 function CalendarListView({
+  disabled,
   selected,
   getters,
   accessors,
@@ -45,7 +46,7 @@ function CalendarListView({
         <CalendarTable
           columns={columns}
           data={events}
-          editable={{                
+          editable={ !disabled? {                
             onRowUpdate: (newData, oldData) => 
                 new Promise((resolve, reject) => {
                     setTimeout(() => {
@@ -72,6 +73,8 @@ function CalendarListView({
                 }),
               */
             
+        } : {
+          // TODO: Add props for disabled list view
         }}
           {...props}
         />          

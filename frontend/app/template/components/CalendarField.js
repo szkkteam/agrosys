@@ -2,11 +2,13 @@ import React from 'react'
 import TextField from "@material-ui/core/TextField";
 import { DatePicker } from "@material-ui/pickers";
 
-import moment from 'moment'
-
 import {
     TaskCalendar
 } from 'task/components'
+
+import {
+    adjustTasksYear
+} from 'template/utils'
 
 export default ({
     tasks = [],
@@ -29,22 +31,13 @@ export default ({
         change('tasks', tasks.filter(e => e.id !== oldData.id))
     }
 
-    const onYearChange = (newYear) => {
-        const newYearInt = newYear.get('year')
-        const adjustedTasks = tasks.map((task, i) => {
-            const startDate = moment(task.dates.startDate).year(newYearInt).toDate()
-            const endDate = moment(task.dates.endDate).year(newYearInt).toDate()
-            return {
-                ...task,
-                dates: {
-                    startDate,
-                    endDate,
-                }
-            }
-        })
+    const onYearChange = (newYear) => {        
+        const adjustedTasks = adjustTasksYear(tasks, newYear)
         change('tasks', adjustedTasks)
         setNewYear(newYear)
     }
+
+    console.log("Tasks: ", tasks)
 
     return (
         <React.Fragment>

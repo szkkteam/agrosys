@@ -7,10 +7,12 @@ import { injectReducer, injectSagas } from 'utils/async'
 
 import { 
     listUserTemplates,
+    actionTemplate,
 } from 'template/actions'
 
 import {
     getUserTemplatesDenormalized,
+    getUserSelectedTemplate,
 } from 'template/selectors'
 
 import {
@@ -26,19 +28,16 @@ class TemplateListContainer extends React.Component {
     }
 
     onSelect = (e, row) => {
-        console.log("Row: ", row)
-        /*
-        const { actionParcel } = this.props
-        actionParcel && actionParcel.selectParcel({
-            selectedParcelId: row.id
+        const { actionTemplate } = this.props
+        actionTemplate && actionTemplate.selectTemplate({
+            selectedTemplateId: row.id
         })
-        */
     }
  
     render() { 
         const { templates, selectedTemplate } = this.props
         // Keep this log, because parcelTree is not updated at the first time
-        console.log("TemplateListContainer-templates: ", templates)
+        //console.log("TemplateListContainer-templates: ", templates)
         return (
             <TemplateList
                 title="Templates"   
@@ -66,13 +65,13 @@ const withReducerTasks = injectReducer(require('task/reducers/tasks'))
 
 const mapStateToProps = (state) => (    
     {   templates: getUserTemplatesDenormalized(state),
-        selectedTemplate: null, }
+        selectedTemplate: getUserSelectedTemplate(state), }
 )
 
 
 const withConnect = connect(
     mapStateToProps,
-    (dispatch) => bindRoutineCreators({ listUserTemplates }, dispatch),
+    (dispatch) => bindRoutineCreators({ listUserTemplates, actionTemplate }, dispatch),
 )
 
 

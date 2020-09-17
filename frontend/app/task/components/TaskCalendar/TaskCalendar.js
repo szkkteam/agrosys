@@ -125,6 +125,12 @@ export default class TaskCalendar extends React.Component {
         }
     }
 
+    static defaultProps = {
+        disabled: false,
+        tasks: [],
+        assignId: false,
+      }
+
     /**
      * Form control callbacks
      */
@@ -200,7 +206,7 @@ export default class TaskCalendar extends React.Component {
     }
 
     onEventAdd = (value) => {
-        const { onAdd, assignId } = this.props
+        const { onAdd, assignId, disable } = this.props
         const { temporaryId } = this.state
         const updatedValue = assignId? Object.assign(value, {id: temporaryId}) : value
         onAdd && onAdd(updatedValue)            
@@ -211,8 +217,9 @@ export default class TaskCalendar extends React.Component {
 
     render() {
         const {
-            tasks = [],
-            onAdd,
+            disabled,
+            tasks,
+            onAdd,            
             onEdit,
             onDelete,
             onSelect,
@@ -220,21 +227,22 @@ export default class TaskCalendar extends React.Component {
             children,
         } = this.props
         const { dialogStatus, selectedTask } = this.state
-
+        console.log("disabled: ", disabled)
         return (
             <React.Fragment>
                 <Calendar
+                    disabled={disabled}
                     events={tasks}
                     columns={columns}
                     onSelectEvent={onSelect}
-                    onDoubleClickEvent={this.onDoubleClick}
+                    onDoubleClickEvent={!disabled? this.onDoubleClick: undefined}
 
-                    onSelectSlot={this.handleSelect}
-                    onEventDrop={this.onDragNDrop}
-                    onEventResize={this.onResize}
-                    onTaskUpdate={this.onEdit}
-                    onTaskDelete={onDelete}    
-                    onTaskAdded={onAdd}
+                    onSelectSlot={!disabled? this.handleSelect: undefined}
+                    onEventDrop={!disabled? this.onDragNDrop: undefined}
+                    onEventResize={!disabled? this.onResize: undefined}
+                    onTaskUpdate={!disabled? this.onEdit: undefined}
+                    onTaskDelete={!disabled? onDelete: undefined}    
+                    onTaskAdded={!disabled? onAdd: undefined}
 
                     startAccessor={(e) => e.dates.startDate }
                     endAccessor={(e) => e.dates.endDate }

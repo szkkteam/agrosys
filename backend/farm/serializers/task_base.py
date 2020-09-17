@@ -53,8 +53,8 @@ class TaskBaseSerializer(ModelSerializer):
     start_date =fields.AwareDateTime(default_timezone=dt.timezone.utc)
     end_date = fields.AwareDateTime(default_timezone=dt.timezone.utc)
 
-    predicted_cost = fields.Decimal(as_string=True, required=False)
-    actual_cost = fields.Decimal(as_string=True, required=False)
+    predicted_cost = fields.Decimal(as_string=True, required=False, allow_none=True)
+    actual_cost = fields.Decimal(as_string=True, required=False, allow_none=True)
 
     def unwrap_date_field(self, data, **kwargs):
         print("Data: ", data)

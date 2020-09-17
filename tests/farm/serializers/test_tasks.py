@@ -37,6 +37,21 @@ TASK_GENERAL_NO_COST = {
 }
 
 
+
+TASK_GENERAL_COST_NULL = {
+    'title': 'task general',
+    'taskType': 'TaskGeneral',
+    'description': 'some text',
+    'dates': {
+        'startDate': '2020-07-21T20:00:00',
+        'endDate': '2020-07-22T20:00:00',
+    },
+    'status': 'Pending',
+    'actualCost': None,
+    'predictedCost': None,
+}
+
+
 TASK_PRUNING_1 = {
     'title': 'task general',
     'taskType': 'TaskPruning',
@@ -78,7 +93,7 @@ TASK_INVALID_DATETIME = {
 }
 
 VALID_INPUT_DATA = [
-    TASK_GENERAL_1, TASK_PRUNING_1, TASK_GENERAL_NO_COST
+    TASK_GENERAL_1, TASK_PRUNING_1, TASK_GENERAL_NO_COST, TASK_GENERAL_COST_NULL
 ]
 
 INVALID_INPUT_DATA = [
@@ -124,8 +139,10 @@ class TestTaskSerializer:
         assert input_data['dates']['startDate'] in result['dates']['startDate']
         assert input_data['dates']['endDate'] in result['dates']['endDate']
         if 'predictedCost' and 'actualCost' in input_data:
-            assert result['predictedCost'] == str(input_data['predictedCost'])
-            assert result['actualCost'] == str(input_data['actualCost'])
+            if result['predictedCost']:
+                assert result['predictedCost'] == str(input_data['predictedCost'])
+            if result['actualCost']:
+                assert result['actualCost'] == str(input_data['actualCost'])
 
 
 class TestTaskListSerializer:
@@ -159,8 +176,10 @@ class TestTaskListSerializer:
             assert 'dates' in r
             assert i['dates']['startDate'] in r['dates']['startDate']
             assert i['dates']['endDate'] in r['dates']['endDate']
-            assert r['predictedCost'] == str(i['predictedCost'])
-            assert r['actualCost'] == str(i['actualCost'])
+            if r['predictedCost']:
+                assert r['predictedCost'] == str(i['predictedCost'])
+            if r['actualCost']:
+                assert r['actualCost'] == str(i['actualCost'])
 
 
 
