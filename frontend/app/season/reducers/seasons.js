@@ -90,7 +90,10 @@ export const selectSelectedSeasonParcels = (state) => {
     const season = selectSeasons(state)
     return season.byId[season.selectedSeasonId]? season.byId[season.selectedSeasonId].referenceParcels : []
 }
-
+export const selectLastSeason = (state) => {
+    const season = selectSeasons(state)
+    return _.get(season.byId, [_.last(season.ids)], null)
+}
 export const selectSeasonsEntities = (state) => {
     const seasons = selectSeasons(state)
     return { seasons: seasons.byId,  }

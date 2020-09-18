@@ -10,19 +10,20 @@ import { normalizeParcels } from 'parcel/schemas'
 
 export const KEY = 'listSeasonParcel'
 
-export const maybeListSeasonParcelSaga = function *({payload}) {
+export const maybeListSeasonParcelSaga = function *(payload) {
     const { isLoading, isLoaded } = yield select(selectParcels)
     console.log("isLoading: ", isLoading + " isLoaded: ", isLoaded)
     if (!(isLoaded || isLoading)) {
-        yield put(listSeasonParcel.trigger({payload}))
+        yield put(listSeasonParcel.trigger(payload))
     }
 }
 
 export const listSeasonParcelSaga = createRoutineSaga(
     listSeasonParcel,
-    function *successGenerator({payload = {}} = {}) {
+    function *successGenerator(payload = null) {
         // Get the selected farm from the store
-        const { selectedSeason = yield select(selectSelectedSeasons)  } = payload
+        const { selectedSeason = yield select(selectSelectedSeasons)  } = payload || {}
+        console.log("listSeasonParcelSaga-payload: ", payload)
         console.log("listSeasonParcelSaga-selectedSeason: ", selectedSeason)
         if (selectedSeason) {
             const parcels = yield call(ParcelApi.listSeasonParcels, selectedSeason)

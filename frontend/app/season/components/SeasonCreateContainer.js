@@ -56,7 +56,7 @@ class SeasonCreateContainer extends React.Component {
                     }}
                 />
                 <SeasonParcelSelection
-                    onSelectionChange={this.onSelectParcels}
+                    onSelection={this.onSelectParcels}
                 />
             </ModalForm>
         )

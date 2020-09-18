@@ -12,7 +12,7 @@ import {
 
 import {
     getSelectedParcel,
-    getSelectedSeasonParcelsTree,
+    getSelectedSeasonParcels,
 } from 'parcel/selectors'
 
 import {
@@ -72,11 +72,14 @@ const withReducerSoilTypes = injectReducer(require('reference/reducers/soilTypes
 const withReducerAgriculturalTypes = injectReducer(require('reference/reducers/agriculturalTypes'))
 
 
-const mapStateToProps = (state) => (
-    {   seasonParcelsTree: getSelectedSeasonParcelsTree(state),
-        selectedParcel: getSelectedParcel(state), }
-)
-
+const mapStateToProps = (state) => {
+    const { data: seasonParcelsTree, ...rest } = getSelectedSeasonParcels(state)
+    return {
+        seasonParcelsTree,
+        selectedParcel: getSelectedParcel(state),
+        ...rest,
+    }
+}
 
 const withConnect = connect(
     mapStateToProps,

@@ -26,7 +26,9 @@ export const normalizeParcels = (data) => {
 
 export const deNormalizeParcels = (data) => {
     const { entities, ids } = data
-    if (Object.keys(entities.parcels).length) {
+    console.log("deNormalizeParcels-entities: ", entities)
+    console.log("deNormalizeParcels-ids: ", ids)
+    if (Object.keys(entities.parcels).length && ids && ids.length) {
         return denormalize(ids, parcelsSchema, entities)
     }
     else {

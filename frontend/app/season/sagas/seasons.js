@@ -28,12 +28,7 @@ export const listSeasonsSaga = createRoutineSaga(
             yield put(listSeasons.success({
                 ...normalizeSeasons(seasons)
             }))
-            // Get the parcels from the last season
-            if (seasons.length) {
-                yield put(listSeasonParcel.trigger({
-                    selectedSeason: _.last(seasons)
-                }))
-            }
+
         }
     }
 )

@@ -123,6 +123,7 @@ export default function(state = initialState, action) {
 
 export const selectParcels = (state) => state[KEY]
 export const selectParcelsById = (state) => state[KEY].byId
+export const selectSeasonParcelsIsLoading = (state) => selectParcels(state).isLoading
 export const selectSelectedParcelId = (state) => selectParcels(state).selectedParcelId
 export const selectSelectedSeasonParcels = (state) => {
     const season = selectSeasons(state)
