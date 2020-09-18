@@ -20,7 +20,7 @@ import {
     selectDefaultTemplateIds,
 } from 'template/reducers/defaultTemplates'
 
-import { convertToDateObject } from 'template/utils'
+import { convertToDateObject, orderTasks } from 'task/utils'
 
 export const getUserTemplatesDenormalized = createSelector(
     [
@@ -29,7 +29,6 @@ export const getUserTemplatesDenormalized = createSelector(
         selectTasksById,
     ],
     (templateIds, templates, tasks) => {
-        console.log("getUserTemplatesDenormalized")
         return deNormalizeTemplates({ ids: templateIds, ...{entities: {templates, tasks}}})
     }
 )

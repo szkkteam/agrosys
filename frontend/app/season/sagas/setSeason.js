@@ -6,7 +6,7 @@ import { createRoutineSaga } from 'sagas'
 
 import { setSeason } from 'season/actions'
 import { selectSelectedSeasons } from 'season/reducers/seasons'
-import { listSeasonParcel } from 'parcel/actions'
+import { listSeasonParcel, actionParcel } from 'parcel/actions'
 
 export const KEY = 'setSeasonSaga'
 
@@ -33,7 +33,10 @@ export const setSeasonSaga = createRoutineSaga(
     yield put(setSeason.success(payload))
     // Trigger a parcel update
     yield put(listSeasonParcel.trigger())   
-
+    // Deselect current parcel
+    yield put(actionParcel.selectParcel({
+        selectedParcelId: null
+    }))
   },
 )
 

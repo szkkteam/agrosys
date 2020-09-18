@@ -40,21 +40,26 @@ class ParcelListContainer extends React.Component {
         // Keep this log, because parcelTree is not updated at the first time
         console.log("seasonParcelsTree: ", seasonParcelsTree)
         return (
-            <ParcelList
-                title="Parcels"   
-                parcels={seasonParcelsTree}
-                onRowClick={(e, d) => console.log("Event: ", e + " data: ", d)}
-                onRowClick={this.onSelect}
-                parentChildData={(row, rows) => rows.find(a => a.id === row.parentParcelId)}
-                options={{
-                    rowStyle: rowData => ({
-                        backgroundColor: (selectedParcel && selectedParcel.id === rowData.id) ? '#EEE' : '#FFF'
-                      })
-                }}
-                components={{
-                    Toolbar: props => null,
-                }}
-            /> 
+            <React.Fragment>
+                { seasonParcelsTree && seasonParcelsTree.length && 
+                <ParcelList
+                    title="Parcels"   
+                    parcels={seasonParcelsTree}
+                    onRowClick={(e, d) => console.log("Event: ", e + " data: ", d)}
+                    onRowClick={this.onSelect}
+                    parentChildData={(row, rows) => rows.find(a => a.id === row.parentParcelId)}
+                    options={{
+                        rowStyle: rowData => ({
+                            backgroundColor: (selectedParcel && selectedParcel.id === rowData.id) ? '#EEE' : '#FFF'
+                        })
+                    }}
+                    components={{
+                        Toolbar: props => null,
+                    }}
+                />
+                // TODO: Render some loading animation here
+                } 
+            </React.Fragment>
         )
     }
 }

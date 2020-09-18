@@ -4,6 +4,7 @@
 # Common Python library imports
 import enum
 # Pip package imports
+from sqlalchemy import asc
 import sqlalchemy as sa
 # Internal package imports
 from backend.database import (
@@ -34,6 +35,12 @@ class Plan(PlanMixin, TimestampMixin, BaseModel):
 
     tasks = relationship('Task', back_populates='plan',
                          cascade='all, delete-orphan')
+
+    @property
+    def tasks_ordered(self):
+        from .task import Task
+        return Task.join(Plan, (Plan.plan_id == Task.plan_id)).filter(
+            Plan.plan_id == self.plan_id).order_by(asc(Task.start_date)).all()
 
     plan_specific_products = relationship('PlanSpecificProduct', back_populates='plan',
                                                 cascade='all, delete')

@@ -14,17 +14,3 @@ export const adjustTasksYear = (tasks, newYear = moment()) => {
         }
     })
 }
-
-export const convertToDateObject = (tasks) => {
-    return tasks.map((task, i) => {
-        const startDate = moment(task.dates.startDate).toDate()
-        const endDate = moment(task.dates.endDate).toDate()
-        return {
-            ...task,
-            dates: {
-                startDate,
-                endDate,
-            }
-        }
-    })
-}

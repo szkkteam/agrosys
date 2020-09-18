@@ -37,22 +37,27 @@ class TemplateListContainer extends React.Component {
     render() { 
         const { templates, selectedTemplate } = this.props
         // Keep this log, because parcelTree is not updated at the first time
-        //console.log("TemplateListContainer-templates: ", templates)
         return (
-            <TemplateList
-                title="Templates"   
-                templates={templates}
-                onRowClick={(e, d) => console.log("Event: ", e + " data: ", d)}
-                onRowClick={this.onSelect}
-                options={{
-                    rowStyle: rowData => ({
-                        backgroundColor: (selectedTemplate && selectedTemplate.id === rowData.id) ? '#EEE' : '#FFF'
-                      })
-                }}
-                components={{
-                    Toolbar: props => null,
-                }}
-            /> 
+            <React.Fragment>
+                { templates && templates.length && 
+                <TemplateList
+                    title="Templates"   
+                    templates={templates}
+                    onRowClick={(e, d) => console.log("Event: ", e + " data: ", d)}
+                    onRowClick={this.onSelect}
+                    options={{
+                        rowStyle: rowData => ({
+                            backgroundColor: (selectedTemplate && selectedTemplate.id === rowData.id) ? '#EEE' : '#FFF'
+                        })
+                    }}
+                    components={{
+                        Toolbar: props => null,
+                    }}
+                /> 
+                // TODO: Render some loading animation here
+                }
+                
+            </React.Fragment>
         )
     }
 }

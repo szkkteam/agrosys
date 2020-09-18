@@ -77,7 +77,10 @@ const columns = [
           title: 'Task Type',
           field: 'taskType',
           initialEditValue: "TaskGeneral",
-          editComponent: ({value, onChange}) => (
+          editComponent: ({value, onChange}) => {
+
+            console.log("editComponent-value: ", value)
+          return (
             <SelectComponent
                 helper="Helper"
                 value={value}
@@ -85,7 +88,7 @@ const columns = [
                 >
                     { renderItems(taskTypesEnum) }
             </SelectComponent>
-          )
+          )}
         },
         {
           title: 'Description',

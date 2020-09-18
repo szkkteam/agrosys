@@ -39,7 +39,7 @@ class TemplateUpdateContainer extends React.Component {
     }
 
     render() {
-        const { onCancel, initialValues } = this.props
+        const { initialValues } = this.props
         const { isEdit } = this.state
 
         return (
