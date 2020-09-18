@@ -9,6 +9,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 from sqlalchemy import MetaData
 
+
 # Internal package imports
 
 session = Session()
@@ -23,3 +24,12 @@ db = SQLAlchemy(metadata=MetaData(naming_convention={
     'pk': 'pk_%(table_name)s',
 }))
 alembic = Alembic()
+
+
+# Needed for fucked up tables to reset/drop when migrating
+from sqlalchemy.schema import DropTable
+from sqlalchemy.ext.compiler import compiles
+
+@compiles(DropTable, "postgresql")
+def _compile_drop_table(element, compiler, **kwargs):
+    return compiler.visit_drop_table(element) + " CASCADE"

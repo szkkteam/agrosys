@@ -1,18 +1,22 @@
 ---
-farm_one:
+FARMER_USER:
   title: First farm
-  fields: ['Field(FIELD_FIELD_ONE)']
+  region: 'Region(REGION_1)'
+  seasons: ['Season(SEASON_1, SEASON_2)']
+  templates: ['Template(TEMPLATE_1)']
 
 FARMER_USER_FARM1:
   title: Farmers farm 1
-  fields: ['Field(FIELD_FIELD_TWO)']
+  region: 'Region(REGION_1)'
 
 FARMER_USER_FARM2:
   title: Farmers farm 2
-  fields: ['Field(FIELD_FIELD_THREE)']
+  region: 'Region(REGION_1)'
 
 FARMER_USER_FARM3:
   title: Farmers farm 3
+  region: 'Region(REGION_1)'
 
 FARMER_USER_FARM4:
   title: Farmers farm 3
+  region: 'Region(REGION_1)'

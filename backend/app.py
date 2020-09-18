@@ -80,6 +80,7 @@ def _create_app(config_object: BaseConfig, **kwargs):
     register_admins(app)
     register_filters(app)
     register_assets(app)
+    register_converters(app)
 
     deferred_extensions = dict(get_extensions(DEFERRED_EXTENSIONS))
     extensions.update(deferred_extensions)
@@ -169,6 +170,11 @@ def register_assets(app):
     for bundle in app.bundles:
         for asset_key, asset in bundle.assets:
             flask_assets.register(asset_key, asset)
+
+def register_converters(app):
+    """Register url converters."""
+    from backend.utils.url_helpers import DateConverter
+    app.url_map.converters['date'] = DateConverter
 
 def register_blueprints(app):
     """Register bundle views."""

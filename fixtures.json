@@ -61,33 +61,76 @@
       "role_id": 2
     }
   ]},
-
+  {
+    "model": "Country", "items": [
+      {
+        "id": 1,
+        "title": "Hungary",
+        "iso2": "HU",
+        "iso3": "HUN"
+      }
+    ]
+  },
+  {
+    "model": "Region", "items": [
+      {
+        "id": 1,        
+        "title": "Közép-Magyarország",
+        "so_code": "HU10",
+        "country_id": 1
+      }
+    ]
+  },
+  {
+    "model": "SoilType", "items": [
+      {
+        "id": 1,        
+        "title": "Soil Type 1",
+        "yield_modifier": 1.1
+      },
+      {
+        "id": 2,        
+        "title": "Soil Type 2",
+        "yield_modifier": 0.8
+      }
+    ]
+  },
+  {
+    "model": "AgriculturalType", "items": [
+      {
+        "id": 1,
+        "title": "Arable land",
+        "description": ""
+      },
+      {
+        "id": 2,
+        "title": "Grassland - Meadow",
+        "description": ""
+      },
+      {
+        "id": 3,
+        "title": "Forest",
+        "description": ""
+      }
+    ]
+  },  
   {
     "model": "Farm", "items": [
       {
         "id": 1,
-        "title": "My Farm"
-      },
-      {
-        "id": 2,
-        "title": "My Farm"
-      },
-      {
-        "id": 3,
-        "title": "My Farm"
+        "title": "My Farm",
+        "region_id": 1,
+        "owner_user_id": 2
       }
     ]
   },
-  { "model": "NewsletterSubscribe", "items": [
-    {
-      "id": 1,
-      "email": "test1@example.com",
-      "is_active": true
-    },
-    {
-      "id": 2,
-      "email": "test2@example.com",
-      "is_active": false
-    }
-  ]}
+  {
+    "model": "Season", "items": [
+      {
+        "id": 1,
+        "title": "First Season",
+        "farm_id": 1
+      }
+    ]
+  }  
 ]

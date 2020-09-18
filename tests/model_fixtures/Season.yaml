@@ -1,0 +1,13 @@
+---
+SEASON_1:
+  title: S2017
+  reference_parcels: ['PhysicalBlock(PHYSICAL_BLOCK_NESTED_1)']
+
+SEASON_2:
+  title: S2018
+
+SEASON_3:
+  title: S2019
+
+SEASON_4:
+  title: S2020

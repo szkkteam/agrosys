@@ -1,0 +1,8 @@
+---
+AGRICULTURAL_TYPE_ARABLE_LAND:
+  title: Arable Land
+  description: Some text
+
+AGRICULTURAL_TYPE_GRASSLAND:
+  title: Grassland - Meadow
+  description: Some text

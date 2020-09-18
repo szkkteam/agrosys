@@ -4,11 +4,11 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Prompt } from 'react-router'
 
-import { bindRoutineCreators, bindRoutineCreatorsAction } from 'actions'
+import { bindRoutineCreators } from 'actions'
 import { injectReducer, injectSagas } from 'utils/async'
 
-import { listFields } from 'field/actions'
-import { selectFieldsList } from 'field/reducers/field'
+//import { listFields } from 'field/actions'
+//import { selectFieldsList } from 'field/reducers/field'
 import { selectProductionTemplate } from 'production/reducers/productionDetail'
 import { 
     createProductions,
@@ -323,18 +323,13 @@ class ProductionCreateContainer extends React.Component {
 }
 
 
-const withReducer = injectReducer(require('field/reducers/field'))
-const withSaga = injectSagas(require('field/sagas/listFields'))
+//const withReducer = injectReducer(require('field/reducers/field'))
+//const withSaga = injectSagas(require('field/sagas/listFields'))
 
 const withSagaProductionDetail = injectSagas(require('production/sagas/productionDetail'))
 const withReducerProductionTemplate = injectReducer(require('production/reducers/productionDetail'))
 
 const withProductionsSagas = injectSagas(require('production/sagas/createProductions'))
-
-const withConnect = connect(
-  (state) => ({fields: selectFieldsList(state)}),
-  (dispatch) => bindRoutineCreators({ listFields }, dispatch),
-)
 
 
 const withConnectProductionTemplate = connect(
@@ -345,7 +340,7 @@ const withConnectProductionTemplate = connect(
 
 const withConnectTemplateClear = connect(
     (state) => ({selectedTemplate: selectProductionTemplate(state)}),
-    (dispatch) => bindRoutineCreatorsAction({ productionTemplate }, dispatch, productionTemplateActionTypes),
+    (dispatch) => bindRoutineCreators({ productionTemplate }, dispatch),
 )
 
 
@@ -360,12 +355,9 @@ const withStorage = WrappedComponent => (
 )
 
 export default compose(
-  withReducer,
   withReducerProductionTemplate,
-  withSaga,
   withProductionsSagas,
   withSagaProductionDetail,
-  withConnect,
   withConnectProductionTemplate,  
   withConnectTemplateClear,
   withStorage,

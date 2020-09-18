@@ -45,7 +45,7 @@ export default class SideBarItem extends React.Component {
     }
     //<div className="drawer-item-text">{label}</div>
     render() {
-        const { route, label, items, Icon, onClick: onClickProp } = this.props.item;
+        const { route, label, items, itemProps = {}, labelProps = {}, Icon, onClick: onClickProp } = this.props.item;
         let expandIcon;
 
         if (Array.isArray(items) && items.length) {
@@ -69,6 +69,7 @@ export default class SideBarItem extends React.Component {
                     button
                     dense
                     { ...this.props.rest }
+                    { ...itemProps }
                 >
                     <div
                         style={{ paddingLeft: this.props.depth * this.props.depthStep }}
@@ -80,7 +81,12 @@ export default class SideBarItem extends React.Component {
                                 {label}
                             </NavLink>
                         ) : label? (
-                            <div className="drawer-item-text">{label}</div>
+                            <div 
+                                className="drawer-item-text"
+                                { ...labelProps }
+                            >
+                                    {label}
+                            </div>
                         ) : null }
                     </div>
                     {expandIcon}                    

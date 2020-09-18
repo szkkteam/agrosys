@@ -10,7 +10,7 @@ from shapely import geometry
 import geoalchemy2
 
 # Internal package imports
-from backend.api import fields
+from backend.api import fields, ValidationError
 
 class GeometryField(fields.Field):
     """
@@ -29,10 +29,13 @@ class GeometryField(fields.Field):
             'geometry': geometry.mapping(to_shape(value))
         }
 
-
     def _deserialize(self, value, attr, data, **kwargs):
-        if value is None:
-            return None
+        if not value or 'type' not in value:
+            raise ValidationError('GeoJSON type could not be found.', 'geometry')
+        if value['type'] != 'Feature':
+            raise ValidationError('Expecting a Feature object', 'geometry')
+        if 'geometry' not in value:
+            raise ValidationError('Expecting a geometry field', 'geometry')
         return from_shape(geometry.shape(value['geometry']))
 
 # TODO: Define a money field, where the input is like money = {'amount': 1, 'currency': 'USD'} and convert it to sa.Decimal format

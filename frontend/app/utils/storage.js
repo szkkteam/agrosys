@@ -11,11 +11,6 @@ class Storage {
     localStorage.setItem('user', JSON.stringify(user))
   }
 
-  activateFarm(farm) {
-    this.farm = farm
-    localStorage.setItem('activeFarm', JSON.stringify(farm))
-  }
-
   doLogout() {
     this.token = null
     this.user = null
@@ -46,6 +41,11 @@ class Storage {
     return this.user
   }
 
+  activateFarm(farm) {
+    this.farm = farm
+    localStorage.setItem('activeFarm', JSON.stringify(farm))
+  }
+
   getActiveFarm() {
     if (!this.farm) {
       let farm
@@ -57,6 +57,25 @@ class Storage {
       this.farm = farm
     }
     return this.farm
+  }
+
+  selectSeason(season) {
+    this.season = season
+    localStorage.setItem('selectSeason', JSON.stringify(season))
+  }
+
+  getSelectedSeason() {
+    if (!this.season) {
+      let season
+      try {
+        season = JSON.parse(localStorage.getItem('selectSeason'))
+      } catch (e) {
+        season = null
+      }      
+      this.season = season
+    }
+    console.log("Storage season: ", this.season)
+    return this.season
   }
   
   storeProductionForm(productionForm) {

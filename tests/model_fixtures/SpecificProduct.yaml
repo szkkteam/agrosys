@@ -1,0 +1,15 @@
+---
+SPECIFIC_SPRING_DURUM_WHEAT:
+  title: Tavaszi durumbúza
+  unit: 'Unit(UNIT_KG)'
+  base_yield: 1.0
+
+SPECIFIC_AUTUMN_NOVUM_WHEAT:
+  title: Tavaszi novum búza
+  unit: 'Unit(UNIT_KG)'
+  base_yield: 1.0
+
+SPECIFIC_SPRING_WHEAT:
+  title: Tavaszi tönkölybúza
+  unit: 'Unit(UNIT_KG)'
+  base_yield: 1.0

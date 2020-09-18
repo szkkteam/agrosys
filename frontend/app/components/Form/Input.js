@@ -8,6 +8,8 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
+import { TextField as MuiTextField } from '@material-ui/core'
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 export const EmailField = (props) =>
   <Field component={_renderInput} type="email" {...props} />
@@ -19,7 +21,10 @@ export const PasswordField = (props) =>
   <Field component={_renderInput} type="password" {...props} />
 
 export const TextField = (props) =>
-  <Field component={_renderInput} type="text" {...props} />
+  <Field component={TextComponent} {...props} />
+
+export const TextComponent = (props) =>
+  renderTextField({...props})
 
 export const TextArea = (props) =>
   <Field component={_renderTextArea} {...props} />
@@ -31,11 +36,79 @@ export const SelectField = (props) =>
   <Field component={SelectComponent} {...props} />
 
 export const SelectComponent = (props) =>
-    renderSelectField({...props})
+  renderSelectField({...props})
+
+export const SearchSelectField = (props) =>
+  <Field component={SearchSelectComponent} type="text" {...props}/>
+
+export const SearchSelectComponent = (props) =>
+  renderAutocomplete({...props})
 
 export const SelectOption = React.forwardRef(({children, ...props}, ref) =>
-  <MenuItem {...props} ref={ref}>{children}</MenuItem>)
+  //<MenuItem {...props} ref={ref}>{children}</MenuItem>)
+  // FIXME: Redux-Form is not working with not native select. No option given. It said  the MenuItem must be direct descendant of select, but still not working.
+  <option {...props} ref={ref}>{children}</option>)
 
+export const SelectOptionGrp = ({children, ...props}) => 
+  <optgroup {...props} >{children}</optgroup>
+
+const renderTextField = ({
+  label,
+  input,
+  formProps,
+  meta: { touched, invalid, error, dirty, pristine, initial, autofilled },
+  ...custom
+}) => {
+  //console.log("Label: " + label + " touched: ", touched, " invalid: " + invalid + " dirty: ", dirty, " pristine: ", pristine, " autofilled: ", autofilled, " initial: ", initial)
+  return (
+    <FormControl
+      {...formProps}
+    >
+      <MuiTextField
+        label={label}
+        placeholder={label}
+        error={touched && invalid}
+        helperText={touched && error}
+        {...input}
+        {...custom}
+      />
+    </FormControl>
+  )
+}
+
+const renderAutocomplete = ({
+  input = null,
+  label,
+  disabled = false,
+  textProps,
+  formProps,
+  meta: { touched = null, error = null } = {},
+  ...custom
+}) => {
+  const { onChange: onChangeRF, onBlur: onBlurRF, ...inputRest } = input || {}
+
+  const rfPropsFix = input? { onChange: (e, v) => input.onChange(v) } : {}
+  return (
+    <FormControl
+      {...formProps}
+      error={touched && !!error }
+      disabled={disabled}
+    >
+      <Autocomplete
+        autoHighlight
+        freeSolo={false}
+        fullWidth={true}
+        clearOnBlur={true}
+        autoSelect={true}
+        {...rfPropsFix} // Used to fix the onChange event handler for redux-form
+        
+        {...custom}        
+        {...inputRest}
+        renderInput={(params) => <MuiTextField {...params} label={label} {...textProps} autoComplete="disabled" fullWidth/>}
+      />
+    </FormControl>
+  )
+}
 
 const renderFromHelper = ({ touched, error }) => {
   if (!(touched && error)) {
@@ -56,31 +129,38 @@ export const renderSelectField = ({
   meta: { touched = null, error = null } = {},
   children,
   ...custom
-}) => (
-  <FormControl
-    {...formProps}
-    error={touched && error}
-    disabled={disabled}
-  >
-    {label? <InputLabel
-      {...labelProps}
-      htmlFor={htmlFor}
+}) => {
+  return (
+    <FormControl
+      {...formProps}
+      error={touched && !!error }
+      disabled={disabled}
     >
-      {label}
-    </InputLabel> : null }
-    <Select
-      {...input}
-      {...custom}
-      inputProps={{
-        name: inputName,
-        id: htmlFor,
-      }}
-    >
-      {children}
-    </Select>
-    {renderFromHelper({ touched, error })}
-  </FormControl>
-)
+      {label? <InputLabel
+        {...labelProps}
+        htmlFor={htmlFor}
+      >
+        {label}
+      </InputLabel> : null }
+      <Select
+        // FIXME: Without native, it's not working properly. See menuitem issue.
+        // Consider using: https://github.com/erikras/redux-form-material-ui or Formik
+        native
+        {...input}
+        {...custom}
+        inputProps={{
+          name: inputName,
+          id: htmlFor,
+        }}
+      >
+        {children}
+      </Select>
+      {renderFromHelper({ touched, error })}
+    </FormControl>
+  )
+}
+  
+
   
 const _renderInput = (props) => _renderField({ component: 'input', ...props })
 

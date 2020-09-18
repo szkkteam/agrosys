@@ -2,9 +2,6 @@ import PropTypes from 'prop-types'
 import React, { useRef, useEffect } from 'react'
 import moment from 'moment'
 
-import TextField from "@material-ui/core/TextField";
-import { DateRangePicker, DateRange, DateRangeDelimiter } from "@material-ui/pickers";
-
 import addClass from 'dom-helpers/addClass'
 import removeClass from 'dom-helpers/removeClass'
 import getWidth from 'dom-helpers/width'
@@ -19,23 +16,8 @@ import {
   CalendarTable,
 } from 'components/Calendar'
 
-import { SelectComponent, SelectOption } from 'components/Form'
-
-import { statusEnum, taskTypesEnum } from 'production/constants'
-
-
-const renderItems = (items) => (
-  items && Array.isArray(items) && items.map((item, index) => (
-      <SelectOption 
-          key={index} 
-          value={item.id}
-      >
-          {item.title}
-      </SelectOption>    
-  ))
-)
-
 function CalendarListView({
+  disabled,
   selected,
   getters,
   accessors,
@@ -44,92 +26,13 @@ function CalendarListView({
   length,
   date,
   events,
+  columns,
   onTaskUpdate,
   onTaskDelete,
   onTaskAdded,
   ...props,
 }) {
-  const columns = React.useMemo(
-    () => [
-        {
-          title: 'Start Date',
-          field: 'dates',
-          initialEditValue: [new Date(), new Date()],
-          cellStyle: {whiteSpace: "nowrap"},
-          customSort: (a, b) => +accessors.start(a) - +accessors.start(b),
-          //type: 'datetime',
-          render: (rowData) => (
-            <div>
-              <span>{localizer.format(accessors.start(rowData), 'agendaDateFormat')}</span>
-              <span> - </span>
-              <span>{localizer.format(accessors.end(rowData), 'agendaDateFormat')}</span>
-            </div>
-          ),
-          editComponent: ({value, onChange}) => {
-            console.log("Props: ", props)
-            return (
-              <DateRangePicker
-                startText="Start"
-                endText="End"
-                value={[value.startDate, value.endDate]}
-                onChange={(newValue) => onChange({startDate: moment(newValue[0]).toDate(), endDate: moment(newValue[1]).toDate()})}
-                renderInput={(startProps, endProps) => (
-                  <React.Fragment>
-                    <TextField {...startProps} helperText="" />
-                    <DateRangeDelimiter> to </DateRangeDelimiter>
-                    <TextField {...endProps} helperText=""/>
-                  </React.Fragment>
-                )}
-              />
-            )
-          },
-        },
-        {
-          title: 'Title',
-          field: 'title',
-        },
-        {
-          
-          title: 'Task Type',
-          field: 'taskType',
-          initialEditValue: "TaskGeneral",
-          editComponent: ({value, onChange}) => (
-            <SelectComponent
-                helper="Helper"
-                value={value}
-                onChange={e => onChange(e.target.value)}
-                >
-                    { renderItems(taskTypesEnum) }
-            </SelectComponent>
-          )
-        },
-        {
-          title: 'Description',
-          field: 'description',
-        },
-        {
-          title: 'Status',
-          field: 'status',
-          initialEditValue: "Pending",
-          editComponent: (props) => (
-            <SelectComponent
-                helper="Helper"
-                value={props.value}
-                onChange={e => props.onChange(e.target.value)}
-                >
-                    { renderItems(statusEnum) }
-            </SelectComponent>
-          )
-        },
-        {
-          title: 'Planned Cost',
-          field: 'predictedCost',
-        },
-
-    ],
-    []
-  )
-
+  
   let { messages } = localizer
   let end = dates.add(date, length, 'day')
   let range = dates.range(date, end, 'day')
@@ -143,7 +46,7 @@ function CalendarListView({
         <CalendarTable
           columns={columns}
           data={events}
-          editable={{                
+          editable={ !disabled? {                
             onRowUpdate: (newData, oldData) => 
                 new Promise((resolve, reject) => {
                     setTimeout(() => {
@@ -170,6 +73,8 @@ function CalendarListView({
                 }),
               */
             
+        } : {
+          // TODO: Add props for disabled list view
         }}
           {...props}
         />          

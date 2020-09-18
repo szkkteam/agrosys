@@ -10,10 +10,9 @@ import {
 } from 'farm/pages'
 
 import {
-  FieldList,
-  FieldDetail,
-  FieldCreate,
-} from 'field/pages'
+  MapPage,
+  TemplatePage,
+} from 'pages/pages'
 
 import {
   ProductionList,
@@ -55,11 +54,13 @@ export const ROUTES = {
   Farms: 'Farms',
   FarmCreate: 'FarmCreate',
   /**
-   * Field
+   * Map
    */
-  FieldList: 'FieldList',
-  FieldDetail: 'FieldDetail',
-  FieldCreate: 'FieldCreate',
+  MapPage: 'MapPage',
+  /**
+   * Templates
+   */
+  TemplatePage: 'TemplatePage',
 
   /**
    * Production
@@ -111,28 +112,26 @@ const routes = [
     component: FarmCreate,
     routeComponent: ProtectedRoute,
   },
+
   /**
-   * Field
+   * Map
    */
   {
-    key: ROUTES.FieldList,
-    path: '/fields',
-    component: FieldList,
+    key: ROUTES.MapPage,
+    path: '/map',
+    component: MapPage,
     routeComponent: ProtectedRoute,
   },
+  /**
+   * Templates
+   */
   {
-    key: ROUTES.FieldDetail,
-    path: '/fields/:id',
-    component: FieldDetail,
+    key: ROUTES.TemplatePage,
+    path: '/templates',
+    component: TemplatePage,
     routeComponent: ProtectedRoute,
   },
-  {
-    key: ROUTES.FieldCreate,
-    path: '/fields-new/',
-    component: FieldCreate,
-    routeComponent: ProtectedRoute,
-  },
-
+  
   /**
    * Production
    */

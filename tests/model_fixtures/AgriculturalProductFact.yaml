@@ -1,0 +1,43 @@
+---
+AG_PRODUCT_COMMON_WHEAT_REGION_1_AUTUMN_NOVUM_WHEAT:
+  value: 612
+  specific_product: 'SpecificProduct(SPECIFIC_AUTUMN_NOVUM_WHEAT)'
+  region: 'Region(REGION_1)'
+  agricultural_product: 'AgriculturalProduct(AG_PRODUCT_COMMON_WHEAT)'
+
+AG_PRODUCT_COMMON_WHEAT_REGION_1_SPRING_WHEAT:
+  value: 612
+  specific_product: 'SpecificProduct(SPECIFIC_SPRING_WHEAT)'
+  region: 'Region(REGION_1)'
+  agricultural_product: 'AgriculturalProduct(AG_PRODUCT_COMMON_WHEAT)'
+
+AG_PRODUCT_COMMON_WHEAT_REGION_2_AUTUMN_NOVUM_WHEAT:
+  value: 724
+  specific_product: 'SpecificProduct(SPECIFIC_AUTUMN_NOVUM_WHEAT)'
+  region: 'Region(REGION_2)'
+  agricultural_product: 'AgriculturalProduct(AG_PRODUCT_COMMON_WHEAT)'
+
+AG_PRODUCT_COMMON_WHEAT_REGION_2_SPRING_WHEAT:
+  value: 724
+  specific_product: 'SpecificProduct(SPECIFIC_SPRING_WHEAT)'
+  region: 'Region(REGION_2)'
+  agricultural_product: 'AgriculturalProduct(AG_PRODUCT_COMMON_WHEAT)'
+
+AG_PRODUCT_DURUM_WHEAT_REGION_1_SPRING_DURUM_WHEAT:
+  value: 767
+  specific_product: 'SpecificProduct(SPECIFIC_SPRING_DURUM_WHEAT)'
+  region: 'Region(REGION_1)'
+  agricultural_product: 'AgriculturalProduct(AG_PRODUCT_DURUM_WHEAT)'
+
+AG_PRODUCT_DURUM_WHEAT_REGION_2_SPRING_DURUM_WHEAT:
+  value: 780
+  specific_product: 'SpecificProduct(SPECIFIC_SPRING_DURUM_WHEAT)'
+  region: 'Region(REGION_2)'
+  agricultural_product: 'AgriculturalProduct(AG_PRODUCT_DURUM_WHEAT)'
+
+AG_PRODUCT_GRASSLAND_GRAZINGS_REGION_1:
+  value: 54
+
+AG_PRODUCT_GRASSLAND_GRAZINGS_REGION_2:
+  value: 71
+

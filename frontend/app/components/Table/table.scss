@@ -1,0 +1,5 @@
+
+/* https://github.com/mbrn/material-table/issues/1195 */
+tbody tr.MuiTableRow-root:not([index]) {
+    display: none !important;
+  }
