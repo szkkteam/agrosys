@@ -113,26 +113,24 @@
         "description": ""
       }
     ]
-  },
+  },  
   {
     "model": "Farm", "items": [
       {
         "id": 1,
         "title": "My Farm",
-        "region_id": 1
+        "region_id": 1,
+        "owner_user_id": 2
       }
     ]
   },
-  { "model": "NewsletterSubscribe", "items": [
-    {
-      "id": 1,
-      "email": "test1@example.com",
-      "is_active": true
-    },
-    {
-      "id": 2,
-      "email": "test2@example.com",
-      "is_active": false
-    }
-  ]}
+  {
+    "model": "Season", "items": [
+      {
+        "id": 1,
+        "title": "First Season",
+        "farm_id": 1
+      }
+    ]
+  }  
 ]
