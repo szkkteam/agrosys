@@ -30,7 +30,7 @@ install_requires = read_requirements('requirements.txt')
 dev_requires = read_requirements('requirements-dev.txt')
 
 setup(
-    name='flask_starter',
+    name='agrosys',
     version=backend.__version__,
     description=backend.__doc__,
     long_description=long_description,
