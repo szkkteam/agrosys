@@ -19,6 +19,11 @@ import {
 import { convertToDateObject } from 'task/utils'
 
 
+import {
+    createTemplateEnums
+} from 'template/constants'
+
+
 class TemplateCreateContainer extends React.Component {
 
     constructor(props) {
@@ -56,28 +61,23 @@ class TemplateCreateContainer extends React.Component {
         })
     }
 
-    onFinished = () => {
-
-    }
-
     render() {
         const { 
+            templateState,
             onCancel,
-            isModalOpen,
         } = this.props
 
         const { isLoadInitial, initialValues } = this.state
-
         return (
             <React.Fragment>
                 <FormTemplate
                     onSubmit={createTemplate}
-                    onSubmitSuccess={onCancel}
+                    //onSubmitSuccess={onCancel}
                     onCancel={onCancel}
                     initialValues={isLoadInitial? initialValues : {}}
                 />
                 <TemplateLoadModal
-                    open={isModalOpen}
+                    open={templateState === createTemplateEnums.CREATE_FROM_TEMPLATE}
                     onClose={this.onCancelModal}
                     onLoad={this.onLoadModal}
                 >            

@@ -206,8 +206,9 @@ export const getSelectedSiblingParcels = createSelector(
         // If no selected, return with empty list
         if (!selectedParcelId) return { data: [], isLoading: false}
         let parent = selectedParcelId
-        parcelState.ids.map((id) => 
-            parcelState.byId[id].parcels.find(x => { if (x == selectedParcelId) { parent = id } }))
+        parcelState.ids.map(id =>
+            parcelState.byId[id] && parcelState.byId[id].parcels.find(x => { if (x == selectedParcelId) { parent = id } }))
+            
 
         // TODO: Maybe return with the siblings on the top level also and could be used for more purpose
         if (!parent) return { data: [], isLoading: false}

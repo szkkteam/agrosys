@@ -11,9 +11,12 @@ import {
 
 import {
     selectUserTemplatesById,
-    selectUserTemplateIds,
-    selectUserSelectedTemplateId,
+    selectUserTemplateIds,    
 } from 'template/reducers/userTemplates'
+
+import { 
+    selectSelectedTemplateId,
+} from 'template/reducers/templates'
 
 import {
     selectDefaultTemplatesById,
@@ -36,8 +39,8 @@ export const getUserTemplatesDenormalized = createSelector(
 
 export const getUserSelectedTemplate = createSelector(
     [
-        selectUserSelectedTemplateId,
-        selectUserTemplatesById,
+        selectSelectedTemplateId,
+        selectUserTemplatesById, 
         selectTasksById,
     ],
     (templateId, templates, tasks) => {
