@@ -25,17 +25,17 @@ class SeasonParcelSelection extends React.Component {
             ))
         }
     }
-    /*
+    
+
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.seasonParcelsTree !== this.props.seasonParcelsTree) {
+        if (!prevProps.seasonParcelsTree.length && this.props.seasonParcelsTree.length) {
             this.setState({
                 seasonParcelsTree: this.props.seasonParcelsTree.map((parcel, i) => (
                     Object.assign(parcel, { tableData: { checked: false } })
                 ))
             })
         }
-    }
-    */
+    }    
     
     componentDidMount() {
         const { listSeasonParcel, lastSeason } = this.props

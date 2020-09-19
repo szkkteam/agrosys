@@ -55,7 +55,7 @@ export default function(state = initialState, action) {
 
         case setSeason.SUCCESS:
             const { selectedSeasonId } = payload
-            console.log("season-setSeason.SUCCESS-payload: ", payload)
+            console.log("setSeason.SUCCESS-selectedSeasonId: ", selectedSeasonId)
             storage.selectSeason(selectedSeasonId)
             return { ...state,
                 selectedSeasonId,
@@ -63,6 +63,8 @@ export default function(state = initialState, action) {
 
         case createSeason.SUCCESS:
         case listSeasons.SUCCESS:
+            console.log("createSeason.SUCCESS-seasonsById: ", seasonsById)
+            console.log("createSeason.SUCCESS-ids: ", ids)
             return { ...state,
                 byId: {...byId, ...seasonsById},
                 ids: _.uniq(_.concat(state.ids, ids)),
@@ -94,6 +96,11 @@ export const selectLastSeason = (state) => {
     const season = selectSeasons(state)
     return _.get(season.byId, [_.last(season.ids)], null)
 }
+export const selectSeasonsIds = (state) => state[KEY].ids
+export const selectSeasonsById = (state) => state[KEY].byId
+export const selectSeasonsIsLoading = (state) => selectSeasons(state).isLoading
+export const selectSelectedSeasonId = (state) => state[KEY].selectedSeasonId
+
 export const selectSeasonsEntities = (state) => {
     const seasons = selectSeasons(state)
     return { seasons: seasons.byId,  }

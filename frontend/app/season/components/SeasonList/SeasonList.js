@@ -15,7 +15,6 @@ export default ({
     options,
     ...props,
 }) => { 
-    console.log("SeasonList-seasons: ", seasons)
     return (    
         <div style={{ maxWidth: "100%", minWidth: "200px" }}>
             <Table

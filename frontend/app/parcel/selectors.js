@@ -155,7 +155,6 @@ export const getSeasonParcelsById = createSelector(
     ],
     (soilTypes, agriculturalTypes, parcels, isLoading) => memoize(
         parcelIds => {
-            console.log("getSeasonParcelsById-parcelIds: ", parcelIds)
             const denormalized = constructParcelTree(deNormalizeParcels({ ids: _.concat([], parcelIds), ...{entities: {parcels, soilTypes, agriculturalTypes}}}))
             return {
                 data: denormalized,
