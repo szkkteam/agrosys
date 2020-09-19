@@ -54,8 +54,9 @@ export default function(state = initialState, action) {
             }
 
         case setSeason.SUCCESS:
+            console.log("setSeason.SUCCESS-payload: ", payload)
+            console.log("setSeason.SUCCESS-type: ", type)
             const { selectedSeasonId } = payload
-            console.log("setSeason.SUCCESS-selectedSeasonId: ", selectedSeasonId)
             storage.selectSeason(selectedSeasonId)
             return { ...state,
                 selectedSeasonId,

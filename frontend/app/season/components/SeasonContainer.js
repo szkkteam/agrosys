@@ -27,11 +27,14 @@ class SeasonContainer extends React.Component {
         this.state = {
             isModalOpen: false,
         }
-        //this.popover = React.createRef();
     }
 
     componentDidMount() {
         this.props.listSeasons && this.props.listSeasons.maybeTrigger()
+    }
+
+    componentDidUpdate(prevProps) {
+        console.log("Seasons same? ", prevProps.seasons === this.props.seasons)
     }
 
     openModal = () => this.setState({isModalOpen: true})
@@ -47,15 +50,15 @@ class SeasonContainer extends React.Component {
         setSeason && setSeason.maybeTrigger({
             selectedSeasonId: row.id
         })
-        //this.popover.handleClose()
     }
 
     render() {
         const { seasons, selectedSeason, children, ...props } = this.props
         const { isModalOpen } = this.state
+
+        console.log("SeasonContainer-seasons: ", seasons)
         return (
             <SeasonPopover
-                //ref={this.popover}
                 label={selectedSeason? selectedSeason.title: "Select a Season!"}               
             >
                 <SeasonCreateContainer

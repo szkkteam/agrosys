@@ -7,6 +7,9 @@ import { Map,
     LayersControl,
     LayerGroup
 } from "react-leaflet";
+import * as L from 'leaflet'
+
+import { log_error } from 'logging'
 
 import './leafletmap.scss'
 
@@ -24,6 +27,10 @@ export default class LeafletMap extends React.Component {
 
     componentDidMount() {
         this.map = this.mapInstance.leafletElement
+        const { startBounds } = this.props
+        this.fitTo({
+            bounds: startBounds,
+        })
         window.addEventListener("resize", this.updateDimensions)
     }
 
@@ -44,8 +51,11 @@ export default class LeafletMap extends React.Component {
       }
 
     flyTo = ({bounds}) => {
-        //console.log("flyTo: ", bounds)
-        this.map.flyToBounds(bounds)
+        bounds && this.map.flyToBounds(bounds)
+    }
+
+    fitTo = ({bounds}) => {
+        bounds && this.map.fitBounds(bounds)
     }
 
     handleEvents = ({type, config}) => {
@@ -60,13 +70,22 @@ export default class LeafletMap extends React.Component {
     }
     
     onMoveEnd = (e) => {
-        //console.log("onMoveEnd: ", e)
         const { mapEventAction, mapViewportAction, events } = this.props
         
         events.length && mapEventAction && mapEventAction.clearEvents()
         mapViewportAction && mapViewportAction.changed({
             viewPortChange: this.map.getBounds(),
         })
+    }
+
+    convertLatLngToBounds = (latlngs) => {
+        try {
+            const c1 = L.latLng(startBounds._northEast)
+            const c2 = L.latLng(startBounds._southWest)
+            return L.latLngBounds(c1, c2)
+        } catch (e) {
+            log_error("startBounds given to map is invalid: ", latlngs)
+        }
     }
 
     render() {
@@ -77,7 +96,7 @@ export default class LeafletMap extends React.Component {
                     ref={e => { this.mapInstance = e }}
                     center={[45.4, -75.7]}
                     zoom={12}
-                    bounds={startBounds}
+                    //bounds={this.convertLatLngToBounds(startBounds)}
                     editable={editable}
                     onMoveEnd={this.onMoveEnd}
                     zoomControl={false}

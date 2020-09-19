@@ -12,19 +12,19 @@ export const KEY = 'setSeasonSaga'
 
 
 export const maybeSetSeasonsSaga = function *({ payload }) {
+    console.log("maybeSetSeasonsSaga-payload: ", payload)
     const { selectedSeasonId } = payload    
     const selectedSeason = yield select(selectSelectedSeasons)
     if (!selectedSeason || (selectedSeason.id != selectedSeasonId)) {
-        yield put(setSeason.trigger({
-            payload
-        }))
+        yield put(setSeason.trigger(payload))
     }   
 }
 
 
 export const setSeasonSaga = createRoutineSaga(
     setSeason,
-  function *successGenerator({ payload }) {
+  function *successGenerator(payload) {
+    console.log("setSeasonSaga-payload: ", payload)
     // Set the new ID to the store
     yield put(setSeason.success(payload))
     // Trigger a parcel update

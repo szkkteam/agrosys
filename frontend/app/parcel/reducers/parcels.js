@@ -35,7 +35,6 @@ export default function(state = initialState, action) {
     const { type, payload } = action
     const { parcels: parcelsById, ids } = payload || {}
     const { byId } = state
-    
 
     switch(type) {
         case listSeasons.REQUEST:
@@ -66,7 +65,7 @@ export default function(state = initialState, action) {
             const { selectedParcelId } = payload
             // If selection is the same, perform deselect logic
             let selection = selectedParcelId
-            if(state.selectedParcelId == selectedParcelId) {
+            if(state.selectedParcelId == selectedParcelId && selectedParcelId) {
                 // Check if the old selection is a child
                 let parent = null
                 state.ids.map((id) => {
