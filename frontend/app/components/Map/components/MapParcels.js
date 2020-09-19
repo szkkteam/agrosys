@@ -127,12 +127,21 @@ const withReducerSoilTypes = injectReducer(require('reference/reducers/soilTypes
 const withReducerAgriculturalTypes = injectReducer(require('reference/reducers/agriculturalTypes'))
 
 
+const mapStateToProps = (state) => {
+    const selectedParcel = getSelectedParcel(state)
+    const { data: seasonParcels, ...rest} = getSelectedSeasonParcelsGrouped(state) 
+    const { data: siblingParcels } = getSelectedSiblingParcels(state)
+    return {
+        selectedParcel,
+        seasonParcels,
+        siblingParcels,
+        ...rest,
+    }
+}
+
+
 const withConnect = connect(
-  (state) => ({
-      selectedParcel: getSelectedParcel(state),
-      seasonParcels: getSelectedSeasonParcelsGrouped(state),
-      siblingParcels: getSelectedSiblingParcels(state),
-    }),
+    mapStateToProps,
     (dispatch) => bindRoutineCreators({ actionParcel, listSeasonParcel, listSoilTypes, listAgriculturalTypes }, dispatch),
 )
 

@@ -45,5 +45,5 @@ export default function(state = initialState, action) {
 }
 
 export const selectSoilsTypes = (state) => state[KEY]
-export const selectSoilsTypeIds = (state) => selectSoilsTypes(state).ids
-export const selectSoilsTypesbyId = (state) => selectSoilsTypes(state).byId
+export const selectSoilsTypeIds = (state) => state[KEY].ids
+export const selectSoilsTypesbyId = (state) => state[KEY].byId

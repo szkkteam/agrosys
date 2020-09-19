@@ -40,8 +40,6 @@ const validate = values => {
 
 const FormSeason = (props) => {
   const { invalid, handleSubmit, onCancel, submitting, pristine, action, dirty, resetSection, ...rest } = props
-
-  console.log("rest: ", rest)
   //console.log("action: ", action)
   //console.log("handleSubmit: ", handleSubmit)
   return (      
@@ -84,7 +82,6 @@ const withForm = reduxForm({
 const withConnect = connect(
     (state, props) => {
         const { initialValues : locinitialValues, ...rest } = props
-        console.log("locinitialValues: ", locinitialValues)
         return { 
             initialValues: {
                 ...locinitialValues

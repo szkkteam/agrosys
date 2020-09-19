@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import { bindRoutineCreators } from 'actions'
 import { injectReducer, injectSagas } from 'utils/async'
 
+import { Spinner } from 'components/Loading'
+
 import { 
     listSeasonParcel,
     actionParcel,
@@ -12,11 +14,12 @@ import {
 
 import {
     getSelectedParcel,
-    getSelectedSeasonParcelsTree,
+    getSelectedSeasonParcels,
 } from 'parcel/selectors'
 
 import {
     ParcelList,
+    EmptyParcelList
 } from 'parcel/components'
 
 class ParcelListContainer extends React.Component {
@@ -36,29 +39,32 @@ class ParcelListContainer extends React.Component {
     }
  
     render() { 
-        const { seasonParcelsTree, selectedParcel } = this.props
-        // Keep this log, because parcelTree is not updated at the first time
-        console.log("seasonParcelsTree: ", seasonParcelsTree)
+        const { seasonParcelsTree, selectedParcel, isLoading } = this.props
+        console.log("ParcelListContainer-isLoading: ", isLoading + " number of parcels: ", seasonParcelsTree.length)
         return (
             <React.Fragment>
-                { seasonParcelsTree && seasonParcelsTree.length && 
-                <ParcelList
-                    title="Parcels"   
-                    parcels={seasonParcelsTree}
-                    onRowClick={(e, d) => console.log("Event: ", e + " data: ", d)}
-                    onRowClick={this.onSelect}
-                    parentChildData={(row, rows) => rows.find(a => a.id === row.parentParcelId)}
-                    options={{
-                        rowStyle: rowData => ({
-                            backgroundColor: (selectedParcel && selectedParcel.id === rowData.id) ? '#EEE' : '#FFF'
-                        })
-                    }}
-                    components={{
-                        Toolbar: props => null,
-                    }}
-                />
-                // TODO: Render some loading animation here
-                } 
+                {
+                    isLoading?
+                        <Spinner />
+                    :
+                    !seasonParcelsTree.length? 
+                        <EmptyParcelList />
+                    :
+                    <ParcelList
+                        title="Parcels"   
+                        parcels={seasonParcelsTree}
+                        onRowClick={this.onSelect}
+                        parentChildData={(row, rows) => rows.find(a => a.id === row.parentParcelId)}
+                        options={{
+                            rowStyle: rowData => ({
+                                backgroundColor: (selectedParcel && selectedParcel.id === rowData.id) ? '#EEE' : '#FFF'
+                            })
+                        }}
+                        components={{
+                            Toolbar: props => null,
+                        }}
+                    />
+                }
             </React.Fragment>
         )
     }
@@ -72,11 +78,14 @@ const withReducerSoilTypes = injectReducer(require('reference/reducers/soilTypes
 const withReducerAgriculturalTypes = injectReducer(require('reference/reducers/agriculturalTypes'))
 
 
-const mapStateToProps = (state) => (
-    {   seasonParcelsTree: getSelectedSeasonParcelsTree(state),
-        selectedParcel: getSelectedParcel(state), }
-)
-
+const mapStateToProps = (state) => {
+    const { data: seasonParcelsTree, ...rest } = getSelectedSeasonParcels(state)
+    return {
+        seasonParcelsTree,
+        selectedParcel: getSelectedParcel(state),
+        ...rest,
+    }
+}
 
 const withConnect = connect(
     mapStateToProps,

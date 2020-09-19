@@ -26,8 +26,8 @@ export default ({
     const id = open ? 'season-popover' : undefined;
     return (
         <div>
-            <ClickAwayListener onClickAway={handleClose}>
-                <div>
+            
+            <div>
                 <Button
                     aria-describedby={id}
                     variant="text"
@@ -59,8 +59,11 @@ export default ({
                 >
                     {children}
                 </Popover>
-                </div>
-            </ClickAwayListener>
+            </div>
+            
         </div>
     )
 } 
+
+
+// TODO: wrapping into a <ClickAwayListener onClickAway={handleClose}> will close if a parcel is selected from the table

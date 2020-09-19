@@ -9,6 +9,11 @@ import { listSeasons, setSeason } from 'season/actions'
 import { selectSeasonsList, selectSelectedSeasons } from 'season/reducers/seasons'
 
 import {
+    getSeasonsDenormalized,
+    getSelectedSeason,
+} from 'season/selectors'
+
+import {
     SeasonPopover,
     SeasonList,
     SeasonCreateContainer
@@ -22,11 +27,14 @@ class SeasonContainer extends React.Component {
         this.state = {
             isModalOpen: false,
         }
-        //this.popover = React.createRef();
     }
 
     componentDidMount() {
         this.props.listSeasons && this.props.listSeasons.maybeTrigger()
+    }
+
+    componentDidUpdate(prevProps) {
+        console.log("Seasons same? ", prevProps.seasons === this.props.seasons)
     }
 
     openModal = () => this.setState({isModalOpen: true})
@@ -42,15 +50,15 @@ class SeasonContainer extends React.Component {
         setSeason && setSeason.maybeTrigger({
             selectedSeasonId: row.id
         })
-        //this.popover.handleClose()
     }
 
     render() {
         const { seasons, selectedSeason, children, ...props } = this.props
         const { isModalOpen } = this.state
+
+        console.log("SeasonContainer-seasons: ", seasons)
         return (
             <SeasonPopover
-                //ref={this.popover}
                 label={selectedSeason? selectedSeason.title: "Select a Season!"}               
             >
                 <SeasonCreateContainer
@@ -73,22 +81,37 @@ class SeasonContainer extends React.Component {
 }
 
 
-const withReducer = injectReducer(require('season/reducers/seasons'))
+const withReducerParcels = injectReducer(require('parcel/reducers/parcels'))
+const withReducerSeasons = injectReducer(require('season/reducers/seasons'))
+const withReducerSoilTypes = injectReducer(require('reference/reducers/soilTypes'))
+const withReducerAgriculturalTypes = injectReducer(require('reference/reducers/agriculturalTypes'))
 const withSagaList = injectSagas(require('season/sagas/seasons'))
 const withSagaSet = injectSagas(require('season/sagas/setSeason'))
 
+
+
+
+const mapStateToProps = (state) => {
+    const { data: seasons, ...rest } = getSeasonsDenormalized(state)
+    return {
+        seasons,
+        selectedSeason: getSelectedSeason(state),
+        isAuthenticated: state.security.isAuthenticated,
+        ...rest,
+    }
+}
+
 const withConnectSeasons = connect(
-  (state) => ({
-    seasons: selectSeasonsList(state),
-    isAuthenticated: state.security.isAuthenticated,
-    selectedSeason: selectSelectedSeasons(state)
-   }),
-  (dispatch) => bindRoutineCreators({ listSeasons, setSeason }, dispatch),
+    mapStateToProps,
+    (dispatch) => bindRoutineCreators({ listSeasons, setSeason }, dispatch),
 )
 
 export default compose(
-  withReducer,
-  withSagaList,
-  withSagaSet,
-  withConnectSeasons,
+    withReducerParcels,
+    withReducerSeasons,
+    withReducerSoilTypes,
+    withReducerAgriculturalTypes,
+    withSagaList,
+    withSagaSet,
+    withConnectSeasons,
 )(SeasonContainer)

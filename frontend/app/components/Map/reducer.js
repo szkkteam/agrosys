@@ -27,9 +27,8 @@ export default function(state = initialState, action) {
             }
 
         case mapEvents.ADD_EVENT:
-            events.push(eventRequest)
             return { ...state,
-                events: events,
+                events: _.concat(events, eventRequest),
             }
 
         case mapEvents.CLEAR_EVENTS:

@@ -18,8 +18,6 @@ export default ({
     components,
     ...props,
 }) => {
-    // Keep this log, because parcelTree is not updated at the first time
-    console.log("Parcels: ", parcels)
     return (     
         <div className="scroll-table">
             <Table

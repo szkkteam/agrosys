@@ -22,15 +22,11 @@ export const createParcelSaga = createRoutineFormSaga(
 
     // Extract the slected Season and parent parcel from the form
     const { parentSeason = null, parentParcel = null, ...payload} = actionPayload
-    console.log("actionPayload: ", actionPayload)
-    let parcel = null
-
     // First check if parent parcel is defined, because selectedSeason is always given.
     if (parentParcel) {
       // Create a new parcel under a specified parcel
-      parcel = yield call(ParcelApi.createGroupParcels, parentParcel, payload)  
+      const parcel = yield call(ParcelApi.createGroupParcels, parentParcel, payload)  
       // Trigger the action success
-      console.log("Trigger: createParcel.success")
       yield put(createParcel.success({ 
         ...normalizeParcels([parcel])
       }))     
@@ -39,10 +35,8 @@ export const createParcelSaga = createRoutineFormSaga(
       
     } else if (parentSeason) {
       // Create a new parcel under the specified season
-      parcel = yield call(ParcelApi.createSeasonParcels, parentSeason, payload)  
-      console.log("POST response: ", parcel)
+      const parcel = yield call(ParcelApi.createSeasonParcels, parentSeason, payload)  
       // Trigger the action success
-      console.log("Trigger: createParcel.success")
       yield put(createParcel.success({ 
         ...normalizeParcels([parcel])
       }))     

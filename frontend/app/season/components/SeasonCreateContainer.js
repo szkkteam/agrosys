@@ -17,7 +17,7 @@ import {
 } from 'season/actions'
 
 import {
-    convertReferenceParcels
+    ungroupParentParcels
 } from 'season/utils'
 
 class SeasonCreateContainer extends React.Component {
@@ -52,11 +52,11 @@ class SeasonCreateContainer extends React.Component {
                     onSubmit={createSeason}
                     onSubmitSuccess={onClose}
                     initialValues={{
-                        referenceParcels: convertReferenceParcels(selectedParcelsList),
+                        referenceParcels: ungroupParentParcels(selectedParcelsList),
                     }}
                 />
                 <SeasonParcelSelection
-                    onSelectionChange={this.onSelectParcels}
+                    onSelection={this.onSelectParcels}
                 />
             </ModalForm>
         )

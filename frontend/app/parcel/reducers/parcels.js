@@ -11,6 +11,7 @@ import {
 
 import {
     createSeason, 
+    listSeasons,
     actionSeason,
 } from 'season/actions'
 
@@ -34,9 +35,9 @@ export default function(state = initialState, action) {
     const { type, payload } = action
     const { parcels: parcelsById, ids } = payload || {}
     const { byId } = state
-    
 
     switch(type) {
+        case listSeasons.REQUEST:
         case listSeasonParcel.REQUEST:
             return { ...state,
                 isLoading: true 
@@ -64,7 +65,7 @@ export default function(state = initialState, action) {
             const { selectedParcelId } = payload
             // If selection is the same, perform deselect logic
             let selection = selectedParcelId
-            if(state.selectedParcelId == selectedParcelId) {
+            if(state.selectedParcelId == selectedParcelId && selectedParcelId) {
                 // Check if the old selection is a child
                 let parent = null
                 state.ids.map((id) => {
@@ -82,12 +83,11 @@ export default function(state = initialState, action) {
             }
 
         case createSeason.SUCCESS:
-            console.log("createSeason.SUCCESS-payload: ", payload)
             // Handle the case, when a season is created with new parcels
             if (parcelsById) {
                 return { ...state,
                     byId: {...byId, ...parcelsById},
-                    ids: _.uniq(_.concat(state.ids, Object.keys(parcelsById).map((parcel, i) => ( parcel.id )))),
+                    //ids: _.uniq(_.concat(state.ids, Object.keys(parcelsById).map((parcel, i) => ( parcel.id )))),
                     isLoaded: true,  
                 }
             // Handle the case, when a season is without any new parcel
@@ -97,7 +97,7 @@ export default function(state = initialState, action) {
                 }
             }
 
-
+        case listSeasons.SUCCESS:
         case createParcel.SUCCESS:
         case listSeasonParcel.SUCCESS:
             return { ...state,
@@ -106,11 +106,13 @@ export default function(state = initialState, action) {
                 isLoaded: true,  
             }
 
+        case listSeasons.FAILURE:
         case listSeasonParcel.FAILURE:
             return { ...state, 
                 error: payload.error,
             }
 
+        case listSeasons.FULFILL:
         case listSeasonParcel.FULFILL:
             return { ...state,
                 isLoading: false,
@@ -123,6 +125,7 @@ export default function(state = initialState, action) {
 
 export const selectParcels = (state) => state[KEY]
 export const selectParcelsById = (state) => state[KEY].byId
+export const selectSeasonParcelsIsLoading = (state) => selectParcels(state).isLoading
 export const selectSelectedParcelId = (state) => selectParcels(state).selectedParcelId
 export const selectSelectedSeasonParcels = (state) => {
     const season = selectSeasons(state)

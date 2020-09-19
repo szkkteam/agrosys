@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import memoize from 'lodash.memoize'
 
 import {
     deNormalizeParcels
@@ -10,6 +11,7 @@ import {
     selectParcelsById,
     selectSelectedSeasonParcels,
     selectLastSeasonParcels,
+    selectSeasonParcelsIsLoading,
 } from 'parcel/reducers/parcels'
 
 import {
@@ -104,81 +106,91 @@ export const getSelectedParcel = createSelector(
 )
 
 
-export const getSelectedSeasonParcelsDenormalized = createSelector(
+export const getSelectedSeasonParcelsDenormalizedExclude = createSelector(
     [
         selectSelectedSeasonParcels,
         selectSelectedParcelId,
         selectSoilsTypesbyId,
         selectAgriculturalTypesbyId,
-        selectParcelsById
+        selectParcelsById,
+        selectSeasonParcelsIsLoading
     ],
-    (parcelIds, selectedParcelId, soilTypes, agriculturalTypes, parcels) => {
+    (parcelIds, selectedParcelId, soilTypes, agriculturalTypes, parcels, isLoading) => {
         // Filter out the selected season id
-        return deNormalizeParcels({ ids: _.without(parcelIds, selectedParcelId), ...{entities: {parcels, soilTypes, agriculturalTypes}}})
+        const denormalized = deNormalizeParcels({ ids: _.without(parcelIds, selectedParcelId), ...{entities: {parcels, soilTypes, agriculturalTypes}}})
+        return {
+            data: denormalized,
+            isLoading: denormalized.length? false : isLoading
+        }
     }
 )
 
-export const getSelectedSeasonParcelsGrouped = createSelector(
-    [
-        getSelectedSeasonParcelsDenormalized,
-        selectAgriculturalTypesbyId
-    ],
-    (normalizedParcels, agriculturalTypes) => {
-        // Sort the parcels based on the size    
-        const sorted = sortBySize(normalizedParcels)
-        return groupByAgriculturalType(sorted, agriculturalTypes)        
-    }
-)
-
-
-export const getSelectedSeasonParcelsTreeDenormalized = createSelector(
+export const getSelectedSeasonParcelsDenormalized = createSelector(
     [
         selectSelectedSeasonParcels,
         selectSoilsTypesbyId,
         selectAgriculturalTypesbyId,
-        selectParcelsById
+        selectParcelsById,
+        selectSeasonParcelsIsLoading
     ],
-    (parcelIds, soilTypes, agriculturalTypes, parcels) => {
+    (parcelIds, soilTypes, agriculturalTypes, parcels, isLoading) => {
         //console.log("getSelectedSeasonParcelsTreeDenormalized-parcelIds: ", parcelIds)
         //console.log("getSelectedSeasonParcelsTreeDenormalized-entities: ", {entities: {parcels, soilTypes, agriculturalTypes}})
         // Filter out the selected season id
-        return deNormalizeParcels({ ids: parcelIds, ...{entities: {parcels, soilTypes, agriculturalTypes}}})
+        const denormalized = deNormalizeParcels({ ids: parcelIds, ...{entities: {parcels, soilTypes, agriculturalTypes}}})
+        return {
+            data: denormalized,
+            isLoading: denormalized.length? false : isLoading
+        }
     }
 )
 
 
-export const getLastSeasonParcelsTreeDenormalized = createSelector(
+export const getSeasonParcelsById = createSelector(
     [
-        selectLastSeasonParcels,
         selectSoilsTypesbyId,
         selectAgriculturalTypesbyId,
-        selectParcelsById
+        selectParcelsById,
+        selectSeasonParcelsIsLoading
     ],
-    (parcelIds, soilTypes, agriculturalTypes, parcels) => {
-        //console.log("getSelectedSeasonParcelsTreeDenormalized-parcelIds: ", parcelIds)
-        //console.log("getSelectedSeasonParcelsTreeDenormalized-entities: ", {entities: {parcels, soilTypes, agriculturalTypes}})
-        // Filter out the selected season id
-        return deNormalizeParcels({ ids: parcelIds, ...{entities: {parcels, soilTypes, agriculturalTypes}}})
+    (soilTypes, agriculturalTypes, parcels, isLoading) => memoize(
+        parcelIds => {
+            const denormalized = constructParcelTree(deNormalizeParcels({ ids: _.concat([], parcelIds), ...{entities: {parcels, soilTypes, agriculturalTypes}}}))
+            return {
+                data: denormalized,
+                isLoading: denormalized.length? false : isLoading
+            }
+        }
+    )
+)
+
+export const getSelectedSeasonParcelsGrouped = createSelector(
+    [
+        getSelectedSeasonParcelsDenormalizedExclude,
+        selectAgriculturalTypesbyId
+    ],
+    (normalizedParcels, agriculturalTypes) => {
+        // If the selected parcels are still loading, just return with the empty array and the loading flag
+        if (normalizedParcels.isLoading) return normalizedParcels
+        // Sort the parcels based on the size    
+        const sorted = sortBySize(normalizedParcels.data)
+        return {
+            data: groupByAgriculturalType(sorted, agriculturalTypes),
+            isLoading: normalizedParcels.isLoading
+        }
     }
 )
 
-
-export const getSelectedSeasonParcelsTree = createSelector(
-    [getSelectedSeasonParcelsTreeDenormalized],
+export const getSelectedSeasonParcels = createSelector(
+    [getSelectedSeasonParcelsDenormalized],
     (normalizedParcels) => {
+        // If the selected parcels are still loading, just return with the empty array and the loading flag
+        if (normalizedParcels.isLoading) return normalizedParcels
         // Keep this log, because parcelTree is not updated at the first time
-        //console.log("getSelectedSeasonParcelsTree-normalizedParcels: ", normalizedParcels)
-        return constructParcelTree(normalizedParcels)
-    }
-)
-
-
-export const getLastSeasonParcelsTree = createSelector(
-    [getLastSeasonParcelsTreeDenormalized],
-    (normalizedParcels) => {
-        // Keep this log, because parcelTree is not updated at the first time
-        //console.log("getSelectedSeasonParcelsTree-normalizedParcels: ", normalizedParcels)
-        return constructParcelTree(normalizedParcels)
+        return {
+            data: constructParcelTree(normalizedParcels.data),
+            isLoading: normalizedParcels.isLoading
+        }
     }
 )
 
@@ -188,19 +200,23 @@ export const getSelectedSiblingParcels = createSelector(
         selectParcels,
         selectSoilsTypesbyId,
         selectAgriculturalTypesbyId,
+        selectSeasonParcelsIsLoading,
     ],
-    (selectedParcelId, parcelState, soilTypes, agriculturalTypes) => {
+    (selectedParcelId, parcelState, soilTypes, agriculturalTypes, isLoading) => {
         // If no selected, return with empty list
-        if (!selectedParcelId) return []
+        if (!selectedParcelId) return { data: [], isLoading: false}
         let parent = selectedParcelId
         parcelState.ids.map((id) => 
             parcelState.byId[id].parcels.find(x => { if (x == selectedParcelId) { parent = id } }))
 
         // TODO: Maybe return with the siblings on the top level also and could be used for more purpose
-        if (!parent) return []        
+        if (!parent) return { data: [], isLoading: false}
         const denormalized = deNormalizeParcels({ ids: _.without(parcelState.byId[parent].parcels, selectedParcelId), ...{entities: {parcels: parcelState.byId, soilTypes, agriculturalTypes}}})    
         // Sort the parcels based on the size    
-        return sortBySize(denormalized)
+        return {
+            data: sortBySize(denormalized),
+            isLoading: denormalized.isLoading
+        }
     }
 )
 
