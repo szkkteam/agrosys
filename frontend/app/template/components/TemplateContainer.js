@@ -28,15 +28,23 @@ import {
 class TemplateContainer extends React.Component {
 
     
+    componentDidMount() {
+        console.log("componentDidMount")
+    }
+
     componentDidUpdate(prevProps) {    
         const { onCancel, createState, actionTemplate } = this.props
-        if (prevProps.selectedTemplate !== this.props.selectedTemplate && this.props.selectedTemplate) {
+
+        if (this.props.createState !== createTemplateEnums.IDLE && prevProps.selectedTemplate !== this.props.selectedTemplate && this.props.selectedTemplate) {
             onCancel && onCancel()
-        }        
+            console.log("Calling onCancel")
+        } 
+
         if (prevProps.createState === createTemplateEnums.IDLE && prevProps.createState !== createState ) {
             actionTemplate && actionTemplate.selectTemplate({
                 selectedTemplateId: null
             })  
+            console.log("clearing selection")
         }
         console.log("componentDidUpdate")
     }

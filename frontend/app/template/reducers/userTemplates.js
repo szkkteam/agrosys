@@ -36,12 +36,10 @@ export default function(state = initialState, action) {
         case actionTemplate.SELECT_TEMPLATE:
             const { selectedTemplateId } = payload
             // If selection is the same, perform deselect logic
-            let selection = selectedTemplateId
-            if(state.selectedTemplateId == selectedTemplateId) {
-                selection = null
-            }
+            console.log("state.selectedTemplateId: ", state.selectedTemplateId)
+            console.log("selectedTemplateId: ", selectedTemplateId)
             return { ...state,
-                selectedTemplateId: selection,
+                selectedTemplateId: state.selectedTemplateId != selectedTemplateId? selectedTemplateId: null,
             }
 
 

@@ -283,7 +283,11 @@ class ModelResource(Resource):
         print("dispatch_request - function call (request.view_args): ", request.view_args)
         print("dispatch_request - function call (args): ", args)
         print("dispatch_request - function call (kwargs): ", kwargs)
-
+        print("#### -- Self : ", self)
+        print("#### -- Self exclude methods: ", self.exclude_methods)
+        print("#### -- Self include methods: ", self.include_methods)
+        print("#### -- Self include decorators: ", self.include_decorators)
+        print("#### -- Self exclude decorators: ", self.exclude_decorators)
         resp = method(*args, **kwargs)
         if isinstance(resp, Response):
             return resp
@@ -350,6 +354,7 @@ class ModelResource(Resource):
         elif method_name in {GET, DELETE}:
             decorators.append(partial(param_converter, **{param_name: self.model}))
         elif method_name in {PATCH, PUT}:
+            print("PUT instance: ", self.model)
             decorators.append(partial(param_converter,
                                       **{param_name: {'instance': self.model}}))
 

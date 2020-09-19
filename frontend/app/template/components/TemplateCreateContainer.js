@@ -16,6 +16,8 @@ import {
     FormTemplateLoad,
 } from 'template/components'
 
+import { convertToDateObject } from 'task/utils'
+
 
 class TemplateCreateContainer extends React.Component {
 
@@ -49,9 +51,13 @@ class TemplateCreateContainer extends React.Component {
         this.setState({
             initialValues: {
                 title,
-                tasks,
+                tasks : convertToDateObject(tasks),
             },
         })
+    }
+
+    onFinished = () => {
+
     }
 
     render() {
@@ -66,6 +72,7 @@ class TemplateCreateContainer extends React.Component {
             <React.Fragment>
                 <FormTemplate
                     onSubmit={createTemplate}
+                    onSubmitSuccess={onCancel}
                     onCancel={onCancel}
                     initialValues={isLoadInitial? initialValues : {}}
                 />
@@ -86,7 +93,6 @@ class TemplateCreateContainer extends React.Component {
 
 const withReducerTemplate = injectReducer(require('template/reducers/userTemplates'))
 const withSagaCreate = injectSagas(require('template/sagas/createTemplate'))
-
 
 export default compose(
     withReducerTemplate,

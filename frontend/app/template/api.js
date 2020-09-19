@@ -22,11 +22,11 @@ export default class Template {
     }
 
     static getTemplate(templateData) {
-        return get(template(`/${templateData}`))
+        return get(template(`/${templateData.id}`))
     }
 
     static updateTemplate(templateData, payload) {
-        return put(template(`/${templateData}`), payload)
+        return put(template(`/${templateData.id}`), payload)
     }
 
 }

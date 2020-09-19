@@ -13,29 +13,44 @@ from backend.farm.models import Production, Farm, Template
 TASK_GENERAL_1 = {
     'title': 'task general',
     'taskType': 'TaskGeneral',
+    'status': 'Pending',
     'description': 'some text',
     'dates': {
         'startDate': '2020-07-21T20:00:00',
         'endDate': '2020-07-22T20:00:00',
     },
     'predictedCost': 1,
-    'actualCost': 2,
+    'actualCost': None,
+}
+
+TASK_GENERAL_2 = {
+    'title': 'task general 2',
+    'taskType': 'TaskGeneral',
+    'status': 'Pending',
+    'description': 'some text',
+    'dates': {
+        'startDate': '2020-07-21T20:00:00',
+        'endDate': '2020-07-22T20:00:00',
+    },
+    'predictedCost': 1,
+    'actualCost': None,
 }
 
 TASK_PRUNING_1 = {
-    'title': 'task general',
+    'title': 'task pruning',
     'taskType': 'TaskPruning',
+    'status': 'Pending',
     'description': 'some text',
     'dates': {
         'startDate': '2020-07-21T20:00:00',
         'endDate': '2020-07-22T20:00:00',
     },
-    'predictedCost': 1,
-    'actualCost': 2,
+    'predictedCost': None,
+    'actualCost': None,
 }
 
 VALID_INPUT_DATA = [
-    TASK_GENERAL_1, TASK_PRUNING_1
+    TASK_PRUNING_1, TASK_GENERAL_1
 ]
 
 
@@ -126,13 +141,14 @@ class TestTemplateResource:
         assert r.json['title'] == data['title']
         assert 'id' in r.json
 
-    
+
     def test_put_modify_task(self, api_client, farm_owner):
         from backend.farm.models import Task
         api_client.login_as(farm_owner)
 
         template = Template.all()[0]
         old_tasks = template.tasks
+        
         data = get_input_data(NEW_PRODUCTION_DATA)
         data['title'] = "New template name"
         data['tasks'][0]['title'] = 'Updated task name'
@@ -144,7 +160,7 @@ class TestTemplateResource:
         assert 'id' in r.json
         for task in r.json['tasks']:
             assert 'Updated task name' == task['title']
-            for ot in old_tasks:                
+            for ot in old_tasks:
                 assert ot.id != task['id']
 
     @pytest.mark.skip(reason="Database cascades not be reworked, because related objects are not deleted.")

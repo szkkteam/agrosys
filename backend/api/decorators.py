@@ -182,6 +182,7 @@ def put_loader(*args, serializer):
     def wrapped(fn):
         @wraps(fn)
         def decorated(*args, **kwargs):
+            print("put_loader-KWARGS: ", kwargs)
             try:
                 result = serializer.load(request.get_json(),
                                          instance=kwargs.pop('instance'))

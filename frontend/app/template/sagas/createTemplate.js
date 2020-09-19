@@ -5,7 +5,8 @@ import { ROUTES, ROUTE_MAP } from 'routes'
 import { createRoutineFormSaga } from 'sagas'
 
 import { 
-    createTemplate
+    createTemplate,
+    actionTemplate,
 } from 'template/actions'
 import { selectSelectedFarm } from 'farm/reducers/farms'
 import TemplateApi from 'template/api'
@@ -31,8 +32,7 @@ export const createTemplateSaga = createRoutineFormSaga(
       yield put(createTemplate.success({ 
         ...normalizeTemplate(template)
       })) 
-      // Set the current template to the new one
-      //yield put(actionSeason.setSeason({selectedSeasonId: season.id}))  
+      yield put(actionTemplate.selectTemplate({ selectedTemplateId: template.id }))
     }       
   },
 )

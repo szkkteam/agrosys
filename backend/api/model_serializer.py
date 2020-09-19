@@ -63,6 +63,8 @@ class ModelSerializer(ma.ModelSchema):
 
     @validates('id')
     def validate_id(self, id):
+        print("model_serializer self: ", self)
+        # print("model_serializer model: ", self.model)
         print("Validate ID: ", id)
         print("is_create: ", self.is_create())
         if self.is_create() or int(id) == int(self.instance.id):
