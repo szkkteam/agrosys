@@ -63,10 +63,10 @@ class ModelSerializer(ma.ModelSchema):
 
     @validates('id')
     def validate_id(self, id):
-        print("model_serializer self: ", self)
+        #print("model_serializer self: ", self)
         # print("model_serializer model: ", self.model)
-        print("Validate ID: ", id)
-        print("is_create: ", self.is_create())
+        #print("Validate ID: ", id)
+        #print("is_create: ", self.is_create())
         if self.is_create() or int(id) == int(self.instance.id):
             return
         raise ValidationError('ids do not match')
@@ -80,12 +80,19 @@ class OneOfSchema(ModelSerializer):
     type_schemas = []
     model_type_field = 'type'
 
+    def __init__(self, *args, **kwargs):
+        #print("OneOfSchema-init-args: ", args)
+        #print("OneOfSchema-init-kwargs: ", kwargs)
+        #print("Self exlude: ", self.exclude)
+        super().__init__(*args, **kwargs)
+        #print("Self exlude: ", self.exclude)
+
     def get_obj_type(self, obj):
         """Returns name of object schema"""
         return obj.__class__.__name__
 
-    def dump(self, obj, *, many=None, **kwargs):
-        print("Dumping one of sschema", **kwargs)
+    def dump(self, obj, many=None, *args, **kwargs):
+        #print("Dumping one of sschema: ", obj)
         errors = {}
         result_data = []
         result_errors = {}
@@ -95,7 +102,7 @@ class OneOfSchema(ModelSerializer):
         else:
             for idx, o in enumerate(obj):
                 try:
-                    result = self._dump(o, **kwargs)
+                    result = self._dump(o, *args, **kwargs)
                     result_data.append(result)
                 except ValidationError as error:
                     result_errors[idx] = error.normalized_messages()
@@ -110,7 +117,7 @@ class OneOfSchema(ModelSerializer):
             exc = ValidationError(errors, data=obj, valid_data=result)
             raise exc
 
-    def _dump(self, obj, *, update_fields=True, **kwargs):
+    def _dump(self, obj, update_fields=True, *args, **kwargs):
         obj_type = self.get_obj_type(obj)
         if not obj_type:
             return (
@@ -122,17 +129,23 @@ class OneOfSchema(ModelSerializer):
         if not type_schema:
             return None, {"_schema": "Unsupported object type: %s" % obj_type}
 
-        schema = type_schema if isinstance(type_schema, ModelSerializer) else type_schema()
+        #print("Dumping schema: ", type_schema)
+        schema = type_schema if isinstance(type_schema, ModelSerializer) else type_schema(
+            many=self.many,
+            only=self.only,
+            exclude=self.exclude,
+            context=self.context,
+        )
 
         schema.context.update(getattr(self, "context", {}))
 
-        result = schema.dump(obj, many=False, **kwargs)
+        result = schema.dump(obj, many=False, *args, **kwargs)
         if result is not None:
             result[self.type_field] = obj_type
         return result
 
     def load(self, data, *, many=None, partial=None, unknown=None, **kwargs):
-        print("Loading one of sschema", kwargs)
+        #print("Loading one of schema: ", data)
         errors = {}
         result_data = []
         result_errors = {}
@@ -181,7 +194,7 @@ class OneOfSchema(ModelSerializer):
             inst = kwargs.get('instance')
             data_type = getattr(inst, self.model_type_field).title().replace('_', '')
         if not data_type:
-            print("self.type_field: ", self.type_field)
+            #print("self.type_field: ", self.type_field)
             raise ValidationError(
                 {self.type_field: ["Missing data for required field."]}
             )
@@ -196,8 +209,13 @@ class OneOfSchema(ModelSerializer):
             raise ValidationError(
                 {self.type_field: ["Unsupported value: %s" % data_type]}
             )
-
-        schema = type_schema if isinstance(type_schema, ModelSerializer) else type_schema()
+        #print("Loading schema: ", type_schema)
+        schema = type_schema if isinstance(type_schema, ModelSerializer) else type_schema(
+            many=self.many,
+            only=self.only,
+            exclude=self.exclude,
+            context=self.context,
+        )
 
         schema.context.update(getattr(self, "context", {}))
 

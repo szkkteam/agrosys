@@ -1,47 +1,44 @@
-import { 
-    listProductions,
-    listParcelProduction,
-} from 'production/actions'
+import { listProductions } from 'production/actions'
 
-export const KEY = 'productions'
+export const KEY = 'production'
 
-const initialState = {    
+const initialState = {
+    // listFields
     isLoading: false,
     isLoaded: false,
+    productions: [],
     ids: [],
-    byId: {},
     error: null,
 }
 
 export default function(state = initialState, action) {
     const { type, payload } = action
-    const { productions: productionsById, ids } = payload || {}
-    const { byId } = state
+    const { productions } = payload || []
 
     switch(type) {
-
         case listProductions.REQUEST:
-        case listParcelProduction.REQUEST:
             return { ...state,
                 isLoading: true 
             }
 
         case listProductions.SUCCESS:
-        case listParcelProduction.SUCCESS:
             return { ...state,
-                byId: {...byId, ...productionsById},
-                ids: _.uniq(_.concat(state.ids, ids)),
-                isLoaded: true,  
+                isLoaded: true,
+                productions: productions,
+                ids: productions.map((productions) => productions.id),
             }
 
+        case listProductions.SUCCESS:
+            return { ...state,
+                isLoaded: false,
+             }
+        
         case listProductions.FAILURE:
-        case listParcelProduction.FAILURE:
             return { ...state, 
                 error: payload.error,
             }
 
         case listProductions.FULFILL:
-        case listParcelProduction.FULFILL:
             return { ...state,
                 isLoading: false,
             }
@@ -52,6 +49,7 @@ export default function(state = initialState, action) {
 }
 
 export const selectProductions = (state) => state[KEY]
-export const selectProductionIds = (state) => state[KEY].ids
-export const selectProductionsById = (state) => state[KEY].byId
-
+export const selectProductionsList = (state) => {
+    const production = selectProductions(state)
+    return production.productions
+}

@@ -22,6 +22,7 @@ from .physical_block import PhysicalBlockSerializer
 class ReferenceParcelSerializer(OneOfSchema):
     model_type_field = 'parcel_type'
     type_field = 'referenceParcelType'
+    type_field_remove = True
     type_schemas = {
         ReferenceParcelTypes.AgriculturalParcel.value: AgriculturalParcelSerializer,
         ReferenceParcelTypes.CadastralParcel.value: CadastralParcelSerializer,

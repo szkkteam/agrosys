@@ -1,13 +1,12 @@
 import { createRoutine, createRoutineActions } from 'actions'
-
-
-export const productionTemplateActionTypes = [
-    'CLEAR',
-  ]
-
+/*
+const templateActionsTypes = [
+    'SELECT_TEMPLATE',
+    'SELECT_STATE',
+]
+*/
 
 export const listProductions = createRoutine('production/LIST_PRODUCTIONS')
-export const createProductions = createRoutine('production/CREATE_PRODUCTIONS')
-export const loadProductionDetail = createRoutine('production/PRODUCTION_DETAIL')
-export const productionTemplate = createRoutineActions('production/PRODUCTION_TEMPLATE', productionTemplateActionTypes)
+export const listParcelProductions = createRoutine('production/LIST_PARCEL_PRODUCTIONS')
 
+//export const actionTemplate = createRoutineActions('template/ACTION_TEMPLATE', templateActionsTypes)

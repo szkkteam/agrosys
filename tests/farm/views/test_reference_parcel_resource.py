@@ -106,6 +106,7 @@ class TestReferenceParcelResource:
         assert 'referenceParcelType' in r.json
         assert 'agriculturalType' in r.json
         assert 'soilType' in r.json
+        assert 'season' in r.json
 
     @pytest.mark.parametrize("input", [AGRICULTURAL_PARCEL, CADASTRAL_PARCEL, FARMERS_BLOCK, PHYSICAL_BLOCK])
     def test_create_sub_parcels(self, api_client, farm_owner, soil, agri_type, input):
@@ -123,12 +124,15 @@ class TestReferenceParcelResource:
         assert 'totalArea' in r.json
         assert 'eligibleArea' in r.json
         assert 'geometry' in r.json
+        assert 'season' in r.json
         assert 'referenceParcelType' in r.json
         assert 'agriculturalType' in r.json
         assert 'soilType' in r.json
         assert 'parcels' in r.json
         for p in r.json['parcels']:
             assert 'id' in p
+            # TODO: Simply cannot exclude season from child parcels
+            assert 'season' not in p
 
     @pytest.mark.parametrize("input", [AGRICULTURAL_PARCEL, CADASTRAL_PARCEL, FARMERS_BLOCK, PHYSICAL_BLOCK])
     def test_create_missing_geometry(self, api_client, farm_owner, soil, agri_type, input):
@@ -170,6 +174,9 @@ class TestReferenceParcelResource:
             assert 'agriculturalType' in r
             assert 'soilType' in r
 
+            # TODO: Simply cannot exclude season from season list
+            #assert 'season' not in r
+
 
     @pytest.mark.parametrize("models", ['AgriculturalParcel(AGRICULTURAL_PARCEL_GROUPED_1)'], indirect=True)
     def test_get(self, api_client, farm_owner, models):
@@ -190,6 +197,7 @@ class TestReferenceParcelResource:
         assert 'agriculturalType' in r.json
         assert 'soilType' in r.json
         assert 'parcels' in r.json
+        assert 'season' in r.json
         for parcel in r.json['parcels']:
             assert 'id' in parcel
             assert 'title' in parcel
@@ -200,7 +208,8 @@ class TestReferenceParcelResource:
             assert 'agriculturalType' in parcel
             assert 'referenceParcelType' in parcel
             assert 'soilType' in parcel
-            #assert 'parcels' not in parcel
+            assert 'season' not in parcel            
+            assert 'parcels' not in parcel
 
     def test_patch(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
@@ -227,6 +236,7 @@ class TestReferenceParcelResource:
         assert r.status_code == 200
         assert r.json['title'] == new_name
         assert 'id' in r.json
+        assert 'season' in r.json
 
     @pytest.mark.skip(reason="Database cascades not be reworked, because related objects are not deleted.")
     def test_delete(self, api_client, farm_owner):

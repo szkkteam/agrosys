@@ -318,12 +318,15 @@ class Api(BaseApi):
         (serialization of individual models is handled by a custom JSONEncoder
          class configured in the self._register_json_encoder method)
         """
+        print("Make response-data: ", data)
         # we've already got a response, eg, from jsonify
         if isinstance(data, Response):
             return (data, *args)
 
         if isinstance(data, (list, tuple)) and len(data) and isinstance(data[0], Model):
             model_name = data[0].__class__.__name__
+            print("Serializer-model_name: ", model_name)
+            print("self.serializers_many: ", self.serializers_many)
             if model_name in self.serializers_many:
                 data = self.serializers_many[model_name].dump(data)
 

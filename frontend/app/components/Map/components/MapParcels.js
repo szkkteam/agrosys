@@ -131,6 +131,8 @@ const mapStateToProps = (state) => {
     const selectedParcel = getSelectedParcel(state)
     const { data: seasonParcels, ...rest} = getSelectedSeasonParcelsGrouped(state) 
     const { data: siblingParcels } = getSelectedSiblingParcels(state)
+    console.log("seasonParcels: ", seasonParcels)
+    console.log("siblingParcels: ", siblingParcels)
     return {
         selectedParcel,
         seasonParcels,

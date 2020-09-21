@@ -64,6 +64,7 @@ const groupByAgriculturalType = (data, agriculturalTypes) => {
         grouped[parcel.agriculturalType.id] = item
         return grouped
     }, {})
+
     return Object.keys(grouped).map((key, i) => ({
             title: agriculturalTypes[key].title,
             enable: true,
@@ -105,6 +106,23 @@ export const getSelectedParcel = createSelector(
     }
 )
 
+export const getParcelsDenormalizedUnordered = createSelector(
+    [
+        selectSoilsTypesbyId,
+        selectAgriculturalTypesbyId,
+        selectParcelsById,
+        selectSeasonParcelsIsLoading
+    ],
+    (soilTypes, agriculturalTypes, parcels, isLoading) => {
+        // Filter out the selected season id
+        const parcelIds = Object.keys(parcels)
+        const denormalized = deNormalizeParcels({ ids: parcelIds, ...{entities: {parcels, soilTypes, agriculturalTypes}}})
+        return {
+            data: denormalized,
+            isLoading: denormalized.length? false : isLoading
+        }
+    }
+)
 
 export const getSelectedSeasonParcelsDenormalizedExclude = createSelector(
     [
@@ -207,9 +225,9 @@ export const getSelectedSiblingParcels = createSelector(
         if (!selectedParcelId) return { data: [], isLoading: false}
         let parent = selectedParcelId
         parcelState.ids.map(id =>
-            parcelState.byId[id] && parcelState.byId[id].parcels.find(x => { if (x == selectedParcelId) { parent = id } }))
+            parcelState.byId[id] && parcelState.byId[id].parcels && parcelState.byId[id].parcels.find(x => { if (x == selectedParcelId) { parent = id } }))
             
-
+        //console.log("getSelectedSiblingParcels-parent: ", parent)
         // TODO: Maybe return with the siblings on the top level also and could be used for more purpose
         if (!parent) return { data: [], isLoading: false}
         const denormalized = deNormalizeParcels({ ids: _.without(parcelState.byId[parent].parcels, selectedParcelId), ...{entities: {parcels: parcelState.byId, soilTypes, agriculturalTypes}}})    

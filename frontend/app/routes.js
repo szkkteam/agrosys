@@ -12,12 +12,8 @@ import {
 import {
   MapPage,
   TemplatePage,
+  ProductionCreatePage,
 } from 'pages/pages'
-
-import {
-  ProductionList,
-  ProductionTemplateCreate,
-} from 'production/pages'
 
 import {
   ForgotPassword,
@@ -65,8 +61,7 @@ export const ROUTES = {
   /**
    * Production
    */
-  ProductionList: 'ProductionList',
-  ProductionTemplateCreate: 'ProductionTemplateCreate',
+  ProductionCreatePage: 'ProductionCreatePage',
 
   /**
    * Site
@@ -131,23 +126,16 @@ const routes = [
     component: TemplatePage,
     routeComponent: ProtectedRoute,
   },
-  
+
   /**
-   * Production
-   */
+   * Productions
+   */  
   {
-    key: ROUTES.ProductionList,
-    path: '/productions',
-    component: ProductionList,
+    key: ROUTES.ProductionCreatePage,
+    path: '/productions-create',
+    component: ProductionCreatePage,
     routeComponent: ProtectedRoute,
   },
-  {
-    key: ROUTES.ProductionTemplateCreate,
-    path: '/productions-new/',
-    component: ProductionTemplateCreate,
-    routeComponent: ProtectedRoute,
-  },
- 
 
   /**
    * Site
