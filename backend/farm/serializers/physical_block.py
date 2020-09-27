@@ -15,7 +15,7 @@ class PhysicalBlockSerializer(ReferenceParcelBaseSerializer):
         model = PhysicalBlock
         fields = REFERENCE_PARCEL_BASE_DATA_FIELDS + ('season',)
         dump_only = ('id', 'agricultural_type', 'soil_type', 'parcels', 'season', )
-        load_only = ('agricultural_type_id', 'soil_type_id', 'ancestor_id', 'parcels_add',)
+        load_only = ('agricultural_type_id', 'soil_type_id', 'parcels_add',)
 
 
 @api.serializer(many=True)

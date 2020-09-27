@@ -66,7 +66,7 @@ class ReferenceParcelBaseSerializer(ModelSerializer):
         model_converter = GeometryModelConverter
         fields = REFERENCE_PARCEL_BASE_DATA_FIELDS
         dump_only = ('id', 'agricultural_type', 'soil_type', 'parcels',)
-        load_only = ('agricultural_type_id', 'soil_type_id', 'ancestor_id', 'parcels_add',)
+        load_only = ('agricultural_type_id', 'soil_type_id', 'parcels_add',)
 
     """ TODO: even if season is excluded from child parcels and not visible in the fields, its still deserialized....
     def __init__(self, *args, **kwargs):
