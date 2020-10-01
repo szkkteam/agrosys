@@ -18,7 +18,7 @@ DATA_FIELDS = (
 
 class SeasonSerializer(ModelSerializer):
 
-    reference_parcels = fields.Nested('ReferenceParcelListSerializer', many=True, required=False)
+    reference_parcels = fields.Nested('ReferenceParcelSerializer', many=True, required=False, exclude=('season', ))
 
     class Meta:
         model = Season

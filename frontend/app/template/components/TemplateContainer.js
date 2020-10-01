@@ -14,6 +14,8 @@ import {
     getUserSelectedTemplate
 } from 'template/selectors'
 
+import { selectTemplateState } from 'template/reducers/templates'
+
 import {
     TemplateCreateContainer,
     TemplateUpdateContainer,
@@ -27,36 +29,28 @@ import {
 
 class TemplateContainer extends React.Component {
 
-    
-    componentDidUpdate(prevProps) {    
-        const { onCancel, createState, actionTemplate } = this.props
-        if (prevProps.selectedTemplate !== this.props.selectedTemplate && this.props.selectedTemplate) {
-            onCancel && onCancel()
-        }        
-        if (prevProps.createState === createTemplateEnums.IDLE && prevProps.createState !== createState ) {
-            actionTemplate && actionTemplate.selectTemplate({
-                selectedTemplateId: null
-            })  
-        }
-        console.log("componentDidUpdate")
+    onCancel = () => {        
+        const { actionTemplate } = this.props
+        console.log("actionTemplate: ", actionTemplate)
+        actionTemplate && actionTemplate.selectState({
+            templateState: createTemplateEnums.IDLE,
+        })
     }
 
-    onCancel = () => {
-        const { actionTemplate, onCancel } = this.props
-        actionTemplate && actionTemplate.selectTemplate({
-            selectedTemplateId: null
+    onCloseModal = () => {
+        const { actionTemplate } = this.props
+        actionTemplate && actionTemplate.selectState({
+            templateState: createTemplateEnums.CREATE_FROM_SCRATCH,
         })
-        onCancel && onCancel()
     }
 
     render() {
         const { 
-            createState,
+            templateState,
             selectedTemplate,
-            onCloseModal
         } = this.props
         console.log("TemplateContainer-selectedTemplate: ", selectedTemplate)
-        console.log("TemplateContainer-createState: ", createState)
+        console.log("TemplateContainer-templateState: ", templateState)
         return (            
             <React.Fragment>
                 { selectedTemplate?
@@ -64,14 +58,15 @@ class TemplateContainer extends React.Component {
                         onCancel={this.onCancel}    
                         initialValues={selectedTemplate}
                     />                    
-                :
-                    createState !== createTemplateEnums.IDLE?                   
+                :           
+                    templateState !== createTemplateEnums.IDLE?
                         <TemplateCreateContainer
+                            templateState={templateState}
                             onCancel={this.onCancel}
-                            onCloseModal={onCloseModal}    
-                            isModalOpen={createState === createTemplateEnums.CREATE_FROM_TEMPLATE}
+                            onCloseModal={this.onCloseModal}    
                         />
-                    : <div>Nothing to display yet.</div>
+                    :
+                    <div>This is the default view</div>
                 }                
             </React.Fragment>
         )
@@ -79,13 +74,16 @@ class TemplateContainer extends React.Component {
 }
 
 
-const withReducerTemplate = injectReducer(require('template/reducers/userTemplates'))
+const withReducerUserTemplate = injectReducer(require('template/reducers/userTemplates'))
+const withReducerTemplate = injectReducer(require('template/reducers/templates'))
 const withSagaCreate = injectSagas(require('template/sagas/createTemplate'))
 const withReducerTasks = injectReducer(require('task/reducers/tasks'))
 
 
 const mapStateToProps = (state) => (    
-    { selectedTemplate: getUserSelectedTemplate(state), }
+    { selectedTemplate: getUserSelectedTemplate(state),
+        templateState: selectTemplateState(state),
+    }
 )
 
 
@@ -96,6 +94,7 @@ const withConnect = connect(
 
 
 export default compose(
+    withReducerUserTemplate,
     withReducerTemplate,
     withSagaCreate,
     withReducerTasks,

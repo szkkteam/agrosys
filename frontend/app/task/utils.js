@@ -1,7 +1,7 @@
 import moment from 'moment'
 
 export const cleanTaskData = (task) => {
-    const { tableData, ...taskData } = task
+    const { tableData, id, ...taskData } = task
     return taskData
 }
 

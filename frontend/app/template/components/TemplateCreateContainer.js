@@ -16,6 +16,13 @@ import {
     FormTemplateLoad,
 } from 'template/components'
 
+import { convertToDateObject } from 'task/utils'
+
+
+import {
+    createTemplateEnums
+} from 'template/constants'
+
 
 class TemplateCreateContainer extends React.Component {
 
@@ -49,28 +56,28 @@ class TemplateCreateContainer extends React.Component {
         this.setState({
             initialValues: {
                 title,
-                tasks,
+                tasks : convertToDateObject(tasks),
             },
         })
     }
 
     render() {
         const { 
+            templateState,
             onCancel,
-            isModalOpen,
         } = this.props
 
         const { isLoadInitial, initialValues } = this.state
-
         return (
             <React.Fragment>
                 <FormTemplate
                     onSubmit={createTemplate}
+                    //onSubmitSuccess={onCancel}
                     onCancel={onCancel}
                     initialValues={isLoadInitial? initialValues : {}}
                 />
                 <TemplateLoadModal
-                    open={isModalOpen}
+                    open={templateState === createTemplateEnums.CREATE_FROM_TEMPLATE}
                     onClose={this.onCancelModal}
                     onLoad={this.onLoadModal}
                 >            
@@ -86,7 +93,6 @@ class TemplateCreateContainer extends React.Component {
 
 const withReducerTemplate = injectReducer(require('template/reducers/userTemplates'))
 const withSagaCreate = injectSagas(require('template/sagas/createTemplate'))
-
 
 export default compose(
     withReducerTemplate,

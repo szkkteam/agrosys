@@ -10,14 +10,13 @@ import {
 */
 import { storage } from 'utils'
 
-export const KEY = 'templates'
+export const KEY = 'userTemplates'
 
 const initialState = {    
     isLoading: false,
     isLoaded: false,
     ids: [],
     byId: {},
-    selectedTemplateId: null,
     error: null,
 }
 
@@ -31,19 +30,6 @@ export default function(state = initialState, action) {
             return { ...state,
                 isLoading: true 
             }
-
-            
-        case actionTemplate.SELECT_TEMPLATE:
-            const { selectedTemplateId } = payload
-            // If selection is the same, perform deselect logic
-            let selection = selectedTemplateId
-            if(state.selectedTemplateId == selectedTemplateId) {
-                selection = null
-            }
-            return { ...state,
-                selectedTemplateId: selection,
-            }
-
 
         case createTemplate.SUCCESS:
         case listUserTemplates.SUCCESS:
@@ -72,7 +58,6 @@ export default function(state = initialState, action) {
 export const selectUserTemplates = (state) => state[KEY]
 export const selectUserTemplateIds = (state) => state[KEY].ids
 export const selectUserTemplatesById = (state) => state[KEY].byId
-export const selectUserSelectedTemplateId = (state) => selectUserTemplates(state).selectedTemplateId
 export const selectUserTemplatesEntities = (state) => {
     const templates = selectUserTemplates(state)
     return { templates: templates.byId,  }

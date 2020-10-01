@@ -7,7 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 
 import {
     ProductionFieldItem
-} from 'production/components'
+} from 'production_backup/components'
 
 import './productionfieldassigment.scss'
 import '@brainhubeu/react-carousel/lib/style.css';

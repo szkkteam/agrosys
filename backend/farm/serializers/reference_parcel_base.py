@@ -29,7 +29,8 @@ REFERENCE_PARCEL_BASE_DATA_FIELDS = (
     'soil_type_id',
     'parcels',
     'parcels_add',
-    'ancestor_id',
+    'ancestor_id',    
+    'season',
 )
 
 def object_id_exists(object_id, model):
@@ -42,11 +43,6 @@ def parcel_id_exists(object_id, model):
 
 class ReferenceParcelBaseSerializer(ModelSerializer):
 
-    #shape = fields.Pluck('FieldDataSerializer', 'shape')
-    #value = fields.Pluck('FieldDataSerializer', 'value', missing=True, allow_none=True)
-    #field = fields.Nested('FieldDataSerializer', many=False, required=True)
-    #value = fields.Nested('FieldDataSerializer', only=('value',), many=False)
-
     total_area = fields.Decimal(as_string=True, required=True)
     eligible_area = fields.Decimal(as_string=True, required=True)
 
@@ -58,17 +54,35 @@ class ReferenceParcelBaseSerializer(ModelSerializer):
     agricultural_type_id = fields.Integer(required=True, validate=lambda x: object_id_exists(x, AgriculturalType))
     agricultural_type = fields.Nested('AgriculturalTypeSerializer', many=False)
 
-    parcels = fields.Nested('ReferenceParcelListSerializer', many=True, exclude=('parcels',), dump_only=True)
-    parcels_add = fields.Nested('ReferenceParcelListSerializer', many=True, exclude=('parcels',), load_only=True, data_key='parcels')
+    parcels = fields.Nested('ReferenceParcelSerializer', many=True, exclude=('parcels', 'season',), dump_only=True)
+    parcels_add = fields.Nested('ReferenceParcelSerializer', many=True, exclude=('parcels', 'season',), load_only=True, data_key='parcels')
 
     ancestor_id = fields.Integer(required=False, default=None, validate=lambda x: parcel_id_exists(x, ReferenceParcel))
+
+    season = fields.Nested('SeasonSerializer', many=False, only=('id', 'title'), dump_only=True)
 
     class Meta:
         model = ReferenceParcel
         model_converter = GeometryModelConverter
         fields = REFERENCE_PARCEL_BASE_DATA_FIELDS
         dump_only = ('id', 'agricultural_type', 'soil_type', 'parcels',)
-        load_only = ('agricultural_type_id', 'soil_type_id', 'ancestor_id', 'parcels_add',)
+        load_only = ('agricultural_type_id', 'soil_type_id', 'parcels_add',)
+
+    """ TODO: even if season is excluded from child parcels and not visible in the fields, its still deserialized....
+    def __init__(self, *args, **kwargs):
+        print("ReferenceParcelBaseSerializer-init-args: ", args)
+        print("ReferenceParcelBaseSerializer-init-kwargs: ", kwargs)
+        #print("Self exlude: ", self.exclude)
+        super().__init__(*args, **kwargs)
+        print("ReferenceParcelBaseSerializer-Self exlude: ", self.exclude)
+        print("ReferenceParcelBaseSerializer-self.fields: ", self.fields.keys())
+        print("ReferenceParcelBaseSerializer-self.dump_fields: ", self.dump_fields.keys())
+        print("ReferenceParcelBaseSerializer-self.load_fields: ", self.load_fields.keys())
+        many = kwargs.get('many', False)
+        if many:
+            self.fields.pop('season', None)
+    """   
+
 
     @validates_schema
     def validate_area(self, data, **kwargs):
@@ -87,21 +101,3 @@ class ReferenceParcelBaseSerializer(ModelSerializer):
             if 'eligible_area' in data or 'total_area' in data:
                 # TODO: How to validate these dependent fields?
                 pass
-
-
-
-
-
-@api.serializer(many=True)
-class ReferenceParcelBaseListSerializer(ReferenceParcelBaseSerializer):
-
-    #base_parcels = fields.Nested('BaseParcelListSerializer', many=True, data_key='parcels')
-    #soil_type_id = fields.Integer(required=True, validate=lambda x: object_id_exists(x, SoilType))
-
-    class Meta:
-        model = ReferenceParcel
-        model_converter = GeometryModelConverter
-        fields = REFERENCE_PARCEL_BASE_DATA_FIELDS
-        dump_only = ('id', 'agricultural_type', 'soil_type', 'parcels',)
-        load_only = ('agricultural_type_id', 'soil_type_id', 'ancestor_id', 'parcels_add',)
-

@@ -2,6 +2,7 @@ import { createRoutine, createRoutineActions } from 'actions'
 
 const templateActionsTypes = [
     'SELECT_TEMPLATE',
+    'SELECT_STATE',
 ]
 
 export const listUserTemplates = createRoutine('template/LIST_USER_TEMPLATES')

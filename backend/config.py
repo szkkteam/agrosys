@@ -300,7 +300,7 @@ class DevConfig(BaseConfig):
         port=os.environ.get('FLASK_DATABASE_PORT', 5432),
         db_name=os.environ.get('FLASK_DATABASE_NAME', 'agro_dev'),
     )
-    SQLALCHEMY_ECHO = True
+    #SQLALCHEMY_ECHO = True
 
     ##########################################################################
     # mail                                                                   #

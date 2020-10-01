@@ -68,9 +68,9 @@ export default function(state = initialState, action) {
             if(state.selectedParcelId == selectedParcelId && selectedParcelId) {
                 // Check if the old selection is a child
                 let parent = null
-                state.ids.map((id) => {
-                    state.byId[id].parcels.find(x => { if (x == selectedParcelId) { parent = id } })
-                })
+                state.ids.map(id =>
+                    state.byId[id] && state.byId[id].parcels && state.byId[id].parcels.find(x => { if (x == selectedParcelId) { parent = id } })
+                )
                 selection = parent
             }
             return { ...state,

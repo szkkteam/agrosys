@@ -8,6 +8,7 @@ export { default as FormTemplateLoad } from './FormTemplateLoad'
 
 
 export { default as TemplateCreateContainer } from './TemplateCreateContainer' 
+export { default as TemplateCreateButtonContainer } from './TemplateCreateButtonContainer' 
 export { default as TemplateUpdateContainer } from './TemplateUpdateContainer' 
 export { default as TemplateContainer } from './TemplateContainer' 
 export { default as TemplateListContainer } from './TemplateListContainer' 

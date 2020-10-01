@@ -19,6 +19,12 @@ import {
 
 class FormTemplateLoad extends React.Component {
 
+    componentDidMount() {
+        const { listUserTemplates, listDefaultTemplates } = this.props
+        listUserTemplates && listUserTemplates.maybeTrigger()
+        listDefaultTemplates && listDefaultTemplates.maybeTrigger()
+    }
+
     render() {
         const { templates, onChange } = this.props
 

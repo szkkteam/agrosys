@@ -53,19 +53,21 @@ const tableIcons = {
         />
  */
 export default ({
-    columns,
-    data,
+    data = [],
+    options = {},
+    cellEditable = null,
+    onCellEditStarted = null,
+    onCellEditFinished = null,
     ...props,
 }) => {
     return (
         <MaterialTable
             icons={tableIcons}
-            columns={columns}
             data={data}
             options={{
-                //selection: true,
+                pageSize: data ?data.length : 0,
+                ...options
             }}
-            
             {...props}
         />
     )

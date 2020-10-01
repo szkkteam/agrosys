@@ -48,6 +48,7 @@ class TemplateUpdateContainer extends React.Component {
                 isEdit?
                     <FormTemplate
                         onSubmit={updateTemplate}
+                        onSubmitSuccess={this.onClickCancel}
                         onCancel={this.onClickCancel}
                         initialValues={initialValues}
                     />

@@ -16,10 +16,10 @@ export const updateTemplateSaga = createRoutineFormSaga(
   function *successGenerator(payload) {
     console.log("updateTemplateSaga-actionPayload: ", payload)
     // Remove unneccesery data from tasks object
-    const { tasks, ...restPayload } = payload
+    const { tasks, id, ...restPayload } = payload
     const clean = cleanTasks(tasks)
 
-    const template = yield call(TemplateApi.updateTemplate, restPayload, {...restPayload, tasks: clean})  
+    const template = yield call(TemplateApi.updateTemplate, {id}, {...restPayload, tasks: clean})  
     console.log("updateTemplateSaga-template: ", template)
     yield put(updateTemplate.success({ 
     ...normalizeTemplate(template)

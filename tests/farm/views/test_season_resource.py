@@ -51,7 +51,6 @@ class TestSeasonResource:
         assert 'id' in r.json
         assert 'title' in r.json
 
-
     def test_list_filter(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
