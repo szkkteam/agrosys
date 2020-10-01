@@ -7,7 +7,7 @@ import { injectReducer, injectSagas } from 'utils/async'
 
 import { Spinner } from 'components/Loading'
 import { Table } from 'components/Table'
-
+import { FormTemplateLoad } from 'template/components'
 import {
     convertM2ToHa,
 } from 'utils/converter'
@@ -19,47 +19,79 @@ import {
 
 class ProductionCreateContainer extends React.Component {
 
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            data: [],
+        }
+    }
+
     render() {
         const { parcelSeasons } = this.props
 
-        console.log("parcelSeasons: ", parcelSeasons)
+        console.log("data: ", this.state.data)
         return (
             <Table
                 columns={[
-                    {
-                        title: 'Season',
-                        field: 'season.title',
-                        defaultGroupOrder: 0,
-                        //render: (rowData) => <span>{rowData.season.title}</span>,
-                    },
                     { 
-                        title: 'Title',
+                        title: 'Production Title',
                         field: 'title',
                         //filtering: false,
                         //search: false,
                     },
                     {
-                        title: 'Area',
-                        field: 'totalArea',
-                        render: (rowData) => <span>{convertM2ToHa(rowData.totalArea)} Ha</span>,
-                        customSort: (a, b) => b.totalArea - a.totalArea 
-                    }
+                        title: 'Plan Title',
+                        field: 'plan.title',
+                        //render: (rowData) => <span>{rowData.season.title}</span>,
+                        editComponent: ({value, onChange}) => {
+                            return (
+                              <FormTemplateLoad                                
+                                onChange={onChange}
+                              />                              
+                            )
+                          },
+                    },
                 ]}
                 emptyRowsWhenPaging={false}
-                data={parcelSeasons} 
+                data={this.state.data} 
                 style={{overflowX: "hidden"}}             
                 options={{
-                    grouping: true,
-                    defaultExpanded: true,
                     //pageSize: parcelSeasons.length,
                     doubleHorizontalScroll: true,
                     headerStyle: { position: 'sticky', top: 0 }, // Sticky on header is not working ...
                     maxBodyHeight: '650px',
                     search: false,
                 }}
+                editable={{                
+                    onRowUpdate: (newData, oldData) => 
+                        new Promise((resolve, reject) => {
+                            setTimeout(() => {
+                                console.log("newData: ", newData)
+                                resolve()
+                            }, 1000)
+                        }),
+                    onRowDelete: oldData =>
+                        new Promise((resolve, reject) => {
+                            setTimeout(() => {
+                                console.log("newData: ", newData)
+                                resolve()
+                            }, 1000)
+                        }),
+                    onRowAdd: newData =>
+                        new Promise((resolve, reject) => {
+                            setTimeout(() => {
+                                this.setState({
+                                    data: this.state.data.concat([newData])
+                                })
+                                console.log("newData: ", newData)
+                                resolve()
+                            }, 1000)
+                        }),                    
+                }}
+                onBulkEditRowChanged={(e) => console.log("onBulkEditRowChanged: ", e)}
                 components={{
                     Pagination: props => null,
-                    Groupbar: props => null,
                     //Toolbar: props => null,
                     //Header: props => (<thead><tr><th>Header</th></tr></thead>),
                     //...components,

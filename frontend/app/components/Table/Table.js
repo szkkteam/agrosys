@@ -55,6 +55,9 @@ const tableIcons = {
 export default ({
     data = [],
     options = {},
+    cellEditable = null,
+    onCellEditStarted = null,
+    onCellEditFinished = null,
     ...props,
 }) => {
     return (
