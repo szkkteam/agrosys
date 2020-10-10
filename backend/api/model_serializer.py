@@ -192,7 +192,8 @@ class OneOfSchema(ModelSerializer):
 
         if 'instance' in kwargs and not data_type:
             inst = kwargs.get('instance')
-            data_type = getattr(inst, self.model_type_field).title().replace('_', '')
+            #data_type = getattr(inst, self.model_type_field).title().replace('_', '')
+            data_type = getattr(inst, self.model_type_field)
         if not data_type:
             #print("self.type_field: ", self.type_field)
             raise ValidationError(

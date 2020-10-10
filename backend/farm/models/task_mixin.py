@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Common Python library imports
+import enum
 # Pip package imports
 import sqlalchemy as sa
 from sqlalchemy.ext.declarative import declared_attr
@@ -19,6 +20,18 @@ from backend.database import (
 )
 
 
+class TaskStatus(enum.Enum):
+    Deleted = 'Deleted'
+    Pending = 'Pending'
+    Completed = 'Completed'
+    Archived = 'Archived'
+
+class TaskTypes(enum.Enum):
+    TaskGeneral = 'TaskGeneral'
+    TaskPruning = 'TaskPruning'
+    TaskHarvesting = 'TaskHarvesting'
+
+
 class TaskMixin(object):
     """
     Mixin for Resource model
@@ -28,15 +41,6 @@ class TaskMixin(object):
     def task_id(self):
         return sa.Column(
             sa.Integer(), primary_key=True, nullable=False, autoincrement=True
-        )
-
-    @declared_attr
-    def parent_id(self):
-        return sa.Column(
-            sa.Integer(),
-            sa.ForeignKey(
-                "task.task_id", onupdate="CASCADE", ondelete="CASCADE"
-            ),
         )
 
     @declared_attr

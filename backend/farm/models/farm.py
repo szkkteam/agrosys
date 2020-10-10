@@ -17,13 +17,8 @@ from backend.database import (
 )
 from backend.security.models.resource import Resource
 
-def create_template(template):
-    from ..models import FarmTemplate
-    return FarmTemplate(template=template)
-
 class Farm(Resource):
     __mapper_args__ = {'polymorphic_identity': 'farm'}
-    title = Column(String(64))
 
     id = sa.Column(sa.Integer(),
                    sa.ForeignKey('resource.resource_id',
@@ -31,15 +26,13 @@ class Farm(Resource):
                                  ondelete='CASCADE', ),
                    primary_key=True, )
 
+    title = Column(String(64))
+
     region_id = foreign_key('Region', nullable=False, ondelete='CASCADE',)
     region = relationship('Region', uselist=False)
 
     seasons = relationship('Season', cascade="all, delete", back_populates='farm')
     # TODO: Define later lazy relationship
-
-    farm_templates = relationship('FarmTemplate', cascade="all,delete", back_populates='farm')
-    templates = association_proxy('farm_templates', 'template',
-                                          creator=lambda template: create_template(template))
 
     __repr_props__ = ('id', 'title', 'owner_user_id', 'templates')
 

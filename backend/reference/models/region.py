@@ -19,9 +19,9 @@ from backend.database import (
     foreign_key
 )
 
-def create(agricultural_product):
-    from ..models import AgriculturalProductFact
-    return AgriculturalProductFact(agricultural_product=agricultural_product)
+def create(crop_types):
+    from ..models import CropTypeRegion
+    return CropTypeRegion(crop_types=crop_types)
 
 
 class Region(Model):
@@ -31,9 +31,9 @@ class Region(Model):
     country_id = foreign_key('Country', nullable=False)
     country = relationship('Country', back_populates='regions')
 
-    agricultural_product_facts = relationship('AgriculturalProductFact', back_populates='region',
+    region_crop_types = relationship('CropTypeRegion', back_populates='region',
                                                 cascade='all, delete')
-    #agricultural_products = association_proxy('region_agricultural_products', 'agricultural_product',
-    #                            creator=lambda agricultural_product: create(agricultural_product))
+    crop_types = association_proxy('crop_type_region', 'crop_type',
+                                creator=lambda crop_types: create(crop_types))
 
     __repr_props__ = ('id', 'title', 'so_code')

@@ -14,12 +14,13 @@ from backend.database import (
     foreign_key,
     association_proxy
 )
-from .task import Task
+from .execution_task import ExecutionTask
+from .task_mixin import TaskTypes
 
 
-class TaskGeneral(Task):
-    __mapper_args__ = {'polymorphic_identity': 'task_general'}
+class ExecutionTaskGeneral(ExecutionTask):
+    __mapper_args__ = {'polymorphic_identity': TaskTypes.TaskGeneral.value}
 
-    id = foreign_key('Task', fk_col='task_id', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
+    id = foreign_key('ExecutionTask', fk_col='task_id', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
 
     __repr_props__ = ('id', 'title', 'task_type', )

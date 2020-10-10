@@ -9,22 +9,25 @@ from geoalchemy2 import Geometry
 # Internal package imports
 from backend.database import (
     Column,
-    BaseModel,
-    ProxiedDictMixin,
+    Model,
     String,
     Integer,
     Float,
     Date,
-    Unicode,
     relationship,
     association_proxy,
     foreign_key
 )
 
-class SpecificProductProperty(BaseModel):
+class CountryCrop(Model):
+    title = Column(String(128))
 
-    specific_product_id = foreign_key('SpecificProduct', primary_key=True)
-    key = Column(Unicode(64), primary_key=True)
-    value = Column(String(128))
+    country_id = foreign_key('Country', nullable=False)
+    country = relationship('Country')
 
-    __repr_props__ = ('key', 'value', )
+    crop_type_id = foreign_key('CropType', nullable=False)
+    crop_type = relationship('CropType')
+
+    # TODO: Impelement versioning
+
+    __repr_props__ = ('id', 'title', 'so_id')

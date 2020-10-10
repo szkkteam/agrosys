@@ -20,26 +20,26 @@ from backend.database import (
 class ReferenceParcelRelation(BaseModel, TimestampMixin):
     """Join table between User and Role"""
 
-    group_id = foreign_key('ReferenceParcel', fk_col='parcel_id', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
+    block_id = foreign_key('ReferenceParcel', fk_col='parcel_id', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
     parcel_id = foreign_key('ReferenceParcel', fk_col='parcel_id', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")
     #group_id = foreign_key('ReferenceParcel', primary_key=True)
     #parcel_id = foreign_key('ReferenceParcel', primary_key=True)
 
-    group = relationship('ReferenceParcel',
+    block = relationship('ReferenceParcel',
                          #primaryjoin="ReferenceParcelRelation.group_id == reference_parcel.c.id",
-                         backref='group_parcels',
+                         backref='block_parcels',
                          foreign_keys=parcel_id,
                          cascade="all, delete"
                          )
 
     parcel = relationship('ReferenceParcel',
                           #primaryjoin="ReferenceParcelRelation.parcel_id == reference_parcel.c.id",
-                          backref='parcel_groups',
-                          foreign_keys=group_id,
+                          backref='parcel_blocks',
+                          foreign_keys=block_id,
                           cascade="all, delete"
                           )
 
-    __repr_props__ = ('group_id', 'parcel_id')
+    __repr_props__ = ('block_id', 'parcel_id')
 
     def __init__(self, group=None, parcel=None, **kwargs):
         super().__init__(**kwargs)

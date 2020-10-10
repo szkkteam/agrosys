@@ -6,11 +6,12 @@
 # Internal package imports
 from .unit import Unit
 from .soil_type import SoilType
+from .agricultural_type import AgriculturalType
+
 from .region import Region
 from .country import Country
-from .agricultural_product import AgriculturalProduct
-from .agricultural_product_fact import AgriculturalProductFact
-from .specific_product import SpecificProduct
-from .specific_product_property import SpecificProductProperty
+from .crop_type import CropType
+from .country_crop import CountryCrop
 
-from .agricultural_type import AgriculturalType
+from .crop_type_region import CropTypeRegion
+
