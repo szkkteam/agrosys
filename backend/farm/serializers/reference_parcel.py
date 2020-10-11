@@ -30,7 +30,7 @@ class ReferenceParcelSerializer(OneOfSchema):
     class Meta:
         model = ReferenceParcel
         load_instance = False
-        fields = REFERENCE_PARCEL_BASE_DATA_FIELDS
+        #fields = REFERENCE_PARCEL_BASE_DATA_FIELDS
         model_converter = GeometryModelConverter
         # load_instance = False
 
@@ -40,7 +40,7 @@ class ReferenceParcelListSerializer(ReferenceParcelSerializer):
     class Meta:
         model = ReferenceParcel
         load_instance = False
-        fields = REFERENCE_PARCEL_BASE_DATA_FIELDS
+        #fields = REFERENCE_PARCEL_BASE_DATA_FIELDS
         model_converter = GeometryModelConverter
         # load_instance = False
 

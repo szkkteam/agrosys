@@ -54,7 +54,7 @@ class ReferenceParcel(ReferenceParcelMixin, TimestampMixin, BaseModel):
     blocks = association_proxy('block_parcels', 'block',)
 
     # Parcel relationship definition
-    parcels_add = association_proxy('parcel_groups', 'parcel',)
+    parcels_add = association_proxy('parcel_blocks', 'parcel',)
 
     @property
     def parcels(self):

@@ -23,8 +23,8 @@ from backend.database import (
 class Season(Model):
     title = Column(String(64), nullable=True)
 
-    start_date = Column(DateTime(timezone=False), nullable=True)
-    end_date = Column(DateTime(timezone=False), nullable=True, default=None)
+    start_date = Column(DateTime(timezone=False))
+    end_date = Column(DateTime(timezone=False))
 
     farm_id = foreign_key('Farm', nullable=False, ondelete='CASCADE',)
     farm = relationship('Farm', back_populates='seasons')

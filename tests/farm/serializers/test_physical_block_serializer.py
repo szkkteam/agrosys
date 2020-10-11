@@ -10,6 +10,7 @@ from marshmallow.exceptions import ValidationError
 
 # Internal package imports
 from backend.farm.serializers import ReferenceParcelSerializer, ReferenceParcelListSerializer
+from . import get_input_data
 
 VALID_SOIL_TYPE = 1
 
@@ -64,21 +65,7 @@ INVALID_INPUT_DATA_LIST = [
     ([{'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': None, 'eligibleArea': 2.0, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id }], 'Field may not be null.', 'totalArea'),
 ]
 
-def get_input_data(input, soil, agri_type):
-    data = input.copy()
-    if isinstance(input, list):
-        for i, v in enumerate(data):
-            for key, value in v.items():
-                v[key] = value(soil, agri_type) if callable(value) else value
-            data[i] = v
-
-    else:
-        for key, value in data.items():
-            data[key] = value(soil, agri_type) if callable(value) else value
-
-    return data
-
-class TestReferenceParcelSerializer:
+class TestPhysicalBlockSerializer:
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA)
     def test_valid_inputs(self, input, soil, agri_type):
@@ -104,7 +91,7 @@ class TestReferenceParcelSerializer:
         #assert result['soilType']['id'] == d['soilTypeId']
 
 
-class TestReferenceParcelListSerializer:
+class TestPhysicalBlockListSerializer:
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA_LIST)
     def test_valid_inputs(self, input, soil, agri_type):

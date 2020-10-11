@@ -32,5 +32,16 @@ class ReferenceParcelBaseSerializer(ModelSerializer):
     class Meta:
         model = ReferenceParcel
         model_converter = GeometryModelConverter
-        fields = REFERENCE_PARCEL_BASE_DATA_FIELDS
-        dump_only = ('id',)
+        #fields = REFERENCE_PARCEL_BASE_DATA_FIELDS
+        #dump_only = ('id',)
+
+    @validates('total_area')
+    def validate_total_area(self, total_area, *args, **kwargs):
+        print("validate_total_area, total_area: ", total_area)
+        print("validate_total_area, args: ", args)
+        print("validate_total_area, kwargs: ", kwargs)
+        partial = kwargs.get('partial', False)
+        if not partial:
+            if total_area <= 0:
+                raise ValidationError("Field may not be 0 or less.")
+
