@@ -34,5 +34,5 @@ class ExecutionTask(TaskMixin, TimestampMixin, BaseModel):
     plan_execution_id = foreign_key('PlanExecution', nullable=False, onupdate="CASCADE", ondelete="CASCADE")
     plan_execution = relationship('PlanExecution', back_populates='tasks')
 
-    plan_task_id = foreign_key('PlanTask', fk_col='task_id', nullable=False, onupdate="CASCADE")
+    plan_task_id = foreign_key('PlanTask', fk_col='task_id', nullable=True, onupdate="CASCADE")
     plan_task = relationship('PlanTask', back_populates='execution_task', uselist=False)

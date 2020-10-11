@@ -7,6 +7,8 @@
 from .farm import FarmSerializer, FarmListSerializer, FarmPermissionSerializer
 from .season import SeasonSerializer, SeasonListSerializer
 from .reference_parcel import ReferenceParcelSerializer, ReferenceParcelListSerializer
-#from .production import ProductionSerializer, ProductionListSerializer
-#from .template import TemplateSerializer, TemplateListSerializer
-#from .task import TaskSerializer, TaskListSerializer
+from .plan import PlanSerializer, PlanListSerializer
+from .plan_execution import PlanExecutionSerializer, PlanExecutionListSerializer
+from .plan_execution_group import PlanExecutionGroupSerializer, PlanExecutionGroupListSerializer
+from .plan_task import PlanTaskSerializer, PlanTaskListSerializer
+from .execution_task import ExecutionTaskSerializer, ExecutionTaskListSerializer

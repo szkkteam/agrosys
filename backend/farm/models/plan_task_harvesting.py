@@ -19,7 +19,7 @@ from .plan_task import PlanTask
 from .task_mixin import TaskTypes
 
 
-class TaskHarvesting(PlanTask):
+class PlanTaskHarvesting(PlanTask):
     __mapper_args__ = {'polymorphic_identity': TaskTypes.TaskHarvesting.value}
 
     id = foreign_key('PlanTask', fk_col='task_id', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")

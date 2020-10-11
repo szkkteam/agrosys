@@ -17,7 +17,7 @@ from backend.database import (
 from .plan_task import PlanTask
 from .task_mixin import TaskTypes
 
-class TaskGeneral(PlanTask):
+class PlanTaskGeneral(PlanTask):
     __mapper_args__ = {'polymorphic_identity': TaskTypes.TaskGeneral.value}
 
     id = foreign_key('PlanTask', fk_col='task_id', primary_key=True, onupdate="CASCADE", ondelete="CASCADE")

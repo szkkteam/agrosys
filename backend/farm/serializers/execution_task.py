@@ -9,33 +9,31 @@ from marshmallow import pre_load, post_dump, post_load, validates_schema, Valida
 from backend.extensions.api import api
 from backend.api import OneOfSchema
 
-from ..models import Task, TaskTypes
-from .task_general import TaskGeneralSerializer
-from .task_pruning import TaskPruningSerializer
-from .task_harvesting import TaskHarvestingSerializer
+from ..models import ExecutionTask, TaskTypes
+from .execution_task_general import ExecutionTaskGeneralSerializer
+from .execution_task_harvesting import ExecutionTaskHarvestingSerializer
 
 
 
-class TaskSerializer(OneOfSchema):
+class ExecutionTaskSerializer(OneOfSchema):
     model_type_field = 'task_type'
     type_field = 'taskType'
     type_schemas = {
-        TaskTypes.TaskGeneral.value: TaskGeneralSerializer,
-        TaskTypes.TaskPruning.value: TaskPruningSerializer,
-        TaskTypes.TaskHarvesting.value: TaskHarvestingSerializer,
+        TaskTypes.TaskGeneral.value: ExecutionTaskGeneralSerializer,
+        TaskTypes.TaskHarvesting.value: ExecutionTaskHarvestingSerializer,
     }
 
 
     class Meta:
-        model = Task
+        model = ExecutionTask
         load_instance = False
         # load_instance = False
 
 
 @api.serializer(many=True)
-class TaskListSerializer(TaskSerializer):
+class ExecutionTaskListSerializer(ExecutionTaskSerializer):
     class Meta:
-        model = Task
+        model = ExecutionTask
         load_instance = False
         # load_instance = False
 

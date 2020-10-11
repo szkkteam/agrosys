@@ -11,21 +11,19 @@ import datetime as dt
 from backend.api import ModelSerializer, fields
 
 
-from ..models import Task, TaskStatus, TaskTypes
+from ..models import TaskStatus, TaskTypes
 
 TASK_BASE_FIELDS = (
     'id',
     'title',
-    'status',
     'description',
     'start_date',
     'end_date',
-    'predicted_cost',
-    'actual_cost',
+    'cost',
     #'task_name',
     #'task_type',
 )
-
+"""
 class ComposableDict(fields.Dict):
 
     def __init__(self, inner, *args, **kwargs):
@@ -42,19 +40,18 @@ class TaskDateSerializer(ModelSerializer):
     start_date = fields.AwareDateTime(default_timezone=dt.timezone.utc)
     end_date = fields.AwareDateTime(default_timezone=dt.timezone.utc)
     load_instance = False
+"""
 
 class TaskBaseSerializer(ModelSerializer):
 
     task_type = EnumField(TaskTypes, by_value=True, required=True)
-    status = EnumField(TaskStatus, by_value=True, required=False)
 
     #dates = fields.Nested('TaskDateSerializer', required=True)
     #dates = ComposableDict(fields.Nested(TaskDateSerializer), required=True)
     start_date =fields.AwareDateTime(default_timezone=dt.timezone.utc)
     end_date = fields.AwareDateTime(default_timezone=dt.timezone.utc)
 
-    predicted_cost = fields.Decimal(as_string=True, required=False, allow_none=True)
-    actual_cost = fields.Decimal(as_string=True, required=False, allow_none=True)
+    cost = fields.Decimal(as_string=True, required=False, allow_none=True)
 
     def unwrap_date_field(self, data, **kwargs):
         print("Data: ", data)
@@ -92,3 +89,17 @@ class TaskBaseSerializer(ModelSerializer):
         else:
             return self.warp_date_field(data)
 
+
+PLAN_TASK_BASE_FIELDS = TASK_BASE_FIELDS
+
+
+class PlanTaskBaseSerializer(TaskBaseSerializer):
+    pass
+
+EXECUTION_TASK_BASE_FIELDS = TASK_BASE_FIELDS + (
+    'status',
+)
+
+class ExecutionTaskBaseSerializer(TaskBaseSerializer):
+
+    status = EnumField(TaskStatus, by_value=True, required=False)

@@ -38,13 +38,12 @@ class ReferenceParcel(ReferenceParcelMixin, TimestampMixin, BaseModel):
 
     # Ancestor - Descendant
     # TODO: Fix this
-    """
-    ancestor_id = foreign_key('ReferenceParcel', fk_col='parcel_id')
+    ancestor_id = foreign_key('ReferenceParcel', fk_col='parcel_id', nullable=True)
     ancestor = relationship("ReferenceParcel",
                             backref='descendant',
-                            remote_side=[ReferenceParcelMixin.parcel_id],
-                            primaryjoin=('reference_parcel.c.parcel_id==reference_parcel.c.ancestor_id'))
-    """
+                            remote_side='ReferenceParcel.parcel_id',
+                            primaryjoin=('reference_parcel.c.parcel_id==reference_parcel.c.ancestor_id')
+                            )
 
 
     # Season relationship definition

@@ -33,7 +33,7 @@ class PlanExecution(Model):
     plan = relationship('Plan', back_populates='plan_executions')
 
     # PlanExecutionGroup relation
-    group_id = foreign_key('PlanExecutionGroup', nullable=False, ondelete='CASCADE', )
+    group_id = foreign_key('PlanExecutionGroup', nullable=True, ondelete='CASCADE')
     group = relationship('PlanExecutionGroup', back_populates='plan_executions')
 
     tasks = relationship('ExecutionTask',

@@ -11,8 +11,8 @@ from .farm import Farm
 from .season import Season
 
 from .plan_task import PlanTask
-from .plan_task_general import TaskGeneral
-from .plan_task_harvesting import TaskHarvesting
+from .plan_task_general import PlanTaskGeneral
+from .plan_task_harvesting import PlanTaskHarvesting
 
 from .execution_task import ExecutionTask
 from .execution_task_general import ExecutionTaskGeneral
