@@ -3,53 +3,35 @@ AGRICULTURAL_PARCEL_SIMPLE_1:
   title: Simple parcel 1
   notes: Some random note
   total_area: 10
-  eligible_area: 9
-  soil_type: 'SoilType(SOIL_TYPE_1)'
-  agricultural_type: 'AgriculturalType(AGRICULTURAL_TYPE_ARABLE_LAND)'
   geometry: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
 
 AGRICULTURAL_PARCEL_SIMPLE_2:
   title: Simple parcel 2
   notes: Some random note
   total_area: 10
-  eligible_area: 9
-  soil_type: 'SoilType(SOIL_TYPE_2)'
-  agricultural_type: 'AgriculturalType(AGRICULTURAL_TYPE_ARABLE_LAND)'
   geometry: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
 
 AGRICULTURAL_PARCEL_SIMPLE_3:
   title: Simple parcel 3
   notes: Some random note
   total_area: 10
-  eligible_area: 9
-  soil_type: 'SoilType(SOIL_TYPE_3)'
-  agricultural_type: 'AgriculturalType(AGRICULTURAL_TYPE_ARABLE_LAND)'
   geometry: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
 
 AGRICULTURAL_PARCEL_SIMPLE_4:
   title: Simple parcel 4
   notes: Some random note
   total_area: 10
-  eligible_area: 9
-  soil_type: 'SoilType(SOIL_TYPE_3)'
   geometry: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
-  agricultural_type: 'AgriculturalType(AGRICULTURAL_TYPE_ARABLE_LAND)'
-  productions: ['Production(PRODUCTION_AS_TMP_TASKS_3)']
+  #productions: ['Production(PRODUCTION_AS_TMP_TASKS_3)']
 
 AGRICULTURAL_PARCEL_GROUPED_1:
   title: Grouped parcel 1
   notes: Some random note
   total_area: 10
-  eligible_area: 9
-  soil_type: 'SoilType(SOIL_TYPE_3)'
   geometry: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
-  agricultural_type: 'AgriculturalType(AGRICULTURAL_TYPE_ARABLE_LAND)'
 
 AGRICULTURAL_PARCEL_GROUPED_2:
   title: Grouped parcel 2
   notes: Some random note
   total_area: 10
-  eligible_area: 9
-  soil_type: 'SoilType(SOIL_TYPE_3)'
   geometry: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
-  agricultural_type: 'AgriculturalType(AGRICULTURAL_TYPE_ARABLE_LAND)'

@@ -39,7 +39,7 @@ class PhysicalBlockSerializer(ReferenceParcelBaseSerializer):
     parcels = fields.Nested('ReferenceParcelSerializer', many=True, dump_only=True) # exclude=('parcels', 'season',)
     parcels_add = fields.Nested('ReferenceParcelSerializer', many=True, load_only=True, data_key='parcels') # exclude=('parcels', 'season',)
 
-    season = fields.Nested('SeasonSerializer', many=False, only=('id', 'title'), dump_only=True)
+    season = fields.Nested('SeasonSerializer', many=False, exclude=('parcels',), dump_only=True)
 
 
     class Meta:

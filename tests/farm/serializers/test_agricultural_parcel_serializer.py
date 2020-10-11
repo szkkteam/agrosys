@@ -10,7 +10,7 @@ from marshmallow.exceptions import ValidationError
 
 # Internal package imports
 from backend.farm.serializers import ReferenceParcelSerializer, ReferenceParcelListSerializer
-from . import get_input_data
+from .. import get_input_data
 
 VALID_SOIL_TYPE = 1
 

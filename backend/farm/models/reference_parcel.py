@@ -4,6 +4,7 @@
 # Common Python library imports
 from sqlalchemy.orm.collections import attribute_mapped_collection
 import sqlalchemy as sa
+from sqlalchemy.orm import backref
 
 # Pip package imports
 from geoalchemy2 import Geometry
@@ -24,8 +25,6 @@ from backend.database import (
 )
 from .reference_parcel_relation import ReferenceParcelRelation
 from .reference_parcel_mixin import ReferenceParcelMixin
-
-
 
 class ReferenceParcel(ReferenceParcelMixin, TimestampMixin, BaseModel):
     #id = Column(BigInteger, primary_key=True, autoincrement=True)
@@ -48,13 +47,25 @@ class ReferenceParcel(ReferenceParcelMixin, TimestampMixin, BaseModel):
 
     # Season relationship definition
     season_id = foreign_key('Season', nullable=True, onupdate="CASCADE", ondelete="CASCADE")
-    season = relationship('Season', back_populates='reference_parcels')
+    season = relationship('Season', back_populates='parcels')
+
+    # Keep relationship definition in the reference parcel.
+    # TODO: This is perfect!!! Everyting working as expected, DON'T TOUCH IT!!
+    block_parcels = relationship('ReferenceParcelRelation',
+                         primaryjoin="ReferenceParcel.parcel_id==reference_parcel_relation.c.parcel_id",
+                         backref='block',
+                         cascade="all, delete")
+
+    parcel_blocks = relationship('ReferenceParcelRelation',
+                          primaryjoin="ReferenceParcel.parcel_id==reference_parcel_relation.c.block_id",
+                          backref='parcel',
+                          cascade="all, delete")
 
     # Group relationship definition
-    blocks = association_proxy('block_parcels', 'block',)
+    blocks = association_proxy('block_parcels', 'block')
 
     # Parcel relationship definition
-    parcels_add = association_proxy('parcel_blocks', 'parcel',)
+    parcels_add = association_proxy('parcel_blocks', 'parcel')
 
     @property
     def parcels(self):

@@ -10,6 +10,7 @@ from marshmallow.exceptions import ValidationError
 
 # Internal package imports
 from backend.farm.serializers import FarmSerializer, FarmListSerializer
+from .. import get_input_data
 
 
 VALID_INPUT_DATA = [
@@ -38,20 +39,6 @@ INVALID_INPUT_DATA_LIST = [
     ([{'title': None, 'regionId': lambda c: c.id}], 'Field may not be null.', 'title'),
 ]
 
-
-def get_input_data(input, region):
-    data = input.copy()
-    if isinstance(input, list):
-        for i, v in enumerate(data):
-            for key, value in v.items():
-                v[key] = value(region) if callable(value) else value
-            data[i] = v
-
-    else:
-        for key, value in data.items():
-            data[key] = value(region) if callable(value) else value
-
-    return data
 
 class TestFarmSerializer:
 

@@ -15,5 +15,5 @@ PHYSICAL_BLOCK_NESTED_1:
   eligible_area: 9
   soil_type: 'SoilType(SOIL_TYPE_1)'
   agricultural_type: 'AgriculturalType(AGRICULTURAL_TYPE_ARABLE_LAND)'
-  parcels_add: ['AgriculturalParcel(AGRICULTURAL_PARCEL_SIMPLE_3, AGRICULTURAL_PARCEL_SIMPLE_4)']
   geometry: 'POLYGON((0 0,1 0,1 1,0 1,0 0))'
+  parcels_add: ['AgriculturalParcel(AGRICULTURAL_PARCEL_SIMPLE_3, AGRICULTURAL_PARCEL_SIMPLE_4)']

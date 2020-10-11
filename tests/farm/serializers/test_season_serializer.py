@@ -36,9 +36,9 @@ VALID_PHYSICAL_BLOCK_DATA = {
 }
 
 VALID_INPUT_DATA = [
-    ({'title': 'Season 2019', 'referenceParcels': [VALID_PHYSICAL_BLOCK_DATA], 'dates': { 'startDate': '2020-01-21T20:00:00', 'endDate': '2020-12-22T20:00:00', },}),
-    ({'title': None, 'referenceParcels': [VALID_PHYSICAL_BLOCK_DATA_NESTED], 'dates': { 'startDate': '2020-01-21T20:00:00', 'endDate': '2020-12-22T20:00:00', }}),
-    ({'title': 'Season #$!"1', 'referenceParcels': [VALID_PHYSICAL_BLOCK_DATA_NESTED], 'dates': { 'startDate': '2020-01-21T20:00:00', 'endDate': '2020-12-22T20:00:00', }}),
+    ({'title': 'Season 2019', 'parcels': [VALID_PHYSICAL_BLOCK_DATA], 'dates': { 'startDate': '2020-01-21T20:00:00', 'endDate': '2020-12-22T20:00:00', },}),
+    ({'title': None, 'parcels': [VALID_PHYSICAL_BLOCK_DATA_NESTED], 'dates': { 'startDate': '2020-01-21T20:00:00', 'endDate': '2020-12-22T20:00:00', }}),
+    ({'title': 'Season #$!"1', 'parcels': [VALID_PHYSICAL_BLOCK_DATA_NESTED], 'dates': { 'startDate': '2020-01-21T20:00:00', 'endDate': '2020-12-22T20:00:00', }}),
 ]
 
 INVALID_INPUT_DATA = [
@@ -89,8 +89,8 @@ class TestSeasonSerializer:
     def test_valid_inputs(self, input, soil, agri_type):
         serializer = SeasonSerializer()
         data = copy.deepcopy(input)
-        if 'referenceParcels' in data:
-            data['referenceParcels'] = get_input_data(data['referenceParcels'], soil, agri_type)
+        if 'parcels' in data:
+            data['parcels'] = get_input_data(data['parcels'], soil, agri_type)
         serializer.load(data)
 
     @pytest.mark.parametrize("input,msg,field", INVALID_INPUT_DATA)
@@ -105,8 +105,8 @@ class TestSeasonSerializer:
     def test_valid_serialize_deserialize(self, input, soil, agri_type):
         serializer = SeasonSerializer()
         data = copy.deepcopy(input)
-        if 'referenceParcels' in data:
-            data['referenceParcels'] = get_input_data(data['referenceParcels'], soil, agri_type)
+        if 'parcels' in data:
+            data['parcels'] = get_input_data(data['parcels'], soil, agri_type)
         result = serializer.load(data)
         result = serializer.dump(result)
         assert result['title'] == data['title']

@@ -29,7 +29,7 @@ class Season(Model):
     farm_id = foreign_key('Farm', nullable=False, ondelete='CASCADE',)
     farm = relationship('Farm', back_populates='seasons')
 
-    reference_parcels = relationship('ReferenceParcel', back_populates='season',
+    parcels = relationship('ReferenceParcel', back_populates='season',
                          cascade='all, delete-orphan')
 
     archived_at = Column(DateTime, default=None, nullable=True)

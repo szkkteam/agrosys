@@ -1,13 +1,21 @@
 ---
 SEASON_1:
   title: S2017
-  reference_parcels: ['PhysicalBlock(PHYSICAL_BLOCK_NESTED_1)']
+  start_date: now
+  end_date: now
+  parcels: ['PhysicalBlock(PHYSICAL_BLOCK_NESTED_1)']
 
 SEASON_2:
   title: S2018
+  start_date: now
+  end_date: now
 
 SEASON_3:
   title: S2019
+  start_date: now
+  end_date: now
 
 SEASON_4:
   title: S2020
+  start_date: now
+  end_date: now

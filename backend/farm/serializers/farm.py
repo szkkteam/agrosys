@@ -6,6 +6,7 @@
 # Internal package imports
 from backend.extensions.api import api
 from backend.api import ModelSerializer, ValidationError
+from backend.api.utils import object_id_exists
 from backend.api import fields
 
 from backend.reference.models import Region
@@ -24,10 +25,6 @@ FARM_PERMISSION_FIELDS = (
     'is_owner', 'permissions'
 )
 
-def object_id_exists(object_id, model):
-    if not model.get_by(id=object_id):
-        raise ValidationError('ID %i does not exist.' % (object_id))
-
 class FarmSerializer(ModelSerializer):
 
     role = fields.Nested('FarmPermissionSerializer', many=False)
@@ -35,7 +32,7 @@ class FarmSerializer(ModelSerializer):
     region_id = fields.Integer(required=True, validate=lambda x: object_id_exists(x, Region))
     region = fields.Nested('RegionSerializer', many=False)
 
-    seasons = fields.Nested('SeasonListSerializer', many=True, only=('id', 'title'))
+    seasons = fields.Nested('SeasonListSerializer', many=True, exclude=('parcels',))
 
     class Meta:
         model = Farm

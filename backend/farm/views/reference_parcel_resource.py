@@ -33,13 +33,13 @@ class ReferenceParcelResource(ModelResource):
         LIST: (auth_required, ),
     }
 
-
-    def create(self, reference_parcel, errors, **kwargs):
+    @param_converter(season_id=int)
+    def create(self, reference_parcel, errors, season_id, **kwargs):
         if errors:
             return self.errors(errors)
         # Get the season object
-        season = Season.query.get_or_404(kwargs['season_id'])
-        season.reference_parcels.append(reference_parcel)
+        season = Season.query.get_or_404(season_id)
+        season.parcels.append(reference_parcel)
         season.save()
         return self.created(reference_parcel)
 

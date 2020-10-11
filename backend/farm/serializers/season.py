@@ -18,12 +18,12 @@ DATA_FIELDS = (
     'title',
     'start_date',
     'end_date',
-    'reference_parcels',
+    'parcels',
 )
 
 class SeasonSerializer(ModelSerializer):
 
-    reference_parcels = fields.Nested('ReferenceParcelSerializer', many=True, required=False, exclude=('season', ))
+    parcels = fields.Nested('ReferenceParcelSerializer', many=True, required=False, exclude=('season', ))
 
     start_date = fields.AwareDateTime(default_timezone=dt.timezone.utc)
     end_date = fields.AwareDateTime(default_timezone=dt.timezone.utc)

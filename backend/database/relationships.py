@@ -32,6 +32,7 @@ class __relationship_type_hinter__(RelationshipProperty):
 backref = db.backref            # type: __relationship_type_hinter__
 relationship = db.relationship  # type: __relationship_type_hinter__
 
+FK_OPTIONS = ['ondelete', 'onupdate']
 
 def foreign_key(model_or_table_name, fk_col=None, primary_key=False, *args, **kwargs):
     """Helper method to add a foreign key Column to a model.
@@ -63,6 +64,7 @@ def foreign_key(model_or_table_name, fk_col=None, primary_key=False, *args, **kw
     :param bool primary_key: Whether or not this Column is a primary key
     :param dict kwargs: any other kwargs to pass the Column constructor
     """
+
     model = model_or_table_name
     table_name = model_or_table_name
     fk_col = fk_col or 'id'
@@ -71,14 +73,12 @@ def foreign_key(model_or_table_name, fk_col=None, primary_key=False, *args, **kw
     elif table_name != table_name.lower():
         table_name = camel_to_snake_case(table_name)
 
-    kf_kwargs = {}
-    if 'ondelete' in kwargs:
-        kf_kwargs['ondelete'] = kwargs.pop('ondelete')
-
-    if 'onupdate' in kwargs:
-        kf_kwargs['onupdate'] = kwargs.pop('onupdate')
+    fk_kwargs = {}
+    for option in FK_OPTIONS:
+        if option in kwargs:
+            fk_kwargs[option] = kwargs.pop(option)
 
     return Column(db.BigInteger,
-                  db.ForeignKey(f'{table_name}.{fk_col}' , **kf_kwargs),
+                  db.ForeignKey(f'{table_name}.{fk_col}' , **fk_kwargs),
                   primary_key=primary_key,
                   **kwargs)
