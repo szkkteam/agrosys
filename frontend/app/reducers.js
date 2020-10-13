@@ -6,6 +6,8 @@ import { loadingBarReducer } from 'react-redux-loading-bar'
 import securityReducer from 'security/reducer'
 import flashReducer from 'site/reducers/flash'
 
+import entitiesReducer from 'ormReducer'
+
 
 export default function createReducer(injectedReducers) {
   return combineReducers({
@@ -15,6 +17,8 @@ export default function createReducer(injectedReducers) {
     form: formReducer,
     routing: routerReducer,
     loadingBar: loadingBarReducer,
+
+    entities: entitiesReducer,
 
     ...injectedReducers,
   })
