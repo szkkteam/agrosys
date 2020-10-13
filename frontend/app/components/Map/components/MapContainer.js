@@ -133,7 +133,7 @@ class MapContainer extends React.Component {
 
     toBounds = (bounds) => {
         const { mapEvents } = this.props
-        mapEvents && mapEvents.addEvent({
+        mapEvents && mapEvents.add({
             eventRequest: {
                 type: "fly-to-bounds",
                 config: {

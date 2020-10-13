@@ -11,6 +11,3 @@ export { default as MapUpperToolbar } from './MapUpperToolbar'
 export { default as AddEditToolbar } from './AddEditToolbar'
 export { default as ParcelGroup } from './ParcelGroup'
 export { default as MapParcels } from './MapParcels'
-
-
-export { default as MapFeature } from './MapFeature' 

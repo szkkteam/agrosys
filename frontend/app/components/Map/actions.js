@@ -1,15 +1,22 @@
 import { createRoutineActions, createRoutine } from 'actions'
 
-export const mapViewportActionsTypes = [
+const mapViewportActionsTypes = [
     // Viewport actions
     'CHANGED',
 ]
 
-export const mapEventActionsTypes = [
+const mapEventActionsTypes = [
     // Map actions
-    'ADD_EVENT',
-    'CLEAR_EVENTS',
+    'ADD',
+    'CLEAR',
+]
+
+const mapEditActionTypes = [
+    'START',
+    'CANCEL',
+    'SUBMIT',
 ]
 
 export const mapViewport = createRoutineActions('map/VIEWPORT', mapViewportActionsTypes)
 export const mapEvents = createRoutineActions('map/EVENTS', mapEventActionsTypes)
+export const mapEdit = createRoutineActions('map/EDIT', mapEditActionTypes)

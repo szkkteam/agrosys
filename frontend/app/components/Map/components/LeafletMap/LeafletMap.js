@@ -72,7 +72,7 @@ export default class LeafletMap extends React.Component {
     onMoveEnd = (e) => {
         const { mapEventAction, mapViewportAction, events } = this.props
         
-        events.length && mapEventAction && mapEventAction.clearEvents()
+        events.length && mapEventAction && mapEventAction.clear()
         mapViewportAction && mapViewportAction.changed({
             viewPortChange: this.map.getBounds(),
         })
