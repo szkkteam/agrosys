@@ -1,4 +1,4 @@
-import orm from 'orm'
+import orm from 'entities/orm'
 //import { PhysicalBlock, AgriculturalParcel } from '../models'
 
 describe('Test PhysicalBlock model', () => {
