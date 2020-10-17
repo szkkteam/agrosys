@@ -12,7 +12,6 @@ import { injectReducer, injectSagas } from 'utils/async'
 import { storage } from 'utils'
 
 import { listFarms } from 'farm/actions'
-import { selectFarmsMenu } from 'farm/reducers/farms'
 
 var onClick = () => {
     
@@ -108,7 +107,7 @@ const withReducer = injectReducer(require('farm/reducers/farms'))
 const withSaga = injectSagas(require('farm/sagas/farms'))
 
 const withConnectFarms = connect(
-  (state) => ({ farmsMenuList: selectFarmsMenu(state) }),
+  (state) => ({ farmsMenuList: [] }),
   (dispatch) => bindRoutineCreators({ listFarms }, dispatch),
 )
 

@@ -16,6 +16,24 @@ describe('setSeason saga', () => {
         const sagaMiddleware = createSagaMiddleware()
         const store = createStore(reducer, undefined, applyMiddleware(sagaMiddleware))
 
+        seasonSaga = setSeasonSaga(payload)
+
+        done()
+    })
+
+    it('it should dispatch setSeason.success', () => {
+        let putDescriptor = seasonSaga.next().value
+
+        expect(putDescriptor).toEqual(put(setSeason.success(payload)))
+    })
+})
+
+/*
+    const payload = 1
+    beforeEach(done => {
+        const sagaMiddleware = createSagaMiddleware()
+        const store = createStore(reducer, undefined, applyMiddleware(sagaMiddleware))
+
         seasonSaga = setSeasonSaga({ payload })
 
         // iterate past yield put(seasonSaga.request())
@@ -29,4 +47,4 @@ describe('setSeason saga', () => {
         let putDescriptor = seasonSaga.next(payload).value.next().value
         expect(putDescriptor).toEqual(put(setSeason.success(payload)))
     })
-})
+*/

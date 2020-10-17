@@ -4,12 +4,6 @@ import startCase from 'lodash/startCase'
 import { compile } from 'path-to-regexp'
 
 import {
-  Farms,
-  FarmCreate,
-  Fields,
-} from 'farm/pages'
-
-import {
   MapPage,
   TemplatePage,
   ProductionCreatePage,
@@ -47,8 +41,8 @@ export const ROUTES = {
   /**
    * Farm
    */
-  Farms: 'Farms',
-  FarmCreate: 'FarmCreate',
+  //Farms: 'Farms',
+  //FarmCreate: 'FarmCreate',
   /**
    * Map
    */
@@ -95,6 +89,7 @@ const routes = [
   /**
    * Modules
    */
+  /*
   {
     key: ROUTES.Farms,
     path: '/farm',
@@ -107,7 +102,7 @@ const routes = [
     component: FarmCreate,
     routeComponent: ProtectedRoute,
   },
-
+  */
   /**
    * Map
    */
