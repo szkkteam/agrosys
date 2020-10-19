@@ -1,4 +1,5 @@
 export { default as AddParcelButton } from './AddParcelButton'
+export { default as AddParcelButtonContainer } from './AddParcelButtonContainer'
 export { default as EditParcelButton } from './EditParcelButton'
 export { default as FormParcel } from './FormParcel'
 export { default as ParcelList } from './ParcelList'

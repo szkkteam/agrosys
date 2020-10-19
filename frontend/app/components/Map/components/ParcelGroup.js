@@ -1,8 +1,8 @@
 import React from 'react'
 
 import {
-    Feature,
-    FeatureGroup
+    LeafletFeature,
+    LeafletFeatureGroup
 } from 'components/Map/components'
 
 export default ({
@@ -14,21 +14,21 @@ export default ({
         <React.Fragment>
             { parcelsGrouped && parcelsGrouped.map((agriculturalParcel, i) => {
                 return (
-                    <FeatureGroup 
+                    <LeafletFeatureGroup 
                         checked={agriculturalParcel.enable}
                         key={`${i}`}
                         name={agriculturalParcel.title}
                         {...rest}
                     >
                         { agriculturalParcel.items.map((parcel, j) => (
-                            <Feature
+                            <LeafletFeature
                                 key={`${i}-${j}`}
                                 {...agriculturalParcel.props}
                                 onClick={onClick}
                                 data={parcel}
                             />
                         )) }
-                    </FeatureGroup>
+                    </LeafletFeatureGroup>
                 )
             }) }            
         </React.Fragment>  

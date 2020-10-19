@@ -1,7 +1,7 @@
 import React from 'react'
 
 import {
-    AddParcelButton,
+    AddParcelButtonContainer,
     EditParcelButton,
 } from 'parcel/components'
 
@@ -13,9 +13,6 @@ export default ({
 }) => {
     return (
         <React.Fragment>
-            <AddParcelButton       
-                onParcelAdd={onAdd}
-            />
             { selectedParcel &&
                 <EditParcelButton
                     title={selectedParcel.title}

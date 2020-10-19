@@ -6,7 +6,7 @@ export class Farm extends Model {
     static get fields() {
         return {
             id: attr(),
-            seasons: fk("Season")
+            //seasons: fk("Season")
         }
     }
 
@@ -28,8 +28,9 @@ export class Farm extends Model {
         const { Season } = this.session
         let clonedData = {
             ...data,
-            seasons: data.seasons && data.seasons.map(season => Season.parse(season))
+            seasons: data.seasons && data.seasons.map(season => Season.parse({...season, farm: data.id}))
         }
+        //console.log("Cloned data: ", clonedData)
         // TODO: Do some parsing magic with relations
         return this.upsert(clonedData)
     }

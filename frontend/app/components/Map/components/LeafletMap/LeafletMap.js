@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 
 import { Map,
     ZoomControl,
@@ -16,14 +16,15 @@ import './leafletmap.scss'
 const { BaseLayer, Overlay } = LayersControl
 
 export default class LeafletMap extends React.Component {
-
+    /*
     constructor(props) {
         super(props)
-
+        
         this.state = {
             height: 800,
         }
     }
+    */
 
     componentDidMount() {
         this.map = this.mapInstance.leafletElement
@@ -31,16 +32,10 @@ export default class LeafletMap extends React.Component {
         this.fitTo({
             bounds: startBounds,
         })
-        window.addEventListener("resize", this.updateDimensions)
+        //window.addEventListener("resize", this.updateDimensions)
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        // FIXME: Comparing prevEvents and thisEvents will be always the same. Why?
-        this.props.events && this.props.events.map((event, id) => (
-            this.handleEvents(event)
-        ))        
-    }
-
+    /*
     componentWillUnmount() {
         window.removeEventListener("resize", this.updateDimensions)
       }
@@ -49,47 +44,33 @@ export default class LeafletMap extends React.Component {
         const height = window.innerWidth >= 992 ? window.innerHeight : 400        
         this.setState({ height: height })
       }
+      */
 
     flyTo = ({bounds}) => {
+        console.log("flyTo-bounds: ", bounds)
         bounds && this.map.flyToBounds(bounds)
     }
 
     fitTo = ({bounds}) => {
+        console.log("fitTo-bounds: ", bounds)
         bounds && this.map.fitBounds(bounds)
     }
 
-    handleEvents = ({type, config}) => {
-        switch(type) {
-            case "fly-to-bounds":
-                config && this.flyTo(config)                
-                break
-            
-            default:
-                break
-        }
-    }
-    
     onMoveEnd = (e) => {
-        const { mapEventAction, mapViewportAction, events } = this.props
-        
-        events.length && mapEventAction && mapEventAction.clear()
-        mapViewportAction && mapViewportAction.changed({
-            viewPortChange: this.map.getBounds(),
-        })
-    }
-
-    convertLatLngToBounds = (latlngs) => {
-        try {
-            const c1 = L.latLng(startBounds._northEast)
-            const c2 = L.latLng(startBounds._southWest)
-            return L.latLngBounds(c1, c2)
-        } catch (e) {
-            log_error("startBounds given to map is invalid: ", latlngs)
-        }
+        const { onMoveEnd } = this.props
+        onMoveEnd && onMoveEnd(this.map.getBounds())
     }
 
     render() {
-        const { editable, children, startBounds, overlay, ...props } = this.props
+        const { 
+            editable,
+            children,
+            startBounds,
+            overlay,
+            onMoveEnd,
+            ...props
+        } = this.props
+
         return (
             <div style={{height: "900px", position: "relative"}}>
                 <Map 

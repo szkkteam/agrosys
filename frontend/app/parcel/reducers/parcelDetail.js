@@ -24,4 +24,3 @@ export default function(state = initialState, action) {
 }
 
 export const selectParcelDetail = (state) => state[KEY]
-export const selectSelectedParcel = (state) => selectParcelDetail(state).selectedParcel

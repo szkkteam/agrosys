@@ -16,15 +16,16 @@ import {
 } from 'reference/actions'
 
 import { mapEvents } from 'components/Map/actions'
+/*
 import {
     getSelectedParcel,
     getSelectedSeasonParcelsGrouped,
     getSelectedSiblingParcels,
 } from 'parcel/selectors'
-
+*/
 import {
     Map,
-    Feature,
+    LeafletFeature,
     ParcelGroup,
 } from 'components/Map/components'
 
@@ -83,7 +84,7 @@ class MapParcels extends React.Component {
                 <React.Fragment>     
                     { groupParcel && !hideSelection &&
                         // Render the active group parcel selection.
-                        <Feature
+                        <LeafletFeature
                             color="white"
                             onClick={this.onSelect}
                             data={groupParcel}  
@@ -92,7 +93,7 @@ class MapParcels extends React.Component {
                     { // Render child parcels.
                         childParcels && childParcels.map((parcel, i) => {
                             return (
-                                <Feature
+                                <LeafletFeature
                                     key={`${parcel.tite}-${i}`}
                                     //color="yellow" 
                                     data={parcel}
@@ -103,7 +104,7 @@ class MapParcels extends React.Component {
                     }
                     { childParcel && !hideSelection &&
                         // Render the active child parcel selection.
-                        <Feature
+                        <LeafletFeature
                             color="white"
                             onClick={this.onSelect}
                             data={childParcel}  
@@ -128,16 +129,16 @@ const withReducerAgriculturalTypes = injectReducer(require('reference/reducers/a
 
 
 const mapStateToProps = (state) => {
-    const selectedParcel = getSelectedParcel(state)
-    const { data: seasonParcels, ...rest} = getSelectedSeasonParcelsGrouped(state) 
-    const { data: siblingParcels } = getSelectedSiblingParcels(state)
-    console.log("seasonParcels: ", seasonParcels)
-    console.log("siblingParcels: ", siblingParcels)
+    //const selectedParcel = getSelectedParcel(state)
+    //const { data: seasonParcels, ...rest} = getSelectedSeasonParcelsGrouped(state) 
+    //const { data: siblingParcels } = getSelectedSiblingParcels(state)
+    //console.log("seasonParcels: ", seasonParcels)
+    //console.log("siblingParcels: ", siblingParcels)
     return {
-        selectedParcel,
-        seasonParcels,
-        siblingParcels,
-        ...rest,
+        selectedParcel: null,
+        seasonParcels: [],
+        siblingParcels: [],
+        //...rest,
     }
 }
 

@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { createSelector as createSelectorReselect } from 'reselect'
 import { createSelector as createSelectorOrm } from 'redux-orm';
 import { selectSeasonDetail } from 'season/reducers/seasonDetail'
@@ -12,7 +13,7 @@ export const getCurrentSeason = createSelectorOrm(
     (session, currentSeasonId) => {
         const { Season } = session
         let season = null
-        if (Season.hasId(currentSeasonId)) {
+        if (Season.idExists(currentSeasonId)) {
             const seasonModel = Season.withId(currentSeasonId)
             season = seasonModel.ref
         } 
@@ -20,18 +21,22 @@ export const getCurrentSeason = createSelectorOrm(
         return season
     }
 )
-/*
+
 export const getSeasonList = createSelectorOrm(
-    [orm, selectSeasonStatus],
-    (session, status) => {
+    [orm, selectSeasonStatus, selectCurrentFarm],
+    (session, status, currentFarm) => {
         const { isLoading } = status
         let response = { data: [], isLoading } 
 
         if (isLoading) return response
-        const { Farm } = session
-        const farms = Farm.all().toModelArray().map(farmModel => farmModel.getId())
-        response.data = farms
+
+        const { Season } = session
+        const seasons = Season.filter({farm: currentFarm}
+            ).orderBy(x => moment(x.dates.startDate).toDate()
+            ).toModelArray(                
+            ).map(farmModel => farmModel.getId())
+        response.data = seasons
         return response
     }
 )
-*/
+

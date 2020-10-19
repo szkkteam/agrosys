@@ -1,11 +1,11 @@
 import { createSelector } from 'reselect'
 import memoize from 'lodash.memoize'
-
+/*
 import {
     getSelectedParcel,
     getParcelsDenormalizedUnordered,
 } from 'parcel/selectors'
-
+*/
 import { selectParcelsById } from 'parcel/reducers/parcels'
 
 import {
@@ -37,12 +37,14 @@ const contructSeasonList = (parcelLinks, parcelsById, seasonsById) => {
 
 export const getSelectedParcelSeasons = createSelector(
     [
-        getSelectedParcel,
-        getParcelsDenormalizedUnordered,
+        //getSelectedParcel,
+        //getParcelsDenormalizedUnordered,
         selectSeasonsById,
         selectParcelsById,
     ],
-    (selectedParcel, parcels, seasonsById, parcelsById) => {
+    (seasonsById, parcelsById) => {
+        const selectedParcel = null
+        const parcels = []
         if (!selectedParcel) return {data: [], isLoading: false}
         if (getParcelsDenormalizedUnordered.isLoading) return {data: [], isLoading: true}
         return {data: contructSeasonList(findLinksBetweenParcels(selectedParcel, [...parcels.data]), parcelsById, seasonsById), isLoading: false}

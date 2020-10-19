@@ -10,17 +10,19 @@ import {
     updateParcel,
 } from 'parcel/actions'
 
-import { mapEvents } from 'components/Map/actions'
+import { mapEvents, mapEdit } from 'components/Map/actions'
+import { selectMap } from 'components/Map/reducer'
+/*
 import {
     getSelectedParcel,
-} from 'parcel/selectors'
+} from 'parcel/selectors' */
 import { selectSelectedSeasons } from 'season/reducers/seasons'
 
 import {
     Draw,
-    MapUpperToolbar,
-    AddEditToolbar,
-    MapParcels,
+    Map,
+    MapToolbar,
+    EditToolbarGroup,
 } from 'components/Map/components'
 
 import {
@@ -33,101 +35,45 @@ const mapStateEnum = {
     IDLE: 'IDLE',
 }
 
+
 class MapContainer extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = {
-            formInitialValues: {
-                title: "",
-                geometry: null,
-                eligibleArea: 0,
-                totalArea: 0,
-                referenceParcelType: null,
-            },
-            //featureInEdit: null,
-            status: mapStateEnum.IDLE,            
-        }
+        
         this.draw = React.createRef();
     }
 
-    componentDidUpdate(prevProps) {        
-        if ((prevProps.selectedParcel !== this.props.selectedParcel) && 
-            this.state.status != mapStateEnum.IDLE) {            
-            this.onCancel()
+
+    componentDidUpdate(prevProps) {      
+        if ( this.props.isEdit && this.props.isEdit !== prevProps.isEdit ) {
+            const { initialValues } = this.props
+            // New editing signal arrived from the store
+            this.draw.current.addPolygon(initialValues.geometry)
+            this.draw.current.toggleEdit(true)
         }
-        /*
-        if ((
-            (prevProps.selectedParcel == this.props.selectedParcel) ||
-            (prevProps.selectedParcel.id) == (this.props.selectedParcel.id)) && 
-            this.state.status != mapStateEnum.IDLE) {            
-            this.onCancel()
-        }*/
+        if ( this.props.isNew && this.props.isNew !== prevProps.isNew ) {
+            // New add signal arrived from store
+            this.draw.current.drawPolygon()
+        }
+        if ( !this.props.isDraw && this.props.isDraw !== prevProps.isDraw ) {
+            // New cancel signal arrived from store
+            this.draw.current.stopDraw()
+        }
     }
 
-    onAdd = (e, i) => {        
-        //console.log(e,i)
-        this.draw.current.drawPolygon()
-        this.setState({ 
-            status: mapStateEnum.ADD,
-            formInitialValues: {
-                ...this.state.formInitialValues,
-                referenceParcelType: i.key,
-            }
-        })
-
-    }
-
-    onEdit = () => {
-        const { selectedParcel } = this.props
-
-        this.draw.current.addPolygon(selectedParcel.geometry)
-        this.draw.current.toggleEdit(true)
-
-        // Excluding some parts
-        const correctedParcelData = { 
-            id: selectedParcel.id,
-            geometry: selectedParcel.geometry,
-            title: selectedParcel.title,
-            notes: selectedParcel.notes,
-            eligibleArea: selectedParcel.eligibleArea,
-            totalArea: selectedParcel.totalArea,
-            referenceParcelType: selectedParcel.referenceParcelType,
-            agriculturalTypeId: selectedParcel.agriculturalType.id,
-            soilTypeId: selectedParcel.soilType.id,
-            }
-
-        this.setState({
-            status: mapStateEnum.EDIT,
-            formInitialValues: {
-                ...correctedParcelData,
-            }
-        })
-    }
-
-    onCancel = () => {
-        this.draw.current.stopDraw()
-        this.setState({ 
-                status: mapStateEnum.IDLE,
-                formInitialValues: {
-                    geometry: null,
-                    eligibleArea: 0,
-                    totalArea: 0,
-                },
-            })
+    componentWillUnmount() {
+        const { mapEdit } = this.props
+        if (this.props.isDraw) {
+            mapEdit && mapEdit.cancel()
+        }
     }
 
     onFinished = ({featureInEdit, bounds}) => {
-        this.setState({ formInitialValues: {
-            ...this.state.formInitialValues,
-                geometry: featureInEdit.geometry,
-                eligibleArea: featureInEdit.area,
-                totalArea: featureInEdit.area,
-        }})
         // Force the map bounds to the new geometry
         this.toBounds(bounds)
          
-        //console.log("featureInEdit: ", featureInEdit)
+        console.log("featureInEdit: ", featureInEdit)
         //console.log("bounds: ", bounds)
     }
 
@@ -148,22 +94,13 @@ class MapContainer extends React.Component {
     }
 
     onUpdate = ({featureInEdit}) => {
-        this.setState({ formInitialValues: {
-            ...this.state.formInitialValues,
-                geometry: featureInEdit.geometry,
-                eligibleArea: featureInEdit.area,
-                totalArea: featureInEdit.area,
-        }})
+        console.log("onUpdate: ", featureInEdit)
     }
 
     render() {
-        const { formInitialValues = {}, status } = this.state
-        const { selectedSeason, selectedParcel } = this.props
         return (
-            <MapParcels
-                preventEmptyClick={status != mapStateEnum.IDLE}
-                hideSelection={status == mapStateEnum.EDIT}
-                onSelect={this.onSelect}
+            <Map
+                editable={true}                
             >   
                 <Draw
                     ref={this.draw}
@@ -171,57 +108,36 @@ class MapContainer extends React.Component {
                     onFinished={this.onFinished}
                     onFeatureAdded={this.onFeatureAdded}
                 />
-                <MapUpperToolbar>
-                    { status != mapStateEnum.IDLE? 
-                        <FormParcel
-                            action={ status === mapStateEnum.ADD? createParcel : updateParcel}
-                            onCancel={this.onCancel}
-                            onSubmitSuccess={this.onCancel}
-                            initialValues={{
-                                ...formInitialValues,
-                                parentSeason: selectedSeason,
-                                parentParcel: selectedParcel,
-                            }}
-                        />
-                        :
-                        <AddEditToolbar
-                            selectedParcel={selectedParcel}
-                            onAdd={this.onAdd}
-                            onEdit={this.onEdit}
-                        />                            
-                    }
-                </MapUpperToolbar> 
-            </MapParcels>  
+                <MapToolbar
+                >
+                    <EditToolbarGroup
+                    />
+                </MapToolbar>
+            </Map>  
         ) 
     }
 }
 
-const withSagaCreate = injectSagas(require('parcel/sagas/createParcel'))
-const withSagaUpdate = injectSagas(require('parcel/sagas/updateParcel'))
 
-const withReducerSeasons = injectReducer(require('season/reducers/seasons'))
-const withReducerParcels = injectReducer(require('parcel/reducers/parcels'))
-const withReducerSoilTypes = injectReducer(require('reference/reducers/soilTypes'))
-const withReducerAgriculturalTypes = injectReducer(require('reference/reducers/agriculturalTypes'))
-
-const mapStateToProps = (state) => ({
-    selectedParcel: getSelectedParcel(state),
-    selectedSeason: selectSelectedSeasons(state),
-  })
+const mapStateToProps = (state) => {
+    const mapState = selectMap(state)
+    return ({
+        isDraw: mapState.editData !== null,
+        isEdit: mapState.isEditing && mapState.editData !== null,
+        isNew: !mapState.isEditing && mapState.editData !== null,
+        initialValues: mapState.editData,
+        selectedParcel: null,
+        selectedSeason: null,
+    })
+}
 
 const withConnect = connect(
     mapStateToProps,
-    (dispatch) => bindRoutineCreators({ mapEvents }, dispatch),
+    (dispatch) => bindRoutineCreators({ mapEvents, mapEdit }, dispatch),
 )
 
 
 
 export default compose(
-    withSagaCreate,
-    withSagaUpdate,
-    withReducerParcels,
-    withReducerSoilTypes,
-    withReducerAgriculturalTypes,
-    withReducerSeasons,
     withConnect,
 )(MapContainer)

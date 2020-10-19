@@ -12,7 +12,8 @@ const mapEventActionsTypes = [
 ]
 
 const mapEditActionTypes = [
-    'START',
+    'ADD',
+    'EDIT',
     'CANCEL',
     'SUBMIT',
 ]

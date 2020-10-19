@@ -23,7 +23,8 @@ const SplitButton = ({
     disabled = false,
     selectedIndex = 0,
     handleClick,
-    }) => 
+    placement = 'bottom'
+}) => 
 {
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
@@ -62,7 +63,7 @@ const SplitButton = ({
                         {options[selectedIndex].title}
                     </Button>
                     <Button
-                        disabled={disabled}
+                        disabled={disabled || options.length == 1}
                         color="primary"
                         size="small"
                         aria-controls={open ? 'split-button-menu' : undefined}
@@ -74,13 +75,13 @@ const SplitButton = ({
                         <ArrowDropDownIcon />
                     </Button>
                 </ButtonGroup>
-                <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
-                {({ TransitionProps, placement }) => (
+                <Popper open={open} anchorEl={anchorRef.current} role={undefined} placement={placement} transition disablePortal>
+                {({ TransitionProps }) => (
                     <Grow
-                    {...TransitionProps}
-                    style={{
-                        transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom',
-                    }}
+                        {...TransitionProps}
+                        style={{
+                            //transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom',
+                        }}
                     >
                     <Paper>
                         <ClickAwayListener onClickAway={handleClose}>

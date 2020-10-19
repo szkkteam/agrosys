@@ -11,6 +11,7 @@ import {
 
 import {
     ParcelListContainer,
+    AddParcelButtonContainer,
 } from 'parcel/components'
 
 export default (
@@ -28,6 +29,12 @@ export default (
                 <div> 
                     <ParcelListContainer
                     />
+                </div>
+                <div style={{height: "82%", position: "relative"}}>
+                    <div style={{position: "absolute", bottom: "0px"}}>
+                        <AddParcelButtonContainer       
+                        />
+                    </div>
                 </div>
             </Grid>
             <Grid item sm={10}>

@@ -11,15 +11,16 @@ import {
     listSeasonParcel,
     actionParcel,
 } from 'parcel/actions'
-
+/*
 import {
     getSelectedParcel,
     getSelectedSeasonParcels,
 } from 'parcel/selectors'
-
+*/
 import {
     ParcelList,
-    EmptyParcelList
+    EmptyParcelList,
+    AddParcelButtonContainer
 } from 'parcel/components'
 
 class ParcelListContainer extends React.Component {
@@ -79,11 +80,11 @@ const withReducerAgriculturalTypes = injectReducer(require('reference/reducers/a
 
 
 const mapStateToProps = (state) => {
-    const { data: seasonParcelsTree, ...rest } = getSelectedSeasonParcels(state)
+    //const { data: seasonParcelsTree, ...rest } = getSelectedSeasonParcels(state)
     return {
-        seasonParcelsTree,
-        selectedParcel: getSelectedParcel(state),
-        ...rest,
+        seasonParcelsTree: [],
+        selectedParcel: null,
+        //...rest,
     }
 }
 

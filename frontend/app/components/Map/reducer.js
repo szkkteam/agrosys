@@ -14,18 +14,24 @@ const initialState = {
     viewPort: null,
     // Edit
     isEditing: false,
-    editData: {}
+    editData: null
 }
 
 
 export default function(state = initialState, action) {
     const { type, payload } = action
-    const { initalValues: editData = null, eventRequest, viewPortChange } = payload || {}
+    const { initialValues: editData = null, eventRequest, viewPortChange } = payload || {}
     const { events } = state 
 
     switch(type) {
 
-        case mapEdit.START:
+        case mapEdit.ADD:
+            return { ...state,
+                editData,
+                isEditing: false,
+            }
+
+        case mapEdit.EDIT:
             return { ...state,
                 editData,
                 isEditing: true,
@@ -34,7 +40,7 @@ export default function(state = initialState, action) {
         case mapEdit.CANCEL:
         case mapEdit.SUBMIT:
             return { ...state,
-                editData: {},
+                editData: null,
                 isEditing: false,
             }
 

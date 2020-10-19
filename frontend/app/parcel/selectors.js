@@ -1,3 +1,4 @@
+/*
 import { createSelector } from 'reselect'
 import memoize from 'lodash.memoize'
 
@@ -24,36 +25,10 @@ import {
 
 import {
     parcelTypesEnum,
+    getButtonsByMap,
     agriculturalTypePropsLookup
 } from 'parcel/constants'
 
-const renderButton = (parcelType) => {
-    let retval = {
-        type: "item",
-        disabled: false,
-        key: parcelType     
-    }
-    switch(parcelType) {
-        case parcelTypesEnum.AGRICULTURAL_PARCEL: // Agricultural Parcel
-            return Object.assign(retval, {
-                title: "Add Agricultural Parcel",
-            }) 
-        case parcelTypesEnum.CADASTRAL_PARCEL: // Cadastral Parcel
-            return Object.assign(retval, {
-                title: "Add Cadastral Parcel",
-            }) 
-        case parcelTypesEnum.FARMERS_BLOCK: // Farmer's Block
-            return Object.assign(retval, {
-                title: "Add Farmer's Block",
-            }) 
-        case parcelTypesEnum.PHYSICAL_BLOCK: // Physical Block
-            return Object.assign(retval, {
-                title: "Add Physical Block",
-            }) 
-        default:
-            return {}
-    }
-}
 
 
 const groupByAgriculturalType = (data, agriculturalTypes) => {    
@@ -240,6 +215,33 @@ export const getSelectedSiblingParcels = createSelector(
 )
 
 
+const renderButton = (parcelType) => {
+    let retval = {
+        type: "item",
+        disabled: false,
+        key: parcelType     
+    }
+    switch(parcelType) {
+        case parcelTypesEnum.AGRICULTURAL_PARCEL: // Agricultural Parcel
+            return Object.assign(retval, {
+                title: "Add Agricultural Parcel",
+            }) 
+        case parcelTypesEnum.CADASTRAL_PARCEL: // Cadastral Parcel
+            return Object.assign(retval, {
+                title: "Add Cadastral Parcel",
+            }) 
+        case parcelTypesEnum.FARMERS_BLOCK: // Farmer's Block
+            return Object.assign(retval, {
+                title: "Add Farmer's Block",
+            }) 
+        case parcelTypesEnum.PHYSICAL_BLOCK: // Physical Block
+            return Object.assign(retval, {
+                title: "Add Physical Block",
+            }) 
+        default:
+            return {}
+    }
+}
 
 // TODO: Based on Country, change the listable parcel types
 export const getAddButtonlist = createSelector(
@@ -268,5 +270,43 @@ export const getAddButtonlist = createSelector(
                 { type: "divider" } // TODO: Search button
             ]
         }
+    }
+)
+*/
+import moment from 'moment'
+import { createSelector as createSelectorReselect } from 'reselect'
+import { createSelector as createSelectorOrm } from 'redux-orm';
+import { selectSeasonDetail } from 'season/reducers/seasonDetail'
+import { selectParcelDetail } from 'parcel/reducers/parcelDetail'
+
+import orm from 'entities/orm'
+
+import {
+    parcelTypesEnum,
+    getButtonsByMap,
+    agriculturalTypePropsLookup
+} from 'parcel/constants'
+
+export const selectSelectedParcel = (state) => selectParcelDetail(state).selectedParcel
+
+export const getCurrentParcel = createSelectorOrm(
+    [orm, selectSelectedParcel],
+    (session, currentParcel) => {
+        const { AgriculturalParcel, PhysicalBlock } = session
+        let parcel = null
+        if (AgriculturalParcel.idExists(currentParcel)) {
+            parcel = AgriculturalParcel.withId(currentParcel).ref
+        } else if (PhysicalBlock.idExists(currentParcel)) {
+            parcel = PhysicalBlock.withId(currentParcel).ref
+        }
+        // TODO: Implement other models
+        return parcel
+    }
+)
+
+export const getAddParcelButtons = createSelectorReselect(
+    [getCurrentParcel],
+    (currentParcel) => {
+        return getButtonsByMap(currentParcel)
     }
 )

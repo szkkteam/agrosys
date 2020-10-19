@@ -22,6 +22,7 @@ export const listSeasonsSaga = createRoutineSaga(
     function *successGenerator() {
         // Get the selected farm from the store
         const id = yield select(selectCurrentFarm)
+        console.log("(selectCurrentFarm): ", id)
         if (id) {
             const seasons = yield call(SeasonApi.listSeasons, {id})
             yield put(listSeasons.success({

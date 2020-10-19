@@ -8,6 +8,11 @@ export class Season extends Model {
     static get fields() {
         return {
             id: attr(),
+            farm: fk({
+                to: 'Farm',
+                as: 'farm',
+                relatedName: 'seasons',
+            }),
             //seasons: fk("Season")
         }
     }

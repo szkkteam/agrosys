@@ -32,11 +32,18 @@ describe('Map actions', () => {
     })
 
     describe('mapEdit', () => {
-        it('mapEdit - START', () => {
-            const fixture = { initalValues: {area: 1, geometry: 2} }
-            const expected = {payload: fixture, type: "map/EDIT_START"}
+        it('mapEdit - ADD', () => {
+            const fixture = { initialValues: {area: 1, geometry: 2} }
+            const expected = {payload: fixture, type: "map/EDIT_ADD"}
 
-            expect(mapEdit.start(fixture)).toEqual(expected)
+            expect(mapEdit.add(fixture)).toEqual(expected)
+        })
+
+        it('mapEdit - EDIT', () => {
+            const fixture = { initialValues: {area: 1, geometry: 2} }
+            const expected = {payload: fixture, type: "map/EDIT_EDIT"}
+
+            expect(mapEdit.edit(fixture)).toEqual(expected)
         })
 
         it('mapEdit - CANCEL', () => {

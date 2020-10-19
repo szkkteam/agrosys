@@ -10,11 +10,9 @@ import {
     SelectSoil,
     SelectAgriculturalType,
 } from 'reference/components'
+import { FORM_PARCEL } from 'parcel/constants'
  
 import './formparcel.scss'
-
-
-const FORM_NAME = 'formParcel'
 
 
 const validate = values => {
@@ -148,7 +146,7 @@ const FormParcel = (props) => {
 
 
 const withForm = reduxForm({
-    form: FORM_NAME,
+    form: FORM_PARCEL,
     validate,
     enableReinitialize: true,
     keepDirtyOnReinitialize: true,

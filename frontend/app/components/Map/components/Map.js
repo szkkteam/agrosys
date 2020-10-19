@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+
 import Helmet from 'react-helmet'
 
 import { compose } from 'redux'
@@ -26,16 +27,45 @@ const Map = ({
     children,
     ...props,
 }) => {
+
+    const mapRef = React.createRef(null);
+    useEffect(() => {
+        events && events.map((event, id) => (
+            handleEvents(event)
+        ))        
+    })
+
+    const handleEvents = ({type, config}) => {
+        switch(type) {
+            case "fly-to-bounds":
+                config && mapRef.current && mapRef.current.flyTo(config)                
+                break
+            
+            default:
+                break
+        }
+    }
+
+    const onMoveEnd = (bounds) => {      
+        events.length && mapEvents && mapEvents.clear()
+        mapViewport && mapViewport.changed({
+            viewPortChange: bounds,
+        })
+    }
+
+
     return (
     <React.Fragment>
         <Helmet>
             <link rel="stylesheet" href="//unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
         </Helmet>
         <LeafletMap
-            events={events}
+            ref={mapRef}
+            onMoveEnd={onMoveEnd}
+            //events={events}
             startBounds={viewPort}
-            mapEventAction={mapEvents}
-            mapViewportAction={mapViewport}   
+            //mapEventAction={mapEvents}
+            //mapViewportAction={mapViewport}   
             {...props}             
         >
             {children}

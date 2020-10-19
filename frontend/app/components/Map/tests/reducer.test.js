@@ -12,7 +12,7 @@ describe('map reducer', () => {
                 events: [],
                 viewPort: null,
                 isEditing: false,
-                editData: {}
+                editData: null
         })
     })
 
@@ -24,7 +24,7 @@ describe('map reducer', () => {
             events: [],
             viewPort: [0, 1],
             isEditing: false,
-            editData: {}
+            editData: null
         })
     })
 
@@ -38,7 +38,7 @@ describe('map reducer', () => {
             ],
             viewPort: null,
             isEditing: false,
-            editData: {}
+            editData: null
         })
     })
 
@@ -49,14 +49,26 @@ describe('map reducer', () => {
             events: [],
             viewPort: null,
             isEditing: false,
-            editData: {}
+            editData: null
         })
     })
 
     it ('draw has been started', () => {
-        const fixture = { initalValues: {area: 1, geometry: 2} }
+        const fixture = { initialValues: {area: 1, geometry: 2} }
         expect(
-            reducer(undefined, mapEdit.start(fixture))
+            reducer(undefined, mapEdit.add(fixture))
+        ).toEqual({
+            events: [],
+            viewPort: null,
+            isEditing: false,
+            editData: { area: 1, geometry: 2 }
+        })
+    })
+
+    it ('edit has been started', () => {
+        const fixture = { initialValues: {area: 1, geometry: 2} }
+        expect(
+            reducer(undefined, mapEdit.edit(fixture))
         ).toEqual({
             events: [],
             viewPort: null,
@@ -72,7 +84,7 @@ describe('map reducer', () => {
             events: [],
             viewPort: null,
             isEditing: false,
-            editData: {}
+            editData: null
         })
     })
 
@@ -83,7 +95,7 @@ describe('map reducer', () => {
             events: [],
             viewPort: null,
             isEditing: false,
-            editData: {}
+            editData: null
         })
     })
 })
