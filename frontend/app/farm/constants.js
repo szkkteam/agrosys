@@ -1,1 +1,1 @@
-export const FARM_SELECT = "FARM_SELECT";
+export const FARM_SELECT = "farms/SELECT_FARM";

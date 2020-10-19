@@ -9,11 +9,6 @@ import { listSeasons, setSeason } from 'season/actions'
 import { selectSeasonsList, selectSelectedSeasons } from 'season/reducers/seasons'
 
 import {
-    getSeasonsDenormalized,
-    getSelectedSeason,
-} from 'season/selectors'
-
-import {
     SeasonPopover,
     SeasonList,
     SeasonCreateContainer
@@ -85,19 +80,19 @@ const withReducerParcels = injectReducer(require('parcel/reducers/parcels'))
 const withReducerSeasons = injectReducer(require('season/reducers/seasons'))
 const withReducerSoilTypes = injectReducer(require('reference/reducers/soilTypes'))
 const withReducerAgriculturalTypes = injectReducer(require('reference/reducers/agriculturalTypes'))
-const withSagaList = injectSagas(require('season/sagas/seasons'))
+const withSagaList = injectSagas(require('season/sagas/listSeasons'))
 const withSagaSet = injectSagas(require('season/sagas/setSeason'))
 
 
 
 
 const mapStateToProps = (state) => {
-    const { data: seasons, ...rest } = getSeasonsDenormalized(state)
+    //const { data: seasons, ...rest } = getSeasonsDenormalized(state)
     return {
-        seasons,
-        selectedSeason: getSelectedSeason(state),
+        seasons: [],
+        selectedSeason: null,
         isAuthenticated: state.security.isAuthenticated,
-        ...rest,
+        //...rest,
     }
 }
 

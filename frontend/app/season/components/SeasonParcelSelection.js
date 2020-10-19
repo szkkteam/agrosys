@@ -104,21 +104,21 @@ class SeasonParcelSelection extends React.Component {
 }
 
 
-const withSagaSeasons = injectSagas(require('season/sagas/seasons'))
+const withSagaSeasons = injectSagas(require('season/sagas/listSeasons'))
 const withSagaParcels = injectSagas(require('parcel/sagas/listSeasonParcel'))
 const withReducerParcels = injectReducer(require('parcel/reducers/parcels'))
 const withReducerSeasons = injectReducer(require('season/reducers/seasons'))
 const withReducerSoilTypes = injectReducer(require('reference/reducers/soilTypes'))
 
 const mapStateToProps = (state) => {
-    const selector = getSeasonParcelsById(state) 
-    const lastSeasonParcels = selectLastSeasonParcels(state)
-    const lastSeason = selectLastSeason(state)
-    const {data: seasonParcelsTree, ...rest } = selector(lastSeasonParcels) 
+    //const selector = getSeasonParcelsById(state) 
+    //const lastSeasonParcels = selectLastSeasonParcels(state)
+    //const lastSeason = selectLastSeason(state)
+    //const {data: seasonParcelsTree, ...rest } = selector(lastSeasonParcels) 
     return {
-        seasonParcelsTree,
-        lastSeason,
-        ...rest,
+        seasonParcelsTree: [],
+        lastSeason: null,
+        //...rest,
     }
 }   
     

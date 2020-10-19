@@ -13,23 +13,9 @@ export default function(state = initialState, action) {
     //const { selectedFarm = null } = state
     const { currentFarm } = payload || {}
     switch(type) {
-        /*
-        case listFarms.SUCCESS:
-            // Activate the farm
-                let activateFarm = false
-            if (farms.length == 1 && !selectedFarm) {
-                storage.activateFarm(farms[0])
-                activateFarm = true
-            }
-            return { ...state,
-                farmsMenuList: farms,
-                isLoaded: true,
-                selectedFarm: activateFarm? farms[0]: selectedFarm,
-            }
-           return { ...state,
-           }
-           */
+        
         case FARM_SELECT:
+            storage.activateFarm(currentFarm)
             return { ...state,
                 selectedFarm: currentFarm // If same farm is selected, just select again. Deselecting farms are not allowed
             }
@@ -40,4 +26,4 @@ export default function(state = initialState, action) {
 }
 
 export const selectFarmDetail = (state) => state[KEY]
-export const selectCurrentFarm = (state) => selectFarmDetail(state).selectedFarm
+

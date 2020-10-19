@@ -1,4 +1,4 @@
-
+export const PARCEL_SELECT = "parcel/SELECT_PARCEL";
 
 export const parcelTypesEnum = {
     AGRICULTURAL_PARCEL: "AgriculturalParcel",

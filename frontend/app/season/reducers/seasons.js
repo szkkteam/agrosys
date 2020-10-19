@@ -34,7 +34,7 @@ export default function(state = initialState, action) {
     const { type, payload } = action
     const { seasons: seasonsById, ids } = payload || {}
     const { byId } = state
-
+    /*
     switch(type) {
         case listSeasons.REQUEST:
             return { ...state,
@@ -86,6 +86,8 @@ export default function(state = initialState, action) {
         default:
             return state
     }
+    */
+   return state
 }
 
 export const selectSeasons = (state) => state[KEY]

@@ -1,63 +1,37 @@
-import { createSelector } from 'reselect'
+import { createSelector as createSelectorReselect } from 'reselect'
+import { createSelector as createSelectorOrm } from 'redux-orm';
+import { selectSeasonDetail } from 'season/reducers/seasonDetail'
+import { selectSeasonStatus } from 'season/reducers/seasonStatus'
+import { selectCurrentFarm } from 'farm/selectors'
+import orm from 'entities/orm'
 
+export const selectSelectedSeason = (state) => selectSeasonDetail(state).selectedSeason
 
-import {
-    deNormalizeSeasons,
-} from 'season/schemas'
-
-
-import {
-    selectParcelsById,
-} from 'parcel/reducers/parcels'
-
-import {
-    selectAgriculturalTypesbyId,
-} from 'reference/reducers/agriculturalTypes'
-
-import {
-    selectSoilsTypesbyId,
-} from 'reference/reducers/soilTypes'
-
-
-import {
-    selectSeasonsIds,
-    selectSeasonsById,
-    selectSeasonsIsLoading,
-    selectSelectedSeasonId
-} from 'season/reducers/seasons'
-
-
-export const getSelectedSeason = createSelector(
-    [
-        selectSelectedSeasonId,
-        selectSeasonsById,
-        selectSoilsTypesbyId,
-        selectAgriculturalTypesbyId,
-        selectParcelsById
-    ],
-    (selectedSeasonId, seasons, soilTypes, agriculturalTypes, parcels) => {
-        return selectedSeasonId? deNormalizeSeasons({ ids: [selectedSeasonId], ...{entities: {parcels, seasons, soilTypes, agriculturalTypes}}})[0] : null
+export const getCurrentSeason = createSelectorOrm(
+    [orm, selectSelectedSeason],
+    (session, currentSeasonId) => {
+        const { Season } = session
+        let season = null
+        if (Season.hasId(currentSeasonId)) {
+            const seasonModel = Season.withId(currentSeasonId)
+            season = seasonModel.ref
+        } 
+        
+        return season
     }
 )
+/*
+export const getSeasonList = createSelectorOrm(
+    [orm, selectSeasonStatus],
+    (session, status) => {
+        const { isLoading } = status
+        let response = { data: [], isLoading } 
 
-
-export const getSeasonsDenormalized = createSelector(
-    [
-        selectSeasonsIds,
-        selectSeasonsById,
-        selectSoilsTypesbyId,
-        selectAgriculturalTypesbyId,
-        selectParcelsById,
-        selectSeasonsIsLoading
-    ],
-    (seasonIds, seasons, soilTypes, agriculturalTypes, parcels, isLoading) => {
-        //console.log("getSelectedSeasonParcelsTreeDenormalized-parcelIds: ", parcelIds)
-        //console.log("getSelectedSeasonParcelsTreeDenormalized-entities: ", {entities: {parcels, soilTypes, agriculturalTypes}})
-        // Filter out the selected season id
-        const denormalized = deNormalizeSeasons({ ids: seasonIds, ...{entities: {seasons, parcels, soilTypes, agriculturalTypes}}})
-        return {
-            data: denormalized,
-            isLoading: denormalized.length? false : isLoading
-        }
+        if (isLoading) return response
+        const { Farm } = session
+        const farms = Farm.all().toModelArray().map(farmModel => farmModel.getId())
+        response.data = farms
+        return response
     }
 )
+*/

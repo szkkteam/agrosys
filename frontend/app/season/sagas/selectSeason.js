@@ -1,19 +1,15 @@
 import { call, put, select, takeLatest, takeEvery } from 'redux-saga/effects'
-import { push } from 'react-router-redux'
 
-import { ROUTES, ROUTE_MAP } from 'routes'
-import { createRoutineSaga } from 'sagas'
-
-import { setSeason } from 'season/actions'
-import { selectSelectedSeason } from 'season/reducers/seasonDetail'
+import { selectSeason } from 'season/actions'
+import { SEASON_SELECT } from 'season/constants'
 import { listSeasonParcel, actionParcel } from 'parcel/actions'
 
-export const KEY = 'setSeasonSaga'
+export const KEY = 'selectSeasonSaga'
 
 
-export function *setSeasonSaga(payload) {
+export function *selectSeasonSaga(payload) {
   // Set the new ID to the store
-  yield put(setSeason.success(payload))
+  //yield put(selectSeason.success(payload))
   // Trigger a parcel update
   yield put(listSeasonParcel.trigger())   
   // Deselect current parcel
@@ -22,5 +18,5 @@ export function *setSeasonSaga(payload) {
 
 export default () => [
     //takeEvery(setSeason.MAYBE_TRIGGER, maybeSetSeasonsSaga),
-    takeLatest(setSeason.TRIGGER, setSeasonSaga),
+    takeLatest(SEASON_SELECT, selectSeasonSaga),
 ]

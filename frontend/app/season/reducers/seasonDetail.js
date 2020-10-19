@@ -1,16 +1,8 @@
-import { 
-    listSeasons,
-    actionSeason,
-    setSeason,
-    loadSeasonDetail,
-    createSeason,
-    updateSeason,
-    addParcelToSeason,
-} from 'season/actions'
+import { SEASON_SELECT } from 'season/constants'
 
 import { storage } from 'utils'
 
-export const KEY = 'seasonsDetail'
+export const KEY = 'seasonDetail'
 
 const initialState = {    
     selectedSeason: storage.getSelectedSeason(),
@@ -18,20 +10,14 @@ const initialState = {
 
 export default function(state = initialState, action) {
     const { type, payload } = action
-    //const { seasons: seasonsById, ids } = payload || {}
+    const { currentSeason } = payload || {}
 
     switch(type) {
-        case listSeasons.SUCCESS:
-            // TODO: Maybe here set the latest season as active if its not set yet
-            return { ...state,
-                isLoading: true 
-            }
 
-        case setSeason.SUCCESS:
-            const selectedSeason = payload
-            storage.selectSeason(selectedSeason)
+        case SEASON_SELECT:
+            storage.selectSeason(currentSeason)
             return { ...state,
-                selectedSeason,
+                selectedSeason : currentSeason,
             }
 
         default:
@@ -40,4 +26,3 @@ export default function(state = initialState, action) {
 }
 
 export const selectSeasonDetail = (state) => state[KEY]
-export const selectSelectedSeason = (state) => selectSeasonDetail(state).selectedSeason

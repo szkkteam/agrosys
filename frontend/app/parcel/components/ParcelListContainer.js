@@ -70,7 +70,7 @@ class ParcelListContainer extends React.Component {
     }
 }
 
-const withSagaSeasons = injectSagas(require('season/sagas/seasons'))
+const withSagaSeasons = injectSagas(require('season/sagas/listSeasons'))
 const withSagaParcels = injectSagas(require('parcel/sagas/listSeasonParcel'))
 const withReducerParcels = injectReducer(require('parcel/reducers/parcels'))
 const withReducerSeasons = injectReducer(require('season/reducers/seasons'))

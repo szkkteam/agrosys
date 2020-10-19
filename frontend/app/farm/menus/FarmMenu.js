@@ -9,9 +9,10 @@ import { SideBarItem } from 'components'
 
 import { bindRoutineCreators } from 'actions'
 import { injectReducer, injectSagas } from 'utils/async'
-import { storage } from 'utils'
 
+import { getFarmListOld } from 'farm/selectors'
 import { listFarms } from 'farm/actions'
+import { WithFarm } from 'farm/components'
 
 var onClick = () => {
     
@@ -103,21 +104,31 @@ class FarmMenu extends React.Component {
 
  }
 
-const withReducer = injectReducer(require('farm/reducers/farms'))
-const withSaga = injectSagas(require('farm/sagas/farms'))
+const withReducerStatus = injectReducer(require('farm/reducers/farmStatus'))
+const withReducerDetail = injectReducer(require('farm/reducers/farmDetail'))
+const withSaga = injectSagas(require('farm/sagas/listFarms'))
 
-const withConnectFarms = connect(
-  (state) => ({ farmsMenuList: [] }),
+const enchancer = [withReducerStatus, withReducerDetail, withSaga]
+
+const mapStateToProps = (state) => {
+  const { data: farmsMenuList, ...rest } = getFarmListOld(state)
+  return {
+    farmsMenuList,
+    isAuthenticated: state.security.isAuthenticated,
+    ...rest,
+  }
+}
+
+
+const withConnect = connect(
+  mapStateToProps,
   (dispatch) => bindRoutineCreators({ listFarms }, dispatch),
 )
 
-const withConnectSecurity = connect(
-  (state) => ({ isAuthenticated: state.security.isAuthenticated }),
-)
-
 export default compose(
-  withReducer,
-  withSaga,
-  withConnectFarms,
-  withConnectSecurity,
+  //withReducerStatus,
+  //withReducerDetail,
+  //withSaga,
+  ...enchancer,
+  withConnect,
 )(FarmMenu)

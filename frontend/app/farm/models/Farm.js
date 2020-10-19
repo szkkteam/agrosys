@@ -1,7 +1,14 @@
-import { Model } from "redux-orm";
+import {Model, fk, attr} from "redux-orm";
 import { listFarms } from 'farm/actions'
 
 export class Farm extends Model {
+
+    static get fields() {
+        return {
+            id: attr(),
+            seasons: fk("Season")
+        }
+    }
 
     static reducer(action, Farm, session) {
         const { type, payload } = action
@@ -18,16 +25,13 @@ export class Farm extends Model {
     }
 
     static parse(data) {
-        // TODO: Do some parsing magic with relations
-        const { region, role, seasons, ...rest } = data
-        let c 
-        console.log("data: ", rest)
-        try {
-            c = this.upsert(rest)
-        } catch(e) {
-            console.log(e)            
+        const { Season } = this.session
+        let clonedData = {
+            ...data,
+            seasons: data.seasons && data.seasons.map(season => Season.parse(season))
         }
-        return c
+        // TODO: Do some parsing magic with relations
+        return this.upsert(clonedData)
     }
 }
 
