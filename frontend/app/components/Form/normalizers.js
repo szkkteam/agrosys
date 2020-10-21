@@ -1,7 +1,6 @@
 export const onlyDecimal = value => {
-    value = value
-      .replace(/[^0-9.]/g, '') // Remove all chars except numbers and .
-  
+    value = value.replace(/[^0-9]./g, '') // Remove all chars except numbers and .
+
     // Create an array with sections split by .
     const sections = value.split('.')
   

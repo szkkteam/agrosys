@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react';
+import { usePrevious } from 'utils/hooks'
+import { change } from 'redux-form'
 import { compose, bindActionCreators  } from 'redux'
 import { connect } from 'react-redux'
+import { formValueSelector } from 'redux-form'
 
 import { bindRoutineCreators } from 'actions'
 import { injectReducer, injectSagas } from 'utils/async'
 
-import { 
-    createParcel,
-    updateParcel,
-} from 'parcel/actions'
+import { FORM_PARCEL } from 'parcel/constants'
 
 import { mapEvents, mapEdit } from 'components/Map/actions'
 import { selectMap } from 'components/Map/reducer'
@@ -35,50 +35,38 @@ const mapStateEnum = {
     IDLE: 'IDLE',
 }
 
+const MapContainer = (props) => {
+    const { 
+        isNew,
+        isEdit,
+        isDraw,
+        mapEdit,
+        mapEvents,
+        initialValues,
+        updateTotalArea,
+        updateEligibleArea,
+        updateGeometry,
+        isAreaLocked,
+    } = props
 
-class MapContainer extends React.Component {
+    //const draw = React.createRef();
+    const draw = useRef(null)
+    const prevProps = usePrevious({isNew, isEdit, isDraw})
 
-    constructor(props) {
-        super(props)
-        
-        this.draw = React.createRef();
+    const updateForm = (feature) => {
+        const { geometry, area } = feature
+        updateGeometry(geometry)
+        isAreaLocked && updateTotalArea(area)
+        isAreaLocked && updateEligibleArea(area)
     }
 
-
-    componentDidUpdate(prevProps) {      
-        if ( this.props.isEdit && this.props.isEdit !== prevProps.isEdit ) {
-            const { initialValues } = this.props
-            // New editing signal arrived from the store
-            this.draw.current.addPolygon(initialValues.geometry)
-            this.draw.current.toggleEdit(true)
-        }
-        if ( this.props.isNew && this.props.isNew !== prevProps.isNew ) {
-            // New add signal arrived from store
-            this.draw.current.drawPolygon()
-        }
-        if ( !this.props.isDraw && this.props.isDraw !== prevProps.isDraw ) {
-            // New cancel signal arrived from store
-            this.draw.current.stopDraw()
-        }
-    }
-
-    componentWillUnmount() {
-        const { mapEdit } = this.props
-        if (this.props.isDraw) {
-            mapEdit && mapEdit.cancel()
-        }
-    }
-
-    onFinished = ({featureInEdit, bounds}) => {
+    const onFinished = ({featureInEdit, bounds}) => {
         // Force the map bounds to the new geometry
-        this.toBounds(bounds)
-         
-        console.log("featureInEdit: ", featureInEdit)
-        //console.log("bounds: ", bounds)
+        toBounds(bounds)
+        updateForm(featureInEdit)
     }
 
-    toBounds = (bounds) => {
-        const { mapEvents } = this.props
+    const toBounds = (bounds) => {
         mapEvents && mapEvents.add({
             eventRequest: {
                 type: "fly-to-bounds",
@@ -89,33 +77,56 @@ class MapContainer extends React.Component {
         })
     }
 
-    onFeatureAdded = ({layer, bounds}) => {
-        this.toBounds(bounds)
+    const onFeatureAdded = ({layer, bounds}) => {
+        toBounds(bounds)
     }
 
-    onUpdate = ({featureInEdit}) => {
-        console.log("onUpdate: ", featureInEdit)
+    const onUpdate = ({featureInEdit}) => {
+        updateForm(featureInEdit)
     }
 
-    render() {
-        return (
+    useEffect(() => {
+        // New editing signal arrived from the store
+        if ( prevProps && isEdit && isEdit !== prevProps.isEdit ) {            
+            draw.current.addPolygon(initialValues.geometry)
+            draw.current.toggleEdit(true)
+        }      
+    }, [prevProps, isEdit])
+
+    useEffect(() => {       
+        // New add signal arrived from store
+        if ( prevProps && isNew && isNew !== prevProps.isNew ) draw.current.drawPolygon()
+    }, [prevProps, isNew])
+
+    useEffect(() => {      
+        // New cancel signal arrived from store
+        if ( prevProps && !isDraw && isDraw !== prevProps.isDraw ) draw.current.stopDraw()
+    }, [prevProps, isDraw])
+
+    useEffect(() => {      
+        // Dispatch cancel, when page is left
+        return () => {
+            isDraw && mapEdit && mapEdit.cancel()
+        }
+    }, [])
+
+    return (
             <Map
                 editable={true}                
             >   
                 <Draw
-                    ref={this.draw}
-                    onUpdate={this.onUpdate}
-                    onFinished={this.onFinished}
-                    onFeatureAdded={this.onFeatureAdded}
+                    ref={draw}
+                    onUpdate={onUpdate}
+                    onFinished={onFinished}
+                    onFeatureAdded={onFeatureAdded}
                 />
                 <MapToolbar
                 >
                     <EditToolbarGroup
                     />
                 </MapToolbar>
-            </Map>  
-        ) 
-    }
+            </Map> 
+    )
 }
 
 
@@ -133,11 +144,27 @@ const mapStateToProps = (state) => {
 
 const withConnect = connect(
     mapStateToProps,
-    (dispatch) => bindRoutineCreators({ mapEvents, mapEdit }, dispatch),
+    (dispatch) => ({
+        ...bindRoutineCreators({ mapEvents, mapEdit }, dispatch),
+        updateGeometry: (value) => dispatch(change(FORM_PARCEL, 'geometry', value)),
+        updateTotalArea: (value) => dispatch(change(FORM_PARCEL, 'totalArea', value)),
+        updateEligibleArea: (value) => dispatch(change(FORM_PARCEL, 'eligibleArea', value))
+    }),
 )
 
+
+const selector = formValueSelector(FORM_PARCEL)
+const withParcelFormAreaLock = connect(
+    (state, props) => {
+        const isAreaLocked = selector(state, 'isAreaLocked')
+        return {
+            isAreaLocked
+        }
+    }
+)
 
 
 export default compose(
     withConnect,
+    withParcelFormAreaLock,
 )(MapContainer)

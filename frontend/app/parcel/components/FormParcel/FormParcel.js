@@ -3,7 +3,12 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid';
 import reduxForm from 'redux-form/es/reduxForm'
+import { formValueSelector } from 'redux-form'
+import IconButton from '@material-ui/core/IconButton';
 import CssBaseline from '@material-ui/core/CssBaseline';
+
+import LockOpenIcon from '@material-ui/icons/LockOpen';
+import LockIcon from '@material-ui/icons/Lock';
 
 import { HiddenField, TextField, onlyDecimal } from 'components/Form'
 import { 
@@ -40,12 +45,27 @@ const validate = values => {
     return errors
 }
 
-const FormParcel = (props) => {
-  const { invalid, handleSubmit, onCancel, submitting, pristine, action, dirty, resetSection, ...rest } = props
-
-  //console.log("rest: ", rest)
+const FormParcel = ({
+    invalid,
+    handleSubmit,
+    onCancel,
+    submitting,
+    pristine,
+    action,
+    dirty,
+    change,
+    resetSection,
+    isAreaLocked,
+    ...rest
+}) => {
+  console.log("isAreaLocked: ", isAreaLocked)
   //console.log("action: ", action)
   //console.log("handleSubmit: ", handleSubmit)
+
+    const lockUnlockArea = () => {
+        change('isAreaLocked', !isAreaLocked)
+    }
+
   return (      
     <form onSubmit={handleSubmit(action)} className="form-parcel">
         <Grid
@@ -55,6 +75,9 @@ const FormParcel = (props) => {
             alignItems="flex-start"
             spacing={1}
         >
+            <HiddenField
+                name="isAreaLocked"
+            />
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <TextField name="title"
@@ -63,7 +86,7 @@ const FormParcel = (props) => {
                         variant="outlined"
                         formProps={{fullWidth: true}}
                     />
-                </Grid>
+                </Grid>                
                 <Grid item  xs={12}>
                     <TextField name="notes"
                         label="Notes"
@@ -80,8 +103,23 @@ const FormParcel = (props) => {
                         name="referenceParcelType"
                     />
                 </Grid>
+                <Grid item  xs={12}>
+                    <IconButton 
+                        color="primary"
+                        aria-label="lock area"
+                        component="span"
+                        onClick={lockUnlockArea}
+                    >
+                        { isAreaLocked?
+                            <LockOpenIcon />
+                        : 
+                            <LockIcon />
+                        }
+                    </IconButton>
+                </Grid>
                 <Grid item  xs={6}>
                     <TextField name="totalArea"
+                        disabled={isAreaLocked}
                         label="Total area (ha)"
                         className="from-section"
                         variant="outlined"
@@ -92,6 +130,7 @@ const FormParcel = (props) => {
                 </Grid>
                 <Grid item  xs={6}>
                     <TextField name="eligibleArea"
+                        disabled={isAreaLocked}
                         label="Supported area (ha)"
                         className="from-section"
                         variant="outlined"
@@ -152,14 +191,13 @@ const withForm = reduxForm({
     keepDirtyOnReinitialize: true,
 })
 
-//const withSagas = injectSagas(require('field/sagas/createFieldDetail'))
-
 const withConnect = connect(
     (state, props) => {
         const { initialValues : locinitialValues, ...rest } = props
         return { 
             initialValues: {
                 ...{
+                    isAreaLocked: false,
                     soilTypeId: 1,
                     agriculturalTypeId: 1,
                 }, ...locinitialValues
@@ -171,9 +209,20 @@ const withConnect = connect(
 )
 
 
+const selector = formValueSelector(FORM_PARCEL)
+const withSelectIsAreaLocked = connect(
+    (state, props) => {
+        const isAreaLocked = selector(state, 'isAreaLocked')
+        return {
+            isAreaLocked
+        }
+    }
+)
+
 export default compose(
     withConnect,
     withForm,
+    withSelectIsAreaLocked,
     //withSagas,
 )(FormParcel) 
 
