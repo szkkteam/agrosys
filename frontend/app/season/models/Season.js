@@ -32,10 +32,10 @@ export class Season extends Model {
     }
 
     static parse(data) {
-        const { Parcel } = this.session
+        const { ReferenceParcel } = this.session
         let clonedData = {
             ...data,
-            //seasons: data.seasons && data.seasons.map(season => Season.parse(season))
+            parcels: data.parcels && data.parcels.map(parcel => ReferenceParcel.parse({...parcel, season: data.id}))
         }
         // TODO: Do some parsing magic with relations
         return this.upsert(clonedData)

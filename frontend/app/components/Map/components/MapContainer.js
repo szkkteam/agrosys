@@ -26,14 +26,8 @@ import {
 } from 'components/Map/components'
 
 import {
-    FormParcel,
-} from 'parcel/components'
-
-const mapStateEnum = {
-    ADD: 'ADD',
-    EDIT: 'EDIT',
-    IDLE: 'IDLE',
-}
+    parcelTypesEnum,
+} from 'parcel/constants'
 
 const MapContainer = (props) => {
     const { 
@@ -47,6 +41,7 @@ const MapContainer = (props) => {
         updateEligibleArea,
         updateGeometry,
         isAreaLocked,
+        referenceParcelType,
     } = props
 
     //const draw = React.createRef();
@@ -57,7 +52,7 @@ const MapContainer = (props) => {
         const { geometry, area } = feature
         updateGeometry(geometry)
         isAreaLocked && updateTotalArea(area)
-        isAreaLocked && updateEligibleArea(area)
+        referenceParcelType != parcelTypesEnum.AGRICULTURAL_PARCEL && isAreaLocked && updateEligibleArea(area)
     }
 
     const onFinished = ({featureInEdit, bounds}) => {
@@ -157,8 +152,10 @@ const selector = formValueSelector(FORM_PARCEL)
 const withParcelFormAreaLock = connect(
     (state, props) => {
         const isAreaLocked = selector(state, 'isAreaLocked')
+        const referenceParcelType = selector(state, 'referenceParcelType')
         return {
-            isAreaLocked
+            isAreaLocked,
+            referenceParcelType
         }
     }
 )

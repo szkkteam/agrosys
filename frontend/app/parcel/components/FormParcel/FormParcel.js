@@ -10,40 +10,31 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import LockIcon from '@material-ui/icons/Lock';
 
+import { convertHaToM2, convertM2ToHa } from 'utils/converter'
 import { HiddenField, TextField, onlyDecimal } from 'components/Form'
 import { 
     SelectSoil,
     SelectAgriculturalType,
 } from 'reference/components'
-import { FORM_PARCEL } from 'parcel/constants'
+import { FORM_PARCEL, parcelTypesEnum } from 'parcel/constants'
  
+import { default as SectionAgriculturalParcel } from './SectionAgriculturalParcel'
+import { validate as AgriculturalParcelValidate } from './SectionAgriculturalParcel'
+import { default as SectionPhysicalBlock } from './SectionPhysicalBlock'
+import { validate as PhysicalBlockValidate } from './SectionPhysicalBlock'
+
 import './formparcel.scss'
 
-
-const validate = values => {
-    const errors = {}
-    const requiredFields = [
-        'title',
-        'geometry',
-        'totalArea',
-        'eligibleArea',
-        //'soilTypeId',
-        //'referenceParcelTypeId',
-    ]
-    requiredFields.forEach(field => {
-        if (!values.geometry) {
-            errors.title = 'Must draw a shape'
-        }
-        if (!values[field]) {
-            errors[field] = 'Required'
-        }
-
-        if (values.eligibleArea && values.totalArea && values.totalArea < values.eligibleArea) {
-            errors.totalArea = 'Cannot be bigger than Eliglible Area'
-        }
-    })
-    return errors
-}
+ const validate = values => {
+    switch(values.referenceParcelType) {
+        case parcelTypesEnum.AGRICULTURAL_PARCEL:
+            return AgriculturalParcelValidate(values)
+        case parcelTypesEnum.PHYSICAL_BLOCK:
+            return PhysicalBlockValidate(values)
+        default:
+            return {}
+    }
+ }
 
 const FormParcel = ({
     invalid,
@@ -56,6 +47,7 @@ const FormParcel = ({
     change,
     resetSection,
     isAreaLocked,
+    referenceParcelType,
     ...rest
 }) => {
   console.log("isAreaLocked: ", isAreaLocked)
@@ -65,6 +57,24 @@ const FormParcel = ({
     const lockUnlockArea = () => {
         change('isAreaLocked', !isAreaLocked)
     }
+
+
+        
+    const renderParcelTypeFields = (referenceParcelType) => {
+        switch (referenceParcelType) {
+            case parcelTypesEnum.AGRICULTURAL_PARCEL:
+                return SectionAgriculturalParcel
+            case parcelTypesEnum.PHYSICAL_BLOCK:
+                //return SectionAgriculturalParcel
+                return SectionPhysicalBlock
+            case parcelTypesEnum.UNKOWN:
+            default:
+                return Div
+        }
+    }
+
+    const ParcelTypeComponent = renderParcelTypeFields(referenceParcelType)
+
 
   return (      
     <form onSubmit={handleSubmit(action)} className="form-parcel">
@@ -78,84 +88,13 @@ const FormParcel = ({
             <HiddenField
                 name="isAreaLocked"
             />
-            <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <TextField name="title"
-                        label="Title of the field"
-                        className="from-section"
-                        variant="outlined"
-                        formProps={{fullWidth: true}}
-                    />
-                </Grid>                
-                <Grid item  xs={12}>
-                    <TextField name="notes"
-                        label="Notes"
-                        multiline={true}
-                        className="from-section"
-                        variant="outlined"
-                        formProps={{fullWidth: true}}
-                    />
-                    <HiddenField
-                        name="geometry"
-                        onBlur={(e) => {e.preventDefault() }}
-                    />
-                    <HiddenField
-                        name="referenceParcelType"
-                    />
-                </Grid>
-                <Grid item  xs={12}>
-                    <IconButton 
-                        color="primary"
-                        aria-label="lock area"
-                        component="span"
-                        onClick={lockUnlockArea}
-                    >
-                        { isAreaLocked?
-                            <LockOpenIcon />
-                        : 
-                            <LockIcon />
-                        }
-                    </IconButton>
-                </Grid>
-                <Grid item  xs={6}>
-                    <TextField name="totalArea"
-                        disabled={isAreaLocked}
-                        label="Total area (ha)"
-                        className="from-section"
-                        variant="outlined"
-                        formProps={{fullWidth: true}}
-                        normalize={onlyDecimal}
-                        onBlur={(e) => {e.preventDefault() }}
-                    />
-                </Grid>
-                <Grid item  xs={6}>
-                    <TextField name="eligibleArea"
-                        disabled={isAreaLocked}
-                        label="Supported area (ha)"
-                        className="from-section"
-                        variant="outlined"
-                        formProps={{fullWidth: true}}
-                        normalize={onlyDecimal}
-                        onBlur={(e) => {e.preventDefault() }}
-                    />
-                </Grid>
-                <Grid item  xs={12}>
-                    <SelectSoil
-                        name="soilTypeId"
-                        label="Select a soil type"
-                        formProps={{fullWidth: true}}
-                        className="from-section"
-                    />
-                </Grid>
-                <Grid item  xs={12}>
-                    <SelectAgriculturalType
-                        name="agriculturalTypeId"
-                        label="Select a parcel type"
-                        formProps={{fullWidth: true}}
-                        className="from-section"
-                    />
-                </Grid>
-            </Grid>
+            <HiddenField
+                name="referenceParcelType"
+            />
+            <ParcelTypeComponent
+                onLockUnlock={lockUnlockArea}
+                isAreaLocked={isAreaLocked}
+            />
             <Grid
                 container
                 spacing={1}
@@ -194,13 +133,18 @@ const withForm = reduxForm({
 const withConnect = connect(
     (state, props) => {
         const { initialValues : locinitialValues, ...rest } = props
+        let extraValues = {}
+        if (locinitialValues.referenceParcelType != parcelTypesEnum.AGRICULTURAL_PARCEL) {
+            Object.assign(extraValues, {
+                soilTypeId: 1,
+                agriculturalTypeId: 1,
+            })
+        }
         return { 
             initialValues: {
-                ...{
-                    isAreaLocked: false,
-                    soilTypeId: 1,
-                    agriculturalTypeId: 1,
-                }, ...locinitialValues
+                isAreaLocked: false,
+                ...extraValues,
+                ...locinitialValues,
             },
             ...rest
 
@@ -213,8 +157,10 @@ const selector = formValueSelector(FORM_PARCEL)
 const withSelectIsAreaLocked = connect(
     (state, props) => {
         const isAreaLocked = selector(state, 'isAreaLocked')
+        const referenceParcelType = selector(state, 'referenceParcelType')
         return {
-            isAreaLocked
+            isAreaLocked,
+            referenceParcelType
         }
     }
 )

@@ -1,5 +1,5 @@
 import { ORM } from "redux-orm";
-import { PhysicalBlock, AgriculturalParcel } from 'parcel/models'
+import { PhysicalBlock, AgriculturalParcel, FarmersBlock, ReferenceParcel } from 'parcel/models'
 import { Season } from 'season/models'
 import { Farm } from 'farm/models'
 
@@ -10,7 +10,9 @@ const orm = new ORM({
 orm.register(
     Farm,
     Season,
+    ReferenceParcel,
     PhysicalBlock,
+    FarmersBlock,
     AgriculturalParcel
 )
 
