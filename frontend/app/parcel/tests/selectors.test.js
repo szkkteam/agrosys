@@ -50,34 +50,30 @@ describe('parcel selectors', () => {
             
             const selectedParcel = 1
             const expectedResult = parcelsFixture[selectedParcel - 1]
-            const { AgriculturalParcel, PhysicalBlock } = session
-            parcelsFixture.forEach(parcel => AgriculturalParcel.parse(parcel))
+            const { ReferenceParcel } = session
+            parcelsFixture.forEach(parcel => ReferenceParcel.parse(parcel))
 
             const selected = getCurrentParcel.resultFunc(session, selectedParcel)
             expect(selected).toEqual(expectedResult)
         })
 
         it('should return with model object, mixed type', () => {
-            const parcelsFixture1 = [
+            const parcelsFixture = [
                 {id: 1, title: 'Parcel 1', referenceParcelType: "AgriculturalParcel"},
-                {id: 2, title: 'Parcel 2', referenceParcelType: "AgriculturalParcel" }
-            ]
-            const parcelsFixture2 = [
+                {id: 2, title: 'Parcel 2', referenceParcelType: "AgriculturalParcel" },
                 {id: 3, title: 'Parcel 3', referenceParcelType: "PhysicalBlock"},
                 {id: 4, title: 'Parcel 4', referenceParcelType: "PhysicalBlock"}
             ]
             
             const selectedParcel = 3
-            const expectedResult = parcelsFixture2[0]
-            const { AgriculturalParcel, PhysicalBlock } = session
-            parcelsFixture1.forEach(parcel => AgriculturalParcel.parse(parcel))
-            parcelsFixture2.forEach(parcel => PhysicalBlock.parse(parcel))
+            const expectedResult = parcelsFixture[ selectedParcel - 1 ]
+            const { ReferenceParcel } = session
+            parcelsFixture.forEach(parcel => ReferenceParcel.parse(parcel))
 
             const selected = getCurrentParcel.resultFunc(session, selectedParcel)
             expect(selected).toEqual(expectedResult)
         })
     })
-
     
     describe('getAddParcelButtons', () => {
         it('should return with PhysicalBlock', () => {

@@ -31,11 +31,9 @@ describe('Test Season model', () => {
         const parcels = [farm, parcel, physical]
         const fixture = { id: 1, title: 'random title', parcels }
 
-        const { Season, FarmersBlock, PhysicalBlock, AgriculturalParcel } = session
+        const { Season, ReferenceParcel } = session
         Season.parse(fixture)
-        expect(PhysicalBlock.count()).toEqual(1)   
-        expect(AgriculturalParcel.count()).toEqual(1)    
-        expect(FarmersBlock.count()).toEqual(1)        
+        expect(ReferenceParcel.count()).toEqual(3)        
     })
 
     it('parse multiple season with mixed types', () => {

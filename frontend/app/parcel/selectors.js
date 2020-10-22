@@ -292,12 +292,10 @@ export const selectSelectedParcel = (state) => selectParcelDetail(state).selecte
 export const getCurrentParcel = createSelectorOrm(
     [orm, selectSelectedParcel],
     (session, currentParcel) => {
-        const { AgriculturalParcel, PhysicalBlock } = session
+        const { ReferenceParcel } = session
         let parcel = null
-        if (AgriculturalParcel.idExists(currentParcel)) {
-            parcel = AgriculturalParcel.withId(currentParcel).ref
-        } else if (PhysicalBlock.idExists(currentParcel)) {
-            parcel = PhysicalBlock.withId(currentParcel).ref
+        if (ReferenceParcel.idExists(currentParcel)) {
+            parcel = ReferenceParcel.withId(currentParcel).ref
         }
         // TODO: Implement other models
         return parcel

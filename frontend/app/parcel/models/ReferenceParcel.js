@@ -1,5 +1,18 @@
-import {Model, fk, attr} from "redux-orm";
+import {Model, fk, attr, many} from "redux-orm";
 import { parcelTypesEnum } from 'parcel/constants'
+
+export class ReferenceParcelRelation extends Model {}
+ReferenceParcelRelation.modelName = "ReferenceParcelRelation"
+ReferenceParcelRelation.fields = {
+    block: fk({
+        to: 'ReferenceParcel',
+        as: 'blocks',
+    }),
+    parcel: fk({
+        to: 'ReferenceParcel',
+        as: 'parcels'
+    })
+}
 
 export class ReferenceParcel extends Model {
     
@@ -20,30 +33,16 @@ export class ReferenceParcel extends Model {
     }
 
     static parse(data) {
+        const { ReferenceParcel } = this.session
         let clonedData = {
-            ...data,
+            ...data,            
         }
-        const { id, title, referenceParcelType } = clonedData
-        switch(data.referenceParcelType) {
-            case parcelTypesEnum.AGRICULTURAL_PARCEL: 
-                const { AgriculturalParcel } = this.session
-                this.upsert({id, title, referenceParcelType})
-                return AgriculturalParcel.parse({...clonedData, base: clonedData.id})
-
-            case parcelTypesEnum.CADASTRAL_PARCEL:
-                break
-            case parcelTypesEnum.FARMERS_BLOCK:
-                const { FarmersBlock } = this.session
-                return FarmersBlock.parse({...clonedData, base: clonedData.id})
-
-            case parcelTypesEnum.PHYSICAL_BLOCK:
-                const { PhysicalBlock } = this.session
-                return PhysicalBlock.parse({...clonedData, base: clonedData.id})
-
-            default:
-                break                
+        // Define the relations for sub parcels
+        if (data.referenceParcelType != parcelTypesEnum.AGRICULTURAL_PARCEL) {
+            const parcels = data.parcels && data.parcels.map(parcel => ReferenceParcel.parse({...parcel, block: clonedData.id}))
+            Object.assign(clonedData, {parcels})
         }
-        // TODO: Do some parsing magic with relations
+
         return this.upsert(clonedData)
     }
 }
@@ -54,6 +53,19 @@ ReferenceParcel.fields = {
     season: fk({
         to: 'Season',
         as: 'season',
-        //relatedName: 'parcels',
+        relatedName: 'parcels',
     }),
+    /* TODO: The real relation is many-to-many and in case of cadastrial parcel its possible to have multiple Ag.Parcel to be connected to multiple Cadastrial parcel
+    parcels: many({
+        to: 'ReferenceParcel',
+        as: 'parcels',
+        relatedName: 'blocks',
+        trough: 'ReferenceParcelRelation'
+    })*/
+    parcels: fk({
+        to: 'ReferenceParcel',
+        as: 'parcels',
+        relatedName: 'block',
+    })
+
 }
