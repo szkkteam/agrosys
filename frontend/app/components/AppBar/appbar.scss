@@ -2,8 +2,7 @@
 
 .top-appbar {
     z-index: 1300;
-    transition: width $sidebar-easing-animation, margin $sidebar-easing-animation;
-    transition-timing-function: ease;
+    transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms,margin 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
 
     .menu-button {
         margin-right: 36px;
@@ -17,6 +16,9 @@
 .top-appbar-shift {
     margin-left: $sidebar-open-width;
     width: calc(100% - #{$sidebar-open-width});
-    transition: width $sidebar-easing-animation, margin $sidebar-easing-animation;
-    transition-timing-function: ease;
+    transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms,margin 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
+}
+
+.MuiToolbar-regular {
+    min-height: 56px;
 }

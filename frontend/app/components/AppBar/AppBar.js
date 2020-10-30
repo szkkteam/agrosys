@@ -50,7 +50,7 @@ export default ({
                 <Typography className="" variant="h6" noWrap>
                     Farm selector
                 </Typography>                
-                <div className="" />
+                <div style={{flexGrow: 1}} />
                 <div className="">
                     <IconButton
                         edge="end"

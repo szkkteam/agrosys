@@ -7,6 +7,12 @@
     display: flex;
 }
 
+.main-content {
+    width: 100%;
+    flex-grow: 1;
+    min-height: 100%;
+}
+
 .main-container {
-    flex-grow: 1
+    
 }
