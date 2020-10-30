@@ -4,8 +4,8 @@ import { ConnectedRouter } from 'react-router-redux'
 import Helmet from 'react-helmet'
 import { StylesProvider } from '@material-ui/core/styles';
 
-import { NavBar, ProgressBar, SideMenu } from 'components'
-import { SITE_NAME, COPYRIGHT } from 'config'
+import { NavBar, ProgressBar } from 'components'
+import { SITE_NAME } from 'config'
 import Routes from 'routes'
 
 
@@ -15,13 +15,10 @@ const AppLayout = () => (
             defaultTitle={SITE_NAME}
     />
     <ProgressBar />
-    <main className="page-container page-panels">
-      <SideMenu />
+    <main className="app-container">
+      <NavBar />
       <Routes />
     </main>
-    <footer className="center">
-       Copyright {new Date().getFullYear()} {COPYRIGHT}
-    </footer>
   </div>
 )
 

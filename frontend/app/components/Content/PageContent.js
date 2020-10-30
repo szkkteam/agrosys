@@ -15,7 +15,7 @@ class PageContent extends React.Component {
   render() {
     const { children, className, location: { hash } } = this.props
     return (
-      <div className="main-container">
+      <div className="main-content">
         <Flash />
         <div className={`${className} content`}>
           <ScrollIntoView id={hash && hash.slice(1) || null}>

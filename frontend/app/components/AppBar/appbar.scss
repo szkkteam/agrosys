@@ -1,0 +1,22 @@
+@import 'variables';
+
+.top-appbar {
+    z-index: 1300;
+    transition: width $sidebar-easing-animation, margin $sidebar-easing-animation;
+    transition-timing-function: ease;
+
+    .menu-button {
+        margin-right: 36px;
+    }
+
+    .hide {
+        display: none;
+    }
+}
+
+.top-appbar-shift {
+    margin-left: $sidebar-open-width;
+    width: calc(100% - #{$sidebar-open-width});
+    transition: width $sidebar-easing-animation, margin $sidebar-easing-animation;
+    transition-timing-function: ease;
+}

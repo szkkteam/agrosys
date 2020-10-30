@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
@@ -6,74 +6,47 @@ import classnames from 'classnames'
 
 import { ROUTES } from 'routes'
 import NavLink from './NavLink'
+import NavBarContext from './NavBarContext'
+import { AppBar } from 'components/AppBar'
+import { SideBar } from 'components/SideBar'
 
 import './navbar.scss'
 
+const NavBar = ({
+  isAuthenticated,
+}) => {
 
-class NavBar extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      menuOpen: false,
-    }
+  const [isDrawerOpen, setDrawer] = useState(true)
+
+  const contextObject = {
+    isDrawerOpen,
+    isAuthenticated
   }
 
-  componentWillReceiveProps() {
-    this.setState({ menuOpen: false })
+  const handleDrawerOpen = () => {
+    setDrawer(true)
   }
 
-  render() {
-    const { isAuthenticated } = this.props
-    const { menuOpen } = this.state
-
-    return (
-      <nav className={classnames({ 'menu-open': menuOpen })}>
-        <div className="container navbar-top">
-          <NavLink exact to={ROUTES.Home} className="brand">
-            FlaskReact.<span className="tld">SPA</span>
-          </NavLink>
-          <a href="javascript:void(0);"
-             className="burger"
-             onClick={this.toggleResponsiveMenu}
-          >
-            Menu&nbsp;&nbsp;&#9776;
-          </a>
-          <div className="menu left">
-            <NavLink to={ROUTES.Farms} />
-            <NavLink to={ROUTES.Contact} />
-          </div>
-          <div className="menu right">
-            {isAuthenticated
-              ? this.renderAuthenticatedMenu()
-              : this.renderUnauthenticatedMenu()
-            }
-          </div>
-        </div>
-      </nav>
-    )
+  const handleDrawerClose = () => {
+    setDrawer(false)
   }
 
-  toggleResponsiveMenu = () => {
-    this.setState({ menuOpen: !this.state.menuOpen })
-  }
-
-  renderAuthenticatedMenu() {
-    return (
-      <div>
-        <NavLink to={ROUTES.Profile} />
-        <NavLink to={ROUTES.Logout} />
-      </div>
-    )
-  }
-
-  renderUnauthenticatedMenu() {
-    return (
-      <div>
-        <NavLink to={ROUTES.SignUp} />
-        <NavLink to={ROUTES.Login} />
-      </div>
-    )
-  }
+  return (
+    <React.Fragment>
+      <NavBarContext.Provider
+        value={contextObject}
+      >
+        <AppBar
+          isDrawerOpen={isDrawerOpen}
+          onDrawerOpen={handleDrawerOpen}
+        />
+        <SideBar
+          isDrawerOpen={isDrawerOpen}
+          onDrawerClose={handleDrawerClose}
+        />
+      </NavBarContext.Provider>      
+    </React.Fragment>
+  )
 }
 
 const withConnect = connect(
