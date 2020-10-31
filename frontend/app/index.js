@@ -11,8 +11,9 @@ import createBrowserHistory from 'history/createBrowserHistory'
 import configureStore from 'configureStore'
 import App from 'components/App'
 
+import { enqueueNotification, closeNotification } from 'site/actions'
+
 import { login } from 'security/actions'
-import { flashInfo } from 'site/actions'
 import SecurityApi from 'security/api'
 import { storage } from 'utils'
 
@@ -45,9 +46,15 @@ SecurityApi.checkAuthToken(token)
     store.dispatch(login.fulfill())
     renderRootComponent(App)
     const isAuthenticated = store.getState().security.isAuthenticated
-    const alreadyHasFlash = store.getState().flash.visible
-    if (isAuthenticated && !alreadyHasFlash) {
-      store.dispatch(flashInfo('Welcome back!'))
+    const alreadyHasNotification = store.getState().notification.notifications.length > 0
+    if (isAuthenticated && !alreadyHasNotification) {
+      store.dispatch(enqueueNotification({
+        message: 'Welcome back.',
+        options: {
+            key: new Date().getTime() + Math.random(),
+            variant: 'info',
+        },
+    }))
     }
   })
 

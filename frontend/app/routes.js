@@ -3,11 +3,6 @@ import { Route, Switch } from 'react-router-dom'
 import startCase from 'lodash/startCase'
 import { compile } from 'path-to-regexp'
 
-import {
-  MapPage,
-  TemplatePage,
-  ProductionCreatePage,
-} from 'pages/pages'
 
 import {
   ForgotPassword,
@@ -21,11 +16,8 @@ import {
 } from 'security/pages'
 
 import {
-  Contact,
   Dashboard,
-  Home,
   NotFound,
-  Styles,
 } from 'site/pages'
 
 import { AnonymousRoute, ProtectedRoute } from 'utils/route'
@@ -38,31 +30,7 @@ import { AnonymousRoute, ProtectedRoute } from 'utils/route'
  * Both keys and values are component class names
  */
 export const ROUTES = {
-  /**
-   * Farm
-   */
-  //Farms: 'Farms',
-  //FarmCreate: 'FarmCreate',
-  /**
-   * Map
-   */
-  MapPage: 'MapPage',
-  /**
-   * Templates
-   */
-  TemplatePage: 'TemplatePage',
-
-  /**
-   * Production
-   */
-  ProductionCreatePage: 'ProductionCreatePage',
-
-  /**
-   * Site
-   */
-  Dashboard: 'Dashboard',
   
-  Contact: 'Contact',
   ForgotPassword: 'ForgotPassword',
   Home: 'Home',
   Login: 'Login',
@@ -86,67 +54,7 @@ export const ROUTES = {
  *  - label: optional, label to use for links (default: startCase(key))
  */
 const routes = [
-  /**
-   * Modules
-   */
-  /*
-  {
-    key: ROUTES.Farms,
-    path: '/farm',
-    component: Farms,
-    routeComponent: ProtectedRoute,
-  },
-  {
-    key: ROUTES.FarmCreate,
-    path: '/farms-new',
-    component: FarmCreate,
-    routeComponent: ProtectedRoute,
-  },
-  */
-  /**
-   * Map
-   */
-  {
-    key: ROUTES.MapPage,
-    path: '/map',
-    component: MapPage,
-    routeComponent: ProtectedRoute,
-  },
-  /**
-   * Templates
-   */
-  {
-    key: ROUTES.TemplatePage,
-    path: '/templates',
-    component: TemplatePage,
-    routeComponent: ProtectedRoute,
-  },
-
-  /**
-   * Productions
-   */  
-  {
-    key: ROUTES.ProductionCreatePage,
-    path: '/productions-create',
-    component: ProductionCreatePage,
-    routeComponent: ProtectedRoute,
-  },
-
-  /**
-   * Site
-   */
-  {
-    key: ROUTES.Dashboard,
-    path: '/dashboard',
-    component: Dashboard,
-    routeComponent: ProtectedRoute,
-  },
-
-  {
-    key: ROUTES.Contact,
-    path: '/contact',
-    component: Contact,
-  },
+ 
   {
     key: ROUTES.ForgotPassword,
     path: '/login/forgot-password',
@@ -208,11 +116,6 @@ const routes = [
     routeComponent: AnonymousRoute,
     label: 'Sign Up',
   },
-  {
-    key: ROUTES.Styles,
-    path: '/styles',
-    component: Styles,
-  },  
 ]
 
 /**

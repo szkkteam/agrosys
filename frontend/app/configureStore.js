@@ -5,7 +5,7 @@ import createSagaMiddleware from 'redux-saga'
 
 import createReducer from 'reducers'
 import getSagas from 'sagas'
-import { flashClearMiddleware } from 'site/middleware/flash'
+import { notificationClearMiddleware } from 'site/middleware/notification'
 
 
 const isDev = process.env.NODE_ENV !== 'production'
@@ -18,7 +18,7 @@ export default function configureStore(initialState, history) {
     sagaMiddleware,
     routerMiddleware(history),
     loadingBarMiddleware({ promiseTypeSuffixes: ['REQUEST', 'FULFILL'] }),
-    flashClearMiddleware,
+    notificationClearMiddleware,
   ]
 
   const enhancers = [

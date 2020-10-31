@@ -1,6 +1,7 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'react-router-redux'
+import { SnackbarProvider } from 'notistack';
 import Helmet from 'react-helmet'
 import { StylesProvider } from '@material-ui/core/styles';
 
@@ -26,7 +27,9 @@ export default (props) => (
   <StylesProvider injectFirst>
     <Provider store={props.store}>
       <ConnectedRouter history={props.history}>      
+        <SnackbarProvider maxSnack={3}>
           <AppLayout />
+        </SnackbarProvider>
       </ConnectedRouter>
     </Provider>
   </StylesProvider>

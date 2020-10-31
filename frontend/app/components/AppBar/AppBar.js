@@ -15,6 +15,8 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
+import { TutorialProgressBar } from 'farmApp/Tutorial/components'
+
 import './appbar.scss'
 
 /*
@@ -52,6 +54,7 @@ export default ({
                 </Typography>                
                 <div style={{flexGrow: 1}} />
                 <div className="">
+                    <TutorialProgressBar />
                     <IconButton
                         edge="end"
                         aria-label="account of current user"

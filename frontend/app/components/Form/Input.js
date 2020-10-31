@@ -18,7 +18,8 @@ export const HiddenField = (props) =>
   <Field component="input" type="hidden" {...props} />
  
 export const PasswordField = (props) =>
-  <Field component={_renderInput} type="password" {...props} />
+  <Field component={TextComponent} type="password" autoComplete="current-password" {...props} />
+  //<Field component={_renderInput} type="password" {...props} />
 
 export const TextField = (props) =>
   <Field component={TextComponent} {...props} />

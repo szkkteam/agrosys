@@ -12,6 +12,23 @@ import { SideBar } from 'components/SideBar'
 
 import './navbar.scss'
 
+/*
+{ isAuthenticated? 
+      <NavBarContext.Provider
+        value={contextObject}
+      >
+        <AppBar
+          isDrawerOpen={isDrawerOpen}
+          onDrawerOpen={handleDrawerOpen}
+        />
+        <SideBar
+          isDrawerOpen={isDrawerOpen}
+          onDrawerClose={handleDrawerClose}
+        />
+      </NavBarContext.Provider>      
+      : null }
+*/
+
 const NavBar = ({
   isAuthenticated,
 }) => {
@@ -33,6 +50,7 @@ const NavBar = ({
 
   return (
     <React.Fragment>
+      { isAuthenticated? 
       <NavBarContext.Provider
         value={contextObject}
       >
@@ -45,6 +63,7 @@ const NavBar = ({
           onDrawerClose={handleDrawerClose}
         />
       </NavBarContext.Provider>      
+      : null }     
     </React.Fragment>
   )
 }

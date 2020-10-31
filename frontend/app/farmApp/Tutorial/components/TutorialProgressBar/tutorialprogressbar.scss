@@ -1,0 +1,17 @@
+.tutorial-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .bar {
+        margin-left: 15px;
+        margin-right: 5px;
+        width: 90px;
+        height: 10px;
+        border-radius: 5px;
+    }
+
+    .bar-color {
+        /* background-color: white;*/
+    }
+}

@@ -1,18 +1,8 @@
 @import 'variables';
-@import '~super-skeleton/scss/skeleton';
+//@import '~super-skeleton/scss/skeleton';
 
 @import 'custom';
 
 .app-container {
     display: flex;
-}
-
-.main-content {
-    width: 100%;
-    flex-grow: 1;
-    min-height: 100%;
-}
-
-.main-container {
-    
 }
