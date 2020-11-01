@@ -13,7 +13,7 @@ import { mapEdit } from 'components/Map/actions'
 const AddParcelButtonContainer = ({
     buttons,
     mapEdit,
-    ...rest,
+    ...rest
 }) => {
 
     const onClick = (e, v) => {

@@ -13,7 +13,7 @@ const UnconnectedProtectedRoute = (props) => {
     component: Component,
     isAuthenticated,
     location,
-    ...routeProps,
+    ...routeProps
   } = props
 
   return <Route {...routeProps} render={(props) => (
@@ -52,7 +52,7 @@ class UnconnectedAnonymousRoute extends React.Component {
       isAuthenticated,
       push,
       flashInfo,
-      ...routeProps,
+      ...routeProps
     } = this.props
 
     return <Route {...routeProps} render={(props) => <Component {...props} />} />

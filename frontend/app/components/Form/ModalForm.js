@@ -17,7 +17,7 @@ export default ({
     customDialogActions = null,    
     submitButtonProps,
     children,
-    ...rest,
+    ...rest
 }) => {
     return (
         <Dialog 

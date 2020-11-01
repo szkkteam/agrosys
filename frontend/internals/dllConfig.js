@@ -15,7 +15,7 @@ const dllConfig = {
         'skeleton-scss',
       ],
       include: [
-        'babel-polyfill',
+        '@babel/polyfill',
         'core-js',
         'history',
         'isomorphic-fetch',

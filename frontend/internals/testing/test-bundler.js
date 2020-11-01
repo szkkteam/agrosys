@@ -1,6 +1,6 @@
 // needed for regenerator-runtime
 // (ES7 generator support is required by redux-saga)
-import 'babel-polyfill'
+import "@babel/polyfill";
 
 import lodash from 'lodash'
 global._ = lodash

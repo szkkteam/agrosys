@@ -39,7 +39,7 @@ export default class CalendarToolbar extends React.Component {
         view,
         onStartDateChange,
         onEndDateChange,
-        ...rest,
+        ...rest
       } = this.props
 
       const { start, end, startOpen, endOpen } = this.state

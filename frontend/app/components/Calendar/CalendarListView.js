@@ -30,7 +30,7 @@ function CalendarListView({
   onTaskUpdate,
   onTaskDelete,
   onTaskAdded,
-  ...props,
+  ...props
 }) {
   
   let { messages } = localizer

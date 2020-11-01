@@ -1,4 +1,6 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl';
+import messages from 'farmApp/Tutorial/messages';
 
 import { compose } from 'redux'
 import { connect } from 'react-redux'
@@ -40,11 +42,12 @@ const TutorialProgressBar = ({
     })
     }
 
+    console.log("messages.tutorialProgress: ", messages.tutorialProgress)
     return (
         <Button variant="contained" onClick={handleClick}>
             <div className="tutorial-progress">
                 <Typography variant="body1" className="title">
-                    Progress
+                    <FormattedMessage {...messages.tutorialProgress} />
                 </Typography>
                 <LinearProgress 
                     className="bar"

@@ -1,4 +1,4 @@
-import 'babel-polyfill'
+import "@babel/polyfill";
 
 // this must come before everything else otherwise style cascading doesn't work as expected
 import 'main.scss'
@@ -17,6 +17,8 @@ import { login } from 'security/actions'
 import SecurityApi from 'security/api'
 import { storage } from 'utils'
 
+import { translationMessages } from 'i18n';
+
 const _ = require("lodash")
 const APP_MOUNT_POINT = document.getElementById('app')
 
@@ -27,7 +29,7 @@ const store = configureStore(initialState, history)
 const renderRootComponent = (Component) => {
   ReactDOM.render(
     <HotReloadContainer>
-      <Component store={store} history={history} />
+      <Component store={store} history={history} messages={translationMessages} />
     </HotReloadContainer>,
     APP_MOUNT_POINT
   )
@@ -59,7 +61,7 @@ SecurityApi.checkAuthToken(token)
   })
 
 if (module.hot) {
-  module.hot.accept('./components/App', () => {
+  module.hot.accept(['./i18n', './components/App'], () => {
     ReactDOM.unmountComponentAtNode(APP_MOUNT_POINT)
     const NextApp = require('./components/App').default
     renderRootComponent(NextApp)
