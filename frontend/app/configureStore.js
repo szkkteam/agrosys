@@ -1,6 +1,7 @@
 import { applyMiddleware, compose, createStore } from 'redux'
 import { routerMiddleware } from 'react-router-redux'
 import { loadingBarMiddleware } from 'react-redux-loading-bar'
+import { modalsMiddleware } from 'redux-promising-modals';
 import createSagaMiddleware from 'redux-saga'
 
 import createReducer from 'reducers'
@@ -19,6 +20,7 @@ export default function configureStore(initialState, history) {
     routerMiddleware(history),
     loadingBarMiddleware({ promiseTypeSuffixes: ['REQUEST', 'FULFILL'] }),
     notificationClearMiddleware,
+    modalsMiddleware,
   ]
 
   const enhancers = [

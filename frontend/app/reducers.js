@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import formReducer from 'redux-form/es/reducer'
 import { routerReducer } from 'react-router-redux'
 import { loadingBarReducer } from 'react-redux-loading-bar'
+import { modalsReducer } from 'redux-promising-modals';
 
 import securityReducer from 'security/reducer'
 import notificationReducer from 'site/reducers/notification'
@@ -19,6 +20,7 @@ export default function createReducer(injectedReducers) {
     form: formReducer,
     routing: routerReducer,
     loadingBar: loadingBarReducer,
+    modals: modalsReducer,
 
     entities: createReducerORM(orm),
 

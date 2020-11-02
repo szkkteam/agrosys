@@ -22,10 +22,14 @@ import { enqueueNotification, closeNotification } from 'site/actions'
 import { bindActionCreators } from 'redux'
 import { useSnackbar } from 'notistack';
 
+import { EDIT_FILE_DIALOG } from 'site/modalTypes'
+import { pushModalWindow } from 'redux-promising-modals';
+
 const TutorialProgressBar = ({
     percentage,
     enqueueNotification,
     closeNotification,
+    pushModalWindow,
     ...props
 }) => {
 
@@ -39,6 +43,9 @@ const TutorialProgressBar = ({
                 <Button variant="contained" color="secondary" onClick={() => closeNotification(key)}>Close</Button>
             ),
         },
+    })
+    pushModalWindow(EDIT_FILE_DIALOG, { title: 'Random title'}).then(({ status}) => {
+        console.log("Modal exited.")
     })
     }
 
@@ -76,8 +83,9 @@ const mapStateToProps = (state) => {
 
 const withConnect = connect(
   mapStateToProps,
-  (dispatch) => bindActionCreators({ enqueueNotification, closeNotification }, dispatch),
+  (dispatch) => bindActionCreators({ enqueueNotification, closeNotification, pushModalWindow }, dispatch),
 )
+
 
 export default compose(
   ...withReducers,

@@ -64,6 +64,7 @@
     "redux": "^3.7.2",
     "redux-form": "^7.1.0",
     "redux-orm": "^0.16.2",
+    "redux-promising-modals": "^2.1.2",
     "redux-saga": "^0.15.6",
     "reselect": "^4.0.0",
     "super-skeleton": "github:briancappello/super-skeleton"
@@ -138,7 +139,9 @@
       ".*\\.(css|less|styl|scss|sass)$": "<rootDir>/frontend/internals/testing/mocks/cssModule.js",
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/frontend/internals/testing/mocks/fileMock.js"
     },
-    "setupTestFrameworkScriptFile": "<rootDir>/frontend/internals/testing/test-bundler.js",
+    "setupFilesAfterEnv": [
+      "<rootDir>/frontend/internals/testing/test-bundler.js"
+    ],
     "testRegex": "tests/.*\\.test\\.js$",
     "transformIgnorePatterns": [
       "node_modules/(?!(jest-)?react-native|react-(native|universal|navigation)-(.*)|@react-native-community/(.*)|@react-navigation/(.*)|bs-platform)"

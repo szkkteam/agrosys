@@ -1,0 +1,2 @@
+// the types of our modals
+export const EDIT_FILE_DIALOG = 'EDIT_FILE_DIALOG'

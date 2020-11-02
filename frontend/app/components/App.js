@@ -6,10 +6,9 @@ import Helmet from 'react-helmet'
 import { StylesProvider } from '@material-ui/core/styles';
 
 import { NavBar, ProgressBar } from 'components'
-import { LanguageProvider } from 'site/components'
+import { LanguageProvider, ModalProvider } from 'site/components'
 import { SITE_NAME } from 'config'
 import Routes from 'routes'
-
 
 const AppLayout = () => (
   <div>
@@ -18,6 +17,7 @@ const AppLayout = () => (
     />
     <ProgressBar />
     <main className="app-container">
+      <ModalProvider />
       <NavBar />
       <Routes />
     </main>
