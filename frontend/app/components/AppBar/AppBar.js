@@ -15,7 +15,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
-import { TutorialProgressBar } from 'farmApp/Tutorial/components'
+import { TutorialProgressBar, FarmSelector } from 'farmApp/Tutorial/components'
 
 import './appbar.scss'
 
@@ -49,9 +49,7 @@ export default ({
                 >
                 <MenuIcon />
                 </IconButton>
-                <Typography className="" variant="h6" noWrap>
-                    Farm selector
-                </Typography>                
+                <FarmSelector />            
                 <div style={{flexGrow: 1}} />
                 <div className="">
                     <TutorialProgressBar />
