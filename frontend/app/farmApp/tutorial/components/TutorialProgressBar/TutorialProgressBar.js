@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl';
-import messages from 'farmApp/Tutorial/messages';
+import messages from 'farmApp/tutorial/messages';
 
 import { compose } from 'redux'
 import { connect } from 'react-redux'

@@ -1,3 +1,7 @@
 {
-  "app.farmApp.Tutorial.TutorialProgressBar.progress": "Előrehaladás"
+  "app.farmApp.farm.FarmCreate.title": "",
+  "app.farmApp.farm.FarmDashboard.title": "",
+  "app.farmApp.farm.FarmSelector.CreateNew": "",
+  "app.farmApp.farm.FarmSelector.MultifarmView": "",
+  "app.farmApp.tutorial.TutorialProgressBar.progress": ""
 }

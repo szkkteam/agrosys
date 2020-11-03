@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.farmApp.Tutorial'
+export const scope = 'app.farmApp.tutorial'
 
 export default defineMessages({
     tutorialProgress: {

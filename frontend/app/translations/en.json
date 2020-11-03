@@ -1,3 +1,7 @@
 {
-  "app.farmApp.Tutorial.TutorialProgressBar.progress": "Progress"
+  "app.farmApp.farm.FarmCreate.title": "Create a new farm",
+  "app.farmApp.farm.FarmDashboard.title": "Dashboard",
+  "app.farmApp.farm.FarmSelector.CreateNew": "Create New",
+  "app.farmApp.farm.FarmSelector.MultifarmView": "Multifarm View",
+  "app.farmApp.tutorial.TutorialProgressBar.progress": "Progress"
 }

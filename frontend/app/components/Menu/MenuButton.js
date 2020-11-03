@@ -8,20 +8,16 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import Divider from '@material-ui/core/Divider';
 
-import DashboardIcon from '@material-ui/icons/Dashboard';
 
-import './farmselector.scss'
-
-const options = [
-    {id: 1, title: 'Farm 1'},
-    {id: 2, title: 'Farm 2'},
-]
-
-const FarmSelector = ({
-
+const MenuButton = ({
+    isOpen=false,
+    buttonContent=null,    
+    title="",
+    children,
+    ...props
 }) => {
 
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = React.useState(isOpen)
     const anchorRef = React.useRef(null)
 
     const handleToggle = () => {
@@ -31,8 +27,7 @@ const FarmSelector = ({
     const handleClose = (event) => {
         if (anchorRef.current && anchorRef.current.contains(event.target)) {
           return
-        }
-    
+        }    
         setOpen(false)
     }
     
@@ -54,6 +49,19 @@ const FarmSelector = ({
         prevOpen.current = open
     }, [open])
 
+    const renderButtonContent = buttonContent? buttonContent : () => title
+
+    const childrenWithProps = React.Children.map(children, child => {
+        const props = { 
+            onClose: handleClose,
+            open,
+         }
+         if (React.isValidElement(child)) {
+             return React.cloneElement(child, props)
+         }
+         return child
+    })
+
     return (
         <div>
             <Button
@@ -61,8 +69,10 @@ const FarmSelector = ({
                 aria-controls={open ? 'menu-list-grow' : undefined}
                 aria-haspopup="true"
                 onClick={handleToggle}
+                variant="contained"
+                {...props}
             >
-                Selected Farm
+                { renderButtonContent() }
             </Button>
             <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
             {({ TransitionProps, placement }) => (
@@ -73,13 +83,7 @@ const FarmSelector = ({
                     <Paper>
                         <ClickAwayListener onClickAway={handleClose}>
                         <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                            <MenuItem onClick={handleClose}>
-                                <DashboardIcon />
-                                Multifarm View
-                            </MenuItem>
-                            <Divider />
-                            <MenuItem onClick={handleClose}>My account</MenuItem>
-                            <MenuItem onClick={handleClose}>Logout</MenuItem>
+                            {childrenWithProps}                            
                         </MenuList>
                         </ClickAwayListener>
                     </Paper>
@@ -90,4 +94,4 @@ const FarmSelector = ({
     )
 }
 
-export default FarmSelector
+export default MenuButton

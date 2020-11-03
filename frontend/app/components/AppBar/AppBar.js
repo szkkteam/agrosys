@@ -15,7 +15,8 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
-import { TutorialProgressBar, FarmSelector } from 'farmApp/Tutorial/components'
+import { TutorialProgressBar } from 'farmApp/tutorial/components'
+import { FarmSelector } from 'farmApp/farm/components'
 
 import './appbar.scss'
 

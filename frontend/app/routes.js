@@ -3,6 +3,10 @@ import { Route, Switch } from 'react-router-dom'
 import startCase from 'lodash/startCase'
 import { compile } from 'path-to-regexp'
 
+import {
+  FarmCreate,
+  FarmDashboard,
+} from 'farmApp/farm/pages'
 
 import {
   ForgotPassword,
@@ -30,6 +34,9 @@ import { AnonymousRoute, ProtectedRoute } from 'utils/route'
  * Both keys and values are component class names
  */
 export const ROUTES = {
+  // Farm
+  FarmCreate: 'FarmCreate',
+  FarmDashboard: 'FarmDashboard',
   
   ForgotPassword: 'ForgotPassword',
   Home: 'Home',
@@ -53,8 +60,21 @@ export const ROUTES = {
  *  - routeComponent: optional, AnonymousRoute, ProtectedRoute or Route (default: Route)
  *  - label: optional, label to use for links (default: startCase(key))
  */
+
 const routes = [
- 
+  // Farm routes
+  {
+    key: ROUTES.FarmCreate,
+    path: '/farms/create',
+    component: FarmCreate,
+    routeComponent: ProtectedRoute,
+  },
+  {
+    key: ROUTES.FarmDashboard,
+    path: '/farms/dashboard',
+    component: FarmDashboard,
+    routeComponent: ProtectedRoute,
+  },
   {
     key: ROUTES.ForgotPassword,
     path: '/login/forgot-password',
