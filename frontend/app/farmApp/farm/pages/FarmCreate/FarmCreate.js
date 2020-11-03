@@ -4,6 +4,7 @@ import messages from 'farmApp/farm/messages';
 import { useIntl } from 'react-intl'
 
 import { PageContent } from 'components'
+import { FarmLayout, FarmHeader, FarmCreate } from '../../components'
 
 export default ({
 
@@ -17,7 +18,16 @@ export default ({
                     {intl.formatMessage(messages.farmCreateTitle)}
                 </title>
             </Helmet>
-            <h1>Create a new farm</h1>
+            <FarmLayout
+                header={
+                    <FarmHeader
+                        title={messages.farmCreateHeaderTitle}
+                    />
+                }
+            >
+                <FarmCreate
+                />
+            </FarmLayout>
         </PageContent>
 
     )

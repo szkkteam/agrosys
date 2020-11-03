@@ -18,7 +18,7 @@ class PageContent extends React.Component {
     const { children, className, location: { hash } } = this.props
     return (
       <div className="main-content">
-        <div style={{minHeight: '64px', display: 'flex', alignItems: 'center'}}/>
+        <div style={{minHeight: '56px', display: 'flex', alignItems: 'center'}}/>
         <Notification />
         <div className={`${className} content`}>
           <ScrollIntoView id={hash && hash.slice(1) || null}>

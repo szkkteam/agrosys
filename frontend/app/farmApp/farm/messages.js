@@ -6,7 +6,20 @@ export default defineMessages({
     // FarmCreate
     farmCreateTitle: {
         id: `${scope}.FarmCreate.title`,  
+        defaultMessage: 'New farm',
+    },
+    farmCreateHeaderTitle: {
+        id: `${scope}.FarmCreate.headerTitle`,  
         defaultMessage: 'Create a new farm',
+    },
+    // FarmCreate - Form
+    farmCreateFormStep1: {
+        id: `${scope}.FarmCreate.Form.Step1`,  
+        defaultMessage: 'Farm data',
+    },
+    farmCreateFormStep2: {
+        id: `${scope}.FarmCreate.Form.Step2`,  
+        defaultMessage: 'Entities',
     },
     // FarmDashboard
     farmDashboardTitle: {
