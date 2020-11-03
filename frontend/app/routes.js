@@ -172,7 +172,7 @@ const cachedRoutes = routes.map((route) => {
 cachedRoutes.push(<Route component={NotFound} key="*" />)
 
 export default () => (
-  <Switch>
-    {cachedRoutes}
-  </Switch>
+    <Switch>
+      {cachedRoutes}
+    </Switch>
 )

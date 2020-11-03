@@ -1,5 +1,5 @@
 import { applyMiddleware, compose, createStore } from 'redux'
-import { routerMiddleware } from 'react-router-redux'
+import { routerMiddleware } from 'connected-react-router'
 import { loadingBarMiddleware } from 'react-redux-loading-bar'
 import { modalsMiddleware } from 'redux-promising-modals';
 import createSagaMiddleware from 'redux-saga'
@@ -8,13 +8,14 @@ import createReducer from 'reducers'
 import getSagas from 'sagas'
 import { notificationClearMiddleware } from 'site/middleware/notification'
 
+import history from 'utils/history'
 
 const isDev = process.env.NODE_ENV !== 'production'
 const hasWindowObject = typeof window === 'object'
 
 const sagaMiddleware = createSagaMiddleware()
 
-export default function configureStore(initialState, history) {
+export default function configureStore(initialState) {
   const middlewares = [
     sagaMiddleware,
     routerMiddleware(history),
@@ -33,7 +34,7 @@ export default function configureStore(initialState, history) {
       : compose
 
   const store = createStore(
-    createReducer(),
+    createReducer({}, history),
     initialState,
     composeEnhancers(...enhancers)
   )
@@ -50,7 +51,7 @@ export default function configureStore(initialState, history) {
   if (module.hot) {
     module.hot.accept('./reducers', () => {
       const nextCreateReducer = require('./reducers').default
-      store.replaceReducer(nextCreateReducer(store.injectedReducers))
+      store.replaceReducer(nextCreateReducer(store.injectedReducers, history))
     })
 
     module.hot.accept('./sagas', () => {

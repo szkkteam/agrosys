@@ -9,6 +9,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 
 import { useHistory } from "react-router-dom";
 import { ROUTES } from 'routes'
+import { ROUTE_MAP } from 'routes'
 
 import { MenuButton } from 'components/Menu'
 
@@ -18,16 +19,18 @@ const FixedMenuItems = ({
     onClose,
 }) => {
 
-    const history = useHistory()
+    let history = useHistory()
 
-    const handleDashboard = () => {
-        onClose()
-        history.push(ROUTES.FarmDashboard)
+    const handleDashboard = (e) => {
+        onClose(e)
+        const route = ROUTE_MAP[ROUTES.FarmDashboard]
+        history.push(route.toPath())
     }
 
-    const handleNew = () => {
-        onClose()
-        history.push(ROUTES.FarmCreate)
+    const handleNew = (e) => {
+        onClose(e)
+        const route = ROUTE_MAP[ROUTES.FarmCreate]
+        history.push(route.toPath())
     }
 
     return (

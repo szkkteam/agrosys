@@ -1,6 +1,7 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import { ConnectedRouter } from 'react-router-redux'
+import { ConnectedRouter } from 'connected-react-router'
+import { BrowserRouter } from 'react-router-dom'
 import { SnackbarProvider } from 'notistack';
 import Helmet from 'react-helmet'
 import { StylesProvider } from '@material-ui/core/styles';
@@ -24,16 +25,21 @@ const AppLayout = () => (
   </div>
 )
 
-export default (props) => (
-  <StylesProvider injectFirst>
-    <Provider store={props.store}>
-      <LanguageProvider messages={props.messages}>
-        <ConnectedRouter history={props.history}>      
-          <SnackbarProvider maxSnack={3}>
-            <AppLayout />
-          </SnackbarProvider>
-        </ConnectedRouter>
-      </LanguageProvider>
-    </Provider>
-  </StylesProvider>
-)
+export default (props) => {
+  console.log("App props: ", props)
+  return (
+    <StylesProvider injectFirst>
+        <Provider store={props.store}>
+          <LanguageProvider messages={props.messages}>
+            <ConnectedRouter history={props.history}>      
+              <BrowserRouter>
+                <SnackbarProvider maxSnack={3}>
+                  <AppLayout />
+                </SnackbarProvider>
+              </BrowserRouter>
+            </ConnectedRouter>
+          </LanguageProvider>
+        </Provider>
+      </StylesProvider>
+  )
+}

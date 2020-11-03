@@ -6,7 +6,8 @@ import 'main.scss'
 import { AppContainer as HotReloadContainer } from 'react-hot-loader'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import createBrowserHistory from 'history/createBrowserHistory'
+//import { createBrowserHistory } from 'history'
+import history from 'utils/history'
 
 import configureStore from 'configureStore'
 import App from 'components/App'
@@ -23,8 +24,8 @@ const _ = require("lodash")
 const APP_MOUNT_POINT = document.getElementById('app')
 
 const initialState = {}
-const history = createBrowserHistory()
-const store = configureStore(initialState, history)
+//const history = createBrowserHistory()
+const store = configureStore(initialState)
 
 const renderRootComponent = (Component) => {
   ReactDOM.render(
