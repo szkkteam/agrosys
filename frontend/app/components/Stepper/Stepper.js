@@ -54,6 +54,7 @@ const Stepper = ({
     }
 
     const handleComplete = () => {
+        console.log("Handle complete")
         const newCompleted = completed
         newCompleted[activeStep] = true
         setCompleted(newCompleted)

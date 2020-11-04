@@ -20,5 +20,6 @@
 }
 
 .MuiToolbar-regular {
-    min-height: 56px;
+    min-height: $appbar-height;
+    height: $appbar-height;
 }

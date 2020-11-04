@@ -6,3 +6,6 @@ export { HashLink, NavLink, NavBar, ScrollIntoView } from './Nav'
 export { ListElementSmall, ListElementLong, ListLayout } from './List'
 export { Table } from './Table'
 export { default as Stepper } from './Stepper'
+
+export { SubmitButton, BackButton, SplitButton } from './Button'
+export { HeaderContent, MasterDetail } from './Layout'

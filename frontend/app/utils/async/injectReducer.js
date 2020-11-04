@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { ReactReduxContext } from 'react-redux'
+import { useStore, ReactReduxContext } from 'react-redux'
 import hoistNonReactStatics from 'hoist-non-react-statics'
 import get from 'lodash/get'
 
@@ -41,3 +41,41 @@ export default (props) => (WrappedComponent) => {
 
   return hoistNonReactStatics(ReducerInjector, WrappedComponent)
 }
+
+/**
+ * A react hook that dynamically injects a reducer when the hook is run
+ *
+ * @param {Object} params
+ * @param {string} params.key The key to inject the reducer under
+ * @param {function} params.reducer The reducer that will be injected
+ *
+ * @example
+ *
+ * function BooksManager() {
+ *   useInjectReducer({ key: "books", reducer: booksReducer })
+ *
+ *   return null;
+ * }
+ *
+ * @public
+ */
+const useInjectReducer = (props) => {
+  if (get(props, '__esModule', false)) {
+    props = {
+      key: props.KEY,
+      reducer: props.default,
+    }
+  }
+  const {key, reducer} = props
+
+  const store = useStore()
+
+  const isInjected = React.useRef(false)
+
+  if (!isInjected.current) {
+    getInjectors(store).injectReducer(key, reducer)
+    isInjected.current = true
+  }
+}
+
+export { useInjectReducer }

@@ -1,0 +1,27 @@
+$map-height: 600px;
+
+.map-container {
+    height: $map-height;
+}
+
+.overlay-container {
+    height: $map-height;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    background-color: rgba(0,0,0, 0.6);
+    z-index: 1000;
+
+    .MuiCircularProgress-root {
+        position: absolute;
+        top: 50%;
+        left: 50%;        
+    }
+    
+    .MuiCircularProgress-colorPrimary {
+        color: rgba(255,255,255, 0.87);
+    }
+
+}
+

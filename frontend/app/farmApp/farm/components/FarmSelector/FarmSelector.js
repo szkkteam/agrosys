@@ -1,5 +1,5 @@
 import React from 'react'
-import messages from 'farmApp/farm/messages';
+import messages from './messages';
 import { FormattedMessage } from 'react-intl';
 
 import MenuItem from '@material-ui/core/MenuItem';
@@ -39,14 +39,14 @@ const FixedMenuItems = ({
                 onClick={handleDashboard}
             >
                 <DashboardIcon />
-                <FormattedMessage {...messages.multifarmView} />
+                <FormattedMessage {...messages.multifarm} />
             </MenuItem>
             <Divider />
             <MenuItem 
                 onClick={handleNew}
             >
                 <AddBoxIcon />
-                <FormattedMessage {...messages.createNewFarm} />
+                <FormattedMessage {...messages.newFarm} />
             </MenuItem>
             <Divider />
         </React.Fragment>

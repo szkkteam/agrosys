@@ -21,6 +21,10 @@ export default defineMessages({
         id: `${scope}.FarmCreate.Form.Step2`,  
         defaultMessage: 'Entities',
     },
+    farmCreateFormPickOnMapTitle: {
+        id: `${scope}.FarmCreate.Form.PickOnMap.title`,  
+        defaultMessage: 'Pick on map',
+    },
     // FarmDashboard
     farmDashboardTitle: {
         id: `${scope}.FarmDashboard.title`,  

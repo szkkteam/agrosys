@@ -1,6 +1,6 @@
 import React from 'react'
 import Helmet from 'react-helmet'
-import messages from 'farmApp/farm/messages';
+import messages from './messages';
 import { useIntl } from 'react-intl'
 
 import { PageContent } from 'components'
@@ -15,13 +15,13 @@ export default ({
         <PageContent>
             <Helmet>
                 <title>
-                    {intl.formatMessage(messages.farmCreateTitle)}
+                    {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
             <FarmLayout
                 header={
                     <FarmHeader
-                        title={messages.farmCreateHeaderTitle}
+                        title={messages.headerTitle}
                     />
                 }
             >

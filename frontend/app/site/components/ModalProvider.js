@@ -12,9 +12,11 @@ import { getModal } from '../selectors'
 
 // Import modals
 import { TestModal } from 'site/components'
+import { FarmPickOnMap } from 'farmApp/farm/components'
 
 import { 
     EDIT_FILE_DIALOG,
+    FARM_PICK_ON_MAP_DIALOG,
  } from '../modalTypes'
 
 const ModalProvider = ({
@@ -27,14 +29,25 @@ const ModalProvider = ({
     const modalsMap = useMemo( () => 
         new Map([
             [EDIT_FILE_DIALOG, TestModal],
+            [FARM_PICK_ON_MAP_DIALOG, FarmPickOnMap],
             //[REMOVE_FILE_DIALOG, RemoveFileDialog]
     ]))
     const Component = modalsMap.get(modalType) || null;
 
-    const onClose = () => {
+    const handleCancel = () => {
         const { MODAL_TYPE_CANCEL } = modalResultTypes
-        popModalWindow({status: MODAL_TYPE_CANCEL})
+        popModalWindow({ status: MODAL_TYPE_CANCEL });
     }
+
+    const handleConfirm = (payload) => {
+        const { MODAL_TYPE_CONFIRM  } = modalResultTypes
+        popModalWindow({ status: MODAL_TYPE_CONFIRM , payload });
+    }
+
+    const handleAction = (type, payload) => {
+        popModalWindow({ status: type , payload });
+    }
+
 
     return (
         <React.Fragment>
@@ -43,11 +56,14 @@ const ModalProvider = ({
                 
                 headerProps={{
                     open: true,
-                    onClose: onClose,
+                    onClose: handleCancel,
                 }}
                 {...modalProps}
                 resultTypes={modalResultTypes}
                 popModalWindow={popModalWindow}
+                handleCancel={handleCancel}
+                handleConfirm={handleConfirm}
+                handleAction={handleAction}
             /> }  
         </React.Fragment>
     )

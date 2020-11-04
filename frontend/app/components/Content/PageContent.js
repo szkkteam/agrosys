@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 
 import Notification from 'components/Notification'
-import { ScrollIntoView } from 'components/Nav/HashLink'
+
+import Container from '@material-ui/core/Container';
 
 import './pagecontent.scss'
 
@@ -18,13 +19,9 @@ class PageContent extends React.Component {
     const { children, className, location: { hash } } = this.props
     return (
       <div className="main-content">
-        <div style={{minHeight: '56px', display: 'flex', alignItems: 'center'}}/>
+        <div className="content-spacer"/>
         <Notification />
-        <div className={`${className} content`}>
-          <ScrollIntoView id={hash && hash.slice(1) || null}>
-            {children}
-          </ScrollIntoView>
-        </div>
+        {children}
       </div> 
     )
   }

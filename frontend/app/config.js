@@ -23,8 +23,8 @@ const LOG_LEVEL = DEBUG
 
 const SERVER_URL = '' // set this if your API server is different from the frontend server
 
-const SITE_NAME = 'Flask React SPA'
-const COPYRIGHT = 'Company Name'
+const SITE_NAME = 'Agro Systems'
+const COPYRIGHT = 'Agro Systems GmbH'
 
 const HIGHLIGHT_LANGUAGES = [
   'javascript',

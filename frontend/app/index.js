@@ -43,6 +43,7 @@ SecurityApi.checkAuthToken(token)
     store.dispatch(login.success({ token, user }))
   })
   .catch(() => {
+    console.log("Login failed")
     store.dispatch(login.failure())
   })
   .then(() => {

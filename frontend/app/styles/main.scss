@@ -6,9 +6,13 @@
 .app-container {
     display: flex;
 }
-/*
+
+.pos-rel {
+  position: relative;
+}
+
 html, body, #app, #app>div, main {
-    height: 99.2% 
+    height: $full-height; 
   }
-*/
+
    

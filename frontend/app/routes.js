@@ -9,6 +9,11 @@ import {
 } from 'farmApp/farm/pages'
 
 import {
+  BlockList,
+  BlockCreate
+} from 'farmApp/block/pages'
+ 
+import {
   ForgotPassword,
   Login,
   Logout,
@@ -37,6 +42,9 @@ export const ROUTES = {
   // Farm
   FarmCreate: 'FarmCreate',
   FarmDashboard: 'FarmDashboard',
+  // Block
+  BlockList: 'BlockList',
+  BlockCreate: 'BlockCreate',
   
   ForgotPassword: 'ForgotPassword',
   Home: 'Home',
@@ -68,11 +76,28 @@ const routes = [
     path: '/farms/create',
     component: FarmCreate,
     routeComponent: ProtectedRoute,
+    props: { exact: true }
   },
   {
     key: ROUTES.FarmDashboard,
     path: '/farms/dashboard',
     component: FarmDashboard,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
+  // Block routes
+  {    
+    key: ROUTES.BlockCreate, // This must come before BlockList
+    path: '/fields/new',
+    component: BlockCreate,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
+  {
+    
+    key: ROUTES.BlockList, //Block list must be in the end of the list, because it's accepting multiple routes (exact=false)
+    path: '/fields',
+    component: BlockList,
     routeComponent: ProtectedRoute,
   },
   {
@@ -81,12 +106,14 @@ const routes = [
     component: ForgotPassword,
     routeComponent: AnonymousRoute,
     label: 'Forgot password?',
+    props: { exact: true }
   },
   {
     key: ROUTES.Home,
     path: '/',
     component: Dashboard,
     routeComponent: ProtectedRoute,
+    props: { exact: true }
   },
   {
     key: ROUTES.Login,
@@ -94,12 +121,14 @@ const routes = [
     component: Login,
     routeComponent: AnonymousRoute,
     label: 'Login',
+    props: { exact: true }
   },
   {
     key: ROUTES.Logout,
     path: '/logout',
     component: Logout,
     label: 'Logout',
+    props: { exact: true }
   },
   {
     key: ROUTES.PendingConfirmation,
@@ -107,6 +136,7 @@ const routes = [
     component: PendingConfirmation,
     routeComponent: AnonymousRoute,
     label: 'Pending Confirm Email',
+    props: { exact: true }
   },
   {
     key: ROUTES.Profile,
@@ -114,6 +144,7 @@ const routes = [
     component: Profile,
     routeComponent: ProtectedRoute,
     label: 'Profile',
+    props: { exact: true }
   },
   {
     key: ROUTES.ResendConfirmation,
@@ -121,6 +152,7 @@ const routes = [
     component: ResendConfirmation,
     routeComponent: AnonymousRoute,
     label: 'Resend Confirmation Email',
+    props: { exact: true }
   },
   {
     key: ROUTES.ResetPassword,
@@ -128,6 +160,7 @@ const routes = [
     component: ResetPassword,
     routeComponent: AnonymousRoute,
     label: 'Reset Password',
+    props: { exact: true }
   },
     {
     key: ROUTES.SignUp,
@@ -135,6 +168,7 @@ const routes = [
     component: SignUp,
     routeComponent: AnonymousRoute,
     label: 'Sign Up',
+    props: { exact: true }
   },
 ]
 
@@ -143,7 +177,7 @@ const routes = [
  */
 export const ROUTE_MAP = {}
 routes.forEach((route) => {
-  let { component, key, label, path, routeComponent } = route
+  let { component, key, label, path, routeComponent, props } = route
 
   if (!component) {
     throw new Error(`component was not specified for the ${key} route!`)
@@ -158,6 +192,7 @@ routes.forEach((route) => {
     component,
     routeComponent: routeComponent || Route,
     label: label || startCase(key),
+    props,
   }
 })
 
@@ -166,8 +201,9 @@ routes.forEach((route) => {
  * every page change. Therefore, we render routes ahead of time once.
  */
 const cachedRoutes = routes.map((route) => {
-  const { component, path, routeComponent: RouteComponent } = ROUTE_MAP[route.key]
-  return <RouteComponent exact path={path} component={component} key={path} />
+  const { component, path, props, routeComponent: RouteComponent } = ROUTE_MAP[route.key]
+  //return <RouteComponent exact={true} path={path} component={component} key={path} />
+  return <RouteComponent path={path} component={component} key={path} {...props}/>
 })
 cachedRoutes.push(<Route component={NotFound} key="*" />)
 

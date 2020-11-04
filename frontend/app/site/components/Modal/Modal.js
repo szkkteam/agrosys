@@ -9,6 +9,7 @@ const Modal = ({
     popModalWindow,
     ...props
 }) => {
+
     return (
         <Dialog
             open={true}
