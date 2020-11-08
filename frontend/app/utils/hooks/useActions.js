@@ -1,9 +1,17 @@
-/*
+
 import { bindActionCreators } from 'redux'
 import { useDispatch } from 'react-redux'
 import { useMemo } from 'react'
 
-export function useActions(actions, deps) {
+
+/**
+ * Subscribes to redux store events
+ *
+ * @param effect
+ * @param type
+ * @param deps
+ */
+export default (actions, deps) => {
   const dispatch = useDispatch()
   return useMemo(
     () => {
@@ -15,4 +23,3 @@ export function useActions(actions, deps) {
     deps ? [dispatch, ...deps] : [dispatch]
   )
 }
-*/

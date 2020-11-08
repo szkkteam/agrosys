@@ -34,11 +34,12 @@ export default class LeafletMap extends React.Component {
         const { startBounds } = this.props
         this.fitTo({ bounds: startBounds })
         //window.addEventListener("resize", this.updateDimensions)
-
+        /*
         setTimeout(() => {
             this.map.invalidateSize(false);
             console.log("Map reloaded")
           }, 1000);
+          */
     }
 
     /*

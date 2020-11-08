@@ -9,6 +9,7 @@ import {BrowserRouter as Router, Route, Link, Redirect} from "react-router-dom";
 
 import { LeafletMap } from 'farmApp/map/components'
 
+import { BlockCreateButton } from '../../components'
 import { BlockList } from './BlockList'
 
 import './blockmapview.scss'
@@ -65,10 +66,12 @@ const BlockMapView = ({
         //      - /fields/new?provider=mepar
         //      - /fields/new?provider=file
         //      - fields/new?provider=draw
+        /*
         history.push({
             pathname: `${match.path}/new`,
-            search: location.search
+            //search: location.search
         })
+        */
     }
     // 1) The master component should be the list of blocks
     // 2) The detail component should have 2 variant: (it should render the small detail component)
@@ -83,14 +86,10 @@ const BlockMapView = ({
                     <BlockList
                             handleSelect={handleSelect}
                         />
-                    <Button
+                    <BlockCreateButton
                         className="addnew"
-                        variant="contained"
-                        color="primary"
                         onClick={handleCreate}
-                    >
-                        Create New
-                    </Button>
+                    />
                 </div>
             }
             detail={

@@ -4,7 +4,9 @@ import messages from './messages';
 import { useIntl } from 'react-intl'
 import { PageContent, HeaderContent } from 'components'
 
-// 1) Load the map drawing screen
+// 1) Load the initial map drawing screen
+// 2) On componenet did mount, trigger the modal window.
+// 3)
 
 
 export default ({

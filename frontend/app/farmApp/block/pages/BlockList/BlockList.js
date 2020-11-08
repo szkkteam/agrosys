@@ -4,14 +4,17 @@ import messages from './messages';
 import { useIntl } from 'react-intl'
 import {BrowserRouter as Router, Route, Link, Redirect} from "react-router-dom";
 import { PageContent, HeaderContent, MasterDetail } from 'components'
-import { BlockHeader, BlockMapView } from '../../components'
+import { 
+    BlockHeader,
+    BlockMapView,
+    BlockListView,
+    BlockModuleView
+} from '../../components'
 import { useQuery } from 'utils/hooks'
 
 import { VIEW_MAP, VIEW_LIST, VIEW_MODULE } from '../../constants'
 
 const DefaultView = () => <div>View default</div>
-const ListView = () => <div>View List</div>
-const ModuleView = () => <div>View Module</div>
 
 export default ({
     history,
@@ -42,8 +45,8 @@ export default ({
 
     const viewLookup = {
         [VIEW_MAP]: BlockMapView,
-        [VIEW_LIST]: ListView,
-        [VIEW_MODULE]: ModuleView,
+        [VIEW_LIST]: BlockListView,
+        [VIEW_MODULE]: BlockModuleView,
     }
 
     return (
