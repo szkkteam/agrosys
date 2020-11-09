@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { useStore } from 'react-redux'
 import get from 'lodash/get'
 
@@ -34,9 +34,13 @@ export default (props) => {
   const store = useStore()
 
   const isInjected = React.useRef(false)
-
-  if (!isInjected.current) {
-    getInjectors(store).injectReducer(key, reducer)
-    isInjected.current = true
-  }
+  // FIXME: This is a quick fix suggested by: https://github.com/react-boilerplate/redux-injectors/issues/19
+  // It could have unwanted side effects
+  useLayoutEffect(() => {
+    if (!isInjected.current) {
+        getInjectors(store).injectReducer(key, reducer)
+        isInjected.current = true
+      }
+  }, [])
+  
 }

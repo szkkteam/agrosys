@@ -7,4 +7,12 @@ export default defineMessages({
         id: `${scope}.title`,  
         defaultMessage: 'Add new field',
     },
+    drawTitle: {
+        id: `${scope}.draw.title`,  
+        defaultMessage: 'Draw field',
+    },
+    drawDesc: {
+        id: `${scope}.draw.description`,  
+        defaultMessage: 'Draw fields directly on the map',
+    },
   })

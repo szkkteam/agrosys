@@ -4,15 +4,23 @@ import { pushModalWindow } from 'redux-promising-modals';
 import { BLOCK_CREATE_DIALOG } from 'site/modalTypes'
 import { SHOW_CREATE_MODAL } from '../actions'
 
+import {
+    BLOCK_CREATE_OPTION_DRAW,
+    BLOCK_CREATE_OPTION_UPLOAD_FILE,
+    BLOCK_CREATE_OPTION_LPIS_MEPAR
+} from '../constants'
+
+
 export const KEY = 'createBlockModalSaga'
 
 
 export function *createBlockModalSaga(payload) {
-    console.log("Saga")
     try {
-        pushModalWindow(BLOCK_CREATE_DIALOG).then(result => {
-            console.log("Modal result: ", result)
+        const result = yield put(pushModalWindow(BLOCK_CREATE_DIALOG, {}))
+        result.then(({status}) => {
+            console.log("Result: ", status)
         })
+        
     } catch(e) {
         console.log("Error: ", e)
     }
@@ -21,6 +29,5 @@ export function *createBlockModalSaga(payload) {
 }
 
 export default () => [
-    //takeEvery(setSeason.MAYBE_TRIGGER, maybeSetSeasonsSaga),
     takeLatest(SHOW_CREATE_MODAL, createBlockModalSaga),
 ]

@@ -16,7 +16,7 @@ const BlockCreateButton = ({
     className='',
 }) => {
 
-    //useInjectReducer(require('../../reducers/createBlockModalReducer'))
+    useInjectReducer(require('../../reducers/createBlockModalReducer'))
     useInjectSaga(require('../../sagas/createBlockModalSaga'))
 
     const dispatch = useDispatch()

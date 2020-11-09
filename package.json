@@ -48,7 +48,7 @@
     "path-to-regexp": "^2.0.0",
     "prop-types": "^15.6.0",
     "query-string": "^5.0.0",
-    "react": "^16.8.0",
+    "react": "^16.13.1",
     "react-big-calendar": "^0.26.0",
     "react-dom": "^16.8.0",
     "react-helmet": "^5.2.0",
