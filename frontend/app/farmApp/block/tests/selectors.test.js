@@ -1,6 +1,10 @@
-import { BLOCK_CREATE_OPTION_ORDER } from '../constants'
+import { 
+    BLOCK_CREATE_OPTION_DRAW,
+    BLOCK_CREATE_OPTION_UPLOAD_FILE,
+    BLOCK_CREATE_OPTION_LPIS_MEPAR
+} from '../constants'
 import {
-    getAvailableOptions,
+    getAvailableCreateOptions,
 } from '../selectors'
 
 describe('block selectors', () => {
@@ -21,11 +25,17 @@ describe('block selectors', () => {
     })
     */
 
-    describe('getAvailableOptions', () => {
+    describe('getAvailableCreateOptions', () => {
 
         it('should return with list of available options', () => {
-            const available = getAvailableOptions()
-            expect(available).toEqual(BLOCK_CREATE_OPTION_ORDER)
+            const result = {
+                BLOCK_CREATE_OPTION_DRAW,
+                BLOCK_CREATE_OPTION_UPLOAD_FILE,
+                BLOCK_CREATE_OPTION_LPIS_MEPAR,
+            }  
+            const options = getAvailableCreateOptions.resultFunc(null)
+            expect(options).toEqual(result)
+
         })
 
     })

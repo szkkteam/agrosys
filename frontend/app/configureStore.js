@@ -7,6 +7,7 @@ import createSagaMiddleware from 'redux-saga'
 import createReducer from 'reducers'
 import getSagas from 'sagas'
 import { notificationClearMiddleware } from 'site/middleware/notification'
+import { modalClearMiddleware } from 'site/middleware/modals'
 
 import history from 'utils/history'
 
@@ -21,6 +22,7 @@ export default function configureStore(initialState) {
     routerMiddleware(history),
     loadingBarMiddleware({ promiseTypeSuffixes: ['REQUEST', 'FULFILL'] }),
     notificationClearMiddleware,
+    modalClearMiddleware,
     modalsMiddleware,
   ]
 

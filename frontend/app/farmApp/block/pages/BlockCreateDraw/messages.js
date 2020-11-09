@@ -1,10 +1,10 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.farmApp.block.BlockCreate'
+export const scope = 'app.farmApp.block.BlockCreateDraw'
 
 export default defineMessages({
     title: {
         id: `${scope}.title`,  
-        defaultMessage: 'Create new field',
+        defaultMessage: 'Draw field',
     },
   })

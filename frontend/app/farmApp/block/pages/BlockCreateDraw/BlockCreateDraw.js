@@ -21,7 +21,7 @@ export default ({
                 </title>
             </Helmet>
             <div>
-                Create new fields
+                Draw new fields
             </div>
         </PageContent>
     )

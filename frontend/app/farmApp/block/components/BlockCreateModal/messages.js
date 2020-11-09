@@ -15,4 +15,20 @@ export default defineMessages({
         id: `${scope}.draw.description`,  
         defaultMessage: 'Draw fields directly on the map',
     },
+    uploadTitle: {
+        id: `${scope}.upload.title`,  
+        defaultMessage: 'Upload fields',
+    },
+    uploadDesc: {
+        id: `${scope}.upload.description`,  
+        defaultMessage: 'Upload fields from files',
+    },
+    lpisTitle: {
+        id: `${scope}.lpis.title`,  
+        defaultMessage: 'Select on map',
+    },
+    lpisDesc: {
+        id: `${scope}.lpis.description`,  
+        defaultMessage: 'Select field from MePAR',
+    },
   })

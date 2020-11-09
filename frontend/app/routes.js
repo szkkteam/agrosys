@@ -10,7 +10,9 @@ import {
 
 import {
   BlockList,
-  BlockCreate
+  BlockCreateDraw,
+  BlockCreateUpload,
+  BlockCreateLPIS
 } from 'farmApp/block/pages'
  
 import {
@@ -44,7 +46,9 @@ export const ROUTES = {
   FarmDashboard: 'FarmDashboard',
   // Block
   BlockList: 'BlockList',
-  BlockCreate: 'BlockCreate',
+  BlockCreateDraw: 'BlockCreateDraw',
+  BlockCreateUpload: 'BlockCreateUpload',
+  BlockCreateLPIS: 'BlockCreateLPIS',
   
   ForgotPassword: 'ForgotPassword',
   Home: 'Home',
@@ -87,9 +91,23 @@ const routes = [
   },
   // Block routes
   {    
-    key: ROUTES.BlockCreate, // This must come before BlockList
-    path: '/fields/new',
-    component: BlockCreate,
+    key: ROUTES.BlockCreateDraw, // This must come before BlockList
+    path: '/fields/new/draw',
+    component: BlockCreateDraw,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
+  {    
+    key: ROUTES.BlockCreateUpload, // This must come before BlockList
+    path: '/fields/new/upload',
+    component: BlockCreateUpload,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
+  {    
+    key: ROUTES.BlockCreateLPIS, // This must come before BlockList
+    path: '/fields/new/lpis',
+    component: BlockCreateLPIS,
     routeComponent: ProtectedRoute,
     props: { exact: true }
   },
