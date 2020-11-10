@@ -4,10 +4,17 @@ import messages from './messages';
 import { useIntl } from 'react-intl'
 import { PageContent, HeaderContent } from 'components'
 
-// 1) Load the initial map drawing screen
-// 2) On componenet did mount, trigger the modal window.
-// 3)
+import { BlockCreateForm } from '../../components'
+import { BlockDrawPage } from '../../components/BlockCreatePages'
 
+/**
+ * 1) Render a form component
+ * 2) Make the form steppable
+ * 3) On the first page render the map and wait for the geometry
+ * 4) On the second page, fill out the other data
+ * 5) The user can jump back to the map to modify the geometry
+ * 6) When everything is okay, send the form data to the server and render the /fields/<id newly created>/?view=map route
+ */
 
 export default ({
     ...rest  
@@ -20,9 +27,12 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <div>
-                Draw new fields
-            </div>
+                <BlockCreateForm
+                    pages={[
+                        BlockDrawPage
+                    ]}
+                />
+
         </PageContent>
     )
 }

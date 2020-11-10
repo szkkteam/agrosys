@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import startCase from 'lodash/startCase'
 import { compile } from 'path-to-regexp'
@@ -225,8 +225,10 @@ const cachedRoutes = routes.map((route) => {
 })
 cachedRoutes.push(<Route component={NotFound} key="*" />)
 
-export default () => (
-    <Switch>
-      {cachedRoutes}
-    </Switch>
-)
+export default () => {
+  return (
+      <Switch>
+        {cachedRoutes}
+      </Switch>
+  )
+}

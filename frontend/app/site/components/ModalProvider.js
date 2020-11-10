@@ -1,14 +1,16 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import { connect } from 'react-redux';
 import { compose } from 'redux'
 import { bindActionCreators } from 'redux'
+import { useLocation } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
-import { popModalWindow } from 'redux-promising-modals';
+import { popModalWindow, clearModalWindows  } from 'redux-promising-modals';
 import Dialog from '@material-ui/core/Dialog';
 //import modalsMap from 'modals/modalsMap'
 
 import * as modalResultTypes from '../modalResultTypes';
-import { getModal } from '../selectors'
+import { getModal, isModalActive } from '../selectors'
 
 // Import modals
 import { TestModal } from 'site/components'
@@ -22,9 +24,11 @@ import {
  } from '../modalTypes'
 
 const ModalProvider = ({
+    isActive,
     modalType,
     modalProps,
     popModalWindow,
+    clearModalWindows,
     ...props
 }) => {
 
@@ -50,6 +54,13 @@ const ModalProvider = ({
     const handleAction = (type, payload) => {
         popModalWindow({ status: type , payload });
     }
+        
+    const location = useLocation()
+
+    useEffect(() => {
+        isActive && clearModalWindows()
+        // When location changed 
+    }, [location])
 
 
     return (
@@ -75,17 +86,19 @@ const ModalProvider = ({
 
 const mapStateToProps = (state) => {
     const modal = getModal(state)
+    const isActive = isModalActive(state)
     return {
+        isActive,
         ...modal,
     }
   }
   
-  
-  const withConnect = connect(
+
+const withConnect = connect(
     mapStateToProps,
-    (dispatch) => bindActionCreators({ popModalWindow }, dispatch),
-  )
-  
-  export default compose(
+    (dispatch) => bindActionCreators({ popModalWindow, clearModalWindows  }, dispatch),
+)
+
+export default compose(
     withConnect,
-  )(ModalProvider)
+)(ModalProvider)

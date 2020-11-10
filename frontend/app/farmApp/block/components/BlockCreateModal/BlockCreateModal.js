@@ -28,12 +28,6 @@ import {
 
 import './blockcreatemodal.scss'
 
-/*
-<Backdrop open={true}>
-                    <CircularProgress color="inherit" />
-                </Backdrop>
-*/
-
 const OptionSection = ({
     title,
     description,
@@ -46,7 +40,7 @@ const OptionSection = ({
     const handleNavigate = () => {
         const path = ROUTE_MAP[url]
         history.push(path.toPath())
-        handleClose()
+        //handleClose()
     }
 
     return (

@@ -12,6 +12,7 @@ import './stepper.scss'
 
 const Stepper = ({
     steps,
+    stepsVisible=true,
     contents,
     finishedContent=null
 }) => {
@@ -71,7 +72,7 @@ const Stepper = ({
 
     return (
         <div className="stepper-container">
-            <MuiStepper
+            { stepsVisible && <MuiStepper
                 nonLinear
                 activeStep={activeStep}
             >
@@ -85,7 +86,7 @@ const Stepper = ({
                         </StepButton>
                     </Step>
                 ))}
-            </MuiStepper>
+            </MuiStepper> }
             <div>
                 { finishedContent && allStepsCompleted()? (
                     <div>

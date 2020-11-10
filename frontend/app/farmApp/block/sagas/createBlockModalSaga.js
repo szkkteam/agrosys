@@ -16,10 +16,12 @@ export const KEY = 'createBlockModalSaga'
 
 export function *createBlockModalSaga(payload) {
     try {
+        /*
         const result = yield put(pushModalWindow(BLOCK_CREATE_DIALOG, {}))
         result.then(({status}) => {
             console.log("Result: ", status)
         })
+        */
         
     } catch(e) {
         console.log("Error: ", e)

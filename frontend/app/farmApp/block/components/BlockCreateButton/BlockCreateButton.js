@@ -3,28 +3,30 @@ import PropTypes from 'prop-types'
 import messages from './messages'
 import classnames from 'classnames'
 import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
+import { compose } from 'redux'
+import { bindActionCreators } from 'redux'
+
+import { pushModalWindow } from 'redux-promising-modals';
+import { BLOCK_CREATE_DIALOG } from 'site/modalTypes'
 
 import Button from '@material-ui/core/Button';
-import { useInjectReducer, useInjectSaga } from 'utils/hooks'
-import { useDispatch } from 'react-redux'
-import { showCreateModal } from '../../actions'
 
 import './blockcreatebutton.scss'
 
 const BlockCreateButton = ({
     onClick,
     className='',
+    pushModalWindow,
 }) => {
 
-    useInjectReducer(require('../../reducers/createBlockModalReducer'))
-    useInjectSaga(require('../../sagas/createBlockModalSaga'))
-
-    const dispatch = useDispatch()
-    
-
     const handleClick = () => {
-        dispatch(showCreateModal())
-        onClick()
+        onClick && onClick()
+        pushModalWindow(BLOCK_CREATE_DIALOG, {})
+        .then((status) => {
+            // Be carefull here: status is undefined, if the user clicks to one of the button.
+            // We are not waiting for the result, because the modal window will perform the route change
+        })
     }
 
     return (
@@ -43,8 +45,20 @@ const BlockCreateButton = ({
 
 BlockCreateButton.propTypes = {
     onClick: PropTypes.func,
+    pushModalWindow: PropTypes.func.isRequired,
+    className: PropTypes.string,
 }
 
+const mapStateToProps = (state) => {
+    return {
+    }
+  }
 
-
-export default BlockCreateButton
+const withConnect = connect(
+    mapStateToProps,
+    (dispatch) => bindActionCreators({ pushModalWindow }, dispatch),
+)
+  
+export default compose(
+    withConnect,
+)(BlockCreateButton)

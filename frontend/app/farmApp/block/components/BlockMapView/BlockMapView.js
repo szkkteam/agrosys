@@ -58,21 +58,8 @@ const BlockMapView = ({
         })
     }
 
-    const handleCreate = () => {
-        console.log("New element")
-        // 1) Push the modal window of creation selection
-        // 2) Initiate a the change to the drawing screen depends on the selection.
-        // 3) TODO: one possibility would be to push to /fields/new and add query params like:
-        //      - /fields/new?provider=mepar
-        //      - /fields/new?provider=file
-        //      - fields/new?provider=draw
-        /*
-        history.push({
-            pathname: `${match.path}/new`,
-            //search: location.search
-        })
-        */
-    }
+    console.log("BlockCreateButton: ", BlockCreateButton)
+
     // 1) The master component should be the list of blocks
     // 2) The detail component should have 2 variant: (it should render the small detail component)
     //    2.1) The small detail, which show only the important information
@@ -88,7 +75,6 @@ const BlockMapView = ({
                         />
                     <BlockCreateButton
                         className="addnew"
-                        onClick={handleCreate}
                     />
                 </div>
             }
