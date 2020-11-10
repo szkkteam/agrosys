@@ -1,7 +1,6 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
-import { BrowserRouter } from 'react-router-dom'
 import { SnackbarProvider } from 'notistack';
 import Helmet from 'react-helmet'
 import { StylesProvider } from '@material-ui/core/styles';
@@ -32,11 +31,9 @@ export default (props) => {
         <Provider store={props.store}>
           <LanguageProvider messages={props.messages}>
             <ConnectedRouter history={props.history}>      
-              <BrowserRouter>
-                <SnackbarProvider maxSnack={3}>
-                  <AppLayout />
-                </SnackbarProvider>
-              </BrowserRouter>
+              <SnackbarProvider maxSnack={3}>
+                <AppLayout />
+              </SnackbarProvider>
             </ConnectedRouter>
           </LanguageProvider>
         </Provider>

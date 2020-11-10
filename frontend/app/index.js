@@ -25,7 +25,7 @@ const APP_MOUNT_POINT = document.getElementById('app')
 
 const initialState = {}
 //const history = createBrowserHistory()
-const store = configureStore(initialState)
+const store = configureStore(initialState, history)
 
 const renderRootComponent = (Component) => {
   ReactDOM.render(

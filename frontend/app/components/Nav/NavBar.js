@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router'
 import classnames from 'classnames'
 
 import { ROUTES } from 'routes'
@@ -73,6 +72,5 @@ const withConnect = connect(
 )
 
 export default compose(
-  withRouter,  // required for NavLinks to determine whether they're active or not
   withConnect,
 )(NavBar)

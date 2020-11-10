@@ -2,10 +2,9 @@ import React, { useMemo, useEffect } from 'react'
 import { connect } from 'react-redux';
 import { compose } from 'redux'
 import { bindActionCreators } from 'redux'
-import { useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-import { popModalWindow, clearModalWindows  } from 'redux-promising-modals';
+import { popModalWindow } from 'redux-promising-modals';
 import Dialog from '@material-ui/core/Dialog';
 //import modalsMap from 'modals/modalsMap'
 
@@ -28,7 +27,6 @@ const ModalProvider = ({
     modalType,
     modalProps,
     popModalWindow,
-    clearModalWindows,
     ...props
 }) => {
 
@@ -54,14 +52,6 @@ const ModalProvider = ({
     const handleAction = (type, payload) => {
         popModalWindow({ status: type , payload });
     }
-        
-    const location = useLocation()
-
-    useEffect(() => {
-        isActive && clearModalWindows()
-        // When location changed 
-    }, [location])
-
 
     return (
         <React.Fragment>
@@ -96,7 +86,7 @@ const mapStateToProps = (state) => {
 
 const withConnect = connect(
     mapStateToProps,
-    (dispatch) => bindActionCreators({ popModalWindow, clearModalWindows  }, dispatch),
+    (dispatch) => bindActionCreators({ popModalWindow }, dispatch),
 )
 
 export default compose(

@@ -5,7 +5,6 @@ import isString from 'lodash/isString'
 
 import checkStore from './checkStore'
 import createReducer from 'reducers'
-import history from 'utils/history'
 
 export function injectReducerFactory(store, isValid) {
   return function injectReducer(key, reducer) {
@@ -20,7 +19,7 @@ export function injectReducerFactory(store, isValid) {
     if (Reflect.has(store.injectedReducers, key) && store.injectedReducers[key] === reducer) return
 
     store.injectedReducers[key] = reducer
-    store.replaceReducer(createReducer(store.injectedReducers, history))
+    store.replaceReducer(createReducer(store.injectedReducers))
   }
 }
 

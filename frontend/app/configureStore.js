@@ -7,20 +7,20 @@ import createSagaMiddleware from 'redux-saga'
 import createReducer from 'reducers'
 import getSagas from 'sagas'
 import { notificationClearMiddleware } from 'site/middleware/notification'
-
-import history from 'utils/history'
+import { modalsClearMiddleware } from 'site/middleware/modals'
 
 const isDev = process.env.NODE_ENV !== 'production'
 const hasWindowObject = typeof window === 'object'
 
 const sagaMiddleware = createSagaMiddleware()
 
-export default function configureStore(initialState) {
+export default function configureStore(initialState, history) {
   const middlewares = [
     sagaMiddleware,
     routerMiddleware(history),
     loadingBarMiddleware({ promiseTypeSuffixes: ['REQUEST', 'FULFILL'] }),
     notificationClearMiddleware,
+    modalsClearMiddleware,
     modalsMiddleware,
   ]
 
@@ -34,7 +34,7 @@ export default function configureStore(initialState) {
       : compose
 
   const store = createStore(
-    createReducer({}, history),
+    createReducer({}),
     initialState,
     composeEnhancers(...enhancers)
   )
@@ -51,7 +51,7 @@ export default function configureStore(initialState) {
   if (module.hot) {
     module.hot.accept('./reducers', () => {
       const nextCreateReducer = require('./reducers').default
-      store.replaceReducer(nextCreateReducer(store.injectedReducers, history))
+      store.replaceReducer(nextCreateReducer(store.injectedReducers))
     })
 
     module.hot.accept('./sagas', () => {

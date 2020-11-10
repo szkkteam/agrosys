@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl'
 import Button from '@material-ui/core/Button';
 
 import { MasterDetail } from 'components'
-import {BrowserRouter as Router, Route, Link, Redirect} from "react-router-dom";
+import { Route } from "react-router-dom";
 
 import { LeafletMap } from 'farmApp/map/components'
 

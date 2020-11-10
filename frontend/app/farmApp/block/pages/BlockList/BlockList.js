@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import Helmet from 'react-helmet'
 import messages from './messages';
 import { useIntl } from 'react-intl'
-import {BrowserRouter as Router, Route, Link, Redirect} from "react-router-dom";
+import { Route } from "react-router-dom";
 import { PageContent, HeaderContent, MasterDetail } from 'components'
 import { 
     BlockHeader,

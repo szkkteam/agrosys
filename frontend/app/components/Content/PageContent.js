@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router'
 
 import Notification from 'components/Notification'
 
@@ -16,7 +15,7 @@ class PageContent extends React.Component {
   }
 
   render() {
-    const { children, className, location: { hash } } = this.props
+    const { children, className  } = this.props
     return (
       <div className="main-content">
         <div className="content-spacer"/>
@@ -27,4 +26,4 @@ class PageContent extends React.Component {
   }
 }
 
-export default withRouter(PageContent)
+export default PageContent
