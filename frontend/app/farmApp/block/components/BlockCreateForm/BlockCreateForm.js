@@ -27,10 +27,9 @@ const BlockCreateForm = ({
     pages,
     invalid,
     handleSubmit,
-    onCancel,
     submitting,
     pristine,
-    action,
+    action, 
     dirty,
     resetSection,
     change,
@@ -43,6 +42,7 @@ const BlockCreateForm = ({
         console.log("pages.length: ", pages.length)
         console.log("Component: ", PageComponent)
         const isLast = i == pages.length - 1
+        console.log("Last? ", isLast)
         if (!isLast) {
             return ({onComplete, ...props}) => (
                 <PageComponent
@@ -60,38 +60,13 @@ const BlockCreateForm = ({
         }
     }))
     console.log("Contents: ", contents)
-    /*
-    const contents = [
-        ({onComplete, ...props}) => (
-            <div>
-                First Page
-            </div>
-        ),
-        (props) => (
-            <div>
-            Second Page
-            </div>
-        )
-    ]*/
-
+   
     return (      
-            <Grid
-                container
-                direction="row"
-                justify="flex-start"
-                alignItems="flex-start"
-                spacing={1}
-            >
-                <Grid container spacing={3}>
-                    <Grid item xs={12}>
-                        <Stepper 
-                            steps={steps}
-                            contents={contents}
-                            stepsVisible={false}
-                        />
-                    </Grid>
-                </Grid>
-            </Grid>     
+        <Stepper 
+            steps={steps}
+            contents={contents}
+            stepsVisible={false}
+        />
   ) 
 }
 

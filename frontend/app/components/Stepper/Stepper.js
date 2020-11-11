@@ -87,25 +87,23 @@ const Stepper = ({
                     </Step>
                 ))}
             </MuiStepper> }
-            <div>
-                { finishedContent && allStepsCompleted()? (
-                    <div>
-                        { renderFinishedContent() }
-                    </div>
-                ) : (
-                    <div>
-                        { activeContent({
-                            numOfSteps: totalSteps,
-                            completedSteps,
-                            activeStep,
-                            onComplete: handleComplete,
-                            onNext: handleNext,
-                            onBack: handleBack,
-                        }) }
-                    </div>
-                )
-                }
-            </div>
+            { finishedContent && allStepsCompleted()? (
+                <div>
+                    { renderFinishedContent() }
+                </div>
+            ) : (
+                <div style={{height: "100%"}}>
+                    { activeContent({
+                        numOfSteps: totalSteps,
+                        completedSteps,
+                        activeStep,
+                        onComplete: handleComplete,
+                        onNext: handleNext,
+                        onBack: handleBack,
+                    }) }
+                </div>
+            )
+            }
         </div>
     )
 }

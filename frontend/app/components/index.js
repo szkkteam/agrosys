@@ -8,4 +8,4 @@ export { Table } from './Table'
 export { default as Stepper } from './Stepper'
 
 export { SubmitButton, BackButton, SplitButton } from './Button'
-export { HeaderContent, MasterDetail } from './Layout'
+export { HeaderContent, MasterDetail, Content } from './Layout'

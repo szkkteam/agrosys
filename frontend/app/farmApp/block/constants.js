@@ -4,7 +4,7 @@ export const VIEW_MAP = 'map'
 export const VIEW_LIST = 'list'
 export const VIEW_MODULE = 'module'
 
-export const BLOCK_CREATE_FORM = 'create'
+export const BLOCK_CREATE_FORM = 'createBlock'
 
 export const BLOCK_CREATE_OPTION_DRAW = 'BLOCK_CREATE_OPTION_DRAW'
 export const BLOCK_CREATE_OPTION_UPLOAD_FILE = 'BLOCK_CREATE_OPTION_UPLOAD_FILE'

@@ -12,7 +12,7 @@ import * as L from 'leaflet'
 
 import { MAP_URL, MAP_ATTRIBUTION, MAP_DEFAULT_LAYER } from 'utils/map'
 
-//import './leafletmap.scss'
+import './leafletmap.scss'
 
 const { BaseLayer, Overlay } = LayersControl
 
@@ -69,6 +69,7 @@ export default class LeafletMap extends React.Component {
             startBounds,
             overlay,
             onMoveEnd,
+            className="map-fullscreen",
             ...props
         } = this.props
 
@@ -88,6 +89,7 @@ export default class LeafletMap extends React.Component {
                     onMoveEnd={this.onMoveEnd}
                     zoomControl={false}
                     doubleClickZoom={false}
+                    className={className}
                     {...props}
                 >
                     <ZoomControl

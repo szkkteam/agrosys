@@ -2,10 +2,9 @@ import React from 'react'
 import Helmet from 'react-helmet'
 import messages from './messages';
 import { useIntl } from 'react-intl'
-import { PageContent, HeaderContent } from 'components'
+import { PageContent, Content } from 'components'
 
-import { BlockCreateForm } from '../../components'
-import { BlockDrawPage } from '../../components/BlockCreatePages'
+import { BlockCreateForm, BlockDrawPage, BlockEditPage } from '../../components'
 
 /**
  * 1) Render a form component
@@ -27,12 +26,14 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-                <BlockCreateForm
-                    pages={[
-                        BlockDrawPage
-                    ]}
-                />
-
+                <Content>
+                    <BlockCreateForm
+                        pages={[
+                            BlockDrawPage,
+                            BlockEditPage
+                        ]}
+                    />
+                </Content>
         </PageContent>
     )
 }

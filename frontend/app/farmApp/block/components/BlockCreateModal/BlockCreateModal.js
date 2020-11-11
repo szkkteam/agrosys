@@ -5,7 +5,7 @@ import messages from './messages';
 import { FormattedMessage } from 'react-intl';
 import { ROUTES } from 'routes'
 import { ROUTE_MAP } from 'routes'
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import { Modal } from 'site/components'
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -40,6 +40,14 @@ const OptionSection = ({
     const handleNavigate = () => {
         const path = ROUTE_MAP[url]
         history.push(path.toPath())
+        /*
+        history.push({
+            pathname: path.toPath(),
+            search: {
+                return: location.pathname
+            }
+        })
+        */
         //handleClose()
     }
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl';
 
 import Grid from '@material-ui/core/Grid';
@@ -6,14 +7,15 @@ import Button from '@material-ui/core/Button';
 
 import './submitbutton.scss'
 
-export default ({
+const SubmitButton = ({
     disabled=false,
-    submitTitle,
+    submitTitle,    
     cancelTitle,
     submitDisabled=false,
     cancelDisabled=false,
     onCancel,
     onSubmit=null,
+    className,
 }) => {
     
     const submitProps = onSubmit? { onClick: onSubmit } : { type: 'submit'}
@@ -33,6 +35,7 @@ export default ({
                         variant="contained"
                         color="primary"
                         onClick={onCancel}
+                        className={className}
                     >
                         <FormattedMessage {...cancelTitle} />
                     </Button>
@@ -42,6 +45,7 @@ export default ({
                         disabled={disabled || submitDisabled}
                         variant="contained"
                         color="primary"
+                        className={className}
                         {...submitProps}
                         //onClick={onComplete}
                     >
@@ -52,3 +56,16 @@ export default ({
         </div>
     )
 }
+
+SubmitButton.propTypes = {
+    disabled: PropTypes.bool,
+    submitTitle: PropTypes.object.isRequired,
+    cancelTitle: PropTypes.object.isRequired,
+    submitDisabled: PropTypes.bool,
+    cancelDisabled: PropTypes.bool,
+    onCancel: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func,
+    className: PropTypes.string,
+}
+
+export default SubmitButton

@@ -1,9 +1,11 @@
 @import 'variables';
 
-.content{
-    height: calc(100vh - #{$content-top-spacing-height} - #{$content-top-spacing-height} - 8px);
-
-    > div {
-        height: 100%;
+.layout-header-content {
+    .content{
+        height: calc(100vh - #{$content-top-spacing-height} - #{$content-top-spacing-height} - 8px);
+    
+        > div {
+            height: 100%;
+        }
     }
 }

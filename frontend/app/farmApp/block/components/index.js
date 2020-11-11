@@ -1,4 +1,5 @@
 export { default as BlockCreateForm } from './BlockCreateForm'
+export { BlockDrawPage, BlockEditPage } from './BlockFormPages'
 export { default as BlockCreateModal } from './BlockCreateModal'
 export { default as BlockCreateButton } from './BlockCreateButton'
 export { default as BlockHeader } from './BlockHeader'
