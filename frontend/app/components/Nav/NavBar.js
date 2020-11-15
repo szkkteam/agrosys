@@ -9,24 +9,12 @@ import NavBarContext from './NavBarContext'
 import { AppBar } from 'components/AppBar'
 import { SideBar } from 'components/SideBar'
 
+import { BlockMenuItem } from 'farmApp/block/menus'
+import { ResourceMenuItem } from 'farmApp/resource/menus'
+
 import './navbar.scss'
 
-/*
-{ isAuthenticated? 
-      <NavBarContext.Provider
-        value={contextObject}
-      >
-        <AppBar
-          isDrawerOpen={isDrawerOpen}
-          onDrawerOpen={handleDrawerOpen}
-        />
-        <SideBar
-          isDrawerOpen={isDrawerOpen}
-          onDrawerClose={handleDrawerClose}
-        />
-      </NavBarContext.Provider>      
-      : null }
-*/
+
 
 const NavBar = ({
   isAuthenticated,
@@ -34,17 +22,19 @@ const NavBar = ({
 
   const [isDrawerOpen, setDrawer] = useState(true)
 
-  const contextObject = {
-    isDrawerOpen,
-    isAuthenticated
-  }
-
   const handleDrawerOpen = () => {
     setDrawer(true)
   }
 
   const handleDrawerClose = () => {
     setDrawer(false)
+  }
+
+  const contextObject = {
+    isDrawerOpen,
+    isAuthenticated,
+    handleDrawerOpen,
+    handleDrawerClose,
   }
 
   return (
@@ -60,7 +50,14 @@ const NavBar = ({
         <SideBar
           isDrawerOpen={isDrawerOpen}
           onDrawerClose={handleDrawerClose}
-        />
+        >
+          <ResourceMenuItem
+            openDrawer={handleDrawerOpen}
+            closeDrawer={handleDrawerClose}
+          >
+            <BlockMenuItem />
+          </ResourceMenuItem>
+        </SideBar>
       </NavBarContext.Provider>      
       : null }     
     </React.Fragment>

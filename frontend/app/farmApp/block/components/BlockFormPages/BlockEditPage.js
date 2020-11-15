@@ -3,8 +3,9 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { useHistory } from "react-router-dom";
-import messages from 'farmApp/farm/messages';
+import messages from './messages';
 import { useIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl';
 import * as modalResultTypes from 'site/modalResultTypes';
 
 import Grid from '@material-ui/core/Grid';
@@ -14,7 +15,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, formValueSelector } from 'redux-form'
 
 
 import { HiddenField, TextField, onlyDecimal } from 'components/Form'
@@ -46,6 +47,7 @@ const BlockDrawPage = ({
     tasks,
     onBack,
     onComplete,
+    currentTitle,
     ...rest 
 }) => {
 
@@ -86,7 +88,7 @@ const BlockDrawPage = ({
     }
 
     const TabComponent = getTabComponent(activeTab)
-    console.log("TabComponent: ", TabComponent)
+    console.log("formatMessage: ", messages.generalTabTitle)
 
     return (      
         <Grid
@@ -103,7 +105,7 @@ const BlockDrawPage = ({
                             className="edit-title"
                             variant="h4"
                         >
-                            Title
+                            { currentTitle ? currentTitle : "Block name" }, 4 ha
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
@@ -114,17 +116,17 @@ const BlockDrawPage = ({
                     <Grid item xs={6}>
                         <div className="edit-description">
                             <Typography variant="h6">
-                                Border editing
+                                <FormattedMessage {...messages.borderEditTitle}/>
                             </Typography>
                             <Typography variant="body2">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse in tortor blandit diam dapibus gravida. Nulla eu ligula massa. Sed sed porta enim, in feugiat diam.
+                                <FormattedMessage {...messages.borderEditDesc}/>
                             </Typography>
                             <Button
                                 variant="contained"
                                 color="primary"
                                 onClick={onBack}
                             >
-                                Edit borders
+                                <FormattedMessage {...messages.borderEditButtonTitle}/>
                             </Button>
                         </div>
                     </Grid>
@@ -144,8 +146,8 @@ const BlockDrawPage = ({
                                     value={activeTab}
                                     onChange={handleTabChange}
                                 >
-                                    <Tab label="General" {...tabProps(0)} />
-                                    <Tab label="MePAR" {...tabProps(1)} />
+                                    <Tab label={intl.formatMessage(messages.generalTabTitle)} {...tabProps(0)} />
+                                    <Tab label={intl.formatMessage(messages.lpisTabTitle)} {...tabProps(1)} />
                                 </Tabs>
                             </div>
                         </Grid>                        
@@ -194,8 +196,21 @@ const withConnect = connect(
     },
 )
 
+
+const selector = formValueSelector(BLOCK_CREATE_FORM)
+const withSelectBlockTitle = connect(
+    (state, props) => {
+        const currentTitle = selector(state, 'title')
+        return {
+            currentTitle
+        }
+    }
+)
+
+
 export default compose(
     withConnect,
     withForm,
+    withSelectBlockTitle,
 )(BlockDrawPage) 
 
