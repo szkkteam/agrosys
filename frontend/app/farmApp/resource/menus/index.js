@@ -1,1 +1,0 @@
-export { default as ResourceMenuItem }  from './ResourceMenuItem'

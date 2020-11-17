@@ -14,7 +14,13 @@ import {
   BlockCreateUpload,
   BlockCreateLPIS
 } from 'farmApp/block/pages'
- 
+
+import {
+  ProductionMultiView,
+  ProductionCreate,
+  ProductionDetail,
+} from 'farmApp/production/pages'
+
 import {
   ForgotPassword,
   Login,
@@ -49,6 +55,10 @@ export const ROUTES = {
   BlockCreateDraw: 'BlockCreateDraw',
   BlockCreateUpload: 'BlockCreateUpload',
   BlockCreateLPIS: 'BlockCreateLPIS',
+  // Production
+  ProductionMultiView: 'ProductionMultiView',
+  ProductionCreate: 'ProductionCreate',
+  ProductionDetail: 'ProductionDetail',
   
   ForgotPassword: 'ForgotPassword',
   Home: 'Home',
@@ -77,7 +87,7 @@ const routes = [
   // Farm routes
   {
     key: ROUTES.FarmCreate,
-    path: '/farms/create',
+    path: '/farms/new',
     component: FarmCreate,
     routeComponent: ProtectedRoute,
     props: { exact: true }
@@ -117,6 +127,28 @@ const routes = [
     path: '/fields',
     component: BlockList,
     routeComponent: ProtectedRoute,
+  },
+  // Production routes
+  {
+    key: ROUTES.ProductionCreate,
+    path: '/productions/new',
+    component: ProductionCreate,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
+  {
+    key: ROUTES.ProductionMultiView,
+    path: '/productions/multi',
+    component: ProductionMultiView,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
+  {
+    key: ROUTES.ProductionDetail,
+    path: '/productions/:id',
+    component: ProductionDetail,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
   },
   {
     key: ROUTES.ForgotPassword,

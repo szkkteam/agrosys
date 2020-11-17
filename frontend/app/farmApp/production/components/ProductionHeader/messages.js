@@ -1,10 +1,10 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.farmApp.resources.ResourceMenuItem'
+export const scope = 'app.farmApp.production.ProductionHeader'
 
 export default defineMessages({
     title: {
         id: `${scope}.title`,  
-        defaultMessage: 'Resources',
-    }
-})
+        defaultMessage: 'Header',
+    },
+  })

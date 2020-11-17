@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import messages from './messages';
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import classnames from 'classnames'
@@ -10,7 +11,7 @@ import { AppBar } from 'components/AppBar'
 import { SideBar } from 'components/SideBar'
 
 import { BlockMenuItem } from 'farmApp/block/menus'
-import { ResourceMenuItem } from 'farmApp/resource/menus'
+import { NestedMenuItem } from 'components'
 
 import './navbar.scss'
 
@@ -51,12 +52,11 @@ const NavBar = ({
           isDrawerOpen={isDrawerOpen}
           onDrawerClose={handleDrawerClose}
         >
-          <ResourceMenuItem
-            openDrawer={handleDrawerOpen}
-            closeDrawer={handleDrawerClose}
+          <NestedMenuItem
+            title={messages.resourcesTitle}
           >
             <BlockMenuItem />
-          </ResourceMenuItem>
+          </NestedMenuItem>
         </SideBar>
       </NavBarContext.Provider>      
       : null }     

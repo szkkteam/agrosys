@@ -17,6 +17,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 
 import { TutorialProgressBar } from 'farmApp/tutorial/components'
 import { FarmSelector } from 'farmApp/farm/components'
+import { ProductionTopSelector } from 'farmApp/production/components'
 
 import './appbar.scss'
 
@@ -39,7 +40,7 @@ export default ({
             })}
         >
             <Toolbar>
-                <IconButton 
+                <IconButton                     
                     color="inherit"
                     aria-label="open drawer"
                     onClick={onDrawerOpen}
@@ -48,9 +49,10 @@ export default ({
                         hide: isDrawerOpen
                     })}
                 >
-                <MenuIcon />
+                    <MenuIcon />
                 </IconButton>
-                <FarmSelector />            
+                <FarmSelector />    
+                <ProductionTopSelector />            
                 <div style={{flexGrow: 1}} />
                 <div className="">
                     <TutorialProgressBar />

@@ -14,6 +14,7 @@ const MenuButton = ({
     buttonContent=null,    
     title="",
     children,
+    className="",
     ...props
 }) => {
 
@@ -63,7 +64,7 @@ const MenuButton = ({
     })
 
     return (
-        <div>
+        <div className={className}>
             <Button
                 ref={anchorRef}
                 aria-controls={open ? 'menu-list-grow' : undefined}

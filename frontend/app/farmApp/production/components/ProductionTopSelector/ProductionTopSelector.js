@@ -1,5 +1,6 @@
 import React from 'react'
 import messages from './messages';
+import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl';
 
 import MenuItem from '@material-ui/core/MenuItem';
@@ -13,7 +14,7 @@ import { ROUTE_MAP } from 'routes'
 
 import { MenuButton } from 'components/Menu'
 
-import './farmselector.scss'
+import './productiontopselector.scss'
 
 const FixedMenuItems = ({
     onClose,
@@ -23,13 +24,13 @@ const FixedMenuItems = ({
 
     const handleDashboard = (e) => {
         onClose(e)
-        const route = ROUTE_MAP[ROUTES.FarmDashboard]
+        const route = ROUTE_MAP[ROUTES.ProductionMultiView]
         history.push(route.toPath())
     }
 
     const handleNew = (e) => {
         onClose(e)
-        const route = ROUTE_MAP[ROUTES.FarmCreate]
+        const route = ROUTE_MAP[ROUTES.ProductionCreate]
         history.push(route.toPath())
     }
 
@@ -39,59 +40,61 @@ const FixedMenuItems = ({
                 onClick={handleDashboard}
             >
                 <DashboardIcon />
-                <FormattedMessage {...messages.multifarm} />
+                <FormattedMessage {...messages.multiview} />
             </MenuItem>
             <Divider />
             <MenuItem 
                 onClick={handleNew}
             >
                 <AddBoxIcon />
-                <FormattedMessage {...messages.newFarm} />
+                <FormattedMessage {...messages.create} />
             </MenuItem>
             <Divider />
         </React.Fragment>
     )
 }
 
-const FarmsMenuItem = ({
+const CropMenuItem = ({
     id,
     title,
     onClose,
-    onClickFarm,
 }) => {
+    let history = useHistory()
 
-    const onClick = (e) => {
+    const handleClick = (e) => {
         onClose(e)
-        onClickFarm(id)
+        const route = ROUTE_MAP[ROUTES.ProductionDetail]
+        history.push(route.toPath({id}))
     }
 
     return (
-        <MenuItem onClick={onClick}>{title}</MenuItem>
+        <MenuItem onClick={handleClick}>{title}</MenuItem>
     )
 }
 
-const FarmSelector = ({
-    className="farm-selector",
+const ProductionTopSelector = ({
+    className="production-selector"
 }) => {
 
-    const farms = [
-        {id: 1, title: 'Farm 1'},
-        {id: 2, title: 'Farm 2'},
+    const crops = [
+        {id: 1, title: 'My wheat'},
+        {id: 2, title: 'My corn'},
     ]
 
+    
 
     return (
         <MenuButton
-            title="Selected Farm"
+            title="Productions"
             className={className}
         >            
             <FixedMenuItems
             />
-            { farms && farms.map((farm => (
-                <FarmsMenuItem
-                    key={`${farm.title}-${farm.id}`}
-                    {...farm}
-                    onClickFarm={(id) => console.log("Selected farm: ", id)}
+            { crops && crops.map((crop => (
+                <CropMenuItem
+                    key={`${crop.title}-${crop.id}`}
+                    {...crop}
+                    //onClick={(id) => console.log("Selected crop: ", id)}
                 />
                 )
             )) }
@@ -99,4 +102,8 @@ const FarmSelector = ({
     )
 }
 
-export default FarmSelector
+ProductionTopSelector.propTypes = {
+
+}
+
+export default ProductionTopSelector
