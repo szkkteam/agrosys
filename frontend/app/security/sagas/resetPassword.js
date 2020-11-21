@@ -16,7 +16,7 @@ export const resetPasswordSaga = createRoutineFormSaga(
     const { token: resetToken, ...payload } = actionPayload
     const { token, user } = yield call(SecurityApi.resetPassword, resetToken, payload)
     yield put(resetPassword.success({ token, user }))
-    yield put(push(ROUTE_MAP[ROUTES.Home].path))
+    yield put(push(ROUTE_MAP[ROUTES.DashboardHome].path))
     //yield put(flashSuccess('Welcome back! Your password has been successfully changed.'))
   },
 )

@@ -6,5 +6,13 @@ export default defineMessages({
     resourcesTitle: {
         id: `${scope}.Resources.title`,  
         defaultMessage: 'Resources',
+    },
+    financesTitle: {
+        id: `${scope}.Finances.title`,  
+        defaultMessage: 'Finances',
+    },
+    plannerTitle: {
+        id: `${scope}.Planner.title`,  
+        defaultMessage: 'Planner',
     }
 })

@@ -7,7 +7,7 @@ export { ListElementSmall, ListElementLong, ListLayout } from './List'
 export { Table } from './Table'
 export { default as Stepper } from './Stepper'
 
-export { MenuButton, NestedMenuItem } from './Menu'
+export { MenuButton, NestedMenuItem, MenuItem } from './Menu'
 
 export { SubmitButton, BackButton, SplitButton } from './Button'
 export { HeaderContent, MasterDetail, Content } from './Layout'

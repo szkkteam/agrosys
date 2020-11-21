@@ -15,7 +15,7 @@ export const logoutSaga = createRoutineSaga(
   function *successGenerator() {
     yield call(SecurityApi.logout)
     yield put(logout.success())
-    yield put(push(ROUTE_MAP[ROUTES.Home].path))
+    yield put(push(ROUTE_MAP[ROUTES.DashboardHome].path))
     //yield put(flashSuccess('You have been successfully logged out.'))
   },
 )

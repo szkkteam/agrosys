@@ -11,7 +11,7 @@
   position: relative;
 }
 
-html, body, #app, #app>div, main {
+html, body, #app, #app>div:first-child, main {
     height: $full-height; 
   }
 

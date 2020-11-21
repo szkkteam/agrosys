@@ -20,9 +20,6 @@ export default ({
                 </title>
             </Helmet>
             <h1>Farm dashboard</h1>
-                <LeafletMap
-                    height='400px'
-                />
         </PageContent>
 
     )

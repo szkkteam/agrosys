@@ -17,8 +17,7 @@ export const signUpSaga = createRoutineFormSaga(
     yield put(signUp.success({ token, user }))
     if (token) {
       yield put(push({
-        pathname: ROUTE_MAP[ROUTES.Home].path,
-        search: '?welcome',
+        pathname: ROUTE_MAP[ROUTES.FarmCreate].path,
       }))
     } else {
       yield put(push(ROUTE_MAP[ROUTES.PendingConfirmation].path))

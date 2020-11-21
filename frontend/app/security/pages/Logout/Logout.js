@@ -8,7 +8,7 @@ import { injectSagas } from 'utils/async'
 
 
 class Logout extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.logout.trigger()
   }
 

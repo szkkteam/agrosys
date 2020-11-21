@@ -32,10 +32,10 @@ export const ProtectedRoute = connect(
 
 
 class UnconnectedAnonymousRoute extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     const { isAuthenticated, push, enqueueNotification } = this.props
     if (isAuthenticated) {
-      push(ROUTE_MAP[ROUTES.Home].path)
+      push(ROUTE_MAP[ROUTES.DashboardHome].path)
       enqueueNotification({
         message: 'You are already logged in.',
         options: {

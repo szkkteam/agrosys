@@ -35,7 +35,7 @@ class ProductionListContainer extends React.Component
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.listProductions && this.props.listProductions.maybeTrigger()
       }
 

@@ -4,9 +4,37 @@ import startCase from 'lodash/startCase'
 import { compile } from 'path-to-regexp'
 
 import {
+  DashboardHome
+} from 'farmApp/dashboard/pages'
+
+import {
   FarmCreate,
   FarmDashboard,
 } from 'farmApp/farm/pages'
+
+import {
+  ReportDashboard
+} from 'farmApp/report/pages'
+
+import {
+  SaleDashboard
+} from 'farmApp/sale/pages'
+
+import {
+  ExpenseDashboard
+} from 'farmApp/expense/pages'
+
+import {
+  BudgetDashboard
+} from 'farmApp/budget/pages'
+
+import {
+  LoanDashboard
+} from 'farmApp/loan/pages'
+
+import {
+  TransactionDashboard
+} from 'farmApp/transaction/pages'
 
 import {
   BlockList,
@@ -16,10 +44,38 @@ import {
 } from 'farmApp/block/pages'
 
 import {
+  WorkerList
+} from 'farmApp/worker/pages'
+
+import {
+  MachineryList
+} from 'farmApp/machinery/pages'
+
+import {
+  EntityList
+} from 'farmApp/entity/pages'
+
+import {
+  StorageList
+} from 'farmApp/storage/pages'
+
+import {
   ProductionMultiView,
   ProductionCreate,
   ProductionDetail,
 } from 'farmApp/production/pages'
+
+import {
+  ItemList
+} from 'farmApp/item/pages'
+
+import {
+  PlanList
+} from 'farmApp/plan/pages'
+
+import {
+  InventoryList
+} from 'farmApp/inventory/pages'
 
 import {
   ForgotPassword,
@@ -47,6 +103,27 @@ import { AnonymousRoute, ProtectedRoute } from 'utils/route'
  * Both keys and values are component class names
  */
 export const ROUTES = {
+  // Dashboard
+  DashboardHome: 'DashboardHome',
+
+  // Report
+  ReportDashboard: 'ReportDashboard',
+
+  // Sale
+  SaleDashboard: 'SaleDashboard',
+
+  // Expense
+  ExpenseDashboard: 'ExpenseDashboard',
+
+  // Budget
+  BudgetDashboard: 'BudgetDashboard',
+
+  // Loan
+  LoanDashboard: 'LoanDashboard',
+
+  // Transaction
+  TransactionDashboard: 'TransactionDashboard',
+  
   // Farm
   FarmCreate: 'FarmCreate',
   FarmDashboard: 'FarmDashboard',
@@ -55,13 +132,26 @@ export const ROUTES = {
   BlockCreateDraw: 'BlockCreateDraw',
   BlockCreateUpload: 'BlockCreateUpload',
   BlockCreateLPIS: 'BlockCreateLPIS',
+  // Worker
+  WorkerList: 'WorkerList',
+  // Machinery
+  MachineryList: 'MachineryList',
+  // Entitiy
+  EntityList: 'EntityList',
+  // Storage
+  StorageList: 'StorageList',
   // Production
   ProductionMultiView: 'ProductionMultiView',
   ProductionCreate: 'ProductionCreate',
   ProductionDetail: 'ProductionDetail',
+  // Item
+  ItemList: 'ItemList',
+  // Plan
+  PlanList: 'PlanList',
+  // Inventory
+  InventoryList: 'InventoryList',
   
   ForgotPassword: 'ForgotPassword',
-  Home: 'Home',
   Login: 'Login',
   Logout: 'Logout',
   PendingConfirmation: 'PendingConfirmation',
@@ -84,6 +174,62 @@ export const ROUTES = {
  */
 
 const routes = [
+  // Dashboard routes
+  {
+    key: ROUTES.DashboardHome,
+    path: '/',
+    component: DashboardHome,
+    routeComponent: ProtectedRoute,
+    props: { exact: true}
+  },
+  // Report routes  
+  {
+    key: ROUTES.ReportDashboard,
+    path: '/reports',
+    component: ReportDashboard,
+    routeComponent: ProtectedRoute,
+    props: { exact: true}
+  },
+  // Sale routes  
+  {
+    key: ROUTES.SaleDashboard,
+    path: '/sales',
+    component: SaleDashboard,
+    routeComponent: ProtectedRoute,
+    props: { exact: true}
+  },
+  // Expense routes  
+  {
+    key: ROUTES.ExpenseDashboard,
+    path: '/expenses',
+    component: ExpenseDashboard,
+    routeComponent: ProtectedRoute,
+    props: { exact: true}
+  },
+  // Budget routes  
+  {
+    key: ROUTES.BudgetDashboard,
+    path: '/budgets',
+    component: BudgetDashboard,
+    routeComponent: ProtectedRoute,
+    props: { exact: true}
+  },
+  // Loans routes  
+  {
+    key: ROUTES.LoanDashboard,
+    path: '/loans',
+    component: LoanDashboard,
+    routeComponent: ProtectedRoute,
+    props: { exact: true}
+  },
+  // Transactions routes  
+  {
+    key: ROUTES.TransactionDashboard,
+    path: '/transactions',
+    component: TransactionDashboard,
+    routeComponent: ProtectedRoute,
+    props: { exact: true}
+  },
   // Farm routes
   {
     key: ROUTES.FarmCreate,
@@ -128,6 +274,38 @@ const routes = [
     component: BlockList,
     routeComponent: ProtectedRoute,
   },
+  // Worker routes  
+  {
+    key: ROUTES.WorkerList,
+    path: '/workers',
+    component: WorkerList,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
+  // Machinery routes  
+  {
+    key: ROUTES.MachineryList,
+    path: '/machinery',
+    component: MachineryList,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
+  // Entity routes  
+  {
+    key: ROUTES.EntityList,
+    path: '/entities',
+    component: EntityList,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
+  // Storage routes  
+  {
+    key: ROUTES.StorageList,
+    path: '/storages',
+    component: StorageList,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
   // Production routes
   {
     key: ROUTES.ProductionCreate,
@@ -150,19 +328,37 @@ const routes = [
     routeComponent: ProtectedRoute,
     props: { exact: true }
   },
+  // Item routes    
+  {
+    key: ROUTES.ItemList,
+    path: '/items',
+    component: ItemList,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
+  // Plan routes  
+  {
+    key: ROUTES.PlanList,
+    path: '/plans',
+    component: PlanList,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
+  // Inventory routes  
+  {
+    key: ROUTES.InventoryList,
+    path: '/inventory',
+    component: InventoryList,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
+  // Common routes
   {
     key: ROUTES.ForgotPassword,
     path: '/login/forgot-password',
     component: ForgotPassword,
     routeComponent: AnonymousRoute,
     label: 'Forgot password?',
-    props: { exact: true }
-  },
-  {
-    key: ROUTES.Home,
-    path: '/',
-    component: Dashboard,
-    routeComponent: ProtectedRoute,
     props: { exact: true }
   },
   {

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import PropTypes from 'prop-types'
+import PropTypes, { object } from 'prop-types'
 import { useIntl } from 'react-intl'
 import { FormattedMessage } from 'react-intl';
 import { NavBarContext } from 'components/Nav'
@@ -14,11 +14,11 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 import List from '@material-ui/core/List';
 import Collapse from '@material-ui/core/Collapse';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 
 const NestedMenuItem = ({
     children,
     title,
+    IconComponent,
     ...rest
 }) => {
     const intl = useIntl()
@@ -53,7 +53,7 @@ const NestedMenuItem = ({
             <div>
             <ListItem button onClick={handleClick}>
                 <ListItemIcon>
-                    <InboxIcon />
+                    <IconComponent />
                 </ListItemIcon>
             <ListItemText primary={intl.formatMessage(title)} />
             {open ? <ExpandLess /> : <ExpandMore />}
@@ -61,7 +61,16 @@ const NestedMenuItem = ({
             <Collapse in={open} timeout="auto" unmountOnExit>
                 { isDrawerOpen && <List component="div" disablePadding>
                     { React.Children.map(children, (
-                        child => React.cloneElement(child, {afterClick: handleClick, style})
+                        child => {
+                            let props = { style }
+                            if (child.type.displayName != 'WithStyles(ForwardRef(Divider))') {
+                                Object.assign(props, {afterClick: handleClick})
+                            }
+                            return (
+                                React.cloneElement(child, props)
+                            )
+                        }
+                            
                     ))}
                 </List> }
             </Collapse>
@@ -71,8 +80,9 @@ const NestedMenuItem = ({
 }
 
 NestedMenuItem.propTypes = {
-    children: PropTypes.element.isRequired,
+    children: PropTypes.arrayOf(PropTypes.element.isRequired),
     title: PropTypes.object.isRequired,
+    IconComponent: PropTypes.object.isRequired,
 }
 
 export default NestedMenuItem
