@@ -6,6 +6,7 @@ import re
 
 # Pip package imports
 # Internal package imports
+from . import ValidationError
 from .constants import LAST_PARAM_NAME_RE
 
 
@@ -17,3 +18,7 @@ def get_last_param_name(url_rule):
 def camelcase(s):
     parts = iter(s.split("_"))
     return next(parts) + "".join(i.title() for i in parts)
+
+def object_id_exists(object_id, model, id='id'):
+    if not model.get_by(**{id: object_id}):
+        raise ValidationError('ID %i does not exist.' % (object_id))

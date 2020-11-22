@@ -13,9 +13,10 @@ const dllConfig = {
         'normalize.css',
         'super-skeleton',
         'skeleton-scss',
+        'shelljs'
       ],
       include: [
-        'babel-polyfill',
+        '@babel/polyfill',
         'core-js',
         'history',
         'isomorphic-fetch',
@@ -24,8 +25,9 @@ const dllConfig = {
         'react-dom',
         'react-helmet',
         'react-redux',
+        'react-router',
         'react-router-dom',
-        'react-router-redux',
+        'connected-react-router',
         'redux',
         'redux-form',
         'redux-saga',

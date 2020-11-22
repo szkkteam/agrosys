@@ -6,7 +6,6 @@ import isString from 'lodash/isString'
 import checkStore from './checkStore'
 import createReducer from 'reducers'
 
-
 export function injectReducerFactory(store, isValid) {
   return function injectReducer(key, reducer) {
     if (!isValid) checkStore(store)

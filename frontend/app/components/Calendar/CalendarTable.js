@@ -42,7 +42,7 @@ const tableIcons = {
 export default ({
     columns,
     data,
-    ...props,
+    ...props
 }) => {
     return (
         <MaterialTable

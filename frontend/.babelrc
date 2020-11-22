@@ -1,15 +1,23 @@
 {
   "presets": [
-    ["env", { "modules": false, "loose": true }],
-    "react",
-    "stage-0"
+    ["@babel/preset-env", { "modules": false, "loose": true }],
+    "@babel/preset-react",
+  ],
+  "plugins": [
+    ["react-intl",
+      {
+        "idInterpolationPattern": "[sha512:contenthash:base64:6]",
+        "extractFromFormatMessageCall": true,
+      }],
+    "@babel/plugin-proposal-function-bind",
+    "@babel/plugin-proposal-export-default-from",
+    "@babel/plugin-proposal-object-rest-spread",
   ],
   "env": {
     "development": {
       "plugins": [
         "transform-async-to-generator",
         "transform-class-properties",
-        "transform-object-rest-spread",
         "syntax-export-extensions",
         "transform-export-extensions",
         "react-hot-loader/babel"
@@ -19,21 +27,21 @@
       "plugins": [
         "transform-async-to-generator",
         "transform-class-properties",
-        "transform-object-rest-spread",
+        "@babel/plugin-proposal-object-rest-spread",
         "syntax-export-extensions",
         "transform-export-extensions"
       ]
     },
     "test": {
       "presets": [
-        ["env"],
-        "react",
-        "stage-0"
+        ["@babel/preset-env"],
+        "@babel/preset-react",
       ],
       "plugins": [
         "transform-es2015-modules-commonjs",
-        "transform-object-rest-spread",
-        "dynamic-import-node"
+        "@babel/plugin-proposal-object-rest-spread",
+        "dynamic-import-node",
+        "@babel/plugin-proposal-function-bind"
       ]
     }
   }

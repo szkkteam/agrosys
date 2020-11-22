@@ -1,6 +1,8 @@
 //-------------------------
 // CONSTANTS
 //-------------------------
+import { createBrowserHistory } from 'history'
+export const history = createBrowserHistory()
 
 export const CONTENT_TOP = 70 // $navbar-height: (50px) + .content margin-top (20px)
 
@@ -10,3 +12,4 @@ export const ERROR = 'ERROR'
 export const WARNING = 'WARNING'
 export const INFO = 'INFO'
 export const DEBUG = 'DEBUG'
+

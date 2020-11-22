@@ -3,7 +3,6 @@ FARMER_USER:
   title: First farm
   region: 'Region(REGION_1)'
   seasons: ['Season(SEASON_1, SEASON_2)']
-  templates: ['Template(TEMPLATE_1)']
 
 FARMER_USER_FARM1:
   title: Farmers farm 1

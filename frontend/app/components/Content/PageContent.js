@@ -1,9 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router'
 
-import Flash from 'components/Flash'
-import { ScrollIntoView } from 'components/Nav/HashLink'
+import Notification from 'components/Notification'
+
+import Container from '@material-ui/core/Container';
+
+import './pagecontent.scss'
 
 //<div style={{flexGrow: 1}}>
 class PageContent extends React.Component {
@@ -13,18 +15,15 @@ class PageContent extends React.Component {
   }
 
   render() {
-    const { children, className, location: { hash } } = this.props
+    const { children, className  } = this.props
     return (
-      <div className="main-container">
-        <Flash />
-        <div className={`${className} content`}>
-          <ScrollIntoView id={hash && hash.slice(1) || null}>
-            {children}
-          </ScrollIntoView>
-        </div>
+      <div className="main-content">
+        <div className="content-spacer"/>
+        <Notification />
+        {children}
       </div> 
     )
   }
 }
 
-export default withRouter(PageContent)
+export default PageContent

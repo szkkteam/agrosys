@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 import { Route, Redirect } from 'react-router-dom'
 
-import { flashInfo } from 'site/actions'
+import { enqueueNotification } from 'site/actions'
 import { ROUTES, ROUTE_MAP } from 'routes'
 
 
@@ -13,7 +13,7 @@ const UnconnectedProtectedRoute = (props) => {
     component: Component,
     isAuthenticated,
     location,
-    ...routeProps,
+    ...routeProps
   } = props
 
   return <Route {...routeProps} render={(props) => (
@@ -32,11 +32,17 @@ export const ProtectedRoute = connect(
 
 
 class UnconnectedAnonymousRoute extends React.Component {
-  componentWillMount() {
-    const { isAuthenticated, push, flashInfo } = this.props
+  componentDidMount() {
+    const { isAuthenticated, push, enqueueNotification } = this.props
     if (isAuthenticated) {
-      push(ROUTE_MAP[ROUTES.Home].path)
-      flashInfo('You are already logged in.')
+      push(ROUTE_MAP[ROUTES.DashboardHome].path)
+      enqueueNotification({
+        message: 'You are already logged in.',
+        options: {
+            key: new Date().getTime() + Math.random(),
+            variant: 'info',
+        },
+      })
     }
   }
 
@@ -46,7 +52,7 @@ class UnconnectedAnonymousRoute extends React.Component {
       isAuthenticated,
       push,
       flashInfo,
-      ...routeProps,
+      ...routeProps
     } = this.props
 
     return <Route {...routeProps} render={(props) => <Component {...props} />} />
@@ -55,5 +61,5 @@ class UnconnectedAnonymousRoute extends React.Component {
 
 export const AnonymousRoute = connect(
   (state) => ({ isAuthenticated: state.security.isAuthenticated }),
-  (dispatch) => bindActionCreators({ flashInfo, push }, dispatch),
+  (dispatch) => bindActionCreators({ enqueueNotification, push }, dispatch),
 )(UnconnectedAnonymousRoute)

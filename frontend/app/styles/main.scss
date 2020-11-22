@@ -1,4 +1,18 @@
 @import 'variables';
-@import '~super-skeleton/scss/skeleton';
+//@import '~super-skeleton/scss/skeleton';
 
 @import 'custom';
+
+.app-container {
+    display: flex;
+}
+
+.pos-rel {
+  position: relative;
+}
+
+html, body, #app, #app>div:first-child, main {
+    height: $full-height; 
+  }
+
+   

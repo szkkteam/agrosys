@@ -1,19 +1,81 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import startCase from 'lodash/startCase'
 import { compile } from 'path-to-regexp'
 
 import {
-  Farms,
-  FarmCreate,
-  Fields,
-} from 'farm/pages'
+  DashboardHome
+} from 'farmApp/dashboard/pages'
 
 import {
-  MapPage,
-  TemplatePage,
-  ProductionCreatePage,
-} from 'pages/pages'
+  FarmCreate,
+  FarmDashboard,
+} from 'farmApp/farm/pages'
+
+import {
+  ReportDashboard
+} from 'farmApp/report/pages'
+
+import {
+  SaleDashboard
+} from 'farmApp/sale/pages'
+
+import {
+  ExpenseDashboard
+} from 'farmApp/expense/pages'
+
+import {
+  BudgetDashboard
+} from 'farmApp/budget/pages'
+
+import {
+  LoanDashboard
+} from 'farmApp/loan/pages'
+
+import {
+  TransactionDashboard
+} from 'farmApp/transaction/pages'
+
+import {
+  BlockList,
+  BlockCreateDraw,
+  BlockCreateUpload,
+  BlockCreateLPIS
+} from 'farmApp/block/pages'
+
+import {
+  WorkerList
+} from 'farmApp/worker/pages'
+
+import {
+  MachineryList
+} from 'farmApp/machinery/pages'
+
+import {
+  EntityList
+} from 'farmApp/entity/pages'
+
+import {
+  StorageList
+} from 'farmApp/storage/pages'
+
+import {
+  ProductionMultiView,
+  ProductionCreate,
+  ProductionDetail,
+} from 'farmApp/production/pages'
+
+import {
+  ItemList
+} from 'farmApp/item/pages'
+
+import {
+  PlanList
+} from 'farmApp/plan/pages'
+
+import {
+  InventoryList
+} from 'farmApp/inventory/pages'
 
 import {
   ForgotPassword,
@@ -27,11 +89,8 @@ import {
 } from 'security/pages'
 
 import {
-  Contact,
   Dashboard,
-  Home,
   NotFound,
-  Styles,
 } from 'site/pages'
 
 import { AnonymousRoute, ProtectedRoute } from 'utils/route'
@@ -44,33 +103,55 @@ import { AnonymousRoute, ProtectedRoute } from 'utils/route'
  * Both keys and values are component class names
  */
 export const ROUTES = {
-  /**
-   * Farm
-   */
-  Farms: 'Farms',
-  FarmCreate: 'FarmCreate',
-  /**
-   * Map
-   */
-  MapPage: 'MapPage',
-  /**
-   * Templates
-   */
-  TemplatePage: 'TemplatePage',
+  // Dashboard
+  DashboardHome: 'DashboardHome',
 
-  /**
-   * Production
-   */
-  ProductionCreatePage: 'ProductionCreatePage',
+  // Report
+  ReportDashboard: 'ReportDashboard',
 
-  /**
-   * Site
-   */
-  Dashboard: 'Dashboard',
+  // Sale
+  SaleDashboard: 'SaleDashboard',
+
+  // Expense
+  ExpenseDashboard: 'ExpenseDashboard',
+
+  // Budget
+  BudgetDashboard: 'BudgetDashboard',
+
+  // Loan
+  LoanDashboard: 'LoanDashboard',
+
+  // Transaction
+  TransactionDashboard: 'TransactionDashboard',
   
-  Contact: 'Contact',
+  // Farm
+  FarmCreate: 'FarmCreate',
+  FarmDashboard: 'FarmDashboard',
+  // Block
+  BlockList: 'BlockList',
+  BlockCreateDraw: 'BlockCreateDraw',
+  BlockCreateUpload: 'BlockCreateUpload',
+  BlockCreateLPIS: 'BlockCreateLPIS',
+  // Worker
+  WorkerList: 'WorkerList',
+  // Machinery
+  MachineryList: 'MachineryList',
+  // Entitiy
+  EntityList: 'EntityList',
+  // Storage
+  StorageList: 'StorageList',
+  // Production
+  ProductionMultiView: 'ProductionMultiView',
+  ProductionCreate: 'ProductionCreate',
+  ProductionDetail: 'ProductionDetail',
+  // Item
+  ItemList: 'ItemList',
+  // Plan
+  PlanList: 'PlanList',
+  // Inventory
+  InventoryList: 'InventoryList',
+  
   ForgotPassword: 'ForgotPassword',
-  Home: 'Home',
   Login: 'Login',
   Logout: 'Logout',
   PendingConfirmation: 'PendingConfirmation',
@@ -91,79 +172,194 @@ export const ROUTES = {
  *  - routeComponent: optional, AnonymousRoute, ProtectedRoute or Route (default: Route)
  *  - label: optional, label to use for links (default: startCase(key))
  */
+
 const routes = [
-  /**
-   * Modules
-   */
+  // Dashboard routes
   {
-    key: ROUTES.Farms,
-    path: '/farm',
-    component: Farms,
+    key: ROUTES.DashboardHome,
+    path: '/',
+    component: DashboardHome,
     routeComponent: ProtectedRoute,
+    props: { exact: true}
   },
+  // Report routes  
+  {
+    key: ROUTES.ReportDashboard,
+    path: '/reports',
+    component: ReportDashboard,
+    routeComponent: ProtectedRoute,
+    props: { exact: true}
+  },
+  // Sale routes  
+  {
+    key: ROUTES.SaleDashboard,
+    path: '/sales',
+    component: SaleDashboard,
+    routeComponent: ProtectedRoute,
+    props: { exact: true}
+  },
+  // Expense routes  
+  {
+    key: ROUTES.ExpenseDashboard,
+    path: '/expenses',
+    component: ExpenseDashboard,
+    routeComponent: ProtectedRoute,
+    props: { exact: true}
+  },
+  // Budget routes  
+  {
+    key: ROUTES.BudgetDashboard,
+    path: '/budgets',
+    component: BudgetDashboard,
+    routeComponent: ProtectedRoute,
+    props: { exact: true}
+  },
+  // Loans routes  
+  {
+    key: ROUTES.LoanDashboard,
+    path: '/loans',
+    component: LoanDashboard,
+    routeComponent: ProtectedRoute,
+    props: { exact: true}
+  },
+  // Transactions routes  
+  {
+    key: ROUTES.TransactionDashboard,
+    path: '/transactions',
+    component: TransactionDashboard,
+    routeComponent: ProtectedRoute,
+    props: { exact: true}
+  },
+  // Farm routes
   {
     key: ROUTES.FarmCreate,
-    path: '/farms-new',
+    path: '/farms/new',
     component: FarmCreate,
     routeComponent: ProtectedRoute,
+    props: { exact: true }
   },
-
-  /**
-   * Map
-   */
   {
-    key: ROUTES.MapPage,
-    path: '/map',
-    component: MapPage,
+    key: ROUTES.FarmDashboard,
+    path: '/farms/dashboard',
+    component: FarmDashboard,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
+  // Block routes
+  {    
+    key: ROUTES.BlockCreateDraw, // This must come before BlockList
+    path: '/fields/new/draw',
+    component: BlockCreateDraw,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
+  {    
+    key: ROUTES.BlockCreateUpload, // This must come before BlockList
+    path: '/fields/new/upload',
+    component: BlockCreateUpload,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
+  {    
+    key: ROUTES.BlockCreateLPIS, // This must come before BlockList
+    path: '/fields/new/lpis',
+    component: BlockCreateLPIS,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
+  {
+    
+    key: ROUTES.BlockList, //Block list must be in the end of the list, because it's accepting multiple routes (exact=false)
+    path: '/fields',
+    component: BlockList,
     routeComponent: ProtectedRoute,
   },
-  /**
-   * Templates
-   */
+  // Worker routes  
   {
-    key: ROUTES.TemplatePage,
-    path: '/templates',
-    component: TemplatePage,
+    key: ROUTES.WorkerList,
+    path: '/workers',
+    component: WorkerList,
     routeComponent: ProtectedRoute,
+    props: { exact: true }
   },
-
-  /**
-   * Productions
-   */  
+  // Machinery routes  
   {
-    key: ROUTES.ProductionCreatePage,
-    path: '/productions-create',
-    component: ProductionCreatePage,
+    key: ROUTES.MachineryList,
+    path: '/machinery',
+    component: MachineryList,
     routeComponent: ProtectedRoute,
+    props: { exact: true }
   },
-
-  /**
-   * Site
-   */
+  // Entity routes  
   {
-    key: ROUTES.Dashboard,
-    path: '/dashboard',
-    component: Dashboard,
+    key: ROUTES.EntityList,
+    path: '/entities',
+    component: EntityList,
     routeComponent: ProtectedRoute,
+    props: { exact: true }
   },
-
+  // Storage routes  
   {
-    key: ROUTES.Contact,
-    path: '/contact',
-    component: Contact,
+    key: ROUTES.StorageList,
+    path: '/storages',
+    component: StorageList,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
   },
+  // Production routes
+  {
+    key: ROUTES.ProductionCreate,
+    path: '/productions/new',
+    component: ProductionCreate,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
+  {
+    key: ROUTES.ProductionMultiView,
+    path: '/productions/multi',
+    component: ProductionMultiView,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
+  {
+    key: ROUTES.ProductionDetail,
+    path: '/productions/:id',
+    component: ProductionDetail,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
+  // Item routes    
+  {
+    key: ROUTES.ItemList,
+    path: '/items',
+    component: ItemList,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
+  // Plan routes  
+  {
+    key: ROUTES.PlanList,
+    path: '/plans',
+    component: PlanList,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
+  // Inventory routes  
+  {
+    key: ROUTES.InventoryList,
+    path: '/inventory',
+    component: InventoryList,
+    routeComponent: ProtectedRoute,
+    props: { exact: true }
+  },
+  // Common routes
   {
     key: ROUTES.ForgotPassword,
     path: '/login/forgot-password',
     component: ForgotPassword,
     routeComponent: AnonymousRoute,
     label: 'Forgot password?',
-  },
-  {
-    key: ROUTES.Home,
-    path: '/',
-    component: Dashboard,
-    routeComponent: ProtectedRoute,
+    props: { exact: true }
   },
   {
     key: ROUTES.Login,
@@ -171,12 +367,14 @@ const routes = [
     component: Login,
     routeComponent: AnonymousRoute,
     label: 'Login',
+    props: { exact: true }
   },
   {
     key: ROUTES.Logout,
     path: '/logout',
     component: Logout,
     label: 'Logout',
+    props: { exact: true }
   },
   {
     key: ROUTES.PendingConfirmation,
@@ -184,6 +382,7 @@ const routes = [
     component: PendingConfirmation,
     routeComponent: AnonymousRoute,
     label: 'Pending Confirm Email',
+    props: { exact: true }
   },
   {
     key: ROUTES.Profile,
@@ -191,6 +390,7 @@ const routes = [
     component: Profile,
     routeComponent: ProtectedRoute,
     label: 'Profile',
+    props: { exact: true }
   },
   {
     key: ROUTES.ResendConfirmation,
@@ -198,6 +398,7 @@ const routes = [
     component: ResendConfirmation,
     routeComponent: AnonymousRoute,
     label: 'Resend Confirmation Email',
+    props: { exact: true }
   },
   {
     key: ROUTES.ResetPassword,
@@ -205,6 +406,7 @@ const routes = [
     component: ResetPassword,
     routeComponent: AnonymousRoute,
     label: 'Reset Password',
+    props: { exact: true }
   },
     {
     key: ROUTES.SignUp,
@@ -212,12 +414,8 @@ const routes = [
     component: SignUp,
     routeComponent: AnonymousRoute,
     label: 'Sign Up',
+    props: { exact: true }
   },
-  {
-    key: ROUTES.Styles,
-    path: '/styles',
-    component: Styles,
-  },  
 ]
 
 /**
@@ -225,7 +423,7 @@ const routes = [
  */
 export const ROUTE_MAP = {}
 routes.forEach((route) => {
-  let { component, key, label, path, routeComponent } = route
+  let { component, key, label, path, routeComponent, props } = route
 
   if (!component) {
     throw new Error(`component was not specified for the ${key} route!`)
@@ -240,6 +438,7 @@ routes.forEach((route) => {
     component,
     routeComponent: routeComponent || Route,
     label: label || startCase(key),
+    props,
   }
 })
 
@@ -248,13 +447,16 @@ routes.forEach((route) => {
  * every page change. Therefore, we render routes ahead of time once.
  */
 const cachedRoutes = routes.map((route) => {
-  const { component, path, routeComponent: RouteComponent } = ROUTE_MAP[route.key]
-  return <RouteComponent exact path={path} component={component} key={path} />
+  const { component, path, props, routeComponent: RouteComponent } = ROUTE_MAP[route.key]
+  //return <RouteComponent exact={true} path={path} component={component} key={path} />
+  return <RouteComponent path={path} component={component} key={path} {...props}/>
 })
 cachedRoutes.push(<Route component={NotFound} key="*" />)
 
-export default () => (
-  <Switch>
-    {cachedRoutes}
-  </Switch>
-)
+export default () => {
+  return (
+      <Switch>
+        {cachedRoutes}
+      </Switch>
+  )
+}

@@ -1,6 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-import { flashSuccess } from 'site/actions'
 import { createRoutineFormSaga } from 'sagas'
 
 import { forgotPassword } from 'security/actions'
@@ -14,7 +13,7 @@ export const forgotPasswordSaga = createRoutineFormSaga(
   function *successGenerator(payload) {
     yield call(SecurityApi.forgotPassword, payload)
     yield put(forgotPassword.success())
-    yield put(flashSuccess('A password reset link has been sent to your email address.'))
+    //yield put(flashSuccess('A password reset link has been sent to your email address.'))
   },
 )
 

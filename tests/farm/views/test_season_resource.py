@@ -9,9 +9,46 @@ from flask_security import AnonymousUser, current_user
 
 # Internal package imports
 from backend.farm.models import Farm, Season
+from .. import get_input_data
 
 NEW_SEASON_DATA = {
-    'title': 'New season 2020'
+    'title': 'New season 2020',
+    'dates': {
+        'startDate': '2020-01-21T20:00:00',
+        'endDate': '2020-12-22T20:00:00',
+    },
+}
+
+VALID_GEOJSON = {"type": "Feature",
+                 "properties": {},
+                 "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [[[17.71719217300415,47.12809671910988],[17.721483707427975,47.1230306334327],[17.725925445556637, 47.12485564784686
+                        ],[17.723522186279297,47.12732296778955],[17.721827030181885,47.12662220216394],[17.71946668624878,47.12919163099024],
+                        [17.71719217300415,47.12809671910988]]]
+                  }
+    }
+
+LONG_TEXT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+
+
+AGRICULTURAL_PARCEL = {
+    'title': 'Agri parcel field 1',
+    'notes': LONG_TEXT,
+    'geometry': VALID_GEOJSON,
+    'totalArea': 2.0,
+    'referenceParcelType': 'AgriculturalParcel',
+}
+
+PHYSICAL_BLOCK = {
+    'title': 'Physical block field 1',
+    'notes': LONG_TEXT,
+    'geometry': VALID_GEOJSON,
+    'totalArea': 2.0,
+    'referenceParcelType': 'PhysicalBlock',
+    'eligibleArea': 1.5,
+    'agriculturalTypeId': lambda v,t: t.id,
+    'soilTypeId': lambda v,t: v.id
 }
 
 
@@ -25,22 +62,13 @@ class TestSeasonResource:
         assert r.status_code == 201
         assert 'id' in r.json
         assert 'title' in r.json
+        assert 'dates' in r.json
 
     def test_create_farm_not_found(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 
         r = api_client.post(url_for('api.seasons_resource', farm_id=999), data=NEW_SEASON_DATA)
         assert r.status_code == 404
-
-    def test_archive(self, api_client, farm_owner):
-        api_client.login_as(farm_owner)
-
-        season = Season.all()[0]
-
-        r = api_client.put(url_for('api.archive_season_resource', season_id=season.id))
-        assert r.status_code == 200
-        assert Season.get(season.id).archived_at != None
-
 
     def test_get(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
@@ -50,6 +78,8 @@ class TestSeasonResource:
         assert r.status_code == 200
         assert 'id' in r.json
         assert 'title' in r.json
+        assert 'dates' in r.json
+        assert 'parcels' in r.json
 
     def test_list_filter(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
@@ -64,6 +94,8 @@ class TestSeasonResource:
         for e in r.json:
             assert 'id' in e
             assert 'title' in e
+            assert 'dates' in e
+            assert 'parcels' in e
 
     def test_list(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
@@ -77,6 +109,8 @@ class TestSeasonResource:
         for e in r.json:
             assert 'id' in e
             assert 'title' in e
+            assert 'dates' in e
+            assert 'parcels' in e
 
     def test_patch(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
@@ -100,8 +134,8 @@ class TestSeasonResource:
         assert r.status_code == 200
         assert r.json['title'] == data['title']
         assert 'id' in r.json
+        assert 'dates' in r.json
 
-    @pytest.mark.skip(reason="Database cascades not be reworked, because related objects are not deleted.")
     def test_delete(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
         season = Season.all()[0]
@@ -117,6 +151,34 @@ class TestSeasonResource:
         new_id = 999
         r = api_client.patch(url_for('api.season_resource', season_id=season.id), data=dict(id=new_id))
         assert r.status_code == 400
+
+
+class TestSeasonCloneResource:
+
+    def test_create(self, api_client, farm_owner, soil, agri_type):
+        from backend.farm.models import ReferenceParcel
+        api_client.login_as(farm_owner)
+        farm = Farm.all()[0]
+        data = NEW_SEASON_DATA.copy()
+
+        ag_parcel = AGRICULTURAL_PARCEL.copy()
+        ag_parcel['ancestorId'] = ReferenceParcel.filter_by(parcel_type='AgriculturalParcel').all()[0].id
+
+        p_block = get_input_data(PHYSICAL_BLOCK, soil, agri_type)
+        p_block['parcels'] = [ag_parcel]
+        p_block['ancestorId'] = ReferenceParcel.filter_by(parcel_type='PhysicalBlock').all()[0].id
+        data['parcels'] = [p_block]
+
+        r = api_client.post(url_for('api.seasons_resource', farm_id=farm.id), data=data)
+        assert r.status_code == 201
+        assert 'id' in r.json
+        assert 'title' in r.json
+        assert 'dates' in r.json
+        assert 'parcels' in r.json
+        assert len(r.json['parcels'])
+        for parcel in r.json['parcels']:
+            assert 'parcels' in parcel
+            assert len(parcel['parcels'])
 
 
 #@pytest.mark.parametrize("models", ['Field(FIELD_FIELD_TWO, FIELD_FIELD_THREE)'], indirect=True)

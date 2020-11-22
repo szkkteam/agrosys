@@ -10,6 +10,7 @@ from marshmallow.exceptions import ValidationError
 
 # Internal package imports
 from backend.farm.serializers import ReferenceParcelSerializer, ReferenceParcelListSerializer
+from .. import get_input_data
 
 VALID_SOIL_TYPE = 1
 
@@ -29,73 +30,53 @@ LONG_TEXT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiu
 
 
 VALID_INPUT_DATA = [
-    ({'title': 'test field 1', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': 2.0, 'eligibleArea': 1.5, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id }),
-    ({'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': None, 'geometry': VALID_GEOJSON, 'totalArea': 999.0, 'eligibleArea': 999.0, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id }),
-    ({'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': None, 'geometry': VALID_GEOJSON, 'totalArea': 1.0, 'eligibleArea': 0.999, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id }),
-    ({'title': 'test field #$!"1', 'referenceParcelType': PARCEL_TYPE, 'notes': None, 'geometry': VALID_GEOJSON, 'totalArea': 1.0, 'eligibleArea': 0.5, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id }),
+    ({'title': 'test field 1', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': 2.0, }),
+    ({'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': None, 'geometry': VALID_GEOJSON, 'totalArea': 999.0,  }),
+    ({'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': None, 'geometry': VALID_GEOJSON, 'totalArea': 1.0,  }),
+    ({'title': 'test field #$!"1', 'referenceParcelType': PARCEL_TYPE, 'notes': None, 'geometry': VALID_GEOJSON, 'totalArea': 1.0,  }),
 ]
 
 VALID_INPUT_DATA_LIST = [
-    [({'title': 'test field 1', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': 2.0, 'eligibleArea': 1.5, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id }),
-    ({'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': None, 'geometry': VALID_GEOJSON, 'totalArea': 999.0, 'eligibleArea': 999.0, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id }),],
-    [({'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': None, 'geometry': VALID_GEOJSON, 'totalArea': 1.0, 'eligibleArea': 0.999, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id }),
-    ({'title': 'test field #$!"1', 'referenceParcelType': PARCEL_TYPE, 'notes': None, 'geometry': VALID_GEOJSON, 'totalArea': 1.0, 'eligibleArea': 0.5, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id }),]
+    [({'title': 'test field 1', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': 2.0,  }),
+    ({'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': None, 'geometry': VALID_GEOJSON, 'totalArea': 999.0,  }),],
+    [({'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': None, 'geometry': VALID_GEOJSON, 'totalArea': 1.0,  }),
+    ({'title': 'test field #$!"1', 'referenceParcelType': PARCEL_TYPE, 'notes': None, 'geometry': VALID_GEOJSON, 'totalArea': 1.0,  }),]
 ]
 
 
 INVALID_INPUT_DATA = [
     #({'title': None, 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': 2.0, 'eligibleArea': 1.5, 'soilTypeId': VALID_SOIL_TYPE }, 'Field may not be null.', 'title'),
-    ({'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': None, 'totalArea': 2.0, 'eligibleArea': 1.5, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id }, 'Field may not be null.', 'geometry'),
-    ({'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': 2.0, 'eligibleArea': None, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id }, 'Field may not be null.', 'eligibleArea'),
-    ({'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': None, 'eligibleArea': 2.0, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id }, 'Field may not be null.', 'totalArea'),
-    ({'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': 2.0, 'eligibleArea': 2.1, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id }, 'Field may be not bigger than totalArea.', 'eligibleArea'),
-    ({'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': 2.0, 'eligibleArea': 0, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id }, 'Field may not be 0 or less.', 'eligibleArea'),
-    ({'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': 2.0, 'eligibleArea': -100, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id }, 'Field may not be 0 or less.', 'eligibleArea'),
-    ({'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': 2.0, 'eligibleArea': 2.0, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': None }, 'Field may not be null.', 'soilTypeId'),
-    ({'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': 2.0, 'eligibleArea': 2.0, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': 999 }, 'ID 999 does not exist.', 'soilTypeId'),
-    ({'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': 2.0, 'eligibleArea': 2.0, 'soilTypeId': lambda v,t: v.id, 'agriculturalTypeId': None }, 'Field may not be null.', 'agriculturalTypeId'),
-    ({'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': 2.0, 'eligibleArea': 2.0, 'soilTypeId': lambda v,t: v.id, 'agriculturalTypeId': 999 }, 'ID 999 does not exist.', 'agriculturalTypeId'),
+    ({'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': None, 'totalArea': 2.0, }, 'Field may not be null.', 'geometry'),
+    ({'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': None,  }, 'Field may not be null.', 'totalArea'),
+    ({'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': 0,  }, 'Field may not be 0 or less.', 'totalArea'),
+    ({'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': -100,  }, 'Field may not be 0 or less.', 'totalArea'),
 ]
 
 INVALID_INPUT_DATA_LIST = [
     #([{'title': None, 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': 2.0, 'eligibleArea': 1.5, 'soilTypeId': VALID_SOIL_TYPE }], 'Field may not be null.', 'title'),
-    ([{'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': None, 'totalArea': 2.0, 'eligibleArea': 1.5, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id }], 'Field may not be null.', 'geometry'),
-    ([{'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': 2.0, 'eligibleArea': None, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id }], 'Field may not be null.', 'eligibleArea'),
-    ([{'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': None, 'eligibleArea': 2.0, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id }], 'Field may not be null.', 'totalArea'),
+    ([{'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': None, 'totalArea': 2.0,  }], 'Field may not be null.', 'geometry'),
+    ([{'title': 'test field 2', 'referenceParcelType': PARCEL_TYPE, 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': None, }], 'Field may not be null.', 'totalArea'),
 ]
 
-def get_input_data(input, soil, agri_type):
-    data = input.copy()
-    if isinstance(input, list):
-        for i, v in enumerate(data):
-            for key, value in v.items():
-                v[key] = value(soil, agri_type) if callable(value) else value
-            data[i] = v
 
-    else:
-        for key, value in data.items():
-            data[key] = value(soil, agri_type) if callable(value) else value
-
-    return data
-
-class TestReferenceParcelSerializer:
+class TestAgriculturalParcelSerializer:
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA)
-    def test_valid_inputs(self, input, soil, agri_type):
+    def test_valid_inputs(self, input):
         serializer = ReferenceParcelSerializer()
-        serializer.load(copy.deepcopy(get_input_data(input, soil, agri_type)))
+        serializer.load(copy.deepcopy(get_input_data(input)))
 
     @pytest.mark.parametrize("input,msg,field", INVALID_INPUT_DATA)
-    def test_invalid_inputs(self, input, msg, field, soil, agri_type):
+    def test_invalid_inputs(self, input, msg, field):
         serializer = ReferenceParcelSerializer()
         with pytest.raises(ValidationError) as v:
-            serializer.load(copy.deepcopy(get_input_data(input, soil, agri_type)))
+            serializer.load(copy.deepcopy(get_input_data(input)))
         assert msg in v.value.args[0][field]
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA)
-    def test_valid_serialize_deserialize(self, input, soil, agri_type):
+    def test_valid_serialize_deserialize(self, input):
         serializer = ReferenceParcelSerializer()
-        d = get_input_data(input, soil, agri_type)
+        d = get_input_data(input)
         result = serializer.load(d)
         result = serializer.dump(result)
         print("result: ", result)
@@ -104,26 +85,26 @@ class TestReferenceParcelSerializer:
         #assert result['soilType']['id'] == d['soilTypeId']
 
 
-class TestReferenceParcelListSerializer:
+class TestAgriculturalParcelListSerializer:
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA_LIST)
-    def test_valid_inputs(self, input, soil, agri_type):
+    def test_valid_inputs(self, input):
         serializer = ReferenceParcelListSerializer()
-        serializer.load(copy.deepcopy(get_input_data(input, soil, agri_type)), many=True)
+        serializer.load(copy.deepcopy(get_input_data(input)), many=True)
 
     @pytest.mark.parametrize("input,msg,field", INVALID_INPUT_DATA_LIST)
-    def test_invalid_inputs(self, input, msg, field, soil, agri_type):
+    def test_invalid_inputs(self, input, msg, field):
         serializer = ReferenceParcelListSerializer()
         with pytest.raises(ValidationError) as v:
-            serializer.load(copy.deepcopy(get_input_data(input, soil, agri_type)), many=True)
+            serializer.load(copy.deepcopy(get_input_data(input)), many=True)
 
     @pytest.mark.skip(reason="Updateting the ID of soil and parcel type is not working here.")
     @pytest.mark.parametrize("input", VALID_INPUT_DATA_LIST)
-    def test_valid_serialize_deserialize(self, input, soil, agri_type):
+    def test_valid_serialize_deserialize(self, input):
         input_data = copy.deepcopy(input)
 
         serializer = ReferenceParcelListSerializer()
-        result = serializer.load(get_input_data(input, soil, agri_type), many=True)
+        result = serializer.load(get_input_data(input), many=True)
         result = serializer.dump(result)
         for r, i in zip(result, input_data):
             assert r['title'] == i['title']

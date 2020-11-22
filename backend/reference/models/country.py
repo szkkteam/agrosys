@@ -25,5 +25,6 @@ class Country(Model):
     iso3 = Column(String(3), unique=True, index=True)
 
     regions = relationship('Region', back_populates='country')
+    country_crops = relationship('CountryCrop', back_populates='country')
 
     __repr_props__ = ('id', 'title', 'iso2')

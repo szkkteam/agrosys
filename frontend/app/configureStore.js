@@ -1,12 +1,13 @@
 import { applyMiddleware, compose, createStore } from 'redux'
-import { routerMiddleware } from 'react-router-redux'
+import { routerMiddleware } from 'connected-react-router'
 import { loadingBarMiddleware } from 'react-redux-loading-bar'
+import { modalsMiddleware } from 'redux-promising-modals';
 import createSagaMiddleware from 'redux-saga'
 
 import createReducer from 'reducers'
 import getSagas from 'sagas'
-import { flashClearMiddleware } from 'site/middleware/flash'
-
+import { notificationClearMiddleware } from 'site/middleware/notification'
+import { modalsClearMiddleware } from 'site/middleware/modals'
 
 const isDev = process.env.NODE_ENV !== 'production'
 const hasWindowObject = typeof window === 'object'
@@ -18,7 +19,9 @@ export default function configureStore(initialState, history) {
     sagaMiddleware,
     routerMiddleware(history),
     loadingBarMiddleware({ promiseTypeSuffixes: ['REQUEST', 'FULFILL'] }),
-    flashClearMiddleware,
+    notificationClearMiddleware,
+    modalsClearMiddleware,
+    modalsMiddleware,
   ]
 
   const enhancers = [
@@ -31,7 +34,7 @@ export default function configureStore(initialState, history) {
       : compose
 
   const store = createStore(
-    createReducer(),
+    createReducer({}),
     initialState,
     composeEnhancers(...enhancers)
   )

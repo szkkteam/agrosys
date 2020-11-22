@@ -1,0 +1,1 @@
+export const FARM_SELECT = "farms/SELECT_FARM";

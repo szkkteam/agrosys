@@ -13,9 +13,8 @@ class AgriculturalParcelSerializer(ReferenceParcelBaseSerializer):
 
     class Meta:
         model = AgriculturalParcel
-        fields = REFERENCE_PARCEL_BASE_DATA_FIELDS + ('season',)
-        dump_only = ('id', 'agricultural_type', 'soil_type', 'parcels', 'season', )
-        load_only = ('agricultural_type_id', 'soil_type_id', 'parcels_add',)
+        fields = REFERENCE_PARCEL_BASE_DATA_FIELDS
+        dump_only = ('id', )
 
 """
     def __init__(self, *args, **kwargs):

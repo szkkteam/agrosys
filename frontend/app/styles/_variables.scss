@@ -5,6 +5,7 @@
 //––––––––––––––––––––––––––––––––––––––––––––––––––
 
 // FONTS
+/*
 $font-size-1rem: 16px;
 $line-height: 1.5;
 
@@ -16,11 +17,18 @@ $font-size-medium: 2rem;
 $font-size-medium-small: 1.5rem;
 $font-size-normal: $font-size-1rem;
 $font-size-small: .75rem;
+*/
 
+// BODY
+$full-height: calc(100vh - 16px);
 
 // NAVBAR
 $navbar-breakpoint: 830px;
+$sidebar-open-width: 200px;
+$sidebar-close-width: 50px;
+$sidebar-easing-animation: 0.3s;
 
+$appbar-height: 56px;
 
 // COLORS
 $rebecca: #663399;
@@ -47,3 +55,6 @@ $flash-warning-border:           darken($flash-warning-bg, 5%) !default;
 $flash-danger-text:              #a94442 !default;
 $flash-danger-bg:                #f2dede !default;
 $flash-danger-border:            darken($flash-danger-bg, 5%) !default;
+
+// CONTENT  
+$content-top-spacing-height: 56px;

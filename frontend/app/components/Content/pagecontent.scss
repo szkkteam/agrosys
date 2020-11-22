@@ -1,0 +1,15 @@
+@import 'variables';
+
+.main-content {
+    width: 100%;
+    flex-grow: 1;
+    min-height: 100%;
+    
+
+    .content-spacer {
+        height: $content-top-spacing-height;
+        display: flex;
+        align-items: center;
+    }
+}
+

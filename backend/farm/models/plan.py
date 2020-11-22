@@ -23,29 +23,23 @@ from backend.database import (
 from .plan_mixin import PlanMixin
 from backend.security.models.resource import Resource
 
+class Plan(Resource):
+    __mapper_args__ = {'polymorphic_identity': 'plan'}
 
-def create(specific_product):
-    from ..models import PlanSpecificProduct
-    return PlanSpecificProduct(specific_product=specific_product)
-
-
-class Plan(PlanMixin, TimestampMixin, BaseModel):
+    id = sa.Column(sa.Integer(),
+                   sa.ForeignKey('resource.resource_id',
+                                 onupdate='CASCADE',
+                                 ondelete='CASCADE', ),
+                   primary_key=True, )
 
     title = Column(String(128))
 
-    tasks = relationship('Task', back_populates='plan',
+    # Plan execution relation
+    plan_executions = relationship('PlanExecution', cascade="all, delete", back_populates='plan')
+
+    tasks = relationship('PlanTask',
+                         back_populates='plan',
+                         order_by="asc(PlanTask.start_date)",
                          cascade='all, delete-orphan')
-
-    @property
-    def tasks_ordered(self):
-        from .task import Task
-        return Task.join(Plan, (Plan.plan_id == Task.plan_id)).filter(
-            Plan.plan_id == self.plan_id).order_by(asc(Task.start_date)).all()
-
-    plan_specific_products = relationship('PlanSpecificProduct', back_populates='plan',
-                                                cascade='all, delete')
-    specific_products = association_proxy('plan_specific_products', 'specific_product',
-                                          creator=lambda specific_product: create(
-                                              specific_product))
 
     __repr_props__ = ('plan_id', 'title', 'specific_products', )

@@ -74,6 +74,7 @@ class FarmResource(ModelResource):
 
     @permission_required(permission='view', resource='farm')
     def get(self, farm):
+        print("Farm details: ", get_farm_details(farm))
         return self.serializer.dump(get_farm_details(farm))
 
     @auth_required

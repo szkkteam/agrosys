@@ -37,37 +37,25 @@ class SeasonResource(ModelResource):
         LIST: (auth_required, ),
     }
 
-    def create(self, season, errors, *args, **kwargs):
+    @param_converter(farm_id=int)
+    def create(self, season, errors, farm_id, *args, **kwargs):
         if errors:
             return self.errors(errors)
-        farm = Farm.query.get_or_404(kwargs['farm_id'])
+        farm = Farm.query.get_or_404(farm_id)
         season.farm = farm
         return self.created(season)
 
-    @param_converter(start=DateConverter, end=DateConverter)
-    def list(self, start=None, end=None, *args, **kwargs):
+    @param_converter(farm_id=int, start=DateConverter, end=DateConverter)
+    def list(self, farm_id, start=None, end=None, *args, **kwargs):
         # Construct a base query.
-        q = Season.query.filter(Season.farm_id == kwargs['farm_id'])
+        q = Season.query.filter(Season.farm_id == farm_id)
         if start:
-            q = q.filter(Season.created_at >= start)
+            q = q.filter(Season.start_date >= start)
         if end:
-            q = q.filter(Season.archived_at <= end)
-        return self.serializer.dump(q.all(), many=True)
+            q = q.filter(Season.end_date <= end)
+        season = q.all()
+        return self.serializer.dump(season, many=True)
 
-
-@api.model_resource(farm, Season, '/seasons/archive/<int:season_id>', endpoint="archive_season_resource")
-class ArchiveSeasonResource(ModelResource):
-    include_methods = (PUT, )
-    exclude_decorators = (PUT, )
-    method_decorators = {
-        PUT: (auth_required, ),
-    }
-
-    def put(self, *args, **kwargs):
-        from backend.utils.date import utcnow
-        season = Season.query.get_or_404(kwargs['season_id'])
-        season.archived_at = utcnow()
-        return self.updated(season)
 
 
 

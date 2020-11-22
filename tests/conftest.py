@@ -211,31 +211,6 @@ def agri_type(model_factory):
     yield model_factory.create('AgriculturalType', 'AGRICULTURAL_TYPE_ARABLE_LAND')
 
 @pytest.fixture()
-def products(model_factory):
-    ag_p_region1 = model_factory.create('AgriculturalProductFact', 'AG_PRODUCT_COMMON_WHEAT_REGION_1_AUTUMN_NOVUM_WHEAT')
-    ag_p_region2 = model_factory.create('AgriculturalProductFact', 'AG_PRODUCT_COMMON_WHEAT_REGION_1_SPRING_WHEAT')
-    ag_p_region3 = model_factory.create('AgriculturalProductFact', 'AG_PRODUCT_COMMON_WHEAT_REGION_2_AUTUMN_NOVUM_WHEAT')
-    ag_p_region4 = model_factory.create('AgriculturalProductFact', 'AG_PRODUCT_COMMON_WHEAT_REGION_2_SPRING_WHEAT')
-    ag_p_region5 = model_factory.create('AgriculturalProductFact', 'AG_PRODUCT_DURUM_WHEAT_REGION_1_SPRING_DURUM_WHEAT')
-    ag_p_region6 = model_factory.create('AgriculturalProductFact', 'AG_PRODUCT_DURUM_WHEAT_REGION_2_SPRING_DURUM_WHEAT')
-    country = model_factory.create('Country', 'COUNTRY_HU')
-    country.regions.append(ag_p_region1.region)
-    country.regions.append(ag_p_region3.region)
-
-    ag_p_region1.specific_product.properties['Hasznosítási kód 2017'] = 'KAL08'
-    ag_p_region2.specific_product.properties['Hasznosítási kód 2017'] = 'KAL09'
-    ag_p_region5.specific_product.properties['Hasznosítási kód 2017'] = 'KAL05'
-
-    ag_p_region1.specific_product.properties['Hasznosítási terület'] = 'szántó - szemes fehérje takarmánynövények'
-    ag_p_region2.specific_product.properties['Hasznosítási terület'] = 'szántó - szemes fehérje takarmánynövények'
-    ag_p_region5.specific_product.properties['Hasznosítási terület'] = 'szántó - szemes fehérje takarmánynövények'
-
-@pytest.fixture()
-def specific_product(products):
-    from backend.reference.models import SpecificProduct
-    return SpecificProduct.all()[0]
-
-@pytest.fixture()
 def models(request, model_factory):
     mark = request.param
     if mark is not None:

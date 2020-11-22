@@ -1,0 +1,20 @@
+.login-outer {
+    max-width: 350px;
+
+    h4 {
+        text-align: center;
+    }
+}
+
+.login-inner {
+    padding: 15px 20px;
+
+    button[type="submit"] {
+        width: 100%;
+    }
+
+    .forgot-password {
+        font-size: 0.75rem;
+    }
+}
+ 

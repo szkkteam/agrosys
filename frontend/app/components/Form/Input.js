@@ -10,6 +10,8 @@ import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import { TextField as MuiTextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 export const EmailField = (props) =>
   <Field component={_renderInput} type="email" {...props} />
@@ -18,7 +20,8 @@ export const HiddenField = (props) =>
   <Field component="input" type="hidden" {...props} />
  
 export const PasswordField = (props) =>
-  <Field component={_renderInput} type="password" {...props} />
+  <Field component={TextComponent} type="password" autoComplete="current-password" {...props} />
+  //<Field component={_renderInput} type="password" {...props} />
 
 export const TextField = (props) =>
   <Field component={TextComponent} {...props} />
@@ -30,7 +33,10 @@ export const TextArea = (props) =>
   <Field component={_renderTextArea} {...props} />
 
 export const BooleanField = (props) =>
-  <Field component={_renderInput} type="checkbox" {...props} />
+  <Field component={BooleanComponent} {...props} />
+
+export const BooleanComponent = (props) => 
+  renderBooleanField({...props})
 
 export const SelectField = (props) =>
   <Field component={SelectComponent} {...props} />
@@ -71,6 +77,28 @@ const renderTextField = ({
         helperText={touched && error}
         {...input}
         {...custom}
+      />
+    </FormControl>
+  )
+}
+
+const renderBooleanField = ({
+  label,
+  input,
+  formProps,
+  ...custom
+}) => {
+  return (
+    <FormControl
+      {...formProps}
+    >
+      <FormControlLabel
+        control={
+          <Checkbox 
+            checked={input.value ? true : false}
+            onChange={input.onChange}
+          />}
+        label={label}
       />
     </FormControl>
   )

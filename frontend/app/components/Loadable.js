@@ -13,7 +13,7 @@ import { showLoading, hideLoading } from 'react-redux-loading-bar'
  * lifecycle events
  */
 class LoadableProgressComponent extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.showLoading()
   }
 

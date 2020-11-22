@@ -4,6 +4,7 @@
 # Common Python library imports
 # Pip package imports
 import sqlalchemy as sa
+import enum
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import validates
 
@@ -19,6 +20,13 @@ from backend.database import (
 )
 
 
+class ReferenceParcelTypes(enum.Enum):
+    AgriculturalParcel = 'AgriculturalParcel'
+    CadastralParcel = 'CadastralParcel'
+    FarmersBlock = 'FarmersBlock'
+    PhysicalBlock = 'PhysicalBlock'
+
+
 class ReferenceParcelMixin(object):
     """
     Mixin for Resource model
@@ -29,7 +37,7 @@ class ReferenceParcelMixin(object):
         return sa.Column(
             sa.Integer(), primary_key=True, nullable=False, autoincrement=True
         )
-
+    """
     @declared_attr
     def ancestor_id(self):
         return sa.Column(
@@ -38,6 +46,7 @@ class ReferenceParcelMixin(object):
                 "reference_parcel.parcel_id", onupdate="CASCADE", ondelete="CASCADE"
             ),
         )
+    """
 
     @declared_attr
     def ordering(self):

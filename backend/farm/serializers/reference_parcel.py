@@ -12,8 +12,6 @@ from backend.api import OneOfSchema, validates, ValidationError, GeometryModelCo
 from ..models import ReferenceParcel, ReferenceParcelTypes
 from .reference_parcel_base import REFERENCE_PARCEL_BASE_DATA_FIELDS
 from .agricultural_parcel import AgriculturalParcelSerializer
-from .cadastral_parcel import CadastralParcelSerializer
-from .farmers_block import FarmersBlockSerializer
 from .physical_block import PhysicalBlockSerializer
 
 
@@ -25,8 +23,6 @@ class ReferenceParcelSerializer(OneOfSchema):
     type_field_remove = True
     type_schemas = {
         ReferenceParcelTypes.AgriculturalParcel.value: AgriculturalParcelSerializer,
-        ReferenceParcelTypes.CadastralParcel.value: CadastralParcelSerializer,
-        ReferenceParcelTypes.FarmersBlock.value: FarmersBlockSerializer,
         ReferenceParcelTypes.PhysicalBlock.value: PhysicalBlockSerializer,
     }
 
@@ -34,7 +30,7 @@ class ReferenceParcelSerializer(OneOfSchema):
     class Meta:
         model = ReferenceParcel
         load_instance = False
-        fields = REFERENCE_PARCEL_BASE_DATA_FIELDS
+        #fields = REFERENCE_PARCEL_BASE_DATA_FIELDS
         model_converter = GeometryModelConverter
         # load_instance = False
 
@@ -44,7 +40,7 @@ class ReferenceParcelListSerializer(ReferenceParcelSerializer):
     class Meta:
         model = ReferenceParcel
         load_instance = False
-        fields = REFERENCE_PARCEL_BASE_DATA_FIELDS
+        #fields = REFERENCE_PARCEL_BASE_DATA_FIELDS
         model_converter = GeometryModelConverter
         # load_instance = False
 

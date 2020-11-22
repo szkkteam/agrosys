@@ -58,7 +58,7 @@ export default ({
     cellEditable = null,
     onCellEditStarted = null,
     onCellEditFinished = null,
-    ...props,
+    ...props
 }) => {
     return (
         <MaterialTable

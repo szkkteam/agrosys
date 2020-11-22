@@ -4,29 +4,29 @@
 # Common Python library imports
 # Pip package imports
 # Internal package imports
-#from .task_mixin import TaskMixin
-#from .reference_parcel_mixin import ReferenceParcelMixin
+from .task_mixin import TaskTypes, TaskStatus
+from .reference_parcel_mixin import ReferenceParcelTypes
 
 from .farm import Farm
 from .season import Season
 
-from .reference_parcel import ReferenceParcel, ReferenceParcelTypes
-from .reference_parcel_property import ReferenceParcelProperty
+from .plan_task import PlanTask
+from .plan_task_general import PlanTaskGeneral
+from .plan_task_harvesting import PlanTaskHarvesting
+
+from .execution_task import ExecutionTask
+from .execution_task_general import ExecutionTaskGeneral
+from .execution_task_harvesting import ExecutionTaskHarvesting
+
+from .reference_parcel import ReferenceParcel
 from .agricultural_parcel import AgriculturalParcel
-from .cadastral_parcel import CadastralParcel
-from .farmers_block import FarmersBlock
 from .physical_block import PhysicalBlock
+#from .cadastral_parcel import CadastralParcel
+#from .farmers_block import FarmersBlock
 
 from .plan import Plan
-from .production import Production
-from .template import Template
-
-from .task import Task, TaskStatus, TaskTypes
-from .task_general import TaskGeneral
-from .task_pruning import TaskPruning
-from .task_harvesting import TaskHarvesting
+from .plan_execution_group import PlanExecutionGroup
+from .plan_execution import PlanExecution
 
 from .reference_parcel_relation import ReferenceParcelRelation
-from .reference_parcel_production import ReferenceParcelProduction
-from .plan_specific_product import PlanSpecificProduct
-from .farm_template import FarmTemplate
+

@@ -50,6 +50,8 @@ class TestFarmResource:
 
         # Query one of the user's farm
         farm = Farm.all()[0]
+        from backend.farm.models import Season
+        print("Season: ", Season.all()[0].start_date)
 
         r = api_client.get(url_for('api.farm_resource', farm_id=farm.id))
         assert r.status_code == 200
@@ -100,7 +102,6 @@ class TestFarmResource:
         assert r.json['title'] == "New Farm Name"
         assert 'id' in r.json
 
-    @pytest.mark.skip(reason="Database cascades not be reworked, because related objects are not deleted.")
     def test_delete(self, api_client, farm_owner):
         api_client.login_as(farm_owner)
 

@@ -23,10 +23,13 @@ from backend.database import (
 class Season(Model):
     title = Column(String(64), nullable=True)
 
+    start_date = Column(DateTime(timezone=False))
+    end_date = Column(DateTime(timezone=False))
+
     farm_id = foreign_key('Farm', nullable=False, ondelete='CASCADE',)
     farm = relationship('Farm', back_populates='seasons')
 
-    reference_parcels = relationship('ReferenceParcel', back_populates='season',
+    parcels = relationship('ReferenceParcel', back_populates='season',
                          cascade='all, delete-orphan')
 
     archived_at = Column(DateTime, default=None, nullable=True)

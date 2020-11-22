@@ -55,6 +55,7 @@ class Storage {
         farm = null
       }      
       this.farm = farm
+      //this.farm = farm == 'null' || farm == 'undefined' ? null : farm
     }
     return this.farm
   }

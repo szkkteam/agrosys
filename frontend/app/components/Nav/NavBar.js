@@ -1,79 +1,123 @@
-import React from 'react'
+import React, { useState } from 'react'
+import messages from './messages';
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router'
 import classnames from 'classnames'
+
+import Divider from '@material-ui/core/Divider';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import EuroIcon from '@material-ui/icons/Euro';
+import AppsIcon from '@material-ui/icons/Apps';
 
 import { ROUTES } from 'routes'
 import NavLink from './NavLink'
+import NavBarContext from './NavBarContext'
+import { AppBar } from 'components/AppBar'
+import { SideBar } from 'components/SideBar'
+
+import { BlockMenuItem } from 'farmApp/block/menus'
+import { EntityMenuItem } from 'farmApp/entity/menus'
+import { WorkerMenuItem } from 'farmApp/worker/menus'
+import { MachineryMenuItem } from 'farmApp/machinery/menus'
+import { StorageMenuItem } from 'farmApp/storage/menus'
+import { DashboardMenuItem } from 'farmApp/dashboard/menus'
+
+import { SaleMenuItem } from 'farmApp/sale/menus'
+import { ExpenseMenuItem } from 'farmApp/expense/menus'
+import { BudgetMenuItem } from 'farmApp/budget/menus'
+import { LoanMenuItem } from 'farmApp/loan/menus'
+import { TransactionMenuItem } from 'farmApp/transaction/menus'
+
+import { ReportMenuItem } from 'farmApp/report/menus'
+
+import { ItemMenuItem } from 'farmApp/item/menus'
+import { PlanMenuItem } from 'farmApp/plan/menus'
+
+import { InventoryMenuItem } from 'farmApp/inventory/menus'
+
+import { TraceabilityMenuItem } from 'farmApp/traceability/menus'
+
+import { NestedMenuItem } from 'components'
 
 import './navbar.scss'
 
 
-class NavBar extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      menuOpen: false,
-    }
+
+const NavBar = ({
+  isAuthenticated,
+}) => {
+
+  const [isDrawerOpen, setDrawer] = useState(true)
+
+  const handleDrawerOpen = () => {
+    setDrawer(true)
   }
 
-  componentWillReceiveProps() {
-    this.setState({ menuOpen: false })
+  const handleDrawerClose = () => {
+    setDrawer(false)
   }
 
-  render() {
-    const { isAuthenticated } = this.props
-    const { menuOpen } = this.state
+  const contextObject = {
+    isDrawerOpen,
+    isAuthenticated,
+    handleDrawerOpen,
+    handleDrawerClose,
+  }
 
-    return (
-      <nav className={classnames({ 'menu-open': menuOpen })}>
-        <div className="container navbar-top">
-          <NavLink exact to={ROUTES.Home} className="brand">
-            FlaskReact.<span className="tld">SPA</span>
-          </NavLink>
-          <a href="javascript:void(0);"
-             className="burger"
-             onClick={this.toggleResponsiveMenu}
+  return (
+    <React.Fragment>
+      { isAuthenticated? 
+      <NavBarContext.Provider
+        value={contextObject}
+      >
+        <AppBar
+          isDrawerOpen={isDrawerOpen}
+          onDrawerOpen={handleDrawerOpen}
+        />
+        <SideBar
+          isDrawerOpen={isDrawerOpen}
+          onDrawerClose={handleDrawerClose}
+        >
+          <DashboardMenuItem />
+          <ReportMenuItem />
+          <NestedMenuItem
+            IconComponent={EuroIcon}
+            title={messages.financesTitle}
           >
-            Menu&nbsp;&nbsp;&#9776;
-          </a>
-          <div className="menu left">
-            <NavLink to={ROUTES.Farms} />
-            <NavLink to={ROUTES.Contact} />
-          </div>
-          <div className="menu right">
-            {isAuthenticated
-              ? this.renderAuthenticatedMenu()
-              : this.renderUnauthenticatedMenu()
-            }
-          </div>
-        </div>
-      </nav>
-    )
-  }
+            <SaleMenuItem />
+            <ExpenseMenuItem />
+            <Divider />
+            <BudgetMenuItem />
+            <LoanMenuItem />
+            <Divider />
+            <TransactionMenuItem />
+          </NestedMenuItem>
+          <NestedMenuItem
+            IconComponent={InboxIcon}
+            title={messages.resourcesTitle}
+          >
+            <BlockMenuItem />
+            <WorkerMenuItem />
+            <MachineryMenuItem />
+            <EntityMenuItem />
+            <Divider />
+            <StorageMenuItem />
+          </NestedMenuItem>
+          <NestedMenuItem
+            IconComponent={AppsIcon}
+            title={messages.plannerTitle}
+          >
+            <ItemMenuItem />
+            <PlanMenuItem />
+          </NestedMenuItem>
+          <InventoryMenuItem />
+          <TraceabilityMenuItem />
 
-  toggleResponsiveMenu = () => {
-    this.setState({ menuOpen: !this.state.menuOpen })
-  }
-
-  renderAuthenticatedMenu() {
-    return (
-      <div>
-        <NavLink to={ROUTES.Profile} />
-        <NavLink to={ROUTES.Logout} />
-      </div>
-    )
-  }
-
-  renderUnauthenticatedMenu() {
-    return (
-      <div>
-        <NavLink to={ROUTES.SignUp} />
-        <NavLink to={ROUTES.Login} />
-      </div>
-    )
-  }
+        </SideBar>
+      </NavBarContext.Provider>      
+      : null }     
+    </React.Fragment>
+  )
 }
 
 const withConnect = connect(
@@ -81,6 +125,5 @@ const withConnect = connect(
 )
 
 export default compose(
-  withRouter,  // required for NavLinks to determine whether they're active or not
   withConnect,
 )(NavBar)

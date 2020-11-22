@@ -1,0 +1,27 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import messages from './messages';
+import { ROUTES } from 'routes'
+
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+import { MenuItem } from 'components'
+ 
+const ExpenseMenuItem = ({
+    ...rest
+}) => {
+   
+    return (
+        <MenuItem
+            title={messages.title}
+            route={ROUTES.ExpenseDashboard}
+            IconComponent={RemoveCircleIcon}
+            {...rest}
+        />       
+    )
+}
+
+ExpenseMenuItem.propTypes = {
+
+}
+
+export default ExpenseMenuItem

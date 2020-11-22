@@ -25,32 +25,34 @@ LONG_TEXT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiu
 
 
 VALID_AGRICULTURAL_PARCEL_DATA = {
-    'title': 'test field 1', 'referenceParcelType': 'AgriculturalParcel', 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': 2.0, 'eligibleArea': 1.5, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id 
-}
+    'title': 'test field 1', 'referenceParcelType': 'AgriculturalParcel', 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': 2.0}
 
-VALID_PHYSICAL_BLOCK_DATA = {
+VALID_PHYSICAL_BLOCK_DATA_NESTED = {
     'title': 'test field 1', 'referenceParcelType': 'PhysicalBlock', 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': 2.0, 'eligibleArea': 1.5, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id, 'parcels': [VALID_AGRICULTURAL_PARCEL_DATA]
 }
 
+VALID_PHYSICAL_BLOCK_DATA = {
+    'title': 'test field 1', 'referenceParcelType': 'PhysicalBlock', 'notes': LONG_TEXT, 'geometry': VALID_GEOJSON, 'totalArea': 2.0, 'eligibleArea': 1.5, 'agriculturalTypeId': lambda v,t: t.id, 'soilTypeId': lambda v,t: v.id
+}
+
 VALID_INPUT_DATA = [
-    ({'title': 'Season 2019', 'referenceParcels': [VALID_AGRICULTURAL_PARCEL_DATA]}),
-    ({'title': None, 'referenceParcels': [VALID_AGRICULTURAL_PARCEL_DATA]}),
-    ({'title': 'Season #$!"1', 'referenceParcels': [VALID_PHYSICAL_BLOCK_DATA]}),
+    ({'title': 'Season 2019', 'parcels': [VALID_PHYSICAL_BLOCK_DATA], 'dates': { 'startDate': '2020-01-21T20:00:00', 'endDate': '2020-12-22T20:00:00', },}),
+    ({'title': None, 'parcels': [VALID_PHYSICAL_BLOCK_DATA_NESTED], 'dates': { 'startDate': '2020-01-21T20:00:00', 'endDate': '2020-12-22T20:00:00', }}),
+    ({'title': 'Season #$!"1', 'parcels': [VALID_PHYSICAL_BLOCK_DATA_NESTED], 'dates': { 'startDate': '2020-01-21T20:00:00', 'endDate': '2020-12-22T20:00:00', }}),
 ]
-"""
+
 INVALID_INPUT_DATA = [
-    ({'title': None, 'cropTemplateId': 1}, 'Field may not be null.', 'title'),
-    ({'title': 'Production invalid', 'cropTemplateId': None }, 'Field may not be null.', 'cropTemplateId'),
-    ({'title': 'Production invalid', 'cropTemplateId': 999 }, 'ID 999 does not exist.', 'cropTemplateId'),
+    ({'title': None, 'dates': None}, 'Dates field must be dict', 'dates'),
+    ({'title': 'Season with wrong dates', 'dates': { 'startDate': '2020-12-22T20:00:00', 'endDate': '2020-01-21T20:00:00'} }, 'Field may be not bigger than endDate.', 'startDate'),
+    ({'title': 'Production invalid', 'dates': { 'startDate': '2020-12-22T20:00:00', 'endDate': None} }, 'Field may not be null.', 'endDate'),
     #({'title': 'test field 2', }, 'Field may not be null.', 'fields'),
 ]
-"""
 
 VALID_INPUT_DATA_LIST = [
-    [({'title': 'Season 2019'}),
-    ({'title': None}),],
-    [({'title': 'Season 2019'}),
-    ({'title': 'Season #$!"1'}),]
+    [({'title': 'Season 2019', 'dates': { 'startDate': '2020-01-21T20:00:00', 'endDate': '2020-12-22T20:00:00', }}),
+    ({'title': None, 'dates': { 'startDate': '2020-01-21T20:00:00', 'endDate': '2020-12-22T20:00:00', }}),],
+    [({'title': 'Season 2019', 'dates': { 'startDate': '2020-01-21T20:00:00', 'endDate': '2020-12-22T20:00:00', }}),
+    ({'title': 'Season #$!"1', 'dates': { 'startDate': '2020-01-21T20:00:00', 'endDate': '2020-12-22T20:00:00', }}),]
 ]
 """
 INVALID_INPUT_DATA_LIST = [
@@ -87,35 +89,39 @@ class TestSeasonSerializer:
     def test_valid_inputs(self, input, soil, agri_type):
         serializer = SeasonSerializer()
         data = copy.deepcopy(input)
-        if 'referenceParcels' in data:
-            data['referenceParcels'] = get_input_data(data['referenceParcels'], soil, agri_type)
+        if 'parcels' in data:
+            data['parcels'] = get_input_data(data['parcels'], soil, agri_type)
         serializer.load(data)
-    """
+
     @pytest.mark.parametrize("input,msg,field", INVALID_INPUT_DATA)
-    def test_invalid_inputs(self, input, msg, field, crop_template):
-        serializer = PlanSerializer()
+    def test_invalid_inputs(self, input, msg, field):
+        serializer = SeasonSerializer()
+        data = copy.deepcopy(input)
         with pytest.raises(ValidationError) as v:
-            serializer.load(copy.deepcopy(get_production_data(input, crop_template)))
+            serializer.load(data)
         assert msg in v.value.args[0][field]
-    """
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA)
     def test_valid_serialize_deserialize(self, input, soil, agri_type):
         serializer = SeasonSerializer()
         data = copy.deepcopy(input)
-        if 'referenceParcels' in data:
-            data['referenceParcels'] = get_input_data(data['referenceParcels'], soil, agri_type)
+        if 'parcels' in data:
+            data['parcels'] = get_input_data(data['parcels'], soil, agri_type)
         result = serializer.load(data)
         result = serializer.dump(result)
         assert result['title'] == data['title']
+        assert 'dates' in result
+        assert 'startDate' in result['dates']
+        assert 'endDate' in result['dates']
 
 
 class TestSeasonListSerializer:
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA_LIST)
-    def test_valid_inputs(self, input, soil, agri_type):
+    def test_valid_inputs(self, input):
+        data = copy.deepcopy(input)
         serializer = SeasonListSerializer()
-        serializer.load(input, many=True)
+        serializer.load(data, many=True)
 
     """
     @pytest.mark.parametrize("input,msg,field", INVALID_INPUT_DATA_LIST)
@@ -126,9 +132,14 @@ class TestSeasonListSerializer:
     """
 
     @pytest.mark.parametrize("input", VALID_INPUT_DATA_LIST)
-    def test_valid_serialize_deserialize(self, input, soil, agri_type):
+    def test_valid_serialize_deserialize(self, input):
         serializer = SeasonListSerializer()
-        result = serializer.load(input, many=True)
-        result = serializer.dump(result)
-        for r, i in zip(result, input):
+        data = copy.deepcopy(input)
+        result = serializer.load(data, many=True)
+        print("Serialization result: ", result)
+        result = serializer.dump(result, many=True)
+        for r, i in zip(result, data):
             assert r['title'] == i['title']
+            assert 'dates' in r
+            assert 'startDate' in r['dates']
+            assert 'endDate' in r['dates']

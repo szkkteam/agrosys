@@ -1,5 +1,6 @@
 import { call, put, race, take, takeEvery } from 'redux-saga/effects'
-import SubmissionError from 'redux-form/es/SubmissionError'
+//import SubmissionError from 'redux-form/es/SubmissionError'
+import { SubmissionError } from 'redux-form'
 
 import { ROUTINE_PROMISE } from 'actions'
 
@@ -37,6 +38,7 @@ export function createRoutineFormSaga(routine, successGenerator) {
       { _error: e.response.error || null },
       e.response.errors || {},
     ))
+   //const error = { error: e.response.error || null }
     yield put(routine.failure(error))
   })
 }

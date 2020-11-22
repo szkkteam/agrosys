@@ -1,6 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-import { flashSuccess } from 'site/actions'
 import { createRoutineFormSaga } from 'sagas'
 
 import { resendConfirmationEmail } from 'security/actions'
@@ -14,7 +13,7 @@ export const resendConfirmationEmailSaga = createRoutineFormSaga(
   function *successGenerator({ email }) {
     yield call(SecurityApi.resendConfirmationEmail, email)
     yield put(resendConfirmationEmail.success())
-    yield put(flashSuccess('A new confirmation link has been sent your email address.'))
+    //yield put(flashSuccess('A new confirmation link has been sent your email address.'))
   },
 )
 

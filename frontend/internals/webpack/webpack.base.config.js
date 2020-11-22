@@ -14,11 +14,12 @@ module.exports = (options) => ({
   resolve: {
     modules: [APP_ROOT, STYLES_ROOT, 'node_modules'],
     extensions: ['.js', '.jsx'],
+    /* FIXME: https://github.com/redux-orm/redux-orm/issues/53 removed, because of the issue. But this could cause unkown issues. Try to find another solution
     mainFields: [
       'browser',
       'jsnext:main',
       'main',
-    ],
+    ],*/
   },
   entry: options.entry,
   output: Object.assign({
