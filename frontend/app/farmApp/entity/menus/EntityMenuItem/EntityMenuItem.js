@@ -13,7 +13,7 @@ const EntityMenuItem = ({
     return (
         <MenuItem
             title={messages.title}
-            route={ROUTES.EntityList}
+            to={ROUTES.EntityList}
             IconComponent={LocationCityIcon}
             {...rest}
         />       

@@ -46,8 +46,6 @@ const NestedMenuItem = ({
         setOpen(false);
     }
 
-    const style = { paddingLeft: "40px" }
-
     return (
         <ClickAwayListener onClickAway={handleClose}>
             <div>
@@ -59,20 +57,26 @@ const NestedMenuItem = ({
             {open ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
             <Collapse in={open} timeout="auto" unmountOnExit>
-                { isDrawerOpen && <List component="div" disablePadding>
-                    { React.Children.map(children, (
-                        child => {
-                            let props = { style }
-                            if (child.type.displayName != 'WithStyles(ForwardRef(Divider))') {
-                                Object.assign(props, {afterClick: handleClick})
+                { isDrawerOpen && 
+                    <List 
+                        component="div"
+                        disablePadding
+                        style={{paddingLeft: "30px"}}
+                    >
+                        { React.Children.map(children, (
+                            child => {
+                                let props = { }
+                                if (child.type.displayName != 'WithStyles(ForwardRef(Divider))') {
+                                    Object.assign(props, {onClick: handleClick})
+                                }
+                                return (
+                                    React.cloneElement(child, props)
+                                )
                             }
-                            return (
-                                React.cloneElement(child, props)
-                            )
-                        }
-                            
-                    ))}
-                </List> }
+                                
+                        ))}
+                    </List>
+                }
             </Collapse>
             </div>
         </ClickAwayListener>

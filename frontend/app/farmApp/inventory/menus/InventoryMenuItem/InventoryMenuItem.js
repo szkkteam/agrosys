@@ -13,7 +13,7 @@ const InventoryMenuItem = ({
     return (
         <MenuItem
             title={messages.title}
-            route={ROUTES.InventoryList}
+            to={ROUTES.InventoryList}
             IconComponent={ListIcon}
             {...rest}
         />       

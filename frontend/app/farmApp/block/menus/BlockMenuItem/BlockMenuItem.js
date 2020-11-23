@@ -13,7 +13,7 @@ const BlockMenuItem = ({
     return (
         <MenuItem
             title={messages.title}
-            route={ROUTES.BlockList}
+            to={ROUTES.BlockList}
             IconComponent={PublicIcon}
             {...rest}
         />       

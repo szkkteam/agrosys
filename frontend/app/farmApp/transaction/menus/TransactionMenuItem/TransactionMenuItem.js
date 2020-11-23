@@ -13,7 +13,7 @@ const TransactionMenuItem = ({
     return (
         <MenuItem
             title={messages.title}
-            route={ROUTES.TransactionDashboard}
+            to={ROUTES.TransactionDashboard}
             IconComponent={ReceiptIcon}
             {...rest}
         />       

@@ -84,6 +84,9 @@ const FarmSelector = ({
         <MenuButton
             title="Selected Farm"
             className={className}
+            componentProps={{
+                variant: 'contained'
+            }}
         >            
             <FixedMenuItems
             />

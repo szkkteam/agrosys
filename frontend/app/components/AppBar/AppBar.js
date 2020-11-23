@@ -18,6 +18,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import { TutorialProgressBar } from 'farmApp/tutorial/components'
 import { FarmSelector } from 'farmApp/farm/components'
 import { ProductionTopSelector } from 'farmApp/production/components'
+import { NotificationButton } from 'farmApp/notification/components'
 
 import './appbar.scss'
 
@@ -56,6 +57,7 @@ export default ({
                 <div style={{flexGrow: 1}} />
                 <div className="">
                     <TutorialProgressBar />
+                    <NotificationButton />
                     <IconButton
                         edge="end"
                         aria-label="account of current user"
@@ -64,8 +66,9 @@ export default ({
                         //onClick={handleProfileMenuOpen}
                         color="inherit"
                     >
-                    <AccountCircle />
+                        <AccountCircle />
                     </IconButton>
+                    
                 </div>
             </Toolbar>
         </AppBar>

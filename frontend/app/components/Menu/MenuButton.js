@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useMemo } from 'react'
+import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -11,10 +12,12 @@ import Divider from '@material-ui/core/Divider';
 
 const MenuButton = ({
     isOpen=false,
-    buttonContent=null,    
+    component=null,
+    componentProps={},    
     title="",
     children,
     className="",
+    listProps={},
     ...props
 }) => {
 
@@ -50,8 +53,8 @@ const MenuButton = ({
         prevOpen.current = open
     }, [open])
 
-    const renderButtonContent = buttonContent? buttonContent : () => title
-
+    const Component = component? component : Button
+  
     const childrenWithProps = React.Children.map(children, child => {
         const props = { 
             onClose: handleClose,
@@ -65,16 +68,15 @@ const MenuButton = ({
 
     return (
         <div className={className}>
-            <Button
+            <Component 
                 ref={anchorRef}
                 aria-controls={open ? 'menu-list-grow' : undefined}
-                aria-haspopup="true"
+                aria-haspopup={"true"}
                 onClick={handleToggle}
-                variant="contained"
-                {...props}
+                {...componentProps}
             >
-                { renderButtonContent() }
-            </Button>
+                {title}
+            </Component>
             <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
             {({ TransitionProps, placement }) => (
                 <Grow
@@ -83,7 +85,13 @@ const MenuButton = ({
                 >
                     <Paper>
                         <ClickAwayListener onClickAway={handleClose}>
-                        <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                        <MenuList
+                            autoFocusItem={open}
+                            id="menu-list-grow"
+                            onKeyDown={handleListKeyDown}
+                            {...listProps}
+
+                        >
                             {childrenWithProps}                            
                         </MenuList>
                         </ClickAwayListener>
@@ -91,8 +99,18 @@ const MenuButton = ({
                 </Grow>
             )}
             </Popper>
-    </div>
+        </div>
     )
+}
+
+MenuButton.propTypes = {
+    isOpen: PropTypes.bool,
+    component: PropTypes.element,
+    componentProps: PropTypes.object,
+    title: PropTypes.string,
+    listProps: PropTypes.object,
+    //children: PropTypes.arrayOf(PropTypes.element.isRequired),
+    className: PropTypes.string,
 }
 
 export default MenuButton

@@ -13,7 +13,7 @@ const ItemMenuItem = ({
     return (
         <MenuItem
             title={messages.title}
-            route={ROUTES.ItemList}
+            to={ROUTES.ItemList}
             IconComponent={AddIcon}
             {...rest}
         />       

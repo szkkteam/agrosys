@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useMemo, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
 import { FormattedMessage } from 'react-intl';
-import { useHistory } from 'react-router-dom'
-import { ROUTES, ROUTE_MAP } from 'routes'
+import { Link } from 'react-router-dom'
+import { ROUTE_MAP } from 'routes'
+
 
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -11,25 +12,43 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 const MenuItem = ({
     title,
-    route,
+    to,
+    params,
+    dataProps=null,
     IconComponent,
-    afterClick,
+    onClick,
     ...rest
 }) => {
     const intl = useIntl()
-    const history = useHistory()
+    const route = ROUTE_MAP[to]
 
-    const handleClick = () => {
-        history.push(ROUTE_MAP[route].toPath())
-        afterClick && afterClick()
+    // TODO: Use debounced callback here
+    // Maybe: https://github.com/xnimorz/use-debounce
+    const maybePreloadComponent = () => {
+        if (!route) {
+            return
+        }
+
+        const { component } = route
+        if (_.isFunction(component.preload)) {
+            component.preload()
+        }
     }
+
+    const LoadableLink = useMemo(
+        () => forwardRef((linkProps, ref) => 
+            <Link ref={ref} to={route ? { pathname: route.toPath(params), ...dataProps} : to} {...linkProps}/>)
+        ,[to]
+    )
 
     return (
         <ListItem
             button
+            component={LoadableLink}
             key={title.id}
-            onClick={handleClick}
-            {...rest}
+            onClick={onClick}
+            onMouseOver={maybePreloadComponent}
+            //{...rest}
         >
               <ListItemIcon>
                   <IconComponent />
@@ -44,10 +63,11 @@ MenuItem.propTypes = {
         id: PropTypes.string,  
         defaultMessage: PropTypes.string,
     }).isRequired,
-    route: PropTypes.string.isRequired,
+    to: PropTypes.string,
+    params: PropTypes.object,
+    dataProps: PropTypes.object,
     IconComponent: PropTypes.object.isRequired,
-    //route: PropTypes.instanceOf(ROUTE_MAP),
-    afterClick: PropTypes.func,
+    onClick: PropTypes.func,
 }
 
 export default MenuItem

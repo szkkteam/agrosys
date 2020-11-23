@@ -13,7 +13,7 @@ const BudgetMenuItem = ({
     return (
         <MenuItem
             title={messages.title}
-            route={ROUTES.BudgetDashboard}
+            to={ROUTES.BudgetDashboard}
             IconComponent={AccountBalanceWalletIcon}
             {...rest}
         />       

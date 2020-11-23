@@ -13,7 +13,7 @@ const TraceabilityMenuItem = ({
     return (
         <MenuItem
             title={messages.title}
-            route={ROUTES.BlockList}
+            to={ROUTES.BlockList}
             IconComponent={BeenhereIcon}
             {...rest}
         />       

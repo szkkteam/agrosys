@@ -40,34 +40,13 @@ const tableIcons = {
     ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
-/**
-  <MaterialTable
-            icons={tableIcons}
-            columns={columns}
-            data={data}
-            options={{
-                //selection: true,
-            }}
-            
-            {...props}
-        />
- */
+
 export default ({
-    data = [],
-    options = {},
-    cellEditable = null,
-    onCellEditStarted = null,
-    onCellEditFinished = null,
     ...props
 }) => {
     return (
         <MaterialTable
             icons={tableIcons}
-            data={data}
-            options={{
-                pageSize: data ?data.length : 0,
-                ...options
-            }}
             {...props}
         />
     )

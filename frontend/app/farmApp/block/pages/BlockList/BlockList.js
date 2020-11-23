@@ -14,8 +14,6 @@ import { useQuery } from 'utils/hooks'
 
 import { VIEW_MAP, VIEW_LIST, VIEW_MODULE } from '../../constants'
 
-const DefaultView = () => <div>View default</div>
-
 export default ({
     history,
     match,
@@ -66,7 +64,7 @@ export default ({
                 }
                 content={ 
                     <Route render={props => {
-                        const Component = viewLookup[query.get('view')] || DefaultView
+                        const Component = viewLookup[query.get('view')] || BlockMapView
                         return (
                             <Component
                                 location={location}
