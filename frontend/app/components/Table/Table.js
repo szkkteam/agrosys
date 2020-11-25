@@ -42,6 +42,9 @@ const tableIcons = {
 };
 
 export default ({
+    cellEditable = null,
+    onCellEditStarted = null,
+    onCellEditFinished = null,
     ...props
 }) => {
     return (

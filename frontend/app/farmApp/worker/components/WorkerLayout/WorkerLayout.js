@@ -1,21 +1,27 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
 import { useIntl } from 'react-intl'
 import { Route } from "react-router-dom";
 
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Button from '@material-ui/core/Button';
-
 import Grid from '@material-ui/core/Grid';
 
-import { useQuery } from 'utils/hooks'
+import { Tabs, TabLink, SearchButton, HeaderContent } from 'components'
 
 import {
-    WorkerTabWorkers,
-    WorkerTabRoles,
-    WorkerAddButton
+    WorkersAdd,
+    WorkersTable,
+    WorkersFilter,
+} from '../WorkerTabWorkers'
+
+import {
+    RolesAdd,
+    RolesTable,
+    RolesFilter
+} from '../WorkerTabRoles'
+
+import {
+    WorkerFilterButton
 } from '../../components'
 
 import { TAB_WORKERS, TAB_ROLES } from '../../constants'
@@ -29,94 +35,100 @@ import { TAB_WORKERS, TAB_ROLES } from '../../constants'
  * 2.2) Detail should be the actual selected tab
  */
 
-
-const tabProps = (index) => {
-    return {
-        id: `vertical-tab-${index}`,
-        'aria-controls': `vertical-tabpanel-${index}`,
-    }
-}
-
-
 const WorkerLayout = ({
     history,
     match,
     ...props
 }) => {
     const intl = useIntl()
-    const query = useQuery()
 
-
-    const tabLookup = useMemo(() => [
-        { 
-            id: TAB_WORKERS,
-            Component: WorkerTabWorkers,
-            Title: (props) => <Tab label={intl.formatMessage(messages.tabWorkerTitle)} {...props} />,
-            AddButton: (props) => <WorkerAddButton title={messages.addWorkerTitle} {...props} />
-         },
-        { 
-            id: TAB_ROLES,
-            Component: WorkerTabRoles,
-            Title: (props) => <Tab label={intl.formatMessage(messages.tabRolesTitle)} {...props} /> ,
-            AddButton: (props) => <WorkerAddButton title={messages.addRoleTitle} {...props} />
-        },
-    ])
-
-    const currentTab = () => _.findIndex(tabLookup, {id: query.get('tab') || TAB_WORKERS})
-
-    useEffect(() => {
-        switch(query.get('tab')) {
-            case TAB_WORKERS:
-            case TAB_ROLES:
-                break 
-            default: 
-                // TODO: Get the prefered view from storage/redux and apply
-                history.replace(`${match.url}?tab=${TAB_WORKERS}`)
-        }
-    }, [query])
-
-
-    const handleTabChange = (e, newValue) => {
-        const { id } = tabLookup[newValue]
-        history.push(`${match.url}?tab=${id}`)
-    }
+    const ROUTE_WORKER = `${match.path}/${TAB_WORKERS}`
+    const ROUTE_ROLE = `${match.path}/${TAB_ROLES}`
 
     return (
-        <Grid 
-            container
-            alignItems="center"
-            spacing={1}
-        >
-            <Grid item xs={10}>
-                <Tabs
-                    orientation="horizontal"
-                    //centered
-                    value={currentTab()}
-                    onChange={handleTabChange}
-                >
-                    { tabLookup.map((tab, i) => 
-                        tab.Title({key: `tab-index-${i}`, ...tabProps(i)}) 
-                    ) }
-                </Tabs>
-            </Grid>
-            <Grid item xs={2}>
-                { tabLookup[currentTab()].AddButton() }
-            </Grid>
-            <Grid item xs={12} >
-                <Route render={props => {
-                    const { Component } = tabLookup[currentTab()]  
-                    return (
-                        <Component
-                            location={location}
-                            history={history}
-                            match={match}
-                            {...props}
+        <HeaderContent
+                header={
+                    <div style={{height: "100%"}}>
+                        <Route
+                            path={ROUTE_WORKER}
+                            exact
+                            component={(props) => (
+                                <WorkerFilterButton 
+                                    title={messages.filterButton}
+                                >
+                                    <WorkersFilter />
+                                </WorkerFilterButton>)}
                         />
-                        )
-                    }}
-                />
-            </Grid>
-        </Grid>        
+                        <Route 
+                            path={ROUTE_ROLE}
+                            exact
+                            component={(props) => 
+                                <WorkerFilterButton 
+                                    title={messages.filterButton}
+                                >
+                                    <RolesFilter />
+                                </WorkerFilterButton>}
+                        />  
+                    </div>
+                }
+                content={ 
+                    <Grid 
+                        container
+                        alignItems="center"
+                        spacing={1}
+                    >
+                        <Grid item xs={7}>
+                            <Tabs
+                                routes={[ROUTE_WORKER, ROUTE_ROLE]}
+                                defaultRoute={ROUTE_WORKER}
+                                forceDefaultRoute={true}
+                                orientation="horizontal"
+                            >
+                                <TabLink value={ROUTE_WORKER} label={intl.formatMessage(messages.tabWorkerTitle)} />
+                                <TabLink value={ROUTE_ROLE} label={intl.formatMessage(messages.tabRolesTitle)} />
+                            </Tabs>
+                        </Grid>
+                        <Grid item xs={5}>                            
+                            <Route
+                                path={ROUTE_WORKER}
+                                exact
+                                component={(props) => (
+                                    <div
+                                        style={{flexGrow: 1, marginRight: "15px"}}
+                                    >
+                                        <WorkersAdd style={{float: "right"}}/>
+                                        <SearchButton title={messages.searchButton} style={{float: "right", marginRight: "15px"}}/>
+                                    </div>
+                                )}
+                            />
+                            <Route 
+                                path={ROUTE_ROLE}
+                                exact
+                                component={(props) => (
+                                    <div
+                                        style={{flexGrow: 1, marginRight: "15px"}}
+                                    >
+                                        <RolesAdd style={{float: "right"}} />
+                                        <SearchButton title={messages.searchButton} style={{float: "right", marginRight: "15px"}}/>
+                                    </div>
+                                )}
+                            />  
+                        </Grid>
+                        <Grid item xs={12} >
+                            <Route
+                                path={ROUTE_WORKER}
+                                exact
+                                component={(props) => <WorkersTable {...props}/>}
+                            />
+                            <Route 
+                                path={ROUTE_ROLE}
+                                exact
+                                component={(props) => <RolesTable {...props} />}
+                            />                
+                        </Grid>
+                    </Grid> 
+                }
+            />               
     )
 }
 
@@ -126,3 +138,4 @@ WorkerLayout.propTypes = {
 }
 
 export default WorkerLayout
+

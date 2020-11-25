@@ -44,7 +44,7 @@ import {
 } from 'farmApp/block/pages'
 
 import {
-  WorkerList
+  WorkerList,
 } from 'farmApp/worker/pages'
 
 import {
@@ -134,6 +134,7 @@ export const ROUTES = {
   BlockCreateLPIS: 'BlockCreateLPIS',
   // Worker
   WorkerList: 'WorkerList',
+
   // Machinery
   MachineryList: 'MachineryList',
   // Entitiy
@@ -280,7 +281,7 @@ const routes = [
     path: '/workers',
     component: WorkerList,
     routeComponent: ProtectedRoute,
-    props: { exact: true }
+    //props: { exact: true }
   },
   // Machinery routes  
   {

@@ -1,9 +1,9 @@
 import React from 'react'
 import messages from './messages';
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl'
 
-import { WorkerTableLayout } from '../../components'
+import { WorkerTableLayout } from '..'
 
 const data = [
     { name: 'Person name', role: 'Manager', email: 'user1@user.com', phone: '+36-30/333333', address: '9999 Random city, random street 2' },
@@ -40,16 +40,10 @@ const data = [
     { name: 'Person name', role: 'Manager', email: 'user1@user.com', phone: '+36-30/333333', address: '9999 Random city, random street 2' },
 ]
 
-const TableHeader = (props) => {
-    console.log("Header props: ", props)
-    return (
-        <p>Header</p>
-    )
-}
-
-const WorkerTabWorkers = ({
+const WorkersTable = ({
     ...props
 }) => {
+    const intl = useIntl()
 
     const columns = [
         { title: 'Role', field: 'role'},
@@ -63,12 +57,31 @@ const WorkerTabWorkers = ({
             <WorkerTableLayout
                 columns={columns}
                 data={data}
+                detailPanel={[
+                    {
+                      tooltip: intl.formatMessage(messages.expandRowTooltip),
+                      render: rowData => {
+                        return (
+                          <div
+                            style={{
+                              fontSize: 100,
+                              textAlign: 'center',
+                              color: 'white',
+                              backgroundColor: '#43A047',
+                            }}
+                          >
+                            {rowData.name}
+                          </div>
+                        )
+                      },
+                    },
+                ]}
             />
     )
 }
 
-WorkerTabWorkers.propTypes = {
+WorkersTable.propTypes = {
 
 }
 
-export default WorkerTabWorkers
+export default WorkersTable

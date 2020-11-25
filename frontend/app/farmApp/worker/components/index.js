@@ -1,5 +1,3 @@
 export { default as WorkerLayout } from './WorkerLayout'
-export { default as WorkerTabWorkers } from './WorkerTabWorkers'
-export { default as WorkerTabRoles } from './WorkerTabRoles'
 export { default as WorkerTableLayout } from './WorkerTableLayout'
-export { default as WorkerAddButton } from './WorkerAddButton'
+export { default as WorkerFilterButton } from './WorkerFilterButton'

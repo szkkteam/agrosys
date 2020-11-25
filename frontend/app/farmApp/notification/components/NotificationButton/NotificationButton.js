@@ -6,12 +6,13 @@ import moment from 'moment'
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
+import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 
-import { MenuButton } from 'components/Menu'
+import { Popover } from 'components'
 import { NotificationItem } from '../../components'
 
 import './notificationbutton.scss'
@@ -44,23 +45,30 @@ const NotificationButton = ({
             ) 
     )
 
+    const ListContainer = useMemo(
+        () => forwardRef((props, ref) =>
+            <Paper 
+                ref={ref}
+                style={{width: "320px", overflow: "auto", height: "320px"}}
+            >
+                { notifications && notifications.map((noti => 
+                    <NotificationItem
+                        key={`notification-id-${noti.id}`}
+                        {...noti}
+                        //onClickFarm={(id) => console.log("Selected farm: ", id)}
+                    />                
+                 )) }
+            </Paper>)
+    )
+
     return (
-        <MenuButton
+        <Popover
             component={MenuIconButton}
             className="inline-block"
-            listProps={{
-                style: {width: "320px", overflow: "auto", height: "320px"}
-            }}
+
         >
-            { notifications && notifications.map((noti => (
-                <NotificationItem
-                    key={`notification-id-${noti.id}`}
-                    {...noti}
-                    //onClickFarm={(id) => console.log("Selected farm: ", id)}
-                />
-                )
-            )) }
-        </MenuButton>
+            <ListContainer/>
+        </Popover>
     )
 }
 

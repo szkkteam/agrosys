@@ -3,7 +3,7 @@ import messages from './messages';
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl';
 
-import { WorkerTableLayout } from '../../components'
+import { WorkerTableLayout } from '..'
 
 const data = [
     { name: 'Manager', numOfPeople: 1, active: true },
@@ -13,7 +13,7 @@ const data = [
 
 ]
 
-const WorkerTabRoles = ({
+const RolesTable = ({
     ...props
 }) => {
     const columns = [
@@ -30,8 +30,8 @@ const WorkerTabRoles = ({
     )
 }
 
-WorkerTabRoles.propTypes = {
+RolesTable.propTypes = {
 
 }
 
-export default WorkerTabRoles
+export default RolesTable

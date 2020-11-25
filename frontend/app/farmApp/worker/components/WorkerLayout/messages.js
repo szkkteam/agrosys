@@ -19,4 +19,12 @@ export default defineMessages({
         id: `${scope}.Roles.AddButton.title`,  
         defaultMessage: 'Add role',
     },
+    filterButton: {
+        id: `${scope}.FilterButton.title`,  
+        defaultMessage: 'Filter',
+    },
+    searchButton: {
+        id: `${scope}.SearchButton.title`,  
+        defaultMessage: 'Search...',
+    }
   })

@@ -3,7 +3,7 @@ import Helmet from 'react-helmet'
 import messages from './messages';
 import { useIntl } from 'react-intl'
 
-import { PageContent, HeaderContent, MasterDetail } from 'components'
+import { PageContent } from 'components'
 import { WorkerLayout } from '../../components'
 
 export default ({
@@ -20,18 +20,10 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <HeaderContent
-                header={
-                    <div>Header</div>
-                }
-                content={ 
-                    <WorkerLayout
-                        history={history}
-                        match={match}
-                    />
-                }
+            <WorkerLayout
+                history={history}
+                match={match}
             />
         </PageContent>
-
     )
 }

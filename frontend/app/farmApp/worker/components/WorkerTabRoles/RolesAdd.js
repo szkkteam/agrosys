@@ -1,26 +1,26 @@
 import React from 'react'
+import messages from './messages';
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl';
 
 import Button from '@material-ui/core/Button';
 
-const WorkerAddButton = ({
-    title
+const RolesAdd = ({
+    ...props
 }) => {
 
     return (
         <Button 
-            style={{float: "right", marginRight: "15px"}}
             variant="contained"
             color="primary"
+            {...props}
         >
-            <FormattedMessage {...title} />
+            <FormattedMessage {...messages.addTitle} />
         </Button>
     )
 }
 
-WorkerAddButton.propTypes = {
-    title: PropTypes.object.isRequired,
+RolesAdd.propTypes = {
 }
 
-export default WorkerAddButton
+export default RolesAdd

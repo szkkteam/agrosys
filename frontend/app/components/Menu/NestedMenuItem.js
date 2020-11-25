@@ -27,9 +27,10 @@ const NestedMenuItem = ({
     const {
         isDrawerOpen,
         handleDrawerOpen,
+        handleDrawerClose,
     } = useContext(NavBarContext)
 
-    const prevIsDrawerOpen = usePrevious(usePrevious)
+    const prevIsDrawerOpen = usePrevious(isDrawerOpen)
 
     useEffect(() => {
         if (prevIsDrawerOpen != isDrawerOpen && !isDrawerOpen) {
