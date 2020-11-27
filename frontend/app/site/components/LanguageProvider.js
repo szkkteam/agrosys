@@ -1,5 +1,6 @@
 import React from 'react'
 import { IntlProvider } from 'react-intl'
+import moment from 'moment'
 
 import { compose } from 'redux'
 import { connect } from 'react-redux';
@@ -13,6 +14,8 @@ const LanguageProvider = ({
     const isDev = process.env.NODE_ENV !== 'production'
     const errorHandlerProp = isDev? { onError: () => null } : {}
 
+
+    moment.locale(locale)
     console.log("localized messages: ", messages[locale])
     return (
         <IntlProvider

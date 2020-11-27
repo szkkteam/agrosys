@@ -13,7 +13,7 @@ const ReportMenuItem = ({
     return (
         <MenuItem
             title={messages.title}
-            route={ROUTES.ReportDashboard}
+            to={ROUTES.ReportDashboard}
             IconComponent={AssessmentIcon}
             {...rest}
         />       

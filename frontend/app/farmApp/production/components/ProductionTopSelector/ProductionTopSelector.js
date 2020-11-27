@@ -87,6 +87,9 @@ const ProductionTopSelector = ({
         <MenuButton
             title="Productions"
             className={className}
+            componentProps={{
+                variant: 'contained'
+            }}
         >            
             <FixedMenuItems
             />

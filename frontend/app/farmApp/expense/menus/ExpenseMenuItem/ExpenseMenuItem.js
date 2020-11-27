@@ -13,7 +13,7 @@ const ExpenseMenuItem = ({
     return (
         <MenuItem
             title={messages.title}
-            route={ROUTES.ExpenseDashboard}
+            to={ROUTES.ExpenseDashboard}
             IconComponent={RemoveCircleIcon}
             {...rest}
         />       

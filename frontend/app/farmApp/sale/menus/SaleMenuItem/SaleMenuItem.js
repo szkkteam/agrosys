@@ -13,7 +13,7 @@ const SaleMenuItem = ({
     return (
         <MenuItem
             title={messages.title}
-            route={ROUTES.SaleDashboard}
+            to={ROUTES.SaleDashboard}
             IconComponent={AddCircleIcon}
             {...rest}
         />       

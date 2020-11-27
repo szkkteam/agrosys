@@ -13,7 +13,7 @@ const PlanMenuItem = ({
     return (
         <MenuItem
             title={messages.title}
-            route={ROUTES.PlanList}
+            to={ROUTES.PlanList}
             IconComponent={AssignmentIcon}
             {...rest}
         />       

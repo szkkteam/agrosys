@@ -4,9 +4,12 @@ import messages from './messages';
 import { useIntl } from 'react-intl'
 
 import { PageContent } from 'components'
+import { WorkerLayout } from '../../components'
 
 export default ({
-
+    history,
+    match,
+    ...props
 }) => {
     const intl = useIntl()
 
@@ -17,8 +20,10 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <h1>Workers list</h1>
+            <WorkerLayout
+                history={history}
+                match={match}
+            />
         </PageContent>
-
     )
 }

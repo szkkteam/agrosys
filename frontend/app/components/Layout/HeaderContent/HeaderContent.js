@@ -1,10 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
 import './headercontent.scss'
 
-export default ({
+const HeaderContent = ({
     header,
     content=null,
     children
@@ -23,6 +24,7 @@ export default ({
         >
             <Grid item xs={12}>
                 <Paper
+                    style={{height: "50px"}}
                     {...paperProps}
                 >
                     {header}
@@ -38,3 +40,11 @@ export default ({
         </Grid>
     )
 }
+
+HeaderContent.propTypes = {
+    header: PropTypes.element.isRequired,
+    content: PropTypes.element,
+    children: PropTypes.element
+}
+
+export default HeaderContent

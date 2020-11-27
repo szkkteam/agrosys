@@ -13,7 +13,7 @@ const LoanMenuItem = ({
     return (
         <MenuItem
             title={messages.title}
-            route={ROUTES.LoanDashboard}
+            to={ROUTES.LoanDashboard}
             IconComponent={CreditCardIcon}
             {...rest}
         />       

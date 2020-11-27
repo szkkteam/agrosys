@@ -13,7 +13,7 @@ const StorageMenuItem = ({
     return (
         <MenuItem
             title={messages.title}
-            route={ROUTES.StorageList}
+            to={ROUTES.StorageList}
             IconComponent={StorageIcon}
             {...rest}
         />       
