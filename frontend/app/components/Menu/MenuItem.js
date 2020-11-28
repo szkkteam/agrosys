@@ -4,11 +4,13 @@ import { useIntl } from 'react-intl'
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom'
 import { ROUTE_MAP } from 'routes'
-
+import { withLinkComponent } from 'utils/hoc'
 
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+
+const LinkListItem = withLinkComponent(ListItem)
 
 const MenuItem = ({
     title,
@@ -20,41 +22,20 @@ const MenuItem = ({
     ...rest
 }) => {
     const intl = useIntl()
-    const route = ROUTE_MAP[to]
-
-    // TODO: Use debounced callback here
-    // Maybe: https://github.com/xnimorz/use-debounce
-    const maybePreloadComponent = () => {
-        if (!route) {
-            return
-        }
-
-        const { component } = route
-        if (_.isFunction(component.preload)) {
-            component.preload()
-        }
-    }
-
-    const LoadableLink = useMemo(
-        () => forwardRef((linkProps, ref) => 
-            <Link ref={ref} to={route ? { pathname: route.toPath(params), ...dataProps} : to} {...linkProps}/>)
-        ,[to]
-    )
-
+    
     return (
-        <ListItem
+        <LinkListItem
             button
-            component={LoadableLink}
+            to={to}
             key={title.id}
             onClick={onClick}
-            onMouseOver={maybePreloadComponent}
             //{...rest}
         >
               <ListItemIcon>
                   <IconComponent />
                 </ListItemIcon>
               <ListItemText primary={intl.formatMessage(title)} />
-        </ListItem>
+        </LinkListItem>
     )
 }
 

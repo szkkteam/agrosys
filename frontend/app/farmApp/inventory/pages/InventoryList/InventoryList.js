@@ -4,9 +4,11 @@ import messages from './messages';
 import { useIntl } from 'react-intl'
 
 import { PageContent } from 'components'
+import { InventoryLayout } from '../../components'
 
 export default ({
-
+    match,
+    location
 }) => {
     const intl = useIntl()
 
@@ -17,7 +19,9 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <h1>Inventory list</h1>
+            <InventoryLayout 
+                match={match}
+            />
         </PageContent>
 
     )

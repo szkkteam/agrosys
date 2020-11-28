@@ -1,0 +1,47 @@
+.list-parent {
+ 
+    padding: 0;
+    margin: 16px 0 16px 8px;
+
+
+    .list-item {
+
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+
+        .list-parent-expand {
+            padding: 16px 10px;
+        }     
+        
+
+        .list-header {
+            // TODO: Set ellipse if text is too long
+            //overflow: "hidden",
+            //textOverflow: "ellipsis",
+            //whiteSpace: "nowrap",
+            //flex: 1,
+        }
+
+        
+    }
+
+
+}
+
+.list-subitem {
+    padding-left: 40px;
+    position: relative;
+}
+
+.list-content {
+    width: 100%;
+    padding: 8px 0px;
+    margin-right: 32px;
+}
+
+.list-action-more {
+    position: absolute;
+    right: 0,
+}

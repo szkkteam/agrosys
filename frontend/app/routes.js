@@ -351,7 +351,7 @@ const routes = [
     path: '/inventory',
     component: InventoryList,
     routeComponent: ProtectedRoute,
-    props: { exact: true }
+    props: { exact: false }
   },
   // Common routes
   {
