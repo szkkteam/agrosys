@@ -31,7 +31,7 @@ const WarehouseItem = ({
     //title,
     children
 }) => {
-    const [open, setOpen] = useState(true)
+    const [open, setOpen] = useState(false)
     const [showMore, setShowMore] = useState(false)
 
     const handleClick = (e) => {
@@ -39,7 +39,7 @@ const WarehouseItem = ({
         // Therefore we need to stop the event propagation by call preventDefault()
         e.preventDefault()
         setOpen(!open);
-    }
+    } 
 
     
     const handleShowMore = () => setShowMore(true)
@@ -65,7 +65,7 @@ const WarehouseItem = ({
             //onClick={handleClick}
         >
             <Card
-                raised={true}
+                //raised={true}
                 onMouseEnter={handleShowMore}
                 onMouseLeave={handleHideMore}
                 className="list-item"

@@ -74,7 +74,7 @@ const WorkerLayout = ({
                 content={ 
                     <Grid 
                         container
-                        alignItems="center"
+                        alignItems="stretch"
                         spacing={1}
                     >
                         <Grid item xs={7}>

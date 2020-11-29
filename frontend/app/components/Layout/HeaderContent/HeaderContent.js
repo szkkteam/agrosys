@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState, useRef, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
-import './headercontent.scss'
+import styles from './headercontent.scss'
 
 const HeaderContent = ({
     header,
@@ -16,6 +16,15 @@ const HeaderContent = ({
         square: false,
     }
 
+    const headerRef = useRef(null)
+    const [headerHeight, setHeaderHeight] = useState(50)
+
+    useLayoutEffect(() => {
+        if (headerRef.current) {
+            setHeaderHeight(headerRef.current.clientHeight)
+        }
+    })
+
     return (
         <Grid 
             className="layout-header-content"
@@ -24,13 +33,18 @@ const HeaderContent = ({
         >
             <Grid item xs={12}>
                 <Paper
-                    style={{height: "50px"}}
+                    ref={headerRef}
+                    //style={{height: `${headerHeight}px`}}
                     {...paperProps}
                 >
                     {header}
                 </Paper>
             </Grid>
-            <Grid item xs={12} className="content">
+            <Grid
+                item xs={12}
+                className="content"
+                style={{height: `calc(100vh - ${styles.topSpacing} - ${headerHeight}px - 16px)` }}
+            >
                 <Paper
                     {...paperProps}
                 >

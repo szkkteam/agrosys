@@ -5,6 +5,12 @@ import { useIntl } from 'react-intl'
 import { Route } from "react-router-dom";
 
 import { 
+    Grid,
+    Typography
+}  from '@material-ui/core';
+
+
+import { 
     SearchButton,
     HeaderContent,
     MasterDetail,
@@ -24,11 +30,24 @@ const InventoryLayout = ({
     return (
         <HeaderContent
             header={
-                <div
-                    style={{flexGrow: 1, marginRight: "15px"}}
+                <Grid 
+                    container
+                    justify="flex-start"
+                    alignItems="center"
                 >
-                    <SearchButton style={{float: "right"}}/>
-                </div>
+                    <Grid item xs={12}>
+                        <Typography 
+                            variant="h4"
+                            gutterBottom={true}
+                        >
+                            Inventory
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <SearchButton style={{float: "left"}}/>
+                    </Grid>
+                </Grid>
+
             }
             content={
                 <MasterDetail
