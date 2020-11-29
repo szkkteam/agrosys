@@ -2,9 +2,16 @@ import React from 'react'
 import Helmet from 'react-helmet'
 import messages from './messages';
 import { useIntl } from 'react-intl'
+import { Route } from "react-router-dom";
 
-import { PageContent } from 'components'
-import { WorkerLayout } from '../../components'
+import { PageContent, HeaderContent } from 'components'
+import { 
+    WorkerHeader,
+    WorkerRoleLayout,
+    WorkerWorkerLayout
+} from '../../components'
+
+import { TAB_WORKERS, TAB_ROLES } from '../../constants'
 
 export default ({
     history,
@@ -13,6 +20,9 @@ export default ({
 }) => {
     const intl = useIntl()
 
+    const ROUTE_WORKER = `${match.path}/${TAB_WORKERS}`
+    const ROUTE_ROLE = `${match.path}/${TAB_ROLES}`
+
     return (
         <PageContent>
             <Helmet>
@@ -20,9 +30,26 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <WorkerLayout
-                history={history}
-                match={match}
+            <HeaderContent
+                header={
+                    <WorkerHeader
+                        match={match}
+                    />
+                }
+                content={
+                    <div style={{height: "100%"}}>
+                        <Route                  
+                            path={ROUTE_WORKER}
+                            exact
+                            component={(props) => <WorkerWorkerLayout {...props}/>}
+                        />
+                        <Route 
+                            path={ROUTE_ROLE}
+                            exact
+                            component={(props) => <WorkerRoleLayout {...props} />}
+                        />   
+                    </div>
+                }
             />
         </PageContent>
     )

@@ -7,6 +7,7 @@ import { Table } from 'components'
 
 
 const WorkerTableLayout = ({
+    height,
     ...props
 }) => {
 
@@ -16,7 +17,7 @@ const WorkerTableLayout = ({
                 options={{
                     toolbar: false,
                     paging: false,
-                    maxBodyHeight: 760,
+                    maxBodyHeight: height,
                     headerStyle: { position: 'sticky', top: 0 },
                 }}
                 components={{

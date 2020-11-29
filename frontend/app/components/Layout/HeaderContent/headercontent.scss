@@ -5,10 +5,15 @@
 .layout-header-content {
     height: calc(100vh - #{$content-top-spacing-height} - 8px);
 
+     .header {
+        border-bottom: 1px solid rgba(0,0,0,0.12);
+    }
+
     .content{
         //height: calc(100vh - #{$content-top-spacing-height} - #{$content-top-spacing-height} - 16px); // minus 16 because of 8 + 2*4 padding
     
         > div {
+            border: none;
             height: 100%;
         }
     }

@@ -33,7 +33,9 @@ const HeaderContent = ({
         >
             <Grid item xs={12}>
                 <Paper
+                    className="header"
                     ref={headerRef}
+                    variant="outlined"
                     //style={{height: `${headerHeight}px`}}
                     {...paperProps}
                 >

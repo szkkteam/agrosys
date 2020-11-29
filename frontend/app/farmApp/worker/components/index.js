@@ -1,3 +1,11 @@
+export { default as WorkerHeader } from './WorkerHeader'
+export { default as WorkerWorkerLayout } from './WorkerWorkerLayout'
+export { default as WorkerRoleLayout } from './WorkerRoleLayout'
+export { default as WorkerAddButton } from './WorkerAddButton'
+export { default as WorkerContentHeader } from './WorkerContentHeader'
+export { default as WorkerSettingsButton } from './WorkerSettingsButton'
+export { default as WorkerTableWorkers } from './WorkerTableWorkers'
+
 export { default as WorkerLayout } from './WorkerLayout'
 export { default as WorkerTableLayout } from './WorkerTableLayout'
 export { default as WorkerFilterButton } from './WorkerFilterButton'
