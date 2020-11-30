@@ -19,6 +19,35 @@ import {
     WorkerSettingsButton
 } from '../../components'
 
+/*
+    Props:
+    actions={[
+        Icon,
+        Text,
+        Tooltip,
+        onClick(),
+        disabled,
+    ]} -> default "Add action with plus icon"
+    settings={[
+        Icon,
+        Text,
+        Tooltip,
+        renderContent() -> return a valid element
+        onClick(),
+        disabled,
+    ]}
+    onRemoveFilter(id) -> giving back the filter ID. If ID is null, it means clear all filter
+    filters={[
+        id,
+        Icon,
+        Text,
+    ]}
+    onSearchInput(text) -> gives the free text search input (already debounced)
+    children -> a MUI table wrapper which should have the columns property inside.
+                it should get the columns property list with titles and show it directly in the columns settings with checkboxes
+                if enable/disabled are determined, it should inject the hidden=true into that column
+*/
+
 const WorkerContentHeader = forwardRef((props, ref) => {
 
     const [chipData, setChipData] = useState([

@@ -19,7 +19,7 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 
-import './table.scss'
+import './tablebody.scss'
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -42,14 +42,27 @@ const tableIcons = {
 };
 
 export default ({
+    height,
+    options={},
     cellEditable = null,
     onCellEditStarted = null,
     onCellEditFinished = null,
     ...props
 }) => {
+
+    const defaultOptions = {
+        ...Object.assign(options, {
+            toolbar: false, // By default remove toolbar
+            paging: false, // By default remove paging
+            maxBodyHeight: height, // By default set height
+            headerStyle: { position: 'sticky', top: 0 }, // By default sticky header
+        })
+    } 
+
     return (
         <MaterialTable
             icons={tableIcons}
+            options={{...defaultOptions}}
             {...props}
         />
     )

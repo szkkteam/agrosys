@@ -62,13 +62,6 @@ const MenuButton = ({
     )
 }
 
-/*
-<Menu
-                {...listProps}
-            >
-                {children}
-            </Menu>
-*/
 
 MenuButton.propTypes = {
     isOpen: PropTypes.bool,

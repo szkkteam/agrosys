@@ -1,1 +1,8 @@
+export { default as TableBody } from './TableBody'
+export { default as TableSettingsButton } from './TableSettingsButton'
+export { default as TableSettingsColumn } from './TableSettingsColumn'
+export { default as TablePrimaryActionButton } from './TablePrimaryActionButton'
+export { default as TableFilterChip } from './TableFilterChip'
+export { default as TableFilters } from './TableFilters'
+export { default as TableHeader } from './TableHeader'
 export { default as Table } from './Table'

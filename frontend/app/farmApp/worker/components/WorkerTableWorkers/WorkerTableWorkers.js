@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
 
-import { WorkerTableLayout } from '../../components'
+import { Table } from 'components/Table'
 
 const data = [
     { name: 'Person name', role: 'Manager', email: 'user1@user.com', phone: '+36-30/333333', address: '9999 Random city, random street 2' },
@@ -51,16 +51,15 @@ const WorkerTableWorkers = ({
         { title: 'Name', field: 'name'},
         { title: 'E-mail', field: 'email'},
         { title: 'Phone', field: 'phone' },
-        { title: 'Address', field: 'address'}
+        { title: 'Address', field: 'address', hidden: true}
     ]
 
     console.log("Height: ", height)
 
     return (
-            <WorkerTableLayout
+            <Table
                 columns={columns}
                 data={data}
-                height={height}
                 detailPanel={[
                     {
                       //tooltip: intl.formatMessage(messages.expandRowTooltip),

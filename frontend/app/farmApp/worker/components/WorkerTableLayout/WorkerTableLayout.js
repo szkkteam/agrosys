@@ -3,7 +3,7 @@ import messages from './messages';
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl';
 
-import { Table } from 'components'
+import { TableBody } from 'components/Table'
 
 
 const WorkerTableLayout = ({
@@ -13,13 +13,7 @@ const WorkerTableLayout = ({
 
 
     return (
-            <Table
-                options={{
-                    toolbar: false,
-                    paging: false,
-                    maxBodyHeight: height,
-                    headerStyle: { position: 'sticky', top: 0 },
-                }}
+            <TableBody
                 components={{
                     //Header: TableHeader
                 }}

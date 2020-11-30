@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import messages from './messages';
 import { useIntl } from 'react-intl'
 
-import { Table } from 'components'
+import { TableBody } from 'components'
 
 const data = [
     { title: 'Valami item ', quantity: '5l', manufacturer: 'Random ceg'},
