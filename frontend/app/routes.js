@@ -45,7 +45,6 @@ import {
 } from 'farmApp/block/pages'
 
 import {
-  WorkerParent,
   WorkerList,
 } from 'farmApp/worker/pages'
 
@@ -91,6 +90,10 @@ import {
 } from 'security/pages'
 
 import {
+  ResourcesHeader
+} from 'farmApp/resource/components'
+
+import {
   Dashboard,
   NotFound,
 } from 'site/pages'
@@ -129,6 +132,12 @@ export const ROUTES = {
   // Farm
   FarmCreate: 'FarmCreate',
   FarmDashboard: 'FarmDashboard',
+
+  /**
+   * Resources Keys
+   */
+  ResourcesHeader: 'ResourcesHeader',
+
   // Block
   BlockList: 'BlockList',
   BlockCreateDraw: 'BlockCreateDraw',
@@ -136,7 +145,6 @@ export const ROUTES = {
   BlockCreateLPIS: 'BlockCreateLPIS',
   // Worker
   WorkerList: 'WorkerList',
-  WorkerParent: 'WorkerParent',
 
   // Machinery
   MachineryList: 'MachineryList',
@@ -249,77 +257,78 @@ export const routes = [
     routeComponent: ProtectedRoute,
     props: { exact: true }
   },
-  // Block routes
-  {    
-    key: ROUTES.BlockCreateDraw, // This must come before BlockList
-    path: '/fields/new/draw',
-    component: BlockCreateDraw,
-    routeComponent: ProtectedRoute,
-    props: { exact: true }
-  },
-  {    
-    key: ROUTES.BlockCreateUpload, // This must come before BlockList
-    path: '/fields/new/upload',
-    component: BlockCreateUpload,
-    routeComponent: ProtectedRoute,
-    props: { exact: true }
-  },
-  {    
-    key: ROUTES.BlockCreateLPIS, // This must come before BlockList
-    path: '/fields/new/lpis',
-    component: BlockCreateLPIS,
-    routeComponent: ProtectedRoute,
-    props: { exact: true }
-  },
+  /**
+   * Resources routes
+   */
   {
-    
-    key: ROUTES.BlockList, //Block list must be in the end of the list, because it's accepting multiple routes (exact=false)
-    path: '/fields',
-    component: BlockList,
-    routeComponent: ProtectedRoute,
-  },
-  // Worker routes    
-  {
-    key: ROUTES.WorkerParent,
-    path: '/workers',
-    component: WorkerParent,
-    //component: () => <Redirect to={'/workers/list'}/>,
+    key: ROUTES.ResourcesHeader,
+    path: '/resource',
+    component: ResourcesHeader,
     routeComponent: ProtectedRoute,
     layoutComponent: HeaderContent,
     routes: [
       {
+        key: ROUTES.BlockCreateDraw,
+        path: '/resource/fields/new/draw',
+        component: BlockCreateDraw,
+        routeComponent: ProtectedRoute,
+        props: { exact: true }
+      },
+      {    
+        key: ROUTES.BlockCreateUpload, // This must come before BlockList
+        path: '/resource/fields/new/upload',
+        component: BlockCreateUpload,
+        routeComponent: ProtectedRoute,
+        props: { exact: true }
+      },
+      {    
+        key: ROUTES.BlockCreateLPIS, // This must come before BlockList
+        path: '/resource/fields/new/lpis',
+        component: BlockCreateLPIS,
+        routeComponent: ProtectedRoute,
+        props: { exact: true }
+      },
+      {        
+        key: ROUTES.BlockList, //Block list must be in the end of the list, because it's accepting multiple routes (exact=false)
+        path: '/resource/fields',
+        component: BlockList,
+        routeComponent: ProtectedRoute,
+      },
+      // Worker routes    
+      {
         key: ROUTES.WorkerList,
-        path: '/workers/list',
+        path: '/resource/workers',
         component: WorkerList,
         routeComponent: ProtectedRoute,
         //props: { exact: true }
       },
+      // Machinery routes  
+      {
+        key: ROUTES.MachineryList,
+        path: '/resource/machinery',
+        component: MachineryList,
+        routeComponent: ProtectedRoute,
+        props: { exact: true }
+      },
+      // Entity routes  
+      {
+        key: ROUTES.EntityList,
+        path: '/resource/entities',
+        component: EntityList,
+        routeComponent: ProtectedRoute,
+        props: { exact: true }
+      },
+      // Storage routes  
+      {
+        key: ROUTES.StorageList,
+        path: '/resource/storages',
+        component: StorageList,
+        routeComponent: ProtectedRoute,
+        props: { exact: true }
+      },
     ]
   },
-  // Machinery routes  
-  {
-    key: ROUTES.MachineryList,
-    path: '/machinery',
-    component: MachineryList,
-    routeComponent: ProtectedRoute,
-    props: { exact: true }
-  },
-  // Entity routes  
-  {
-    key: ROUTES.EntityList,
-    path: '/entities',
-    component: EntityList,
-    routeComponent: ProtectedRoute,
-    props: { exact: true }
-  },
-  // Storage routes  
-  {
-    key: ROUTES.StorageList,
-    path: '/storages',
-    component: StorageList,
-    routeComponent: ProtectedRoute,
-    props: { exact: true }
-  },
+
   // Production routes
   {
     key: ROUTES.ProductionCreate,
@@ -467,32 +476,8 @@ console.log(ROUTE_MAP)
 
 console.log("headerComntent: ", HeaderContent)
 
-/**
- * React Router 4 re-renders all child components of Switch statements on
- * every page change. Therefore, we render routes ahead of time once.
- */
-/*
-const CustomRouter = ({routes}) => {
-  const { component: Component, routes: children, path, props: rest, routeComponent: RouteComponent } = ROUTE_MAP[route.key]
-  //return <RouteComponent exact={true} path={path} component={component} key={path} />
-  return (
-      <RouteComponent 
-        path={path}
-        key={path}
-        component={props => (
-          <>
-            <Component {...props} />
-            {children && children.length > 0 ?
-              {cachedRoutes()}
-            : null}
-          </>
-        )}
-        {...rest}
-      />
-    )
-})
-cachedRoutes.push(<Route component={NotFound} key="*" />)
-*/
+// TODO: How to add the 404 route?
+// cachedRoutes.push(<Route component={NotFound} key="*" />)
 
 const CustomRouter = ({routes}) => {
   return (

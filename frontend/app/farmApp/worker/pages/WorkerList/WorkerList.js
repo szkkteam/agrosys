@@ -49,10 +49,14 @@ export default ({
 }) => {
     const intl = useIntl()
 
-    const ROUTE_WORKER = `${match.path}/${TAB_WORKERS}`
-    const ROUTE_ROLE = `${match.path}/${TAB_ROLES}`
-
     return (
-        <h1>Workers list</h1>
+        <div style={{height: "100%"}}>
+            <Helmet>
+                <title>
+                    {intl.formatMessage(messages.title)}
+                </title>
+            </Helmet>
+            <WorkerWorkerLayout />
+        </div>
     )
 }
