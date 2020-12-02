@@ -13,6 +13,7 @@
         //height: calc(100vh - #{$content-top-spacing-height} - #{$content-top-spacing-height} - 16px); // minus 16 because of 8 + 2*4 padding
     
         > div {
+            //display: flex;
             border: none;
             height: 100%;
         }

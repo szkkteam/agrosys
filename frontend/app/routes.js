@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect, matchPath } from 'react-router-dom'
 import startCase from 'lodash/startCase'
 import { compile } from 'path-to-regexp'
+import HeaderContent from 'components/Layout/HeaderContent'
 
 import {
   DashboardHome
@@ -44,6 +45,7 @@ import {
 } from 'farmApp/block/pages'
 
 import {
+  WorkerParent,
   WorkerList,
 } from 'farmApp/worker/pages'
 
@@ -134,6 +136,7 @@ export const ROUTES = {
   BlockCreateLPIS: 'BlockCreateLPIS',
   // Worker
   WorkerList: 'WorkerList',
+  WorkerParent: 'WorkerParent',
 
   // Machinery
   MachineryList: 'MachineryList',
@@ -174,7 +177,7 @@ export const ROUTES = {
  *  - label: optional, label to use for links (default: startCase(key))
  */
 
-const routes = [
+export const routes = [
   // Dashboard routes
   {
     key: ROUTES.DashboardHome,
@@ -275,13 +278,23 @@ const routes = [
     component: BlockList,
     routeComponent: ProtectedRoute,
   },
-  // Worker routes  
+  // Worker routes    
   {
-    key: ROUTES.WorkerList,
+    key: ROUTES.WorkerParent,
     path: '/workers',
-    component: WorkerList,
+    component: WorkerParent,
+    //component: () => <Redirect to={'/workers/list'}/>,
     routeComponent: ProtectedRoute,
-    //props: { exact: true }
+    layoutComponent: HeaderContent,
+    routes: [
+      {
+        key: ROUTES.WorkerList,
+        path: '/workers/list',
+        component: WorkerList,
+        routeComponent: ProtectedRoute,
+        //props: { exact: true }
+      },
+    ]
   },
   // Machinery routes  
   {
@@ -423,41 +436,88 @@ const routes = [
  * ROUTE_MAP: A public lookup for route details by key
  */
 export const ROUTE_MAP = {}
-routes.forEach((route) => {
-  let { component, key, label, path, routeComponent, props } = route
 
-  if (!component) {
-    throw new Error(`component was not specified for the ${key} route!`)
-  }
-  if (!path) {
-    throw new Error(`path was not specified for the ${key} route!`)
-  }
+const complieRoutes = (routes) => {
+  routes.forEach((route) => {
+    let { component, key, label, path, routeComponent, props } = route
+  
+    if (!component) {
+      throw new Error(`component was not specified for the ${key} route!`)
+    }
+    if (!path) {
+      throw new Error(`path was not specified for the ${key} route!`)
+    }
 
-  ROUTE_MAP[key] = {
-    path,
-    toPath: compile(path),
-    component,
-    routeComponent: routeComponent || Route,
-    label: label || startCase(key),
-    props,
-  }
-})
+    if (route.routes?.length) {
+      complieRoutes(route.routes)
+    }
+  
+    ROUTE_MAP[key] = {
+      path,
+      toPath: compile(path),
+      component,
+      routeComponent: routeComponent || Route,
+      label: label || startCase(key),
+      props,
+    }
+  })
+}
+complieRoutes(routes)
+console.log(ROUTE_MAP)
+
+console.log("headerComntent: ", HeaderContent)
 
 /**
  * React Router 4 re-renders all child components of Switch statements on
  * every page change. Therefore, we render routes ahead of time once.
  */
-const cachedRoutes = routes.map((route) => {
-  const { component, path, props, routeComponent: RouteComponent } = ROUTE_MAP[route.key]
+/*
+const CustomRouter = ({routes}) => {
+  const { component: Component, routes: children, path, props: rest, routeComponent: RouteComponent } = ROUTE_MAP[route.key]
   //return <RouteComponent exact={true} path={path} component={component} key={path} />
-  return <RouteComponent path={path} component={component} key={path} {...props}/>
+  return (
+      <RouteComponent 
+        path={path}
+        key={path}
+        component={props => (
+          <>
+            <Component {...props} />
+            {children && children.length > 0 ?
+              {cachedRoutes()}
+            : null}
+          </>
+        )}
+        {...rest}
+      />
+    )
 })
 cachedRoutes.push(<Route component={NotFound} key="*" />)
+*/
 
-export default () => {
+const CustomRouter = ({routes}) => {
   return (
       <Switch>
-        {cachedRoutes}
+        {routes.map(({key, routes: children, layoutComponent: Layout = 'div'}) => {
+          const { component: Component, path, props: rest, routeComponent: RouteComponent } = ROUTE_MAP[key]
+          return (
+            <RouteComponent 
+              path={path}
+              key={path}
+              component={props => {                
+                return (
+                  <Layout>
+                    <Component {...props} /> 
+                    {children && children.length > 0 ?
+                      <CustomRouter {...props} routes={children} />
+                    : null}
+                  </Layout>
+              )}}
+              {...rest}
+            />
+          )
+        })}
       </Switch>
   )
 }
+
+export default CustomRouter

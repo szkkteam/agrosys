@@ -13,19 +13,8 @@ import {
 
 import { TAB_WORKERS, TAB_ROLES } from '../../constants'
 
-export default ({
-    history,
-    match,
-    ...props
-}) => {
-    const intl = useIntl()
-
-    const ROUTE_WORKER = `${match.path}/${TAB_WORKERS}`
-    const ROUTE_ROLE = `${match.path}/${TAB_ROLES}`
-
-    return (
-        <PageContent>
-            <Helmet>
+/*
+<Helmet>
                 <title>
                     {intl.formatMessage(messages.title)}
                 </title>
@@ -51,6 +40,19 @@ export default ({
                     </div>
                 }
             />
-        </PageContent>
+*/
+
+export default ({
+    history,
+    match,
+    ...props
+}) => {
+    const intl = useIntl()
+
+    const ROUTE_WORKER = `${match.path}/${TAB_WORKERS}`
+    const ROUTE_ROLE = `${match.path}/${TAB_ROLES}`
+
+    return (
+        <h1>Workers list</h1>
     )
 }

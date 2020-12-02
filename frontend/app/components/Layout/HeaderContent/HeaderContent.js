@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import styles from './headercontent.scss'
 
 const HeaderContent = ({
-    header,
+    header=null,
     content=null,
     children
 }) => {
@@ -24,6 +24,20 @@ const HeaderContent = ({
             setHeaderHeight(headerRef.current.clientHeight)
         }
     })
+    let headerChild = null
+    let contentChild = null
+
+    console.log("Header type: ", typeof(header))
+
+    if (!header && ! content && React.Children.count(children) > 1)  {
+        const childArray = React.Children.toArray(children)
+        headerChild = childArray[0]   
+        contentChild = childArray[1]   
+    }
+
+    let headerComponent = header? header : headerChild
+    let contentComponent = content? content : contentChild
+
 
     return (
         <Grid 
@@ -39,7 +53,11 @@ const HeaderContent = ({
                     //style={{height: `${headerHeight}px`}}
                     {...paperProps}
                 >
-                    {header}
+                    {_.isFunction(headerComponent)? 
+                        headerComponent()
+                        : 
+                        headerComponent
+                    }
                 </Paper>
             </Grid>
             <Grid
@@ -50,7 +68,11 @@ const HeaderContent = ({
                 <Paper
                     {...paperProps}
                 >
-                    {children || content}
+                    {_.isFunction(contentComponent)? 
+                        contentComponent()
+                        : 
+                        contentComponent
+                    }
                 </Paper>
             </Grid>
         </Grid>
@@ -58,9 +80,20 @@ const HeaderContent = ({
 }
 
 HeaderContent.propTypes = {
-    header: PropTypes.element.isRequired,
-    content: PropTypes.element,
-    children: PropTypes.element
+    header: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.func,
+        PropTypes.oneOf([null])
+    ]),
+    content: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.func,
+    ]),
+    children: PropTypes.arrayOf(
+        PropTypes.oneOfType([
+            PropTypes.object,
+            PropTypes.func,
+    ])),
 }
 
 export default HeaderContent

@@ -38,7 +38,6 @@ const WorkerHeader = ({
                     <Tabs
                         routes={[ROUTE_WORKER, ROUTE_ROLE]}
                         defaultRoute={ROUTE_WORKER}
-                        forceDefaultRoute={true}
                         orientation="horizontal"
                     >
                         <TabLink value={ROUTE_WORKER} label={intl.formatMessage(messages.tabWorkerTitle)} />
