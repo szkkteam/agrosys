@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
+import HeaderContentContext from './HeaderContentContext'
+
 import styles from './headercontent.scss'
 
 const HeaderContent = ({
@@ -39,42 +41,51 @@ const HeaderContent = ({
     let contentComponent = content? content : contentChild
 
 
+    const contextObject = {
+        headerHeight,
+        contentHeight: `calc(100vh - ${styles.topSpacing} - ${headerHeight}px - 16px)`,
+    }
+
     return (
         <Grid 
             className="layout-header-content"
             container
             spacing={1}
         >
-            <Grid item xs={12}>
-                <Paper
-                    className="header"
-                    ref={headerRef}
-                    variant="outlined"
-                    //style={{height: `${headerHeight}px`}}
-                    {...paperProps}
-                >
-                    {_.isFunction(headerComponent)? 
-                        headerComponent()
-                        : 
-                        headerComponent
-                    }
-                </Paper>
-            </Grid>
-            <Grid
-                item xs={12}
-                className="content"
-                style={{height: `calc(100vh - ${styles.topSpacing} - ${headerHeight}px - 16px)` }}
+            <HeaderContentContext.Provider
+                value={contextObject}
             >
-                <Paper
-                    {...paperProps}
+                <Grid item xs={12}>
+                    <Paper
+                        className="header"
+                        ref={headerRef}
+                        variant="outlined"
+                        //style={{height: `${headerHeight}px`}}
+                        {...paperProps}
+                    >
+                        {_.isFunction(headerComponent)? 
+                            headerComponent()
+                            : 
+                            headerComponent
+                        }
+                    </Paper>
+                </Grid>
+                <Grid
+                    item xs={12}
+                    className="content"
+                    style={{height: `calc(100vh - ${styles.topSpacing} - ${headerHeight}px - 16px)` }}
                 >
-                    {_.isFunction(contentComponent)? 
-                        contentComponent()
-                        : 
-                        contentComponent
-                    }
-                </Paper>
-            </Grid>
+                    <Paper
+                        {...paperProps}
+                    >
+                        {_.isFunction(contentComponent)? 
+                            contentComponent()
+                            : 
+                            contentComponent
+                        }
+                    </Paper>
+                </Grid>
+            </HeaderContentContext.Provider>
         </Grid>
     )
 }

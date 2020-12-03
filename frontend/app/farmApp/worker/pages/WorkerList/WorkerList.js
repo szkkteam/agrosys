@@ -6,7 +6,7 @@ import { Route } from "react-router-dom";
 
 import { PageContent, HeaderContent } from 'components'
 import { 
-    WorkerHeader,
+    WorkerLayout,
     WorkerRoleLayout,
     WorkerWorkerLayout
 } from '../../components'
@@ -56,7 +56,8 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <WorkerWorkerLayout />
+            <WorkerLayout />        
         </div>
     )
 }
+//<WorkerWorkerLayout />

@@ -40,8 +40,7 @@ const data = [
     { name: 'Person name', role: 'Manager', email: 'user1@user.com', phone: '+36-30/333333', address: '9999 Random city, random street 2' },
 ]
 
-const WorkerTableWorkers = ({
-    height,
+const WorkerTable = ({
     ...props
 }) => {
     const intl = useIntl()
@@ -53,8 +52,6 @@ const WorkerTableWorkers = ({
         { title: 'Phone', field: 'phone' },
         { title: 'Address', field: 'address', hidden: true}
     ]
-
-    console.log("Height: ", height)
 
     return (
             <Table
@@ -83,8 +80,8 @@ const WorkerTableWorkers = ({
     )
 }
 
-WorkerTableWorkers.propTypes = {
+WorkerTable.propTypes = {
 
 }
 
-export default WorkerTableWorkers
+export default WorkerTable
