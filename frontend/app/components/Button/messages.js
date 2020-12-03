@@ -19,4 +19,8 @@ export default defineMessages({
         id: `${scope}.SubmitButton.Submit`,  
         defaultMessage: 'Save',
     },
+    searchButton: {
+        id: `${scope}.SearchButton.title`,  
+        defaultMessage: 'Search...',
+    }
 })

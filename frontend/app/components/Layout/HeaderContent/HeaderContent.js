@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useState, useRef, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
-import './headercontent.scss'
+import { HeaderContentContext } from 'components'
+
+import styles from './headercontent.scss'
 
 const HeaderContent = ({
-    header,
+    header=null,
     content=null,
     children
 }) => {
@@ -16,35 +18,94 @@ const HeaderContent = ({
         square: false,
     }
 
+    const headerRef = useRef(null)
+    const headerPortalRef = React.useRef(null);
+    const [headerHeight, setHeaderHeight] = useState(50)
+
+    let headerChild = null
+    let contentChild = null
+
+    if (!header && ! content && React.Children.count(children) > 1)  {
+        const childArray = React.Children.toArray(children)
+        headerChild = childArray[0]   
+        contentChild = childArray[1]   
+    }
+
+    let headerComponent = header? header : headerChild
+    let contentComponent = content? content : contentChild
+
+
+    useLayoutEffect(() => {
+        if (headerRef.current) {
+            setHeaderHeight(headerRef.current.clientHeight)
+        }
+    })
+
+    const contextObject = {
+        headerHeight,
+        contentHeight: `calc(100vh - ${styles.topSpacing} - ${headerHeight}px - 16px)`,
+        headerPortalRef,
+    }
+
     return (
         <Grid 
             className="layout-header-content"
             container
             spacing={1}
         >
-            <Grid item xs={12}>
-                <Paper
-                    style={{height: "50px"}}
-                    {...paperProps}
+            <HeaderContentContext.Provider
+                value={contextObject}
+            >
+                <Grid item xs={12}>
+                    <Paper
+                        className="header"
+                        ref={headerRef}
+                        variant="outlined"
+                        //style={{height: `${headerHeight}px`}}
+                        {...paperProps}
+                    >
+                        {_.isFunction(headerComponent)? 
+                            headerComponent()
+                            : 
+                            headerComponent
+                        }
+                    </Paper>
+                </Grid>
+                <Grid
+                    item xs={12}
+                    className="content"
+                    style={{height: `calc(100vh - ${styles.topSpacing} - ${headerHeight}px - 16px)` }}
                 >
-                    {header}
-                </Paper>
-            </Grid>
-            <Grid item xs={12} className="content">
-                <Paper
-                    {...paperProps}
-                >
-                    {children || content}
-                </Paper>
-            </Grid>
+                    <Paper
+                        {...paperProps}
+                    >
+                        {_.isFunction(contentComponent)? 
+                            contentComponent()
+                            : 
+                            contentComponent
+                        }
+                    </Paper>
+                </Grid>
+            </HeaderContentContext.Provider>
         </Grid>
     )
 }
 
 HeaderContent.propTypes = {
-    header: PropTypes.element.isRequired,
-    content: PropTypes.element,
-    children: PropTypes.element
+    header: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.func,
+        PropTypes.oneOf([null])
+    ]),
+    content: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.func,
+    ]),
+    children: PropTypes.arrayOf(
+        PropTypes.oneOfType([
+            PropTypes.object,
+            PropTypes.func,
+    ])),
 }
 
 export default HeaderContent

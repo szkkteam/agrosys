@@ -1,0 +1,18 @@
+.table-filter-container {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+    height: 36.5px;
+
+    .filter-list {
+        padding-left: 10px;
+        margin: 0px;
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+    }
+
+    .filter-clearall {
+        text-transform: initial;
+    }
+}

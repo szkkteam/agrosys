@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect, matchPath } from 'react-router-dom'
 import startCase from 'lodash/startCase'
 import { compile } from 'path-to-regexp'
+import HeaderContent from 'components/Layout/HeaderContent'
 
 import {
   DashboardHome
@@ -89,6 +90,10 @@ import {
 } from 'security/pages'
 
 import {
+  ResourcesHeader
+} from 'farmApp/resource/components'
+
+import {
   Dashboard,
   NotFound,
 } from 'site/pages'
@@ -127,6 +132,12 @@ export const ROUTES = {
   // Farm
   FarmCreate: 'FarmCreate',
   FarmDashboard: 'FarmDashboard',
+
+  /**
+   * Resources Keys
+   */
+  ResourcesHeader: 'ResourcesHeader',
+
   // Block
   BlockList: 'BlockList',
   BlockCreateDraw: 'BlockCreateDraw',
@@ -174,7 +185,7 @@ export const ROUTES = {
  *  - label: optional, label to use for links (default: startCase(key))
  */
 
-const routes = [
+export const routes = [
   // Dashboard routes
   {
     key: ROUTES.DashboardHome,
@@ -246,67 +257,78 @@ const routes = [
     routeComponent: ProtectedRoute,
     props: { exact: true }
   },
-  // Block routes
-  {    
-    key: ROUTES.BlockCreateDraw, // This must come before BlockList
-    path: '/fields/new/draw',
-    component: BlockCreateDraw,
-    routeComponent: ProtectedRoute,
-    props: { exact: true }
-  },
-  {    
-    key: ROUTES.BlockCreateUpload, // This must come before BlockList
-    path: '/fields/new/upload',
-    component: BlockCreateUpload,
-    routeComponent: ProtectedRoute,
-    props: { exact: true }
-  },
-  {    
-    key: ROUTES.BlockCreateLPIS, // This must come before BlockList
-    path: '/fields/new/lpis',
-    component: BlockCreateLPIS,
-    routeComponent: ProtectedRoute,
-    props: { exact: true }
-  },
+  /**
+   * Resources routes
+   */
   {
-    
-    key: ROUTES.BlockList, //Block list must be in the end of the list, because it's accepting multiple routes (exact=false)
-    path: '/fields',
-    component: BlockList,
+    key: ROUTES.ResourcesHeader,
+    path: '/resource',
+    component: ResourcesHeader,
     routeComponent: ProtectedRoute,
+    layoutComponent: HeaderContent,
+    routes: [
+      {
+        key: ROUTES.BlockCreateDraw,
+        path: '/resource/fields/new/draw',
+        component: BlockCreateDraw,
+        routeComponent: ProtectedRoute,
+        props: { exact: true }
+      },
+      {    
+        key: ROUTES.BlockCreateUpload, // This must come before BlockList
+        path: '/resource/fields/new/upload',
+        component: BlockCreateUpload,
+        routeComponent: ProtectedRoute,
+        props: { exact: true }
+      },
+      {    
+        key: ROUTES.BlockCreateLPIS, // This must come before BlockList
+        path: '/resource/fields/new/lpis',
+        component: BlockCreateLPIS,
+        routeComponent: ProtectedRoute,
+        props: { exact: true }
+      },
+      {        
+        key: ROUTES.BlockList, //Block list must be in the end of the list, because it's accepting multiple routes (exact=false)
+        path: '/resource/fields',
+        component: BlockList,
+        routeComponent: ProtectedRoute,
+      },
+      // Worker routes    
+      {
+        key: ROUTES.WorkerList,
+        path: '/resource/workers',
+        component: WorkerList,
+        routeComponent: ProtectedRoute,
+        //props: { exact: true }
+      },
+      // Machinery routes  
+      {
+        key: ROUTES.MachineryList,
+        path: '/resource/machinery',
+        component: MachineryList,
+        routeComponent: ProtectedRoute,
+        props: { exact: true }
+      },
+      // Entity routes  
+      {
+        key: ROUTES.EntityList,
+        path: '/resource/entities',
+        component: EntityList,
+        routeComponent: ProtectedRoute,
+        props: { exact: true }
+      },
+      // Storage routes  
+      {
+        key: ROUTES.StorageList,
+        path: '/resource/storages',
+        component: StorageList,
+        routeComponent: ProtectedRoute,
+        props: { exact: true }
+      },
+    ]
   },
-  // Worker routes  
-  {
-    key: ROUTES.WorkerList,
-    path: '/workers',
-    component: WorkerList,
-    routeComponent: ProtectedRoute,
-    //props: { exact: true }
-  },
-  // Machinery routes  
-  {
-    key: ROUTES.MachineryList,
-    path: '/machinery',
-    component: MachineryList,
-    routeComponent: ProtectedRoute,
-    props: { exact: true }
-  },
-  // Entity routes  
-  {
-    key: ROUTES.EntityList,
-    path: '/entities',
-    component: EntityList,
-    routeComponent: ProtectedRoute,
-    props: { exact: true }
-  },
-  // Storage routes  
-  {
-    key: ROUTES.StorageList,
-    path: '/storages',
-    component: StorageList,
-    routeComponent: ProtectedRoute,
-    props: { exact: true }
-  },
+
   // Production routes
   {
     key: ROUTES.ProductionCreate,
@@ -351,7 +373,7 @@ const routes = [
     path: '/inventory',
     component: InventoryList,
     routeComponent: ProtectedRoute,
-    props: { exact: true }
+    props: { exact: false }
   },
   // Common routes
   {
@@ -423,41 +445,64 @@ const routes = [
  * ROUTE_MAP: A public lookup for route details by key
  */
 export const ROUTE_MAP = {}
-routes.forEach((route) => {
-  let { component, key, label, path, routeComponent, props } = route
 
-  if (!component) {
-    throw new Error(`component was not specified for the ${key} route!`)
-  }
-  if (!path) {
-    throw new Error(`path was not specified for the ${key} route!`)
-  }
+const complieRoutes = (routes) => {
+  routes.forEach((route) => {
+    let { component, key, label, path, routeComponent, props } = route
+  
+    if (!component) {
+      throw new Error(`component was not specified for the ${key} route!`)
+    }
+    if (!path) {
+      throw new Error(`path was not specified for the ${key} route!`)
+    }
 
-  ROUTE_MAP[key] = {
-    path,
-    toPath: compile(path),
-    component,
-    routeComponent: routeComponent || Route,
-    label: label || startCase(key),
-    props,
-  }
-})
+    if (route.routes?.length) {
+      complieRoutes(route.routes)
+    }
+  
+    ROUTE_MAP[key] = {
+      path,
+      toPath: compile(path),
+      component,
+      routeComponent: routeComponent || Route,
+      label: label || startCase(key),
+      props,
+    }
+  })
+}
+complieRoutes(routes)
+console.log(ROUTE_MAP)
 
-/**
- * React Router 4 re-renders all child components of Switch statements on
- * every page change. Therefore, we render routes ahead of time once.
- */
-const cachedRoutes = routes.map((route) => {
-  const { component, path, props, routeComponent: RouteComponent } = ROUTE_MAP[route.key]
-  //return <RouteComponent exact={true} path={path} component={component} key={path} />
-  return <RouteComponent path={path} component={component} key={path} {...props}/>
-})
-cachedRoutes.push(<Route component={NotFound} key="*" />)
+console.log("headerComntent: ", HeaderContent)
 
-export default () => {
+// TODO: How to add the 404 route?
+// cachedRoutes.push(<Route component={NotFound} key="*" />)
+
+const CustomRouter = ({routes}) => {
   return (
       <Switch>
-        {cachedRoutes}
+        {routes.map(({key, routes: children, layoutComponent: Layout = 'div'}) => {
+          const { component: Component, path, props: rest, routeComponent: RouteComponent } = ROUTE_MAP[key]
+          return (
+            <RouteComponent 
+              path={path}
+              key={path}
+              component={props => {                
+                return (
+                  <Layout>
+                    <Component {...props} /> 
+                    {children && children.length > 0 ?
+                      <CustomRouter {...props} routes={children} />
+                    : null}
+                  </Layout>
+              )}}
+              {...rest}
+            />
+          )
+        })}
       </Switch>
   )
 }
+
+export default CustomRouter

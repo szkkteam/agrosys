@@ -37,7 +37,7 @@ export default ({
                 break
             default:
                 // TODO: Get the prefered view from storage/redux and apply
-                history.replace(`${match.path}/?view=${VIEW_MAP}`)
+                history.replace(`${match.path}?view=${VIEW_MAP}`)
         }
     }, [query])
 
@@ -48,7 +48,7 @@ export default ({
     }
 
     return (
-        <PageContent>
+        <div>
             <Helmet>
                 <title>
                     {intl.formatMessage(messages.title)}
@@ -77,6 +77,6 @@ export default ({
                     />
                 }
             />
-        </PageContent>
+        </div>
     )
 }

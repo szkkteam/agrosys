@@ -1,0 +1,9 @@
+
+/* https://github.com/mbrn/material-table/issues/1195 */
+tbody tr.MuiTableRow-root:not([index]) {
+    //display: none !important; FIXME: This is not working with grouping!! Set the page size to don't insert empty rows
+  }
+
+thead.MuiTableHead-root > tr th{
+  background-color: #E0E0E0;
+}

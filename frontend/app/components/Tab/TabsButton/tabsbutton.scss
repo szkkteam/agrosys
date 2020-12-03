@@ -1,0 +1,15 @@
+.tabs-button-container {
+    width: 100%;
+    padding: 15px 0;
+
+    button {
+        width: 100%;
+        padding: 4px 11px;
+        border-radius: 10px;
+
+        &.MuiToggleButton-root.Mui-selected {
+            color: #fff;
+            background-color: #3f51b5;
+        }
+    }
+}

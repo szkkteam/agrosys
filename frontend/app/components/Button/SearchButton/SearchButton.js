@@ -1,4 +1,5 @@
 import React from 'react'
+import messages from '../messages';
 import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
 import InputBase from '@material-ui/core/InputBase';
@@ -8,7 +9,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import './searchbutton.scss'
 
 const SearchButton = ({
-    title,
+    title=messages.searchButton,
     ...props
 }) => {
     const intl = useIntl() 
@@ -35,7 +36,7 @@ const SearchButton = ({
 }
 
 SearchButton.propTypes = {
-    title: PropTypes.object.isRequired,
+    title: PropTypes.object,
 }
 
 export default SearchButton
