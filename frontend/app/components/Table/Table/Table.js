@@ -11,6 +11,7 @@ import {
 } from '../../Table'
 
 const Table = ({
+    tableTitle,
     columns,
     ...props
 }) => {
@@ -48,6 +49,7 @@ const Table = ({
         >
             <TableHeader
                 ref={headerRef}
+                title={tableTitle}
                 columns={toggleColumns}
                 onColumnChanged={setToggleColumns}
             />
@@ -60,13 +62,10 @@ const Table = ({
 
     )
 
-    return (
-        null
-    )
 }
 
 Table.propTypes = {
-
+    tableTitle: PropTypes.object.isRequired,
 }
 
 export default Table

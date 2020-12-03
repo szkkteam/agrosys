@@ -48,7 +48,7 @@ export default ({
     }
 
     return (
-        <PageContent>
+        <div>
             <Helmet>
                 <title>
                     {intl.formatMessage(messages.title)}
@@ -77,6 +77,6 @@ export default ({
                     />
                 }
             />
-        </PageContent>
+        </div>
     )
 }

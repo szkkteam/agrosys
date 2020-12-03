@@ -20,7 +20,7 @@ export default ({
 }) => {
     const intl = useIntl()
     return (
-        <PageContent>
+        <div>
             <Helmet>
                 <title>
                     {intl.formatMessage(messages.title)}
@@ -34,6 +34,6 @@ export default ({
                         ]}
                     />
                 </Content>
-        </PageContent>
+        </div>
     )
 }

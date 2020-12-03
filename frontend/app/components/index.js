@@ -9,6 +9,6 @@ export { default as Stepper } from './Stepper'
 export { MenuButton, NestedMenuItem, MenuItem } from './Menu'
 
 export { SubmitButton, BackButton, SplitButton, SearchButton } from './Button'
-export { HeaderContent, MasterDetail, Content } from './Layout'
-export { TabLink, Tabs } from './Tab'
+export { HeaderContent, MasterDetail, Content, HeaderContentContext } from './Layout'
+export { TabLink, Tabs, TabsButton } from './Tab'
 export { Popover } from './Popover'

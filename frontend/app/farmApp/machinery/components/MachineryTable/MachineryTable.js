@@ -40,7 +40,7 @@ const data = [
     { name: 'Person name', role: 'Manager', email: 'user1@user.com', phone: '+36-30/333333', address: '9999 Random city, random street 2' },
 ]
 
-const WorkerTable = ({
+const MachineryTable = ({
     ...props
 }) => {
     const intl = useIntl()
@@ -81,8 +81,8 @@ const WorkerTable = ({
     )
 }
 
-WorkerTable.propTypes = {
+MachineryTable.propTypes = {
 
 }
 
-export default WorkerTable
+export default MachineryTable

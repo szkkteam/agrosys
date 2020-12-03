@@ -1,14 +1,14 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.farmApp.worker.WorkerTable'
+export const scope = 'app.farmApp.machinery.ReservationTable'
 
 export default defineMessages({
     tableTitle: {
         id: `${scope}.Table.title`,  
-        defaultMessage: 'Workers - database',        
+        defaultMessage: 'Machinery - Reservations',        
     },
     addNewTitle: {
-        id: `${scope}.WorkerAddButton.title`,  
+        id: `${scope}.AddButton.title`,  
         defaultMessage: 'Add new',
     },
 

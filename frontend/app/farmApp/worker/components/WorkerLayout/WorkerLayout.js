@@ -1,10 +1,12 @@
-import React, { useLayoutEffect, useMemo, useState, useRef } from 'react'
+import React, { useContext, useMemo, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
 import { FormattedMessage } from 'react-intl'
 
+import Portal from '@material-ui/core/Portal';
+import { HeaderContentContext, TabsButton } from 'components'
+
 import {
-    WorkerRoleTab,
     WorkerTable,
     RoleTable,
 } from '../../components'
@@ -22,12 +24,23 @@ const WorkerLayout = ({
 
     const [value, setValue] = useState(TAB_WORKERS)
 
+    const {
+        headerPortalRef,
+    } = useContext(HeaderContentContext)
+
+    const tabValues = [
+        {value: TAB_WORKERS, message: messages.left},
+        {value: TAB_ROLES, message: messages.right},
+    ]
+
     return (
         <div>
-            <WorkerRoleTab
-                value={value}
-                valueLeft={TAB_WORKERS}
-                valueRight={TAB_ROLES}
+            <Portal container={headerPortalRef.current}>
+                <div>Worker specific context</div>
+            </Portal>
+            <TabsButton
+                defaultValue={value}
+                values={tabValues}
                 onChange={setValue}
             />
             { value === TAB_WORKERS?

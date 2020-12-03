@@ -22,6 +22,7 @@ const TableSettingsButton = ({
     Icon,
     onClick,
     children,
+    componentProps={},
     ...props
 }) => {
     const intl = useIntl()
@@ -33,6 +34,7 @@ const TableSettingsButton = ({
             componentProps={{
                 startIcon: <Icon />,
                 endIcon:  <ArrowDropDownIcon />,
+                ...componentProps
                 //onClick: onClick
             }}
             {...props}

@@ -21,7 +21,7 @@ export default ({
 }) => {
     const intl = useIntl()
     return (
-        <PageContent>
+        <div>
             <Helmet>
                 <title>
                     {intl.formatMessage(messages.title)}
@@ -30,6 +30,6 @@ export default ({
             <div>
                 Select field from MePAR
             </div>
-        </PageContent>
+        </div>
     )
 }

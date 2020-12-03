@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
-import HeaderContentContext from './HeaderContentContext'
+import { HeaderContentContext } from 'components'
 
 import styles from './headercontent.scss'
 
@@ -19,17 +19,11 @@ const HeaderContent = ({
     }
 
     const headerRef = useRef(null)
+    const headerPortalRef = React.useRef(null);
     const [headerHeight, setHeaderHeight] = useState(50)
 
-    useLayoutEffect(() => {
-        if (headerRef.current) {
-            setHeaderHeight(headerRef.current.clientHeight)
-        }
-    })
     let headerChild = null
     let contentChild = null
-
-    console.log("Header type: ", typeof(header))
 
     if (!header && ! content && React.Children.count(children) > 1)  {
         const childArray = React.Children.toArray(children)
@@ -41,9 +35,16 @@ const HeaderContent = ({
     let contentComponent = content? content : contentChild
 
 
+    useLayoutEffect(() => {
+        if (headerRef.current) {
+            setHeaderHeight(headerRef.current.clientHeight)
+        }
+    })
+
     const contextObject = {
         headerHeight,
         contentHeight: `calc(100vh - ${styles.topSpacing} - ${headerHeight}px - 16px)`,
+        headerPortalRef,
     }
 
     return (

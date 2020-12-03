@@ -12,7 +12,7 @@ const data = [
     { title: 'Old role', isActive: false },
 ]
 
-const RoleTable = ({
+const ReservationTable = ({
     ...props
 }) => {
     const intl = useIntl()
@@ -32,8 +32,8 @@ const RoleTable = ({
     )
 }
 
-RoleTable.propTypes = {
+ReservationTable.propTypes = {
 
 }
 
-export default RoleTable
+export default ReservationTable

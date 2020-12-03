@@ -3,24 +3,28 @@ import { defineMessages } from 'react-intl'
 export const scope = 'app.farmApp.resource.ResourcesHeader'
 
 export default defineMessages({
+    pageTitle: {
+        id: `${scope}.title`,  
+        defaultMessage: 'Resources',
+    },
     tabWorkerTitle: {
         id: `${scope}.Worker.title`,  
-        defaultMessage: 'Workers',
+        defaultMessage: 'Worker',
     },
     tabFieldsTitle: {
         id: `${scope}.Block.title`,  
-        defaultMessage: 'Fields',
+        defaultMessage: 'Field',
     },
     tabMachineryTitle: {
         id: `${scope}.Machinery.title`,  
-        defaultMessage: 'Machineries',
+        defaultMessage: 'Machinery',
     },
     tabEntitiyTitle: {
         id: `${scope}.Entitiy.title`,  
-        defaultMessage: 'Entities',
+        defaultMessage: 'Entity',
     },
     tabStorageTitle: {
         id: `${scope}.Storage.title`,  
-        defaultMessage: 'Storages',
+        defaultMessage: 'Storage',
     },
   })

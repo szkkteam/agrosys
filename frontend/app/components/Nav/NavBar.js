@@ -97,11 +97,11 @@ const NavBar = ({
             title={messages.resourcesTitle}
           >
             <BlockMenuItem />
+            <Divider />
             <WorkerMenuItem />
             <MachineryMenuItem />
-            <EntityMenuItem />
             <Divider />
-            <StorageMenuItem />
+            <EntityMenuItem />
           </NestedMenuItem>
           <NestedMenuItem
             IconComponent={AppsIcon}

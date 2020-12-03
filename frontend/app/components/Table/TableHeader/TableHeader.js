@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
-import { useIntl } from 'react-intl'
+import { useIntl, FormattedMessage } from 'react-intl'
 
 import SettingsIcon from '@material-ui/icons/Settings';
+import FilterListIcon from '@material-ui/icons/FilterList';
 
 import {
     Grid,
@@ -53,6 +54,7 @@ import {
 */
 
 const TableHeader = forwardRef(({
+    title,
     columns,
     onColumnChanged,
     ...props
@@ -77,21 +79,38 @@ const TableHeader = forwardRef(({
             alignItems="center"
             spacing={1}
         >
-        <Grid item xs={8}>
-            <TablePrimaryActionButton
-                title={messages.add}
-            />
-        </Grid>
         <Grid item xs={4}>
+            <Typography variant="h6">
+                <FormattedMessage {...title} />
+            </Typography>
+        </Grid>
+        <Grid item xs={8}>
             <div style={{float: "right"}}>
+                <TablePrimaryActionButton
+                    title={messages.add}
+                />
                 <TableSettingsButton
                     title={messages.filters}
-                    Icon={SettingsIcon}
+                    Icon={FilterListIcon}
+                    componentProps={{
+                        style: {
+                            marginLeft: "50px",
+                            marginRight: "10px",
+                        }
+                    }}
                 />
+                <span style={{
+                    borderRight: "2px solid"                    
+                }}/>
                 <TableSettingsButton
                     title={messages.columns}
                     Icon={SettingsIcon}
                     placement="bottom-end"
+                    componentProps={{
+                        style: {
+                            marginLeft: "10px",
+                        }
+                    }}
                 >
                     <TableSettingsColumn
                         onChange={onColumnChanged}
@@ -107,14 +126,16 @@ const TableHeader = forwardRef(({
             />                   
         </Grid>
         <Grid item xs={2}>
-            <SearchButton style={{float: "right"}}/>
+            <div>
+                <SearchButton style={{float: "right"}}/>            
+            </div>
         </Grid>
     </Grid>
     )
 })
 
 TableHeader.propTypes = {
-
+    title: PropTypes.object.isRequired,
 }
 
 export default TableHeader

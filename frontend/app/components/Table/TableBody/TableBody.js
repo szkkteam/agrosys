@@ -55,14 +55,28 @@ export default ({
             toolbar: false, // By default remove toolbar
             paging: false, // By default remove paging
             maxBodyHeight: height, // By default set height
-            headerStyle: { position: 'sticky', top: 0 }, // By default sticky header
+            headerStyle: { 
+                position: 'sticky',
+                top: 0,
+                backgroundColor: "#E0E0E0",
+                //borderBottom: "2px solid",
+                boxShadow: "inset 0 -2px 0 black",
+            }, // By default sticky header
         })
     } 
 
     return (
         <MaterialTable
             icons={tableIcons}
-            options={{...defaultOptions}}
+            options={{
+                ...options,
+                ...defaultOptions
+            }}
+            style={{
+                backgroundColor: "#E0E0E0",
+                borderRadius: "initial",
+                boxShadow: "initial",
+            }}
             {...props}
         />
     )
