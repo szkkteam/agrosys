@@ -1,7 +1,11 @@
-import React, { useEffect, useMemo, useState, useRef, useLayoutEffect } from 'react'
+import React, { useEffect, useContext, useState, useRef, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 //import messages from './messages';
 import { FormattedMessage } from 'react-intl';
+
+import { HeaderContentContext } from 'components'
+import { useWindowSize } from 'utils/hooks'
+import useColumnFilter from './useColumnFilter'
 
 import './table.scss'
 
@@ -11,6 +15,7 @@ import {
 } from '../../Table'
 
 const Table = ({
+    siblingRef=null,
     tableTitle,
     columns,
     ...props
@@ -19,26 +24,22 @@ const Table = ({
     const parentRef = useRef(null)
     // Store the ref to the header
     const headerRef = useRef(null)
+
+    const [height, setHeight] = useState(580)
+
+    const { contentHeight } = useContext(HeaderContentContext)
+
+    const {
+        toggleColumns,
+        setToggleColumns,
+        filteredColumns
+    } = useColumnFilter(columns)
     
-    const getColumnsVisibility = () => columns.map(col => ({ title: col.title, hidden: 'hidden' in col? col.hidden : false }))
-
-    const [height, setHeight] = useState(700)
-
-    const [toggleColumns, setToggleColumns] = useState(getColumnsVisibility())
-
-    const filteredColumns = _.zip(columns, toggleColumns).map(mix => {
-        const col = mix[0]
-        const toggleCol = mix[1]
-
-        return {
-            ...col,
-            hidden: toggleCol.hidden
-        }
-    })
-
     useLayoutEffect(() => {
-        if (parentRef.current && headerRef.current) {
-            setHeight(parentRef.current.clientHeight - headerRef.current.clientHeight)
+        if (headerRef.current) {
+            const { clientHeight } = headerRef.current
+
+            setHeight(contentHeight - clientHeight - (siblingRef?.current?.clientHeight ?? 0) - 30)
         }
     }, [parentRef, headerRef])
 
@@ -66,6 +67,7 @@ const Table = ({
 
 Table.propTypes = {
     tableTitle: PropTypes.object.isRequired,
+    //siblingRef: PropTypes.ref,
 }
 
 export default Table

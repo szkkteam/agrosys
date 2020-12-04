@@ -11,14 +11,13 @@ export default ({
     const intl = useIntl()
 
     return (
-        <PageContent>
+        <div style={{height: "50%"}}>
             <Helmet>
                 <title>
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
             <h1>Dashboard home view</h1>
-        </PageContent>
-
+        </div>
     )
 }

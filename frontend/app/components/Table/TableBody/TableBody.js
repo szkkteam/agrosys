@@ -49,12 +49,14 @@ export default ({
     onCellEditFinished = null,
     ...props
 }) => {
-
+    console.log("Table body height: ", height)
     const defaultOptions = {
         ...Object.assign(options, {
+            emptyRowsWhenPaging: true,
             toolbar: false, // By default remove toolbar
             paging: false, // By default remove paging
             maxBodyHeight: height, // By default set height
+            minBodyHeight: height - 1, // By default set height
             headerStyle: { 
                 position: 'sticky',
                 top: 0,

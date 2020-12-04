@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useMemo, useState, useRef } from 'react'
+import React, { forwardRef, useMemo, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 
@@ -33,13 +33,13 @@ const Buttons = ({
     </Grid>
 )
 
-const TabsButton = ({
+const TabsButton = forwardRef(({
     values,
     defaultValue,
     onChange,
     className="",
     ...props
-}) => {
+}, ref) => {
 
     const handleChange = (e, v) => {
         onChange && onChange(v)
@@ -47,6 +47,7 @@ const TabsButton = ({
 
     return (
         <ToggleButtonGroup
+            ref={ref}
             className={`tabs-button-container ${className}`}
             value={defaultValue}
             exclusive
@@ -55,6 +56,7 @@ const TabsButton = ({
         >
             { values && values.map(({value, message}, index) => (
                 <ToggleButton
+                    key={index}
                     value={value}
                 >
                     <FormattedMessage {...message} />
@@ -62,7 +64,7 @@ const TabsButton = ({
             )) }
         </ToggleButtonGroup>
     )
-}
+})
 
 TabsButton.propTypes = {
     values: PropTypes.arrayOf(PropTypes.shape({

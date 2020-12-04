@@ -19,8 +19,11 @@ const HeaderContent = ({
     }
 
     const headerRef = useRef(null)
+    const contentRef = useRef(null)
+
     const headerPortalRef = React.useRef(null);
     const [headerHeight, setHeaderHeight] = useState(50)
+    const [contentHeight, setContentHeight] = useState(700)
 
     let headerChild = null
     let contentChild = null
@@ -37,18 +40,112 @@ const HeaderContent = ({
 
     useLayoutEffect(() => {
         if (headerRef.current) {
-            setHeaderHeight(headerRef.current.clientHeight)
+            const { clientHeight } = headerRef.current
+            console.log("Header height: ", clientHeight)
+            setHeaderHeight(clientHeight)
+        }
+        if (contentRef.current) {
+            const { clientHeight } = contentRef.current
+            setContentHeight(clientHeight)
         }
     })
 
     const contextObject = {
         headerHeight,
-        contentHeight: `calc(100vh - ${styles.topSpacing} - ${headerHeight}px - 16px)`,
+        contentHeight,
         headerPortalRef,
     }
 
     return (
         <Grid 
+            className="layout-header-content"
+            container
+            spacing={1}
+        >
+            <HeaderContentContext.Provider
+                value={contextObject}
+            >
+                <Grid item xs={12}
+                    className="header"
+                    ref={headerRef}
+                >               
+                    {_.isFunction(headerComponent)? 
+                        headerComponent()
+                        : 
+                        headerComponent
+                    }
+                </Grid>
+                <Grid
+                    ref={contentRef}
+                    item xs={12}
+                    className="content"
+                    style={{height: `calc(100vh - ${styles.topSpacing} - ${headerHeight}px - 16px)` }}
+                >
+                    {_.isFunction(contentComponent)? 
+                        contentComponent()
+                        : 
+                        contentComponent
+                    }
+                </Grid>
+            </HeaderContentContext.Provider>
+        </Grid>      
+    )
+}
+
+HeaderContent.propTypes = {
+    header: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.func,
+        PropTypes.oneOf([null])
+    ]),
+    content: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.func,
+    ]),
+    children: PropTypes.arrayOf(
+        PropTypes.oneOfType([
+            PropTypes.object,
+            PropTypes.func,
+    ])),
+}
+
+export default HeaderContent
+/*
+<div
+            className="layout-header-content"
+        >
+            <HeaderContentContext.Provider
+                value={contextObject}
+            >
+                <div
+                    className="header"
+                    ref={headerRef}
+                >
+                    {_.isFunction(headerComponent)? 
+                        headerComponent()
+                        : 
+                        headerComponent
+                    }
+                </div>
+                <div
+                    ref={contentRef}
+                    className="content"
+                    style={{height: `calc(100vh - ${styles.topSpacing} - ${headerHeight}px - 16px)` }}
+                >
+                    {_.isFunction(contentComponent)? 
+                        contentComponent()
+                        : 
+                        contentComponent
+                    }
+                </div>
+            </HeaderContentContext.Provider>
+        </div>    
+*/
+
+
+
+/*
+<Grid 
             className="layout-header-content"
             container
             spacing={1}
@@ -72,40 +169,17 @@ const HeaderContent = ({
                     </Paper>
                 </Grid>
                 <Grid
+                    ref={contentRef}
                     item xs={12}
                     className="content"
                     style={{height: `calc(100vh - ${styles.topSpacing} - ${headerHeight}px - 16px)` }}
                 >
-                    <Paper
-                        {...paperProps}
-                    >
-                        {_.isFunction(contentComponent)? 
-                            contentComponent()
-                            : 
-                            contentComponent
-                        }
-                    </Paper>
+                    {_.isFunction(contentComponent)? 
+                        contentComponent()
+                        : 
+                        contentComponent
+                    }
                 </Grid>
             </HeaderContentContext.Provider>
         </Grid>
-    )
-}
-
-HeaderContent.propTypes = {
-    header: PropTypes.oneOfType([
-        PropTypes.object,
-        PropTypes.func,
-        PropTypes.oneOf([null])
-    ]),
-    content: PropTypes.oneOfType([
-        PropTypes.object,
-        PropTypes.func,
-    ]),
-    children: PropTypes.arrayOf(
-        PropTypes.oneOfType([
-            PropTypes.object,
-            PropTypes.func,
-    ])),
-}
-
-export default HeaderContent
+*/

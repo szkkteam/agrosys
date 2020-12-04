@@ -23,6 +23,7 @@ const WorkerLayout = ({
 }) => {
 
     const [value, setValue] = useState(TAB_WORKERS)
+    const tabsRef = useRef(null)
 
     const {
         headerPortalRef,
@@ -34,18 +35,23 @@ const WorkerLayout = ({
     ]
 
     return (
-        <div>
+        <div className="h-100">
             <Portal container={headerPortalRef.current}>
                 <div>Worker specific context</div>
             </Portal>
             <TabsButton
+                ref={tabsRef}
                 defaultValue={value}
                 values={tabValues}
                 onChange={setValue}
             />
             { value === TAB_WORKERS?
-                <WorkerTable />
-              : <RoleTable />
+                <WorkerTable
+                    siblingRef={tabsRef}
+                />
+              : <RoleTable 
+                    siblingRef={tabsRef}
+                />
             }
         </div>
     )

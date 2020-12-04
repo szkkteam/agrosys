@@ -17,11 +17,9 @@ class PageContent extends React.Component {
   render() {
     const { children, className  } = this.props
     return (
-      <div className="main-content">
-        <div className="content-spacer"/>
-        <Notification />
+      <>
         {children}
-      </div> 
+      </> 
     )
   }
 }
