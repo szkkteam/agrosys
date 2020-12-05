@@ -5,6 +5,11 @@ import styled from 'styled-components'
 
 import { HeaderContentContext } from 'components'
 
+import {
+    useHeaderContentComponents,
+    useHeaderContentHeight
+ } from './hocs'
+
 const LayoutHeaderContent = styled(Grid)`
     ${({ theme }) => `
     height: calc(100vh - ${theme.custom.topSpacingHeight}px - ${theme.custom.pagePadding}px);
@@ -26,43 +31,21 @@ const HeaderContent = ({
     content=null,
     children
 }) => {
-    const paperProps = {
-        variant: 'outlined',
-        elevation: 1,
-        square: false,
-    }
-
+    
     const headerRef = useRef(null)
     const contentRef = useRef(null)
-
     const headerPortalRef = React.useRef(null);
-    const [headerHeight, setHeaderHeight] = useState(50)
-    const [contentHeight, setContentHeight] = useState(700)
 
-    let headerChild = null
-    let contentChild = null
+    const {
+        headerHeight,
+        contentHeight
+    } = useHeaderContentHeight(headerRef, contentRef)
 
-    if (!header && ! content && React.Children.count(children) > 1)  {
-        const childArray = React.Children.toArray(children)
-        headerChild = childArray[0]   
-        contentChild = childArray[1]   
-    }
+    const {
+        headerComponent,
+        contentComponent
+    } = useHeaderContentComponents(header, content, children)
 
-    let headerComponent = header? header : headerChild
-    let contentComponent = content? content : contentChild
-
-
-    useLayoutEffect(() => {
-        if (headerRef.current) {
-            const { clientHeight } = headerRef.current
-            console.log("Header height: ", clientHeight)
-            setHeaderHeight(clientHeight)
-        }
-        if (contentRef.current) {
-            const { clientHeight } = contentRef.current
-            setContentHeight(clientHeight)
-        }
-    })
 
     const contextObject = {
         headerHeight,

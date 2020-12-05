@@ -1,6 +1,7 @@
 import React, { useContext, useMemo, useState, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
+import styled from 'styled-components'
 import { useIntl, FormattedMessage } from 'react-intl'
 import { ROUTES } from 'routes'
 import { ROUTE_MAP } from 'routes'
@@ -14,8 +15,12 @@ import { HeaderContentContext } from 'components'
 
 import { Tabs, TabLink } from 'components'
 
+const PageTitle = styled(Typography)`
+    margin-top: 15px;
+`
+
 const ResourcesHeader = ({
-    //match,
+    match,
     location,
     ...props
 }) => {
@@ -25,6 +30,8 @@ const ResourcesHeader = ({
         headerPortalRef,
     } = useContext(HeaderContentContext)
 
+    const matched = location.pathname.match("(\/\\w+){2}")
+
     return (
             <Grid 
                 container
@@ -32,13 +39,13 @@ const ResourcesHeader = ({
                 spacing={1}
             >
                 <Grid item xs={12}>
-                    <Typography variant="h5" style={{marginTop: "15px"}}>
+                    <PageTitle variant="h5">
                         <FormattedMessage {...messages.pageTitle} />
-                    </Typography>
+                    </PageTitle>
                 </Grid>
                 <Grid item xs={9}>
                     <Tabs
-                        value={location.pathname}
+                        value={matched? matched[0] : location.pathname}
                         orientation="horizontal"
                     >
                         <TabLink to={ROUTES.BlockList} value={ROUTE_MAP[ROUTES.BlockList].path} label={intl.formatMessage(messages.tabFieldsTitle)} />
