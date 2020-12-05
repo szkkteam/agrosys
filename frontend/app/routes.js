@@ -39,6 +39,7 @@ import {
 
 import {
   BlockList,
+  BlockDetail,
   BlockCreateDraw,
   BlockCreateUpload,
   BlockCreateLPIS
@@ -140,6 +141,7 @@ export const ROUTES = {
 
   // Block
   BlockList: 'BlockList',
+  BlockDetail: 'BlockDetail',
   BlockCreateDraw: 'BlockCreateDraw',
   BlockCreateUpload: 'BlockCreateUpload',
   BlockCreateLPIS: 'BlockCreateLPIS',
@@ -288,6 +290,13 @@ export const routes = [
         routeComponent: ProtectedRoute,
         props: { exact: true }
       },
+      {    
+        key: ROUTES.BlockDetail, // This must come before BlockList
+        path: '/resource/fields/:id',
+        component: BlockDetail,
+        routeComponent: ProtectedRoute,
+        props: { exact: true }
+      },      
       {        
         key: ROUTES.BlockList, //Block list must be in the end of the list, because it's accepting multiple routes (exact=false)
         path: '/resource/fields',

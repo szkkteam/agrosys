@@ -1,45 +1,71 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import styled from 'styled-components'
 
-import { withResizeAware } from 'utils/hoc'
+import Grid from '@material-ui/core/Grid';
+
+import { useSplitComponents } from 'utils/hooks'
+
+const Container = styled(Grid)`
+    height: 100%;
+`
 
 import './masterdetail.scss'
 
 const MasterDetail = ({
-    master,
-    detail,
+    master=null,
+    detail=null,
     masterSize=3,
+    children,
+    ...props
 }) => {
     const detailSize = 12 - masterSize
 
-    const paperProps = {
-        variant: 'outlined',
-        elevation: 1,
-        square: false,
-    }
+    const {
+        componentAChild: masterComponent,
+        componentBChild: detailComponent
+    } = useSplitComponents(master, detail, children)
 
     return (
-        <Grid
-            className="master-detail"
+        <Container
             container
             spacing={1}
+            {...props}
         >
-            <Grid item xs={masterSize} className="master">
-                {master}
-            </Grid>
-            <Grid item xs={detailSize} className="detail">
-                {detail}
-            </Grid>
-        </Grid>
+            <Container item xs={masterSize}>
+                {_.isFunction(masterComponent)? 
+                    masterComponent()
+                    : 
+                    masterComponent
+                }
+            </Container>
+            <Container item xs={detailSize}>
+                {_.isFunction(detailComponent)? 
+                    detailComponent()
+                    : 
+                    detailComponent
+                }
+            </Container>
+        </Container>
     )
 }
 
 MasterDetail.propTypes = {
     masterSize: PropTypes.number,
-    master: PropTypes.element.isRequired,
-    detail: PropTypes.element.isRequired,
+    header: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.func,
+        PropTypes.oneOf([null])
+    ]),
+    content: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.func,
+    ]),
+    children: PropTypes.arrayOf(
+        PropTypes.oneOfType([
+            PropTypes.object,
+            PropTypes.func,
+    ])),
 }
 
 export default MasterDetail

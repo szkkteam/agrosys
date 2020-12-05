@@ -9,6 +9,8 @@ import ViewModuleIcon from '@material-ui/icons/ViewModule';
 
 import { VIEW_MAP, VIEW_LIST, VIEW_MODULE } from '../../constants'
 
+import { BlockViewButtons } from '../../components'
+
 const BlockHeader = ({
     history,
     match,
@@ -40,21 +42,7 @@ const BlockHeader = ({
             </Grid>
             <Grid item xs={2}>
                 <div style={{display: "inline-block", float: "right"}}>
-                    <IconButton
-                        onClick={handleMapView}
-                    >
-                        <MapIcon />
-                    </IconButton>
-                    <IconButton
-                        onClick={handleListView}
-                    >
-                        <ListIcon />
-                    </IconButton>
-                    <IconButton
-                        onClick={handleModuleView}
-                    >
-                        <ViewModuleIcon />
-                    </IconButton>
+                    <BlockViewButtons />
                 </div>
             </Grid>
         </Grid>

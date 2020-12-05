@@ -1,18 +1,40 @@
 import React, { useEffect } from 'react'
 import Helmet from 'react-helmet'
 import messages from './messages';
+import styled from 'styled-components'
 import { useIntl } from 'react-intl'
 import { Route } from "react-router-dom";
-import { PageContent, HeaderContent, MasterDetail } from 'components'
-import { 
-    BlockHeader,
-    BlockMapView,
-    BlockListView,
-    BlockModuleView
-} from '../../components'
-import { useQuery } from 'utils/hooks'
 
-import { VIEW_MAP, VIEW_LIST, VIEW_MODULE } from '../../constants'
+import { BlockLayout } from '../../components'
+
+const Container = styled.div`
+    height: 100%;
+`
+
+export default ({
+    history,
+    match,
+    ...rest  
+}) => {
+
+    const intl = useIntl()
+    
+    return (
+        <Container>
+            <Helmet>
+                <title>
+                    {intl.formatMessage(messages.title)}
+                </title>
+            </Helmet>
+            <BlockLayout
+                history={history}
+                match={match}
+            />
+        </Container>
+    )
+}
+
+/*
 
 export default ({
     history,
@@ -80,3 +102,4 @@ export default ({
         </div>
     )
 }
+*/

@@ -3,12 +3,9 @@ import PropTypes, { number } from 'prop-types'
 import Grid from '@material-ui/core/Grid';
 import styled from 'styled-components'
 
+import { useSplitComponents } from 'utils/hooks'
 import { HeaderContentContext } from 'components'
-
-import {
-    useHeaderContentComponents,
-    useHeaderContentHeight
- } from './hocs'
+import { useHeaderContentHeight } from './hooks'
 
 const LayoutHeaderContent = styled(Grid)`
     ${({ theme }) => `
@@ -23,6 +20,9 @@ const Header = styled(Grid)`
 const Content = styled(forwardRef(({headerHeight: dummy = null, ...rest}, ref) => <Grid {...rest} ref={ref} /> ))`
     ${({ theme, headerHeight }) => `
     height: calc(100vh - ${theme.custom.topSpacingHeight}px - ${headerHeight}px);
+    > div {
+        height: 100%;
+    }
     `}
 `
 
@@ -42,9 +42,9 @@ const HeaderContent = ({
     } = useHeaderContentHeight(headerRef, contentRef)
 
     const {
-        headerComponent,
-        contentComponent
-    } = useHeaderContentComponents(header, content, children)
+        componentAChild: headerComponent,
+        componentBChild: contentComponent
+    } = useSplitComponents(header, content, children)
 
 
     const contextObject = {
@@ -105,76 +105,3 @@ HeaderContent.propTypes = {
 }
 
 export default HeaderContent
-/*
-<div
-            className="layout-header-content"
-        >
-            <HeaderContentContext.Provider
-                value={contextObject}
-            >
-                <div
-                    className="header"
-                    ref={headerRef}
-                >
-                    {_.isFunction(headerComponent)? 
-                        headerComponent()
-                        : 
-                        headerComponent
-                    }
-                </div>
-                <div
-                    ref={contentRef}
-                    className="content"
-                    style={{height: `calc(100vh - ${styles.topSpacing} - ${headerHeight}px - 16px)` }}
-                >
-                    {_.isFunction(contentComponent)? 
-                        contentComponent()
-                        : 
-                        contentComponent
-                    }
-                </div>
-            </HeaderContentContext.Provider>
-        </div>    
-*/
-
-
-
-/*
-<Grid 
-            className="layout-header-content"
-            container
-            spacing={1}
-        >
-            <HeaderContentContext.Provider
-                value={contextObject}
-            >
-                <Grid item xs={12}>
-                    <Paper
-                        className="header"
-                        ref={headerRef}
-                        variant="outlined"
-                        //style={{height: `${headerHeight}px`}}
-                        {...paperProps}
-                    >
-                        {_.isFunction(headerComponent)? 
-                            headerComponent()
-                            : 
-                            headerComponent
-                        }
-                    </Paper>
-                </Grid>
-                <Grid
-                    ref={contentRef}
-                    item xs={12}
-                    className="content"
-                    style={{height: `calc(100vh - ${styles.topSpacing} - ${headerHeight}px - 16px)` }}
-                >
-                    {_.isFunction(contentComponent)? 
-                        contentComponent()
-                        : 
-                        contentComponent
-                    }
-                </Grid>
-            </HeaderContentContext.Provider>
-        </Grid>
-*/

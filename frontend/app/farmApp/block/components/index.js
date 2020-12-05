@@ -6,3 +6,6 @@ export { default as BlockHeader } from './BlockHeader'
 export { default as BlockMapView } from './BlockMapView'
 export { default as BlockListView } from './BlockListView'
 export { default as BlockModuleView } from './BlockModuleView'
+
+export { default as BlockLayout } from './BlockLayout'
+export { default as BlockViewButtons } from './BlockViewButtons'
