@@ -1,11 +1,25 @@
-import React, { useState, useRef, useLayoutEffect } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useRef, useLayoutEffect, forwardRef } from 'react'
+import PropTypes, { number } from 'prop-types'
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import styled from 'styled-components'
 
 import { HeaderContentContext } from 'components'
 
-import styles from './headercontent.scss'
+const LayoutHeaderContent = styled(Grid)`
+    ${({ theme }) => `
+    height: calc(100vh - ${theme.custom.topSpacingHeight}px - ${theme.custom.pagePadding}px);
+    `}
+`
+
+const Header = styled(Grid)`
+    border-bottom: 1px solid rgba(0,0,0,0.12);
+`
+
+const Content = styled(forwardRef(({headerHeight: dummy = null, ...rest}, ref) => <Grid {...rest} ref={ref} /> ))`
+    ${({ theme, headerHeight }) => `
+    height: calc(100vh - ${theme.custom.topSpacingHeight}px - ${headerHeight}px);
+    `}
+`
 
 const HeaderContent = ({
     header=null,
@@ -57,16 +71,15 @@ const HeaderContent = ({
     }
 
     return (
-        <Grid 
-            className="layout-header-content"
+        <LayoutHeaderContent 
             container
             spacing={1}
         >
             <HeaderContentContext.Provider
                 value={contextObject}
             >
-                <Grid item xs={12}
-                    className="header"
+                <Header item xs={12}
+                    //className="header"
                     ref={headerRef}
                 >               
                     {_.isFunction(headerComponent)? 
@@ -74,21 +87,20 @@ const HeaderContent = ({
                         : 
                         headerComponent
                     }
-                </Grid>
-                <Grid
+                </Header>
+                <Content
                     ref={contentRef}
                     item xs={12}
-                    className="content"
-                    style={{height: `calc(100vh - ${styles.topSpacing} - ${headerHeight}px - 16px)` }}
+                    headerHeight={headerHeight}
                 >
                     {_.isFunction(contentComponent)? 
                         contentComponent()
                         : 
                         contentComponent
                     }
-                </Grid>
+                </Content>
             </HeaderContentContext.Provider>
-        </Grid>      
+        </LayoutHeaderContent>      
     )
 }
 

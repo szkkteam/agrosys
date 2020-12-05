@@ -1,6 +1,7 @@
 import React, { forwardRef, useMemo, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
 
 import {
     Grid,
@@ -14,24 +15,23 @@ import {
 
 import './tabsbutton.scss'
 
-const Buttons = ({
-    values,
-    ...props
-}) => (
-    <Grid
-        container
-    >
-        { values && values.map(({value, message}, index) => (
-            <Grid key={index} item xs={12/values.length}>
-                <ToggleButton
-                    value={value}
-                >
-                    <FormattedMessage {...message} />
-                </ToggleButton>
-            </Grid>
-        )) }
-    </Grid>
-)
+const TabButtonGroup = styled(forwardRef((props, ref) => <ToggleButtonGroup ref={ref} {...props} />))`
+    ${({theme}) => `
+    width: 100%;
+    padding: 15px 0;
+    button {
+        width: 100%;
+        padding: 5px 10px;
+        border-radius: 10px;
+
+        &.MuiToggleButton-root.Mui-selected {
+            color: ${theme.palette.primary.contrastText};
+            background-color: ${theme.palette.primary.main};
+        }
+    }
+    `}
+`
+
 
 const TabsButton = forwardRef(({
     values,
@@ -46,9 +46,8 @@ const TabsButton = forwardRef(({
     }
 
     return (
-        <ToggleButtonGroup
+        <TabButtonGroup
             ref={ref}
-            className={`tabs-button-container ${className}`}
             value={defaultValue}
             exclusive
             onChange={handleChange}
@@ -62,7 +61,7 @@ const TabsButton = forwardRef(({
                     <FormattedMessage {...message} />
                 </ToggleButton>
             )) }
-        </ToggleButtonGroup>
+        </TabButtonGroup>
     )
 })
 
