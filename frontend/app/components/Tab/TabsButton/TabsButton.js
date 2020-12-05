@@ -1,6 +1,7 @@
-import React, { useLayoutEffect, useMemo, useState, useRef } from 'react'
+import React, { forwardRef, useMemo, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
 
 import {
     Grid,
@@ -14,40 +15,39 @@ import {
 
 import './tabsbutton.scss'
 
-const Buttons = ({
-    values,
-    ...props
-}) => (
-    <Grid
-        container
-    >
-        { values && values.map(({value, message}, index) => (
-            <Grid key={index} item xs={12/values.length}>
-                <ToggleButton
-                    value={value}
-                >
-                    <FormattedMessage {...message} />
-                </ToggleButton>
-            </Grid>
-        )) }
-    </Grid>
-)
+const TabButtonGroup = styled(forwardRef((props, ref) => <ToggleButtonGroup ref={ref} {...props} />))`
+    ${({theme}) => `
+    width: 100%;
+    padding: 15px 0;
+    button {
+        width: 100%;
+        padding: 5px 10px;
+        border-radius: 10px;
 
-const TabsButton = ({
+        &.MuiToggleButton-root.Mui-selected {
+            color: ${theme.palette.primary.contrastText};
+            background-color: ${theme.palette.primary.main};
+        }
+    }
+    `}
+`
+
+
+const TabsButton = forwardRef(({
     values,
     defaultValue,
     onChange,
     className="",
     ...props
-}) => {
+}, ref) => {
 
     const handleChange = (e, v) => {
         onChange && onChange(v)
     }
 
     return (
-        <ToggleButtonGroup
-            className={`tabs-button-container ${className}`}
+        <TabButtonGroup
+            ref={ref}
             value={defaultValue}
             exclusive
             onChange={handleChange}
@@ -55,14 +55,15 @@ const TabsButton = ({
         >
             { values && values.map(({value, message}, index) => (
                 <ToggleButton
+                    key={index}
                     value={value}
                 >
                     <FormattedMessage {...message} />
                 </ToggleButton>
             )) }
-        </ToggleButtonGroup>
+        </TabButtonGroup>
     )
-}
+})
 
 TabsButton.propTypes = {
     values: PropTypes.arrayOf(PropTypes.shape({

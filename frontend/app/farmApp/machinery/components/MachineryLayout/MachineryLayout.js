@@ -22,6 +22,7 @@ const MachineryLayout = ({
 }) => {
 
     const [value, setValue] = useState(TAB_MACHINERIES)
+    const tabsRef = useRef(null)
 
     const tabValues = [
         {value: TAB_MACHINERIES, message: messages.left},
@@ -31,13 +32,18 @@ const MachineryLayout = ({
     return (
         <div>
             <TabsButton
+                ref={tabsRef}
                 defaultValue={value}
                 values={tabValues}
                 onChange={setValue}
             />
             { value === TAB_MACHINERIES?
-                <MachineryTable />
-              : <ReservationTable />
+                <MachineryTable
+                    siblingRef={tabsRef}
+                />
+              : <ReservationTable
+                    siblingRef={tabsRef}
+                />
             }
         </div>
     )

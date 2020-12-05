@@ -58,25 +58,7 @@ const WorkerTable = ({
                 tableTitle={messages.tableTitle}
                 columns={columns}
                 data={data}
-                detailPanel={[
-                    {
-                      //tooltip: intl.formatMessage(messages.expandRowTooltip),
-                      render: rowData => {
-                        return (
-                          <div
-                            style={{
-                              fontSize: 100,
-                              textAlign: 'center',
-                              color: 'white',
-                              backgroundColor: '#43A047',
-                            }}
-                          >
-                            {rowData.name}
-                          </div>
-                        )
-                      },
-                    },
-                ]}
+                {...props}                
             />
     )
 }

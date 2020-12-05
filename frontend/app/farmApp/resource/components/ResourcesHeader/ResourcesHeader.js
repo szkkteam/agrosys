@@ -32,7 +32,7 @@ const ResourcesHeader = ({
                 spacing={1}
             >
                 <Grid item xs={12}>
-                    <Typography variant="h5">
+                    <Typography variant="h5" style={{marginTop: "15px"}}>
                         <FormattedMessage {...messages.pageTitle} />
                     </Typography>
                 </Grid>

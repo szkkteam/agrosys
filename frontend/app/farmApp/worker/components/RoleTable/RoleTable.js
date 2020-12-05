@@ -27,7 +27,8 @@ const RoleTable = ({
             <Table
                 tableTitle={messages.tableTitle}
                 columns={columns}
-                data={data}                
+                data={data}      
+                {...props}          
             />
     )
 }

@@ -119,16 +119,26 @@ const TableHeader = forwardRef(({
                 </TableSettingsButton>
             </div>
         </Grid>
-        <Grid item xs={10}>
-            <TableFilters
-                filters={chipData}
-                onDelete={handleDelete}
-            />                   
-        </Grid>
-        <Grid item xs={2}>
-            <div>
-                <SearchButton style={{float: "right"}}/>            
-            </div>
+        <Grid item xs={12} >
+            <div style={{
+                    position: "relative",
+                    display: "flex",
+                    backgroundColor: "white",
+                    padding: "0 10px"
+                }}
+            >
+                <TableFilters
+                    filters={chipData}
+                    onDelete={handleDelete}
+                />                   
+                <SearchButton style={{
+                    position: "absolute",
+                    float: "right",
+                    top: "25%",
+                    right: "14px",
+                }}
+                />
+            </div>            
         </Grid>
     </Grid>
     )
