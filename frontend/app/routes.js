@@ -292,7 +292,7 @@ export const routes = [
       },
       {    
         key: ROUTES.BlockDetail, // This must come before BlockList
-        path: '/resource/fields/:id',
+        path: '/resource/fields/:id/detail',
         component: BlockDetail,
         routeComponent: ProtectedRoute,
         props: { exact: true }

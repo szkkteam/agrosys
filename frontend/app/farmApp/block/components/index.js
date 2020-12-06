@@ -9,3 +9,6 @@ export { default as BlockModuleView } from './BlockModuleView'
 
 export { default as BlockLayout } from './BlockLayout'
 export { default as BlockViewButtons } from './BlockViewButtons'
+export { default as BlockList } from './BlockList'
+export { default as BlockListItem } from './BlockListItem'
+export { default as BlockListItemMenu } from './BlockListItemMenu'

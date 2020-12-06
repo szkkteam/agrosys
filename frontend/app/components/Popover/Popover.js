@@ -16,7 +16,6 @@ const Popover = ({
     componentProps=null,    
     title="",
     children,
-    className="",
     placement='bottom',
     ...props
 }) => {
@@ -60,10 +59,12 @@ const Popover = ({
         onClose: handleClose,
         open,
     }
-
+    
 
     return (
-        <div className={className}>
+        <div 
+            {...props}
+        >
             <Component 
                 ref={anchorRef}
                 aria-controls={open ? 'menu-list-grow' : undefined}
@@ -106,7 +107,6 @@ Popover.propTypes = {
     title: PropTypes.string,
     listProps: PropTypes.object,
     //children: PropTypes.arrayOf(PropTypes.element),
-    className: PropTypes.string,
 }
 
 export default Popover

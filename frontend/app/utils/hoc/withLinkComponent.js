@@ -47,7 +47,7 @@ const withLinkComponent = (WrappedComponent) => {
     
         render() {
             const { to, params, dataProps, ...rest } = this.props
-            //console.log("withLink props: ", rest)
+            console.log("withLink props: ", params)
             return (
                 <WrappedComponent 
                     component={

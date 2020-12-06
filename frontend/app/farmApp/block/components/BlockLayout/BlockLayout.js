@@ -4,20 +4,23 @@ import messages from './messages';
 import styled from 'styled-components'
 import { useIntl, FormattedMessage } from 'react-intl'
 
+import { HeaderContentContext } from 'components'
+
 import {
-    Grid
+    Grid,
+    Portal
 } from '@material-ui/core';
 
 import {
-    BlockViewButtons
+    BlockViewButtons,
+    BlockList,
+    BlockListItem
 } from '../../components'
+
+import { LeafletMap } from 'farmApp/map/components'
 
 import { MasterDetail } from 'components'
 
-
-const StyledMasterDetail = styled(props => <MasterDetail {...props}/>)`
-    height: calc(100% - 56px) !important;
-`
 
 const StyledBlockViewButtons = styled(props => <BlockViewButtons {...props} />)`
     float: right;
@@ -27,29 +30,40 @@ const Container = styled(Grid)`
     height: 100%;
 `
 
-const SubHeader = styled.div`
-    width: 100%;
-    height: 56px;
-`
-
 const BlockLayout = ({
     history,
     match,
 }) => {
 
+    const {
+        headerPortalRef,
+    } = useContext(HeaderContentContext)
+
+    // TODO: Based on the URL query param, change the view later
 
     return (
         <Container>
-            <SubHeader>
+            <Portal container={headerPortalRef.current}>
                 <StyledBlockViewButtons
                     history={history}
                     match={match}
                 />
-            </SubHeader>
-            <StyledMasterDetail>
-                <div>Master</div>
-                <div>Detail</div>
-            </StyledMasterDetail>                
+            </Portal>
+            <MasterDetail>
+                <BlockList>
+                    <BlockListItem />
+                    <BlockListItem />
+                    <BlockListItem />
+                    <BlockListItem />
+                    <BlockListItem />
+                    <BlockListItem />
+                    <BlockListItem />
+                    <BlockListItem />
+                    <BlockListItem />
+                    <BlockListItem />
+                </BlockList>
+                <LeafletMap />
+            </MasterDetail>                
         </Container>
     )
 }

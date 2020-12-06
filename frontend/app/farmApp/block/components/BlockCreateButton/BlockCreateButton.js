@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages'
 import classnames from 'classnames'
@@ -12,12 +12,11 @@ import { BLOCK_CREATE_DIALOG } from 'site/modalTypes'
 
 import Button from '@material-ui/core/Button';
 
-import './blockcreatebutton.scss'
-
 const BlockCreateButton = ({
+    customRef,
     onClick,
-    className='',
     pushModalWindow,
+    ...props
 }) => {
 
     const handleClick = () => {
@@ -31,12 +30,11 @@ const BlockCreateButton = ({
 
     return (
         <Button
-            className={classnames(className, {
-
-            })}
+            ref={customRef}
             variant="contained"
             color="primary"
             onClick={handleClick}
+            {...props}
         >
             <FormattedMessage {...messages.title} />
         </Button>
@@ -59,6 +57,10 @@ const withConnect = connect(
     (dispatch) => bindActionCreators({ pushModalWindow }, dispatch),
 )
   
-export default compose(
+const ConnectedBlockCreateButton = compose(
     withConnect,
 )(BlockCreateButton)
+
+export default forwardRef((props, ref) =>
+    <ConnectedBlockCreateButton {...props} customRef={ref} />
+)
