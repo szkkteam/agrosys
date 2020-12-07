@@ -2,9 +2,10 @@ import React from 'react'
 import Helmet from 'react-helmet'
 import messages from './messages';
 import { useIntl } from 'react-intl'
-import { PageContent, Content } from 'components'
+import styled from 'styled-components'
+import { Content } from 'components'
 
-import { BlockCreateForm, BlockDrawPage, BlockEditPage } from '../../components'
+import { BlockCreateDraw } from '../../components'
 
 /**
  * 1) Render a form component
@@ -15,25 +16,27 @@ import { BlockCreateForm, BlockDrawPage, BlockEditPage } from '../../components'
  * 6) When everything is okay, send the form data to the server and render the /fields/<id newly created>/?view=map route
  */
 
+
+const Container = styled.div`
+    height: 100%;
+`
+
+
 export default ({
     ...rest  
 }) => {
     const intl = useIntl()
     return (
-        <div>
+        <Container>
             <Helmet>
                 <title>
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
                 <Content>
-                    <BlockCreateForm
-                        pages={[
-                            BlockDrawPage,
-                            BlockEditPage
-                        ]}
+                    <BlockCreateDraw
                     />
                 </Content>
-        </div>
+        </Container>
     )
 }

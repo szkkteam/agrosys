@@ -26,6 +26,7 @@ const steps = [
 const BlockCreateForm = ({
     pages,
     invalid,
+    /*
     handleSubmit,
     submitting,
     pristine,
@@ -34,15 +35,12 @@ const BlockCreateForm = ({
     resetSection,
     change,
     tasks,
+    */
     ...rest 
 }) => {
 
     const contents = useMemo(() => pages.map((PageComponent, i) => {
-        console.log("Index: ", i)
-        console.log("pages.length: ", pages.length)
-        console.log("Component: ", PageComponent)
         const isLast = i == pages.length - 1
-        console.log("Last? ", isLast)
         if (!isLast) {
             return ({onComplete, ...props}) => (
                 <PageComponent
@@ -63,19 +61,20 @@ const BlockCreateForm = ({
    
     return (      
         <Stepper 
+            defaultStep={1} // TODO: REmove
             steps={steps}
             contents={contents}
             stepsVisible={false}
         />
   ) 
 }
-
+/*
 
 const withForm = reduxForm({
     form: BLOCK_CREATE_FORM,
     //validate,
-    enableReinitialize: true,
-    keepDirtyOnReinitialize: true,
+    //enableReinitialize: true,
+    //keepDirtyOnReinitialize: true,
 })
 
 const withConnect = connect(
@@ -96,3 +95,5 @@ export default compose(
     withForm,
 )(BlockCreateForm) 
 
+*/
+export default BlockCreateForm

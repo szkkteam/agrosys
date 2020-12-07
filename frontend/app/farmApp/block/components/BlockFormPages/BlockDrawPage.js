@@ -85,8 +85,8 @@ const BlockDrawPage = ({
 const withForm = reduxForm({
     form: BLOCK_CREATE_FORM,
     //validate,
-    enableReinitialize: true,
-    keepDirtyOnReinitialize: true,
+    //enableReinitialize: true,
+    //keepDirtyOnReinitialize: true,
     destroyOnUnmount: false, 
     forceUnregisterOnUnmount: true, 
 })

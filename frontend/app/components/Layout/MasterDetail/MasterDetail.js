@@ -10,8 +10,6 @@ const Container = styled(Grid)`
     height: 100%;
 `
 
-import './masterdetail.scss'
-
 const MasterDetail = ({
     master=null,
     detail=null,

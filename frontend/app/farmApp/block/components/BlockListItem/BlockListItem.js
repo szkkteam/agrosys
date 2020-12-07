@@ -92,7 +92,7 @@ const BlockListItem = ({
     history
 }) => {
 
-    const [showMore, setShowMore] = useState(true)
+    const [showMore, setShowMore] = useState(false)
     
     const handleShowMore = () => setShowMore(true)
     const handleHideMore = () => setShowMore(false) 
@@ -109,7 +109,7 @@ const BlockListItem = ({
             //button
             onClick={onSelect}            
             onMouseEnter={handleShowMore}
-            //onMouseLeave={handleHideMore}
+            onMouseLeave={handleHideMore}
         >
             <div>
                 <Thumbnail image="https://via.placeholder.com/48/48"/>

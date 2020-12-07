@@ -24,6 +24,8 @@ import { LeafletMap } from 'farmApp/map/components'
 import BlockEditTabGeneral from './BlockEditTabGeneral'
 import BlockEditTabLPIS from './BlockEditTabLPIS'
 
+import { BlockFormStepButton } from '../../components'
+
 import { BLOCK_CREATE_FORM } from '../../constants'
 
 import './blockdrawpage.scss'
@@ -92,6 +94,126 @@ const BlockDrawPage = ({
 
     return (      
         <Grid
+            className="block-edit"
+            container
+            spacing={0}
+        >
+            <Grid item xs={8}>
+                <Grid item xs={12}>
+                    <Typography
+                        className="edit-title"
+                        variant="h4"
+                    >
+                        { currentTitle ? currentTitle : "Block name" }, 4 ha
+                    </Typography>
+                </Grid>
+                <Grid item xs={11} style={{marginTop: "40px"}}>
+                    <form onSubmit={handleSubmit} >  
+                        <Grid
+                            container
+                            spacing={3}
+                        >
+                            <Grid item xs={3}>
+                                <div style={{flexGrow: 1, display: 'flex'}}>
+                                    <Tabs
+                                        orientation="vertical"
+                                        //variant="scrollable"
+                                        value={activeTab}
+                                        onChange={handleTabChange}
+                                    >
+                                        <Tab label={intl.formatMessage(messages.generalTabTitle)} {...tabProps(0)} />
+                                        <Tab label={intl.formatMessage(messages.lpisTabTitle)} {...tabProps(1)} />
+                                    </Tabs>
+                                </div>
+                            </Grid>                        
+                            <Grid item xs={9}>
+                                <TabComponent />
+                            </Grid>          
+                            <Grid item xs={12}>
+                                <BlockFormStepButton
+                                    cancelTitle={ButtonMessages.back}
+                                    submitTitle={ButtonMessages.submit}
+                                    //cancelDisabled={true}
+                                    submitDisabled={pristine || invalid}
+                                    //onSubmit={onSubmit}
+                                    onCancel={onBack}
+                                />  
+                            </Grid>          
+                        </Grid>
+                    </form>   
+                </Grid>
+            </Grid>
+            <Grid item xs={4}>
+                <Grid item xs={12}>
+                    <LeafletMap
+                        className="map-container"
+                    />
+                </Grid>
+                <Grid item xs={12} style={{marginTop: "20px"}}>
+                    <div className="edit-description">
+                        <Typography variant="h6">
+                            <FormattedMessage {...messages.borderEditTitle}/>
+                        </Typography>
+                        <Typography variant="body2">
+                            <FormattedMessage {...messages.borderEditDesc}/>
+                        </Typography>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={onBack}
+                        >
+                            <FormattedMessage {...messages.borderEditButtonTitle}/>
+                        </Button>
+                    </div>
+                </Grid>
+            </Grid>
+        </Grid>
+    ) 
+}
+
+
+const withForm = reduxForm({
+    form: BLOCK_CREATE_FORM,
+    //validate,
+    //enableReinitialize: true,
+    //keepDirtyOnReinitialize: true,
+    destroyOnUnmount: false, 
+    forceUnregisterOnUnmount: true, 
+})
+
+const withConnect = connect(
+    (state, props) => {
+        const { initialValues : locinitialValues, ...rest } = props
+        return {        
+            initialValues: {
+                ...locinitialValues
+            },
+            ...rest
+        }
+    },
+)
+
+
+const selector = formValueSelector(BLOCK_CREATE_FORM)
+const withSelectBlockTitle = connect(
+    (state, props) => {
+        const currentTitle = selector(state, 'title')
+        return {
+            currentTitle
+        }
+    }
+)
+
+
+export default compose(
+    withConnect,
+    withForm,
+    withSelectBlockTitle,
+)(BlockDrawPage) 
+
+
+/*
+<Grid
             className="block-edit"
             container
             spacing={2}
@@ -171,46 +293,4 @@ const BlockDrawPage = ({
                 </form>                    
             </Grid>
         </Grid>
-    ) 
-}
-
-
-const withForm = reduxForm({
-    form: BLOCK_CREATE_FORM,
-    //validate,
-    enableReinitialize: true,
-    keepDirtyOnReinitialize: true,
-    destroyOnUnmount: false, 
-    forceUnregisterOnUnmount: true, 
-})
-
-const withConnect = connect(
-    (state, props) => {
-        const { initialValues : locinitialValues, ...rest } = props
-        return {        
-            initialValues: {
-                ...locinitialValues
-            },
-            ...rest
-        }
-    },
-)
-
-
-const selector = formValueSelector(BLOCK_CREATE_FORM)
-const withSelectBlockTitle = connect(
-    (state, props) => {
-        const currentTitle = selector(state, 'title')
-        return {
-            currentTitle
-        }
-    }
-)
-
-
-export default compose(
-    withConnect,
-    withForm,
-    withSelectBlockTitle,
-)(BlockDrawPage) 
-
+*/
