@@ -1,13 +1,20 @@
 import React, { useEffect, useContext, useState, useRef, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 //import messages from './messages';
+import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl';
 
+import { useSplitComponents } from 'utils/hooks'
 import { HeaderContentContext } from 'components'
-import { useWindowSize } from 'utils/hooks'
-import useColumnFilter from './useColumnFilter'
+import { useColumnFilter, useTableHeight } from '../hooks'
 
-import './table.scss'
+const TableContainer = styled.div`
+    height: 100%;
+    padding: 15px 20px;
+    background-color: #E0E0E0;
+    display: flex;
+    flex-direction: column;
+`
 
 import {
     TableHeader,
@@ -16,8 +23,8 @@ import {
 
 const Table = ({
     siblingRef=null,
-    tableTitle,
     columns,
+    children,
     ...props
 }) => {
     // Store the ref to the outer div
@@ -25,49 +32,67 @@ const Table = ({
     // Store the ref to the header
     const headerRef = useRef(null)
 
-    const [height, setHeight] = useState(580)
-
-    const { contentHeight } = useContext(HeaderContentContext)
-
+    const height = useTableHeight(headerRef, parentRef, siblingRef)
+    
+    const {
+        componentA: tableHeaderComponent,
+        componentB: tableBodyComponent
+    } = useSplitComponents(children)
+    
     const {
         toggleColumns,
         setToggleColumns,
         filteredColumns
     } = useColumnFilter(columns)
     
-    useLayoutEffect(() => {
-        if (headerRef.current) {
-            const { clientHeight } = headerRef.current
+    const headerProps = {
+        ref: headerRef,
+        columns: toggleColumns,
+        onColumnChanged: setToggleColumns,        
+    }
 
-            setHeight(contentHeight - clientHeight - (siblingRef?.current?.clientHeight ?? 0) - 30)
-        }
-    }, [parentRef, headerRef])
+    const bodyProps = {
+        height,
+        columns: filteredColumns,
+        ...props
+    }
 
     return (
-        <div 
+        <TableContainer 
             ref={parentRef}
-            className="table-main-container"
         >
-            <TableHeader
-                ref={headerRef}
-                title={tableTitle}
-                columns={toggleColumns}
-                onColumnChanged={setToggleColumns}
-            />
-            <TableBody
-                height={height}
-                columns={filteredColumns}
-                {...props}
-            />
-        </div>
+            {_.isFunction(tableHeaderComponent)? 
+                tableHeaderComponent(headerProps)
+                : 
+                React.cloneElement(tableHeaderComponent, headerProps)
+            }
+            {_.isFunction(tableBodyComponent)? 
+                tableHeaderComponent(bodyProps)
+                : 
+                React.cloneElement(tableBodyComponent, bodyProps)
+            }
+        </TableContainer>
 
     )
 
 }
 
 Table.propTypes = {
-    tableTitle: PropTypes.object.isRequired,
     //siblingRef: PropTypes.ref,
 }
 
 export default Table
+
+
+/*
+{_.isFunction(tableHeaderComponent)? 
+                tableHeaderComponent(headerProps)
+                : 
+                React.cloneElement(tableHeaderComponent, headerProps)
+            }
+            {_.isFunction(tableBodyComponent)? 
+                tableHeaderComponent(bodyProps)
+                : 
+                React.cloneElement(tableBodyComponent, bodyProps)
+            }
+*/

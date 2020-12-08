@@ -28,6 +28,7 @@ const StyledBlockViewButtons = styled(props => <BlockViewButtons {...props} />)`
 
 const Container = styled(Grid)`
     height: 100%;
+    display: flex;
 `
 
 const BlockLayout = ({

@@ -85,6 +85,10 @@ const ActionIcon = styled(props => <BlockListItemMenu {...props}/>)`
     border-radius: 50%;
     //padding: 10px 0;
     top: 5px;
+    display: none;
+    ${ListContainer}:hover & {
+        display: block;
+    }
 `
 
 const BlockListItem = ({
@@ -92,11 +96,6 @@ const BlockListItem = ({
     history
 }) => {
 
-    const [showMore, setShowMore] = useState(false)
-    
-    const handleShowMore = () => setShowMore(true)
-    const handleHideMore = () => setShowMore(false) 
-    
     const id = 1
 
     const onSelect = (e) => {
@@ -108,8 +107,6 @@ const BlockListItem = ({
         <ListContainer
             //button
             onClick={onSelect}            
-            onMouseEnter={handleShowMore}
-            onMouseLeave={handleHideMore}
         >
             <div>
                 <Thumbnail image="https://via.placeholder.com/48/48"/>
@@ -128,7 +125,7 @@ const BlockListItem = ({
                         </Utilization>
                     </MetaContainer>
                 </Content>                
-                { showMore && <ActionIcon /> }
+                <ActionIcon />
             </div>
         </ListContainer>
     )

@@ -1,8 +1,18 @@
-import React from 'react'
+import React, { useContext, useMemo, useState, forwardRef, useLayoutEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
-import { useIntl } from 'react-intl'
-import { Route } from "react-router-dom";
+import styled from 'styled-components'
+import { useIntl, FormattedMessage } from 'react-intl'
+
+import { 
+    MasterDetail,
+} from 'components'
+
+import { 
+    Table,
+    TableHeader,
+    TableBody
+} from 'components/Table'
 
 import { 
     Grid,
@@ -10,74 +20,84 @@ import {
 }  from '@material-ui/core';
 
 
-import { 
-    SearchButton,
-    HeaderContent,
-    MasterDetail,
-} from 'components'
+const columns = [
+    { title: 'Name', field: 'title'},
+    { title: 'Active', field: 'isActive', type: 'boolean'},
+    //{ title: 'Address', field: 'address', hidden: true}
+]
 
-import {
-    InventoryDetail,
-    InventoryMasterList
-} from '../../components'
+const TableSubHeader = styled(Typography)`
+    border-bottom: 2px solid black;
+    margin: 10px 0;
+`
 
-//const Detail = ({match}) => <div>Detail for: {match.params.id}</div>
-const Dashboard = ({}) => <div>Dashboard</div>
+/*
 
-const InventoryLayout = ({
-    match
+*/
+
+const DetailPanel = ({
+    height,
+    columns,
+}) => {
+
+    const titleRef = useRef(null)
+    const [adjustedHeight, setAdjustedHeight] = useState(height)
+
+    console.debug("original height: ", height)
+    console.debug("adjustedHeight: ", adjustedHeight)
+
+    useLayoutEffect(() => {
+        if (titleRef.current) {
+            const { clientHeight } = titleRef.current
+
+            setAdjustedHeight(height - clientHeight - 20)
+        }
+    }, [titleRef, height])
+
+    return (
+        <>
+            <TableSubHeader
+                ref={titleRef}
+                variant="h4"
+            >
+                Items - Bin 1
+            </TableSubHeader>
+            <TableBody
+                height={adjustedHeight}
+                columns={columns}
+            />
+        </>
+    )
+}
+
+const Body = ({
+    height,
+    columns,
 }) => {
     return (
-        <HeaderContent
-            header={
-                <Grid 
-                    container
-                    justify="flex-start"
-                    alignItems="center"
-                >
-                    <Grid item xs={12}>
-                        <Typography 
-                            variant="h4"
-                            gutterBottom={true}
-                        >
-                            Inventory
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <SearchButton style={{float: "left"}}/>
-                    </Grid>
-                </Grid>
+        <MasterDetail
+        >
+            <div>Master</div>
+            <DetailPanel
+                height={height}
+                columns={columns}
+            />
+        </MasterDetail>
+    )
+}
 
-            }
-            content={
-                <MasterDetail
-                    master={
-                        <InventoryMasterList
-                        />
-                    }
-                    detail={
-                        <>                            
-                            <Route
-                                // TODO: Currently this route is copy pasted just matching the simple warehouse view also
-                                path={`${match.path}/warehouse/:warehouseId([0-9]+)`}
-                                exact
-                                component={(props) => <InventoryDetail {...props}/>}
-                            />
-                            <Route
-                                path={`${match.path}/warehouse/:warehouseId([0-9]+)/bin/:binId([0-9]+)`}
-                                exact
-                                component={(props) => <InventoryDetail {...props}/>}
-                            />
-                            <Route 
-                                path={`${match.path}`}
-                                exact
-                                component={(props) => <Dashboard {...props} />}
-                            />
-                        </>
-                    }
-                />                
-            }
-        />
+const InventoryLayout = ({
+    
+}) => {
+    return (
+        <Table
+            columns={columns}
+        >
+            <TableHeader 
+                title={messages.title}
+            />
+            <Body />
+        </Table>
     )
 }
 

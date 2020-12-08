@@ -49,7 +49,7 @@ export default ({
     onCellEditFinished = null,
     ...props
 }) => {
-    console.log("Table body height: ", height)
+    console.debug("Table body height: ", height)
     const defaultOptions = {
         ...Object.assign(options, {
             emptyRowsWhenPaging: true,

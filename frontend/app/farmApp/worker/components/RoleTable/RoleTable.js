@@ -3,7 +3,11 @@ import messages from './messages';
 import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
 
-import { Table } from 'components/Table'
+import { 
+    Table,
+    TableHeader,
+    TableBody
+} from 'components/Table'
 
 const data = [
     { title: 'Manager', isActive: true },
@@ -13,6 +17,7 @@ const data = [
 ]
 
 const RoleTable = ({
+    siblingRef,
     ...props
 }) => {
     const intl = useIntl()
@@ -25,11 +30,17 @@ const RoleTable = ({
 
     return (
             <Table
-                tableTitle={messages.tableTitle}
+                siblingRef={siblingRef}
                 columns={columns}
-                data={data}      
-                {...props}          
-            />
+            >
+                <TableHeader 
+                    title={messages.tableTitle}
+                />
+                <TableBody
+                    data={data}
+                    {...props}
+                />
+            </Table>
     )
 }
 

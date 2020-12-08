@@ -2,9 +2,18 @@ import React from 'react'
 import Helmet from 'react-helmet'
 import messages from './messages';
 import { useIntl } from 'react-intl'
+import styled from 'styled-components'
 
-import { PageContent } from 'components'
-import { InventoryLayout } from '../../components'
+import { HeaderContent } from 'components'
+import { 
+    InventoryLayout,
+    InventoryHeader,
+} from '../../components'
+
+const Container = styled.div`
+    height: 100%;
+    width: 100%;
+`
 
 export default ({
     match,
@@ -13,16 +22,17 @@ export default ({
     const intl = useIntl()
 
     return (
-        <PageContent>
+        <Container>
             <Helmet>
                 <title>
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <InventoryLayout 
-                match={match}
-            />
-        </PageContent>
+            <HeaderContent>
+                <InventoryHeader />
+                <InventoryLayout />
+            </HeaderContent>
+        </Container>
 
     )
 }
