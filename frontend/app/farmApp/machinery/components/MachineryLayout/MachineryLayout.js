@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useMemo, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
 
 import { TabsButton } from 'components'
 
@@ -15,7 +16,11 @@ import {
     TAB_RESERVATIONS
 } from '../../constants'
 
-import './machinerylayout.scss'
+const Container = styled.div`
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+`
 
 const MachineryLayout = ({
     
@@ -30,7 +35,7 @@ const MachineryLayout = ({
     ]
 
     return (
-        <div>
+        <Container>
             <TabsButton
                 ref={tabsRef}
                 defaultValue={value}
@@ -45,7 +50,7 @@ const MachineryLayout = ({
                     siblingRef={tabsRef}
                 />
             }
-        </div>
+        </Container>
     )
 }
 

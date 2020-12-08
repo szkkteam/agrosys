@@ -9,11 +9,12 @@ import { HeaderContentContext } from 'components'
 import { useColumnFilter, useTableHeight } from '../hooks'
 
 const TableContainer = styled.div`
-    height: 100%;
+    //height: 100%;
     padding: 15px 20px;
     background-color: #E0E0E0;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 `
 
 import {

@@ -2,6 +2,7 @@ import React, { useContext, useMemo, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
 
 import Portal from '@material-ui/core/Portal';
 import { HeaderContentContext, TabsButton } from 'components'
@@ -16,7 +17,11 @@ import {
     TAB_ROLES
 } from '../../constants'
 
-import './workerlayout.scss'
+const Container = styled.div`
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+`
 
 const WorkerLayout = ({
     
@@ -35,7 +40,7 @@ const WorkerLayout = ({
     ]
 
     return (
-        <div className="h-100">
+        <Container>
             <Portal container={headerPortalRef.current}>
                 <div>Worker specific context</div>
             </Portal>
@@ -53,7 +58,7 @@ const WorkerLayout = ({
                     siblingRef={tabsRef}
                 />
             }
-        </div>
+        </Container>
     )
 }
 
