@@ -1,1 +1,0 @@
-webpackJsonp([35],{"./frontend/app/farmApp/block/components/BlockListView/BlockListView.js":function(e,n,t){"use strict";function o(e){if(null==e)throw new TypeError("Cannot destructure undefined")}Object.defineProperty(n,"__esModule",{value:!0});var r=t("./node_modules/react/index.js"),i=t.n(r),u=function(e){return o(e),i.a.createElement("div",null,"List view")};n.default=u}});
