@@ -62,6 +62,7 @@ const BlockDetailPage = ({
     change,
     tasks,
     onBack,
+    onEditBorder,
     onComplete,
     currentTitle,
     ...rest 
@@ -163,7 +164,7 @@ const BlockDetailPage = ({
                         <Button
                             variant="contained"
                             color="primary"
-                            onClick={onBack}
+                            onClick={onEditBorder ?? onBack}
                         >
                             <FormattedMessage {...messages.borderEditButtonTitle}/>
                         </Button>

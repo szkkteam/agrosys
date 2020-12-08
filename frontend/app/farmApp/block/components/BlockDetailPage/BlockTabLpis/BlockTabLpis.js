@@ -10,6 +10,7 @@ import {
 
 import { 
     HiddenField,
+    BooleanField,
     TextField
 } from 'components/Form'
 
