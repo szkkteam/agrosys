@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
 import { useIntl, FormattedMessage } from 'react-intl'
+import { useHistory } from "react-router-dom";
 import styled from 'styled-components'
 
 import { compose } from 'redux'
@@ -62,8 +63,24 @@ const ConnectedBlockDetailPage = compose(
 
 const FirstPage = ({
     onComplete,
+    onBack: notUsed,
     ...props
-}) => <ConnectedBlockDrawPage onSubmit={onComplete} {...props} />
+}) => {
+    
+    let history = useHistory()
+
+    const onCancel = () => {
+        history.goBack()
+    }
+
+
+    return <ConnectedBlockDrawPage
+                title={messages.step1Title}
+                onSubmit={onComplete}
+                onBack={onCancel}
+                {...props}
+            />
+}
 
 const SecondPage = ({
     onComplete,
@@ -90,7 +107,7 @@ const BlockCreateDraw = ({
    
     return (      
         <Stepper 
-            defaultStep={1} // TODO: REmove
+            //defaultStep={1} // TODO: REmove
             steps={steps}
             contents={contents}
             stepsVisible={false}

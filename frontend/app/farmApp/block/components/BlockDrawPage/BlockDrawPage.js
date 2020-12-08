@@ -1,8 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
-import { useHistory } from "react-router-dom";
 import styled from 'styled-components'
+
+//import { useActions } from 'utils/hooks'
+import { useDispatch } from 'react-redux'
+
+import { connect } from 'react-redux';
+import { compose } from 'redux'
+import { bindActionCreators } from 'redux'
+
+import { pushModalWindow } from 'redux-promising-modals';
+import { BLOCK_DRAW_DIALOG } from 'site/modalTypes'
+import { MODAL_TYPE_CONFIRM, MODAL_TYPE_CANCEL } from 'site/modalResultTypes'
 
 import { messages as ButtonMessages } from 'components/Button'
 import { BlockFormStepButton } from '../../components'
@@ -19,6 +29,9 @@ const FullPageMap = styled(LeafletMap)`
 `
 
 const BlockDrawPage = ({
+    form,
+    title,
+
     invalid,
     handleSubmit,
     submitting,
@@ -32,20 +45,39 @@ const BlockDrawPage = ({
     onComplete,
     ...rest 
 }) => {
+    const dispatch = useDispatch()
+    //const pushModal = useActions(pushModalWindow)
 
-    const intl = useIntl()
+    console.debug("Form: ", form)
 
-    let history = useHistory()
-
-    const onCancel = () => {
-        console.log("Go back")
-        history.goBack()
+    const modalProps = {
+        title,
+        form,
+        onSubmit,
+        onBack
     }
 
+    useEffect(() => {
+        dispatch(pushModalWindow(BLOCK_DRAW_DIALOG, modalProps)).then(({ status, ...rest }) => {
+            // If status success, then call onSubmit
+            // if status cancel, then call onBack
+            console.debug("Form result: ", status)
+            if (status === MODAL_TYPE_CONFIRM) {
+                onSubmit()
+            } else {
+                onBack()
+            }
+        })
+    }, [])
 
     return (      
-        <ContainerForm onSubmit={handleSubmit} >  
-            <FullPageMap
+        <ContainerForm onSubmit={handleSubmit} >              
+        </ContainerForm>
+    ) 
+}
+
+/*
+<FullPageMap
             />
             <BlockFormStepButton
                 cancelTitle={ButtonMessages.cancel}
@@ -53,14 +85,29 @@ const BlockDrawPage = ({
                 //cancelDisabled={true}
                 //submitDisabled={pristine || invalid}
                 onSubmit={onSubmit}
-                onCancel={onCancel}
+                onCancel={onBack}
             />     
-        </ContainerForm>
-    ) 
-}
+*/
 
 BlockDrawPage.propTypes = {
 
 }
 
 export default BlockDrawPage
+
+/*
+
+const mapStateToProps = (state) => {
+    return {
+    }
+  }
+
+const withConnect = connect(
+    mapStateToProps,
+    (dispatch) => bindActionCreators({ pushModalWindow }, dispatch),
+)
+  
+export default compose(
+    withConnect,
+)(BlockDrawPage)
+*/

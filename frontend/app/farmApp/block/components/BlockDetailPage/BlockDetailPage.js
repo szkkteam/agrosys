@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
 import { useIntl, FormattedMessage } from 'react-intl'
-import { useHistory } from "react-router-dom";
 import styled from 'styled-components'
 
 import { Field, reduxForm, formValueSelector } from 'redux-form'
@@ -69,13 +68,6 @@ const BlockDetailPage = ({
 }) => {
 
     const intl = useIntl()
-
-    let history = useHistory()
-
-    const onCancel = () => {
-        console.log("Go back")
-        history.goBack()
-    }
 
     //{intl.formatMessage(messages.farmDashboardTitle)}
     console.log("OnBack: ", onBack)
