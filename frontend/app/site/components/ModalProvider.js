@@ -14,12 +14,13 @@ import { getModal, isModalActive } from '../selectors'
 // Import modals
 import { TestModal } from 'site/components'
 import { FarmPickOnMap } from 'farmApp/farm/components'
-import { BlockCreateModal } from 'farmApp/block/components'
+import { BlockCreateModal, BlockDrawModal } from 'farmApp/block/components'
 
 import { 
     EDIT_FILE_DIALOG,
     FARM_PICK_ON_MAP_DIALOG,
     BLOCK_CREATE_DIALOG,
+    BLOCK_DRAW_DIALOG
  } from '../modalTypes'
 
 const ModalProvider = ({
@@ -35,6 +36,7 @@ const ModalProvider = ({
             [EDIT_FILE_DIALOG, TestModal],
             [FARM_PICK_ON_MAP_DIALOG, FarmPickOnMap],
             [BLOCK_CREATE_DIALOG, BlockCreateModal],
+            [BLOCK_DRAW_DIALOG, BlockDrawModal],
             //[REMOVE_FILE_DIALOG, RemoveFileDialog]
     ]))
     const Component = modalsMap.get(modalType) || null;
@@ -52,7 +54,6 @@ const ModalProvider = ({
     const handleAction = (type, payload) => {
         popModalWindow({ status: type , payload });
     }
-
     return (
         <React.Fragment>
             { Component && 

@@ -11,13 +11,14 @@ import Typography from '@material-ui/core/Typography';
 import './stepper.scss'
 
 const Stepper = ({
+    defaultStep=0,
     steps,
     stepsVisible=true,
     contents,
     finishedContent=null
 }) => {
 
-    const [activeStep, setActiveStep] = React.useState(0);
+    const [activeStep, setActiveStep] = React.useState(defaultStep);
     const [completed, setCompleted] = React.useState({});
 
     const totalSteps = () => {
@@ -109,6 +110,7 @@ const Stepper = ({
 }
 
 Stepper.propTypes = {
+    defaultStep: PropTypes.number,
     steps: PropTypes.array,
     contents: PropTypes.array
 }
