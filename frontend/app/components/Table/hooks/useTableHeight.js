@@ -8,6 +8,7 @@ export default (headerRef, parentRef, siblingRef) => {
     const { contentHeight } = useContext(HeaderContentContext)
 
     useLayoutEffect(() => {
+        console.debug("headerRef: ", headerRef)
         if (headerRef.current) {
             const { clientHeight } = headerRef.current
 

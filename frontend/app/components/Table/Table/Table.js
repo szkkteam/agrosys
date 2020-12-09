@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState, useRef, useLayoutEffect } from 'react'
+import React, { useEffect, useContext, useState, useRef, useMemo, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 //import messages from './messages';
 import styled from 'styled-components'
@@ -8,9 +8,11 @@ import { useSplitComponents } from 'utils/hooks'
 import { HeaderContentContext } from 'components'
 import { useColumnFilter, useTableHeight } from '../hooks'
 
+const topBottomPadding = 15;
+
 const TableContainer = styled.div`
     //height: 100%;
-    padding: 15px 20px;
+    padding: ${topBottomPadding}px 20px;
     background-color: #E0E0E0;
     display: flex;
     flex-direction: column;
@@ -18,28 +20,29 @@ const TableContainer = styled.div`
 `
 
 import {
-    TableHeader,
+    TableContext,
     TableBody
 } from '../../Table'
 
-const Table = ({
+const Table = forwardRef(({
     siblingRef=null,
     columns,
     children,
     ...props
-}) => {
+}, ref) => {
     // Store the ref to the outer div
     const parentRef = useRef(null)
     // Store the ref to the header
-    const headerRef = useRef(null)
+    //const headerRef = useRef(null)
 
-    const height = useTableHeight(headerRef, parentRef, siblingRef)
+    //const height = useTableHeight(headerRef, parentRef, siblingRef)
     
+
     const {
         componentA: tableHeaderComponent,
         componentB: tableBodyComponent
     } = useSplitComponents(children)
-    
+
     const {
         toggleColumns,
         setToggleColumns,
@@ -47,53 +50,58 @@ const Table = ({
     } = useColumnFilter(columns)
     
     const headerProps = {
-        ref: headerRef,
+        //ref: headerRef,
         columns: toggleColumns,
-        onColumnChanged: setToggleColumns,        
+        onColumnChanged: setToggleColumns,  
     }
 
     const bodyProps = {
-        height,
+        //height,
         columns: filteredColumns,
-        ...props
     }
+
+    const value = useMemo(() => ({
+
+        //ref: headerRef,
+        toggleColumns: toggleColumns,
+        onColumnChanged: setToggleColumns,   
+        //height,
+        topBottomPadding,
+        columns: filteredColumns,
+        
+    }), [columns])
 
     return (
         <TableContainer 
-            ref={parentRef}
+            ref={ref}
         >
-            {_.isFunction(tableHeaderComponent)? 
-                tableHeaderComponent(headerProps)
-                : 
-                React.cloneElement(tableHeaderComponent, headerProps)
-            }
-            {_.isFunction(tableBodyComponent)? 
-                tableHeaderComponent(bodyProps)
-                : 
-                React.cloneElement(tableBodyComponent, bodyProps)
-            }
+            <TableContext.Provider value={value}>
+                {children}
+            </TableContext.Provider>
         </TableContainer>
 
     )
 
-}
+})
 
 Table.propTypes = {
     //siblingRef: PropTypes.ref,
 }
 
 export default Table
+/*
 
+*/
 
 /*
-{_.isFunction(tableHeaderComponent)? 
-                tableHeaderComponent(headerProps)
-                : 
-                React.cloneElement(tableHeaderComponent, headerProps)
-            }
-            {_.isFunction(tableBodyComponent)? 
-                tableHeaderComponent(bodyProps)
-                : 
-                React.cloneElement(tableBodyComponent, bodyProps)
-            }
+            {_.isFunction(tableHeaderComponent)? 
+                    tableHeaderComponent(headerProps)
+                    : 
+                    React.cloneElement(tableHeaderComponent, headerProps)
+                }
+                {_.isFunction(tableBodyComponent)? 
+                    tableHeaderComponent(bodyProps)
+                    : 
+                    React.cloneElement(tableBodyComponent, bodyProps)
+                }                
 */

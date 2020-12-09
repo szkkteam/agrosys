@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 
 const getColumnsVisibility = (columns) => 
     columns.map(col => ({ title: col.title, hidden: 'hidden' in col? col.hidden : false }))
 
 export default (columns) => {
- 
+    
+    // TODO: Wrap it in a callback
     const [toggleColumns, setToggleColumns] = useState(getColumnsVisibility(columns))
 
     const filteredColumns = _.zip(columns, toggleColumns).map(mix => {

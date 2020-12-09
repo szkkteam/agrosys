@@ -7,6 +7,8 @@ import styled from 'styled-components'
 import Portal from '@material-ui/core/Portal';
 import { HeaderContentContext, TabsButton } from 'components'
 
+import { useHeightDifference } from 'utils/hooks'
+
 import {
     WorkerTable,
     RoleTable,
@@ -28,7 +30,11 @@ const WorkerLayout = ({
 }) => {
 
     const [value, setValue] = useState(TAB_WORKERS)
+
+    const containerRef = useRef(null)
     const tabsRef = useRef(null)
+
+    const height = useHeightDifference(containerRef, tabsRef, 778)
 
     const {
         headerPortalRef,
@@ -40,7 +46,9 @@ const WorkerLayout = ({
     ]
 
     return (
-        <Container>
+        <Container
+            ref={containerRef}
+        >
             <Portal container={headerPortalRef.current}>
                 <div>Worker specific context</div>
             </Portal>
@@ -52,10 +60,10 @@ const WorkerLayout = ({
             />
             { value === TAB_WORKERS?
                 <WorkerTable
-                    siblingRef={tabsRef}
+                    height={height}
                 />
               : <RoleTable 
-                    siblingRef={tabsRef}
+                    height={height}
                 />
             }
         </Container>

@@ -17,6 +17,8 @@ import {
     SearchButton,
 } from 'components'
 
+import { useTableContext } from '../hooks'
+
 import {
     TablePrimaryActionButton,
     TableSettingsButton,
@@ -55,8 +57,8 @@ import {
 
 const TableHeader = forwardRef(({
     title,
-    columns,
-    onColumnChanged,
+    //columns,
+    //onColumnChanged,
     ...props
 }, ref) => {
     const intl = useIntl()
@@ -65,7 +67,12 @@ const TableHeader = forwardRef(({
             { id: 1, title: messages.chip2 },
             { id: 2, title: messages.chip3 },
     ])
-
+    
+    const {
+        toggleColumns: columns,
+        onColumnChanged
+    } = useTableContext()
+    
 
     const handleDelete = (chipToDelete) => {
         console.log("chipToDelete: ", chipToDelete)

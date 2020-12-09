@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useRef, useLayoutEffect } from 'react'
 import messages from './messages';
 import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
@@ -8,6 +8,8 @@ import {
     TableHeader,
     TableBody
 } from 'components/Table'
+
+import { useHeightDifference } from 'utils/hooks'
 
 const data = [
     { name: 'Person name', role: 'Manager', email: 'user1@user.com', phone: '+36-30/333333', address: '9999 Random city, random street 2' },
@@ -45,10 +47,14 @@ const data = [
 ]
 
 const WorkerTable = ({
-    siblingRef,
+    height: parentHeight,
     ...props
 }) => {
     const intl = useIntl()
+
+    const headerRef = useRef(null)
+
+    const height = useHeightDifference(parentHeight, headerRef, 542)
 
     const columns = [
         { title: 'Role', field: 'role'},
@@ -60,13 +66,14 @@ const WorkerTable = ({
 
     return (
             <Table
-                siblingRef={siblingRef}
                 columns={columns}
             >
                 <TableHeader 
+                    ref={headerRef}
                     title={messages.tableTitle}
                 />
                 <TableBody
+                    height={height}
                     data={data}
                     {...props}
                 />

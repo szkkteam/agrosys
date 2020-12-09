@@ -4,6 +4,8 @@ import messages from './messages';
 import styled from 'styled-components'
 import { useIntl, FormattedMessage } from 'react-intl'
 
+import { useHeightDifference } from 'utils/hooks'
+
 import { 
     MasterDetail,
 } from 'components'
@@ -19,6 +21,7 @@ import {
     Typography
 }  from '@material-ui/core';
 
+const subHeaderMargin = 10
 
 const columns = [
     { title: 'Name', field: 'title'},
@@ -26,9 +29,19 @@ const columns = [
     //{ title: 'Address', field: 'address', hidden: true}
 ]
 
+const Container = styled.div`
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+`
+
+const DetailContainer = styled.div`
+    height: 100%;
+`
+
 const TableSubHeader = styled(Typography)`
     border-bottom: 2px solid black;
-    margin: 10px 0;
+    margin: ${subHeaderMargin}px 0;
 `
 
 /*
@@ -36,26 +49,18 @@ const TableSubHeader = styled(Typography)`
 */
 
 const DetailPanel = ({
-    height,
-    columns,
+
 }) => {
 
     const titleRef = useRef(null)
-    const [adjustedHeight, setAdjustedHeight] = useState(height)
+    const detailRef = useRef(null)
 
-    console.debug("original height: ", height)
-    console.debug("adjustedHeight: ", adjustedHeight)
-
-    useLayoutEffect(() => {
-        if (titleRef.current) {
-            const { clientHeight } = titleRef.current
-
-            setAdjustedHeight(height - clientHeight - 20)
-        }
-    }, [titleRef, height])
+    const height = useHeightDifference(detailRef, titleRef, 500)
 
     return (
-        <>
+        <DetailContainer
+            ref={detailRef}
+        >
             <TableSubHeader
                 ref={titleRef}
                 variant="h4"
@@ -63,10 +68,9 @@ const DetailPanel = ({
                 Items - Bin 1
             </TableSubHeader>
             <TableBody
-                height={adjustedHeight}
-                columns={columns}
+                height={height - subHeaderMargin}
             />
-        </>
+        </DetailContainer>
     )
 }
 
@@ -89,15 +93,31 @@ const Body = ({
 const InventoryLayout = ({
     
 }) => {
+
+    const containerRef = useRef(null)
+    /*
+    const titleRef = useRef(null)
+    const detailRef = useRef(null)
+
+    const height = useHeightDifference(detailRef, titleRef, 500)
+    */
     return (
-        <Table
-            columns={columns}
+        <Container
+            ref={containerRef}
         >
-            <TableHeader 
-                title={messages.title}
-            />
-            <Body />
-        </Table>
+            <Table
+                columns={columns}
+            >
+                <TableHeader 
+                    title={messages.title}
+                />
+                <MasterDetail
+                >
+                    <div>Master</div>
+                    <DetailPanel />
+                </MasterDetail>
+            </Table>
+        </Container>
     )
 }
 

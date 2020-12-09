@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useRef, useLayoutEffect } from 'react'
 import messages from './messages';
 import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
@@ -9,6 +9,8 @@ import {
     TableBody
 } from 'components/Table'
 
+import { useHeightDifference } from 'utils/hooks'
+
 const data = [
     { title: 'Manager', isActive: true },
     { title: 'Admin', isActive: true },
@@ -17,10 +19,14 @@ const data = [
 ]
 
 const RoleTable = ({
-    siblingRef,
+    height: parentHeight,
     ...props
 }) => {
     const intl = useIntl()
+
+    const headerRef = useRef(null)
+
+    const height = useHeightDifference(parentHeight, headerRef, 542)
 
     const columns = [
         { title: 'Name', field: 'title'},
@@ -30,13 +36,14 @@ const RoleTable = ({
 
     return (
             <Table
-                siblingRef={siblingRef}
                 columns={columns}
             >
                 <TableHeader 
+                    ref={headerRef}
                     title={messages.tableTitle}
                 />
                 <TableBody
+                    height={height}
                     data={data}
                     {...props}
                 />

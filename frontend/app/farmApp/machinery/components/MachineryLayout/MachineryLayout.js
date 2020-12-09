@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { TabsButton } from 'components'
+import { useHeightDifference } from 'utils/hooks'
 
 import {
     MachineryTable,
@@ -27,15 +28,21 @@ const MachineryLayout = ({
 }) => {
 
     const [value, setValue] = useState(TAB_MACHINERIES)
+    
+    const containerRef = useRef(null)
     const tabsRef = useRef(null)
 
+    const height = useHeightDifference(containerRef, tabsRef, 778)
+    
     const tabValues = [
         {value: TAB_MACHINERIES, message: messages.left},
         {value: TAB_RESERVATIONS, message: messages.right},
     ]
 
     return (
-        <Container>
+        <Container
+            ref={containerRef}
+        >
             <TabsButton
                 ref={tabsRef}
                 defaultValue={value}
@@ -44,10 +51,10 @@ const MachineryLayout = ({
             />
             { value === TAB_MACHINERIES?
                 <MachineryTable
-                    siblingRef={tabsRef}
+                    height={height}
                 />
               : <ReservationTable
-                    siblingRef={tabsRef}
+                    height={height}
                 />
             }
         </Container>
