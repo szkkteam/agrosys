@@ -1,6 +1,5 @@
 import React, { useContext, useMemo, useState, forwardRef } from 'react'
 import PropTypes from 'prop-types'
-import messages from './messages';
 import styled from 'styled-components'
 import { useIntl, FormattedMessage } from 'react-intl'
 import { ROUTES } from 'routes'
@@ -44,31 +43,21 @@ const MenuIconButton = styled(forwardRef(({onClick, ...props}, ref) => {
 
 const LinkMenuItem = withLinkComponent(MenuItem)
 
-const ListContainer = forwardRef(({id, ...props}, ref) =>
+
+const ListContainer = forwardRef(({children, ...props}, ref) =>
     <Paper 
         ref={ref}
     >
-        <LinkMenuItem 
-            to={ROUTES.BlockDetail}
-            params={{id}}
-        >
-            <FormattedMessage {...messages.edit} />
-        </LinkMenuItem>
-        <MenuItem 
-            component='div'
-            onClick={null}
-        >
-            <FormattedMessage {...messages.delete} />
-        </MenuItem>
+        {children}
     </Paper>)
 
 
 
-const BlockListItemMenu = ({
+const ItemMenu = ({
+    items,
     ...props
 }) => {
-    
-    const id = "1"
+
 
     return (
         <Popover
@@ -76,15 +65,42 @@ const BlockListItemMenu = ({
             className="inline-block"
             {...props}
         >
-            <ListContainer
-                id={id}
-            />
+            <ListContainer>
+                { items && items.map((item)=> {
+                    if ('link' in item) 
+                        return (
+                            <LinkMenuItem 
+                                {...item.link}
+                            >
+                                <FormattedMessage {...item.title} />
+                            </LinkMenuItem>
+                        )
+                    else
+                        return (
+                            <MenuItem 
+                                component='div'
+                                onClick={item.onClick}
+                            >
+                                <FormattedMessage {...item.title} />
+                            </MenuItem>
+                        )
+                }) }
+            </ListContainer>
         </Popover>
     )
 }
 
-BlockListItemMenu.propTypes = {
-
+ItemMenu.propTypes = {
+    items: PropTypes.arrayOf(
+        PropTypes.shape({
+            title: PropTypes.object.isRequired,
+            link: PropTypes.shape({
+                to: PropTypes.string,
+                params: PropTypes.object,                
+            }),
+            onClick: PropTypes.func
+        })
+    )
 }
 
-export default BlockListItemMenu
+export default ItemMenu

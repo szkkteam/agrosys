@@ -5,4 +5,4 @@ export { default as InventoryFillProgress } from './InventoryFillProgress'
 
 export { default as InventoryHeader } from './InventoryHeader'
 export { default as InventoryList } from './InventoryList'
-export { default as InventoryItem } from './InventoryItem'
+export { default as InventoryListItem } from './InventoryListItem'

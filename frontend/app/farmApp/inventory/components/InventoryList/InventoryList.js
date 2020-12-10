@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 
 import {
-    InventoryItem
+    InventoryListItem
 } from '../../components'
 
 const Container = styled.div`
@@ -41,12 +41,12 @@ const InventoryList = ({
             <StyledList
                 component="ul"
             >
-                <InventoryItem title="Warehouse 1">
-                    <InventoryItem title="Bin 1"/>    
-                    <InventoryItem title="Bin 2"/>
-                </InventoryItem>
-                <InventoryItem title="Warehouse 2"/>
-                <InventoryItem title="Warehouse 3"/>
+                <InventoryListItem title="Warehouse 1">
+                    <InventoryListItem title="Bin 1"/>    
+                    <InventoryListItem title="Bin 2"/>
+                </InventoryListItem>
+                <InventoryListItem title="Warehouse 2"/>
+                <InventoryListItem title="Warehouse 3"/>
             </StyledList>
         </Container>
     )

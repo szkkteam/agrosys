@@ -7,6 +7,8 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 
+import { ItemMenu } from 'components'
+
 import {
     Typography,
     ListItem,
@@ -17,11 +19,7 @@ import {
 
 import {
     InventoryFillProgress
-} from '../../components'
-
-import {
-    BlockListItemMenu
-} from 'farmApp/block/components'
+} from '..'
 
 const InnerList = styled.div`
     padding-left: 20px;
@@ -81,7 +79,7 @@ const ProgressBar = styled(InventoryFillProgress)`
 `
 
 
-const ActionIcon = styled(props => <BlockListItemMenu {...props}/>)`
+const ActionIcon = styled(props => <ItemMenu {...props}/>)`
     position: absolute;
     right: 5px;
     width: 34px;
@@ -95,7 +93,7 @@ const ActionIcon = styled(props => <BlockListItemMenu {...props}/>)`
     }
 `
 
-const InventoryItem = ({
+const InventoryListItem = ({
     title,
     children
 }) => {
@@ -105,6 +103,12 @@ const InventoryItem = ({
     const handleClick = () => {
         setOpen(!open);
     }
+
+     
+    const items = [
+        {title: messages.edit, onClink: null},
+        {title: messages.delete, onClink: null}
+    ]
 
     const hasChildren = React.Children.count(children)
 
@@ -128,7 +132,9 @@ const InventoryItem = ({
                         <MetaContainer>
                             <ProgressBar current={50} max={100} unit="liter"/>
                         </MetaContainer>
-                        <ActionIcon />
+                        <ActionIcon
+                            items={items}
+                        />
                     </Content>
                 </div>
                 
@@ -154,8 +160,8 @@ const InventoryItem = ({
             <InventoryFillProgress current={50} max={100}/>
 */
 
-InventoryItem.propTypes = {
+InventoryListItem.propTypes = {
 
 }
 
-export default InventoryItem
+export default InventoryListItem
