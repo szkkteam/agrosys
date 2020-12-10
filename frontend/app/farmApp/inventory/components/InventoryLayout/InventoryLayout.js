@@ -21,7 +21,11 @@ import {
     Typography
 }  from '@material-ui/core';
 
-const subHeaderMargin = 10
+import {
+    InventoryList
+} from '../../components'
+
+const subHeaderMargin = 20
 
 const columns = [
     { title: 'Name', field: 'title'},
@@ -41,7 +45,7 @@ const DetailContainer = styled.div`
 
 const TableSubHeader = styled(Typography)`
     border-bottom: 2px solid black;
-    margin: ${subHeaderMargin}px 0;
+    padding: ${subHeaderMargin}px 0;
 `
 
 /*
@@ -63,48 +67,23 @@ const DetailPanel = ({
         >
             <TableSubHeader
                 ref={titleRef}
-                variant="h4"
+                variant="h5"
             >
                 Items - Bin 1
             </TableSubHeader>
             <TableBody
-                height={height - subHeaderMargin}
+                height={height - 0}
             />
         </DetailContainer>
     )
 }
 
-const Body = ({
-    height,
-    columns,
-}) => {
-    return (
-        <MasterDetail
-        >
-            <div>Master</div>
-            <DetailPanel
-                height={height}
-                columns={columns}
-            />
-        </MasterDetail>
-    )
-}
 
 const InventoryLayout = ({
     
 }) => {
-
-    const containerRef = useRef(null)
-    /*
-    const titleRef = useRef(null)
-    const detailRef = useRef(null)
-
-    const height = useHeightDifference(detailRef, titleRef, 500)
-    */
     return (
-        <Container
-            ref={containerRef}
-        >
+        <Container>
             <Table
                 columns={columns}
             >
@@ -113,7 +92,7 @@ const InventoryLayout = ({
                 />
                 <MasterDetail
                 >
-                    <div>Master</div>
+                    <InventoryList />
                     <DetailPanel />
                 </MasterDetail>
             </Table>
