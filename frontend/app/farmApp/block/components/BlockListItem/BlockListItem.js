@@ -2,19 +2,18 @@ import React, { useContext, useMemo, useState, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
 import styled from 'styled-components'
+import { ROUTES } from 'routes'
 import { useIntl, FormattedMessage } from 'react-intl'
 
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+
+import { ItemMenu } from 'components'
 
 import {
     ListItem,
     Typography,
     IconButton
 } from '@material-ui/core';
-
-import {
-    BlockListItemMenu
-} from '../../components'
 
 const ListContainer = styled(ListItem)`
     height: 70px;
@@ -77,7 +76,7 @@ const Utilization = styled.div`
     margin-top: 1px;
 `
 
-const ActionIcon = styled(props => <BlockListItemMenu {...props}/>)`
+const ActionIcon = styled(props => <ItemMenu {...props}/>)`
     position: absolute;
     right: 24px;
     width: 24px;
@@ -85,6 +84,10 @@ const ActionIcon = styled(props => <BlockListItemMenu {...props}/>)`
     border-radius: 50%;
     //padding: 10px 0;
     top: 5px;
+    display: none;
+    ${ListContainer}:hover & {
+        display: block;
+    }
 `
 
 const BlockListItem = ({
@@ -92,24 +95,21 @@ const BlockListItem = ({
     history
 }) => {
 
-    const [showMore, setShowMore] = useState(false)
-    
-    const handleShowMore = () => setShowMore(true)
-    const handleHideMore = () => setShowMore(false) 
-    
     const id = 1
 
     const onSelect = (e) => {
         
     }
-    
+     
+    const items = [
+        {title: messages.edit, link: { to: ROUTES.BlockDetail, params: {id: 1}}},
+        {title: messages.delete, onClink: null}
+    ]
 
     return (
         <ListContainer
             //button
             onClick={onSelect}            
-            onMouseEnter={handleShowMore}
-            onMouseLeave={handleHideMore}
         >
             <div>
                 <Thumbnail image="https://via.placeholder.com/48/48"/>
@@ -128,7 +128,9 @@ const BlockListItem = ({
                         </Utilization>
                     </MetaContainer>
                 </Content>                
-                { showMore && <ActionIcon /> }
+                <ActionIcon
+                    items={items}
+                />
             </div>
         </ListContainer>
     )

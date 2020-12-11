@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useState, useRef, useLayoutEffect } from 'react'
 import messages from './messages';
 import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
 
-import { Table } from 'components/Table'
+import { 
+    Table,
+    TableHeader,
+    TableBody
+} from 'components/Table'
+
+import { useHeightDifference } from 'utils/hooks'
 
 const data = [
     { title: 'Manager', isActive: true },
@@ -13,9 +19,14 @@ const data = [
 ]
 
 const ReservationTable = ({
+    height: parentHeight,
     ...props
 }) => {
     const intl = useIntl()
+
+    const headerRef = useRef(null)
+    const height = useHeightDifference(parentHeight, headerRef, 542)
+
 
     const columns = [
         { title: 'Name', field: 'title'},
@@ -25,11 +36,18 @@ const ReservationTable = ({
 
     return (
             <Table
-                tableTitle={messages.tableTitle}
                 columns={columns}
-                data={data}    
-                {...props}            
-            />
+            >
+                <TableHeader 
+                    ref={headerRef}
+                    title={messages.tableTitle}
+                />
+                <TableBody
+                    height={height}
+                    data={data}
+                    {...props}
+                />
+            </Table>
     )
 }
 

@@ -7,22 +7,23 @@ import Grid from '@material-ui/core/Grid';
 import { useSplitComponents } from 'utils/hooks'
 
 const Container = styled(Grid)`
-    height: 100%;
+    //height: ${props => props.height? `${props.height}px` : '100%'};
+    flex-grow: 1;
 `
 
 const MasterDetail = ({
-    master=null,
-    detail=null,
     masterSize=3,
+    //height=null,
     children,
     ...props
 }) => {
     const detailSize = 12 - masterSize
 
+
     const {
-        componentAChild: masterComponent,
-        componentBChild: detailComponent
-    } = useSplitComponents(master, detail, children)
+        componentA: masterComponent,
+        componentB: detailComponent
+    } = useSplitComponents(children)
 
     return (
         <Container
@@ -50,15 +51,6 @@ const MasterDetail = ({
 
 MasterDetail.propTypes = {
     masterSize: PropTypes.number,
-    header: PropTypes.oneOfType([
-        PropTypes.object,
-        PropTypes.func,
-        PropTypes.oneOf([null])
-    ]),
-    content: PropTypes.oneOfType([
-        PropTypes.object,
-        PropTypes.func,
-    ]),
     children: PropTypes.arrayOf(
         PropTypes.oneOfType([
             PropTypes.object,

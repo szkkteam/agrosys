@@ -85,44 +85,37 @@ const ProductionLayout = ({
     }
 
     return (
-        <HeaderContent
-            header={
-                <ProductionHeader
-                    id={match.params.id}
-                />
-            }
-            content={ 
-                <MasterDetail 
-                    masterSize={2}
-                    master={
-                        <Tabs
-                            orientation="vertical"
-                            //variant="scrollable"
-                            value={currentTab()}
-                            onChange={handleTabChange}
-                        >
-                            { tabLookup.map((tab, i) => 
-                                tab.Title({key: `tab-index-${i}`, ...tabProps(i)})
-                            ) }
-                        </Tabs>
-                    }
-                    detail={
-                        <Route render={props => {
-                            const { Component } = tabLookup[currentTab()]  
-                            return (
-                                <Component
-                                    location={location}
-                                    history={history}
-                                    match={match}
-                                    {...props}
-                                />
-                                )
-                            }}
+        <HeaderContent>
+            <ProductionHeader
+                id={match.params.id}
+            />
+            <MasterDetail 
+                masterSize={2}
+            >
+                <Tabs
+                    orientation="vertical"
+                    //variant="scrollable"
+                    value={currentTab()}
+                    onChange={handleTabChange}
+                >
+                    { tabLookup.map((tab, i) => 
+                        tab.Title({key: `tab-index-${i}`, ...tabProps(i)})
+                    ) }
+                </Tabs>
+                <Route render={props => {
+                    const { Component } = tabLookup[currentTab()]  
+                    return (
+                        <Component
+                            location={location}
+                            history={history}
+                            match={match}
+                            {...props}
                         />
-                    }
+                        )
+                    }}
                 />
-            }
-        />
+            </MasterDetail>
+        </HeaderContent>
     )
 }
 

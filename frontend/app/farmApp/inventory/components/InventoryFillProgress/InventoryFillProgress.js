@@ -18,7 +18,8 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 const InventoryFillProgress = ({
     current,
     max,
-    unit=""
+    unit="",  
+    className,  
 }) => {
     const intl = useIntl()
 
@@ -42,9 +43,7 @@ const InventoryFillProgress = ({
 
     return (
         <div
-            style={{
-
-            }}
+        className={className}
         >
             <LinearProgress variant="determinate" value={percentage} />
             <Typography variant="caption">

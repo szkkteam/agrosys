@@ -17,6 +17,8 @@ import {
     SearchButton,
 } from 'components'
 
+import { useTableContext } from '../hooks'
+
 import {
     TablePrimaryActionButton,
     TableSettingsButton,
@@ -53,10 +55,17 @@ import {
                 if enable/disabled are determined, it should inject the hidden=true into that column
 */
 
+const defaultOptions = {
+    disableActions: false,
+
+}
+
 const TableHeader = forwardRef(({
     title,
-    columns,
-    onColumnChanged,
+    disableActions=false,
+    options={},
+    //columns,
+    //onColumnChanged,
     ...props
 }, ref) => {
     const intl = useIntl()
@@ -65,7 +74,18 @@ const TableHeader = forwardRef(({
             { id: 1, title: messages.chip2 },
             { id: 2, title: messages.chip3 },
     ])
+    
+    const {
+        toggleColumns: columns,
+        onColumnChanged
+    } = useTableContext()
+    
+    const renderColumns = columns && columns.length > 0
 
+    const updatedOptions = {
+        ...defaultOptions,
+        ...options
+    }
 
     const handleDelete = (chipToDelete) => {
         console.log("chipToDelete: ", chipToDelete)
@@ -86,9 +106,9 @@ const TableHeader = forwardRef(({
         </Grid>
         <Grid item xs={8}>
             <div style={{float: "right"}}>
-                <TablePrimaryActionButton
+                { !updatedOptions.disableActions ? <TablePrimaryActionButton
                     title={messages.add}
-                />
+                />: null }
                 <TableSettingsButton
                     title={messages.filters}
                     Icon={FilterListIcon}
@@ -99,10 +119,8 @@ const TableHeader = forwardRef(({
                         }
                     }}
                 />
-                <span style={{
-                    borderRight: "2px solid"                    
-                }}/>
-                <TableSettingsButton
+                { renderColumns ? <span style={{borderRight: "2px solid" }}/> : null }
+                { renderColumns ? <TableSettingsButton
                     title={messages.columns}
                     Icon={SettingsIcon}
                     placement="bottom-end"
@@ -116,7 +134,7 @@ const TableHeader = forwardRef(({
                         onChange={onColumnChanged}
                         columns={columns}
                     />
-                </TableSettingsButton>
+                </TableSettingsButton> : null }
             </div>
         </Grid>
         <Grid item xs={12} >
@@ -146,6 +164,9 @@ const TableHeader = forwardRef(({
 
 TableHeader.propTypes = {
     title: PropTypes.object.isRequired,
+    options: PropTypes.shape({
+        disableActions: PropTypes.bool,
+    })
 }
 
 export default TableHeader

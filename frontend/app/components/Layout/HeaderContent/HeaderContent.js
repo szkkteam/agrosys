@@ -27,8 +27,6 @@ const Content = styled(forwardRef(({headerHeight: dummy = null, ...rest}, ref) =
 `
 
 const HeaderContent = ({
-    header=null,
-    content=null,
     children
 }) => {
     
@@ -42,10 +40,9 @@ const HeaderContent = ({
     } = useHeaderContentHeight(headerRef, contentRef)
 
     const {
-        componentAChild: headerComponent,
-        componentBChild: contentComponent
-    } = useSplitComponents(header, content, children)
-
+        componentA: headerComponent,
+        componentB: contentComponent
+    } = useSplitComponents(children)
 
     const contextObject = {
         headerHeight,
@@ -68,7 +65,7 @@ const HeaderContent = ({
                     {_.isFunction(headerComponent)? 
                         headerComponent()
                         : 
-                        headerComponent
+                        headerComponent ?? null
                     }
                 </Header>
                 <Content
@@ -79,7 +76,7 @@ const HeaderContent = ({
                     {_.isFunction(contentComponent)? 
                         contentComponent()
                         : 
-                        contentComponent
+                        contentComponent ?? null
                     }
                 </Content>
             </HeaderContentContext.Provider>
@@ -88,15 +85,6 @@ const HeaderContent = ({
 }
 
 HeaderContent.propTypes = {
-    header: PropTypes.oneOfType([
-        PropTypes.object,
-        PropTypes.func,
-        PropTypes.oneOf([null])
-    ]),
-    content: PropTypes.oneOfType([
-        PropTypes.object,
-        PropTypes.func,
-    ]),
     children: PropTypes.arrayOf(
         PropTypes.oneOfType([
             PropTypes.object,

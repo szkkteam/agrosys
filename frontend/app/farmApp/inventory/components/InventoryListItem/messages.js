@@ -1,14 +1,14 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.farmApp.block.BlockListItemMenu'
+export const scope = 'app.farmApp.inventory.IventoryListItem'
 
 export default defineMessages({
     edit: {
-        id: `${scope}.edit`,  
+        id: `${scope}.Menu.edit`,  
         defaultMessage: 'Edit',
     },
     delete: {
-        id: `${scope}.delete`,  
+        id: `${scope}.Menu.delete`,  
         defaultMessage: 'Delete',
     },
   })

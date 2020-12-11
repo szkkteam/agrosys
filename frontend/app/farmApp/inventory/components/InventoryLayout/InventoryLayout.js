@@ -1,83 +1,102 @@
-import React from 'react'
+import React, { useContext, useMemo, useState, forwardRef, useLayoutEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
-import { useIntl } from 'react-intl'
-import { Route } from "react-router-dom";
+import styled from 'styled-components'
+import { useIntl, FormattedMessage } from 'react-intl'
+
+import { useHeightDifference } from 'utils/hooks'
+
+import { 
+    MasterDetail,
+} from 'components'
+
+import { 
+    Table,
+    TableHeader,
+    TableBody
+} from 'components/Table'
 
 import { 
     Grid,
     Typography
 }  from '@material-ui/core';
 
-
-import { 
-    SearchButton,
-    HeaderContent,
-    MasterDetail,
-} from 'components'
-
 import {
-    InventoryDetail,
-    InventoryMasterList
+    InventoryList
 } from '../../components'
 
-//const Detail = ({match}) => <div>Detail for: {match.params.id}</div>
-const Dashboard = ({}) => <div>Dashboard</div>
+const subHeaderMargin = 20
+
+const columns = [
+    { title: 'Name', field: 'title'},
+    { title: 'Active', field: 'isActive', type: 'boolean'},
+    //{ title: 'Address', field: 'address', hidden: true}
+]
+
+const Container = styled.div`
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+`
+
+const DetailContainer = styled.div`
+    height: 100%;
+`
+
+const TableSubHeader = styled(Typography)`
+    border-bottom: 2px solid black;
+    padding: ${subHeaderMargin}px 0;
+`
+
+/*
+
+*/
+
+const DetailPanel = ({
+
+}) => {
+
+    const titleRef = useRef(null)
+    const detailRef = useRef(null)
+
+    const height = useHeightDifference(detailRef, titleRef, 500)
+
+    return (
+        <DetailContainer
+            ref={detailRef}
+        >
+            <TableSubHeader
+                ref={titleRef}
+                variant="h5"
+            >
+                Items - Bin 1
+            </TableSubHeader>
+            <TableBody
+                height={height - 0}
+            />
+        </DetailContainer>
+    )
+}
+
 
 const InventoryLayout = ({
-    match
+    
 }) => {
     return (
-        <HeaderContent
-            header={
-                <Grid 
-                    container
-                    justify="flex-start"
-                    alignItems="center"
-                >
-                    <Grid item xs={12}>
-                        <Typography 
-                            variant="h4"
-                            gutterBottom={true}
-                        >
-                            Inventory
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <SearchButton style={{float: "left"}}/>
-                    </Grid>
-                </Grid>
-
-            }
-            content={
+        <Container>
+            <Table
+                columns={columns}
+            >
+                <TableHeader 
+                    title={messages.title}
+                />
                 <MasterDetail
-                    master={
-                        <InventoryMasterList
-                        />
-                    }
-                    detail={
-                        <>                            
-                            <Route
-                                // TODO: Currently this route is copy pasted just matching the simple warehouse view also
-                                path={`${match.path}/warehouse/:warehouseId([0-9]+)`}
-                                exact
-                                component={(props) => <InventoryDetail {...props}/>}
-                            />
-                            <Route
-                                path={`${match.path}/warehouse/:warehouseId([0-9]+)/bin/:binId([0-9]+)`}
-                                exact
-                                component={(props) => <InventoryDetail {...props}/>}
-                            />
-                            <Route 
-                                path={`${match.path}`}
-                                exact
-                                component={(props) => <Dashboard {...props} />}
-                            />
-                        </>
-                    }
-                />                
-            }
-        />
+                >
+                    <InventoryList />
+                    <DetailPanel />
+                </MasterDetail>
+            </Table>
+        </Container>
     )
 }
 

@@ -19,6 +19,8 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 
+import { useTableContext } from '../hooks'
+
 import './tablebody.scss'
 
 const tableIcons = {
@@ -49,14 +51,22 @@ export default ({
     onCellEditFinished = null,
     ...props
 }) => {
-    console.log("Table body height: ", height)
+
+    const {
+        columns,
+        topBottomPadding,
+    } = useTableContext()
+
+    const adjustedHeight = height - topBottomPadding
+
+    console.debug("Table body height: ", adjustedHeight)
     const defaultOptions = {
         ...Object.assign(options, {
             emptyRowsWhenPaging: true,
             toolbar: false, // By default remove toolbar
             paging: false, // By default remove paging
-            maxBodyHeight: height, // By default set height
-            minBodyHeight: height - 1, // By default set height
+            maxBodyHeight: adjustedHeight, // By default set height
+            minBodyHeight: adjustedHeight - 1, // By default set height
             headerStyle: { 
                 position: 'sticky',
                 top: 0,
@@ -69,6 +79,7 @@ export default ({
 
     return (
         <MaterialTable
+            columns={columns}
             icons={tableIcons}
             options={{
                 ...options,
