@@ -26,7 +26,7 @@ import {
 
 const Table = forwardRef(({
     siblingRef=null,
-    columns,
+    columns=[],
     children,
     ...props
 }, ref) => {

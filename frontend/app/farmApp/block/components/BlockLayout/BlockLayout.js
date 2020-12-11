@@ -20,15 +20,20 @@ import {
 import { LeafletMap } from 'farmApp/map/components'
 
 import { MasterDetail } from 'components'
-
+import { 
+    Table,
+    TableHeader,
+    TableBody
+} from 'components/Table'
 
 const StyledBlockViewButtons = styled(props => <BlockViewButtons {...props} />)`
     float: right;
 `
 
-const Container = styled(Grid)`
+const Container = styled.div`
     height: 100%;
     display: flex;
+    flex-direction: column;
 `
 
 const BlockLayout = ({
@@ -50,21 +55,30 @@ const BlockLayout = ({
                     match={match}
                 />
             </Portal>
-            <MasterDetail>
-                <BlockList>
-                    <BlockListItem />
-                    <BlockListItem />
-                    <BlockListItem />
-                    <BlockListItem />
-                    <BlockListItem />
-                    <BlockListItem />
-                    <BlockListItem />
-                    <BlockListItem />
-                    <BlockListItem />
-                    <BlockListItem />
-                </BlockList>
-                <LeafletMap />
-            </MasterDetail>                
+            <Table
+            >
+                <TableHeader 
+                    title={messages.title}
+                    options={{
+                        disableActions: true
+                    }}
+                />
+                <MasterDetail
+                >
+                    <BlockList>
+                        <BlockListItem />
+                        <BlockListItem />
+                        <BlockListItem />
+                        <BlockListItem />
+                        <BlockListItem />
+                        <BlockListItem />
+                        <BlockListItem />
+                        <BlockListItem />
+                        <BlockListItem />
+                    </BlockList>
+                    <LeafletMap />
+                </MasterDetail>
+            </Table>        
         </Container>
     )
 }

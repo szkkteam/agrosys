@@ -10,6 +10,7 @@ import { bindActionCreators } from 'redux'
 import { pushModalWindow } from 'redux-promising-modals';
 import { BLOCK_CREATE_DIALOG } from 'site/modalTypes'
 
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Button from '@material-ui/core/Button';
 
 const BlockCreateButton = ({
@@ -34,6 +35,7 @@ const BlockCreateButton = ({
             variant="contained"
             color="primary"
             onClick={handleClick}
+            startIcon={<AddCircleIcon />}
             {...props}
         >
             <FormattedMessage {...messages.title} />

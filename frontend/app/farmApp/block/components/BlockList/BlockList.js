@@ -20,7 +20,7 @@ const Container = styled.div`
 `
 
 const ScrollList = styled(List)`
-    max-height: 660px;
+    max-height: 560px;
     overflow-y: auto;
     padding: 0;
     margin: 8px 0;
@@ -46,9 +46,6 @@ const BlockList = ({
 
     return (
         <Container>
-            <ListSubheader component="div" id="nested-list-subheader">
-                Fields list
-            </ListSubheader>
             <ScrollList
                 component="ul"
             >
