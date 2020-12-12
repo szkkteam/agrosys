@@ -7,16 +7,9 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import { HeaderContentContext, MasterDetail } from 'components'
 
 import {
-    Grid,
-    Portal
-} from '@material-ui/core';
-
-import {
-    BlockViewButtons,
     BlockList,
-    BlockListItem,
-    BlockCreateButton
-} from '../../components'
+    BlockListItem
+} from 'farmApp/block/components'
 
 import { LeafletMap } from 'farmApp/map/components'
 
@@ -26,9 +19,9 @@ import {
     TableBody
 } from 'components/Table'
 
-const StyledBlockViewButtons = styled(props => <BlockViewButtons {...props} />)`
-    float: right;
-`
+import {
+    FieldCreateButton
+} from '../../components'
 
 const Container = styled.div`
     height: 100%;
@@ -36,7 +29,8 @@ const Container = styled.div`
     flex-direction: column;
 `
 
-const BottomButton = styled(props => <BlockCreateButton {...props} />)`
+
+const BottomButton = styled(props => <FieldCreateButton {...props} />)`
     position: absolute;
     margin-bottom: 10px;
     bottom: 0;
@@ -45,25 +39,12 @@ const BottomButton = styled(props => <BlockCreateButton {...props} />)`
 `
 
 
-const BlockLayout = ({
-    history,
-    match,
+const FieldLayout = ({
+
 }) => {
-
-    const {
-        headerPortalRef,
-    } = useContext(HeaderContentContext)
-
-    // TODO: Based on the URL query param, change the view later
 
     return (
         <Container>
-            <Portal container={headerPortalRef.current}>
-                <StyledBlockViewButtons
-                    history={history}
-                    match={match}
-                />
-            </Portal>
             <Table
             >
                 <TableHeader 
@@ -96,8 +77,8 @@ const BlockLayout = ({
     )
 }
 
-BlockLayout.propTypes = {
+FieldLayout.propTypes = {
 
 }
 
-export default BlockLayout
+export default FieldLayout

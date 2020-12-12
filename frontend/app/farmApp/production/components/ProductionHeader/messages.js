@@ -5,6 +5,10 @@ export const scope = 'app.farmApp.production.ProductionHeader'
 export default defineMessages({
     title: {
         id: `${scope}.title`,  
-        defaultMessage: 'Header',
+        defaultMessage: 'Productions',
+    },
+    productionMultiView: {
+        id: `${scope}.multiView`,  
+        defaultMessage: 'All',
     },
   })

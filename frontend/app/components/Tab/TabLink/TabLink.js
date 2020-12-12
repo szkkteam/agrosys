@@ -31,7 +31,10 @@ const TabLink = ({
 
 TabLink.propTypes = {
     value: PropTypes.any.isRequired,
-    to: PropTypes.string,
+    to: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object,
+    ])
 }
 
 export default TabLink

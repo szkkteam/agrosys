@@ -68,6 +68,10 @@ import {
 } from 'farmApp/production/pages'
 
 import {
+  FieldCreateDraw
+} from 'farmApp/field/pages'
+
+import {
   ItemList
 } from 'farmApp/item/pages'
 
@@ -93,6 +97,10 @@ import {
 import {
   ResourcesHeader
 } from 'farmApp/resource/components'
+
+import {
+  ProductionHeader
+} from 'farmApp/production/components'
 
 import {
   Dashboard,
@@ -154,10 +162,18 @@ export const ROUTES = {
   EntityList: 'EntityList',
   // Storage
   StorageList: 'StorageList',
+  /**
+   * Productions keys
+   */
+  ProductionHeader: 'ProductionHeader',
+
   // Production
   ProductionMultiView: 'ProductionMultiView',
   ProductionCreate: 'ProductionCreate',
   ProductionDetail: 'ProductionDetail',
+  // Field
+  FieldCreateDraw: 'FieldCreateDraw',
+
   // Item
   ItemList: 'ItemList',
   // Plan
@@ -337,28 +353,45 @@ export const routes = [
       },
     ]
   },
-
-  // Production routes
+  /**
+   * Production routes
+   */
   {
-    key: ROUTES.ProductionCreate,
-    path: '/productions/new',
-    component: ProductionCreate,
+    key: ROUTES.ProductionHeader,
+    path: '/productions',
+    component: ProductionHeader,
     routeComponent: ProtectedRoute,
-    props: { exact: true }
-  },
-  {
-    key: ROUTES.ProductionMultiView,
-    path: '/productions/multi',
-    component: ProductionMultiView,
-    routeComponent: ProtectedRoute,
-    props: { exact: true }
-  },
-  {
-    key: ROUTES.ProductionDetail,
-    path: '/productions/:id',
-    component: ProductionDetail,
-    routeComponent: ProtectedRoute,
-    props: { exact: true }
+    layoutComponent: HeaderContent,
+    routes: [
+      {
+        key: ROUTES.ProductionCreate,
+        path: '/productions/new',
+        component: ProductionCreate,
+        routeComponent: ProtectedRoute,
+        props: { exact: true }
+      },
+      {
+        key: ROUTES.ProductionMultiView,
+        path: '/productions',
+        component: ProductionMultiView,
+        routeComponent: ProtectedRoute,
+        props: { exact: true }
+      },
+      {
+        key: ROUTES.ProductionDetail,
+        path: '/productions/:id',
+        component: ProductionDetail,
+        routeComponent: ProtectedRoute,
+        props: { exact: true }
+      },
+      {
+        key: ROUTES.FieldCreateDraw,
+        path: '/productions/:id/parcel/new/draw',
+        component: FieldCreateDraw,
+        routeComponent: ProtectedRoute,
+        props: { exact: true }
+      }
+  ]
   },
   // Item routes    
   {

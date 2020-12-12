@@ -1,13 +1,18 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useContext } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
 import { useIntl } from 'react-intl'
-import { Route } from "react-router-dom";
+import styled from 'styled-components'
+import { Redirect, useLocation } from "react-router-dom";
+import { HashRoute } from 'utils/route'
 
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import { 
+    HeaderContentContext,
+    MasterDetail,
+    Tabs,
+    TabLink
+} from 'components'
 
-import { HeaderContent, MasterDetail } from 'components'
 import {
     ProductionTabCropVariants,
     ProductionTabFields,
@@ -15,6 +20,11 @@ import {
     ProductionTabSummary,
     ProductionTabTasks
 } from '../ProductionTabs'
+
+import {
+    FieldLayout
+} from 'farmApp/field/components'
+
 import {
     ProductionHeader,
 } from '../../components'
@@ -29,99 +39,87 @@ import {
 } from '../../constants'
 
 
-/**
- * 1) Header should contain some quick information and statistics (with links or dropdowns)
- * 1.1) Header can also contain the diffent views? (Or put them on the direct page) 
- * 2) Content should be a master detail list
- * 2.1) Master should be a list of available tabs
- * 2.2) Detail should be the actual selected tab
- */
+const Container = styled.div`
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+`
+
+const SideTabs = ({
+    //location,
+}) => {
+    // TODO: Tabs are always re-rendering, because the location is fully changed
+    // and this causes the page to render again.
+
+    const intl = useIntl()
+    const location = useLocation()
+
+    const tabs = [
+        {value: TAB_SUMMARY, title: intl.formatMessage(messages.tabSummaryTitle)},
+        {value: TAB_TASKS, title: intl.formatMessage(messages.tabTasksTitle)},
+        {value: TAB_CROP_VARIANTS, title: intl.formatMessage(messages.tabCropVariantTitle)},
+        {value: TAB_FIELDS, title: intl.formatMessage(messages.tabFieldsTitle)},
+        {value: TAB_PESTS, title: intl.formatMessage(messages.tabPestsTitle)},
+    ]
+
+    return (
+        <Tabs
+            value={location.hash || TAB_SUMMARY}
+            orientation="vertical"
+        >
+            { tabs && tabs.map((tab, i) => 
+                <TabLink key={i} to={ {...location, hash: tab.value} } value={tab.value} label={tab.title}/>    
+            )}
+          
+        </Tabs>
+    )
+}
 
 
-const tabProps = (index) => {
-    return {
-        id: `vertical-tab-${index}`,
-        'aria-controls': `vertical-tabpanel-${index}`,
-    }
+const MasterRouter = ({
+
+}) => {
+
+    return (
+        <>
+            <HashRoute path={TAB_SUMMARY} component={ProductionTabSummary} />
+            <HashRoute path={TAB_TASKS} component={ProductionTabTasks} />
+            <HashRoute path={TAB_CROP_VARIANTS} component={ProductionTabCropVariants} />
+            <HashRoute path={TAB_FIELDS} component={FieldLayout} />
+            <HashRoute path={TAB_PESTS} component={ProductionTabPests} />
+            <HashRoute path="" component={({location}) => <Redirect to={{...location, hash: TAB_SUMMARY}} />} />
+        </>
+    )
 }
 
 const ProductionLayout = ({
-    history,
-    match,
+    //history,
+    //match,
+    //location,
     ...props
 }) => {
     const intl = useIntl()
-    const query = useQuery()
-
-
-    const tabLookup = useMemo(() => [
-        { id: TAB_SUMMARY, Component: ProductionTabSummary, Title: (props) => <Tab label={intl.formatMessage(messages.tabSummaryTitle)} {...props} /> },
-        { id: TAB_TASKS, Component: ProductionTabTasks, Title: (props) => <Tab label={intl.formatMessage(messages.tabTasksTitle)} {...props} /> },
-        { id: TAB_CROP_VARIANTS, Component: ProductionTabCropVariants, Title: (props) => <Tab label={intl.formatMessage(messages.tabCropVariantTitle)} {...props} /> },
-        { id: TAB_FIELDS, Component: ProductionTabFields, Title: (props) => <Tab label={intl.formatMessage(messages.tabFieldsTitle)} {...props} /> },
-        { id: TAB_PESTS, Component: ProductionTabPests, Title: (props) => <Tab label={intl.formatMessage(messages.tabPestsTitle)} {...props} /> },
-    ])
-
-    const currentTab = () => _.findIndex(tabLookup, {id: query.get('tab') || TAB_SUMMARY})
-
-    useEffect(() => {
-        switch(query.get('tab')) {
-            case TAB_TASKS:
-            case TAB_SUMMARY:
-            case TAB_CROP_VARIANTS:
-            case TAB_FIELDS:
-            case TAB_PESTS:
-                break 
-            default: 
-                // TODO: Get the prefered view from storage/redux and apply
-                history.replace(`${match.url}?tab=${TAB_SUMMARY}`)
-        }
-    }, [query])
-
-
-    const handleTabChange = (e, newValue) => {
-        const { id } = tabLookup[newValue]
-        history.push(`${match.url}?tab=${id}`)
-    }
+    const {
+        headerPortalRef,
+    } = useContext(HeaderContentContext)
 
     return (
-        <HeaderContent>
-            <ProductionHeader
-                id={match.params.id}
-            />
-            <MasterDetail 
+        <Container>
+            <MasterDetail
                 masterSize={2}
             >
-                <Tabs
-                    orientation="vertical"
-                    //variant="scrollable"
-                    value={currentTab()}
-                    onChange={handleTabChange}
-                >
-                    { tabLookup.map((tab, i) => 
-                        tab.Title({key: `tab-index-${i}`, ...tabProps(i)})
-                    ) }
-                </Tabs>
-                <Route render={props => {
-                    const { Component } = tabLookup[currentTab()]  
-                    return (
-                        <Component
-                            location={location}
-                            history={history}
-                            match={match}
-                            {...props}
-                        />
-                        )
-                    }}
+                <SideTabs 
+                    //location={location}
                 />
+                <MasterRouter />
             </MasterDetail>
-        </HeaderContent>
+        </Container>
     )
 }
 
 ProductionLayout.propTypes = {
-    history: PropTypes.object.isRequired,
-    match: PropTypes.object.isRequired,
+    //history: PropTypes.object.isRequired,
+    //match: PropTypes.object.isRequired,
 }
 
 export default ProductionLayout

@@ -15,12 +15,14 @@ import { getModal, isModalActive } from '../selectors'
 import { TestModal } from 'site/components'
 import { FarmPickOnMap } from 'farmApp/farm/components'
 import { BlockCreateModal, BlockDrawModal } from 'farmApp/block/components'
+import { FieldDrawModal } from 'farmApp/field/components'
 
 import { 
     EDIT_FILE_DIALOG,
     FARM_PICK_ON_MAP_DIALOG,
     BLOCK_CREATE_DIALOG,
-    BLOCK_DRAW_DIALOG
+    BLOCK_DRAW_DIALOG,
+    FIELD_DRAW_DIALOG
  } from '../modalTypes'
 
 const ModalProvider = ({
@@ -37,6 +39,7 @@ const ModalProvider = ({
             [FARM_PICK_ON_MAP_DIALOG, FarmPickOnMap],
             [BLOCK_CREATE_DIALOG, BlockCreateModal],
             [BLOCK_DRAW_DIALOG, BlockDrawModal],
+            [FIELD_DRAW_DIALOG, FieldDrawModal],
             //[REMOVE_FILE_DIALOG, RemoveFileDialog]
     ]))
     const Component = modalsMap.get(modalType) || null;
