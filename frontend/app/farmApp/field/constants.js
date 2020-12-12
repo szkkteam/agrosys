@@ -1,0 +1,1 @@
+export const FIELD_CREATE_FORM = 'createBlock'

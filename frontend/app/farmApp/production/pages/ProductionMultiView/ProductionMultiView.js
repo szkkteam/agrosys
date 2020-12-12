@@ -2,8 +2,13 @@ import React from 'react'
 import Helmet from 'react-helmet'
 import messages from './messages';
 import { useIntl } from 'react-intl'
+import styled from 'styled-components'
 
 import { PageContent } from 'components'
+
+const Container = styled.div`
+    height: 100%;
+`
 
 export default ({
 
@@ -11,14 +16,14 @@ export default ({
     const intl = useIntl()
 
     return (
-        <PageContent>
+        <Container>
             <Helmet>
                 <title>
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <h1>Production multi view</h1>
-        </PageContent>
+            <div>Production multi view</div>
+        </Container>
 
     )
 }

@@ -9,7 +9,10 @@ const withLinkComponent = (WrappedComponent) => {
     return class extends React.Component {
 
         static propTypes = {
-            to: PropTypes.string,
+            to: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.object,
+            ]),
             params: PropTypes.object,
         }
     
@@ -47,7 +50,6 @@ const withLinkComponent = (WrappedComponent) => {
     
         render() {
             const { to, params, dataProps, ...rest } = this.props
-            console.log("withLink props: ", params)
             return (
                 <WrappedComponent 
                     component={

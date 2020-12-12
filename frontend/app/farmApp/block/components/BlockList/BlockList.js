@@ -10,10 +10,6 @@ import {
     ListSubheader
  } from '@material-ui/core';
 
- import {
-    BlockCreateButton,
-} from '../../components'
-
 const Container = styled.div`
     position: relative;
     height: 100%;
@@ -27,17 +23,9 @@ const ScrollList = styled(List)`
 
 `
 
-
-const BottomButton = styled(props => <BlockCreateButton {...props} />)`
-    position: absolute;
-    margin-bottom: 10px;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-`
-
 const BlockList = ({
     children,
+    addButton,
     ...props
 }) => {
 
@@ -60,13 +48,13 @@ const BlockList = ({
                     }
                 ))}
             </ScrollList>
-            <BottomButton />
+            {addButton}
         </Container>
     )
 }
 
 BlockList.propTypes = {
-
+    addButton: PropTypes.element,
 }
 
 export default BlockList

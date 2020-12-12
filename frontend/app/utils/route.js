@@ -63,3 +63,17 @@ export const AnonymousRoute = connect(
   (state) => ({ isAuthenticated: state.security.isAuthenticated }),
   (dispatch) => bindActionCreators({ enqueueNotification, push }, dispatch),
 )(UnconnectedAnonymousRoute)
+
+
+export const HashRoute = ({
+  component: Component,
+  path,
+  ...routeProps
+}) => (
+  <Route
+    {...routeProps}
+    component={({ location, ...props}) => 
+      location.hash === path && <Component location={location} {...props} />
+  } 
+  />
+)
