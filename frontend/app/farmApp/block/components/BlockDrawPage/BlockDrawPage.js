@@ -76,8 +76,38 @@ const BlockDrawPage = ({
     ) 
 }
 
+/*
+<FullPageMap
+            />
+            <BlockFormStepButton
+                cancelTitle={ButtonMessages.cancel}
+                submitTitle={ButtonMessages.next}
+                //cancelDisabled={true}
+                //submitDisabled={pristine || invalid}
+                onSubmit={onSubmit}
+                onCancel={onBack}
+            />     
+*/
+
 BlockDrawPage.propTypes = {
 
 }
 
 export default BlockDrawPage
+
+/*
+
+const mapStateToProps = (state) => {
+    return {
+    }
+  }
+
+const withConnect = connect(
+    mapStateToProps,
+    (dispatch) => bindActionCreators({ pushModalWindow }, dispatch),
+)
+  
+export default compose(
+    withConnect,
+)(BlockDrawPage)
+*/

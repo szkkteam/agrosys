@@ -47,12 +47,14 @@ const FieldDrawPage = ({
         onSubmit,
         onBack
     }
-
+    
     useEffect(() => {
-        dispatch(pushModalWindow(FIELD_DRAW_DIALOG, modalProps)).then(({ status, ...rest }) => {
+        dispatch(pushModalWindow(FIELD_DRAW_DIALOG, modalProps)).then(({ status }) => {
             // If status success, then call onSubmit
             // if status cancel, then call onBack
             console.debug("Form result: ", status)
+            console.debug("onSubmit: ", onSubmit)
+            console.debug("onBack: ", onBack)
             if (status === MODAL_TYPE_CONFIRM) {
                 onSubmit()
             } else {
@@ -60,7 +62,7 @@ const FieldDrawPage = ({
             }
         })
     }, [])
-
+    
     return (      
         <ContainerForm onSubmit={handleSubmit} >              
         </ContainerForm>

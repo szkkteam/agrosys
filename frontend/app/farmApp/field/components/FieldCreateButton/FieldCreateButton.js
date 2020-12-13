@@ -37,9 +37,7 @@ const FieldCreateButton = forwardRef(({
 })
 
 FieldCreateButton.propTypes = {
-    onClick: PropTypes.func,
-    pushModalWindow: PropTypes.func.isRequired,
-    className: PropTypes.string,
+    
 }
 
 export default FieldCreateButton

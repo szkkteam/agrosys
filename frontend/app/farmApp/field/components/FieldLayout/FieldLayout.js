@@ -1,15 +1,13 @@
 import React, { useContext, useMemo, useState, forwardRef } from 'react'
 import PropTypes from 'prop-types'
-import messages from './messages';
+import messages from './messages'
 import styled from 'styled-components'
 import { useIntl, FormattedMessage } from 'react-intl'
 
-import { HeaderContentContext, MasterDetail } from 'components'
-
-import {
-    BlockList,
-    BlockListItem
-} from 'farmApp/block/components'
+import { 
+    MasterList,
+    MasterDetail
+} from 'components'
 
 import { LeafletMap } from 'farmApp/map/components'
 
@@ -20,7 +18,8 @@ import {
 } from 'components/Table'
 
 import {
-    FieldCreateButton
+    FieldCreateButton,
+    FieldListItem
 } from '../../components'
 
 const Container = styled.div`
@@ -30,14 +29,13 @@ const Container = styled.div`
 `
 
 
-const BottomButton = styled(props => <FieldCreateButton {...props} />)`
+const BottomButton = styled(forwardRef((props, ref) => <FieldCreateButton {...props} ref={ref} /> ))`
     position: absolute;
     margin-bottom: 10px;
     bottom: 0;
     left: 0;
     width: 100%;
 `
-
 
 const FieldLayout = ({
 
@@ -55,21 +53,24 @@ const FieldLayout = ({
                 />
                 <MasterDetail
                 >
-                    <BlockList
+                    <MasterList
+                        options={{
+                            maxHeight: 570,
+                        }}
                         addButton={
                             <BottomButton />
                         }
                     >
-                        <BlockListItem />
-                        <BlockListItem />
-                        <BlockListItem />
-                        <BlockListItem />
-                        <BlockListItem />
-                        <BlockListItem />
-                        <BlockListItem />
-                        <BlockListItem />
-                        <BlockListItem />
-                    </BlockList>
+                        <FieldListItem />
+                        <FieldListItem />
+                        <FieldListItem />
+                        <FieldListItem />
+                        <FieldListItem />
+                        <FieldListItem />
+                        <FieldListItem />
+                        <FieldListItem />
+                        <FieldListItem />
+                    </MasterList>
                     <LeafletMap />
                 </MasterDetail>
             </Table>        
