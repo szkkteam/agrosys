@@ -2,11 +2,16 @@ import React, { forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { ROUTE_MAP } from 'routes'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
 
+const mapStateToProps = state => ({
+    location: state.router.location
+  })
 
 const withLinkComponent = (WrappedComponent) => {
 
-    return class extends React.Component {
+    class LinkComponent extends React.Component {
 
         static propTypes = {
             to: PropTypes.oneOfType([
@@ -49,21 +54,37 @@ const withLinkComponent = (WrappedComponent) => {
         }
     
         render() {
-            const { to, params, dataProps, ...rest } = this.props
+            const { to, params, dataProps, location, dispatch: notUsed, ...rest } = this.props
+
+            //console.debug("Location: ", location)
+            const state = {
+                from: location
+            }
             return (
                 <WrappedComponent 
                     component={
                         forwardRef((linkProps, ref) => 
-                        <Link ref={ref} to={this.route? { pathname: this.route.toPath(params), ...dataProps} : to } {...linkProps}/>)
+                        <Link ref={ref} to={this.route? { pathname: this.route.toPath(params), state, ...dataProps} : to } {...linkProps}/>)
                     }
                     onMouseOver={this.maybePreloadComponent}
                     {...rest}
                 />
             )
         }
+
     }
+
+    return connect(mapStateToProps, null)(LinkComponent)
     
 }
+/*
+const mapStateToProps = state => ({
+    location: state.router.location
+  })
 
-
+const withLinkComponent = compose(
+    connect(mapStateToProps, null),
+    LinkComponent
+)
+*/
 export default withLinkComponent

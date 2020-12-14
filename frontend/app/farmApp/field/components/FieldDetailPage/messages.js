@@ -21,7 +21,7 @@ export default defineMessages({
     },
     lpisTabTitle: {
         id: `${scope}.LpisTab.title`,  
-        defaultMessage: 'mepar',
+        defaultMessage: 'subsidies',
     },
     fieldBlockTitle: {
         id: `${scope}.form.blockTitle`,  

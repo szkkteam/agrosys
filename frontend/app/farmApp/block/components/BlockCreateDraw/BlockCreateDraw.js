@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
 import { useIntl, FormattedMessage } from 'react-intl'
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import styled from 'styled-components'
 
 import { compose } from 'redux'
@@ -68,9 +68,10 @@ const FirstPage = ({
 }) => {
     
     let history = useHistory()
+    let location = useLocation()
 
     const onCancel = () => {
-        history.goBack()
+        history.push(location.state.from)
     }
 
 

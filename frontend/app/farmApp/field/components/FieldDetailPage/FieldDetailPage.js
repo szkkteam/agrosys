@@ -19,8 +19,8 @@ import { messages as ButtonMessages } from 'components/Button'
 import { FieldFormStepButton } from '../../components'
 import { LeafletMap } from 'farmApp/map/components'
 
-import BlockTabGeneral from './BlockTabGeneral'
-import BlockTabLpis from './BlockTabLpis'
+import FieldTabGeneral from './FieldTabGeneral'
+import FieldTabSubsidies from './FieldTabSubsidies'
 
 const MapSnapshot = styled(LeafletMap)`
     width: 100%;
@@ -89,9 +89,9 @@ const FieldDetailPage = ({
     const getTabComponent = (tab) => {
         switch(tab) {
             case 0:
-                return BlockTabGeneral
+                return FieldTabGeneral
             case 1: 
-                return BlockTabLpis
+                return FieldTabSubsidies
             default:
                 return null
         }

@@ -4,7 +4,11 @@ import messages from './messages';
 import styled from 'styled-components'
 import { useIntl, FormattedMessage } from 'react-intl'
 
-import { HeaderContentContext, MasterDetail } from 'components'
+import { 
+    HeaderContentContext,
+    MasterDetail,
+    MasterList
+} from 'components'
 
 import {
     Grid,
@@ -36,7 +40,7 @@ const Container = styled.div`
     flex-direction: column;
 `
 
-const BottomButton = styled(props => <BlockCreateButton {...props} />)`
+const BottomButton = styled(forwardRef((props, ref) => <BlockCreateButton {...props} ref={ref} /> ))`
     position: absolute;
     margin-bottom: 10px;
     bottom: 0;
@@ -74,7 +78,7 @@ const BlockLayout = ({
                 />
                 <MasterDetail
                 >
-                    <BlockList
+                    <MasterList
                         addButton={
                             <BottomButton />
                         }
@@ -88,7 +92,7 @@ const BlockLayout = ({
                         <BlockListItem />
                         <BlockListItem />
                         <BlockListItem />
-                    </BlockList>
+                    </MasterList>
                     <LeafletMap />
                 </MasterDetail>
             </Table>        

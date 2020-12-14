@@ -14,7 +14,7 @@ import {
 } from 'components/Form'
 
 
-const BlockTabGeneral = ({
+const FieldTabGeneral = ({
     ...rest 
 }) => {
 
@@ -27,35 +27,14 @@ const BlockTabGeneral = ({
         >
             <Grid item xs={12}>
                 <TextField name="title"
-                    label="Block title"
-                    variant="outlined"
-                    formProps={{fullWidth: true}}
-                />
-            </Grid>
-            <Grid item xs={12}>
-                <TextField name="location"
-                    label="Location"
+                    label="Parcel title"
                     variant="outlined"
                     formProps={{fullWidth: true}}
                 />
             </Grid>
             <Grid item xs={12}>
                 <TextField name="area"
-                    label="Usable area"
-                    variant="outlined"
-                    formProps={{fullWidth: true}}
-                />
-            </Grid>
-            <Grid item xs={12}>
-                <TextField name="soilType"
-                    label="Soil Type"
-                    variant="outlined"
-                    formProps={{fullWidth: true}}
-                />
-            </Grid>
-            <Grid item xs={12}>
-                <TextField name="agriculturalType"
-                    label="Agricultural Type"
+                    label="Used area"
                     variant="outlined"
                     formProps={{fullWidth: true}}
                 />
@@ -67,12 +46,33 @@ const BlockTabGeneral = ({
                     formProps={{fullWidth: true}}
                 />
             </Grid>
+            <Grid item xs={12}>
+                <TextField name="tableNumber"
+                    label="Table number"
+                    variant="outlined"
+                    formProps={{fullWidth: true}}
+                />
+            </Grid>
+            <Grid item xs={12}>
+                <TextField name="notes"
+                    label="Notes"
+                    variant="outlined"
+                    formProps={{fullWidth: true}}
+                />
+            </Grid>
+            <Grid item xs={12}>
+                <TextField name="cropCode"
+                    label="Crop code"
+                    variant="outlined"
+                    formProps={{fullWidth: true}}
+                />
+            </Grid>
         </Grid>   
     ) 
 }
 
-BlockTabGeneral.propTypes = {
+FieldTabGeneral.propTypes = {
 
 }
 
-export default BlockTabGeneral
+export default FieldTabGeneral
