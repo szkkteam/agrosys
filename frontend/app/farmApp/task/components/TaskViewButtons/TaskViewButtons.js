@@ -15,24 +15,25 @@ import {
     ToggleButtonGroup
 } from '@material-ui/lab';
 
-import { VIEW_MAP, VIEW_LIST } from '../../constants'
+import { VIEW_CALENDAR, VIEW_LIST } from '../../constants'
 
 const TaskViewButtons = ({
+    value,
     onChange,
     ...props
 }) => {
 
-    const history = useHistory()
-    const location = useLocation()
+    //const history = useHistory()
+    //const location = useLocation()
 
     const handleChange = (event, newValue) => {
         onChange && onChange(newValue)
-        history.replace({...location, search: `?view=${newValue}`})
+        //history.replace({...location, search: `?view=${newValue}`})
     }
 
-    const query = useQuery()
-    const currentValue = query.get('view') 
-    
+    //const query = useQuery()
+    //const currentValue = query.get('view') 
+    /*
     useEffect(() => {
         switch(currentValue) {
             case VIEW_MAP:
@@ -43,16 +44,17 @@ const TaskViewButtons = ({
                 history.replace({...location, search: `?view=${VIEW_MAP}`})
         }
     }, [query])
+    */
 
     return (
         <ToggleButtonGroup
-            value={currentValue || VIEW_MAP}
+            value={value}
             exclusive
             onChange={handleChange}
             aria-label="task view"
             {...props}
         >
-            <ToggleButton value={VIEW_MAP} aria-label="map view">
+            <ToggleButton value={VIEW_CALENDAR} aria-label="calendar view">
                 <MapIcon />
             </ToggleButton>
             <ToggleButton value={VIEW_LIST} aria-label="list view">

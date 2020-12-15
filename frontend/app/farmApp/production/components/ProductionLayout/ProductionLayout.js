@@ -1,16 +1,17 @@
-import React, { useEffect, useMemo, useContext } from 'react'
+import React, { useRef, forwardRef, useContext } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { Redirect, useLocation } from "react-router-dom";
 import { HashRoute } from 'utils/route'
+import { useHeightDifference } from 'utils/hooks'
 
 import { 
     HeaderContentContext,
     MasterDetail,
     Tabs,
-    TabLink
+    TabButton
 } from 'components'
 
 import {
@@ -32,7 +33,7 @@ import { useQuery } from 'utils/hooks'
 
 import { 
     TAB_TASKS,
-    TAB_SUMMARY,
+    TAB_SUMMARY, 
     TAB_CROP_VARIANTS,
     TAB_FIELDS,
     TAB_PESTS
@@ -44,10 +45,22 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
 `
+// TODO: Any margin will push over the fields than 100% ... but currently cannot keep inside
+const TabsGroup = styled(forwardRef((props, ref) => <Tabs {...props} ref={ref} />))`
+    /* margin: 15px 0; */
+    &:nth-child(1) {
+        border-radius: 10px;
+        > div {
+            > div {
+                height: 100%;
+            }
+        }
+    }
+`
 
-const SideTabs = ({
+const SideTabs = forwardRef(({
     //location,
-}) => {
+}, ref) => {
     // TODO: Tabs are always re-rendering, because the location is fully changed
     // and this causes the page to render again.
 
@@ -63,30 +76,38 @@ const SideTabs = ({
     ]
 
     return (
-        <Tabs
+        <TabsGroup
+            ref={ref}
             value={location.hash || TAB_SUMMARY}
-            orientation="vertical"
+            orientation="horizontal"
+            variant="fullWidth"
+            centered
+            TabIndicatorProps={{
+                style: {
+                    display: "none",
+                }
+            }}
         >
             { tabs && tabs.map((tab, i) => 
-                <TabLink key={i} to={ {...location, hash: tab.value} } value={tab.value} label={tab.title}/>    
+                <TabButton key={i} to={ {...location, hash: tab.value} } value={tab.value} label={tab.title} />    
             )}
           
-        </Tabs>
+        </TabsGroup>
     )
-}
+})
 
 
 const MasterRouter = ({
-
+    height
 }) => {
 
     return (
         <>
-            <HashRoute path={TAB_SUMMARY} component={ProductionTabSummary} />
-            <HashRoute path={TAB_TASKS} component={ProductionTabTasks} />
-            <HashRoute path={TAB_CROP_VARIANTS} component={ProductionTabCropVariants} />
-            <HashRoute path={TAB_FIELDS} component={FieldLayout} />
-            <HashRoute path={TAB_PESTS} component={ProductionTabPests} />
+            <HashRoute path={TAB_SUMMARY} component={props => <ProductionTabSummary height={height} {...props} />} />
+            <HashRoute path={TAB_TASKS} component={props => <ProductionTabTasks height={height} {...props} />} />
+            <HashRoute path={TAB_CROP_VARIANTS} component={props => <ProductionTabCropVariants height={height} {...props} />} />
+            <HashRoute path={TAB_FIELDS} component={props => <FieldLayout height={height} {...props} />} />
+            <HashRoute path={TAB_PESTS} component={props => <ProductionTabPests height={height} {...props} />} />
             <HashRoute path="" component={({location}) => <Redirect to={{...location, hash: TAB_SUMMARY}} />} />
         </>
     )
@@ -99,20 +120,23 @@ const ProductionLayout = ({
     ...props
 }) => {
     const intl = useIntl()
-    const {
-        headerPortalRef,
-    } = useContext(HeaderContentContext)
+
+    const containerRef = useRef(null)
+    const tabsRef = useRef(null)
+
+    const height = useHeightDifference(containerRef, tabsRef, 778)
 
     return (
-        <Container>
-            <MasterDetail
-                masterSize={2}
-            >
-                <SideTabs 
-                    //location={location}
-                />
-                <MasterRouter />
-            </MasterDetail>
+        <Container
+            ref={containerRef}
+        >
+            <SideTabs 
+                ref={tabsRef}
+                //location={location}
+            />
+            <MasterRouter
+                height={height}
+            />
         </Container>
     )
 }

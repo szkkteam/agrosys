@@ -66,10 +66,11 @@ const ItemMenu = ({
             {...props}
         >
             <ListContainer>
-                { items && items.map((item)=> {
+                { items && items.map((item, i)=> {
                     if ('link' in item) 
                         return (
                             <LinkMenuItem 
+                                key={i}
                                 {...item.link}
                             >
                                 <FormattedMessage {...item.title} />
@@ -78,6 +79,7 @@ const ItemMenu = ({
                     else
                         return (
                             <MenuItem 
+                                key={i}
                                 component='div'
                                 onClick={item.onClick}
                             >
