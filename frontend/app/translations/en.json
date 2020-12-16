@@ -136,6 +136,8 @@
   "app.farmApp.storage.StorageList.title": "Storages",
   "app.farmApp.storage.StorageMenuItem.title": "Storage",
   "app.farmApp.task.TaskCalendar.title": "Tasks",
+  "app.farmApp.task.TaskTable.Table.title": "Tasks - list",
+  "app.farmApp.task.TaskTable.TaskAddButton.title": "Add new",
   "app.farmApp.traceability.TraceabilityMenuItem.title": "Traceability",
   "app.farmApp.transaction.TransactionDashboard.title": "Transactions",
   "app.farmApp.transaction.TransactionMenuItem.title": "Transactions",
