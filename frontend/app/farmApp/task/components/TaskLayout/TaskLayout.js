@@ -1,9 +1,12 @@
-import React, { useEffect, useMemo, useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { useRouteMatch, useHistory } from "react-router-dom";
+import { useHeightDifference } from 'utils/hooks'
+
+import { VIEW_CALENDAR, VIEW_LIST } from '../../constants'
 
 import {
     Grid,
@@ -16,7 +19,8 @@ import {
 
 import {
     TaskViewButtons,
-    TaskCalendar
+    TaskCalendar,
+    TaskTable
 } from '../../components'
 
 const Container = styled.div`
@@ -31,20 +35,29 @@ const StyledViewButtons = styled(props => <TaskViewButtons {...props} />)`
 `
 
 const TaskLayout = ({
-
+    height,
 }) => {
     const {
         headerPortalRef,
     } = useContext(HeaderContentContext)
+
+    const [view, setView] = useState(VIEW_CALENDAR)
 
 
     return (
         <Container>
             <Portal container={headerPortalRef.current}>
                 <StyledViewButtons
+                    value={view}
+                    onChange={setView}
                 />
             </Portal>
-            <TaskCalendar />
+            { view === VIEW_CALENDAR
+              ? <TaskCalendar />
+              : <TaskTable 
+                    height={height}
+                />
+            }            
         </Container>
     )
 }

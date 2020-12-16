@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { useDynamicMatch } from 'utils/hooks'
 import { useLocation, useRouteMatch, useHistory } from "react-router-dom"
@@ -8,14 +8,14 @@ import { Tabs as MuiTabs } from '@material-ui/core';
 
 
 
-const Tabs = ({
+const Tabs = forwardRef(({
     id="vertical-tab",
     //routes,
     //defaultRoute,
     //forceDefaultRoute=false,
     children,
     ...props
-}) => {
+}, ref) => {
 
     //const tabValue = useDynamicMatch(routes, defaultRoute, forceDefaultRoute)
     const tabProps = (index) => {
@@ -27,6 +27,7 @@ const Tabs = ({
 
     return (
         <MuiTabs
+            ref={ref}
             //value={tabValue}
             {...props}
         >
@@ -35,7 +36,7 @@ const Tabs = ({
             ))}
         </MuiTabs>
     )
-}
+})
 
 Tabs.propTypes = {
     id: PropTypes.string,

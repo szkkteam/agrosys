@@ -150,10 +150,9 @@ const FieldDrawModal = ({
                     <Button
                         variant="contained"
                         color="default"
-                        disabled={!blockSelected}
-                        //onClick={toggleDrawer(true)}
+                        onClick={openDrawer(listBlock)}
                     >
-                        Upload parcels
+                        Select block
                     </Button>
                     <Button
                         variant="contained"
@@ -166,9 +165,10 @@ const FieldDrawModal = ({
                     <Button
                         variant="contained"
                         color="default"
-                        onClick={openDrawer(listBlock)}
+                        disabled={!blockSelected}
+                        //onClick={toggleDrawer(true)}
                     >
-                        Select block
+                        Upload parcels
                     </Button>
                 </ButtonContainer>
             </Header>

@@ -3,17 +3,11 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import {
-    Grid,
-    ButtonGroup 
-} from '@material-ui/core';
-
 import { 
     ToggleButtonGroup,
     ToggleButton
 } from '@material-ui/lab';
 
-import './tabsbutton.scss'
 
 const TabButtonGroup = styled(forwardRef((props, ref) => <ToggleButtonGroup ref={ref} {...props} />))`
     ${({theme}) => `
