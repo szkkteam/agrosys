@@ -14,13 +14,15 @@ import NavLink from './NavLink'
 import NavBarContext from './NavBarContext'
 import { AppBar } from 'components/AppBar'
 import { SideBar } from 'components/SideBar'
+import { NavRail } from 'components/NavRail'
 
+import { ResourceRailItem } from 'farmApp/resource/menus'
 import { BlockMenuItem } from 'farmApp/block/menus'
 import { EntityMenuItem } from 'farmApp/entity/menus'
 import { WorkerMenuItem } from 'farmApp/worker/menus'
 import { MachineryMenuItem } from 'farmApp/machinery/menus'
 import { StorageMenuItem } from 'farmApp/storage/menus'
-import { DashboardMenuItem } from 'farmApp/dashboard/menus'
+import { DashboardMenuItem, DashboardRailItem } from 'farmApp/dashboard/menus'
 
 import { SaleMenuItem } from 'farmApp/sale/menus'
 import { ExpenseMenuItem } from 'farmApp/expense/menus'
@@ -39,15 +41,16 @@ import { TraceabilityMenuItem } from 'farmApp/traceability/menus'
 
 import { NestedMenuItem } from 'components'
 
-import './navbar.scss'
-
 
 
 const NavBar = ({
+  pageTitle,
+  appBarRef,
+  appTabRef,
   isAuthenticated,
 }) => {
 
-  const [isDrawerOpen, setDrawer] = useState(true)
+  const [isDrawerOpen, setDrawer] = useState(false)
 
   const handleDrawerOpen = () => {
     setDrawer(true)
@@ -71,6 +74,9 @@ const NavBar = ({
         value={contextObject}
       >
         <AppBar
+          ref={appBarRef}
+          appTabRef={appTabRef}
+          title={pageTitle}
           isDrawerOpen={isDrawerOpen}
           onDrawerOpen={handleDrawerOpen}
         />
@@ -114,6 +120,11 @@ const NavBar = ({
           <TraceabilityMenuItem />
 
         </SideBar>
+        
+        <NavRail>
+          <DashboardRailItem />       
+          <ResourceRailItem />
+        </NavRail>
       </NavBarContext.Provider>      
       : null }     
     </React.Fragment>
@@ -127,3 +138,7 @@ const withConnect = connect(
 export default compose(
   withConnect,
 )(NavBar)
+
+/*
+        
+*/

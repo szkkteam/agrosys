@@ -54,20 +54,10 @@ const BlockLayout = ({
     match,
 }) => {
 
-    const {
-        headerPortalRef,
-    } = useContext(HeaderContentContext)
-
     // TODO: Based on the URL query param, change the view later
 
     return (
         <Container>
-            <Portal container={headerPortalRef.current}>
-                <StyledBlockViewButtons
-                    history={history}
-                    match={match}
-                />
-            </Portal>
             <Table
             >
                 <TableHeader 

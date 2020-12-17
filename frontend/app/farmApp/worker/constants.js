@@ -1,2 +1,2 @@
-export const TAB_WORKERS = 'list'
-export const TAB_ROLES = 'roles'
+export const TAB_WORKERS = '#workers'
+export const TAB_ROLES = '#roles'

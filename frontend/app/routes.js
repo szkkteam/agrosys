@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Route, Switch, Redirect, matchPath } from 'react-router-dom'
 import startCase from 'lodash/startCase'
 import { compile } from 'path-to-regexp'
+import Content from 'components/Layout/Content'
 import HeaderContent from 'components/Layout/HeaderContent'
 
 import {
@@ -95,8 +96,8 @@ import {
 } from 'security/pages'
 
 import {
-  ResourcesHeader
-} from 'farmApp/resource/components'
+  ResourceHeaderTab
+} from 'farmApp/resource/pages'
 
 import {
   ProductionHeader
@@ -145,7 +146,7 @@ export const ROUTES = {
   /**
    * Resources Keys
    */
-  ResourcesHeader: 'ResourcesHeader',
+  ResourceHeaderTab: 'ResourceHeaderTab',
 
   // Block
   BlockList: 'BlockList',
@@ -279,11 +280,11 @@ export const routes = [
    * Resources routes
    */
   {
-    key: ROUTES.ResourcesHeader,
+    key: ROUTES.ResourceHeaderTab,
     path: '/resource',
-    component: ResourcesHeader,
+    component: ResourceHeaderTab,
     routeComponent: ProtectedRoute,
-    layoutComponent: HeaderContent,
+    layoutComponent: Content,
     routes: [
       {
         key: ROUTES.BlockCreateDraw,
@@ -520,7 +521,7 @@ console.log("headerComntent: ", HeaderContent)
 
 // TODO: How to add the 404 route?
 // cachedRoutes.push(<Route component={NotFound} key="*" />)
-
+ 
 const CustomRouter = ({routes}) => {
   return (
       <Switch>

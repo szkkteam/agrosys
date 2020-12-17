@@ -1,26 +1,58 @@
-import React from 'react'
-import classnames from 'classnames'
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+import React, { forwardRef } from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { useIntl, FormattedMessage } from 'react-intl'
+
+import {
+    AppBar as MuiAppBar,
+    Toolbar,
+    IconButton
+} from '@material-ui/core';
+
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+/*
+import SearchIcon from '@material-ui/icons/Search';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+*/
 
 import { TutorialProgressBar } from 'farmApp/tutorial/components'
 import { FarmSelector } from 'farmApp/farm/components'
 import { ProductionTopSelector } from 'farmApp/production/components'
 import { NotificationButton } from 'farmApp/notification/components'
 
-import './appbar.scss'
+const StyledAppBar = styled(MuiAppBar)`
+    z-index: 1300;
+    box-shadow: none;
+    transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms,margin 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
+
+    .MuiToolbar-root {
+        padding-left: 15px;
+    }
+
+`
+
+const MenuButton = styled(IconButton)`
+    margin-right: 10px;
+    margin-left: -2px;
+`
+
+const TabContent = styled.div`
+    height: 64px;
+    display: flex;
+    align-items: center;
+    > div {
+        height: 100%;
+        align-items: center;
+        > div {
+            height: 100%;
+            align-items: center;
+            display: flex;
+        }
+    }
+`
 
 /*
 className={clsx(classes.menuButton, {
@@ -28,32 +60,31 @@ className={clsx(classes.menuButton, {
                     })}
 */
 
-export default ({
+const AppBar = forwardRef(({
+    title,
+    appTabRef,
     isDrawerOpen,
     onDrawerOpen,
-}) => { 
+}, ref) => { 
  
     return (
-        <AppBar 
+        <StyledAppBar 
+            ref={ref}
             position="fixed"
-            className={classnames('top-appbar',{
-                'top-appbar-shift': isDrawerOpen,
-            })}
         >
             <Toolbar>
-                <IconButton                     
+                <MenuButton                     
                     color="inherit"
                     aria-label="open drawer"
                     onClick={onDrawerOpen}
                     edge="start"
-                    className={classnames('menu-button', {
-                        hide: isDrawerOpen
-                    })}
                 >
                     <MenuIcon />
-                </IconButton>
-                <FarmSelector />    
-                <ProductionTopSelector />            
+                </MenuButton>    
+                {title? <FormattedMessage {...title} /> : null }
+                <TabContent ref={appTabRef}>
+
+                </TabContent>
                 <div style={{flexGrow: 1}} />
                 <div className="">
                     <TutorialProgressBar />
@@ -71,6 +102,12 @@ export default ({
                     
                 </div>
             </Toolbar>
-        </AppBar>
+        </StyledAppBar>
     )
+})
+
+AppBar.propTypes = {
+    title: PropTypes.object,
 }
+
+export default AppBar

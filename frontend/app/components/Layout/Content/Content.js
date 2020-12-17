@@ -5,11 +5,14 @@ import styled from 'styled-components'
 
 import Container from '@material-ui/core/Container';
 
-const StyledContainer = styled.div`
+const LayoutContent = styled.div`
     height: 100%;
     position: relative;
+    > div {
+        width: 100%;
+        height: 100%;
+    }
 `
-
 
 export default ({
     children
@@ -17,8 +20,8 @@ export default ({
     
 
     return (
-        <StyledContainer maxWidth={false}>
+        <LayoutContent>
             {children}
-        </StyledContainer>
+        </LayoutContent>
     )
 }

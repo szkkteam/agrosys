@@ -1,11 +1,19 @@
 import React, { useContext, useMemo, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, useIntl } from 'react-intl'
 import styled from 'styled-components'
 
-import Portal from '@material-ui/core/Portal';
-import { HeaderContentContext, TabsButton } from 'components'
+import { Redirect, useLocation } from "react-router-dom";
+import { HashRoute } from 'utils/route'
+
+import { 
+    HeaderContent,
+    TabsButton,
+    HeaderContentContext,
+    Tabs,
+    TabLink
+} from 'components'
 
 import { useHeightDifference } from 'utils/hooks'
 
@@ -25,40 +33,8 @@ const Container = styled.div`
     flex-direction: column;
 `
 
-const WorkerLayout = ({
-    
-}) => {
-
-    const [value, setValue] = useState(TAB_WORKERS)
-
-    const containerRef = useRef(null)
-    const tabsRef = useRef(null)
-
-    const height = useHeightDifference(containerRef, tabsRef, 778)
-
-    const {
-        headerPortalRef,
-    } = useContext(HeaderContentContext)
-
-    const tabValues = [
-        {value: TAB_WORKERS, message: messages.left},
-        {value: TAB_ROLES, message: messages.right},
-    ]
-
-    return (
-        <Container
-            ref={containerRef}
-        >
-            <Portal container={headerPortalRef.current}>
-                <div>Worker specific context</div>
-            </Portal>
-            <TabsButton
-                ref={tabsRef}
-                defaultValue={value}
-                values={tabValues}
-                onChange={setValue}
-            />
-            { value === TAB_WORKERS?
+/*
+{ value === TAB_WORKERS?
                 <WorkerTable
                     height={height}
                 />
@@ -66,9 +42,64 @@ const WorkerLayout = ({
                     height={height}
                 />
             }
-        </Container>
+*/
+
+const StyledTabs = styled(props => <Tabs {...props} />)`
+    padding: 10px 20px;
+`
+
+const TableRoutes = ({
+    
+}) => {
+
+    const {
+        contentHeight,
+    } = useContext(HeaderContentContext)
+
+    console.debug("Worker height: ", contentHeight)
+
+    return (
+        <>
+            <HashRoute path={TAB_WORKERS} component={props => <WorkerTable height={contentHeight} {...props} />} />
+            <HashRoute path={TAB_ROLES} component={props => <RoleTable height={contentHeight} {...props} />} />
+            <HashRoute path="" component={({location}) => <Redirect to={{...location, hash: TAB_WORKERS}} />} />
+        </>
     )
 }
+
+
+const WorkerLayout = ({
+    
+}) => {
+    const intl = useIntl()
+    const location = useLocation()
+
+    const tabValues = [
+        {value: TAB_WORKERS, title: intl.formatMessage(messages.left)},
+        {value: TAB_ROLES, title: intl.formatMessage(messages.right)},
+    ]
+
+    return (
+        <HeaderContent
+            //ref={containerRef}
+        >
+            <StyledTabs
+                value={location.hash || TAB_WORKERS}
+                orientation="horizontal"
+            >
+                { tabValues && tabValues.map((tab, i) => (
+                    <TabLink key={i} to={ {...location, hash: tab.value} } value={tab.value} label={tab.title} />  
+                ))}                
+            </StyledTabs>
+            <TableRoutes
+            />
+        </HeaderContent>
+    )
+}
+
+/*
+
+*/
 
 WorkerLayout.propTypes = {
 
