@@ -46,12 +46,6 @@ const TaskLayout = ({
 
     return (
         <Container>
-            <Portal container={headerPortalRef.current}>
-                <StyledViewButtons
-                    value={view}
-                    onChange={setView}
-                />
-            </Portal>
             { view === VIEW_CALENDAR
               ? <TaskCalendar />
               : <TaskTable 
@@ -61,6 +55,13 @@ const TaskLayout = ({
         </Container>
     )
 }
+
+/*
+                <StyledViewButtons
+                    value={view}
+                    onChange={setView}
+                />
+*/
 
 TaskLayout.propTypes = {
 

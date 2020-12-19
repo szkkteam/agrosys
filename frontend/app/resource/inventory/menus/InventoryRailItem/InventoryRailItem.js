@@ -3,25 +3,25 @@ import PropTypes from 'prop-types'
 import messages from './messages';
 import { ROUTES } from 'routes'
 
-import AutorenewIcon from '@material-ui/icons/Autorenew';
+import ListIcon from '@material-ui/icons/List';
 import { NavRailItem } from 'components/NavRail'
  
-const ProductionRailItem = ({
+const ResourceRailItem = ({
     ...rest
 }) => {
    
     return (
         <NavRailItem
             title={messages.title}
-            to={ROUTES.ProductionHeaderTab}
-            IconComponent={AutorenewIcon}
+            to={ROUTES.InventoryList}
+            IconComponent={ListIcon}
             {...rest}
         />       
     )
 }
 
-ProductionRailItem.propTypes = {
+ResourceRailItem.propTypes = {
 
 }
 
-export default ProductionRailItem
+export default ResourceRailItem

@@ -49,7 +49,8 @@ const FieldDrawPage = ({
     }
     
     useEffect(() => {
-        dispatch(pushModalWindow(FIELD_DRAW_DIALOG, modalProps)).then(({ status }) => {
+        dispatch(pushModalWindow(FIELD_DRAW_DIALOG, modalProps)).then(({ status, ...rest }) => {
+        //dispatch(pushModalWindow(BLOCK_DRAW_DIALOG, modalProps)).then(({ status, ...rest }) => {
             // If status success, then call onSubmit
             // if status cancel, then call onBack
             console.debug("Form result: ", status)

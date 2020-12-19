@@ -50,7 +50,6 @@ const NavRailItem = ({
 }) => {
     const route = ROUTE_MAP[to]
     const match = useRouteMatch({ path: route?.path, ...route.props})
-
     const selectedProps = match? { color: "primary" } : {}
 
     return (

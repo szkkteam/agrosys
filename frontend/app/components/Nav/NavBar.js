@@ -13,6 +13,7 @@ import { NavRail } from 'components/NavRail'
 
 import { ResourceRailItem } from 'resource/resource/menus'
 import { ProductionRailItem } from 'production/production/menus'
+import { InventoryRailItem } from 'resource/inventory/menus'
 //import { BlockMenuItem } from 'farmApp/block/menus'
 //import { EntityMenuItem } from 'farmApp/entity/menus'
 //import { WorkerMenuItem } from 'farmApp/worker/menus'
@@ -75,6 +76,7 @@ const NavBar = ({
         <NavRail>
           <DashboardRailItem />       
           <ResourceRailItem />
+          <InventoryRailItem />
           <ProductionRailItem />
         </NavRail>
       </NavBarContext.Provider>      

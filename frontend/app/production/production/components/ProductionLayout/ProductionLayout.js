@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
-import { Redirect, useLocation } from "react-router-dom";
+import { Redirect, useLocation, Switch } from "react-router-dom";
 import { HashRoute } from 'utils/route'
 import { useHeightDifference } from 'utils/hooks'
 

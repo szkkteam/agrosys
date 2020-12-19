@@ -4,7 +4,7 @@ import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 
-import { HeaderContent } from 'components'
+import { Content } from 'components'
 import { 
     InventoryLayout,
     InventoryHeader,
@@ -28,10 +28,10 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <HeaderContent>
-                <InventoryHeader />
+            <Content>
+
                 <InventoryLayout />
-            </HeaderContent>
+            </Content>
         </Container>
 
     )

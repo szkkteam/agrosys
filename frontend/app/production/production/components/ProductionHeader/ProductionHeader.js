@@ -46,24 +46,26 @@ const ProductionHeader = ({
         {id: 0, label: intl.formatMessage(messages.productionMultiView), to: ROUTES.ProductionMultiView},
         {id: 1, label: "My wheat", to: ROUTES.ProductionDetail},
         {id: 2, label: "My corn", to: ROUTES.ProductionDetail},
+        //{id: 3, label: "My asdasd", to: ROUTES.ProductionDetail},
+        //{id: 4, label: "My bbbbb", to: ROUTES.ProductionDetail},
     ]
     
     // TODO: This is ugly, try to re-use the router config
-    const matched = matchPath(location.pathname, { path: "/productions/:id", strict: true })
-    const id = parseInt(matched? matched.params : 0)
-
-    console.debug("matched: ", matched)
-    console.debug("id: ", id)
-    //const { id = 0 } = matched? matched.params : 0
+    const route = ROUTE_MAP[ROUTES.ProductionDetail]
+    const matched = matchPath(location.pathname, { path: route.path, ...route.props })
+    const { id = 0 } = matched? matched.params : 0
     
     return (
         <Portal container={appBarTabsRef.current}>
             { false
                 ? <Redirect to={route.toPath()}/> 
                 : <Tabs
-                    value={_.isNaN(id)? 0 : id}
+                    value={parseInt(id)}
+                    //value={_.isNaN(id)? 0 : id}
                     //value={matched? matched[0] : location.pathname}
                     orientation="horizontal"
+                    variant="scrollable"
+                    scrollButtons="auto"
                     TabIndicatorProps={{
                         style: {
                             height: "85%",

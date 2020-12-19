@@ -337,7 +337,7 @@ export const routes = [
       },
       {
         key: ROUTES.ProductionMultiView,
-        path: '/productions/all',
+        path: '/productions',
         component: ProductionMultiView,
         routeComponent: ProtectedRoute,
         props: { exact: true }
