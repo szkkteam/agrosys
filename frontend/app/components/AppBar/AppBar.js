@@ -6,7 +6,8 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import {
     AppBar as MuiAppBar,
     Toolbar,
-    IconButton
+    IconButton,
+    Typography
 } from '@material-ui/core';
 
 import MenuIcon from '@material-ui/icons/Menu';
@@ -54,6 +55,11 @@ const TabContent = styled.div`
     }
 `
 
+const PageTitle = styled(Typography)`
+    width: 200px;
+    font-size: 1.5rem;
+`
+
 /*
 className={clsx(classes.menuButton, {
                     [classes.hide]: isDrawerOpen,
@@ -81,7 +87,9 @@ const AppBar = forwardRef(({
                 >
                     <MenuIcon />
                 </MenuButton>    
-                {title? <FormattedMessage {...title} /> : null }
+                <PageTitle variant="h1">
+                    {title? <FormattedMessage {...title} /> : null }
+                </PageTitle>
                 <TabContent ref={appTabRef}>
 
                 </TabContent>
