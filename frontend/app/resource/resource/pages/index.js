@@ -1,0 +1,1 @@
+export { default as ResourceHeaderTab } from './ResourceHeaderTab'

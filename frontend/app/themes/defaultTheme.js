@@ -2,6 +2,7 @@ import { createMuiTheme }  from '@material-ui/core/styles'
 import { 
     topSpacingHeight,
     pagePadding,
+    navrailWidth
 } from './constants'
 import globals from './globals'
 //import purple from '@material-ui/core/colors/purple';
@@ -16,6 +17,7 @@ export default createMuiTheme({
     },
     custom: {
         topSpacingHeight,
-        pagePadding
+        pagePadding,
+        navrailWidth
     }
   })

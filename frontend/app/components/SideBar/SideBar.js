@@ -1,12 +1,16 @@
 import React from 'react'
-import classnames from 'classnames'
-import Drawer from '@material-ui/core/Drawer';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import List from '@material-ui/core/List';
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { useIntl, FormattedMessage } from 'react-intl'
 
-import './sidebar.scss'
+import {
+    Drawer,
+    Divider,
+    IconButton,
+    List
+} from '@material-ui/core';
+
+import CloseIcon from '@material-ui/icons/Close';
 
 //<nav className={classnames({ 'menu-open': menuOpen })}>
 /*
@@ -22,6 +26,11 @@ className={clsx(classes.drawer, {
         }}
 */
 
+const PushRight = styled.div`
+    display: flex;
+    justify-content: flex-end;
+`
+
 export default ({
     isDrawerOpen,
     onDrawerClose,
@@ -30,23 +39,15 @@ export default ({
 
     return (
         <Drawer
-            variant="permanent"        
-            className={classnames('side-appbar', {
-                open: isDrawerOpen,
-                close: !isDrawerOpen
-            })}
-            classes={{
-                paper: classnames({
-                    open: isDrawerOpen,
-                    close: !isDrawerOpen
-                })
-            }}
+            anchor="left"
+            open={isDrawerOpen}       
+            onClose={onDrawerClose}                 
         >
-        <div className={classnames('toolbar')}>            
+        <PushRight>            
             <IconButton onClick={onDrawerClose}>
-                <ChevronLeftIcon />
+                <CloseIcon />
             </IconButton>
-        </div>
+        </PushRight>
         <Divider />
         <List>
             {children}

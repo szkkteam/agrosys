@@ -2,40 +2,20 @@ import React, { useEffect } from 'react'
 import { Route, Switch, Redirect, matchPath } from 'react-router-dom'
 import startCase from 'lodash/startCase'
 import { compile } from 'path-to-regexp'
+import Content from 'components/Layout/Content'
 import HeaderContent from 'components/Layout/HeaderContent'
 
 import {
   DashboardHome
 } from 'farmApp/dashboard/pages'
 
+/**
+ * Resources
+ */
 import {
   FarmCreate,
   FarmDashboard,
-} from 'farmApp/farm/pages'
-
-import {
-  ReportDashboard
-} from 'farmApp/report/pages'
-
-import {
-  SaleDashboard
-} from 'farmApp/sale/pages'
-
-import {
-  ExpenseDashboard
-} from 'farmApp/expense/pages'
-
-import {
-  BudgetDashboard
-} from 'farmApp/budget/pages'
-
-import {
-  LoanDashboard
-} from 'farmApp/loan/pages'
-
-import {
-  TransactionDashboard
-} from 'farmApp/transaction/pages'
+} from 'resource/farm/pages'
 
 import {
   BlockList,
@@ -43,45 +23,74 @@ import {
   BlockCreateDraw,
   BlockCreateUpload,
   BlockCreateLPIS
-} from 'farmApp/block/pages'
+} from 'resource/block/pages'
 
 import {
   WorkerList,
-} from 'farmApp/worker/pages'
+} from 'resource/worker/pages'
 
 import {
   MachineryList
-} from 'farmApp/machinery/pages'
+} from 'resource/machinery/pages'
 
 import {
   EntityList
-} from 'farmApp/entity/pages'
+} from 'resource/entity/pages'
 
 import {
-  StorageList
-} from 'farmApp/storage/pages'
+  FieldCreateDraw
+} from 'resource/field/pages'
+
+import {
+  InventoryList
+} from 'resource/inventory/pages'
+
+import {
+  ResourceHeaderTab
+} from 'resource/resource/pages'
+
+/**
+ * Finance
+ */
+
+import {
+  SaleDashboard
+} from 'finance/sale/pages'
+
+import {
+  ExpenseDashboard
+} from 'finance/expense/pages'
+
+import {
+  BudgetDashboard
+} from 'finance/budget/pages'
+
+/**
+ * Reports
+ */
+
+import {
+  ReportDashboard
+} from 'report/report/pages'
+
+/**
+ * Production
+ */
 
 import {
   ProductionMultiView,
   ProductionCreate,
   ProductionDetail,
-} from 'farmApp/production/pages'
+} from 'production/production/pages'
+
 
 import {
-  FieldCreateDraw
-} from 'farmApp/field/pages'
+  ProductionHeaderTab
+} from 'production/production/pages'
 
-import {
-  ItemList
-} from 'farmApp/item/pages'
-
-import {
-  PlanList
-} from 'farmApp/plan/pages'
-
-import {
-  InventoryList
-} from 'farmApp/inventory/pages'
+/**
+ * Site
+ */
 
 import {
   ForgotPassword,
@@ -93,14 +102,6 @@ import {
   ResendConfirmation,
   ResetPassword,
 } from 'security/pages'
-
-import {
-  ResourcesHeader
-} from 'farmApp/resource/components'
-
-import {
-  ProductionHeader
-} from 'farmApp/production/components'
 
 import {
   Dashboard,
@@ -132,12 +133,6 @@ export const ROUTES = {
   // Budget
   BudgetDashboard: 'BudgetDashboard',
 
-  // Loan
-  LoanDashboard: 'LoanDashboard',
-
-  // Transaction
-  TransactionDashboard: 'TransactionDashboard',
-  
   // Farm
   FarmCreate: 'FarmCreate',
   FarmDashboard: 'FarmDashboard',
@@ -145,7 +140,7 @@ export const ROUTES = {
   /**
    * Resources Keys
    */
-  ResourcesHeader: 'ResourcesHeader',
+  ResourceHeaderTab: 'ResourceHeaderTab',
 
   // Block
   BlockList: 'BlockList',
@@ -160,12 +155,10 @@ export const ROUTES = {
   MachineryList: 'MachineryList',
   // Entitiy
   EntityList: 'EntityList',
-  // Storage
-  StorageList: 'StorageList',
   /**
    * Productions keys
    */
-  ProductionHeader: 'ProductionHeader',
+  ProductionHeaderTab: 'ProductionHeaderTab',
 
   // Production
   ProductionMultiView: 'ProductionMultiView',
@@ -174,10 +167,6 @@ export const ROUTES = {
   // Field
   FieldCreateDraw: 'FieldCreateDraw',
 
-  // Item
-  ItemList: 'ItemList',
-  // Plan
-  PlanList: 'PlanList',
   // Inventory
   InventoryList: 'InventoryList',
   
@@ -244,22 +233,6 @@ export const routes = [
     routeComponent: ProtectedRoute,
     props: { exact: true}
   },
-  // Loans routes  
-  {
-    key: ROUTES.LoanDashboard,
-    path: '/loans',
-    component: LoanDashboard,
-    routeComponent: ProtectedRoute,
-    props: { exact: true}
-  },
-  // Transactions routes  
-  {
-    key: ROUTES.TransactionDashboard,
-    path: '/transactions',
-    component: TransactionDashboard,
-    routeComponent: ProtectedRoute,
-    props: { exact: true}
-  },
   // Farm routes
   {
     key: ROUTES.FarmCreate,
@@ -279,11 +252,11 @@ export const routes = [
    * Resources routes
    */
   {
-    key: ROUTES.ResourcesHeader,
+    key: ROUTES.ResourceHeaderTab,
     path: '/resource',
-    component: ResourcesHeader,
+    component: ResourceHeaderTab,
     routeComponent: ProtectedRoute,
-    layoutComponent: HeaderContent,
+    layoutComponent: Content,
     routes: [
       {
         key: ROUTES.BlockCreateDraw,
@@ -343,25 +316,17 @@ export const routes = [
         routeComponent: ProtectedRoute,
         props: { exact: true }
       },
-      // Storage routes  
-      {
-        key: ROUTES.StorageList,
-        path: '/resource/storages',
-        component: StorageList,
-        routeComponent: ProtectedRoute,
-        props: { exact: true }
-      },
     ]
   },
   /**
    * Production routes
    */
   {
-    key: ROUTES.ProductionHeader,
+    key: ROUTES.ProductionHeaderTab,
     path: '/productions',
-    component: ProductionHeader,
+    component: ProductionHeaderTab,
     routeComponent: ProtectedRoute,
-    layoutComponent: HeaderContent,
+    layoutComponent: Content,
     routes: [
       {
         key: ROUTES.ProductionCreate,
@@ -392,22 +357,6 @@ export const routes = [
         props: { exact: true }
       }
   ]
-  },
-  // Item routes    
-  {
-    key: ROUTES.ItemList,
-    path: '/items',
-    component: ItemList,
-    routeComponent: ProtectedRoute,
-    props: { exact: true }
-  },
-  // Plan routes  
-  {
-    key: ROUTES.PlanList,
-    path: '/plans',
-    component: PlanList,
-    routeComponent: ProtectedRoute,
-    props: { exact: true }
   },
   // Inventory routes  
   {
@@ -520,7 +469,7 @@ console.log("headerComntent: ", HeaderContent)
 
 // TODO: How to add the 404 route?
 // cachedRoutes.push(<Route component={NotFound} key="*" />)
-
+ 
 const CustomRouter = ({routes}) => {
   return (
       <Switch>

@@ -1,5 +1,5 @@
 import {
-    pagePadding
+    pagePadding,
 } from './constants'
 
 export default {
@@ -16,7 +16,7 @@ export default {
           '#app': {
             height: '100%',
             width: '100%',
-            padding: `${pagePadding}px`,
+            padding: `${pagePadding}px 0`,
           },
         },
       },

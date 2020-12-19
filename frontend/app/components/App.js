@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useRef, useLayoutEffect } from 'react'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import { SnackbarProvider } from 'notistack';
@@ -16,6 +16,8 @@ import { LanguageProvider, ModalProvider } from 'site/components'
 import { SITE_NAME } from 'config'
 import Routes, { routes } from 'routes'
 
+import AppContext from './AppContext'
+
 const FullSizeDiv = styled.div`
   height: 100%;
   width: 100%;
@@ -27,44 +29,84 @@ const Flex = styled.main`
   display: flex;
 `
 
-const MainContent = styled.div`
-  ${({ theme }) => `
+
+const MainContent = styled(({height: dummy = null, ...rest}) => <div {...rest}/> )`
+    ${({ theme, height }) => `
     height: 100%;
     width: 100%;
     > div:nth-child(2) {
       display: flex;
-      height: calc(100% - ${theme.custom.topSpacingHeight}px + ${theme.custom.pagePadding}px);
+      height: calc(100% - ${height}px + ${theme.custom.pagePadding}px);
+
     }
-  `}
+    `}
 `
 
-const ContentSpacer = styled.div`
-  ${({ theme }) => `
-    height: calc(${theme.custom.topSpacingHeight}px - ${theme.custom.pagePadding}px);
-    display: flex;
-    align-items: center;
-  `}
+/*
+      > div {
+        height: 100%;
+        width: 100%;
+      }
+*/
+// TODO: +2px because 64-8 looks not enough
+const ContentSpacer = styled(({height: dummy = null, ...rest}) => <div {...rest}/> )`
+    ${({ theme, height }) => `
+      height: calc(${height}px - ${theme.custom.pagePadding}px + 2px);
+      display: flex;
+      align-items: center;
+    `}
 `
 
 
-const AppLayout = () => (
-  <FullSizeDiv>
-    <Helmet titleTemplate={`%s - ${SITE_NAME}`}
-            defaultTitle={SITE_NAME}
-    />
-    <ProgressBar />
-    <Flex>
-      <ModalProvider />
-      <Notification />
-      <NavBar />
-      <MainContent>
-        <ContentSpacer />
-        <Routes routes={routes}/>
-      </MainContent> 
-    </Flex>
-  </FullSizeDiv>
-)
+const AppLayout = () => {
 
+  const appBarRef = useRef(null)
+  const appBarTabsRef = useRef(null)
+
+  const [height, setHeight] = useState(64)  
+  const [pageTitle, setPageTitle] = useState(null)
+
+  useLayoutEffect(() => {
+    if (appBarRef?.current) {
+      const { clientHeight } = appBarRef.current
+      setHeight(clientHeight)
+      console.debug(clientHeight)
+    }
+  }, [appBarRef])
+
+  const contextObject = {
+    appBarTabsRef,
+    setPageTitle, 
+    appBarHeight: height,
+  }
+
+  return (
+    <FullSizeDiv>
+      <AppContext.Provider
+                value={contextObject}
+      >
+      <Helmet titleTemplate={`%s - ${SITE_NAME}`}
+              defaultTitle={SITE_NAME}
+      />
+      <ProgressBar />
+      <Flex>
+        <ModalProvider />
+        <Notification />
+        <NavBar
+          pageTitle={pageTitle}
+          appBarRef={appBarRef}
+          appTabRef={appBarTabsRef}
+        />
+        <MainContent height={height}>
+          <ContentSpacer height={height}/>
+          <Routes routes={routes}/>
+        </MainContent> 
+      </Flex>
+      </AppContext.Provider>
+    </FullSizeDiv>
+  )
+}
+  
 export default (props) => {
   console.log("defaultTheme: ", defaultTheme)
   return (
