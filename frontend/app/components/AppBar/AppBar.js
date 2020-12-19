@@ -20,25 +20,22 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 */
 
 import { TutorialProgressBar } from 'farmApp/tutorial/components'
-import { FarmSelector } from 'farmApp/farm/components'
-import { ProductionTopSelector } from 'farmApp/production/components'
 import { NotificationButton } from 'farmApp/notification/components'
 
 const StyledAppBar = styled(MuiAppBar)`
-    z-index: 1300;
-    box-shadow: none;
-    transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms,margin 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
+    ${({ theme }) => `
+        z-index: 1300;
+        box-shadow: none;
+        width: calc(100% - ${theme.custom.navrailWidth}px);
+        margin-left: ${theme.custom.navrailWidth}px;
+        transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms,margin 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
 
-    .MuiToolbar-root {
-        padding-left: 15px;
-    }
-
+        .MuiToolbar-root {
+            padding-left: 15px;
+        }
+    `}
 `
 
-const MenuButton = styled(IconButton)`
-    margin-right: 10px;
-    margin-left: -2px;
-`
 
 const TabContent = styled.div`
     height: 64px;
@@ -78,15 +75,7 @@ const AppBar = forwardRef(({
             ref={ref}
             position="fixed"
         >
-            <Toolbar>
-                <MenuButton                     
-                    color="inherit"
-                    aria-label="open drawer"
-                    onClick={onDrawerOpen}
-                    edge="start"
-                >
-                    <MenuIcon />
-                </MenuButton>    
+            <Toolbar>                 
                 <PageTitle variant="h1">
                     {title? <FormattedMessage {...title} /> : null }
                 </PageTitle>

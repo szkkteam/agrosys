@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { useIntl, FormattedMessage } from 'react-intl'
 
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-
+import AndroidIcon from '@material-ui/icons/Android';
 import {
     Drawer,
     Divider,
@@ -16,11 +15,11 @@ const FixedDrawer = styled(Drawer)`
     ${({ theme }) => `
         flex-shrink: 0;
         white-space: nowrap;
-        width: 72px;
+        width: ${theme.custom.navrailWidth}px;
         overflow-x: hidden;
 
         .MuiPaper-root {
-            width: 72px;
+            width: ${theme.custom.navrailWidth}px;
             overflow-x: hidden;
         }
     `}
@@ -45,7 +44,7 @@ export default ({
         >   
             <Toolbar>
                 <IconButton>
-                    <ChevronLeftIcon />
+                    <AndroidIcon />
                 </IconButton>
             </Toolbar>     
             <List>

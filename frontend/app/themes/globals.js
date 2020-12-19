@@ -1,5 +1,5 @@
 import {
-    pagePadding
+    pagePadding,
 } from './constants'
 
 export default {
