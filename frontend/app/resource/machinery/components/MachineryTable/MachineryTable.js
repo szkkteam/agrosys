@@ -59,7 +59,7 @@ const MachineryTable = ({
     const height = useHeightDifference(parentHeight, headerRef, 542)
     
     const columns = [
-        { title: 'Role', field: 'role'},
+        { title: 'Role', field: 'role', hiddenByColumnsButton: true},
         { title: 'Name', field: 'name'},
         { title: 'E-mail', field: 'email'},
         { title: 'Phone', field: 'phone' },

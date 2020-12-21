@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { forwardRef } from 'react';
 
 import MaterialTable from 'material-table';
@@ -20,6 +20,9 @@ import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 
 import { useTableContext } from '../hooks'
+import { useHeightDifference } from 'utils/hooks'
+
+import TableToolbar from '../TableToolbar'
 
 import './tablebody.scss'
 
@@ -51,29 +54,31 @@ export default ({
     onCellEditFinished = null,
     ...props
 }) => {
+    const toolbarRef = useRef(null)
 
     const {
         columns,
         topBottomPadding,
     } = useTableContext()
 
-    const adjustedHeight = height - topBottomPadding
+    const bodyHeight = useHeightDifference(height - topBottomPadding, toolbarRef)
+    console.debug("bodyHeight: ", bodyHeight)
 
-    console.debug("Table body height: ", adjustedHeight)
     const defaultOptions = {
         ...Object.assign(options, {
             emptyRowsWhenPaging: true,
-            toolbar: false, // By default remove toolbar
+            //toolbar: false, // By default remove toolbar
             paging: false, // By default remove paging
-            maxBodyHeight: adjustedHeight, // By default set height
-            minBodyHeight: adjustedHeight - 1, // By default set height
+            maxBodyHeight: bodyHeight, // By default set height
+            minBodyHeight: bodyHeight - 1, // By default set height
             headerStyle: { 
                 position: 'sticky',
                 top: 0,
-                backgroundColor: "#E0E0E0",
+                //backgroundColor: "#E0E0E0",
                 //borderBottom: "2px solid",
                 boxShadow: "inset 0 -2px 0 black",
             }, // By default sticky header
+            columnsButton: true,
         })
     } 
 
@@ -86,9 +91,14 @@ export default ({
                 ...defaultOptions
             }}
             style={{
-                backgroundColor: "#E0E0E0",
+                //backgroundColor: "#E0E0E0",
                 borderRadius: "initial",
                 boxShadow: "initial",
+            }}            
+            components={{
+                Toolbar: props => (
+                    <TableToolbar ref={toolbarRef} {...props} myProps={1}/>
+                )
             }}
             {...props}
         />

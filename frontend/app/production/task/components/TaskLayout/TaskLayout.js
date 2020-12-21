@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext, useMemo, useRef } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
 import { useIntl } from 'react-intl'
@@ -13,13 +13,27 @@ import {
     Portal
 } from '@material-ui/core';
 
+import DateRangeIcon from '@material-ui/icons/DateRange';
+import ListIcon from '@material-ui/icons/List';
+
+import { 
+    Table,
+    TableHeader,
+    TableBody
+} from 'components/Table'
+
+import {
+    ToggleButton,
+    ToggleButtonGroup
+} from '@material-ui/lab'
+
 import { 
     HeaderContentContext,
 } from 'components'
 
 import {
     TaskViewButtons,
-    TaskCalendar,
+    TaskCalendarLayout,
     TaskTable
 } from '../../components'
 
@@ -34,24 +48,89 @@ const StyledViewButtons = styled(props => <TaskViewButtons {...props} />)`
     float: right;
 `
 
-const TaskLayout = ({
-    height,
+const TaskViews = ({
+    view,
+    handleChange,
+    ...props
 }) => {
-    const {
-        headerPortalRef,
-    } = useContext(HeaderContentContext)
-
-    const [view, setView] = useState(VIEW_CALENDAR)
-
+    const onClick = (e, v) => {
+        handleChange && handleChange(v)
+    }
 
     return (
-        <Container>
-            { view === VIEW_CALENDAR
-              ? <TaskCalendar />
-              : <TaskTable 
-                    height={height}
+        <ToggleButtonGroup
+            value={view}
+            exclusive
+            onChange={onClick}
+            aria-label="block view"
+            {...props}
+        >
+            <ToggleButton value={VIEW_CALENDAR} aria-label="map view">
+                <DateRangeIcon />
+            </ToggleButton>
+            <ToggleButton value={VIEW_LIST} aria-label="list view">
+                <ListIcon />
+            </ToggleButton>
+        </ToggleButtonGroup>
+    )
+}
+
+
+const TaskRoutes = ({
+    view,
+    ...props
+}) => {
+
+    const ViewComponent = useMemo(() => {
+        switch(view) {
+            case VIEW_CALENDAR:
+                return TaskCalendarLayout
+            case VIEW_LIST:
+                return TaskTable
+            default:
+                return TaskTable
+        }
+    }, [view])
+    
+    return (
+        <ViewComponent 
+            {...props}
+        />
+    )
+}
+
+const TaskLayout = ({
+    
+}) => {
+    const headerRef = useRef(null)
+    const containerRef = useRef(null)
+
+    const [currentView, setCurrentView] = useState(VIEW_CALENDAR)
+
+    const height = useHeightDifference(containerRef, headerRef)
+
+    return (
+        <Container
+            ref={containerRef}
+        >
+            <Table
+            >
+                <TableHeader 
+                    ref={headerRef}
+                    title={ currentView === VIEW_CALENDAR? messages.calendarTitle : messages.listTitle}
+                    views={
+                        <TaskViews
+                            view={currentView}
+                            handleChange={setCurrentView}
+                        />
+                    }
                 />
-            }            
+                <TaskRoutes 
+                    view={currentView}
+                    height={height - 10}
+                />
+            </Table>  
+
         </Container>
     )
 }

@@ -58,9 +58,8 @@ const DetailPanel = ({
 
     const titleRef = useRef(null)
     const detailRef = useRef(null)
-
+    // FIXME: Something is not working properly here with the height ...
     const height = useHeightDifference(detailRef, titleRef, 500)
-
     return (
         <DetailContainer
             ref={detailRef}
@@ -72,12 +71,16 @@ const DetailPanel = ({
                 Items - Bin 1
             </TableSubHeader>
             <TableBody
-                height={height - 0}
+                height={height - 45}
             />
         </DetailContainer>
     )
 }
-
+/*
+<TableBody
+                height={height}
+            />
+*/
 
 const InventoryLayout = ({
     
