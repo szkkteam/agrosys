@@ -20,7 +20,9 @@ import {
     ProductionTabFields,
     ProductionTabPests,
     ProductionTabSummary,
-    ProductionTabTasks
+    ProductionTabTasks,
+    ProductionTabAnalysis,
+    ProductionTabWeather
 } from '../ProductionTabs'
 
 import {
@@ -34,15 +36,12 @@ import {
     TAB_SUMMARY, 
     TAB_CROP_VARIANTS,
     TAB_FIELDS,
-    TAB_PESTS
+    TAB_PESTS,
+    TAB_ANALYSIS,
+    TAB_WEATHER
 } from '../../constants'
 
 
-const Container = styled.div`
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-`
 
 const StyledTabs = styled(props => <Tabs {...props} />)`
     padding: 10px 20px;
@@ -59,6 +58,8 @@ const ProductionRoutes = ({
             <HashRoute path={TAB_CROP_VARIANTS} component={props => <ProductionTabCropVariants height={height} {...props} />} />
             <HashRoute path={TAB_FIELDS} component={props => <FieldLayout height={height} {...props} />} />
             <HashRoute path={TAB_PESTS} component={props => <ProductionTabPests height={height} {...props} />} />
+            <HashRoute path={TAB_ANALYSIS} component={props => <ProductionTabAnalysis height={height} {...props} />} />
+            <HashRoute path={TAB_WEATHER} component={props => <ProductionTabWeather height={height} {...props} />} />
             <HashRoute path="" component={({location}) => <Redirect to={{...location, hash: TAB_SUMMARY}} />} />
         </>
     )
@@ -79,6 +80,8 @@ const ProductionLayout = ({
         {value: TAB_CROP_VARIANTS, title: intl.formatMessage(messages.tabCropVariantTitle)},
         {value: TAB_FIELDS, title: intl.formatMessage(messages.tabFieldsTitle)},
         {value: TAB_PESTS, title: intl.formatMessage(messages.tabPestsTitle)},
+        {value: TAB_ANALYSIS, title: intl.formatMessage(messages.tabAnalysisTitle)},
+        {value: TAB_WEATHER, title: intl.formatMessage(messages.tabWeatherTitle)},
     ]
 
 
