@@ -17,10 +17,6 @@ import {
 import { LeafletMap } from 'components/Map/components'
 
 import {
-    Grid,
-} from '@material-ui/core';
-
-import {
     ToggleButton,
     ToggleButtonGroup
 } from '@material-ui/lab'
@@ -38,9 +34,14 @@ import {
 
 import {
     FieldCreateButton,
-    FieldListItem,
-    FieldSummaryStats
+    FieldListItem
+} from 'resource/field/components'
+
+import {
+    SummaryHeader,
+    SummaryDetail
 } from '../../components'
+import { Grid } from '@material-ui/core'
 
 const Container = styled.div`
     height: 100%;
@@ -55,15 +56,6 @@ const BottomButton = styled(forwardRef((props, ref) => <FieldCreateButton {...pr
     bottom: 0;
     left: 0;
     width: 100%;
-`
-
-
-const FlexGrid = styled(Grid)`
-    display: flex;
-`
-
-const Spacer = styled.div`
-    flex-grow: 1;
 `
 
 const FieldViews = ({
@@ -96,6 +88,32 @@ const FieldViews = ({
     )
 }
 
+const MapContainer = styled(Grid)`
+    height: 100%;
+`
+
+const MapWithDetail = ({
+    showDetail
+}) => {
+
+    const mapSize = showDetail? 8 : 12
+    const detailSize = showDetail? 4 : 0
+
+    return (
+        <MapContainer
+            container
+            spacing={0}
+        >
+            <Grid item xs={mapSize}>
+                <LeafletMap />
+            </Grid>
+            { detailSize? <Grid item xs={detailSize}>
+                <SummaryDetail />
+            </Grid> : null}
+        </MapContainer>
+    )
+}
+
 const FieldMasterDetail = ({
 
 }) => {
@@ -120,7 +138,9 @@ const FieldMasterDetail = ({
                 <FieldListItem />
                 <FieldListItem />
             </MasterList>
-            <LeafletMap />
+            <MapWithDetail
+                showDetail={true}
+            />
         </MasterDetail>
     )
 }
@@ -148,7 +168,7 @@ const FieldRoutes = ({
     )
 }
 
-const FieldLayout = ({
+const SummaryLayout = ({
 
 }) => {
 
@@ -158,25 +178,9 @@ const FieldLayout = ({
         <Container>
             <Table
             >
-                <TableHeader
-                    title={messages.title}
-                >   
-                    <Grid
-                        container
-                        justify="flex-end"
-                    >
-                        <Grid item xs={9}>
-                            <FieldSummaryStats />
-                        </Grid>
-                        <FlexGrid item xs={3}>      
-                            <Spacer />
-                            <FieldViews
-                                view={currentView}
-                                handleChange={setCurrentView}
-                            />                      
-                        </FlexGrid>
-                    </Grid>
-                </TableHeader>
+                <SummaryHeader 
+                    
+                />
                 <FieldRoutes 
                     view={currentView}
                 />
@@ -185,8 +189,8 @@ const FieldLayout = ({
     )
 }
 
-FieldLayout.propTypes = {
+SummaryLayout.propTypes = {
 
 }
 
-export default FieldLayout
+export default SummaryLayout

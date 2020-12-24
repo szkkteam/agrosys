@@ -7,7 +7,8 @@ import {
     Grid,
     Typography,
     Paper,
-    Button
+    Button,
+    ButtonGroup
 } from '@material-ui/core';
 
 import TaskCalendar from '../TaskCalendar'
@@ -28,9 +29,16 @@ const HalfButton = styled(Button)`
     width: 50%;
 `
 
-const ButtonContainer = styled.div`
-    width: 100%;
+const GroupContainer = styled.div`
     margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    > div {
+        width: 80%;
+        corner-radius: 10px;
+    }
 `
 
 const TaskCard = ({
@@ -47,20 +55,21 @@ const TaskCard = ({
             <Typography variant="body2">
                 22 sep 2020 - 23 nov 2020
             </Typography>
-            <ButtonContainer>
-                <HalfButton
+            <GroupContainer>
+                <ButtonGroup
                     variant="outlined"
                     color="primary"
                 >
-                    Complete
-                </HalfButton>
-                <HalfButton
-                    variant="outlined"
-                    color="primary"
-                >
-                    On-Plan
-                </HalfButton>
-            </ButtonContainer>
+                    <HalfButton
+                    >
+                        Complete
+                    </HalfButton>
+                    <HalfButton
+                    >
+                        On-Plan
+                    </HalfButton>
+                </ButtonGroup>
+            </GroupContainer>
         </CardContainer>
     )
 }

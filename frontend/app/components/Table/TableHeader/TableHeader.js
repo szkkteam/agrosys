@@ -33,10 +33,7 @@ const Views = styled.div`
 
 const TableHeader = forwardRef(({
     title,
-    options={
-        disableActions: false,
-    },
-    views,
+    children,
     //columns,
     //onColumnChanged,
     ...props
@@ -52,23 +49,41 @@ const TableHeader = forwardRef(({
                 alignItems="center"
                 spacing={0}
             >
-                <Grid item xs={8}>
+                <Grid item xs={3}>
                     <ToolbarTitle title={title} />
                 </Grid>
-                <FlexGrid item xs={4}>
-                    { !options.disableActions
-                      ? <TablePrimaryActionButton
-                            title={messages.add}
-                        />
-                      : null }                    
-                    <Views>
-                        {views}
-                    </Views>
-                </FlexGrid>                
+                <Grid item xs={9}>
+                    {children}
+                </Grid>                            
             </Grid>
         </StyledToolbar>
     )
 })
+/*
+<StyledToolbar
+    ref={ref}
+>
+    <Grid
+        container
+        alignItems="center"
+        spacing={0}
+    >
+        <Grid item xs={8}>
+            <ToolbarTitle title={title} />
+        </Grid>
+        <FlexGrid item xs={4}>
+            { !options.disableActions
+                ? <TablePrimaryActionButton
+                    title={messages.add}
+                />
+                : null }                    
+            <Views>
+                {views}
+            </Views>
+        </FlexGrid>                
+    </Grid>
+</StyledToolbar>
+*/
 
 TableHeader.propTypes = {
     title: PropTypes.object.isRequired,

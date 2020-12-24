@@ -19,11 +19,7 @@ const MasterDetail = ({
 }) => {
     const detailSize = 12 - masterSize
 
-
-    const {
-        componentA: masterComponent,
-        componentB: detailComponent
-    } = useSplitComponents(children)
+    const [masterComponent, detailComponent] = useSplitComponents(children)
 
     return (
         <Container

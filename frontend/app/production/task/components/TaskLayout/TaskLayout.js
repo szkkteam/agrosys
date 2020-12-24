@@ -28,7 +28,7 @@ import {
 } from '@material-ui/lab'
 
 import { 
-    HeaderContentContext,
+    PrimaryActionButton,
 } from 'components'
 
 import {
@@ -43,6 +43,13 @@ const Container = styled.div`
     flex-direction: column;
 `
 
+const FlexGrid = styled(Grid)`
+    display: flex;
+`
+
+const Spacer = styled.div`
+    flex-grow: 1;
+`
 
 const StyledViewButtons = styled(props => <TaskViewButtons {...props} />)`
     float: right;
@@ -115,16 +122,29 @@ const TaskLayout = ({
         >
             <Table
             >
-                <TableHeader 
+                <TableHeader
                     ref={headerRef}
                     title={ currentView === VIEW_CALENDAR? messages.calendarTitle : messages.listTitle}
-                    views={
-                        <TaskViews
-                            view={currentView}
-                            handleChange={setCurrentView}
-                        />
-                    }
-                />
+                >   
+                    <Grid
+                        container
+                        justify="flex-end"
+                    >
+                        <FlexGrid item xs={9}>
+                            <Spacer />
+                            <PrimaryActionButton
+                                title={messages.addNewTitle}
+                            />
+                        </FlexGrid>
+                        <FlexGrid item xs={3}>      
+                            <Spacer />
+                            <TaskViews
+                                view={currentView}
+                                handleChange={setCurrentView}
+                            />                      
+                        </FlexGrid>
+                    </Grid>
+                </TableHeader>
                 <TaskRoutes 
                     view={currentView}
                     height={height - 10}

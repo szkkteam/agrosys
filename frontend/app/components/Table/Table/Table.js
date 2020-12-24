@@ -37,11 +37,7 @@ const Table = forwardRef(({
 
     //const height = useTableHeight(headerRef, parentRef, siblingRef)
     
-
-    const {
-        componentA: tableHeaderComponent,
-        componentB: tableBodyComponent
-    } = useSplitComponents(children)
+    const [tableHeaderComponent, tableBodyComponent] = useSplitComponents(children)
 
     const {
         toggleColumns,

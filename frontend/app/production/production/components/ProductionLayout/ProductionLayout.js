@@ -29,6 +29,10 @@ import {
     FieldLayout
 } from 'resource/field/components'
 
+import {
+    SummaryLayout
+} from 'production/summary/components'
+
 import { useQuery } from 'utils/hooks'
 
 import { 
@@ -53,7 +57,7 @@ const ProductionRoutes = ({
 
     return (
         <>
-            <HashRoute path={TAB_SUMMARY} component={props => <ProductionTabSummary height={height} {...props} />} />
+            <HashRoute path={TAB_SUMMARY} component={props => <SummaryLayout height={height} {...props} />} />
             <HashRoute path={TAB_TASKS} component={props => <ProductionTabTasks height={height} {...props} />} />
             <HashRoute path={TAB_CROP_VARIANTS} component={props => <ProductionTabCropVariants height={height} {...props} />} />
             <HashRoute path={TAB_FIELDS} component={props => <FieldLayout height={height} {...props} />} />

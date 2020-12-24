@@ -8,6 +8,7 @@ import { useHeightDifference } from 'utils/hooks'
 
 import { 
     MasterDetail,
+    PrimaryActionButton
 } from 'components'
 
 import { 
@@ -46,6 +47,14 @@ const DetailContainer = styled.div`
 const TableSubHeader = styled(Typography)`
     border-bottom: 2px solid black;
     padding: ${subHeaderMargin}px 0;
+`
+
+const FlexGrid = styled(Grid)`
+    display: flex;
+`
+
+const Spacer = styled.div`
+    flex-grow: 1;
 `
 
 /*
@@ -90,9 +99,23 @@ const InventoryLayout = ({
             <Table
                 columns={columns}
             >
-                <TableHeader 
+                <TableHeader
                     title={messages.title}
-                />
+                >   
+                    <Grid
+                        container
+                        justify="flex-end"
+                    >
+                        <FlexGrid item xs={9}>
+                            <Spacer />
+                            <PrimaryActionButton
+                                title={messages.addNewTitle}
+                            />
+                        </FlexGrid>
+                        <Grid item xs={3}>                            
+                        </Grid>
+                    </Grid>
+                </TableHeader>
                 <MasterDetail
                 >
                     <InventoryList />

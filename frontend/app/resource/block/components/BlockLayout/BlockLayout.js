@@ -17,6 +17,10 @@ import {
 } from 'components'
 
 import {
+    Grid,
+} from '@material-ui/core';
+
+import {
     ToggleButton,
     ToggleButtonGroup
 } from '@material-ui/lab'
@@ -57,6 +61,14 @@ const BottomButton = styled(forwardRef((props, ref) => <BlockCreateButton {...pr
     bottom: 0;
     left: 0;
     width: 100%;
+`
+
+const FlexGrid = styled(Grid)`
+    display: flex;
+`
+
+const Spacer = styled.div`
+    flex-grow: 1;
 `
 
 const LinkButton = withLinkComponent(ToggleButton)
@@ -139,15 +151,22 @@ const BlockLayout = ({
         <Container>
             <Table
             >
-                <TableHeader 
+                <TableHeader
                     title={messages.title}
-                    options={{
-                        disableActions: true
-                    }}
-                    views={
-                        <BlockViews />
-                    }
-                />
+                >   
+                    <Grid
+                        container
+                        justify="flex-end"
+                    >
+                        <Grid item xs={9}>
+                        </Grid>
+                        <FlexGrid item xs={3}>      
+                            <Spacer />
+                            <BlockViews
+                            />                      
+                        </FlexGrid>
+                    </Grid>
+                </TableHeader>
                 <BlockRoutes />
             </Table>        
         </Container>

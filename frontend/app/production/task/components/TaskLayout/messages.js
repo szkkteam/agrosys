@@ -11,4 +11,8 @@ export default defineMessages({
         id: `${scope}.List.title`,  
         defaultMessage: 'Tasks - List',
     },
+    addNewTitle: {
+        id: `${scope}.AddButton.title`,  
+        defaultMessage: 'Add new',
+    },
   })

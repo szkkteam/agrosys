@@ -11,5 +11,4 @@ export default defineMessages({
         id: `${scope}.AddButton.title`,  
         defaultMessage: 'Add new',
     },
-
   })
