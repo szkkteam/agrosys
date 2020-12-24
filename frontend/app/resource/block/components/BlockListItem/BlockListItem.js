@@ -7,6 +7,8 @@ import { useIntl, FormattedMessage } from 'react-intl'
 
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
+import MasterListItem from 'components/List/MasterListItem'
+
 import { ItemMenu } from 'components'
 
 import {
@@ -15,7 +17,7 @@ import {
     IconButton
 } from '@material-ui/core';
 
-const ListContainer = styled(ListItem)`
+const ListContainer = styled(MasterListItem)`
     height: 70px;
     width: 100%;
     border-top: 1px solid rgba(214, 220, 225, 0.5);
@@ -95,12 +97,11 @@ const BlockListItem = ({
     history
 }) => {
 
-    const id = 1
-
-    const onSelect = (e) => {
-        
+    const data = {
+        id: 1,
+        title: "Field 1"
     }
-     
+
     const items = [
         {title: messages.edit, link: { to: ROUTES.BlockDetail, params: {id: 1}}},
         {title: messages.delete, onClink: null}
@@ -108,8 +109,8 @@ const BlockListItem = ({
 
     return (
         <ListContainer
-            //button
-            onClick={onSelect}            
+            data={data}
+            //onClick={onSelect}            
         >
             <div>
                 <Thumbnail image="https://via.placeholder.com/48/48"/>

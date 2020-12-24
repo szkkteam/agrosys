@@ -108,7 +108,7 @@ const AppLayout = () => {
 }
   
 export default (props) => {
-  console.log("defaultTheme: ", defaultTheme)
+  console.debug("defaultTheme: ", defaultTheme)
   return (
     <StylesProvider injectFirst>
       <MuiThemeProvider theme={defaultTheme}>

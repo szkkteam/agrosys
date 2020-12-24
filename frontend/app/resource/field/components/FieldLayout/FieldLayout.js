@@ -11,13 +11,15 @@ import { VIEW_MAP, VIEW_LIST, VIEW_MODULE } from '../../constants'
 
 import { 
     MasterList,
-    MasterDetail
+    MasterDetail,
+    SideSheet
 } from 'components'
 
 import { LeafletMap } from 'components/Map/components'
 
 import {
     Grid,
+    Drawer,
 } from '@material-ui/core';
 
 import {
@@ -96,13 +98,94 @@ const FieldViews = ({
     )
 }
 
+const detailWidth = 400
+
+const MapContainer = styled.div`
+    display: flex;
+    height: 100%;
+`
+/*
+const MapTransition = styled(({open: dummy = null, ...props}) => <LeafletMap {...props} />)`
+    ${({ theme, open }) => `
+    transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms,margin 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
+    ${open? `width: calc(100% - ${detailWidth}px);`: `width: 100%;`}
+    ${open? `margin-right: ${detailWidth}px;`: ``}
+    //height: 100%;
+    `}
+`
+*/
+
+const MapTransition = styled(({open: dummy = null, ...props}) => <div {...props} />)`
+    transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
+    display: flex;
+    width: 100%;
+    ${({ theme, open }) => open === true
+    ? `
+        //display: flex;
+        //transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
+        width: calc(100% - ${detailWidth}px);
+        //margin-right: ${detailWidth}px;
+    `
+    : `
+        //transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;        
+        //display: flex;
+        //width: 100%;
+    `
+    }
+`
+
+const DrawerTransition = styled(Drawer)`
+    ${({ theme, open }) => `
+    width: ${open? `${detailWidth}px`: `0px`};
+    flex-shrink: 0;
+
+    .MuiPaper-root {
+        width: ${detailWidth}px;
+        top: initial;
+    }
+    `}
+`
+
+
+const FieldMapContainer = ({
+    showDetail
+}) => {
+
+    const mapSize = showDetail? 8 : 12
+    const detailSize = showDetail? 4 : 0
+
+    return (
+        <MapContainer>
+            <MapTransition
+                open={showDetail}
+            >
+                <LeafletMap />
+            </MapTransition>
+            <DrawerTransition
+                variant="persistent"
+                anchor="right"
+                open={showDetail}
+            >
+                Detail
+            </DrawerTransition>
+        </MapContainer>
+    )
+}
 const FieldMasterDetail = ({
 
 }) => {
+
+    const [selected, setSelected] = useState(null)
+
+    const handleSelect = (data) => {
+        setSelected(!!selected? null : data)
+    }
+
     return (
         <MasterDetail
         >
             <MasterList
+                onSelect={handleSelect}
                 options={{
                     maxHeight: 570,
                 }}
@@ -120,7 +203,12 @@ const FieldMasterDetail = ({
                 <FieldListItem />
                 <FieldListItem />
             </MasterList>
-            <LeafletMap />
+            <SideSheet
+                open={!!selected}
+            >
+                <LeafletMap />
+                <div>Detail</div>
+            </SideSheet>
         </MasterDetail>
     )
 }
@@ -165,10 +253,10 @@ const FieldLayout = ({
                         container
                         justify="flex-end"
                     >
-                        <Grid item xs={9}>
+                        <Grid item xs={8}>
                             <FieldSummaryStats />
                         </Grid>
-                        <FlexGrid item xs={3}>      
+                        <FlexGrid item xs={4}>      
                             <Spacer />
                             <FieldViews
                                 view={currentView}

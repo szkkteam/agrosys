@@ -18,7 +18,7 @@ import {
 const MenuIconButton = styled(forwardRef(({onClick, ...props}, ref) => {
     
     const handleClick = (e) => {
-        e.preventDefault()
+        e.stopPropagation()
         onClick && onClick(e)
     }
 

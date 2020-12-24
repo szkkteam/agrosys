@@ -103,10 +103,16 @@ const BlockViews = ({
 const BlockMasterDetail = ({
 
 }) => {
+
+    const handleSelect = (data) => {
+        console.debug("Selected: ", data)
+    }
+
     return (
         <MasterDetail
         >
             <MasterList
+                onSelect={handleSelect}
                 addButton={
                     <BottomButton />
                 }

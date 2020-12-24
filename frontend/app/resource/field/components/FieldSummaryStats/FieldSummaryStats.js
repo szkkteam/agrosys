@@ -4,8 +4,7 @@ import messages from './messages';
 import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import DoneIcon from '@material-ui/icons/Done';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 import {
     Grid,
@@ -44,30 +43,30 @@ const AddButton = styled(Button)`
     padding: 4px 4px;
     min-width: 20px;
 `
-/*
+
+const StyledButtonGroup = styled(ButtonGroup)`
+    width: 100%;
+`
+
+const GridContainer = styled(Grid)`
+    ${({ theme }) => `
+    border: 1px solid rgba(35, 149, 83, 0.5);
+    padding: 5px 20px;
+    `}
+`
+
 const StatButton = ({
-    icon: Icon = AddCircleIcon,
     children,
     ...props
 }) => {
     return (
-        <ButtonGroup 
+        <StyledButtonGroup 
             variant="outlined"
             color="primary"
             aria-label="split button"
             {...props}
         >
-            <Button 
-                disabled
-                style={{
-                    flexGrow: 1, textAlign: "left",
-                    color: "black"
-                }}
-            >
-                <Column>
-                    {children}
-                </Column>
-            </Button>
+            {children}
             <AddButton
                 color="primary"
                 size="small"
@@ -75,47 +74,48 @@ const StatButton = ({
                 aria-haspopup="menu"
                 //onClick={handleToggle}
             >
-                <Icon />
+                <ArrowDropDownIcon />
             </AddButton>
-        </ButtonGroup>
+        </StyledButtonGroup>
     )
 }
-*/
 
 const FieldSummaryStats = ({
 
 }) => {
     return (
-        <Grid
-            container
-            justify="flex-start"
-            alignItems="center"
-        >
-            <Grid item xs={3}>
-                <Column>
-                    <Typography variant="body2">35.5</Typography>
-                    <Typography variant="body2">hectare</Typography>
-                </Column>
-            </Grid>
-            <Grid item xs={3}>
-                <Column>
-                    <Typography variant="body2">BBCH11</Typography>
-                    <Typography variant="body2">Growth stage</Typography>
-                </Column>
-            </Grid>
-            <Grid item xs={3}>
-                <Column>
-                    <Typography variant="body2">3 days till</Typography>
-                    <Typography variant="body2">Harvesting</Typography>
-                </Column>
-            </Grid>
-            <Grid item xs={3}>
-                <Column>
-                    <Typography variant="body2">Abony, </Typography>
-                    <Typography variant="body2">Variants</Typography>
-                </Column>
-            </Grid>
-        </Grid>
+        <StatButton>
+            <GridContainer
+                container
+                justify="flex-start"
+                alignItems="center"
+            >
+                <Grid item xs={3}>
+                    <Column>
+                        <Typography variant="body2">35.5</Typography>
+                        <Typography variant="body2">hectare</Typography>
+                    </Column>
+                </Grid>
+                <Grid item xs={3}>
+                    <Column>
+                        <Typography variant="body2">BBCH11</Typography>
+                        <Typography variant="body2">Growth stage</Typography>
+                    </Column>
+                </Grid>
+                <Grid item xs={3}>
+                    <Column>
+                        <Typography variant="body2">3 days till</Typography>
+                        <Typography variant="body2">Harvesting</Typography>
+                    </Column>
+                </Grid>
+                <Grid item xs={3}>
+                    <Column>
+                        <Typography variant="body2">Abony, </Typography>
+                        <Typography variant="body2">Variants</Typography>
+                    </Column>
+                </Grid>
+            </GridContainer>
+        </StatButton>
     )
 }
 
