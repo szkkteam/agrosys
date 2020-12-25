@@ -4,6 +4,12 @@ import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 
+import { PrimaryActionButton } from 'components'
+
+import {
+    Grid
+} from '@material-ui/core'
+
 import { 
     Table,
     TableHeader,
@@ -11,6 +17,14 @@ import {
 } from 'components/Table'
 
 import { useHeightDifference } from 'utils/hooks'
+
+const FlexGrid = styled(Grid)`
+    display: flex;
+`
+
+const Spacer = styled.div`
+    flex-grow: 1;
+`
 
 const data = [
     { name: 'Person name', role: 'Manager', email: 'user1@user.com', phone: '+36-30/333333', address: '9999 Random city, random street 2' },
@@ -59,7 +73,7 @@ const MachineryTable = ({
     const height = useHeightDifference(parentHeight, headerRef, 542)
     
     const columns = [
-        { title: 'Role', field: 'role'},
+        { title: 'Role', field: 'role', hiddenByColumnsButton: true},
         { title: 'Name', field: 'name'},
         { title: 'E-mail', field: 'email'},
         { title: 'Phone', field: 'phone' },
@@ -75,7 +89,24 @@ const MachineryTable = ({
                 <TableHeader
                     ref={headerRef}
                     title={messages.tableTitle}
-                />
+                    gridProps={{
+                        justify: "flex-end",
+                    }}
+                >   
+                    <Grid
+                        container
+                        justify="flex-end"
+                    >
+                        <FlexGrid item xs={9}>
+                            <Spacer />
+                            <PrimaryActionButton
+                                title={messages.addNewTitle}
+                            />
+                        </FlexGrid>
+                        <Grid item xs={3}>                            
+                        </Grid>
+                    </Grid>
+                </TableHeader>
                 <TableBody
                     height={height}
                     data={data}

@@ -50,10 +50,7 @@ const HeaderContent = forwardRef(({
         contentHeight
     } = useHeaderContentHeight(headerRef, contentRef)
     */
-    const {
-        componentA: headerComponent,
-        componentB: contentComponent
-    } = useSplitComponents(children)
+    const [headerComponent, contentComponent] = useSplitComponents(children)
 
     const contextObject = {
         contentHeight: containerRef?.current?.clientHeight ?? 0,

@@ -13,7 +13,7 @@ const topBottomPadding = 15;
 const TableContainer = styled.div`
     //height: 100%;
     padding: ${topBottomPadding}px 20px;
-    background-color: #E0E0E0;
+    /* background-color: #E0E0E0; */
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -37,11 +37,7 @@ const Table = forwardRef(({
 
     //const height = useTableHeight(headerRef, parentRef, siblingRef)
     
-
-    const {
-        componentA: tableHeaderComponent,
-        componentB: tableBodyComponent
-    } = useSplitComponents(children)
+    const [tableHeaderComponent, tableBodyComponent] = useSplitComponents(children)
 
     const {
         toggleColumns,

@@ -10,5 +10,9 @@ export default defineMessages({
     searchButton: {
         id: `${scope}.SearchButton.title`,  
         defaultMessage: 'Search...',
-    }
+    },
+    addNewTitle: {
+        id: `${scope}.AddButton.title`,  
+        defaultMessage: 'Add new',
+    },
   })

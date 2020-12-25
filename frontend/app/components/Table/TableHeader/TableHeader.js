@@ -2,12 +2,11 @@ import React, { useEffect, useMemo, useState, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
 import { useIntl, FormattedMessage } from 'react-intl'
-
-import SettingsIcon from '@material-ui/icons/Settings';
-import FilterListIcon from '@material-ui/icons/FilterList';
+import styled from 'styled-components'
 
 import {
     Grid,
+    Toolbar,
     Typography,
     Chip,
     Button
@@ -17,150 +16,74 @@ import {
     SearchButton,
 } from 'components'
 
-import { useTableContext } from '../hooks'
+import ToolbarTitle from '../ToolbarTitle'
+import TablePrimaryActionButton from '../TablePrimaryActionButton'
 
-import {
-    TablePrimaryActionButton,
-    TableSettingsButton,
-    TableFilters,
-    TableSettingsColumn
-} from '../../Table'
+const StyledToolbar = styled(forwardRef((props, ref) => <Toolbar ref={ref} {...props} />))`
+    background-color: #fff;
+`
 
-/*
-    Props:
-    actions={[
-        Icon,
-        Text,
-        Tooltip,
-        onClick(),
-        disabled,
-    ]} -> default "Add action with plus icon"
-    settings={[
-        Icon,
-        Text,
-        Tooltip,
-        renderContent() -> return a valid element
-        onClick(),
-        disabled,
-    ]}
-    onRemoveFilter(id) -> giving back the filter ID. If ID is null, it means clear all filter
-    filters={[
-        id,
-        Icon,
-        Text,
-    ]}
-    onSearchInput(text) -> gives the free text search input (already debounced)
-    children -> a MUI table wrapper which should have the columns property inside.
-                it should get the columns property list with titles and show it directly in the columns settings with checkboxes
-                if enable/disabled are determined, it should inject the hidden=true into that column
-*/
+const FlexGrid = styled(Grid)`
+    display: flex;
+`
 
-const defaultOptions = {
-    disableActions: false,
-
-}
+const Views = styled.div`
+    margin-left: auto;
+`
 
 const TableHeader = forwardRef(({
     title,
-    disableActions=false,
-    options={},
+    children,
     //columns,
     //onColumnChanged,
     ...props
 }, ref) => {
     const intl = useIntl()
-    const [chipData, setChipData] = useState([
-            { id: 0, title: messages.chip1 },
-            { id: 1, title: messages.chip2 },
-            { id: 2, title: messages.chip3 },
-    ])
-    
-    const {
-        toggleColumns: columns,
-        onColumnChanged
-    } = useTableContext()
-    
-    const renderColumns = columns && columns.length > 0
-
-    const updatedOptions = {
-        ...defaultOptions,
-        ...options
-    }
-
-    const handleDelete = (chipToDelete) => {
-        console.log("chipToDelete: ", chipToDelete)
-        setChipData((chips) => chips.filter((chip) => chip.id !== chipToDelete));
-      };
 
     return (
-        <Grid 
+        <StyledToolbar
             ref={ref}
-            container
-            alignItems="center"
-            spacing={1}
         >
-        <Grid item xs={4}>
-            <Typography variant="h6">
-                <FormattedMessage {...title} />
-            </Typography>
-        </Grid>
-        <Grid item xs={8}>
-            <div style={{float: "right"}}>
-                { !updatedOptions.disableActions ? <TablePrimaryActionButton
-                    title={messages.add}
-                />: null }
-                <TableSettingsButton
-                    title={messages.filters}
-                    Icon={FilterListIcon}
-                    componentProps={{
-                        style: {
-                            marginLeft: "50px",
-                            marginRight: "10px",
-                        }
-                    }}
-                />
-                { renderColumns ? <span style={{borderRight: "2px solid" }}/> : null }
-                { renderColumns ? <TableSettingsButton
-                    title={messages.columns}
-                    Icon={SettingsIcon}
-                    placement="bottom-end"
-                    componentProps={{
-                        style: {
-                            marginLeft: "10px",
-                        }
-                    }}
-                >
-                    <TableSettingsColumn
-                        onChange={onColumnChanged}
-                        columns={columns}
-                    />
-                </TableSettingsButton> : null }
-            </div>
-        </Grid>
-        <Grid item xs={12} >
-            <div style={{
-                    position: "relative",
-                    display: "flex",
-                    backgroundColor: "white",
-                    padding: "0 10px"
-                }}
+            <Grid
+                container
+                alignItems="center"
+                spacing={0}
             >
-                <TableFilters
-                    filters={chipData}
-                    onDelete={handleDelete}
-                />                   
-                <SearchButton style={{
-                    position: "absolute",
-                    float: "right",
-                    top: "25%",
-                    right: "14px",
-                }}
-                />
-            </div>            
-        </Grid>
-    </Grid>
+                <Grid item xs={3}>
+                    <ToolbarTitle title={title} />
+                </Grid>
+                <Grid item xs={9}>
+                    {children}
+                </Grid>                            
+            </Grid>
+        </StyledToolbar>
     )
 })
+/*
+<StyledToolbar
+    ref={ref}
+>
+    <Grid
+        container
+        alignItems="center"
+        spacing={0}
+    >
+        <Grid item xs={8}>
+            <ToolbarTitle title={title} />
+        </Grid>
+        <FlexGrid item xs={4}>
+            { !options.disableActions
+                ? <TablePrimaryActionButton
+                    title={messages.add}
+                />
+                : null }                    
+            <Views>
+                {views}
+            </Views>
+        </FlexGrid>                
+    </Grid>
+</StyledToolbar>
+*/
 
 TableHeader.propTypes = {
     title: PropTypes.object.isRequired,

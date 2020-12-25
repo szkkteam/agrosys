@@ -1,19 +1,13 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 
-export default (children) => {
+export default (children, num=2) => {
     const components = useMemo(() => {
-        let components = {
-            componentA: null,
-            componentB: null
-        }
+        let components = []
 
-        if (React.Children.count(children) > 1)  {
+        if (React.Children.count(children) >= num)  {
             const childArray = React.Children.toArray(children)
     
-            components = {
-                componentA: childArray[0],
-                componentB: childArray[1]
-            }
+            components = childArray
         }
         return components
     }, [children])

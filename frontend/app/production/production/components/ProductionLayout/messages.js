@@ -27,4 +27,12 @@ export default defineMessages({
         id: `${scope}.Pests.title`,  
         defaultMessage: 'Pests',
     },
+    tabAnalysisTitle: {
+        id: `${scope}.Analysis.title`,  
+        defaultMessage: 'Analysis',
+    },
+    tabWeatherTitle: {
+        id: `${scope}.Weather.title`,  
+        defaultMessage: 'Weather',
+    },
   })

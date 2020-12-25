@@ -23,8 +23,6 @@ const TaskTable = ({
 
     const headerRef = useRef(null)
 
-    const height = useHeightDifference(parentHeight, headerRef, 542)
-
     const columns = [
         { title: 'Event', field: 'title'},
         { title: 'Type', field: 'type'},
@@ -34,19 +32,12 @@ const TaskTable = ({
     ]
 
     return (
-            <Table
+            <TableBody
                 columns={columns}
-            >
-                <TableHeader 
-                    ref={headerRef}
-                    title={messages.tableTitle}
-                />
-                <TableBody
-                    height={height}
-                    data={data}
-                    {...props}
-                />
-            </Table>
+                height={parentHeight}
+                data={data}
+                {...props}
+            />
     )
 }
 

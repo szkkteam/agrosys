@@ -3,13 +3,34 @@ import PropTypes from 'prop-types'
 import messages from './messages'
 import styled from 'styled-components'
 import { useIntl, FormattedMessage } from 'react-intl'
+import { Redirect, useLocation, Switch } from "react-router-dom";
+import { HashRoute } from 'utils/route'
+import { withLinkComponent } from 'utils/hoc'
+
+import { VIEW_MAP, VIEW_LIST, VIEW_MODULE } from '../../constants'
 
 import { 
     MasterList,
-    MasterDetail
+    MasterDetail,
+    SideSheet
 } from 'components'
 
 import { LeafletMap } from 'components/Map/components'
+
+import {
+    Grid,
+    Drawer,
+} from '@material-ui/core';
+
+import {
+    ToggleButton,
+    ToggleButtonGroup
+} from '@material-ui/lab'
+
+import MapIcon from '@material-ui/icons/Map';
+import ListIcon from '@material-ui/icons/List';
+import ViewModuleIcon from '@material-ui/icons/ViewModule';
+
 
 import { 
     Table,
@@ -19,7 +40,9 @@ import {
 
 import {
     FieldCreateButton,
-    FieldListItem
+    FieldListItem,
+    FieldSummaryStats,
+    FieldSideDetail
 } from '../../components'
 
 const Container = styled.div`
@@ -37,42 +60,196 @@ const BottomButton = styled(forwardRef((props, ref) => <FieldCreateButton {...pr
     width: 100%;
 `
 
+
+const FlexGrid = styled(Grid)`
+    display: flex;
+`
+
+const Spacer = styled.div`
+    flex-grow: 1;
+`
+
+const FieldViews = ({
+    view,
+    handleChange,
+    ...props
+}) => {
+    const onClick = (e, v) => {
+        handleChange && handleChange(v)
+    }
+
+    return (
+        <ToggleButtonGroup
+            value={view}
+            exclusive
+            onChange={onClick}
+            aria-label="block view"
+            {...props}
+        >
+            <ToggleButton value={VIEW_MAP} aria-label="map view">
+                <MapIcon />
+            </ToggleButton>
+            <ToggleButton value={VIEW_LIST} aria-label="list view">
+                <ListIcon />
+            </ToggleButton>
+            <ToggleButton value={VIEW_MODULE} aria-label="module view">
+                <ViewModuleIcon />
+            </ToggleButton>
+        </ToggleButtonGroup>
+    )
+}
+
+const detailWidth = 400
+
+const MapContainer = styled.div`
+    display: flex;
+    height: 100%;
+`
+/*
+const MapTransition = styled(({open: dummy = null, ...props}) => <LeafletMap {...props} />)`
+    ${({ theme, open }) => `
+    transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms,margin 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
+    ${open? `width: calc(100% - ${detailWidth}px);`: `width: 100%;`}
+    ${open? `margin-right: ${detailWidth}px;`: ``}
+    //height: 100%;
+    `}
+`
+*/
+
+const MapTransition = styled(({open: dummy = null, ...props}) => <div {...props} />)`
+    transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
+    display: flex;
+    width: 100%;
+    ${({ theme, open }) => open === true
+    ? `
+        //display: flex;
+        //transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
+        width: calc(100% - ${detailWidth}px);
+        //margin-right: ${detailWidth}px;
+    `
+    : `
+        //transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;        
+        //display: flex;
+        //width: 100%;
+    `
+    }
+`
+
+const DrawerTransition = styled(Drawer)`
+    ${({ theme, open }) => `
+    width: ${open? `${detailWidth}px`: `0px`};
+    flex-shrink: 0;
+
+    .MuiPaper-root {
+        width: ${detailWidth}px;
+        top: initial;
+    }
+    `}
+`
+
+const FieldMasterDetail = ({
+
+}) => {
+
+    const [selected, setSelected] = useState(null)
+
+    const handleSelect = (data) => {
+        setSelected(!!selected? null : data)
+    }
+
+    const handleClose = () => {
+        setSelected(null)
+    }
+
+    return (
+        <MasterDetail
+        >
+            <MasterList
+                onSelect={handleSelect}
+                options={{
+                    maxHeight: 570,
+                }}
+                addButton={
+                    <BottomButton />
+                }
+            >
+                <FieldListItem />
+                <FieldListItem />
+                <FieldListItem />
+                <FieldListItem />
+                <FieldListItem />
+                <FieldListItem />
+                <FieldListItem />
+                <FieldListItem />
+                <FieldListItem />
+            </MasterList>
+            <SideSheet
+                open={!!selected}
+            >
+                <LeafletMap />
+                <FieldSideDetail
+                    onClose={handleClose}
+                />
+            </SideSheet>
+        </MasterDetail>
+    )
+}
+
+
+const FieldRoutes = ({
+    view
+}) => {
+
+    const ViewComponent = useMemo(() => {
+        switch(view) {
+            case VIEW_MAP:
+                return FieldMasterDetail
+            case VIEW_LIST:
+                return FieldMasterDetail
+            case VIEW_MODULE:
+                return FieldMasterDetail
+            default:
+                return FieldMasterDetail
+        }
+    }, [view])
+    
+    return (
+        <ViewComponent />
+    )
+}
+
 const FieldLayout = ({
 
 }) => {
+
+    const [currentView, setCurrentView] = useState(VIEW_MAP)
 
     return (
         <Container>
             <Table
             >
-                <TableHeader 
+                <TableHeader
                     title={messages.title}
-                    options={{
-                        disableActions: true
-                    }}
-                />
-                <MasterDetail
-                >
-                    <MasterList
-                        options={{
-                            maxHeight: 570,
-                        }}
-                        addButton={
-                            <BottomButton />
-                        }
+                >   
+                    <Grid
+                        container
+                        justify="flex-end"
                     >
-                        <FieldListItem />
-                        <FieldListItem />
-                        <FieldListItem />
-                        <FieldListItem />
-                        <FieldListItem />
-                        <FieldListItem />
-                        <FieldListItem />
-                        <FieldListItem />
-                        <FieldListItem />
-                    </MasterList>
-                    <LeafletMap />
-                </MasterDetail>
+                        <Grid item xs={8}>
+                            <FieldSummaryStats />
+                        </Grid>
+                        <FlexGrid item xs={4}>      
+                            <Spacer />
+                            <FieldViews
+                                view={currentView}
+                                handleChange={setCurrentView}
+                            />                      
+                        </FlexGrid>
+                    </Grid>
+                </TableHeader>
+                <FieldRoutes 
+                    view={currentView}
+                />
             </Table>        
         </Container>
     )

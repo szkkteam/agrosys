@@ -35,6 +35,7 @@ const MasterList = ({
     children,
     addButton,
     options={},
+    onSelect,
     ...props
 }) => {
     const {
@@ -51,8 +52,12 @@ const MasterList = ({
     const match = useRouteMatch()
     const history = useHistory()
 
-    const contextObject = {
+    const handleSelect = (data = null) => {
+        onSelect && onSelect(data)
+    }
 
+    const contextObject = {
+        onSelect: handleSelect,
     }
 
     return (

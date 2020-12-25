@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
 import { FormattedMessage } from 'react-intl';
+import styled from 'styled-components'
 
 import {
     Typography,
@@ -13,7 +14,24 @@ import {
     TableFilterChip
 } from '../../Table'
 
-import './tablefilters.scss'
+const Container = styled.div`
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+    height: 36.5px;
+`
+
+const List = styled.ul`
+    padding-left: 10px;
+    margin: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+`
+
+const ClearButton = styled(Button)`
+    text-transform: initial;
+`
 
 const TableFilters = ({
     filters,
@@ -26,17 +44,14 @@ const TableFilters = ({
     }
 
     return (
-        <div
-            className="table-filter-container"
+        <Container
         >
             <Typography 
                 variant="body2"                
             >
                 <FormattedMessage {...filters.length? messages.activeFilters: messages.noActiveFilters}/>
             </Typography>
-            <ul
-                className="filter-list"
-            >
+            <List>
                 { filters && filters.map((filter, index) => {
                     return (
                         <TableFilterChip
@@ -46,17 +61,16 @@ const TableFilters = ({
                         />                        
                     )
                 }) }
-            </ul>
+            </List>
             { filters.length ? 
-                <Button
-                    className="filter-clearall"
+                <ClearButton
                     color="primary"
                     onClick={handleDelete(undefined)}
                 >
                     <FormattedMessage {...messages.clearAll}/>
-                </Button> 
+                </ClearButton> 
             : null }
-        </div>        
+        </Container>        
     )
 }
 

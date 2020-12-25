@@ -8,6 +8,7 @@ import { useHeightDifference } from 'utils/hooks'
 
 import { 
     MasterDetail,
+    PrimaryActionButton
 } from 'components'
 
 import { 
@@ -48,6 +49,14 @@ const TableSubHeader = styled(Typography)`
     padding: ${subHeaderMargin}px 0;
 `
 
+const FlexGrid = styled(Grid)`
+    display: flex;
+`
+
+const Spacer = styled.div`
+    flex-grow: 1;
+`
+
 /*
 
 */
@@ -58,9 +67,8 @@ const DetailPanel = ({
 
     const titleRef = useRef(null)
     const detailRef = useRef(null)
-
+    // FIXME: Something is not working properly here with the height ...
     const height = useHeightDifference(detailRef, titleRef, 500)
-
     return (
         <DetailContainer
             ref={detailRef}
@@ -72,12 +80,16 @@ const DetailPanel = ({
                 Items - Bin 1
             </TableSubHeader>
             <TableBody
-                height={height - 0}
+                height={height - 45}
             />
         </DetailContainer>
     )
 }
-
+/*
+<TableBody
+                height={height}
+            />
+*/
 
 const InventoryLayout = ({
     
@@ -87,9 +99,23 @@ const InventoryLayout = ({
             <Table
                 columns={columns}
             >
-                <TableHeader 
+                <TableHeader
                     title={messages.title}
-                />
+                >   
+                    <Grid
+                        container
+                        justify="flex-end"
+                    >
+                        <FlexGrid item xs={9}>
+                            <Spacer />
+                            <PrimaryActionButton
+                                title={messages.addNewTitle}
+                            />
+                        </FlexGrid>
+                        <Grid item xs={3}>                            
+                        </Grid>
+                    </Grid>
+                </TableHeader>
                 <MasterDetail
                 >
                     <InventoryList />
