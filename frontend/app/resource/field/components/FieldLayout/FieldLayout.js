@@ -41,7 +41,8 @@ import {
 import {
     FieldCreateButton,
     FieldListItem,
-    FieldSummaryStats
+    FieldSummaryStats,
+    FieldSideDetail
 } from '../../components'
 
 const Container = styled.div`
@@ -146,31 +147,6 @@ const DrawerTransition = styled(Drawer)`
     `}
 `
 
-
-const FieldMapContainer = ({
-    showDetail
-}) => {
-
-    const mapSize = showDetail? 8 : 12
-    const detailSize = showDetail? 4 : 0
-
-    return (
-        <MapContainer>
-            <MapTransition
-                open={showDetail}
-            >
-                <LeafletMap />
-            </MapTransition>
-            <DrawerTransition
-                variant="persistent"
-                anchor="right"
-                open={showDetail}
-            >
-                Detail
-            </DrawerTransition>
-        </MapContainer>
-    )
-}
 const FieldMasterDetail = ({
 
 }) => {
@@ -179,6 +155,10 @@ const FieldMasterDetail = ({
 
     const handleSelect = (data) => {
         setSelected(!!selected? null : data)
+    }
+
+    const handleClose = () => {
+        setSelected(null)
     }
 
     return (
@@ -207,7 +187,9 @@ const FieldMasterDetail = ({
                 open={!!selected}
             >
                 <LeafletMap />
-                <div>Detail</div>
+                <FieldSideDetail
+                    onClose={handleClose}
+                />
             </SideSheet>
         </MasterDetail>
     )
