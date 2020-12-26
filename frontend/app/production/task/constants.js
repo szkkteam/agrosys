@@ -1,2 +1,2 @@
-export const VIEW_CALENDAR = 'calendar'
-export const VIEW_LIST = 'list'
+export const VIEW_CALENDAR = '#calendar'
+export const VIEW_LIST = '#list'

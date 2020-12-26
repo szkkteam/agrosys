@@ -13,7 +13,8 @@ import { VIEW_MAP, VIEW_LIST, VIEW_MODULE } from '../../constants'
 import { 
     HeaderContentContext,
     MasterDetail,
-    MasterList
+    MasterList,
+    ViewButtonGroup
 } from 'components'
 
 import {
@@ -44,11 +45,6 @@ import {
     TableBody
 } from 'components/Table'
 
-
-const StyledBlockViewButtons = styled(props => <BlockViewButtons {...props} />)`
-    float: right;
-`
-
 const Container = styled.div`
     height: 100%;
     display: flex;
@@ -71,34 +67,6 @@ const Spacer = styled.div`
     flex-grow: 1;
 `
 
-const LinkButton = withLinkComponent(ToggleButton)
-
-const BlockViews = ({
-    ...props
-}) => {
-
-    const location = useLocation()
-
-    return (
-        <ToggleButtonGroup
-            value={location.hash || VIEW_MAP}
-            exclusive
-            //onChange={handleChange}
-            aria-label="block view"
-            {...props}
-        >
-            <LinkButton to={{...location, hash: VIEW_MAP}} value={VIEW_MAP} aria-label="map view">
-                <MapIcon />
-            </LinkButton>
-            <LinkButton to={{...location, hash: VIEW_LIST}} value={VIEW_LIST} aria-label="list view">
-                <ListIcon />
-            </LinkButton>
-            <LinkButton to={{...location, hash: VIEW_MODULE}} value={VIEW_MODULE} aria-label="module view">
-                <ViewModuleIcon />
-            </LinkButton>
-        </ToggleButtonGroup>
-    )
-}
 
 const BlockMasterDetail = ({
 
@@ -152,6 +120,13 @@ const BlockLayout = ({
 
     const location = useLocation()
 
+    const views = [
+        {value: VIEW_MAP, icon: MapIcon},
+        {value: VIEW_LIST, icon: ListIcon},
+        {value: VIEW_MODULE, icon: ViewModuleIcon},
+    ]
+
+
     // TODO: Based on the URL query param, change the view later
     return (
         <Container>
@@ -168,7 +143,8 @@ const BlockLayout = ({
                         </Grid>
                         <FlexGrid item xs={3}>      
                             <Spacer />
-                            <BlockViews
+                            <ViewButtonGroup
+                                items={views}
                             />                      
                         </FlexGrid>
                     </Grid>

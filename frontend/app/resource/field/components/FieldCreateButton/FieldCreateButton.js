@@ -19,13 +19,13 @@ const FieldCreateButton = forwardRef(({
     ...props
 }, ref) => {
 
-    const { id: productionId } = useParams()
+    const params = useParams()
 
     return (
         <LinkButton
             ref={ref}
             to={ROUTES.FieldCreateDraw}
-            params={{id: productionId}}
+            params={params}
             variant="contained"
             color="primary"
             startIcon={<AddCircleIcon />}

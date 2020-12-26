@@ -1,21 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Helmet from 'react-helmet'
 import messages from './messages';
-import { useIntl } from 'react-intl'
 import styled from 'styled-components'
+import { useIntl } from 'react-intl'
+import { Route } from "react-router-dom";
 
-import { ProductionLayout } from '../../components'
+import { TaskLayout } from '../../components'
 
 const Container = styled.div`
     height: 100%;
 `
 
-export default ({    
+export default ({
     ...props
 }) => {
 
     const intl = useIntl()
-   
+    
     return (
         <Container>
             <Helmet>
@@ -23,16 +24,9 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <ProductionLayout
+            <TaskLayout
                 {...props}
-            />  
+            />
         </Container>
     )
 }
-
-/*
-            <ProductionLayout
-                history={history}
-                match={match}
-            />            
- */

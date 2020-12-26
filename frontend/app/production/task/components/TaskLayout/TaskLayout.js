@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
-import { useRouteMatch, useHistory } from "react-router-dom";
+import { Redirect, useLocation } from "react-router-dom";
 import { useHeightDifference } from 'utils/hooks'
+import { HashRoute } from 'utils/route'
 
 import { VIEW_CALENDAR, VIEW_LIST } from '../../constants'
 
@@ -29,6 +30,7 @@ import {
 
 import { 
     PrimaryActionButton,
+    ViewButtonGroup
 } from 'components'
 
 import {
@@ -51,60 +53,19 @@ const Spacer = styled.div`
     flex-grow: 1;
 `
 
-const StyledViewButtons = styled(props => <TaskViewButtons {...props} />)`
-    float: right;
-`
-
-const TaskViews = ({
-    view,
-    handleChange,
-    ...props
-}) => {
-    const onClick = (e, v) => {
-        handleChange && handleChange(v)
-    }
-
-    return (
-        <ToggleButtonGroup
-            value={view}
-            exclusive
-            onChange={onClick}
-            aria-label="block view"
-            {...props}
-        >
-            <ToggleButton value={VIEW_CALENDAR} aria-label="map view">
-                <DateRangeIcon />
-            </ToggleButton>
-            <ToggleButton value={VIEW_LIST} aria-label="list view">
-                <ListIcon />
-            </ToggleButton>
-        </ToggleButtonGroup>
-    )
-}
-
 
 const TaskRoutes = ({
-    view,
-    ...props
+    height,
 }) => {
-
-    const ViewComponent = useMemo(() => {
-        switch(view) {
-            case VIEW_CALENDAR:
-                return TaskCalendarLayout
-            case VIEW_LIST:
-                return TaskTable
-            default:
-                return TaskTable
-        }
-    }, [view])
-    
     return (
-        <ViewComponent 
-            {...props}
-        />
+        <>
+            <HashRoute path={VIEW_CALENDAR} component={props => <TaskCalendarLayout height={height} {...props} />} />
+            <HashRoute path={VIEW_LIST} component={props => <TaskTable height={height} {...props} />} />
+            <HashRoute path="" component={({location}) => <Redirect to={{...location, hash: VIEW_CALENDAR}} />} />
+        </>
     )
 }
+
 
 const TaskLayout = ({
     
@@ -113,6 +74,11 @@ const TaskLayout = ({
     const containerRef = useRef(null)
 
     const [currentView, setCurrentView] = useState(VIEW_CALENDAR)
+
+    const views = [
+        {value: VIEW_CALENDAR, icon: DateRangeIcon},
+        {value: VIEW_LIST, icon: ListIcon},
+    ]
 
     const height = useHeightDifference(containerRef, headerRef)
 
@@ -138,15 +104,14 @@ const TaskLayout = ({
                         </FlexGrid>
                         <FlexGrid item xs={3}>      
                             <Spacer />
-                            <TaskViews
-                                view={currentView}
+                            <ViewButtonGroup
                                 handleChange={setCurrentView}
+                                items={views}
                             />                      
                         </FlexGrid>
                     </Grid>
                 </TableHeader>
                 <TaskRoutes 
-                    view={currentView}
                     height={height - 10}
                 />
             </Table>  

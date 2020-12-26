@@ -3,9 +3,8 @@ import PropTypes from 'prop-types'
 import messages from './messages';
 import styled from 'styled-components'
 import { useIntl, FormattedMessage } from 'react-intl'
-import { Redirect, matchPath } from 'react-router-dom'
-import { ROUTES } from 'routes'
-import { ROUTE_MAP } from 'routes'
+import { Redirect, useRouteMatch } from 'react-router-dom'
+import { ROUTES, ROUTE_MAP } from 'routes'
 
 import {
     Grid,
@@ -28,7 +27,7 @@ const StyledTab = styled(props => <TabLink {...props}/>)`
 `
 
 const ProductionHeader = ({
-    match,
+    match: matchOriginal,
     location,
     ...props
 }) => {
@@ -41,28 +40,37 @@ const ProductionHeader = ({
     //const matched = location.pathname.match("(\/\\w+){2}")
     //const route = ROUTE_MAP[ROUTES.ProductionMultiView]  
 
+    /**
+     * TODO:
+     * Get the earliest active production from the latest active season
+     * or
+     * Navigate to the dedicated crop summary view where all productions are listed
+     */
 
     const items = [
-        {id: 0, label: intl.formatMessage(messages.productionMultiView), to: ROUTES.ProductionMultiView},
-        {id: 1, label: "My wheat", to: ROUTES.ProductionDetail},
-        {id: 2, label: "My corn", to: ROUTES.ProductionDetail},
+        {cropId: 0, label: intl.formatMessage(messages.productionMultiView), to: ROUTES.CropMultiView},
+        {cropId: 1, productionId: 1, label: "My wheat", to: ROUTES.ProductionDetail},
+        {cropId: 2, productionId: 2, label: "My corn", to: ROUTES.ProductionDetail},
+
         //{id: 3, label: "My asdasd", to: ROUTES.ProductionDetail},
         //{id: 4, label: "My bbbbb", to: ROUTES.ProductionDetail},
     ]
-    
-    // TODO: This is ugly, try to re-use the router config
+
+    let value = 0
     const route = ROUTE_MAP[ROUTES.ProductionDetail]
-    const matched = matchPath(location.pathname, { path: route.path, ...route.props })
-    const { id = 0 } = matched? matched.params : 0
+    const match = useRouteMatch({ path: route.path, ...route.props, })
+    if (match) {
+        value = parseInt(match.params.cropId)
+
+    }
+    console.debug("Header updated")
     
     return (
         <Portal container={appBarTabsRef.current}>
             { false
                 ? <Redirect to={route.toPath()}/> 
                 : <Tabs
-                    value={parseInt(id)}
-                    //value={_.isNaN(id)? 0 : id}
-                    //value={matched? matched[0] : location.pathname}
+                    value={value}
                     orientation="horizontal"
                     variant="scrollable"
                     scrollButtons="auto"
@@ -77,8 +85,11 @@ const ProductionHeader = ({
                         }
                     }}
                 >
-                    { items && items.map((item, i) => 
-                            <StyledTab key={i} {...item} params={{id: item.id}} dataProps={{hash: location.hash}}  value={item.id} />
+                    { items && items.map((item, i) => {
+                        const { to, label, ...params } = item
+                        return <StyledTab key={i} to={to} label={label} params={{...params}} dataProps={{hash: location.hash}} value={params.cropId} />
+                    }
+                            
                     )}
                 </Tabs>
             }

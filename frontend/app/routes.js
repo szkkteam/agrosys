@@ -38,7 +38,8 @@ import {
 } from 'resource/entity/pages'
 
 import {
-  FieldCreateDraw
+  FieldCreateDraw,
+  FieldList,
 } from 'resource/field/pages'
 
 import {
@@ -83,10 +84,15 @@ import {
   ProductionDetail,
 } from 'production/production/pages'
 
+import {
+  TaskList
+} from 'production/task/pages'
 
 import {
   ProductionHeaderTab
 } from 'production/production/pages'
+
+import ProductionHeaderTabs from 'production/production/components/ProductionHeaderTabs'
 
 /**
  * Site
@@ -161,11 +167,18 @@ export const ROUTES = {
   ProductionHeaderTab: 'ProductionHeaderTab',
 
   // Production
+  CropMultiView: 'CropMultiView',
   ProductionMultiView: 'ProductionMultiView',
   ProductionCreate: 'ProductionCreate',
   ProductionDetail: 'ProductionDetail',
+  ProductionDetailSummary: 'ProductionDetailSummary',
+  ProductionDetailTask: 'ProductionDetailTask',
+  ProductionDetailField: 'ProductionDetailField',
+  ProductionDetailAnalysis: 'ProductionDetailAnalysis',
+  ProductionDetailWeather: 'ProductionDetailWeather',
   // Field
   FieldCreateDraw: 'FieldCreateDraw',
+
 
   // Inventory
   InventoryList: 'InventoryList',
@@ -323,39 +336,82 @@ export const routes = [
    */
   {
     key: ROUTES.ProductionHeaderTab,
-    path: '/productions',
+    path: '/crops',
     component: ProductionHeaderTab,
     routeComponent: ProtectedRoute,
     layoutComponent: Content,
     routes: [
+      // Crops overall view (Timeline). Show all crops , productions and seasons
       {
-        key: ROUTES.ProductionCreate,
-        path: '/productions/new',
-        component: ProductionCreate,
-        routeComponent: ProtectedRoute,
-        props: { exact: true }
-      },
-      {
-        key: ROUTES.ProductionMultiView,
-        path: '/productions',
+        key: ROUTES.CropMultiView,
+        path: '/crops',
         component: ProductionMultiView,
         routeComponent: ProtectedRoute,
         props: { exact: true }
       },
       {
-        key: ROUTES.ProductionDetail,
-        path: '/productions/:id',
-        component: ProductionDetail,
+        key: ROUTES.ProductionCreate,
+        path: '/crops/:cropId/productions/new',
+        component: ProductionCreate,
         routeComponent: ProtectedRoute,
         props: { exact: true }
       },
+      // Specific crop and production view (Subtabs). Show all resource to that specific production      
       {
-        key: ROUTES.FieldCreateDraw,
-        path: '/productions/:id/parcel/new/draw',
-        component: FieldCreateDraw,
+        key: ROUTES.ProductionDetail,
+        path: '/crops/:cropId/productions/:productionId',
+        component: ProductionHeaderTabs,
         routeComponent: ProtectedRoute,
-        props: { exact: true }
-      }
+        layoutComponent: HeaderContent,
+        routes: [
+          {
+            key: ROUTES.ProductionDetailSummary,
+            path: '/crops/:cropId/productions/:productionId',
+            component: ProductionDetail,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },
+          {
+            key: ROUTES.ProductionDetailTask,
+            path: '/crops/:cropId/productions/:productionId/tasks',
+            component: TaskList,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },
+          {
+            key: ROUTES.ProductionDetailField,
+            path: '/crops/:cropId/productions/:productionId/parcels',
+            component: FieldList,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },
+          {
+            key: ROUTES.FieldCreateDraw,
+            path: '/crops/:cropId/productions/:productionId/parcels/new',
+            component: FieldCreateDraw,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },
+          {
+            key: ROUTES.ProductionDetailAnalysis,
+            path: '/crops/:cropId/productions/:productionId/analysis',
+            component: ProductionDetail,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },
+          {
+            key: ROUTES.ProductionDetailWeather,
+            path: '/crops/:cropId/productions/:productionId/weather',
+            component: ProductionDetail,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },
+          
+        ]
+      },
+      
+      
+
   ]
   },
   // Inventory routes  
@@ -465,11 +521,12 @@ const complieRoutes = (routes) => {
 complieRoutes(routes)
 console.log(ROUTE_MAP)
 
-console.log("headerComntent: ", HeaderContent)
-
 // TODO: How to add the 404 route?
 // cachedRoutes.push(<Route component={NotFound} key="*" />)
  
+/*
+  FIXME: Somehow for nested rotues the whole tree is re-rendered
+*/
 const CustomRouter = ({routes}) => {
   return (
       <Switch>

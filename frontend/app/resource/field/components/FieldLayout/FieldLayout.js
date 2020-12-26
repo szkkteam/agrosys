@@ -12,7 +12,8 @@ import { VIEW_MAP, VIEW_LIST, VIEW_MODULE } from '../../constants'
 import { 
     MasterList,
     MasterDetail,
-    SideSheet
+    SideSheet,
+    ViewButtonGroup
 } from 'components'
 
 import { LeafletMap } from 'components/Map/components'
@@ -69,86 +70,8 @@ const Spacer = styled.div`
     flex-grow: 1;
 `
 
-const FieldViews = ({
-    view,
-    handleChange,
-    ...props
-}) => {
-    const onClick = (e, v) => {
-        handleChange && handleChange(v)
-    }
-
-    return (
-        <ToggleButtonGroup
-            value={view}
-            exclusive
-            onChange={onClick}
-            aria-label="block view"
-            {...props}
-        >
-            <ToggleButton value={VIEW_MAP} aria-label="map view">
-                <MapIcon />
-            </ToggleButton>
-            <ToggleButton value={VIEW_LIST} aria-label="list view">
-                <ListIcon />
-            </ToggleButton>
-            <ToggleButton value={VIEW_MODULE} aria-label="module view">
-                <ViewModuleIcon />
-            </ToggleButton>
-        </ToggleButtonGroup>
-    )
-}
-
-const detailWidth = 400
-
-const MapContainer = styled.div`
-    display: flex;
-    height: 100%;
-`
-/*
-const MapTransition = styled(({open: dummy = null, ...props}) => <LeafletMap {...props} />)`
-    ${({ theme, open }) => `
-    transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms,margin 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
-    ${open? `width: calc(100% - ${detailWidth}px);`: `width: 100%;`}
-    ${open? `margin-right: ${detailWidth}px;`: ``}
-    //height: 100%;
-    `}
-`
-*/
-
-const MapTransition = styled(({open: dummy = null, ...props}) => <div {...props} />)`
-    transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
-    display: flex;
-    width: 100%;
-    ${({ theme, open }) => open === true
-    ? `
-        //display: flex;
-        //transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
-        width: calc(100% - ${detailWidth}px);
-        //margin-right: ${detailWidth}px;
-    `
-    : `
-        //transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;        
-        //display: flex;
-        //width: 100%;
-    `
-    }
-`
-
-const DrawerTransition = styled(Drawer)`
-    ${({ theme, open }) => `
-    width: ${open? `${detailWidth}px`: `0px`};
-    flex-shrink: 0;
-
-    .MuiPaper-root {
-        width: ${detailWidth}px;
-        top: initial;
-    }
-    `}
-`
-
 const FieldMasterDetail = ({
-
+    
 }) => {
 
     const [selected, setSelected] = useState(null)
@@ -170,7 +93,8 @@ const FieldMasterDetail = ({
                     maxHeight: 570,
                 }}
                 addButton={
-                    <BottomButton />
+                    <BottomButton
+                    />
                 }
             >
                 <FieldListItem />
@@ -197,32 +121,29 @@ const FieldMasterDetail = ({
 
 
 const FieldRoutes = ({
-    view
+    
 }) => {
 
-    const ViewComponent = useMemo(() => {
-        switch(view) {
-            case VIEW_MAP:
-                return FieldMasterDetail
-            case VIEW_LIST:
-                return FieldMasterDetail
-            case VIEW_MODULE:
-                return FieldMasterDetail
-            default:
-                return FieldMasterDetail
-        }
-    }, [view])
-    
     return (
-        <ViewComponent />
+        <>
+            <HashRoute path={VIEW_MAP} component={props => <FieldMasterDetail {...props} />} />
+            <HashRoute path={VIEW_LIST} component={props => <FieldMasterDetail {...props} />} />
+            <HashRoute path={VIEW_MODULE} component={props => <FieldMasterDetail {...props} />} />
+            <HashRoute path="" component={({location}) => <Redirect to={{...location, hash: VIEW_MAP}} />} />
+        </>
     )
 }
 
 const FieldLayout = ({
-
+    location,
+    ...props
 }) => {
 
-    const [currentView, setCurrentView] = useState(VIEW_MAP)
+    const views = [
+        {value: VIEW_MAP, icon: MapIcon},
+        {value: VIEW_LIST, icon: ListIcon},
+        {value: VIEW_MODULE, icon: ViewModuleIcon},
+    ]
 
     return (
         <Container>
@@ -240,15 +161,13 @@ const FieldLayout = ({
                         </Grid>
                         <FlexGrid item xs={4}>      
                             <Spacer />
-                            <FieldViews
-                                view={currentView}
-                                handleChange={setCurrentView}
+                            <ViewButtonGroup
+                                items={views}
                             />                      
                         </FlexGrid>
                     </Grid>
                 </TableHeader>
                 <FieldRoutes 
-                    view={currentView}
                 />
             </Table>        
         </Container>

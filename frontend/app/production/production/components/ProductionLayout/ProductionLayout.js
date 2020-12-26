@@ -64,14 +64,16 @@ const ProductionRoutes = ({
             <HashRoute path={TAB_PESTS} component={props => <ProductionTabPests height={height} {...props} />} />
             <HashRoute path={TAB_ANALYSIS} component={props => <ProductionTabAnalysis height={height} {...props} />} />
             <HashRoute path={TAB_WEATHER} component={props => <ProductionTabWeather height={height} {...props} />} />
-            <HashRoute path="" component={({location}) => <Redirect to={{...location, hash: TAB_SUMMARY}} />} />
+            <HashRoute path="" component={({location}) => <Redirect to={{...location, hash: TAB_SUMMARY}} />} />          
         </>
     )
 }
 
+//<HashRoute path="" component={({location}) => <Redirect to={{...location, hash: TAB_SUMMARY}} />} />
+
 const ProductionLayout = ({
-    //history,
-    //match,
+    history,
+    match,
     //location,
     ...props
 }) => {
@@ -87,9 +89,15 @@ const ProductionLayout = ({
         {value: TAB_ANALYSIS, title: intl.formatMessage(messages.tabAnalysisTitle)},
         {value: TAB_WEATHER, title: intl.formatMessage(messages.tabWeatherTitle)},
     ]
-
+    //console.debug("match: ", match)
 
     return (
+        <div>Layout</div>
+
+    )
+}
+
+/*
         <HeaderContent
         >
             <StyledTabs
@@ -103,8 +111,7 @@ const ProductionLayout = ({
             <ProductionRoutes
             />
         </HeaderContent>
-    )
-}
+*/
 
 ProductionLayout.propTypes = {
     //history: PropTypes.object.isRequired,
