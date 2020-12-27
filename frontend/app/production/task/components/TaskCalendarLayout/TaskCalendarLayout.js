@@ -3,10 +3,16 @@ import PropTypes from 'prop-types'
 import messages from './messages'
 import styled from 'styled-components'
 
+import { 
+    SideSheet,
+} from 'components'
+
+import CloseIcon from '@material-ui/icons/Close';
+
 import {
     Grid,
     Typography,
-    Paper,
+    IconButton,
     Button,
     ButtonGroup
 } from '@material-ui/core';
@@ -14,38 +20,62 @@ import {
 import TaskCalendar from '../TaskCalendar'
 import TaskSmallCard from '../TaskSmallCard'
 
-const Container = styled(Grid)`
+const Container = styled.div`
     height: 100%;
+    width: 100%;
 `
 
 const TaskCard = styled(props => <TaskSmallCard {...props}/>)`
     margin: 15px 5px;
 `
 
+const FullWidthCalendar = styled(props => <TaskCalendar {...props} />)`
+    width: 100%;
+`
+
 const UpcomingTitle = styled(Typography)`
-    margin-top: 10px;
     margin-left: 15px;
 `
 
-const TaskUpcoming = ({
+const Flex = styled.div`
+    display: flex;
+    align-items: center;
+`
 
+const Spacer = styled.div`
+    flex-grow: 1;
+`
+
+const TaskUpcoming = ({
+    onClose,
+    ...props
 }) => {
-    return (
+    return (        
         <Grid
             container
-            direction="column"
-            alignItems="stretch"
+            spacing={0}
+            direction="row"
+            //justify="center"
+            justify="flex-start"
+            alignItems="flex-start"
         >
             <Grid item xs={12}>
-                <UpcomingTitle variant="h6">
-                    2 Events
-                </UpcomingTitle>
+                <Flex>
+                    <UpcomingTitle variant="h6">
+                        2 Events
+                    </UpcomingTitle>
+                    <Spacer />
+                    <IconButton aria-label="close" onClick={onClose}>
+                        <CloseIcon />
+                    </IconButton>
+                </Flex>        
             </Grid>
             <Grid item xs={12}>
                 <TaskCard />
                 <TaskCard />
-            </Grid>
+            </Grid>      
         </Grid>
+        
     )
 }
 
@@ -55,18 +85,20 @@ const TaskCalendarLayout = ({
 
     const [showSide, setShowSide] = useState(true)
 
+    const handleSide = () => {
+        setShowSide(false)
+    }
+
     return (
-      <Container
-        container
-        alignItems="stretch"
-      >
-        <Grid item xs={9}>
-          <TaskCalendar 
+      <Container>
+        <SideSheet
+            open={showSide}
+        >
+          <FullWidthCalendar />
+          <TaskUpcoming 
+            onClose={handleSide}
           />
-        </Grid>
-        <Grid item xs={3}>
-            <TaskUpcoming />
-        </Grid>
+        </SideSheet>
       </Container>
         
     )

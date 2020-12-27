@@ -23,9 +23,12 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <ProductionLayout
-                {...props}
-            />  
+            <div>
+                Summary view for a given production. <br/>
+                Show quick information about the active production. <br/>
+                Also show some information about past and next productions <br/>
+                User can also add production to the dedicated crop
+            </div>
         </Container>
     )
 }

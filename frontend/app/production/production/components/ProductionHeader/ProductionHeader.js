@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import messages from './messages';
 import styled from 'styled-components'
 import { useIntl, FormattedMessage } from 'react-intl'
-import { Redirect, useRouteMatch } from 'react-router-dom'
+import { useLocation, useRouteMatch } from 'react-router-dom'
 import { ROUTES, ROUTE_MAP } from 'routes'
 
 import {
@@ -45,10 +45,12 @@ const ProductionHeader = ({
      * Get the earliest active production from the latest active season
      * or
      * Navigate to the dedicated crop summary view where all productions are listed
+     * TODO:
+     * Set back the previously viewed tab when the crop is changing
      */
 
     const items = [
-        {cropId: 0, label: intl.formatMessage(messages.productionMultiView), to: ROUTES.CropMultiView},
+        {cropId: 0, label: intl.formatMessage(messages.productionMultiView), to: ROUTES.CropOverview},
         {cropId: 1, productionId: 1, label: "My wheat", to: ROUTES.ProductionDetail},
         {cropId: 2, productionId: 2, label: "My corn", to: ROUTES.ProductionDetail},
 
@@ -63,36 +65,32 @@ const ProductionHeader = ({
         value = parseInt(match.params.cropId)
 
     }
-    console.debug("Header updated")
     
     return (
         <Portal container={appBarTabsRef.current}>
-            { false
-                ? <Redirect to={route.toPath()}/> 
-                : <Tabs
-                    value={value}
-                    orientation="horizontal"
-                    variant="scrollable"
-                    scrollButtons="auto"
-                    TabIndicatorProps={{
-                        style: {
-                            height: "85%",
-                            backgroundColor: "white",
-                            zIndex: "-1",
-                            borderTopLeftRadius: "15px",
-                            borderTopRightRadius: "15px",
+            <Tabs
+                value={value}
+                orientation="horizontal"
+                variant="scrollable"
+                scrollButtons="auto"
+                TabIndicatorProps={{
+                    style: {
+                        height: "85%",
+                        backgroundColor: "white",
+                        zIndex: "-1",
+                        borderTopLeftRadius: "15px",
+                        borderTopRightRadius: "15px",
 
-                        }
-                    }}
-                >
-                    { items && items.map((item, i) => {
-                        const { to, label, ...params } = item
-                        return <StyledTab key={i} to={to} label={label} params={{...params}} dataProps={{hash: location.hash}} value={params.cropId} />
                     }
-                            
-                    )}
-                </Tabs>
-            }
+                }}
+            >
+                { items && items.map((item, i) => {
+                    const { to, label, ...params } = item
+                    return <StyledTab key={i} to={to} label={label} params={{...params}} value={params.cropId} />
+                }
+                        
+                )}
+            </Tabs>
         </Portal>           
     )
 }

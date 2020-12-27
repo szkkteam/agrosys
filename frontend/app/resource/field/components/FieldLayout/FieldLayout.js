@@ -23,11 +23,6 @@ import {
     Drawer,
 } from '@material-ui/core';
 
-import {
-    ToggleButton,
-    ToggleButtonGroup
-} from '@material-ui/lab'
-
 import MapIcon from '@material-ui/icons/Map';
 import ListIcon from '@material-ui/icons/List';
 import ViewModuleIcon from '@material-ui/icons/ViewModule';

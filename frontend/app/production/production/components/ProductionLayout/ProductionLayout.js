@@ -80,17 +80,6 @@ const ProductionLayout = ({
     const intl = useIntl()
     const location = useLocation()
 
-    const tabs = [
-        {value: TAB_SUMMARY, title: intl.formatMessage(messages.tabSummaryTitle)},
-        {value: TAB_TASKS, title: intl.formatMessage(messages.tabTasksTitle)},
-        {value: TAB_CROP_VARIANTS, title: intl.formatMessage(messages.tabCropVariantTitle)},
-        {value: TAB_FIELDS, title: intl.formatMessage(messages.tabFieldsTitle)},
-        {value: TAB_PESTS, title: intl.formatMessage(messages.tabPestsTitle)},
-        {value: TAB_ANALYSIS, title: intl.formatMessage(messages.tabAnalysisTitle)},
-        {value: TAB_WEATHER, title: intl.formatMessage(messages.tabWeatherTitle)},
-    ]
-    //console.debug("match: ", match)
-
     return (
         <div>Layout</div>
 

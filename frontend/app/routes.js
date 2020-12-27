@@ -79,9 +79,15 @@ import {
  */
 
 import {
-  ProductionMultiView,
+  CropOverview,
+  CropTimeline
+} from 'production/crop/pages'
+
+import {
+  ProductionSummary,
   ProductionCreate,
   ProductionDetail,
+  ProductionTimeline,
 } from 'production/production/pages'
 
 import {
@@ -166,9 +172,13 @@ export const ROUTES = {
    */
   ProductionHeaderTab: 'ProductionHeaderTab',
 
+  // Crop
+  CropTimeline: 'CropTimeline',
+  CropOverview: 'CropOverview',
+
   // Production
-  CropMultiView: 'CropMultiView',
   ProductionMultiView: 'ProductionMultiView',
+  ProductionTimeline: 'ProductionTimeline',
   ProductionCreate: 'ProductionCreate',
   ProductionDetail: 'ProductionDetail',
   ProductionDetailSummary: 'ProductionDetailSummary',
@@ -343,12 +353,19 @@ export const routes = [
     routes: [
       // Crops overall view (Timeline). Show all crops , productions and seasons
       {
-        key: ROUTES.CropMultiView,
+        key: ROUTES.CropOverview,
         path: '/crops',
-        component: ProductionMultiView,
+        component: CropOverview,
         routeComponent: ProtectedRoute,
         props: { exact: true }
       },
+      {
+        key: ROUTES.CropTimeline,
+        path: '/crops/timeline',
+        component: CropTimeline,
+        routeComponent: ProtectedRoute,
+        props: { exact: true }
+      },      
       {
         key: ROUTES.ProductionCreate,
         path: '/crops/:cropId/productions/new',
@@ -367,21 +384,22 @@ export const routes = [
           {
             key: ROUTES.ProductionDetailSummary,
             path: '/crops/:cropId/productions/:productionId',
-            component: ProductionDetail,
+            component: ProductionSummary,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }            
+          },
+          // TODO: Maybe move the timeline into the summary page?
+          {
+            key: ROUTES.ProductionTimeline,
+            path: '/crops/:cropId/productions/:productionId/timeline',
+            component: ProductionTimeline,
             routeComponent: ProtectedRoute,
             props: { exact: true }
-          },
+          },          
           {
             key: ROUTES.ProductionDetailTask,
             path: '/crops/:cropId/productions/:productionId/tasks',
             component: TaskList,
-            routeComponent: ProtectedRoute,
-            props: { exact: true }
-          },
-          {
-            key: ROUTES.ProductionDetailField,
-            path: '/crops/:cropId/productions/:productionId/parcels',
-            component: FieldList,
             routeComponent: ProtectedRoute,
             props: { exact: true }
           },
@@ -391,6 +409,13 @@ export const routes = [
             component: FieldCreateDraw,
             routeComponent: ProtectedRoute,
             props: { exact: true }
+          },
+          {
+            key: ROUTES.ProductionDetailField,
+            path: '/crops/:cropId/productions/:productionId/parcels',
+            component: FieldList,
+            routeComponent: ProtectedRoute,
+            props: { exact: false } // Set to false, to prevent error in parcel/new page. This must be the last
           },
           {
             key: ROUTES.ProductionDetailAnalysis,
