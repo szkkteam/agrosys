@@ -28,7 +28,7 @@ import {
 
 import {
     TaskSmallCard
-} from 'production/task/components'
+} from 'farmApp/production/task/components'
 
 const Container = styled(Grid)`
     //padding: 0 0 0 12px;

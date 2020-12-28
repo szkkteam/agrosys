@@ -13,9 +13,9 @@ import { getModal, isModalActive } from '../selectors'
 
 // Import modals
 import { TestModal } from 'site/components'
-import { FarmPickOnMap } from 'resource/farm/components'
-import { BlockCreateModal, BlockDrawModal } from 'resource/block/components'
-import { FieldDrawModal } from 'resource/field/components'
+import { FarmPickOnMap } from 'farmApp/resource/farm/components'
+import { BlockCreateModal, BlockDrawModal } from 'farmApp/resource/block/components'
+import { FieldDrawModal } from 'farmApp/production/field/components'
 
 import { 
     EDIT_FILE_DIALOG,

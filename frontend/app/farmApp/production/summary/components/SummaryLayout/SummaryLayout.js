@@ -35,7 +35,7 @@ import {
 import {
     FieldCreateButton,
     FieldListItem
-} from 'resource/field/components'
+} from 'farmApp/production/field/components'
 
 import {
     SummaryHeader,

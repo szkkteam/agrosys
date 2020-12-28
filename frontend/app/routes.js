@@ -15,7 +15,7 @@ import {
 import {
   FarmCreate,
   FarmDashboard,
-} from 'resource/farm/pages'
+} from 'farmApp/resource/farm/pages'
 
 import {
   BlockList,
@@ -23,32 +23,27 @@ import {
   BlockCreateDraw,
   BlockCreateUpload,
   BlockCreateLPIS
-} from 'resource/block/pages'
+} from 'farmApp/resource/block/pages'
 
 import {
   WorkerList,
-} from 'resource/worker/pages'
+} from 'farmApp/resource/worker/pages'
 
 import {
   MachineryList
-} from 'resource/machinery/pages'
+} from 'farmApp/resource/machinery/pages'
 
 import {
   EntityList
-} from 'resource/entity/pages'
-
-import {
-  FieldCreateDraw,
-  FieldList,
-} from 'resource/field/pages'
+} from 'farmApp/resource/entity/pages'
 
 import {
   InventoryList
-} from 'resource/inventory/pages'
+} from 'farmApp/resource/inventory/pages'
 
 import {
   ResourceHeaderTab
-} from 'resource/resource/pages'
+} from 'farmApp/resource/resource/pages'
 
 /**
  * Finance
@@ -56,15 +51,15 @@ import {
 
 import {
   SaleDashboard
-} from 'finance/sale/pages'
+} from 'farmApp/finance/sale/pages'
 
 import {
   ExpenseDashboard
-} from 'finance/expense/pages'
+} from 'farmApp/finance/expense/pages'
 
 import {
   BudgetDashboard
-} from 'finance/budget/pages'
+} from 'farmApp/finance/budget/pages'
 
 /**
  * Reports
@@ -72,7 +67,7 @@ import {
 
 import {
   ReportDashboard
-} from 'report/report/pages'
+} from 'farmApp/report/report/pages'
 
 /**
  * Production
@@ -81,24 +76,30 @@ import {
 import {
   CropOverview,
   CropTimeline
-} from 'production/crop/pages'
+} from 'farmApp/production/crop/pages'
 
 import {
   ProductionSummary,
   ProductionCreate,
   ProductionDetail,
   ProductionTimeline,
-} from 'production/production/pages'
+} from 'farmApp/production/production/pages'
+
+
+import {
+  FieldCreateDraw,
+  FieldList,
+} from 'farmApp/production/field/pages'
 
 import {
   TaskList
-} from 'production/task/pages'
+} from 'farmApp/production/task/pages'
 
 import {
   ProductionHeaderTab
-} from 'production/production/pages'
+} from 'farmApp/production/production/pages'
 
-import ProductionHeaderTabs from 'production/production/components/ProductionHeaderTabs'
+import ProductionHeaderTabs from 'farmApp/production/production/components/ProductionHeaderTabs'
 
 /**
  * Site

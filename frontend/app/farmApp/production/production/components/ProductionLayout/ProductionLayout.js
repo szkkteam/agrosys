@@ -27,11 +27,11 @@ import {
 
 import {
     FieldLayout
-} from 'resource/field/components'
+} from 'farmApp/production/field/components'
 
 import {
     SummaryLayout
-} from 'production/summary/components'
+} from 'farmApp/production/summary/components'
 
 import { useQuery } from 'utils/hooks'
 

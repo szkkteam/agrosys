@@ -14,7 +14,7 @@ import {
 
 import {
     BlockListItem
-} from 'resource/block/components'
+} from 'farmApp/resource/block/components'
 
 const Title = styled(Typography)`
     padding: 15px 0 10px 10px;

@@ -35,16 +35,16 @@ import './blockcreatemodal.scss'
 const OptionSection = ({
     title,
     description,
-    url,
+    ...props
 }) => {
 
     return (
         <Grid item xs={12}>
             <div className="option-button">
                 <LinkButton
-                    to={url}
                     variant="contained"
                     color="primary"
+                    {...props}
                 >
                     <FormattedMessage {...title} />
                 </LinkButton>
@@ -96,21 +96,21 @@ const BlockCreateModal = ({
                      && <OptionSection 
                             title={messages.drawTitle}
                             description={messages.drawDesc}
-                            url={ROUTES.BlockCreateDraw}
+                            to={ROUTES.BlockCreateDraw}
                             {...props}
                         /> }
                 { BLOCK_CREATE_OPTION_UPLOAD_FILE in options 
                      && <OptionSection 
                             title={messages.uploadTitle}
                             description={messages.uploadDesc}
-                            url={ROUTES.BlockCreateUpload}
+                            to={ROUTES.BlockCreateUpload}
                             {...props}
                         /> }
                 { BLOCK_CREATE_OPTION_LPIS_MEPAR in options 
                      && <OptionSection
                             title={messages.lpisTitle}
                             description={messages.lpisDesc}
-                            url={ROUTES.BlockCreateLPIS}
+                            to={ROUTES.BlockCreateLPIS}
                             {...props}
                         /> }
             </Grid>
