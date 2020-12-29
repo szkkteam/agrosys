@@ -13,7 +13,7 @@ const ResourceRailItem = ({
     return (
         <NavRailItem
             title={messages.title}
-            to={ROUTES.ResourceHeaderTab}
+            to={ROUTES.Resource}
             IconComponent={InboxIcon}
             {...rest}
         />       

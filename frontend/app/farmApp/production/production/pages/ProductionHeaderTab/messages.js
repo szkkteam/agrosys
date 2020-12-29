@@ -5,6 +5,6 @@ export const scope = 'app.farmApp.resource.ResourceHeaderTab'
 export default defineMessages({
     title: {
         id: `${scope}.title`,  
-        defaultMessage: 'Productions',
+        defaultMessage: 'Crop productions',
     },
   })

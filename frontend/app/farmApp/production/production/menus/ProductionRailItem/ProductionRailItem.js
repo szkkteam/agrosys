@@ -13,7 +13,7 @@ const ProductionRailItem = ({
     return (
         <NavRailItem
             title={messages.title}
-            to={ROUTES.ProductionHeaderTab}
+            to={ROUTES.Crop}
             IconComponent={AutorenewIcon}
             {...rest}
         />       

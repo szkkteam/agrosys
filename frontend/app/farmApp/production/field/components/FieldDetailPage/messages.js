@@ -26,5 +26,9 @@ export default defineMessages({
     fieldBlockTitle: {
         id: `${scope}.form.blockTitle`,  
         defaultMessage: 'Block Title',
+    },
+    cropTabTitle: {
+        id: `${scope}.CropTab.title`,  
+        defaultMessage: 'crop',
     },    
   })

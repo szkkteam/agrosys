@@ -9,8 +9,7 @@ import { useHeightDifference } from 'utils/hooks'
 import { ROUTES, ROUTE_MAP } from 'routes'
 
 import { 
-    Tabs,
-    TabLink
+    TabHeader,
 } from 'components'
 
 import { 
@@ -20,19 +19,13 @@ import {
     TAB_FIELDS,
     TAB_PESTS,
     TAB_ANALYSIS,
-    TAB_WEATHER
+    TAB_WEATHER,
+    TAB_SETTINGS
 } from '../../constants'
 
 
-
-const StyledTabs = styled(props => <Tabs {...props} />)`
-    padding: 10px 20px;
-`
-
 const ProductionHeaderTabs = ({
-    history,
     match,
-    location,
     ...props
 }) => {
     const intl = useIntl()
@@ -45,32 +38,18 @@ const ProductionHeaderTabs = ({
         //{to: ROUTES.CropMultiView, value: TAB_PESTS, label: intl.formatMessage(messages.tabPestsTitle)},
         {to: ROUTES.ProductionDetailAnalysis, value: TAB_ANALYSIS, label: intl.formatMessage(messages.tabAnalysisTitle)},
         {to: ROUTES.ProductionDetailWeather, value: TAB_WEATHER, label: intl.formatMessage(messages.tabWeatherTitle)},
+        {to: ROUTES.ProductionSettings, value: TAB_SETTINGS, label: intl.formatMessage(messages.tabSettingsTitle)},
     ]
 
-    let value = null
-    tabs.map(({ to, value: tabValue }) => {
-        const route = ROUTE_MAP[to]
-        const match = useRouteMatch({ path: route?.path, ...route.props})
-        if (match) {
-            value = tabValue
-        }
-    })
-
     return (
-        <StyledTabs
-            value={value}
-            orientation="horizontal"
-        >
-            { tabs && tabs.map((tab, i) => 
-                <TabLink key={i} {...tab} params={match.params} />    
-            )}            
-        </StyledTabs>
+        <TabHeader
+            items={tabs}
+            match={match}
+        />
     )
 }
 
 ProductionHeaderTabs.propTypes = {
-    //history: PropTypes.object.isRequired,
-    //match: PropTypes.object.isRequired,
 }
 
 export default ProductionHeaderTabs

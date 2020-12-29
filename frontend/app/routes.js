@@ -75,7 +75,8 @@ import {
 
 import {
   CropOverview,
-  CropTimeline
+  CropTimeline,
+  CropSettings
 } from 'farmApp/production/crop/pages'
 
 import {
@@ -83,6 +84,7 @@ import {
   ProductionCreate,
   ProductionDetail,
   ProductionTimeline,
+  ProductionSettings,
 } from 'farmApp/production/production/pages'
 
 
@@ -100,6 +102,7 @@ import {
 } from 'farmApp/production/production/pages'
 
 import ProductionHeaderTabs from 'farmApp/production/production/components/ProductionHeaderTabs'
+import CropHeaderTabs from 'farmApp/production/crop/components/CropHeaderTabs'
 
 /**
  * Site
@@ -153,7 +156,7 @@ export const ROUTES = {
   /**
    * Resources Keys
    */
-  ResourceHeaderTab: 'ResourceHeaderTab',
+  Resource: 'Resource',
 
   // Block
   BlockList: 'BlockList',
@@ -171,11 +174,13 @@ export const ROUTES = {
   /**
    * Productions keys
    */
-  ProductionHeaderTab: 'ProductionHeaderTab',
+  Production: 'Production',
 
   // Crop
+  Crop: 'Crop',
   CropTimeline: 'CropTimeline',
   CropOverview: 'CropOverview',
+  CropSettings: 'CropSettings',
 
   // Production
   ProductionMultiView: 'ProductionMultiView',
@@ -187,6 +192,7 @@ export const ROUTES = {
   ProductionDetailField: 'ProductionDetailField',
   ProductionDetailAnalysis: 'ProductionDetailAnalysis',
   ProductionDetailWeather: 'ProductionDetailWeather',
+  ProductionSettings: 'ProductionSettings',
   // Field
   FieldCreateDraw: 'FieldCreateDraw',
 
@@ -276,7 +282,7 @@ export const routes = [
    * Resources routes
    */
   {
-    key: ROUTES.ResourceHeaderTab,
+    key: ROUTES.Resource,
     path: '/resource',
     component: ResourceHeaderTab,
     routeComponent: ProtectedRoute,
@@ -346,7 +352,7 @@ export const routes = [
    * Production routes
    */
   {
-    key: ROUTES.ProductionHeaderTab,
+    key: ROUTES.Production,
     path: '/crops',
     component: ProductionHeaderTab,
     routeComponent: ProtectedRoute,
@@ -354,19 +360,29 @@ export const routes = [
     routes: [
       // Crops overall view (Timeline). Show all crops , productions and seasons
       {
-        key: ROUTES.CropOverview,
-        path: '/crops',
-        component: CropOverview,
+        key: ROUTES.Crop,
+        path: '/crops/overview',
+        component: CropHeaderTabs,
         routeComponent: ProtectedRoute,
-        props: { exact: true }
+        layoutComponent: HeaderContent,
+        //props: { exact: true },
+        routes: [
+          {
+            key: ROUTES.CropOverview,
+            path: '/crops/overview',
+            component: CropOverview,
+            routeComponent: ProtectedRoute,
+            props: { exact: true },
+          },
+          {
+            key: ROUTES.CropTimeline,
+            path: '/crops/overview/timeline',
+            component: CropTimeline,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },    
+        ],
       },
-      {
-        key: ROUTES.CropTimeline,
-        path: '/crops/timeline',
-        component: CropTimeline,
-        routeComponent: ProtectedRoute,
-        props: { exact: true }
-      },      
       {
         key: ROUTES.ProductionCreate,
         path: '/crops/:cropId/productions/new',
@@ -374,6 +390,13 @@ export const routes = [
         routeComponent: ProtectedRoute,
         props: { exact: true }
       },
+      {
+        key: ROUTES.CropSettings,
+        path: '/crops/:cropId/settings',
+        component: CropSettings,
+        routeComponent: ProtectedRoute,
+        props: { exact: true }
+      },      
       // Specific crop and production view (Subtabs). Show all resource to that specific production      
       {
         key: ROUTES.ProductionDetail,
@@ -396,7 +419,14 @@ export const routes = [
             component: ProductionTimeline,
             routeComponent: ProtectedRoute,
             props: { exact: true }
-          },          
+          },        
+          {
+            key: ROUTES.ProductionSettings  ,
+            path: '/crops/:cropId/productions/:productionId/settings',
+            component: ProductionSettings  ,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },                  
           {
             key: ROUTES.ProductionDetailTask,
             path: '/crops/:cropId/productions/:productionId/tasks',

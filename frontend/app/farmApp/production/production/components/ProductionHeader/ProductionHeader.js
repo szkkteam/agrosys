@@ -50,7 +50,7 @@ const ProductionHeader = ({
      */
 
     const items = [
-        {cropId: 0, label: intl.formatMessage(messages.productionMultiView), to: ROUTES.CropOverview},
+        {cropId: 0, label: intl.formatMessage(messages.productionMultiView), to: ROUTES.Crop},
         {cropId: 1, productionId: 1, label: "My wheat", to: ROUTES.ProductionDetail},
         {cropId: 2, productionId: 2, label: "My corn", to: ROUTES.ProductionDetail},
 

@@ -60,20 +60,7 @@ const FieldTabGeneral = ({
                     formProps={{fullWidth: true}}
                 />
             </Grid>
-            <Grid item xs={12}>
-                <TextField name="cropCode"
-                    label="Crop code"
-                    variant="outlined"
-                    formProps={{fullWidth: true}}
-                />
-            </Grid>
-            <Grid item xs={12}>
-                <TextField name="variant"
-                    label="Crop variant"
-                    variant="outlined"
-                    formProps={{fullWidth: true}}
-                />
-            </Grid>
+            
         </Grid>   
     ) 
 }

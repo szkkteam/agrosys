@@ -9,7 +9,7 @@ export default defineMessages({
     },
     tabSummaryTitle: {
         id: `${scope}.Summary.title`,  
-        defaultMessage: 'Summary',
+        defaultMessage: 'Seasons',
     },
     tabTasksTitle: {
         id: `${scope}.Tasks.title`,  
@@ -34,5 +34,9 @@ export default defineMessages({
     tabWeatherTitle: {
         id: `${scope}.Weather.title`,  
         defaultMessage: 'Weather',
+    },
+    tabSettingsTitle: {
+        id: `${scope}.Settings.title`,  
+        defaultMessage: 'Settings',
     },
   })

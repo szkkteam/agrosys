@@ -42,6 +42,8 @@ import {
 } from '../../components'
 
 const Container = styled.div`
+    padding: 0px 20px;
+    padding-top: 15px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -142,29 +144,26 @@ const FieldLayout = ({
 
     return (
         <Container>
-            <Table
-            >
-                <TableHeader
-                    title={messages.title}
-                >   
-                    <Grid
-                        container
-                        justify="flex-end"
-                    >
-                        <Grid item xs={8}>
-                            <FieldSummaryStats />
-                        </Grid>
-                        <FlexGrid item xs={4}>      
-                            <Spacer />
-                            <ViewButtonGroup
-                                items={views}
-                            />                      
-                        </FlexGrid>
+            <TableHeader
+                title={messages.title}
+            >   
+                <Grid
+                    container
+                    justify="flex-end"
+                >
+                    <Grid item xs={8}>
+                        <FieldSummaryStats />
                     </Grid>
-                </TableHeader>
-                <FieldRoutes 
-                />
-            </Table>        
+                    <FlexGrid item xs={4}>      
+                        <Spacer />
+                        <ViewButtonGroup
+                            items={views}
+                        />                      
+                    </FlexGrid>
+                </Grid>
+            </TableHeader>
+            <FieldRoutes 
+            />
         </Container>
     )
 }

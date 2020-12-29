@@ -12,5 +12,6 @@ export { SubmitButton, BackButton, SplitButton, SearchButton, PrimaryActionButto
 export { ViewButtonGroup } from './ButtonGroup'
 export { HeaderContent, MasterDetail, Content, SideSheet, HeaderContentContext } from './Layout'
 export { TabLink, Tabs, TabsButton, TabButton } from './Tab'
+export { TabHeader } from './Header'
 export { MasterList } from './List'
 export { Popover } from './Popover'

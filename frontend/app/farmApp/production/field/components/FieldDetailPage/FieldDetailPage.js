@@ -21,6 +21,7 @@ import { LeafletMap } from 'components/Map/components'
 
 import FieldTabGeneral from './FieldTabGeneral'
 import FieldTabSubsidies from './FieldTabSubsidies'
+import FieldTabCrop from './FieldTabCrop'
 
 const MapSnapshot = styled(LeafletMap)`
     width: 100%;
@@ -92,6 +93,8 @@ const FieldDetailPage = ({
                 return FieldTabGeneral
             case 1: 
                 return FieldTabSubsidies
+            case 2:
+                return FieldTabCrop
             default:
                 return null
         }
@@ -128,6 +131,7 @@ const FieldDetailPage = ({
                                     >
                                         <Tab label={intl.formatMessage(messages.generalTabTitle)} {...tabProps(0)} />
                                         <Tab label={intl.formatMessage(messages.lpisTabTitle)} {...tabProps(1)} />
+                                        <Tab label={intl.formatMessage(messages.cropTabTitle)} {...tabProps(2)} />                                        
                                     </Tabs>
                                 </div>
                             </Grid>                        

@@ -1,10 +1,10 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.production.production.ProductionRailItem'
+export const scope = 'app.production.crop.CropSettings'
 
 export default defineMessages({
     title: {
         id: `${scope}.title`,  
-        defaultMessage: 'Crop',
-    }
-})
+        defaultMessage: 'Crops XXX - Settings',
+    },
+  })

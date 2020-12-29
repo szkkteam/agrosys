@@ -40,6 +40,8 @@ import {
 } from '../../components'
 
 const Container = styled.div`
+    padding: 0px 20px;
+    padding-top: 15px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -86,36 +88,32 @@ const TaskLayout = ({
         <Container
             ref={containerRef}
         >
-            <Table
-            >
-                <TableHeader
-                    ref={headerRef}
-                    title={ currentView === VIEW_CALENDAR? messages.calendarTitle : messages.listTitle}
-                >   
-                    <Grid
-                        container
-                        justify="flex-end"
-                    >
-                        <FlexGrid item xs={9}>
-                            <Spacer />
-                            <PrimaryActionButton
-                                title={messages.addNewTitle}
-                            />
-                        </FlexGrid>
-                        <FlexGrid item xs={3}>      
-                            <Spacer />
-                            <ViewButtonGroup
-                                handleChange={setCurrentView}
-                                items={views}
-                            />                      
-                        </FlexGrid>
-                    </Grid>
-                </TableHeader>
-                <TaskRoutes 
-                    height={height - 10}
-                />
-            </Table>  
-
+            <TableHeader
+                ref={headerRef}
+                title={ currentView === VIEW_CALENDAR? messages.calendarTitle : messages.listTitle}
+            >   
+                <Grid
+                    container
+                    justify="flex-end"
+                >
+                    <FlexGrid item xs={9}>
+                        <Spacer />
+                        <PrimaryActionButton
+                            title={messages.addNewTitle}
+                        />
+                    </FlexGrid>
+                    <FlexGrid item xs={3}>      
+                        <Spacer />
+                        <ViewButtonGroup
+                            handleChange={setCurrentView}
+                            items={views}
+                        />                      
+                    </FlexGrid>
+                </Grid>
+            </TableHeader>
+            <TaskRoutes 
+                height={height - 10}
+            />
         </Container>
     )
 }
