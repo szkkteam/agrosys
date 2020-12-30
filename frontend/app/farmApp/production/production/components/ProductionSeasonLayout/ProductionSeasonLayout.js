@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { Redirect, useLocation, Switch } from "react-router-dom";
 import { withLinkComponent } from 'utils/hoc'
+import { useHeightDifference } from 'utils/hooks'
 import { HashRoute } from 'utils/route'
 import { ROUTES } from 'routes'
 
@@ -20,7 +21,7 @@ import {
 } from 'components'
 
 import {
-    //CropModuleLayout,
+    ProductionListLayout,
     //CropListLayout,
 } from '../../components'
 
@@ -55,8 +56,8 @@ const ProductionRoutes = ({
     return (
         <>
             <HashRoute path={VIEW_MODULE} component={props => <Placeholder height={height} {...props} />} />
-            <HashRoute path={VIEW_LIST} component={props => <Placeholder height={height} {...props} />} />
-            <HashRoute path="" component={({location}) => <Redirect to={{...location, hash: VIEW_MODULE}} />} />
+            <HashRoute path={VIEW_LIST} component={props => <ProductionListLayout height={height} {...props} />} />
+            <HashRoute path="" component={({location}) => <Redirect to={{...location, hash: VIEW_LIST}} />} />
         </>
     )
 }
@@ -66,35 +67,46 @@ const ProductionSeasonLayout = ({
 
 }) => {
 
+    const parentRef = useRef(null)
+    const headerRef = useRef(null)
+
    const views = [
         {value: VIEW_MODULE, icon: ViewModuleIcon},
         {value: VIEW_LIST, icon: ListIcon},
     ]
 
+    const height = useHeightDifference(parentRef, headerRef)
+    console.debug("ProductionSeasonLayout - Height: ", height)
+
     return (
-        <Container>
+        <Container
+            ref={parentRef}
+        >
             <TableHeader
+                ref={headerRef}
                 title={messages.title}
             >   
                 <Grid
-                        container
-                        justify="flex-end"
-                    >
-                        <FlexGrid item xs={9}>
-                            <Spacer />
-                            <PrimaryActionButton
-                                title={messages.addNewTitle}
-                            />
-                        </FlexGrid>
-                        <FlexGrid item xs={3}>      
-                            <Spacer />
-                            <ViewButtonGroup
-                                items={views}
-                            />
-                        </FlexGrid>
-                    </Grid>
+                    container
+                    justify="flex-end"
+                >
+                    <FlexGrid item xs={9}>
+                        <Spacer />
+                        <PrimaryActionButton
+                            title={messages.addNewTitle}
+                        />
+                    </FlexGrid>
+                    <FlexGrid item xs={3}>      
+                        <Spacer />
+                        <ViewButtonGroup
+                            items={views}
+                        />
+                    </FlexGrid>
+                </Grid>
             </TableHeader>
-            <ProductionRoutes />
+            <ProductionRoutes 
+                height={height}
+            />
         </Container>
     )
 }

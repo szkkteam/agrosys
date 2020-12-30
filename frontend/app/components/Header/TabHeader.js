@@ -2,7 +2,7 @@ import React, { useRef, useMemo, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
-import { useRouteMatch, useLocation, Switch } from "react-router-dom";
+import { useRouteMatch, useParams, Switch } from "react-router-dom";
 import { ROUTES, ROUTE_MAP } from 'routes'
 
 import Tabs from '../Tab/Tabs'
@@ -28,6 +28,8 @@ const TabHeader = ({
         }
     })
 
+    const params = useParams()
+
     return (
         <StyledTabs
             value={value}
@@ -35,7 +37,7 @@ const TabHeader = ({
             {...props}
         >
             { items && items.map((tab, i) => 
-                <TabLink key={i} {...tab} params={match.params} />    
+                <TabLink key={i} {...tab} params={params} />    
             )}            
         </StyledTabs>
     )

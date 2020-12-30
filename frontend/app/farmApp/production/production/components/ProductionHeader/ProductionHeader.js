@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import messages from './messages';
 import styled from 'styled-components'
 import { useIntl, FormattedMessage } from 'react-intl'
-import { useLocation, useRouteMatch } from 'react-router-dom'
+import { useParams, useRouteMatch, Redirect } from 'react-router-dom'
 import { ROUTES, ROUTE_MAP } from 'routes'
 
 import {
@@ -58,39 +58,47 @@ const ProductionHeader = ({
         //{id: 4, label: "My bbbbb", to: ROUTES.ProductionDetail},
     ]
 
-    let value = 0
-    const route = ROUTE_MAP[ROUTES.ProductionDetail]
-    const match = useRouteMatch({ path: route.path, ...route.props, })
-    if (match) {
-        value = parseInt(match.params.cropId)
+    //const { cropId = "0" } = useParams()
 
-    }
+    let cropId = null
+    let foundMatch = null
+    items.map(({ to, cropId: tabValue }) => {
+        const route = ROUTE_MAP[to]
+        const matched = useRouteMatch({ path: route?.path, ...route.props})
+        if (matched) {
+            foundMatch = matched
+            cropId = matched.params.cropId || "0"
+        }
+    })
     
     return (
         <Portal container={appBarTabsRef.current}>
-            <Tabs
-                value={value}
-                orientation="horizontal"
-                variant="scrollable"
-                scrollButtons="auto"
-                TabIndicatorProps={{
-                    style: {
-                        height: "85%",
-                        backgroundColor: "white",
-                        zIndex: "-1",
-                        borderTopLeftRadius: "15px",
-                        borderTopRightRadius: "15px",
+            { !foundMatch
+                ? <Redirect to={ROUTE_MAP[ROUTES.Crop].toPath()} />
+                : <Tabs
+                    value={parseInt(cropId)}
+                    orientation="horizontal"
+                    variant="scrollable"
+                    scrollButtons="auto"
+                    TabIndicatorProps={{
+                        style: {
+                            height: "85%",
+                            backgroundColor: "white",
+                            zIndex: "-1",
+                            borderTopLeftRadius: "15px",
+                            borderTopRightRadius: "15px",
 
+                        }
+                    }}
+                >
+                    { items && items.map((item, i) => {
+                        const { to, label, ...params } = item
+                        return <StyledTab key={i} to={to} label={label} params={{...params}} value={params.cropId} />
                     }
-                }}
-            >
-                { items && items.map((item, i) => {
-                    const { to, label, ...params } = item
-                    return <StyledTab key={i} to={to} label={label} params={{...params}} value={params.cropId} />
-                }
-                        
-                )}
-            </Tabs>
+                            
+                    )}
+                </Tabs> 
+            }
         </Portal>           
     )
 }
