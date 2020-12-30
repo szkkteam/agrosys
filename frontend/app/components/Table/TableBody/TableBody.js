@@ -25,6 +25,7 @@ import { useHeightDifference } from 'utils/hooks'
 import TableToolbar from '../TableToolbar'
 
 import './tablebody.scss'
+import { object } from 'prop-types';
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -49,6 +50,7 @@ const tableIcons = {
 export default ({
     height,
     options={},
+    components={},
     cellEditable = null,
     onCellEditStarted = null,
     onCellEditFinished = null,
@@ -82,24 +84,25 @@ export default ({
         })
     } 
 
+    const defaultComponents = {
+        ...Object.assign(components, {
+            Toolbar: props => (
+                <TableToolbar ref={toolbarRef} {...props} myProps={1}/>
+            )
+        })
+    }
+
     return (
         <MaterialTable
             columns={columns}
             icons={tableIcons}
-            options={{
-                ...options,
-                ...defaultOptions
-            }}
+            options={defaultOptions}
             style={{
                 //backgroundColor: "#E0E0E0",
                 borderRadius: "initial",
                 boxShadow: "initial",
             }}            
-            components={{
-                Toolbar: props => (
-                    <TableToolbar ref={toolbarRef} {...props} myProps={1}/>
-                )
-            }}
+            components={defaultComponents}
             {...props}
         />
     )

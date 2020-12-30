@@ -15,7 +15,7 @@ import {
 import {
   FarmCreate,
   FarmDashboard,
-} from 'resource/farm/pages'
+} from 'farmApp/resource/farm/pages'
 
 import {
   BlockList,
@@ -23,31 +23,27 @@ import {
   BlockCreateDraw,
   BlockCreateUpload,
   BlockCreateLPIS
-} from 'resource/block/pages'
+} from 'farmApp/resource/block/pages'
 
 import {
   WorkerList,
-} from 'resource/worker/pages'
+} from 'farmApp/resource/worker/pages'
 
 import {
   MachineryList
-} from 'resource/machinery/pages'
+} from 'farmApp/resource/machinery/pages'
 
 import {
   EntityList
-} from 'resource/entity/pages'
-
-import {
-  FieldCreateDraw
-} from 'resource/field/pages'
+} from 'farmApp/resource/entity/pages'
 
 import {
   InventoryList
-} from 'resource/inventory/pages'
+} from 'farmApp/resource/inventory/pages'
 
 import {
   ResourceHeaderTab
-} from 'resource/resource/pages'
+} from 'farmApp/resource/resource/pages'
 
 /**
  * Finance
@@ -55,15 +51,15 @@ import {
 
 import {
   SaleDashboard
-} from 'finance/sale/pages'
+} from 'farmApp/finance/sale/pages'
 
 import {
   ExpenseDashboard
-} from 'finance/expense/pages'
+} from 'farmApp/finance/expense/pages'
 
 import {
   BudgetDashboard
-} from 'finance/budget/pages'
+} from 'farmApp/finance/budget/pages'
 
 /**
  * Reports
@@ -71,22 +67,42 @@ import {
 
 import {
   ReportDashboard
-} from 'report/report/pages'
+} from 'farmApp/report/report/pages'
 
 /**
  * Production
  */
 
 import {
-  ProductionMultiView,
+  CropOverview,
+  CropTimeline,
+  CropSettings
+} from 'farmApp/production/crop/pages'
+
+import {
+  ProductionSummary,
   ProductionCreate,
   ProductionDetail,
-} from 'production/production/pages'
+  ProductionTimeline,
+  ProductionSettings,
+} from 'farmApp/production/production/pages'
 
 
 import {
+  FieldCreateDraw,
+  FieldList,
+} from 'farmApp/production/field/pages'
+
+import {
+  TaskList
+} from 'farmApp/production/task/pages'
+
+import {
   ProductionHeaderTab
-} from 'production/production/pages'
+} from 'farmApp/production/production/pages'
+
+import ProductionHeaderTabs from 'farmApp/production/production/components/ProductionHeaderTabs'
+import CropHeaderTabs from 'farmApp/production/crop/components/CropHeaderTabs'
 
 /**
  * Site
@@ -140,7 +156,7 @@ export const ROUTES = {
   /**
    * Resources Keys
    */
-  ResourceHeaderTab: 'ResourceHeaderTab',
+  Resource: 'Resource',
 
   // Block
   BlockList: 'BlockList',
@@ -158,14 +174,28 @@ export const ROUTES = {
   /**
    * Productions keys
    */
-  ProductionHeaderTab: 'ProductionHeaderTab',
+  Production: 'Production',
+
+  // Crop
+  Crop: 'Crop',
+  CropTimeline: 'CropTimeline',
+  CropOverview: 'CropOverview',
+  CropSettings: 'CropSettings',
 
   // Production
   ProductionMultiView: 'ProductionMultiView',
+  ProductionTimeline: 'ProductionTimeline',
   ProductionCreate: 'ProductionCreate',
   ProductionDetail: 'ProductionDetail',
+  ProductionDetailSummary: 'ProductionDetailSummary',
+  ProductionDetailTask: 'ProductionDetailTask',
+  ProductionDetailField: 'ProductionDetailField',
+  ProductionDetailAnalysis: 'ProductionDetailAnalysis',
+  ProductionDetailWeather: 'ProductionDetailWeather',
+  ProductionSettings: 'ProductionSettings',
   // Field
   FieldCreateDraw: 'FieldCreateDraw',
+
 
   // Inventory
   InventoryList: 'InventoryList',
@@ -252,7 +282,7 @@ export const routes = [
    * Resources routes
    */
   {
-    key: ROUTES.ResourceHeaderTab,
+    key: ROUTES.Resource,
     path: '/resource',
     component: ResourceHeaderTab,
     routeComponent: ProtectedRoute,
@@ -322,40 +352,122 @@ export const routes = [
    * Production routes
    */
   {
-    key: ROUTES.ProductionHeaderTab,
-    path: '/productions',
+    key: ROUTES.Production,
+    path: '/crops',
     component: ProductionHeaderTab,
     routeComponent: ProtectedRoute,
     layoutComponent: Content,
     routes: [
+      // Crops overall view (Timeline). Show all crops , productions and seasons
+      {
+        key: ROUTES.Crop,
+        path: '/crops/overview',
+        component: CropHeaderTabs,
+        routeComponent: ProtectedRoute,
+        layoutComponent: HeaderContent,
+        //props: { exact: true },
+        routes: [
+          {
+            key: ROUTES.CropOverview,
+            path: '/crops/overview',
+            component: CropOverview,
+            routeComponent: ProtectedRoute,
+            props: { exact: true },
+          },
+          {
+            key: ROUTES.CropTimeline,
+            path: '/crops/overview/timeline',
+            component: CropTimeline,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },    
+        ],
+      },
       {
         key: ROUTES.ProductionCreate,
-        path: '/productions/new',
+        path: '/crops/:cropId/productions/new',
         component: ProductionCreate,
         routeComponent: ProtectedRoute,
         props: { exact: true }
       },
       {
-        key: ROUTES.ProductionMultiView,
-        path: '/productions',
-        component: ProductionMultiView,
+        key: ROUTES.CropSettings,
+        path: '/crops/:cropId/settings',
+        component: CropSettings,
         routeComponent: ProtectedRoute,
         props: { exact: true }
-      },
+      },      
+      // Specific crop and production view (Subtabs). Show all resource to that specific production      
       {
         key: ROUTES.ProductionDetail,
-        path: '/productions/:id',
-        component: ProductionDetail,
+        path: '/crops/:cropId/productions/:productionId',
+        component: ProductionHeaderTabs,
         routeComponent: ProtectedRoute,
-        props: { exact: true }
+        layoutComponent: HeaderContent,
+        routes: [
+          {
+            key: ROUTES.ProductionDetailSummary,
+            path: '/crops/:cropId/productions/:productionId',
+            component: ProductionSummary,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }            
+          },
+          // TODO: Maybe move the timeline into the summary page?
+          {
+            key: ROUTES.ProductionTimeline,
+            path: '/crops/:cropId/productions/:productionId/timeline',
+            component: ProductionTimeline,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },        
+          {
+            key: ROUTES.ProductionSettings  ,
+            path: '/crops/:cropId/productions/:productionId/settings',
+            component: ProductionSettings  ,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },                  
+          {
+            key: ROUTES.ProductionDetailTask,
+            path: '/crops/:cropId/productions/:productionId/tasks',
+            component: TaskList,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },
+          {
+            key: ROUTES.FieldCreateDraw,
+            path: '/crops/:cropId/productions/:productionId/parcels/new',
+            component: FieldCreateDraw,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },
+          {
+            key: ROUTES.ProductionDetailField,
+            path: '/crops/:cropId/productions/:productionId/parcels',
+            component: FieldList,
+            routeComponent: ProtectedRoute,
+            props: { exact: false } // Set to false, to prevent error in parcel/new page. This must be the last
+          },
+          {
+            key: ROUTES.ProductionDetailAnalysis,
+            path: '/crops/:cropId/productions/:productionId/analysis',
+            component: ProductionDetail,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },
+          {
+            key: ROUTES.ProductionDetailWeather,
+            path: '/crops/:cropId/productions/:productionId/weather',
+            component: ProductionDetail,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },
+          
+        ]
       },
-      {
-        key: ROUTES.FieldCreateDraw,
-        path: '/productions/:id/parcel/new/draw',
-        component: FieldCreateDraw,
-        routeComponent: ProtectedRoute,
-        props: { exact: true }
-      }
+      
+      
+
   ]
   },
   // Inventory routes  
@@ -465,11 +577,12 @@ const complieRoutes = (routes) => {
 complieRoutes(routes)
 console.log(ROUTE_MAP)
 
-console.log("headerComntent: ", HeaderContent)
-
 // TODO: How to add the 404 route?
 // cachedRoutes.push(<Route component={NotFound} key="*" />)
  
+/*
+  FIXME: Somehow for nested rotues the whole tree is re-rendered
+*/
 const CustomRouter = ({routes}) => {
   return (
       <Switch>
