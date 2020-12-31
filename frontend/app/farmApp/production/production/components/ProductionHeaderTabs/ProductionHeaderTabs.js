@@ -10,6 +10,7 @@ import { ROUTES, ROUTE_MAP } from 'routes'
 
 import { 
     TabHeader,
+    SplitButton
 } from 'components'
 
 import { 
@@ -23,6 +24,18 @@ import {
     TAB_SETTINGS
 } from '../../constants'
 
+import {
+    ProductionSeasonSelector
+} from '../../components'
+
+const Container = styled.div`
+    display: flex;
+    align-items: center;
+`
+
+const SelectorContainer = styled.div`
+    margin-left: 15px;
+`
 
 const ProductionHeaderTabs = ({
     match,
@@ -42,10 +55,15 @@ const ProductionHeaderTabs = ({
     ]
 
     return (
-        <TabHeader
-            items={tabs}
-            match={match}
-        />
+        <Container>
+            <SelectorContainer>
+                <ProductionSeasonSelector />
+            </SelectorContainer>
+            <TabHeader
+                items={tabs}
+                match={match}
+            />
+        </Container>
     )
 }
 
