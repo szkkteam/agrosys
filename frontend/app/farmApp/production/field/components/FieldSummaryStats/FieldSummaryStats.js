@@ -49,10 +49,8 @@ const StyledButtonGroup = styled(ButtonGroup)`
 `
 
 const GridContainer = styled(Grid)`
-    ${({ theme }) => `
     border: 1px solid rgba(35, 149, 83, 0.5);
     padding: 5px 20px;
-    `}
 `
 
 const StatButton = ({

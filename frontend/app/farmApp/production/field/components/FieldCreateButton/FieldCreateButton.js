@@ -18,7 +18,7 @@ const FieldCreateButton = forwardRef(({
     pushModalWindow,
     ...props
 }, ref) => {
-
+    console.debug("FieldCreateButton ref: ", ref)
     const params = useParams()
 
     return (
