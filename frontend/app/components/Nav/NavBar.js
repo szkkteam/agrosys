@@ -19,7 +19,7 @@ import { InventoryRailItem } from 'farmApp/resource/inventory/menus'
 //import { WorkerMenuItem } from 'farmApp/worker/menus'
 //import { MachineryMenuItem } from 'farmApp/machinery/menus'
 //import { StorageMenuItem } from 'farmApp/storage/menus'
-import { DashboardMenuItem, DashboardRailItem } from 'farmApp/dashboard/menus'
+import { DashboardMenuItem, DashboardRailItem } from 'farmApp/dashboard/dashboard/menus'
 
 //import { SaleMenuItem } from 'farmApp/sale/menus'
 //import { ExpenseMenuItem } from 'farmApp/expense/menus'

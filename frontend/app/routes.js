@@ -4,10 +4,12 @@ import startCase from 'lodash/startCase'
 import { compile } from 'path-to-regexp'
 import Content from 'components/Layout/Content'
 import HeaderContent from 'components/Layout/HeaderContent'
-
+/**
+ * Dashboard
+ */
 import {
   DashboardHome
-} from 'farmApp/dashboard/pages'
+} from 'farmApp/dashboard/dashboard/pages'
 
 /**
  * Resources
@@ -209,6 +211,7 @@ export const ROUTES = {
   ResetPassword: 'ResetPassword',  
   SignUp: 'SignUp',
   Styles: 'Styles',  
+  NotFound: 'NotFound',
 }
 
 /**
@@ -534,13 +537,19 @@ export const routes = [
     label: 'Reset Password',
     props: { exact: true }
   },
-    {
+  {
     key: ROUTES.SignUp,
     path: '/sign-up',
     component: SignUp,
     routeComponent: AnonymousRoute,
     label: 'Sign Up',
     props: { exact: true }
+  },
+  {
+    key: ROUTES.NotFound,
+    path: '*',
+    component: NotFound,
+    label: 'Not found',
   },
 ]
 
