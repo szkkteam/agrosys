@@ -123,7 +123,9 @@ const CropCard = ({
                         //unmountOnExit
                     >
                         { productionItems && productionItems.map((item, i) => (
-                            <CropProductionItem />
+                            <CropProductionItem
+                                key={i}
+                            />
                         )) }
                     </ScrollCollapse>
                 </List>               

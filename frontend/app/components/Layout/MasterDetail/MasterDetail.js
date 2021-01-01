@@ -5,10 +5,36 @@ import styled from 'styled-components'
 import Grid from '@material-ui/core/Grid';
 
 import { useSplitComponents } from 'utils/hooks'
-
+/*
 const Container = styled(Grid)`
     //height: ${props => props.height? `${props.height}px` : '100%'};
     flex-grow: 1;
+`
+*/
+
+const masterWidth = 450
+
+const Container = styled.div`
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    position: relative;
+`
+
+
+const MasterContainer = styled.div`
+    display: flex;
+    height: 100%;
+    width: ${masterWidth}px;
+    padding-right: 10px;
+    & > div {
+        width: 100%;
+    }
+`
+
+const DetailContainer = styled.div`
+    height: 100%;
+    width: 100%;
 `
 
 const MasterDetail = ({
@@ -23,24 +49,22 @@ const MasterDetail = ({
 
     return (
         <Container
-            container
-            spacing={1}
             {...props}
         >
-            <Container item xs={masterSize}>
+            <MasterContainer>
                 {_.isFunction(masterComponent)? 
                     masterComponent()
                     : 
                     masterComponent
                 }
-            </Container>
-            <Container item xs={detailSize}>
+            </MasterContainer>
+            <DetailContainer>
                 {_.isFunction(detailComponent)? 
                     detailComponent()
                     : 
                     detailComponent
                 }
-            </Container>
+            </DetailContainer>
         </Container>
     )
 }

@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState, forwardRef } from 'react'
+import React, { useContext, useRef, useEffect, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { useRouteMatch, useHistory } from "react-router-dom";
@@ -14,6 +14,10 @@ import {
 
 const Container = styled.div`
     position: relative;
+    height: 100%;
+`
+
+const ScrollListContainer = styled.div`
     height: 100%;
 `
 
@@ -46,6 +50,14 @@ const MasterList = ({
     const listRef = useRef(null)
 
     const height = useHeightDifference(listRef, buttonRef || 0, maxHeight)
+
+    useEffect(() => {
+        
+        console.debug("addButton: ", addButton)
+        console.debug("buttonRef: ", buttonRef)
+    })
+
+
 
     // TODO: Do we really need match and history?
     // TODO: Implement a onClick global handler
@@ -83,9 +95,7 @@ const MasterList = ({
                         }
                     ))}
                 </ScrollList>
-                { addButton && React.cloneElement(addButton, {
-                    ref: buttonRef
-                }) }
+                { addButton && React.cloneElement(addButton, { ref: buttonRef }) }
             </MasterListContext.Provider>
         </Container>
     )

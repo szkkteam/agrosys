@@ -2,6 +2,9 @@ import React, { useState, useRef, useLayoutEffect } from 'react'
 import messages from './messages';
 import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
+import { useHistory, useParams } from 'react-router-dom'
+import { ROUTES } from 'routes'
+import { useRouteMap } from 'utils/hooks'
 
 import { 
     Table,
@@ -22,6 +25,9 @@ const ProductionListLayout = ({
     ...props
 }) => {
     const intl = useIntl()
+    const history = useHistory()
+    const { cropId, productionId } = useParams()
+    const route = useRouteMap(ROUTES.ProductionDetail)
 
     const headerRef = useRef(null)
 
@@ -33,6 +39,10 @@ const ProductionListLayout = ({
         { title: 'Status', field: 'status' , defaultGroupOrder: 0, defaultGroupSort: 'desc'}
     ]
 
+    const handleRowClick = (e, rowData) => {
+        history.push(route.toPath({cropId, productionId}))
+    }
+
     console.debug("data: ", data)
 
     return (
@@ -40,6 +50,7 @@ const ProductionListLayout = ({
                 columns={columns}
                 height={parentHeight}
                 data={data}
+                onRowClick={handleRowClick}
                 options={{
                     grouping: true,
                     defaultExpanded: true,
