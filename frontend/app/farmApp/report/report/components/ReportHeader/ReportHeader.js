@@ -8,7 +8,12 @@ import { ROUTES, ROUTE_MAP } from 'routes'
 
 import { PageHeader } from 'components'
 
-const ProductionHeader = ({
+import {
+    TAB_COUNTRY,
+    TAB_RESOURCE
+} from '../../constants'
+
+const ReportHeader = ({
     ...props
 }) => {
     const intl = useIntl()
@@ -26,46 +31,38 @@ const ProductionHeader = ({
      */
 
     const items = [
-        {cropId: 0, value: 0, label: intl.formatMessage(messages.productionMultiView), to: ROUTES.Crop},
-        {cropId: 1, value: 1, productionId: 1, label: "My wheat", to: ROUTES.ProductionDetail},
-        {cropId: 2, value: 2, productionId: 2, label: "My corn", to: ROUTES.ProductionDetail},
-
-        //{id: 3, label: "My asdasd", to: ROUTES.ProductionDetail},
-        //{id: 4, label: "My bbbbb", to: ROUTES.ProductionDetail},
+        
+        {value: TAB_COUNTRY, label: intl.formatMessage(messages.tabResourceTitle), to: ROUTES.ReportResource},
+        {value: TAB_RESOURCE, label: intl.formatMessage(messages.tabCountryTitle), to: ROUTES.ReportCountry},
     ]
 
     //const { cropId = "0" } = useParams()
 
-    let cropId = null
-    let foundMatch = null
-    items.map(({ to, cropId: tabValue }) => {
+
+    let value = null
+    items.map(({ to, value: tabValue }) => {
         const route = ROUTE_MAP[to]
         const matched = useRouteMatch({ path: route?.path, ...route.props})
         if (matched) {
-            foundMatch = matched
-            cropId = matched.params.cropId || "0"
+            value = tabValue
         }
     })
-    console.debug("foundMatch: ", foundMatch)
-    console.debug("cropId: ", cropId)
     
     return (
         <PageHeader 
             items={items}
-            value={foundMatch? parseInt(cropId) : null}
-            redirectTo={ROUTES.Crop}
-            
+            value={value}
+           
         />                 
     )
 }
 
-ProductionHeader.propTypes = {
+ReportHeader.propTypes = {
     match: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
 }
 
-export default ProductionHeader
-
+export default ReportHeader
 
 
 

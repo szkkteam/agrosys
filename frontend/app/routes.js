@@ -66,8 +66,22 @@ import {
  */
 
 import {
-  ReportDashboard
+  ReportDashboard,
+  ReportHeader
 } from 'farmApp/report/report/pages'
+
+import {
+  CountrySummary,
+  CountryGn,
+} from 'farmApp/report/country/pages'
+
+import {
+  ResourceBlock,
+  ResourceMachinery,
+  ResourceWorker,
+  ResourceUsage,
+  ResourceInventory
+} from 'farmApp/report/resource/pages'
 
 /**
  * Production
@@ -103,6 +117,8 @@ import {
 
 import ProductionHeaderTabs from 'farmApp/production/production/components/ProductionHeaderTabs'
 import CropHeaderTabs from 'farmApp/production/crop/components/CropHeaderTabs'
+import CountryTabHeader from 'farmApp/report/country/components/CountryTabHeader'
+import ResourceTabHeader from 'farmApp/report/resource/components/ResourceTabHeader'
 
 /**
  * Site
@@ -137,8 +153,22 @@ export const ROUTES = {
   // Dashboard
   DashboardHome: 'DashboardHome',
 
-  // Report
+  /**
+   * Report keys
+   */
+  Report: 'Report',
   ReportDashboard: 'ReportDashboard',
+  // Report - Country
+  ReportCountry: 'Country',
+  ReportCountrySummary: 'CountrySummary',
+  ReportCountryGn: 'CountryGn',
+  // Report - Resource
+  ReportResource: 'ReportResource',
+  ReportResourceBlock: 'ReportResourceBlock',
+  ReportResourceMachinery: 'ReportResourceMachinery',
+  ReportResourceWorker: 'ReportResourceWorker',
+  ReportResourceUsage: 'ReportResourceUsage',
+  ReportResourceInventory: 'ReportResourceInventory',
 
   // Sale
   SaleDashboard: 'SaleDashboard',
@@ -233,11 +263,85 @@ export const routes = [
   },
   // Report routes  
   {
-    key: ROUTES.ReportDashboard,
+    key: ROUTES.Report,
     path: '/reports',
-    component: ReportDashboard,
+    component: ReportHeader,
     routeComponent: ProtectedRoute,
-    props: { exact: true}
+    layoutComponent: Content,
+    routes: [
+      // Crops overall view (Timeline). Show all crops , productions and seasons
+      {
+        key: ROUTES.ReportCountry,
+        path: '/reports/country',
+        component: CountryTabHeader,
+        routeComponent: ProtectedRoute,
+        layoutComponent: HeaderContent,
+        //props: { exact: true },
+        routes: [
+          // TODO: Maybe remove this? I think we don't need a summary here
+          {
+            key: ROUTES.ReportCountrySummary,
+            path: '/reports/country',
+            component: CountrySummary,
+            routeComponent: ProtectedRoute,
+            props: { exact: true },
+          },
+          {
+            key: ROUTES.ReportCountryGn,
+            path: '/reports/country/gazdasagi-naplo',
+            component: CountryGn,
+            routeComponent: ProtectedRoute,
+            props: { exact: true },
+          },
+        ]
+      },
+      {
+        key: ROUTES.ReportResource,
+        path: '/reports/resource',
+        component: ResourceTabHeader,
+        routeComponent: ProtectedRoute,
+        layoutComponent: HeaderContent,
+        //props: { exact: true },
+        routes: [          
+          {
+            key: ROUTES.ReportResourceUsage,
+            path: '/reports/resource/usage',
+            component: ResourceUsage,
+            routeComponent: ProtectedRoute,
+            props: { exact: true },
+          },
+          {
+            key: ROUTES.ReportResourceBlock,
+            path: '/reports/resource/fields',
+            component: ResourceBlock,
+            routeComponent: ProtectedRoute,
+            props: { exact: true },
+          },
+          {
+            key: ROUTES.ReportResourceMachinery,
+            path: '/reports/resource/machinery',
+            component: ResourceMachinery,
+            routeComponent: ProtectedRoute,
+            props: { exact: true },
+          },
+          {
+            key: ROUTES.ReportResourceWorker,
+            path: '/reports/resource/worker',
+            component: ResourceWorker,
+            routeComponent: ProtectedRoute,
+            props: { exact: true },
+          },
+          {
+            key: ROUTES.ReportResourceInventory,
+            path: '/reports/resource/inventory',
+            component: ResourceInventory,
+            routeComponent: ProtectedRoute,
+            props: { exact: true },
+          },
+          
+        ]
+      },
+    ]
   },
   // Sale routes  
   {
