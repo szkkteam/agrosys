@@ -51,6 +51,7 @@
     "react": "^16.13.1",
     "react-big-calendar": "^0.26.0",
     "react-dom": "^16.8.0",
+    "react-grid-layout": "^1.2.0",
     "react-helmet": "^5.2.0",
     "react-highlight": "github:briancappello/react-highlight#react-v16-compiled",
     "react-intl": "^5.8.8",

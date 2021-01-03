@@ -4,9 +4,14 @@ import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 
-import { PageContent } from 'components'
+import { DashboardLayout } from '../../components'
 
 import { usePageTitle } from 'utils/hooks'
+
+const Container = styled.div`
+    height: 100%;
+    width: 100%;
+`
 
 export default ({
 
@@ -16,13 +21,13 @@ export default ({
     usePageTitle(messages.title)
 
     return (
-        <div style={{height: "50%"}}>
+        <Container>
             <Helmet>
                 <title>
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <h1>Dashboard home view</h1>
-        </div>
+            <DashboardLayout />
+        </Container>
     )
 }
