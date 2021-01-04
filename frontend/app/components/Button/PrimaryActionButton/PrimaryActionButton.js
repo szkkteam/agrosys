@@ -6,26 +6,25 @@ import { FormattedMessage } from 'react-intl';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Button from '@material-ui/core/Button';
 
-const PrimaryActionButton = ({
+const PrimaryActionButton = forwardRef(({
     title,
-    onClick,
     Icon=AddCircleIcon,
     ...props
-}) => {
+}, ref) => {
     return (
         <Button
+            ref={ref}
             variant="contained"
             color="primary"
             startIcon={
                 <Icon />
             }
-            onClick={onClick}
             {...props}
         >
             <FormattedMessage {...title} />
       </Button>
     )
-}
+})
 
 PrimaryActionButton.propTypes = {
     title: PropTypes.object.isRequired,

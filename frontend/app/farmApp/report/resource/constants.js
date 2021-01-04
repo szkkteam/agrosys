@@ -1,0 +1,5 @@
+export const TAB_FIELD = '#field'
+export const TAB_MACHINERY = '#machinery'
+export const TAB_WORKER = '#worker'
+export const TAB_INVENTORY = '#inventory'
+export const TAB_USAGE = '#usage'

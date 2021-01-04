@@ -15,7 +15,7 @@ import {
     Paper
 } from '@material-ui/core';
 
-const MenuIconButton = styled(forwardRef(({onClick, ...props}, ref) => {
+const MenuIconButton = styled(forwardRef(({onClick, icon: Icon = MoreHorizIcon,...props}, ref) => {
     
     const handleClick = (e) => {
         e.stopPropagation()
@@ -32,7 +32,7 @@ const MenuIconButton = styled(forwardRef(({onClick, ...props}, ref) => {
             onClick={handleClick}
             {...props}
         >
-            <MoreHorizIcon />
+            <Icon />
        </IconButton>                
     )
 }))`
@@ -54,19 +54,23 @@ const ListContainer = forwardRef(({children, ...props}, ref) =>
 
 
 const ItemMenu = ({
+    icon,
     items,
     ...props
 }) => {
-
 
     return (
         <Popover
             component={MenuIconButton}
             className="inline-block"
+            componentProps={{
+                icon
+            }}
             {...props}
         >
             <ListContainer>
                 { items && items.map((item, i)=> {
+                    console.debug("is link? ", ('link' in item), item)
                     if ('link' in item) 
                         return (
                             <LinkMenuItem 
@@ -93,6 +97,7 @@ const ItemMenu = ({
 }
 
 ItemMenu.propTypes = {
+    icon: PropTypes.any,
     items: PropTypes.arrayOf(
         PropTypes.shape({
             title: PropTypes.object.isRequired,

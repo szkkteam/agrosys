@@ -6,36 +6,12 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import { useParams, useRouteMatch, Redirect } from 'react-router-dom'
 import { ROUTES, ROUTE_MAP } from 'routes'
 
-import {
-    Grid,
-    Typography,
-    Portal
-} from '@material-ui/core';
-
-import AppContext from 'components/AppContext'
-
-import { Tabs, TabLink } from 'components'
-
-
-const StyledTab = styled(props => <TabLink {...props}/>)`
-    ${({ theme }) => `
-        &.Mui-selected {
-            color: ${theme.palette.primary.main}
-        }
-    `}
-    
-`
+import { PageHeader } from 'components'
 
 const ProductionHeader = ({
-    match: matchOriginal,
-    location,
     ...props
 }) => {
     const intl = useIntl()
-
-    const {
-        appBarTabsRef,
-    } = useContext(AppContext)
     
     //const matched = location.pathname.match("(\/\\w+){2}")
     //const route = ROUTE_MAP[ROUTES.ProductionMultiView]  
@@ -50,9 +26,9 @@ const ProductionHeader = ({
      */
 
     const items = [
-        {cropId: 0, label: intl.formatMessage(messages.productionMultiView), to: ROUTES.Crop},
-        {cropId: 1, productionId: 1, label: "My wheat", to: ROUTES.ProductionDetail},
-        {cropId: 2, productionId: 2, label: "My corn", to: ROUTES.ProductionDetail},
+        {cropId: 0, value: 0, label: intl.formatMessage(messages.productionMultiView), to: ROUTES.Crop},
+        {cropId: 1, value: 1, productionId: 1, label: "My wheat", to: ROUTES.ProductionDetail},
+        {cropId: 2, value: 2, productionId: 2, label: "My corn", to: ROUTES.ProductionDetail},
 
         //{id: 3, label: "My asdasd", to: ROUTES.ProductionDetail},
         //{id: 4, label: "My bbbbb", to: ROUTES.ProductionDetail},
@@ -70,36 +46,16 @@ const ProductionHeader = ({
             cropId = matched.params.cropId || "0"
         }
     })
+    console.debug("foundMatch: ", foundMatch)
+    console.debug("cropId: ", cropId)
     
     return (
-        <Portal container={appBarTabsRef.current}>
-            { !foundMatch
-                ? <Redirect to={ROUTE_MAP[ROUTES.Crop].toPath()} />
-                : <Tabs
-                    value={parseInt(cropId)}
-                    orientation="horizontal"
-                    variant="scrollable"
-                    scrollButtons="auto"
-                    TabIndicatorProps={{
-                        style: {
-                            height: "85%",
-                            backgroundColor: "white",
-                            zIndex: "-1",
-                            borderTopLeftRadius: "15px",
-                            borderTopRightRadius: "15px",
-
-                        }
-                    }}
-                >
-                    { items && items.map((item, i) => {
-                        const { to, label, ...params } = item
-                        return <StyledTab key={i} to={to} label={label} params={{...params}} value={params.cropId} />
-                    }
-                            
-                    )}
-                </Tabs> 
-            }
-        </Portal>           
+        <PageHeader 
+            items={items}
+            value={foundMatch? parseInt(cropId) : null}
+            redirectTo={ROUTES.Crop}
+            
+        />                 
     )
 }
 
@@ -109,6 +65,7 @@ ProductionHeader.propTypes = {
 }
 
 export default ProductionHeader
+
 
 
 
