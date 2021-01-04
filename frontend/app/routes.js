@@ -7,7 +7,7 @@ import HeaderContent from 'components/Layout/HeaderContent'
 
 import {
   DashboardHome
-} from 'farmApp/dashboard/pages'
+} from 'farmApp/dashboard/dashboard/pages'
 
 /**
  * Resources

@@ -11,15 +11,15 @@ import {
 import {
     DashboardWidgetLayout,
     DashboardHeader
-} from '../../components'
+} from '..'
 
 import {
     WidgetTaskSummary
-} from '../../widgets'
+} from 'farmApp/dashboard/widgets/components'
 
 import {
     WIDGET_TASKS_SUMMARY
-} from '../../widgetTypes'
+} from 'farmApp/dashboard/widgets/widgetTypes'
 
 
 
