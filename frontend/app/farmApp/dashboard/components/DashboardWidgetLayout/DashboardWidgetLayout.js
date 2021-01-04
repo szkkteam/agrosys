@@ -51,7 +51,9 @@ const DashboardWidgetLayout = ({
         }
     })
 
-    console.debug("widgets: ", widgets)
+    const handleLayoutChange = (layout) => {
+        console.debug("Layout: ", layout)
+    }
 
     return (
         <Container
@@ -65,6 +67,8 @@ const DashboardWidgetLayout = ({
                 width={width}
                 isDraggable={!disabled}
                 isResizable={!disabled}
+                onLayoutChange={handleLayoutChange}
+                //onResize={(e) => console.debug("Resize: ", e)}
             >
                 { widgets && widgets.map(({Component, key, label, ...dataGrid}) => (
                     <FlexCard key={key} data-grid={dataGrid}>

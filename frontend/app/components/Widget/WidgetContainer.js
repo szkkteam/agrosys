@@ -40,12 +40,7 @@ const WidgetContainer = ({
 
     return (
         <>
-            <CardHeader
-                avatar={
-                    <Avatar aria-label="tasks" >
-                    T
-                    </Avatar>
-                }
+            <CardHeader                
                 action={
                     <ItemMenu 
                         icon={MoreVertIcon}

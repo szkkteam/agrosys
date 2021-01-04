@@ -29,7 +29,7 @@ const DashboardLayout = ({
     const intl = useIntl()
 
     const defaultWidgets = [
-        {key: WIDGET_TASKS_SUMMARY, label: intl.formatMessage(messages.widgetTaskSummary), x: 0, y: 0, w: 3, h: 6, Component: WidgetTaskSummary}
+        {key: WIDGET_TASKS_SUMMARY, label: intl.formatMessage(messages.widgetTaskSummary), x: 0, y: 0, w: 3, minW: 3, h: 9, Component: WidgetTaskSummary}
     ]
 
     const [widgets, setWidgets] = useState(defaultWidgets)
