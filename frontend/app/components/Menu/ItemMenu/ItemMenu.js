@@ -70,7 +70,6 @@ const ItemMenu = ({
         >
             <ListContainer>
                 { items && items.map((item, i)=> {
-                    console.debug("is link? ", ('link' in item), item)
                     if ('link' in item) 
                         return (
                             <LinkMenuItem 

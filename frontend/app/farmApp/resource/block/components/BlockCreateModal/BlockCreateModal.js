@@ -33,18 +33,19 @@ import {
 import './blockcreatemodal.scss'
 
 const OptionSection = ({
+    to,
     title,
     description,
     ...props
 }) => {
-
+    console.debug("OptionSection - props: ", props)
     return (
         <Grid item xs={12}>
             <div className="option-button">
                 <LinkButton
                     variant="contained"
                     color="primary"
-                    {...props}
+                    to={to}
                 >
                     <FormattedMessage {...title} />
                 </LinkButton>
