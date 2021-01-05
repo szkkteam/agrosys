@@ -14,6 +14,12 @@ const Container = styled.div`
     `}  
 `
 
+const Content = styled.div`
+    width: 100%;
+    height: 100%;
+    padding: 5px 15px;
+`
+
 const DetailContainer = ({
     tabs,
     defaultStep=0,
@@ -95,14 +101,14 @@ const DetailContainer = ({
                     onChange={handleTabChange}
                 />
             </div>
-            <div>
+            <Content>
                 { _.isFunction(component)
                   ? component()
                   : React.cloneElement(component, {
 
                   })
                 }
-            </div>
+            </Content>
         </Container>
     )
 }

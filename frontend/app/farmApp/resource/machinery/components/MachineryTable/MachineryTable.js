@@ -5,6 +5,8 @@ import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 
 import { PrimaryActionButton } from 'components'
+import { MACHINERY_EDIT_DIALOG } from 'site/modalTypes'
+import { usePushModalWindow } from 'utils/hooks'
 
 import {
     Grid
@@ -80,11 +82,25 @@ const MachineryTable = ({
         { title: 'Address', field: 'address', hidden: true}
     ]
 
+    const push = usePushModalWindow()
+
+    const openEdit = (e, data) => {
+        push(MACHINERY_EDIT_DIALOG, {data}).then((status) => {
+            console.debug("Finished: ", status)
+        })
+    }
+
+    const items = [
+        {title: messages.edit, onClick: openEdit},
+        {title: messages.delete, onClick: null}
+    ]
+    
+    
     return (
             <Table
                 //ref={tableRef}
                 //siblingRef={siblingRef}
-                columns={columns}
+                
             >
                 <TableHeader
                     ref={headerRef}
@@ -109,7 +125,9 @@ const MachineryTable = ({
                 </TableHeader>
                 <TableBody
                     height={height}
+                    columns={columns}
                     data={data}
+                    actionItems={items}
                     {...props}
                 />
             </Table>

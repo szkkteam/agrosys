@@ -17,7 +17,7 @@ const DetailContent = ({
 }) => {
     return (
         <Container
-        height={height}
+            height={height}
         >
             {children}
         </Container>

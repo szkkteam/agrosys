@@ -80,6 +80,7 @@ const DetailPanel = ({
                 Items - Bin 1
             </TableSubHeader>
             <TableBody
+                columns={columns}
                 height={height - 45}
             />
         </DetailContainer>
@@ -97,7 +98,6 @@ const InventoryLayout = ({
     return (
         <Container>
             <Table
-                columns={columns}
             >
                 <TableHeader
                     title={messages.title}

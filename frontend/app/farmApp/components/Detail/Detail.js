@@ -19,6 +19,7 @@ const Container = styled.div`
 `
 
 const Detail = ({
+    onClose,
     headerProps,
     footerProps,
     children,
@@ -28,12 +29,14 @@ const Detail = ({
     return (
         <Container>          
             <DetailHeader
+                onClose={onClose}
                 {...headerProps}
             />
             <DetailContainer
                 {...props}
             />
             <DetailFooter
+                onClose={onClose}
                 {...footerProps}
             />
         </Container>

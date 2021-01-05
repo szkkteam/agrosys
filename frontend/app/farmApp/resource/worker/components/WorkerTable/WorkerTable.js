@@ -81,7 +81,6 @@ const WorkerTable = ({
 
     return (
             <Table
-                columns={columns}
             >
                 <TableHeader
                     ref={headerRef}
@@ -107,6 +106,7 @@ const WorkerTable = ({
                 <TableBody
                     height={height}
                     data={data}
+                    columns={columns}
                     {...props}
                 />
             </Table>

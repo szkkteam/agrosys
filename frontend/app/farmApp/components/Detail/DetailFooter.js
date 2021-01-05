@@ -25,6 +25,7 @@ const Footer = styled(DialogActions)`
 
 //<FormattedMessage {...title} />
 const DetailFooter = ({
+    onClose,
     ...props
 }) => {
     return (
@@ -33,8 +34,8 @@ const DetailFooter = ({
                 cancelTitle={ButtonMessages.cancel}
                 submitTitle={ButtonMessages.submit}
                 submitDisabled={false}
-                onCancel={() => null}
-                onSubmit={() => null}
+                onCancel={onClose}
+                //onSubmit={() => null}
                 {...props}
             />            
         </Footer>

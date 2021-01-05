@@ -11,4 +11,12 @@ export default defineMessages({
         id: `${scope}.AddButton.title`,  
         defaultMessage: 'Add new',
     },
+    edit: {
+        id: `${scope}.Menu.edit`,  
+        defaultMessage: 'Edit',
+    },
+    delete: {
+        id: `${scope}.Menu.delete`,  
+        defaultMessage: 'Delete',
+    },
   })

@@ -44,21 +44,46 @@ const MenuIconButton = styled(forwardRef(({onClick, icon: Icon = MoreHorizIcon,.
 const LinkMenuItem = withLinkComponent(MenuItem)
 
 
-const ListContainer = forwardRef(({children, ...props}, ref) =>
+const ListContainer = forwardRef(({items, data, onClose, ...props}, ref) =>
     <Paper 
         ref={ref}
     >
-        {children}
-    </Paper>)
+        { items && items.map((item, i)=> {
 
+            const handleClick = (localItem, param) => (e) => {
+                localItem.onClick && localItem.onClick(e, param)
+                onClose(e)
+            }
+
+            if ('link' in item) 
+                return (
+                    <LinkMenuItem 
+                        key={i}
+                        {...item.link}
+                    >
+                        <FormattedMessage {...item.title} />
+                    </LinkMenuItem>
+                )
+            else
+                return (
+                    <MenuItem 
+                        key={i}
+                        component='div'
+                        onClick={handleClick(item, data)}
+                    >
+                        <FormattedMessage {...item.title} />
+                    </MenuItem>
+                )
+        }) }
+    </Paper>)
 
 
 const ItemMenu = ({
     icon,
     items,
+    data,
     ...props
 }) => {
-
     return (
         <Popover
             component={MenuIconButton}
@@ -68,29 +93,10 @@ const ItemMenu = ({
             }}
             {...props}
         >
-            <ListContainer>
-                { items && items.map((item, i)=> {
-                    if ('link' in item) 
-                        return (
-                            <LinkMenuItem 
-                                key={i}
-                                {...item.link}
-                            >
-                                <FormattedMessage {...item.title} />
-                            </LinkMenuItem>
-                        )
-                    else
-                        return (
-                            <MenuItem 
-                                key={i}
-                                component='div'
-                                onClick={item.onClick}
-                            >
-                                <FormattedMessage {...item.title} />
-                            </MenuItem>
-                        )
-                }) }
-            </ListContainer>
+            <ListContainer
+                items={items}
+                data={data}
+            />
         </Popover>
     )
 }
@@ -106,7 +112,8 @@ ItemMenu.propTypes = {
             }),
             onClick: PropTypes.func
         })
-    )
+    ),
+    data: PropTypes.object,
 }
 
 export default ItemMenu
