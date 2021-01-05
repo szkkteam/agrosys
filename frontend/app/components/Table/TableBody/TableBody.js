@@ -25,6 +25,7 @@ import { useTableContext } from '../hooks'
 import { useHeightDifference } from 'utils/hooks'
 
 import TableToolbar from '../TableToolbar'
+import TableAction from './TableAction'
 import { ItemMenu } from 'components'
 
 import './tablebody.scss'
@@ -73,7 +74,8 @@ export default ({
     const actions = [
         rowData => {
             return ({
-                icon: (props) => <ItemMenu icon={MoreVertIcon} items={actionItems} data={rowData} {...props}/>,
+                icon: MoreVertIcon,
+                component: (props) => <ItemMenu icon={MoreVertIcon} items={actionItems} data={rowData} {...props}/>,
                 tooltip: 'Show actions',          
             })
         }
@@ -104,6 +106,7 @@ export default ({
             Toolbar: props => (
                 <TableToolbar ref={toolbarRef} {...props} myProps={1}/>
             ),
+            Action: TableAction,
             //Actions: (props) => <ItemMenu items={items} />
         })
     }

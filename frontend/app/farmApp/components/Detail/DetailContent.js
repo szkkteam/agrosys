@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 const Container = styled.div`
     ${({ theme, height }) => `
-        ${height? `height: ${height}px;` : ''}
+        ${height? `min-height: ${height}px;` : ''}
     `}  
 `
 

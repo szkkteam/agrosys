@@ -30,7 +30,10 @@ export const TextComponent = (props) =>
   renderTextField({...props})
 
 export const TextArea = (props) =>
-  <Field component={_renderTextArea} {...props} />
+  <Field component={TextAreaComponent} {...props} />
+
+  export const TextAreaComponent = (props) =>
+    renderTextField({multiline: true, ...props})
 
 export const BooleanField = (props) =>
   <Field component={BooleanComponent} {...props} />
@@ -81,6 +84,7 @@ const renderTextField = ({
     </FormControl>
   )
 }
+
 
 const renderBooleanField = ({
   label,

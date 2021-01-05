@@ -33,7 +33,7 @@ const MachineryDetailDialog = ({
             headerProps={{
                 title: messages.title,                    
             }}
-            height={400}
+            //height={400}
             tabs={tabs}
             {...props}
         >

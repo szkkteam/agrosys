@@ -52,7 +52,7 @@ const ListContainer = forwardRef(({items, data, onClose, ...props}, ref) =>
 
             const handleClick = (localItem, param) => (e) => {
                 localItem.onClick && localItem.onClick(e, param)
-                onClose(e)
+                onClose()
             }
 
             if ('link' in item) 

@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import { 
     HiddenField,
     TextField,
-    Divider,
+    TextArea,
 } from 'components/Form'
 
 import {
@@ -15,6 +15,11 @@ import {
     Grid,
 } from '@material-ui/core'
 
+const Divider = styled.div`
+    margin: 15px 0;
+    width: 100%;
+    border-bottom: 2px solid black;
+`
 
 const MachineryTabGeneral = ({
     title,
@@ -88,7 +93,12 @@ const MachineryTabGeneral = ({
                 </Grid>
                 <Divider />
                 <Grid item xs={12}>
-                    Notes
+                    <TextArea name="notes"
+                        label="Notes"
+                        variant="outlined"
+                        rows={8}
+                        formProps={{fullWidth: true}}
+                    />
                 </Grid>
             </Grid>
     )
