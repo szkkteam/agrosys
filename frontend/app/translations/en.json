@@ -7,6 +7,8 @@
   "app.components.Nav.Finances.title": "Finances",
   "app.components.Nav.Planner.title": "Planner",
   "app.components.Nav.Resources.title": "Resources",
+  "app.components.Table.TableBody.Menu.delete": "Delete",
+  "app.components.Table.TableBody.Menu.edit": "Edit",
   "app.components.Table.TableFilters.activeFilters.title": "Active filters:",
   "app.components.Table.TableFilters.clearAll.title": "clear all",
   "app.components.Table.TableFilters.noActiveFilters.title": "No filters are active",
@@ -103,11 +105,15 @@
   "app.farmApp.inventory.InventoryMenuItem.title": "Inventory",
   "app.farmApp.inventory.IventoryListItem.Menu.delete": "Delete",
   "app.farmApp.inventory.IventoryListItem.Menu.edit": "Edit",
+  "app.farmApp.machinery.MachineryDetailDialog.Tab.General": "General",
+  "app.farmApp.machinery.MachineryDetailDialog.Tab.title": "Machinery - Item",
   "app.farmApp.machinery.MachineryLayout.MachineryTab.title": "Machineries",
   "app.farmApp.machinery.MachineryLayout.ReservationTab.title": "Reservations",
   "app.farmApp.machinery.MachineryList.title": "Machinery",
   "app.farmApp.machinery.MachineryMenuItem.title": "Machinery",
-  "app.farmApp.machinery.MachineryTable.AddButton.title": "Add new",
+  "app.farmApp.machinery.MachineryTable.AddButton.title": "Add new machinery",
+  "app.farmApp.machinery.MachineryTable.Menu.delete": "Delete",
+  "app.farmApp.machinery.MachineryTable.Menu.edit": "Edit",
   "app.farmApp.machinery.MachineryTable.Table.title": "Machineries - database",
   "app.farmApp.machinery.ReservationTable.AddButton.title": "Add new",
   "app.farmApp.machinery.ReservationTable.Table.title": "Machinery - Reservations",
@@ -206,5 +212,6 @@
   "app.resource.field.FieldList.title": "Parcels",
   "app.resource.field.FieldSideDetail.Menu.delete": "Delete",
   "app.resource.field.FieldSideDetail.Menu.edit": "Edit",
-  "app.resource.resource.InventoryRailItem.title": "Inventory"
+  "app.resource.resource.InventoryRailItem.title": "Inventory",
+  "test.title": "Tab X"
 }

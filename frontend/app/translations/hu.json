@@ -7,6 +7,8 @@
   "app.components.Nav.Finances.title": "",
   "app.components.Nav.Planner.title": "",
   "app.components.Nav.Resources.title": "",
+  "app.components.Table.TableBody.Menu.delete": "",
+  "app.components.Table.TableBody.Menu.edit": "",
   "app.components.Table.TableFilters.activeFilters.title": "",
   "app.components.Table.TableFilters.clearAll.title": "",
   "app.components.Table.TableFilters.noActiveFilters.title": "",
@@ -103,11 +105,15 @@
   "app.farmApp.inventory.InventoryMenuItem.title": "",
   "app.farmApp.inventory.IventoryListItem.Menu.delete": "",
   "app.farmApp.inventory.IventoryListItem.Menu.edit": "",
+  "app.farmApp.machinery.MachineryDetailDialog.Tab.General": "",
+  "app.farmApp.machinery.MachineryDetailDialog.Tab.title": "",
   "app.farmApp.machinery.MachineryLayout.MachineryTab.title": "",
   "app.farmApp.machinery.MachineryLayout.ReservationTab.title": "",
   "app.farmApp.machinery.MachineryList.title": "",
   "app.farmApp.machinery.MachineryMenuItem.title": "",
   "app.farmApp.machinery.MachineryTable.AddButton.title": "",
+  "app.farmApp.machinery.MachineryTable.Menu.delete": "",
+  "app.farmApp.machinery.MachineryTable.Menu.edit": "",
   "app.farmApp.machinery.MachineryTable.Table.title": "",
   "app.farmApp.machinery.ReservationTable.AddButton.title": "",
   "app.farmApp.machinery.ReservationTable.Table.title": "",
@@ -206,5 +212,6 @@
   "app.resource.field.FieldList.title": "",
   "app.resource.field.FieldSideDetail.Menu.delete": "",
   "app.resource.field.FieldSideDetail.Menu.edit": "",
-  "app.resource.resource.InventoryRailItem.title": ""
+  "app.resource.resource.InventoryRailItem.title": "",
+  "test.title": ""
 }
