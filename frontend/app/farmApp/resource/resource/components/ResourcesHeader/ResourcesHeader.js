@@ -59,9 +59,9 @@ const ResourcesHeader = ({
                         }
                     }}
                 >
-                    <StyledTab to={ROUTES.BlockList} value={ROUTE_MAP[ROUTES.BlockList].path} label={intl.formatMessage(messages.tabFieldsTitle)} />
                     <StyledTab to={ROUTES.MachineryList} value={ROUTE_MAP[ROUTES.MachineryList].path} label={intl.formatMessage(messages.tabMachineryTitle)} />
                     <StyledTab to={ROUTES.WorkerList} value={ROUTE_MAP[ROUTES.WorkerList].path} label={intl.formatMessage(messages.tabWorkerTitle)} />
+                    <StyledTab to={ROUTES.BlockList} value={ROUTE_MAP[ROUTES.BlockList].path} label={intl.formatMessage(messages.tabFieldsTitle)} />
                     <StyledTab to={ROUTES.EntityList} value={ROUTE_MAP[ROUTES.EntityList].path} label={intl.formatMessage(messages.tabEntitiyTitle)} />
                     
                 </Tabs>
