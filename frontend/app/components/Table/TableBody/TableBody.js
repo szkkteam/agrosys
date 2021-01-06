@@ -1,5 +1,7 @@
-import React, { useRef } from 'react'
+import React, { useRef, useMemo } from 'react'
+import messages from './messages'
 import { forwardRef } from 'react';
+import styled from 'styled-components'
 
 import MaterialTable from 'material-table';
 
@@ -18,11 +20,14 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import { useTableContext } from '../hooks'
 import { useHeightDifference } from 'utils/hooks'
 
 import TableToolbar from '../TableToolbar'
+import TableAction from './TableAction'
+import { ItemMenu } from 'components'
 
 import './tablebody.scss'
 import { object } from 'prop-types';
@@ -47,9 +52,15 @@ const tableIcons = {
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
+const CenteredItemMenu = styled(props => <ItemMenu {...props} />)`
+    margin: 0 auto;
+`
+
 export default ({
+    columns,
     height,
     options={},
+    actionItems,
     components={},
     cellEditable = null,
     onCellEditStarted = null,
@@ -59,12 +70,22 @@ export default ({
     const toolbarRef = useRef(null)
 
     const {
-        columns,
         topBottomPadding,
     } = useTableContext()
 
     const bodyHeight = useHeightDifference(height - topBottomPadding, toolbarRef)
-    console.debug("bodyHeight: ", bodyHeight)
+    //console.debug("bodyHeight: ", bodyHeight)
+
+    const actions = [
+        rowData => {
+            return ({
+                icon: MoreVertIcon,
+                component: (props) => <CenteredItemMenu icon={MoreVertIcon} items={actionItems} data={rowData} {...props}/>,
+                tooltip: 'Show actions',          
+            })
+        }
+    ]
+
 
     const defaultOptions = {
         ...Object.assign(options, {
@@ -81,6 +102,7 @@ export default ({
                 boxShadow: "inset 0 -2px 0 black",
             }, // By default sticky header
             columnsButton: true,
+            actionsColumnIndex: -1,
         })
     } 
 
@@ -88,7 +110,9 @@ export default ({
         ...Object.assign(components, {
             Toolbar: props => (
                 <TableToolbar ref={toolbarRef} {...props} myProps={1}/>
-            )
+            ),
+            Action: TableAction,
+            //Actions: (props) => <ItemMenu items={items} />
         })
     }
 
@@ -96,14 +120,41 @@ export default ({
         <MaterialTable
             columns={columns}
             icons={tableIcons}
+            actions={actionItems? actions: null}
             options={defaultOptions}
             style={{
                 //backgroundColor: "#E0E0E0",
                 borderRadius: "initial",
                 boxShadow: "initial",
+                width: "100%",
             }}            
             components={defaultComponents}
             {...props}
         />
     )
 }
+
+
+/*
+    TODO: This renders a column with an action. Not the best
+    const extendedColumns = useMemo(() => {
+        const actionColumn = [
+            {
+                render: (rowData) => (
+                    <ItemMenu
+                        items={items}
+                    />
+                ),
+                title: 'actions',
+                removable: false,
+                readonly: true,
+                hiddenByColumnsButton: true,
+                align: 'right',
+                customSort: null,
+                editable: 'never',
+                cellStyle: {width: '40px'}
+            }
+        ]
+        return _.concat(columns, actionColumn)
+    }, [columns])
+    */

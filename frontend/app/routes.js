@@ -144,7 +144,7 @@ import {
 
 import { AnonymousRoute, ProtectedRoute } from 'utils/route'
 
-
+console.debug("BlockCreateDraw: ", BlockCreateDraw)
 /**
  * ROUTES: The canonical store of frontend routes. Routes throughout the system
  * should be referenced using these constants

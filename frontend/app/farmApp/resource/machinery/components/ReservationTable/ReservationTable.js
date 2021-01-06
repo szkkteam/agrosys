@@ -51,7 +51,6 @@ const ReservationTable = ({
 
     return (
             <Table
-                columns={columns}
             >
                 <TableHeader
                     ref={headerRef}
@@ -77,6 +76,7 @@ const ReservationTable = ({
                 <TableBody
                     height={height}
                     data={data}
+                    columns={columns}
                     {...props}
                 />
             </Table>
