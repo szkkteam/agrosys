@@ -9,7 +9,7 @@ export default defineMessages({
     },
     addNewTitle: {
         id: `${scope}.AddButton.title`,  
-        defaultMessage: 'Add new',
+        defaultMessage: 'Add new machinery',
     },
     edit: {
         id: `${scope}.Menu.edit`,  

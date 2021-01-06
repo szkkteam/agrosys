@@ -1,6 +1,7 @@
 import React, { useRef, useMemo } from 'react'
 import messages from './messages'
 import { forwardRef } from 'react';
+import styled from 'styled-components'
 
 import MaterialTable from 'material-table';
 
@@ -51,6 +52,10 @@ const tableIcons = {
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
+const CenteredItemMenu = styled(props => <ItemMenu {...props} />)`
+    margin: 0 auto;
+`
+
 export default ({
     columns,
     height,
@@ -69,13 +74,13 @@ export default ({
     } = useTableContext()
 
     const bodyHeight = useHeightDifference(height - topBottomPadding, toolbarRef)
-    console.debug("bodyHeight: ", bodyHeight)
+    //console.debug("bodyHeight: ", bodyHeight)
 
     const actions = [
         rowData => {
             return ({
                 icon: MoreVertIcon,
-                component: (props) => <ItemMenu icon={MoreVertIcon} items={actionItems} data={rowData} {...props}/>,
+                component: (props) => <CenteredItemMenu icon={MoreVertIcon} items={actionItems} data={rowData} {...props}/>,
                 tooltip: 'Show actions',          
             })
         }
@@ -121,6 +126,7 @@ export default ({
                 //backgroundColor: "#E0E0E0",
                 borderRadius: "initial",
                 boxShadow: "initial",
+                width: "100%",
             }}            
             components={defaultComponents}
             {...props}

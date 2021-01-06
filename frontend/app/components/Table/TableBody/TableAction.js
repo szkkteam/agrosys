@@ -63,8 +63,6 @@ class TableAction extends React.Component {
             : <action.component />
         : button
 
-    console.debug("component: ", component)
-    console.debug("Tooltip: ", Tooltip)
     if (action.tooltip) {
       // fix for issue #1049
       // https://github.com/mbrn/material-table/issues/1049

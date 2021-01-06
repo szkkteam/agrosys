@@ -8,7 +8,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 
 import { Field, reduxForm } from 'redux-form'
-import { MachineryDetailDialog } from '../../components'
+import { MachineryDetailDialog } from '..'
 
 import { Modal } from 'site/components'
 import { MACHINERY_FORM } from '../../constants'
@@ -35,7 +35,7 @@ const withConnect = connect(
 )
 
 
-const MachineryCreate = ({
+const MachineryForm = ({
     action,
     handleSubmit,
     ...props
@@ -50,19 +50,20 @@ const MachineryCreate = ({
   ) 
 }
 
-MachineryCreate.propTypes = {
+MachineryForm.propTypes = {
 
 }
 
 
-const ConnectedMachineryCreate = compose(
+const ConnectedMachineryForm = compose(
     withConnect,
     withForm,
-)(MachineryCreate) 
+)(MachineryForm) 
 
 
 export default ({
     headerProps,
+    data,
     ...props
 }) => {
 
@@ -72,14 +73,14 @@ export default ({
         console.debug("Submitting ... : ", d)
         handleConfirm && handleConfirm(d)
     }
-
     return (
         <Modal
             fullWidth
             maxWidth="md"
             {...headerProps}
         >   
-            <ConnectedMachineryCreate
+            <ConnectedMachineryForm
+                initialValues={data}
                 onSubmit={handleSubmit}
                 {...headerProps}
                 {...props}

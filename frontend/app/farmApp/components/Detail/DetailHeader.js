@@ -32,6 +32,12 @@ const Spacer = styled.div`
     flex-grow: 1;
 `
 
+const Icon = styled(CloseIcon)`
+    ${({ theme }) => `
+        color: #fff;
+    `}  
+`
+
 const DetailHeader = ({
     title,
     onClose,
@@ -45,7 +51,7 @@ const DetailHeader = ({
             </Title>    
             <Spacer />
             <IconButton aria-label="close" onClick={onClose}>
-                <CloseIcon />
+                <Icon />
             </IconButton>      
         </Header>
     )

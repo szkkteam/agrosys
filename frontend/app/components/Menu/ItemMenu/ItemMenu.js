@@ -51,6 +51,7 @@ const ListContainer = forwardRef(({items, data, onClose, ...props}, ref) =>
         { items && items.map((item, i)=> {
 
             const handleClick = (localItem, param) => (e) => {
+                e.stopPropagation()
                 localItem.onClick && localItem.onClick(e, param)
                 onClose()
             }
