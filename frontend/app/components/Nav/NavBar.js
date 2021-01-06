@@ -76,10 +76,10 @@ const NavBar = ({
         
         <NavRail>
           <DashboardRailItem />   
-          <ReportRailItem />    
-          <ResourceRailItem />
-          <InventoryRailItem />
           <ProductionRailItem />
+          <InventoryRailItem />
+          <ResourceRailItem />
+          <ReportRailItem />    
         </NavRail>
       </NavBarContext.Provider>      
       : null }     
