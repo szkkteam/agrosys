@@ -17,8 +17,10 @@ import { enqueueNotification, closeNotification } from 'site/actions'
 import { login } from 'security/actions'
 import SecurityApi from 'security/api'
 import { storage } from 'utils'
+import messages from 'messages'
 
 import { translationMessages } from 'i18n';
+import { useIntl, FormattedMessage } from 'react-intl'
 
 const _ = require("lodash")
 const APP_MOUNT_POINT = document.getElementById('app')
@@ -51,9 +53,11 @@ SecurityApi.checkAuthToken(token)
     renderRootComponent(App)
     const isAuthenticated = store.getState().security.isAuthenticated
     const alreadyHasNotification = store.getState().notification.notifications.length > 0
+    
     if (isAuthenticated && !alreadyHasNotification) {
+      const { firstName } = store.getState().security.user
       store.dispatch(enqueueNotification({
-        message: 'Welcome back.',
+      message: <FormattedMessage {...messages.welcome} values={{b: chunks => <b> {chunks}</b>, firstName}} />,
         options: {
             key: new Date().getTime() + Math.random(),
             variant: 'info',

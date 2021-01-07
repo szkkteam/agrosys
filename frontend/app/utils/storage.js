@@ -2,6 +2,7 @@ class Storage {
   constructor() {
     this.token = null
     this.user = null
+    this.locale = null
   }
 
   doLogin(token, user) {
@@ -41,82 +42,23 @@ class Storage {
     return this.user
   }
 
-  activateFarm(farm) {
-    this.farm = farm
-    localStorage.setItem('activeFarm', JSON.stringify(farm))
+  storeLocale(locale) {
+    this.locale = locale
+    localStorage.setItem('locale', locale)
   }
 
-  getActiveFarm() {
-    if (!this.farm) {
-      let farm
+  getLocale() {
+    if (!this.locale) {
+      let locale
       try {
-        farm = JSON.parse(localStorage.getItem('activeFarm'))
+        locale = localStorage.getItem('locale')
       } catch (e) {
-        farm = null
-      }      
-      this.farm = farm
-      //this.farm = farm == 'null' || farm == 'undefined' ? null : farm
-    }
-    return this.farm
-  }
-
-  selectSeason(season) {
-    this.season = season
-    localStorage.setItem('selectSeason', JSON.stringify(season))
-  }
-
-  getSelectedSeason() {
-    if (!this.season) {
-      let season
-      try {
-        season = JSON.parse(localStorage.getItem('selectSeason'))
-      } catch (e) {
-        season = null
-      }      
-      this.season = season
-    }
-    console.log("Storage season: ", this.season)
-    return this.season
-  }
-  
-  storeProductionForm(productionForm) {
-    this.productionForm = productionForm
-    localStorage.setItem('productionForm', JSON.stringify(productionForm))
-  }
-
-  getProductionForm() {
-    if (!this.productionForm) {
-      let productionForm
-      try {
-        productionForm = JSON.parse(localStorage.getItem('productionForm'))
-      } catch (e) {
-        productionForm = null
+        locale = null
       }
-      this.productionForm = productionForm
+      this.locale = locale == 'null' || locale == 'undefined' ? null : locale
     }
-    if (this.productionForm) {
-      for (var i = 0; i < this.productionForm.tasks.length; ++i) {
-        {
-          var date = new Date(this.productionForm.tasks[i].startDate) 
-          date.setDate(date.getDate());
-          //date.setDate(date.getDate() + 7);
-          this.productionForm.tasks[i].startDate = date
-        }
-        {
-          var date = new Date(this.productionForm.tasks[i].endDate) 
-          date.setDate(date.getDate());
-          this.productionForm.tasks[i].endDate = date
-        }
-      }
-    }
-    return this.productionForm
+    return this.locale
   }
-
-  clearProductionForm() {
-    this.productionForm = null
-    localStorage.removeItem('productionForm')
-  }
-
 }
 
 export default new Storage()

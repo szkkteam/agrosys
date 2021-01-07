@@ -7,13 +7,18 @@ import styled from 'styled-components'
 import { Modal } from 'site/components'
 import { Detail, DetailContainer } from 'farmApp/components/Detail'
 
-import MachineryTabGeneral from './MachineryTabGeneral'
+import CropTabGeneral from './CropTabGeneral'
 
 const Tab1 = () => <div>Tab 1</div>
 const Tab2 = () => <div>Tab 2</div>
 
-const MachineryDetailDialog = ({
+const Container = styled.div`
+    padding: 10px 15px;
+`
+
+const CropDetailDialog = ({
     data,
+    onClose,
     ...props
 }) => {
     //console.debug("headerProps: ", headerProps)
@@ -21,28 +26,29 @@ const MachineryDetailDialog = ({
 
     const tabs = [
         {label: messages.tabGeneral, value: 0, component: props => (
-            <MachineryTabGeneral 
+            <Tab1 
                 title={messages.tabGeneral}
             />
         )},
         //{label: messages.title, value: 1, component: props => <Tab2 />},
     ]
-
     return (
         <Detail
             title={messages.title}
-            //height={400}
+            onClose={onClose}
         >
-            <DetailContainer
-                tabs={tabs}
-                {...props}
-            />
+            <Container>
+                <CropTabGeneral 
+                    title={messages.tabGeneral}
+                    {...props}
+                />
+            </Container>
         </Detail>
     )
 }
 
-MachineryDetailDialog.propTypes = {
+CropDetailDialog.propTypes = {
 
 }
 
-export default MachineryDetailDialog
+export default CropDetailDialog

@@ -15,17 +15,19 @@ const StyledTabs = styled(props => <Tabs {...props} />)`
 const TabHeader = ({
     items,
     redirectTo=null,
+    redirect=true,
     ...props
 }) => {
     const intl = useIntl()
     const redirectRoute = ROUTE_MAP[redirectTo ?? items[0].to]
 
     let value = null
-    items.map(({ to, value: tabValue }) => {
+    items.map(({ to }, i) => {
         const route = ROUTE_MAP[to]
         const matched = useRouteMatch({ path: route?.path, ...route.props})
+        console.debug("Matched: ", matched)
         if (matched) {
-            value = tabValue
+            value = i
         }
     })
     const isMatchFound = !_.isNull(value)
@@ -35,14 +37,14 @@ const TabHeader = ({
     return (
         <>
         { !isMatchFound
-            ? <Redirect to={redirectRoute.toPath()} />
+            ? redirect ? <Redirect to={redirectRoute.toPath()} /> : null
             : <StyledTabs
                 value={value}
                 orientation="horizontal"
                 {...props}
             >
                 { items && items.map((tab, i) => 
-                    <TabLink key={i} {...tab} params={params} />    
+                    <TabLink key={i} {...tab} value={i} params={params} />    
                 )}            
             </StyledTabs>
         }
@@ -51,12 +53,13 @@ const TabHeader = ({
     )
 }
 
+
 TabHeader.propTypes = {
     items: PropTypes.arrayOf(PropTypes.shape({
         to: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired,
         label: PropTypes.string.isRequired
     })),    
+    redirect: PropTypes.bool,
     //history: PropTypes.object.isRequired,
     //match: PropTypes.object.isRequired,
 }

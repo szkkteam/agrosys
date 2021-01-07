@@ -10,7 +10,7 @@ export { MenuButton, NestedMenuItem, MenuItem, ItemMenu } from './Menu'
 
 export { SubmitButton, BackButton, SplitButton, SearchButton, PrimaryActionButton } from './Button'
 export { ViewButtonGroup } from './ButtonGroup'
-export { HeaderContent, MasterDetail, Content, SideSheet, HeaderContentContext } from './Layout'
+export { HeaderContent, MasterDetail, Content, SideSheet, HeaderContentContext, Container } from './Layout'
 export { TabLink, Tabs, TabsButton, TabButton } from './Tab'
 export { TabHeader, PageHeader } from './Header'
 export { MasterList } from './List'

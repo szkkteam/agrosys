@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from 'react'
+import React, { useRef, useState, useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
 import { useIntl } from 'react-intl'
@@ -7,6 +7,9 @@ import { Redirect, useLocation, Switch } from "react-router-dom";
 import { withLinkComponent } from 'utils/hoc'
 import { HashRoute } from 'utils/route'
 import { ROUTES } from 'routes'
+
+import { CROP_DIALOG } from 'site/modalTypes'
+import { usePushModalWindow } from 'utils/hooks'
 
 import { VIEW_MODULE, VIEW_LIST } from '../../constants'
 
@@ -67,6 +70,28 @@ const CropSummaryLayout = ({
         {value: VIEW_LIST, icon: ListIcon},
     ]
 
+
+    const push = usePushModalWindow()
+
+    const openEdit = (e, data) => {
+        push(CROP_DIALOG, {data}).then((status) => {
+            console.debug("Finished: ", status)
+        })
+    }
+
+    const handleAddNew = (e) => {
+        push(CROP_DIALOG, {}).then((status) => {
+            console.debug("Finished: ", status)
+        })
+    }
+
+    //TODO: Remove
+    /*
+    useEffect(() => {
+        handleAddNew()
+    }, [])
+    */
+
     return (
         <Container>
             <TableHeader
@@ -80,6 +105,7 @@ const CropSummaryLayout = ({
                         <Spacer />
                         <PrimaryActionButton
                             title={messages.addNewTitle}
+                            onClick={handleAddNew}
                         />
                     </FlexGrid>
                     <FlexGrid item xs={3}>      
