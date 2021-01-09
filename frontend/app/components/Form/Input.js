@@ -2,16 +2,30 @@ import React, { useMemo } from 'react'
 import classnames from 'classnames'
 import startCase from 'lodash/startCase'
 import Field from 'redux-form/es/Field'
+import { useIntl } from 'react-intl'
+import styled from 'styled-components'
 
-import FormHelperText from '@material-ui/core/FormHelperText'
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import MenuItem from '@material-ui/core/MenuItem';
-import { TextField as MuiTextField } from '@material-ui/core'
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+
+import {
+  FormHelperText,
+  Select,
+  InputLabel,
+  FormControl,
+  TextField as MuiTextField,
+  Checkbox,
+  FormControlLabel,
+  Paper,
+  Button,
+  Divider,
+  ListSubheader
+} from '@material-ui/core' 
+
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+
+import {
+  renderAutocomplete
+} from './components'
 
 export const EmailField = (props) =>
   <Field component={TextComponent} type="email" {...props} />
@@ -104,68 +118,6 @@ const renderBooleanField = ({
             onChange={input.onChange}
           />}
         label={label}
-      />
-    </FormControl>
-  )
-}
-
-const renderAutocomplete = ({
-  input = null,
-  label,
-  disabled = false,
-  formProps,
-  getOptionLabel: propGetOptionLabel,
-  // Helper
-  options,
-  idAccessor=null,
-  // Input specific props
-  inputProps,
-  variant,
-  meta: { touched = null, error = null } = {},
-  ...custom
-}) => {
-  const { onChange: onChangeRF, onBlur: onBlurRF, value, ...inputRest } = input || {}
-
-  const defaultGetOptionLabel = (option) => 
-    typeof option === 'object' && propGetOptionLabel? propGetOptionLabel(option) : ""
-
-
-  const value2 = useMemo(() => 
-    idAccessor? options.find(o => idAccessor(o) == value) : value
-  , [value])
-
-  const rfPropsFix = input
-    ? {
-        onChange: (e, v) => input.onChange(v? (idAccessor? idAccessor(v) : v) : ""), // Return with empty string if null value is passed
-        //...idAccessor? { getOptionSelected: (o, v) => { /*console.debug("option: ", o, v, idAccessor(o) == v);*/ return idAccessor(o) == v} }: {},
-      }
-    : {}
-  return (
-    <FormControl
-      error={touched && !!error }
-      disabled={disabled}
-      {...formProps}
-    >
-      <Autocomplete
-        autoHighlight
-        freeSolo={false}
-        //clearOnBlur={true}
-        //autoSelect={true}
-        {...rfPropsFix} // Used to fix the onChange event handler for redux-form
-        options={options}
-        getOptionLabel={defaultGetOptionLabel}
-        value={value2? value2: ""} // Used because if the input is clreared it's returning with undefined
-        {...custom}        
-        {...inputRest}
-        renderInput={(params) => 
-          <MuiTextField 
-            label={label}
-            autoComplete="disabled"
-            variant={variant}
-            {...params}
-            {...inputProps}
-          />
-        }
       />
     </FormControl>
   )
