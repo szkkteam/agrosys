@@ -9,3 +9,16 @@ export function convertDates(keys) {
     return obj
   }
 }
+
+
+export const updateObjectInArray = (array, index, newData) => {
+  return array.map((item, i) => {
+    if (i !== index) {
+      return item
+    } 
+    return {
+      ...item,
+      ...newData
+    }
+  })
+}

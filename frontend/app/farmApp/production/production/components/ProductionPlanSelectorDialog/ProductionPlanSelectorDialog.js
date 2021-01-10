@@ -6,18 +6,27 @@ import styled from 'styled-components'
 
 import { Modal } from 'site/components'
 import { Detail, DetailContainer } from 'farmApp/components/Detail'
+import ProductionTabGeneral from './ProductionTabGeneral'
 
-import CropTabGeneral from './CropTabGeneral'
+const Tab1 = () => <div>
+    Create helper text.<br/>
+    Create an autoselect button where the user can select a template<br/>
+    Create a button, where the user can create a new template -> this will open the template manager<br/>
+    Display a short summary from the selected template<br/>
+
+</div>
 
 const Container = styled.div`
     padding: 10px 15px;
 `
 
-const CropDetailDialog = ({
+const ProductionPlanSelectorDialog = ({
     data,
     onClose,
     ...props
 }) => {
+    //console.debug("headerProps: ", headerProps)
+    console.debug("Props: ", props)
 
     return (
         <Detail
@@ -25,7 +34,7 @@ const CropDetailDialog = ({
             onClose={onClose}
         >
             <Container>
-                <CropTabGeneral 
+                <ProductionTabGeneral 
                     title={messages.tabGeneral}
                     {...props}
                 />
@@ -34,8 +43,8 @@ const CropDetailDialog = ({
     )
 }
 
-CropDetailDialog.propTypes = {
+ProductionPlanSelectorDialog.propTypes = {
 
 }
 
-export default CropDetailDialog
+export default ProductionPlanSelectorDialog

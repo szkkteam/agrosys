@@ -80,7 +80,7 @@ const renderTextField = ({
   label,
   input,
   formProps,
-  meta: { touched, invalid, error, dirty, pristine, initial, autofilled },
+  meta: { touched = null, invalid = null, error = null } = {},
   ...custom
 }) => {
   //console.log("Label: " + label + " touched: ", touched, " invalid: " + invalid + " dirty: ", dirty, " pristine: ", pristine, " autofilled: ", autofilled, " initial: ", initial)

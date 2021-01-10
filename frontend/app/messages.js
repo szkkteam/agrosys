@@ -26,5 +26,9 @@ export default defineMessages({
     emptyList: {
         id: `${scope}.emptyList`,  
         defaultMessage: 'No options',
+    },
+    save: {
+        id: `${scope}.save`,  
+        defaultMessage: 'Save',
     }
   })

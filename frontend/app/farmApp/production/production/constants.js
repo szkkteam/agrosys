@@ -9,3 +9,5 @@ export const TAB_SETTINGS = "#settings"
 
 export const VIEW_MODULE = '#module'
 export const VIEW_LIST = '#list'
+
+export const PLAN_SELECTOR_FORM = 'planSelectorForm'
