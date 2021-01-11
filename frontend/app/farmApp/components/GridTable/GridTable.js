@@ -60,9 +60,9 @@ const GridTable = ({
             </HeaderContainer>
             <BodyContainer>
                 {data.map((data, i) => (
-                    <Row>
-                        { columns.map(({size = 1, render = null, spacing = undefined, ...col}, i) => 
-                            <Column key={i} size={size} spacing={!_.isUndefined(spacing)? spacing: columnSpacing}>
+                    <Row key={i}>
+                        { columns.map(({size = 1, render = null, spacing = undefined, ...col}, j) => 
+                            <Column key={j} size={size} spacing={!_.isUndefined(spacing)? spacing: columnSpacing}>
                                 { render? render(data) : "Empty" }
                             </Column>
                         )}

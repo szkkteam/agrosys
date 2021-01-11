@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components'
 
+import {
+    Portal
+} from '@material-ui/core'
 
 import { 
     Stepper as MuiStepper,
@@ -24,6 +27,7 @@ const Stepper = ({
     contents,
     finishedContent=null,
     className,
+    contentRef=null,
     containerComponent: ContainerComponent = StepContentContainer,
     orientation="horizontal",
     ...props
@@ -93,9 +97,18 @@ const Stepper = ({
         onNext: handleNext,
         onBack: handleBack,
     }
+    //console.debug("Stepper - contentRef: ", contentRef.current)
+    const PortalContent = ({children, ...props}) => (
+        <Portal container={contentRef.current}>
+            {children}
+        </Portal>
+    )
+    console.debug("Stepper render: ", ContainerComponent)
+    //const ContentContainer = contentRef? PortalContent : ContainerComponent
 
+    /*
     const renderStepContent = useMemo(() => {
-        return  () => finishedContent && allStepsCompleted()? (
+        return () => finishedContent && allStepsCompleted()? (
                 <div>
                     { renderFinishedContent() }
                 </div>
@@ -108,7 +121,19 @@ const Stepper = ({
                     }
                 </ContainerComponent>
             )
-    })
+    }, [activeContent, ContainerComponent])
+    */
+
+   const renderStepContent = () => 
+        (
+            <ContainerComponent title="Valami">
+                { _.isFunction(activeContent)
+                    ? activeContent(stepContentProps)
+                    : React.cloneElement(activeContent, stepContentProps)
+
+                }
+            </ContainerComponent>
+        )
 
     return (
         <div
@@ -121,7 +146,7 @@ const Stepper = ({
                 {...props}
             >
                 {steps.map((label, index) => (
-                    <Step key={`${label.id}-${index}`}>
+                    <Step key={`${index}`}>
                         <StepButton
                             onClick={handleStep(index)}
                             completed={completed[index]}
@@ -144,6 +169,15 @@ const Stepper = ({
         </div>
     )
 }
+
+/*
+<StepButton
+    onClick={handleStep(index)}
+    completed={completed[index]}
+>
+    <FormattedMessage {...label} />
+</StepButton>
+*/
 
 Stepper.propTypes = {
     defaultStep: PropTypes.number,

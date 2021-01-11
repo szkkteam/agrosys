@@ -34,7 +34,7 @@ const ProductionCreateLayout = ({
     // TODO: This should be a form. If the form is not pristine, dont open the dialog
     /* On mount, open the plan selector dialog */
     useEffect(() => {
-        //openPlanSelector()
+        openPlanSelector()
     }, [])
 
     return (

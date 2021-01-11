@@ -63,7 +63,7 @@ const AddButton = styled(props => <PrimaryActionButton {...props} />)`
 
 const ProductionTabGeneral = ({
     title,
-
+    onCreate,
 }) => {
 
     const intl = useIntl()
@@ -95,6 +95,7 @@ const ProductionTabGeneral = ({
                         <Grid item xs={8}>
                             <AddButton
                                 title={messages.addNewPlan}
+                                onClick={onCreate}
                             />  
                         </Grid>
                     </Grid>

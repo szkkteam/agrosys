@@ -5,11 +5,6 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import {
-    PlanSummary,
-    //PlanMainCropSubsidiesTab
-} from '../../components'
-
-import {
     Grid,
     Tabs,
     Tab,
@@ -17,18 +12,22 @@ import {
 } from '@material-ui/core'
 
 
-const PlanLayout = ({
+const PlanAddParcelButton = ({
 
 }) => {
-   
     return (
-        <PlanSummary />
+        <Button
+            color="primary"
+            variant="contained"
+            style={{width: "15%", marginTop: "10px"}}
+        >
+            Add parcel
+        </Button>
     )
 }
 
-
-PlanLayout.propTypes = {
+PlanAddParcelButton.propTypes = {
 
 }
 
-export default PlanLayout
+export default PlanAddParcelButton

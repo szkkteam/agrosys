@@ -1,27 +1,32 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Grow from '@material-ui/core/Grow';
-import Paper from '@material-ui/core/Paper';
-import Popper from '@material-ui/core/Popper';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
-import Divider from '@material-ui/core/Divider';
+import React, { useState, useRef, useLayoutEffect } from 'react'
+import messages from './messages';
+import PropTypes from 'prop-types'
+import { useIntl, FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
 
-import Tooltip from '@material-ui/core/Tooltip';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 import {
-    EllipsisText
-} from 'components/Text'
+    Grid,
+    Button,
+    ButtonGroup,
+    ClickAwayListener,
+    Grow,
+    Paper,
+    Popper,
+    MenuItem,
+    MenuList,
+    Divider,
+    Tooltip
+} from '@material-ui/core'
 
 const SplitButton = ({
+    className,
     options,
+    variant="contained",
     disabled = false,
     selectedIndex: defaultSelectedIndex = 0,
+    onClick,
     //handleClick,
     placement = 'bottom'
 }) => 
@@ -32,12 +37,13 @@ const SplitButton = ({
 
     
     const handleClick = () => {
-        console.debug(`You clicked ${options[selectedIndex]}`);
+        onClick && onClick(selectedIndex)
     };
 
     const handleMenuItemClick = (event, index) => {
         setSelectedIndex(index);
         setOpen(false);
+        onClick && onClick(index)
     };
 
     const handleToggle = () => {
@@ -52,13 +58,22 @@ const SplitButton = ({
         setOpen(false);
     }
 
+    const {
+        title: mainTitle,
+        disabled: mainDisabled = false,
+        onClick: mainOnClick = null,
+    } = options[selectedIndex]
+
     return (
-        <div>
-            <ButtonGroup variant="outlined" color="primary" ref={anchorRef} aria-label="split button">
+        <div
+        className={className}
+        >
+            <ButtonGroup variant={variant} color="primary" ref={anchorRef} aria-label="split button">
                 <Button 
-                    onClick={handleClick}
+                    onClick={mainOnClick || handleClick}
+                    disabled={mainDisabled}
                 >
-                    {options[selectedIndex]}
+                    <FormattedMessage {...mainTitle}/>
                 </Button>                        
                 <Button
                     disabled={disabled || options.length == 1}
@@ -80,9 +95,11 @@ const SplitButton = ({
                 placement={placement}
                 transition
                 disablePortal
+                /*
                 style={{
                     zIndex: 999
                 }}
+                */
             >
             {({ TransitionProps, placement }) => (
                 <Grow
@@ -94,14 +111,17 @@ const SplitButton = ({
                 <Paper>
                     <ClickAwayListener onClickAway={handleClose}>
                     <MenuList id="split-button-menu">
-                        {options.map((option, index) => (
+                        {options.map(({title, disabled = false, onClick = null}, index) => (
                             <MenuItem
-                                key={option}
-                                disabled={index === 2}
+                                key={index}
+                                disabled={disabled}
                                 selected={index === selectedIndex}
-                                onClick={(event) => handleMenuItemClick(event, index)}
+                                onClick={(event) => {
+                                    handleMenuItemClick(event, index)
+                                    onClick && onClick(event)
+                                }}
                             >
-                                {option}
+                                <FormattedMessage {...title}/>
                             </MenuItem>
                         ))}
                     </MenuList>
@@ -115,7 +135,13 @@ const SplitButton = ({
 }
 
 SplitButton.propTypes = {
-    options: PropTypes.array.isRequired,
+    options: PropTypes.arrayOf(PropTypes.shape({
+        title: PropTypes.object.isRequired,
+        disabled: PropTypes.bool,
+        onClick: PropTypes.func,
+    })).isRequired,
+    onClick: PropTypes.func,
+    selectedIndex: PropTypes.number,
 };
 
 export default SplitButton

@@ -27,15 +27,20 @@ const ProductionPlanSelectorDialog = ({
 }) => {
     //console.debug("headerProps: ", headerProps)
     console.debug("Props: ", props)
+    const { handleConfirm }  = props
 
     return (
         <Detail
             title={messages.title}
             onClose={onClose}
+            footerProps={{
+                onSubmit:     handleConfirm,
+            }}
         >
             <Container>
                 <ProductionTabGeneral 
                     title={messages.tabGeneral}
+                    onCreate={handleConfirm}
                     {...props}
                 />
             </Container>

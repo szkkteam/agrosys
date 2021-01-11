@@ -19,6 +19,7 @@ import { FieldDrawModal } from 'farmApp/production/field/components'
 import { MachineryForm } from 'farmApp/resource/machinery/components'
 import { CropForm } from 'farmApp/production/crop/components'
 import { ProductionPlanSelectorForm} from 'farmApp/production/production/components'
+import { PlanProductionCreateForm } from 'farmApp/production/plan/components'
 
 import { 
     EDIT_FILE_DIALOG,
@@ -29,6 +30,7 @@ import {
     MACHINERY_DIALOG,
     CROP_DIALOG,
     PRODUCTION_PLAN_SELECTOR_DIALOG,
+    PLAN_PRODUCTION_CREATE_DIALOG,
  } from '../modalTypes'
 
 const ModalProvider = ({
@@ -48,7 +50,8 @@ const ModalProvider = ({
             [FIELD_DRAW_DIALOG, FieldDrawModal],
             [MACHINERY_DIALOG, MachineryForm],
             [CROP_DIALOG, CropForm],
-            [PRODUCTION_PLAN_SELECTOR_DIALOG, ProductionPlanSelectorForm]
+            [PRODUCTION_PLAN_SELECTOR_DIALOG, ProductionPlanSelectorForm],
+            [PLAN_PRODUCTION_CREATE_DIALOG, PlanProductionCreateForm]
     ]))
     const Component = modalsMap.get(modalType) || null;
 

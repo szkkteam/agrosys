@@ -4,31 +4,16 @@ import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import {
-    PlanSummary,
-    //PlanMainCropSubsidiesTab
-} from '../../components'
-
-import {
-    Grid,
-    Tabs,
-    Tab,
-    Button,
-} from '@material-ui/core'
-
-
-const PlanLayout = ({
+const TaskPage = ({
 
 }) => {
-   
     return (
-        <PlanSummary />
+        <div>Tasks</div>
     )
 }
 
-
-PlanLayout.propTypes = {
+TaskPage.propTypes = {
 
 }
 
-export default PlanLayout
+export default TaskPage
