@@ -19,16 +19,19 @@ import {
 const ListContainer = styled(MasterListItem)`
     height: 70px;
     width: 100%;
-    border-top: 1px solid rgba(214, 220, 225, 0.5);
-    padding: 0;
+    //border-top: 1px solid rgba(214, 220, 225, 0.5);
+    padding: 10px 20px;
+    max-width: 250px;
+    min-width: 220px;
     cursor: pointer;
-    > div {
-        padding: 10px 20px;
-        display: flex;
-        width: 100%;
-        align-items: center;
-        min-height: 69px;        
-    }
+`
+
+const ListInnerContainer = styled.div`
+    display: flex;
+    //min-width: 220px;
+    width: 100%;
+    align-items: center;
+    min-height: 69px;        
 `
 
 const Thumbnail = styled.div`
@@ -92,14 +95,14 @@ const ActionIcon = styled(props => <ItemMenu {...props}/>)`
 `
 
 const FieldListItem = ({
+    data,
     match,
-    history
+    history,
+    children,
+    className,
+    disableAction=false,
+    ...props
 }) => {
-
-    const data = {
-        id: 1,
-        title: "Parcel 1",
-    }
 
     const items = [
         {title: messages.edit, link: { to: ROUTES.BlockDetail, params: {id: 1}}},
@@ -109,8 +112,10 @@ const FieldListItem = ({
     return (
         <ListContainer
             data={data}
+            className={className}
         >
-            <div>
+            {children}
+            <ListInnerContainer>
                 <Thumbnail image="https://via.placeholder.com/48/48"/>
                 <Content>
                     <Title variant="h2" noWrap>
@@ -127,10 +132,10 @@ const FieldListItem = ({
                         </Utilization>
                     </MetaContainer>
                 </Content>                
-                <ActionIcon
+                { !disableAction && <ActionIcon
                     items={items}
-                />
-            </div>
+                /> }
+            </ListInnerContainer>
         </ListContainer>
     )
 }

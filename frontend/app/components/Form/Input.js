@@ -1,20 +1,35 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import classnames from 'classnames'
 import startCase from 'lodash/startCase'
 import Field from 'redux-form/es/Field'
+import { useIntl } from 'react-intl'
+import styled from 'styled-components'
 
-import FormHelperText from '@material-ui/core/FormHelperText'
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import MenuItem from '@material-ui/core/MenuItem';
-import { TextField as MuiTextField } from '@material-ui/core'
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+
+import {
+  FormHelperText,
+  Select,
+  InputLabel,
+  FormControl,
+  TextField as MuiTextField,
+  Checkbox,
+  FormControlLabel,
+  Paper,
+  Button,
+  Divider,
+  ListSubheader
+} from '@material-ui/core' 
+
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+
+import {
+  renderAutocomplete
+} from './components'
 
 export const EmailField = (props) =>
-  <Field component={_renderInput} type="email" {...props} />
+  <Field component={TextComponent} type="email" {...props} />
+  //<Field component={_renderInput} type="email" {...props} />
 
 export const HiddenField = (props) =>
   <Field component="input" type="hidden" {...props} />
@@ -65,7 +80,7 @@ const renderTextField = ({
   label,
   input,
   formProps,
-  meta: { touched, invalid, error, dirty, pristine, initial, autofilled },
+  meta: { touched = null, invalid = null, error = null } = {},
   ...custom
 }) => {
   //console.log("Label: " + label + " touched: ", touched, " invalid: " + invalid + " dirty: ", dirty, " pristine: ", pristine, " autofilled: ", autofilled, " initial: ", initial)
@@ -103,40 +118,6 @@ const renderBooleanField = ({
             onChange={input.onChange}
           />}
         label={label}
-      />
-    </FormControl>
-  )
-}
-
-const renderAutocomplete = ({
-  input = null,
-  label,
-  disabled = false,
-  textProps,
-  formProps,
-  meta: { touched = null, error = null } = {},
-  ...custom
-}) => {
-  const { onChange: onChangeRF, onBlur: onBlurRF, ...inputRest } = input || {}
-
-  const rfPropsFix = input? { onChange: (e, v) => input.onChange(v) } : {}
-  return (
-    <FormControl
-      {...formProps}
-      error={touched && !!error }
-      disabled={disabled}
-    >
-      <Autocomplete
-        autoHighlight
-        freeSolo={false}
-        fullWidth={true}
-        clearOnBlur={true}
-        autoSelect={true}
-        {...rfPropsFix} // Used to fix the onChange event handler for redux-form
-        
-        {...custom}        
-        {...inputRest}
-        renderInput={(params) => <MuiTextField {...params} label={label} {...textProps} autoComplete="disabled" fullWidth/>}
       />
     </FormControl>
   )

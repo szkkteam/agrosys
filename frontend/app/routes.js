@@ -4,6 +4,7 @@ import startCase from 'lodash/startCase'
 import { compile } from 'path-to-regexp'
 import Content from 'components/Layout/Content'
 import HeaderContent from 'components/Layout/HeaderContent'
+import Container from 'components/Layout/Container'
 /**
  * Dashboard
  */
@@ -135,6 +136,7 @@ import {
   SignUp,
   ResendConfirmation,
   ResetPassword,
+  AuthHeader,
 } from 'security/pages'
 
 import {
@@ -232,6 +234,7 @@ export const ROUTES = {
   // Inventory
   InventoryList: 'InventoryList',
   
+  Authentication: 'Authentication',
   ForgotPassword: 'ForgotPassword',
   Login: 'Login',
   Logout: 'Logout',
@@ -585,7 +588,75 @@ export const routes = [
     routeComponent: ProtectedRoute,
     props: { exact: false }
   },
+  /**
+   * Security routes
+   */
+  {
+    key: ROUTES.Authentication,
+    path: '/security',
+    component: AuthHeader,
+    label: 'Authentication',
+    layoutComponent: Container,
+    routes: [
+            {
+        key: ROUTES.Login,
+        path: '/security/login',
+        component: Login,
+        routeComponent: AnonymousRoute,
+        label: 'Login',
+        props: { exact: true }
+      },
+      {
+        key: ROUTES.ForgotPassword,
+        path: '/security/login/forgot-password',
+        component: ForgotPassword,
+        routeComponent: AnonymousRoute,
+        label: 'Forgot password?',
+        props: { exact: true }
+      },
+      {
+        key: ROUTES.Logout,
+        path: '/security/logout',
+        component: Logout,
+        label: 'Logout',
+        props: { exact: true }
+      },
+      {
+        key: ROUTES.PendingConfirmation,
+        path: '/security/sign-up/pending-confirm-email',
+        component: PendingConfirmation,
+        routeComponent: AnonymousRoute,
+        label: 'Pending Confirm Email',
+        props: { exact: true }
+      },
+      {
+        key: ROUTES.ResendConfirmation,
+        path: '/security/sign-up/resend-confirmation-email',
+        component: ResendConfirmation,
+        routeComponent: AnonymousRoute,
+        label: 'Resend Confirmation Email',
+        props: { exact: true }
+      },
+      {
+        key: ROUTES.ResetPassword,
+        path: '/security/login/reset-password/:token',
+        component: ResetPassword,
+        routeComponent: AnonymousRoute,
+        label: 'Reset Password',
+        props: { exact: true }
+      },
+      {
+        key: ROUTES.SignUp,
+        path: '/security/sign-up',
+        component: SignUp,
+        routeComponent: AnonymousRoute,
+        label: 'Sign Up',
+        props: { exact: true }
+      },
+    ]
+  },
   // Common routes
+  /*
   {
     key: ROUTES.ForgotPassword,
     path: '/login/forgot-password',
@@ -617,14 +688,7 @@ export const routes = [
     label: 'Pending Confirm Email',
     props: { exact: true }
   },
-  {
-    key: ROUTES.Profile,
-    path: '/profile',
-    component: Profile,
-    routeComponent: ProtectedRoute,
-    label: 'Profile',
-    props: { exact: true }
-  },
+  
   {
     key: ROUTES.ResendConfirmation,
     path: '/sign-up/resend-confirmation-email',
@@ -649,12 +713,21 @@ export const routes = [
     label: 'Sign Up',
     props: { exact: true }
   },
+  */
+  {
+    key: ROUTES.Profile,
+    path: '/profile',
+    component: Profile,
+    routeComponent: ProtectedRoute,
+    label: 'Profile',
+    props: { exact: true }
+  },
   {
     key: ROUTES.NotFound,
     path: '*',
     component: NotFound,
     label: 'Not found',
-  },
+  }
 ]
 
 /**

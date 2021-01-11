@@ -30,13 +30,13 @@ const MachineryDetailDialog = ({
 
     return (
         <Detail
-            headerProps={{
-                title: messages.title,                    
-            }}
+            title={messages.title}
             //height={400}
-            tabs={tabs}
-            {...props}
         >
+            <DetailContainer
+                tabs={tabs}
+                {...props}
+            />
         </Detail>
     )
 }

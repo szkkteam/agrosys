@@ -45,7 +45,7 @@ const WidgetContainer = ({
                     <ItemMenu 
                         icon={MoreVertIcon}
                         items={items}
-                        placement="left"
+                        //placement="left"
                     />
                 }
                 {...headerProps}

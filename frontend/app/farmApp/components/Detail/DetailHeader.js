@@ -41,6 +41,7 @@ const Icon = styled(CloseIcon)`
 const DetailHeader = ({
     title,
     onClose,
+    children,
     ...props
 }) => {
 
@@ -49,6 +50,7 @@ const DetailHeader = ({
             <Title variant="h6">
                 <FormattedMessage {...title} />
             </Title>    
+                {children}
             <Spacer />
             <IconButton aria-label="close" onClick={onClose}>
                 <Icon />

@@ -70,7 +70,8 @@
     "redux-saga": "^0.15.6",
     "reselect": "^4.0.0",
     "styled-components": "^5.2.1",
-    "super-skeleton": "github:briancappello/super-skeleton"
+    "super-skeleton": "github:briancappello/super-skeleton",
+    "use-callback-ref": "^1.2.4"
   },
   "devDependencies": {
     "uglifyjs-webpack-plugin": "1.0.1",

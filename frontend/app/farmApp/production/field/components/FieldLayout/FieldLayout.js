@@ -67,6 +67,10 @@ const Spacer = styled.div`
     flex-grow: 1;
 `
 
+const BorderFieldListItem = styled(props => <FieldListItem {...props} />)`
+    border-top: 1px solid rgba(214, 220, 225, 0.5);
+`
+
 const FieldMasterDetail = ({
     
 }) => {
@@ -94,15 +98,15 @@ const FieldMasterDetail = ({
                     />
                 }
             >
-                <FieldListItem />
-                <FieldListItem />
-                <FieldListItem />
-                <FieldListItem />
-                <FieldListItem />
-                <FieldListItem />
-                <FieldListItem />
-                <FieldListItem />
-                <FieldListItem />
+                <BorderFieldListItem />
+                <BorderFieldListItem />
+                <BorderFieldListItem />
+                <BorderFieldListItem />
+                <BorderFieldListItem />
+                <BorderFieldListItem />
+                <BorderFieldListItem />
+                <BorderFieldListItem />
+                <BorderFieldListItem />
             </MasterList>
             <SideSheet
                 open={!!selected}

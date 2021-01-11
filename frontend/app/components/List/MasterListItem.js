@@ -37,7 +37,7 @@ const MasterListItem = ({
 
 MasterListItem.propTypes = {
     data: PropTypes.object,
-    children: PropTypes.element.isRequired,
+    //children: PropTypes.element.isRequired,
 }
 
 export default MasterListItem

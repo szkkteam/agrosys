@@ -1,21 +1,36 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import styled from 'styled-components'
 
-import { Stepper as MuiStepper } from '@material-ui/core';
-import Step from '@material-ui/core/Step';
-import StepButton from '@material-ui/core/StepButton';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import {
+    Portal
+} from '@material-ui/core'
 
-import './stepper.scss'
+import { 
+    Stepper as MuiStepper,
+    Step,
+    StepButton,
+    StepContent,
+    Button,
+    Typography
+} from '@material-ui/core';
+
+const StepContentContainer = styled.div`
+    height: 100%;
+`
 
 const Stepper = ({
     defaultStep=0,
     steps,
     stepsVisible=true,
     contents,
-    finishedContent=null
+    finishedContent=null,
+    className,
+    contentRef=null,
+    containerComponent: ContainerComponent = StepContentContainer,
+    orientation="horizontal",
+    ...props
 }) => {
 
     const [activeStep, setActiveStep] = React.useState(defaultStep);
@@ -69,45 +84,100 @@ const Stepper = ({
     }
 
     const renderFinishedContent = finishedContent? typeof(finishedContent) == 'function'? finishedContent : () => finishedContent :  null
-    const activeContent = typeof(contents[activeStep] ) == 'function'? contents[activeStep] : (props) => contents[activeStep]
+
+    //_.isFunction(contents[activeStep])
+    //const activeContent = typeof(contents[activeStep] ) == 'function'? contents[activeStep] : (props) => contents[activeStep]
+    const activeContent = contents[activeStep]
+
+    const stepContentProps = {
+        numOfSteps: totalSteps,
+        completedSteps,
+        activeStep,
+        onComplete: handleComplete,
+        onNext: handleNext,
+        onBack: handleBack,
+    }
+    //console.debug("Stepper - contentRef: ", contentRef.current)
+    const PortalContent = ({children, ...props}) => (
+        <Portal container={contentRef.current}>
+            {children}
+        </Portal>
+    )
+    console.debug("Stepper render: ", ContainerComponent)
+    //const ContentContainer = contentRef? PortalContent : ContainerComponent
+
+    /*
+    const renderStepContent = useMemo(() => {
+        return () => finishedContent && allStepsCompleted()? (
+                <div>
+                    { renderFinishedContent() }
+                </div>
+            ) : (
+                <ContainerComponent>
+                    { _.isFunction(activeContent)
+                        ? activeContent(stepContentProps)
+                        : React.cloneElement(activeContent, stepContentProps)
+
+                    }
+                </ContainerComponent>
+            )
+    }, [activeContent, ContainerComponent])
+    */
+
+   const renderStepContent = () => 
+        (
+            <ContainerComponent title="Valami">
+                { _.isFunction(activeContent)
+                    ? activeContent(stepContentProps)
+                    : React.cloneElement(activeContent, stepContentProps)
+
+                }
+            </ContainerComponent>
+        )
 
     return (
-        <div className="stepper-container">
+        <div
+            className={className}
+        >
             { stepsVisible && <MuiStepper
                 nonLinear
                 activeStep={activeStep}
+                orientation={orientation}
+                {...props}
             >
                 {steps.map((label, index) => (
-                    <Step key={`${label.id}-${index}`}>
+                    <Step key={`${index}`}>
                         <StepButton
                             onClick={handleStep(index)}
                             completed={completed[index]}
                         >
                             <FormattedMessage {...label} />
                         </StepButton>
+                        { orientation === "vertical"
+                            ? (<StepContent>
+                                {renderStepContent()}
+                            </StepContent>)
+                            : null
+                        }
                     </Step>
                 ))}
             </MuiStepper> }
-            { finishedContent && allStepsCompleted()? (
-                <div>
-                    { renderFinishedContent() }
-                </div>
-            ) : (
-                <div style={{height: "100%"}}>
-                    { activeContent({
-                        numOfSteps: totalSteps,
-                        completedSteps,
-                        activeStep,
-                        onComplete: handleComplete,
-                        onNext: handleNext,
-                        onBack: handleBack,
-                    }) }
-                </div>
-            )
+            { orientation === "horizontal"
+                ? renderStepContent()
+                : null
             }
         </div>
     )
 }
+
+/*
+<StepButton
+    onClick={handleStep(index)}
+    completed={completed[index]}
+>
+    <FormattedMessage {...label} />
+</StepButton>
+*/
 
 Stepper.propTypes = {
     defaultStep: PropTypes.number,

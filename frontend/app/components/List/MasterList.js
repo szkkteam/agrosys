@@ -49,16 +49,9 @@ const MasterList = ({
     const buttonRef = useRef(null)
     const listRef = useRef(null)
 
-    const height = useHeightDifference(listRef, buttonRef || 0, maxHeight)
-
-    useEffect(() => {
-        
-        console.debug("addButton: ", addButton)
-        console.debug("buttonRef: ", buttonRef)
-    })
-
-
-
+    //const height = useHeightDifference(listRef, buttonRef || 0, maxHeight)
+    const height = maxHeight
+    
     // TODO: Do we really need match and history?
     // TODO: Implement a onClick global handler
     const match = useRouteMatch()

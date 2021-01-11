@@ -4,6 +4,7 @@ export {
   PasswordField,
   TextArea,
   TextField,
+  TextComponent,
   BooleanField,
   SelectField,
   SelectComponent,

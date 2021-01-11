@@ -11,8 +11,8 @@
 const enTranslationMessages = require('./translations/en.json');
 const huTranslationMessages = require('./translations/hu.json');
 
-const localeEnUs = 'en'
-const localeHu = 'hu'
+const localeEnUs = 'en-US'
+const localeHu = 'hu-HU'
 
 const DEFAULT_LOCALE = localeEnUs
 
