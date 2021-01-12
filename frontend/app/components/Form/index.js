@@ -6,6 +6,7 @@ export {
   TextField,
   TextComponent,
   BooleanField,
+  BooleanComponent,
   SelectField,
   SelectComponent,
   SelectOption,

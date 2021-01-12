@@ -105,8 +105,16 @@ const renderBooleanField = ({
   label,
   input,
   formProps,
+  value: originalValue,
+  onChange: originalOnChange,
   ...custom
 }) => {
+
+  const checkboxProps = {
+    checked: input? input.value ? true : false : originalValue,
+    onChange: input? input.onChange : originalOnChange
+  }
+
   return (
     <FormControl
       {...formProps}
@@ -114,8 +122,7 @@ const renderBooleanField = ({
       <FormControlLabel
         control={
           <Checkbox 
-            checked={input.value ? true : false}
-            onChange={input.onChange}
+            {...checkboxProps}
           />}
         label={label}
       />
