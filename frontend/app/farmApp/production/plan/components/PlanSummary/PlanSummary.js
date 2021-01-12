@@ -87,11 +87,11 @@ const PlanSummary = ({
             console.debug("Finished: ", status)
         })
     }
-    /*
+    
     useEffect(() => {
         openProductionCreation()
     }, [])
-    */
+    
 
     const addButtonOptions = [
         { title: messages.addMainCrop, onClick: openProductionCreation},

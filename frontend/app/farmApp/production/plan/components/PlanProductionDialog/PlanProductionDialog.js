@@ -32,6 +32,15 @@ const Flex = styled.div`
     height: 100%;
 `
 
+const FlexStepper = styled(props => <Stepper {...props} />)`
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+`
+
+const StepperContainer = styled.div`
+    flex-grow: 1;
+`
 
 const PlanProductionDialog = ({
     onClose,
@@ -98,11 +107,12 @@ const PlanProductionDialog = ({
             >                
             </DetailHeader>
                 <Container /*ref={ ref => setContainerRef(ref)}*/>
-                    <Stepper 
+                    <FlexStepper 
                         //defaultStep={1} // TODO: REmove
                         steps={steps}
                         contents={contents}
-                        //containerComponent={portalContainer}
+                        defaultStep={2}
+                        containerComponent={StepperContainer}
                     />
                 </Container>
             <DetailFooter

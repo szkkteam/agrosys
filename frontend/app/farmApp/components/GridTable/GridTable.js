@@ -76,12 +76,12 @@ const GridTable = ({
 
 GridTable.propTypes = {
     columns: PropTypes.arrayOf(PropTypes.shape({
-        title: PropTypes.oneOf([
+        title: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.object,
         ]).isRequired,
         render: PropTypes.func,
-        size: PropTypes.number,
+        size: PropTypes.any,
         spacing: PropTypes.number,
     })).isRequired,
     data: PropTypes.arrayOf(PropTypes.any).isRequired

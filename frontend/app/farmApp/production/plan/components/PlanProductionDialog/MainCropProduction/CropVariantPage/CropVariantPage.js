@@ -40,18 +40,6 @@ const CropVariantPage = ({
 }) => {
     const columns = [
         {title: 'Parcels', size: 1.5, render: (rowData) => <FieldListItem data={rowData} />},
-        {title: 'Main Crop', render: (rowData) => <SearchSelectComponent name="cropType"
-                                                    //label={intl.formatMessage(messages.cropType)}
-                                                    label="Main crop"
-                                                    //variant="outlined"
-                                                    disableClearable={true}
-                                                    formProps={{fullWidth: true}}
-                                                    options={variants}
-                                                    //idAccessor={(o) => o.id}
-                                                    groupBy={(option) => option.category}
-                                                    getOptionLabel={(option) => option.title}
-                                                />
-        },
         {title: 'Variant', render: (rowData) => <SearchSelectComponent name="cropType"
                                                     //label={intl.formatMessage(messages.cropType)}
                                                     label="Variant"
