@@ -51,55 +51,34 @@ const variants = [
     {id: 2, title: "ACTIVUS", },
 ]
 
+class CropVariantPage extends React.Component {
 
-const CropVariantPage = ({
-    onBack,
-    onSubmit,
-    handleSubmit,
-    data,
-    children,
-    openDrawer,    
-    array,
-    parcels = [],
-    ...props
-}) => {
+    constructor(props) {
+        super(props)
 
-    console.debug("Form props: ", props)
-    const [drawerOpen, setDrawerOpen] = useState(false)
-
-
-    const handleSelectParcel = (parcelId, selected) => {
-        if (selected) {
-            array.push('parcels', { parcelId })
-        } else {
-            const index = _.findIndex(parcels, x => x.parcelId === parcelId)
-            array.remove('parcels', index)
+        this.state = {
+            drawerOpen: false,
         }
-    }
 
-    const handleDeleteParcel = (index) => () => {
-        array.remove('parcels', index)
-    }
-
-    const handleDrawerClose = () => {
-        setDrawerOpen(false)
-    }
-
-    const handleDrawerOpen = () => {
-        setDrawerOpen(true)
-    }
-
-    useEffect(() => {
-        console.debug("mount")
-        return () => {
-            console.debug("unMount")
-        }
-    })
-
-    const columns = [
-        {title: 'Parcels', size: 1.5, render: (rowData) => <FieldListItem data={rowData} />},
-        {title: 'Variant', render: (field, i) => <SearchSelectField name={`${field}.crop.variant`}
-                                                    label="Variant"
+        this.columns = [
+            {title: 'Parcels', size: 1.5, render: (rowData) => <FieldListItem data={rowData} />},
+            {title: 'Variant', render: (field, i) => <SearchSelectField name={`${field}.crop.variant`}
+                                                        label="Variant"
+                                                        disableClearable={true}
+                                                        formProps={{fullWidth: true}}
+                                                        options={variants}
+                                                        //idAccessor={(o) => o.id}
+                                                        groupBy={(option) => option.category}
+                                                        getOptionLabel={(option) => option.title}
+                                                    />
+            },
+            {title: 'Planned yield' , render: (field, i) => <TextField name={`${field}.crop.yield`}
+                                                                label="Planned yield"
+                                                                formProps={{fullWidth: true}}
+                                                            />
+            },
+            {title: 'Seed', render: (field, i) => <SearchSelectField name={`${field}.crop.seed`}
+                                                    label="Szaporítóanyag"
                                                     disableClearable={true}
                                                     formProps={{fullWidth: true}}
                                                     options={variants}
@@ -107,89 +86,170 @@ const CropVariantPage = ({
                                                     groupBy={(option) => option.category}
                                                     getOptionLabel={(option) => option.title}
                                                 />
-        },
-        {title: 'Planned yield' , render: (field, i) => <TextField name={`${field}.crop.yield`}
-                                                            label="Planned yield"
-                                                            formProps={{fullWidth: true}}
-                                                        />
-        },
-        {title: 'Seed', render: (field, i) => <SearchSelectField name={`${field}.crop.seed`}
-                                                label="Szaporítóanyag"
-                                                disableClearable={true}
-                                                formProps={{fullWidth: true}}
-                                                options={variants}
-                                                //idAccessor={(o) => o.id}
-                                                groupBy={(option) => option.category}
-                                                getOptionLabel={(option) => option.title}
-                                            />
-        },
-        {title: 'Crop code', render: (field, i) => <SearchSelectField name={`${field}.crop.cropCode`}
-                                                label="Crop code"
-                                                disableClearable={true}
-                                                formProps={{fullWidth: true}}
-                                                options={variants}
-                                                //idAccessor={(o) => o.id}
-                                                groupBy={(option) => option.category}
-                                                getOptionLabel={(option) => option.title}
-                                            />
-        },
-        {title: '', size: "0 0 40px", spacing: 0, render: (data, index) => (
-            <IconButton
-                onClick={handleDeleteParcel(index)}
-            >
-                <DeleteIcon />
-            </IconButton>)
-            }
-        
-    ]
+            },
+            {title: 'Crop code', render: (field, i) => <SearchSelectField name={`${field}.crop.cropCode`}
+                                                    label="Crop code"
+                                                    disableClearable={true}
+                                                    formProps={{fullWidth: true}}
+                                                    options={variants}
+                                                    //idAccessor={(o) => o.id}
+                                                    groupBy={(option) => option.category}
+                                                    getOptionLabel={(option) => option.title}
+                                                />
+            },
+            {title: '', size: "0 0 40px", spacing: 0, render: (data, index) => (
+                <IconButton
+                    onClick={this.handleDeleteParcel(index)}
+                >
+                    <DeleteIcon />
+                </IconButton>)
+                }
+            
+        ]
+    }
+
+    handleSelectParcel = (parcelId, selected) => {
+        if (selected) {
+            this.props.array.push('parcels', { parcelId })
+        } else {
+            const index = _.findIndex(parcels, x => x.parcelId === parcelId)
+            this.props.array.remove('parcels', index)
+        }
+    }
+
+    handleDeleteParcel = (index) => () => {
+        this.props.array.remove('parcels', index)
+    }
+
+    handleDrawerClose = () => {
+        this.setState({
+            drawerOpen: false
+        })
+    }
+
+    handleDrawerOpen = () => {
+        this.setState({
+            drawerOpen: true
+        })
+    }
 
 
-    const renderTable = ({fields, meta: { error, submitFailed }}) => {
+    renderTable = ({fields, meta: { error, submitFailed }}) => {
+        /*
+        const columns = [
+            {title: 'Parcels', size: 1.5, render: (rowData) => <FieldListItem data={rowData} />},
+            {title: 'Variant', render: (field, i) => <SearchSelectField name={`${field}.crop.variant`}
+                                                        label="Variant"
+                                                        disableClearable={true}
+                                                        formProps={{fullWidth: true}}
+                                                        options={variants}
+                                                        //idAccessor={(o) => o.id}
+                                                        groupBy={(option) => option.category}
+                                                        getOptionLabel={(option) => option.title}
+                                                    />
+            },
+            {title: 'Planned yield' , render: (field, i) => <TextField name={`${field}.crop.yield`}
+                                                                label="Planned yield"
+                                                                formProps={{fullWidth: true}}
+                                                            />
+            },
+            {title: 'Seed', render: (field, i) => <SearchSelectField name={`${field}.crop.seed`}
+                                                    label="Szaporítóanyag"
+                                                    disableClearable={true}
+                                                    formProps={{fullWidth: true}}
+                                                    options={variants}
+                                                    //idAccessor={(o) => o.id}
+                                                    groupBy={(option) => option.category}
+                                                    getOptionLabel={(option) => option.title}
+                                                />
+            },
+            {title: 'Crop code', render: (field, i) => <SearchSelectField name={`${field}.crop.cropCode`}
+                                                    label="Crop code"
+                                                    disableClearable={true}
+                                                    formProps={{fullWidth: true}}
+                                                    options={variants}
+                                                    //idAccessor={(o) => o.id}
+                                                    groupBy={(option) => option.category}
+                                                    getOptionLabel={(option) => option.title}
+                                                />
+            },
+            {title: '', size: "0 0 40px", spacing: 0, render: (data, index) => (
+                <IconButton
+                    onClick={this.handleDeleteParcel(index)}
+                >
+                    <DeleteIcon />
+                </IconButton>)
+                }
+            
+        ]
+        */
         return (
             <>
                 <GridTable
-                    columns={columns}
+                    columns={this.columns}
                     data={fields}
                     columnSpacing={3}
                 >
                     <PlanAddParcelButton 
-                        onClick={handleDrawerOpen}
+                        onClick={this.handleDrawerOpen}
                     />
                 </GridTable>
             </>
         )
     }
 
-    const selectedParcels = useMemo(() => parcels.map(x => x.parcelId), [parcels])
 
-    return (
-        <Form onSubmit={handleSubmit}>
-            <ContentContainer>
-                <FieldSideSelector 
-                    open={drawerOpen}
-                    selected={selectedParcels}
-                    onSelected={handleSelectParcel}
-                    onClose={handleDrawerClose}
+    render() {
+        const {
+            onBack,
+            onSubmit,
+            handleSubmit,
+            data,
+            children,
+            openDrawer,    
+            array,
+            parcels = [],
+            ...props
+        } = this.props
+
+        const {
+            drawerOpen
+        } = this.state
+
+
+        const selectedParcels = parcels.map(x => x.parcelId)
+
+        return (
+            <Form onSubmit={handleSubmit}>
+                <ContentContainer>
+                    <FieldSideSelector 
+                        open={drawerOpen}
+                        selected={selectedParcels}
+                        onSelected={this.handleSelectParcel}
+                        onClose={this.handleDrawerClose}
+                    />
+
+                    <HiddenField name="cropId" />
+                    <HiddenField name="productionType" />
+
+                    <FieldArray name="parcels" component={this.renderTable} />
+                    
+                </ContentContainer>
+                <DetailFooter
+                    cancelTitle={globalMessages.cancel}
+                    submitTitle={globalMessages.next}
+                    onClose={onBack}
+                    //onSubmit={onSubmit}
                 />
-
-                <HiddenField name="cropId" />
-                <HiddenField name="productionType" />
-
-                <FieldArray name="parcels" component={renderTable} rerenderOnEveryChange={false}/>
-                
-            </ContentContainer>
-            <DetailFooter
-                cancelTitle={globalMessages.cancel}
-                submitTitle={globalMessages.next}
-                onClose={onBack}
-                //onSubmit={onSubmit}
-            />
-        </Form>
-    )
+            </Form>
+        )
+    }
 }
 
+/*
 CropVariantPage.propTypes = {
 
 }
+*/
 
 export default CropVariantPage
