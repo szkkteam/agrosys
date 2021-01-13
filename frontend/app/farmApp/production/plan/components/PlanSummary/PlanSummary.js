@@ -173,14 +173,19 @@ const PlanSummary = ({
 
     const push = usePushModalWindow()
 
+    const initialValues = {
+        cropId: 1,
+        productionType: 'mainCropProduction'
+    }
+
     const openProductionCreation = () => {
-        push(PLAN_PRODUCTION_CREATE_DIALOG, {}).then((status) => {
+        push(PLAN_PRODUCTION_CREATE_DIALOG, {initialValues}).then((status) => {
             console.debug("Finished: ", status)
         })
     }
     
     useEffect(() => {
-        //openProductionCreation()
+        openProductionCreation()
     }, [])
     
 

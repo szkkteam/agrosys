@@ -75,11 +75,11 @@ const GridTable = ({
                 ))}
             </HeaderContainer>
             <BodyContainer>
-                {data.map((row, i) => (
-                    <Row key={i} hoverable={onRowClick} onClick={handleRowClick(row)}>
+                {data && data.map((row, i) => (
+                    <Row key={i} hoverable={onRowClick} onClick={handleRowClick(row, i)}>
                         { columns.map(({size = 1, render = null, spacing = undefined, ...col}, j) => 
                             <Column key={j} size={size} spacing={!_.isUndefined(spacing)? spacing: columnSpacing}>
-                                { render? render(row) : "Empty" }
+                                { render? render(row, i) : "Empty" }
                             </Column>
                         )}
                     </Row>
