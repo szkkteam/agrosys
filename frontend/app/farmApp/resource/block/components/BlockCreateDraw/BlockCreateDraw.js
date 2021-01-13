@@ -7,6 +7,7 @@ import styled from 'styled-components'
 
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { Field, reduxForm } from 'redux-form'
 
 import {
     Container,
@@ -14,7 +15,6 @@ import {
     Button,
 } from '@material-ui/core';
 
-import { Field, reduxForm } from 'redux-form'
 
 import { HiddenField, TextField, onlyDecimal } from 'components/Form'
 import { Stepper } from 'components'

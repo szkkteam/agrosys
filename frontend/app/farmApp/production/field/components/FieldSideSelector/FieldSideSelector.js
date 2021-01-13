@@ -1,8 +1,9 @@
-import React, { useState, useLayoutEffect, useRef } from 'react'
+import React, { useState, useLayoutEffect, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
 import globalMessages from 'messages'
 import styled from 'styled-components'
+
 
 import { updateObjectInArray } from 'utils'
 
@@ -55,7 +56,7 @@ const SaveButton = styled(Button)`
 const Content = () => <div>Content</div>
 
 const Selector = ({
-    id,
+    data,
     selected,
 }) => {
     //const [selected, setSelected] = useState(false)
@@ -63,7 +64,7 @@ const Selector = ({
 
     return (
         <FieldListItem
-            data={{id}}
+            data={{id: data}}
             disableAction={true}
         >
             <SelectIcon>
@@ -83,10 +84,14 @@ const Selector = ({
 const FieldSideSelector = ({
     open,
     onClose,
+    selected,
+    onSelected,
+    children,
+    ...props
 }) => {
     const containerRef = useRef(null)
     const [height, setHeight] = useState(800)
-
+    /*
     const [items, setItems] = useState([
         {id: 1, selected: false},
         {id: 2, selected: false},
@@ -95,11 +100,21 @@ const FieldSideSelector = ({
         {id: 5, selected: false},
         {id: 6, selected: false},
     ])
+    */
+   const items = [1, 2 ,3 ,4 ,5 ,6]
 
-    const handleSelected = (item) => {
-        const index = _.findIndex(items, {id: item.id})
-        const { selected } = items[index]       
-        setItems(updateObjectInArray(items, index, {...item, selected: !selected}))
+    useEffect(() => {
+        console.debug("Mount")
+        return () => {
+            console.debug("unMount")
+        }
+    }, [])
+
+    console.debug("Selected parcels: ", selected)
+
+    const handleSelected = ({id}) => {
+        const newState = !selected.find(x => x === id)
+        onSelected && onSelected(id, newState)
     }
 
     useLayoutEffect(() => {
@@ -135,17 +150,10 @@ const FieldSideSelector = ({
                             maxHeight: 800,
                         }}
                         style={{flexGrow: 1}}
-                        addButton={
-                            <SaveButton
-                                variant="contained"
-                                color="primary"
-                            >
-                                <FormattedMessage {...globalMessages.save} />
-                            </SaveButton>
-                        }
+                        addButton={children}
                     >
                         {items.map((item, i) => 
-                            <Selector key={i} {...item}/>
+                            <Selector key={i} data={item} selected={!!selected.find(x => x === item)}/>
                         )}
                     </MasterList>
                 </List>

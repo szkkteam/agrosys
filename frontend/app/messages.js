@@ -30,5 +30,21 @@ export default defineMessages({
     save: {
         id: `${scope}.save`,  
         defaultMessage: 'Save',
+    },
+    back: {
+        id: `${scope}.back`,  
+        defaultMessage: 'Back',
+    },
+    cancel: {
+        id: `${scope}.cancel`,  
+        defaultMessage: 'Cancel',
+    },
+    submit: {
+        id: `${scope}.submit`,  
+        defaultMessage: 'Submit',
+    },
+    next: {
+        id: `${scope}.next`,  
+        defaultMessage: 'Next',
     }
   })

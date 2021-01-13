@@ -126,7 +126,7 @@ const Stepper = ({
 
    const renderStepContent = () => 
         (
-            <ContainerComponent title="Valami">
+            <ContainerComponent>
                 { _.isFunction(activeContent)
                     ? activeContent(stepContentProps)
                     : React.cloneElement(activeContent, stepContentProps)

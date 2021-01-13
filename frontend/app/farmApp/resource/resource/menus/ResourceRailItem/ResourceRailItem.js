@@ -9,7 +9,6 @@ import { NavRailItem } from 'components/NavRail'
 const ResourceRailItem = ({
     ...rest
 }) => {
-   
     return (
         <NavRailItem
             title={messages.title}

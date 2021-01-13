@@ -13,13 +13,14 @@ import {
 
 
 const PlanAddParcelButton = ({
-
+    ...props
 }) => {
     return (
         <Button
             color="primary"
             variant="contained"
             style={{width: "15%", marginTop: "10px"}}
+            {...props}
         >
             Add parcel
         </Button>
