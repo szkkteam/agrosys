@@ -5,6 +5,8 @@ export {
   TextArea,
   TextField,
   TextComponent,
+  TextWithUnitField,
+  TextWithUnitComponent,
   BooleanField,
   BooleanComponent,
   SelectField,

@@ -4,10 +4,21 @@ import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-
+//    background-color: rgba(0, 0, 0, 0.04);
 const Row = styled.div`
     display: flex;
     align-items: center;
+    ${({theme, hoverable=null}) => `
+        cursor: pointer;
+        ${hoverable? `
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.04);
+            }
+        `:
+        `
+        `}
+
+    `}
 `
 
 const Column = styled.div`
@@ -43,10 +54,15 @@ const GridTable = ({
     data,
     className,
     children,
+    onRowClick,
     columnSpacing=1,
     ...props
 }) => {
     
+    const handleRowClick = (rowData) => (e) => {
+        onRowClick && onRowClick(e, rowData)
+    }
+
     return (
         <Container
             className={className}
@@ -59,11 +75,11 @@ const GridTable = ({
                 ))}
             </HeaderContainer>
             <BodyContainer>
-                {data.map((data, i) => (
-                    <Row key={i}>
+                {data.map((row, i) => (
+                    <Row key={i} hoverable={onRowClick} onClick={handleRowClick(row)}>
                         { columns.map(({size = 1, render = null, spacing = undefined, ...col}, j) => 
                             <Column key={j} size={size} spacing={!_.isUndefined(spacing)? spacing: columnSpacing}>
-                                { render? render(data) : "Empty" }
+                                { render? render(row) : "Empty" }
                             </Column>
                         )}
                     </Row>

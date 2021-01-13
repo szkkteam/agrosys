@@ -10,7 +10,7 @@ import { usePushModalWindow } from 'utils/hooks'
 import { TableBase } from 'components/Table'
 import { SplitButton } from 'components/Button'
 import { 
-    HiddenField,
+    TextWithUnitComponent,
     TextComponent,
     //SearchSelectField,
     SearchSelectComponent
@@ -19,7 +19,11 @@ import {
 import {
     Button,
     Grid,
-    Typography
+    Typography,
+    FormGroup,
+    FormControl,
+    FormLabel,
+    InputAdornment
 } from '@material-ui/core'
 
 const Container = styled.div`
@@ -27,9 +31,96 @@ const Container = styled.div`
     height: 100%;
 `
 
+const FormControlContainer = styled(FormControl)`
+    margin: 0 5px;
+    padding: 20px 10px;
+    width: 100%;
+
+`
+
 const TableContainer = styled.div`
     //width: 50%;
 `
+
+const currency = [
+    {id: 1, title: 'EUR'},
+    {id: 2, title: 'HUF'},
+]
+
+const ValueSelector = ({
+    name,
+    unitName,
+    label,
+    units=currency,
+    defaultUnit=null,
+    input: { value = "", onChange, onBlur, ...inputRest } = {},
+
+}) => {
+    //const intl = useIntl()
+    const [unit, setUnit] = useState(defaultUnit)
+
+    const convertToValue = (newValue = null, newUnit = null) => {
+        return  {
+            [name]: newValue ?? value,
+            [unitName]: newUnit ?? unit
+        }
+        
+    }
+
+    const handleInputBlur = (event) => {
+        const converted = convertToValue(event.target.value)
+        console.debug("onChange: ", converted)
+        onBlur && onBlur(converted)
+    }
+
+    const handleInputOnChange = (event) => {
+        const converted = convertToValue(event.target.value)
+        console.debug("onChange: ", converted)
+        onChange && onChange(converted)
+
+    }
+
+    const handleUnitChange = (e, unit) => {
+        setUnit(unit)
+        const converted = convertToValue(null, unit)
+        console.debug("onChange: ", converted)
+        onChange && onChange(converted)
+    }
+
+
+
+    return (
+        <div style={{
+            display: "flex",
+            alignItems: "flex-end"
+        }}>
+            <TextComponent name={name}
+                //label={intl.formatMessage(messages.cropType)}
+                label={label}
+                //variant="outlined"
+                //variant="outlined"
+                formProps={{style: { flexGrow: 2}}}
+                value={value[name]}
+                onChange={handleInputOnChange}
+                onBlur={handleInputBlur}
+                //idAccessor={(o) => o.id}
+               
+            />
+            <SearchSelectComponent
+                disableClearable={true}
+                formProps={{style: {flexGrow: 0.5}}}
+                options={units}
+                onChange={handleUnitChange}
+                value={unit}
+                variant="filled"
+                //idAccessor={(o) => o.id}
+                groupBy={(option) => option.category}
+                getOptionLabel={(option) => option.title}
+            />
+        </div>
+    )
+}
+
 
 const PlanSummaryTable = ({
 
@@ -89,7 +180,7 @@ const PlanSummary = ({
     }
     
     useEffect(() => {
-        openProductionCreation()
+        //openProductionCreation()
     }, [])
     
 
@@ -106,24 +197,40 @@ const PlanSummary = ({
                         Create a new season
                     </Typography>
                 </Grid>
-                <Grid container item xs={12}>
-                    <Grid container item xs={4} spacing={3}>
-                        <Grid item xs={12}>
-                            <TextComponent name="cropType"
-                                label="Season name"
-                                variant="outlined"
-                                formProps={{fullWidth: true}}
-                            />
-                        </Grid>    
-                        <Grid item xs={12}>
-                            <TextComponent name="cropType"
-                                label="Season start year"
-                                variant="outlined"
-                                formProps={{fullWidth: true}}
-                            />
-                        </Grid>    
+                <Grid container item xs={12} spacing={3}>
+                    <Grid container item xs={6} >
+                        <Grid container item xs={8} >
+                            <FormControlContainer component="fieldset">
+                                <FormLabel component="legend">
+                                    Season global parameters
+                                </FormLabel>
+                                <FormGroup>
+                                    <TextComponent name="cropType"
+                                        label="Season name"
+                                        variant="outlined"
+                                        formProps={{fullWidth: true}}
+                                    />
+                                </FormGroup>
+                            </FormControlContainer>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid container item xs={6}>
+                        
+                        <Grid container item xs={8} >
+                            <FormControlContainer component="fieldset">
+                                <FormLabel component="legend">
+                                    Bevétel
+                                </FormLabel>
+                                <FormGroup>
+                                    <TextWithUnitComponent name="cropType" unitName="currency"
+                                        label="Eladási egységár"
+                                        variant="outlined"
+                                        units={currency}
+                                        formProps={{fullWidth: true}}
+                                    />
+                                </FormGroup>
+                            </FormControlContainer>
+                        </Grid>
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>

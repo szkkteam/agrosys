@@ -34,6 +34,7 @@ const TemplateSummaryList = ({
         <GridTable
             data={data}
             columns={columns}
+            onRowClick={(e, r) => console.debug("rowData: ", r)}
         />
     )
 }

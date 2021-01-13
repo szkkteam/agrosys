@@ -24,7 +24,9 @@ import {
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import {
-  renderAutocomplete
+  renderAutocomplete,
+  renderTextField,
+  renderTextWithUnit
 } from './components'
 
 export const EmailField = (props) =>
@@ -43,6 +45,12 @@ export const TextField = (props) =>
 
 export const TextComponent = (props) =>
   renderTextField({...props})
+
+export const TextWithUnitField = (props) => 
+  <Field component={TextWithUnitComponent} {...props} />
+
+export const TextWithUnitComponent = (props) => 
+  renderTextWithUnit({...props})
 
 export const TextArea = (props) =>
   <Field component={TextAreaComponent} {...props} />
@@ -75,30 +83,6 @@ export const SelectOption = React.forwardRef(({children, ...props}, ref) =>
 
 export const SelectOptionGrp = ({children, ...props}) => 
   <optgroup {...props} >{children}</optgroup>
-
-const renderTextField = ({
-  label,
-  input,
-  formProps,
-  meta: { touched = null, invalid = null, error = null } = {},
-  ...custom
-}) => {
-  //console.log("Label: " + label + " touched: ", touched, " invalid: " + invalid + " dirty: ", dirty, " pristine: ", pristine, " autofilled: ", autofilled, " initial: ", initial)
-  return (
-    <FormControl
-      {...formProps}
-    >
-      <MuiTextField
-        label={label}
-        placeholder={label}
-        error={touched && invalid}
-        helperText={touched && error}
-        {...input}
-        {...custom}
-      />
-    </FormControl>
-  )
-}
 
 
 const renderBooleanField = ({
