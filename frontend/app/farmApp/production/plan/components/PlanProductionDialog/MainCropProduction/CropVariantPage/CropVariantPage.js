@@ -60,52 +60,6 @@ class CropVariantPage extends React.Component {
             drawerOpen: false,
         }
 
-        this.columns = [
-            {title: 'Parcels', size: 1.5, render: (rowData) => <FieldListItem data={rowData} />},
-            {title: 'Variant', render: (field, i) => <SearchSelectField name={`${field}.crop.variant`}
-                                                        label="Variant"
-                                                        disableClearable={true}
-                                                        formProps={{fullWidth: true}}
-                                                        options={variants}
-                                                        //idAccessor={(o) => o.id}
-                                                        groupBy={(option) => option.category}
-                                                        getOptionLabel={(option) => option.title}
-                                                    />
-            },
-            {title: 'Planned yield' , render: (field, i) => <TextField name={`${field}.crop.yield`}
-                                                                label="Planned yield"
-                                                                formProps={{fullWidth: true}}
-                                                            />
-            },
-            {title: 'Seed', render: (field, i) => <SearchSelectField name={`${field}.crop.seed`}
-                                                    label="Szaporítóanyag"
-                                                    disableClearable={true}
-                                                    formProps={{fullWidth: true}}
-                                                    options={variants}
-                                                    //idAccessor={(o) => o.id}
-                                                    groupBy={(option) => option.category}
-                                                    getOptionLabel={(option) => option.title}
-                                                />
-            },
-            {title: 'Crop code', render: (field, i) => <SearchSelectField name={`${field}.crop.cropCode`}
-                                                    label="Crop code"
-                                                    disableClearable={true}
-                                                    formProps={{fullWidth: true}}
-                                                    options={variants}
-                                                    //idAccessor={(o) => o.id}
-                                                    groupBy={(option) => option.category}
-                                                    getOptionLabel={(option) => option.title}
-                                                />
-            },
-            {title: '', size: "0 0 40px", spacing: 0, render: (data, index) => (
-                <IconButton
-                    onClick={this.handleDeleteParcel(index)}
-                >
-                    <DeleteIcon />
-                </IconButton>)
-                }
-            
-        ]
     }
 
     handleSelectParcel = (parcelId, selected) => {
@@ -135,9 +89,13 @@ class CropVariantPage extends React.Component {
 
 
     renderTable = ({fields, meta: { error, submitFailed }}) => {
-        /*
+        const { parcels } = this.props
         const columns = [
-            {title: 'Parcels', size: 1.5, render: (rowData) => <FieldListItem data={rowData} />},
+            {title: 'Parcels', size: 1.5, render: (field, i) => 
+                <FieldListItem 
+                    data={{id: parcels[i].parcelId}}
+                />
+            },
             {title: 'Variant', render: (field, i) => <SearchSelectField name={`${field}.crop.variant`}
                                                         label="Variant"
                                                         disableClearable={true}
@@ -182,19 +140,16 @@ class CropVariantPage extends React.Component {
                 }
             
         ]
-        */
         return (
-            <>
-                <GridTable
-                    columns={this.columns}
-                    data={fields}
-                    columnSpacing={3}
-                >
-                    <PlanAddParcelButton 
-                        onClick={this.handleDrawerOpen}
-                    />
-                </GridTable>
-            </>
+            <GridTable
+                columns={columns}
+                data={fields}
+                columnSpacing={3}
+            >
+                <PlanAddParcelButton 
+                    onClick={this.handleDrawerOpen}
+                />
+            </GridTable>
         )
     }
 

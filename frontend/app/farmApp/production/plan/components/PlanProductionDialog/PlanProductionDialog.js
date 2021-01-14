@@ -65,6 +65,7 @@ const withConnect = connect(
         const parcels = formSelector(state, 'parcels')
         return {        
             initialValues: {
+                parcels: [],
                 ...locinitialValues
             },
             parcels,
@@ -156,7 +157,7 @@ const PlanProductionDialog = ({
                         //defaultStep={1} // TODO: REmove
                         steps={steps}
                         contents={contents}
-                        //defaultStep={2}
+                        defaultStep={2}
                         containerComponent={StepperContainer}
                     />
                 </Container>

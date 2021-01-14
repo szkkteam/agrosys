@@ -12,6 +12,7 @@ const Modal = ({
 
     return (
         <Dialog
+            disableEnforceFocus
             open={true}
             {...props}
         >

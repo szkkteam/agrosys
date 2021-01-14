@@ -10,7 +10,8 @@ import { FieldArray } from 'redux-form'
 import { 
     HiddenField,
     TextComponent,
-    //SearchSelectField,
+    TextField,
+    SearchSelectField,
     SearchSelectComponent
 } from 'components/Form'
 
@@ -47,74 +48,65 @@ const variants = [
     {id: 2, title: "ACTIVUS", },
 ]
 
+class SubsidyPage extends React.Component {
 
-const SubsidyPage = ({
-    onSubmit,
-    handleSubmit,
-    onBack,
-    data,
-    array,
-    children,
-    ...props
-}) => {
+    constructor(props) {
+        super(props)
+    }
 
-    const handleDeleteParcel = (index) => () => {
+    static propTypes = {
+
+    }
+
+    handleDeleteParcel = (index) => () => {
+        const { array } = this.props
         array.remove('parcels', index)
     }
 
-    const columns = [
-        {title: 'Parcels', size: 1.5, render: (rowData) => <FieldListItem data={rowData} />},
-        {title: 'Table number', render: (rowData) => <TextComponent name="cropType"
-                                                    //label={intl.formatMessage(messages.cropType)}
-                                                    label="Table number"
-                                                    //variant="outlined"
-                                                    formProps={{fullWidth: true}}
-                                                    //idAccessor={(o) => o.id}
-                                                />
-        },
-        {title: 'AKG codes', render: (rowData) => <SearchSelectComponent name="cropType"
-                                                        //label={intl.formatMessage(messages.cropType)}
-                                                        label="AKG codes"
-                                                        //variant="outlined"
-                                                        disableClearable={true}
-                                                        formProps={{fullWidth: true}}
-                                                        options={variants}
-                                                        //idAccessor={(o) => o.id}
-                                                        groupBy={(option) => option.category}
-                                                        getOptionLabel={(option) => option.title}
-                                                    />
-        },
-        {title: 'KET/KAT', render: (rowData) => <TextComponent name="cropType"
-                                                    //label={intl.formatMessage(messages.cropType)}
-                                                    label="KAT/KET"
-                                                    //variant="outlined"
-                                                    formProps={{fullWidth: true}}
-                                                    //idAccessor={(o) => o.id}
-                                                />
-        },
-        {title: 'Subsidies', render: (rowData) => <SearchSelectComponent name="cropType"
-                                                        //label={intl.formatMessage(messages.cropType)}
-                                                        label="Subsidies"
-                                                        //variant="outlined"
-                                                        disableClearable={true}
-                                                        formProps={{fullWidth: true}}
-                                                        options={variants}
-                                                        //idAccessor={(o) => o.id}
-                                                        groupBy={(option) => option.category}
-                                                        getOptionLabel={(option) => option.title}
-                                                    />
-        },
-        {title: '', size: "0 0 40px", spacing: 0, render: (data, index) => (
-            <IconButton
-                onClick={handleDeleteParcel(index)}
-            >
-                <DeleteIcon />
-            </IconButton>)
-            }
-    ]
 
+    renderTable = ({fields, meta: { error, submitFailed }}) => {
+        const { parcels } = this.props
 
-    const renderTable = ({fields, meta: { error, submitFailed }}) => {
+        const columns = [
+            {title: 'Parcels', size: 1.5, render: (field, i) => <FieldListItem data={{id: parcels[i].parcelId}} />},
+            {title: 'Table number', render: (field, i) => <TextField name={`${field}.field.tableNumber`}
+                                                        label="Table number"
+                                                        formProps={{fullWidth: true}}
+                                                    />
+            },
+            {title: 'AKG codes', render: (field, i) => <SearchSelectField name={`${field}.field.akgCodes`}
+                                                            label="AKG codes"
+                                                            disableClearable={true}
+                                                            formProps={{fullWidth: true}}
+                                                            options={variants}
+                                                            //idAccessor={(o) => o.id}
+                                                            groupBy={(option) => option.category}
+                                                            getOptionLabel={(option) => option.title}
+                                                        />
+            },
+            {title: 'KET/KAT', render: (field, i) => <TextField name={`${field}.field.katKet`}
+                                                        label="KAT/KET"
+                                                        formProps={{fullWidth: true}}
+                                                    />
+            },
+            {title: 'Subsidies', render: (field, i) => <SearchSelectField name={`${field}.field.subsidies`}
+                                                            label="Subsidies"
+                                                            disableClearable={true}
+                                                            formProps={{fullWidth: true}}
+                                                            options={variants}
+                                                            //idAccessor={(o) => o.id}
+                                                            groupBy={(option) => option.category}
+                                                            getOptionLabel={(option) => option.title}
+                                                        />
+            },
+            {title: '', size: "0 0 40px", spacing: 0, render: (data, index) => (
+                <IconButton
+                    onClick={this.handleDeleteParcel(index)}
+                >
+                    <DeleteIcon />
+                </IconButton>)
+                }
+        ]
         return (
             <GridTable
                 columns={columns}
@@ -124,24 +116,26 @@ const SubsidyPage = ({
         )
     }
 
+    render () {
+        const {
+            handleSubmit,
+            onBack,
+        } = this.props
 
-    return (
-        <Form onSubmit={handleSubmit}>
-            <ContentContainer>
-                <FieldArray name="parcels" component={renderTable} />
-            </ContentContainer>
-            <DetailFooter
-                cancelTitle={globalMessages.back}
-                submitTitle={globalMessages.next}
-                onClose={onBack}
-                //onSubmit={onSubmit}
-            />
-        </Form>
-    )
-}
-
-SubsidyPage.propTypes = {
-
+        return (
+            <Form onSubmit={handleSubmit}>
+                <ContentContainer>
+                    <FieldArray name="parcels" component={this.renderTable} />
+                </ContentContainer>
+                <DetailFooter
+                    cancelTitle={globalMessages.back}
+                    submitTitle={globalMessages.next}
+                    onClose={onBack}
+                    //onSubmit={onSubmit}
+                />
+            </Form>
+        )
+    }
 }
 
 export default SubsidyPage

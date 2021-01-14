@@ -8,7 +8,9 @@ import {
     BooleanComponent,
     TextComponent,
     //SearchSelectField,
-    SearchSelectComponent
+    SearchSelectComponent,
+    DatePickerField,
+    DatePickerComponent,
 } from 'components/Form'
 
 import {
@@ -70,7 +72,7 @@ const DateManual = ({
 }) => {
     return (
         <Grid item xs={12}>
-            <TextComponent name="cropType"
+            <DatePickerComponent name="templateDate"
                 label="Select date"
                 formProps={{fullWidth: true}}
             />

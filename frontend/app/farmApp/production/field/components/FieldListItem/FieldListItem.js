@@ -103,7 +103,7 @@ const FieldListItem = ({
     disableAction=false,
     ...props
 }) => {
-
+    console.debug("FieldListItem - data: ", data)
     const items = [
         {title: messages.edit, link: { to: ROUTES.BlockDetail, params: {id: 1}}},
         {title: messages.delete, onClink: null}

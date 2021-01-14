@@ -5,6 +5,8 @@ import { SnackbarProvider } from 'notistack';
 import Helmet from 'react-helmet'
 import { StylesProvider } from '@material-ui/core/styles';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
+import DateFnsUtils from '@material-ui/pickers/adapter/date-fns';
+import { LocalizationProvider } from '@material-ui/pickers';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import styled, { ThemeProvider } from 'styled-components'
 
@@ -15,6 +17,8 @@ import Notification from 'components/Notification'
 import { LanguageProvider, ModalProvider } from 'site/components'
 import { SITE_NAME } from 'config'
 import Routes, { routes } from 'routes'
+
+
 
 import AppContext from './AppContext'
 
@@ -116,7 +120,7 @@ export default (props) => {
           <CssBaseline />
           <Provider store={props.store}>
             <LanguageProvider messages={props.messages}>
-              <ConnectedRouter history={props.history}>      
+              <ConnectedRouter history={props.history}>    
                 <SnackbarProvider maxSnack={3}>
                   <AppLayout />
                 </SnackbarProvider>

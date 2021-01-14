@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect } from 'react'
+import React, { useState, useRef, useLayoutEffect, useEffect } from 'react'
 import globalMessages from 'messages'
 import messages from './messages';
 import PropTypes from 'prop-types'
@@ -7,8 +7,9 @@ import styled from 'styled-components'
 
 import { 
     BooleanComponent,
+    BooleanField,
     TextComponent,
-    //SearchSelectField,
+    SearchSelectField,
     SearchSelectComponent
 } from 'components/Form'
 
@@ -50,7 +51,8 @@ const TaskContainer = styled.div`
 `
 
 const templates = [
-    {id: 1, title: 'Téli búza, mulcsos művelés'}
+    {id: 1, title: 'Téli búza, mulcsos művelés'},
+    {id: 2, title: 'Téli búza, No till'}
 ]
 
 const FlexForm = styled(FormControl)`
@@ -73,6 +75,12 @@ const TaskPage = ({
         }
     })
 
+    /**
+     * TODO: 
+     * Whenever any input value is changed here, dispatch an action to render the new template values.
+     * The returned tempalte values should be stored in a redux state and used by the template summary
+     */
+
     return (
         <Form onSubmit={handleSubmit} >  
             <ContentContainer>
@@ -81,7 +89,7 @@ const TaskPage = ({
                         <Grid container item xs={12} spacing={3}>
                             <Grid container item xs={6} spacing={3}>
                                 <Grid item xs={10}>
-                                    <SearchSelectComponent name="cropType"
+                                    <SearchSelectField name="templateName"
                                         //label={intl.formatMessage(messages.cropType)}
                                         label="Select template"
                                         //variant="outlined"
@@ -91,6 +99,7 @@ const TaskPage = ({
                                         //idAccessor={(o) => o.id}
                                         groupBy={(option) => option.category}
                                         getOptionLabel={(option) => option.title}
+                                        onChange={(e ,v, n, a) => console.debug("E: ", e, v, n, a)}
                                     />
                                 </Grid>
                                 <Grid container item xs={10}>

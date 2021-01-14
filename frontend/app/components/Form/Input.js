@@ -26,7 +26,8 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import {
   renderAutocomplete,
   renderTextField,
-  renderTextWithUnit
+  renderTextWithUnit,
+  renderDatePicker
 } from './components'
 
 export const EmailField = (props) =>
@@ -75,6 +76,12 @@ export const SearchSelectField = (props) =>
 
 export const SearchSelectComponent = (props) =>
   renderAutocomplete({...props})
+
+export const DatePickerField = (props) =>
+  <Field component={DatePickerComponent} {...props} />
+
+export const DatePickerComponent = (props) => 
+  renderDatePicker({...props})
 
 export const SelectOption = React.forwardRef(({children, ...props}, ref) =>
   //<MenuItem {...props} ref={ref}>{children}</MenuItem>)

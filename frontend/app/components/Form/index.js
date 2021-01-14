@@ -14,7 +14,9 @@ export {
   SelectOption,
   SelectOptionGrp,
   SearchSelectField,
-  SearchSelectComponent
+  SearchSelectComponent,
+  DatePickerField,
+  DatePickerComponent,
 } from './Input'
 
 export { 
