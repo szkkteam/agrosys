@@ -31,8 +31,12 @@ const SplitButton = ({
     placement = 'bottom'
 }) => 
 {
+    const firstEnabledOptionIndex = _.findIndex(options, x => !x.disabled)
+
+    console.debug("firstEnabledOptionIndex: ", firstEnabledOptionIndex)
+
     const [open, setOpen] = React.useState(false);
-    const [selectedIndex, setSelectedIndex] = React.useState(defaultSelectedIndex);
+    const [selectedIndex, setSelectedIndex] = React.useState(firstEnabledOptionIndex);
     const anchorRef = React.useRef(null);
 
     
@@ -64,6 +68,7 @@ const SplitButton = ({
         onClick: mainOnClick = null,
     } = options[selectedIndex]
 
+
     return (
         <div
         className={className}
@@ -76,7 +81,7 @@ const SplitButton = ({
                     <FormattedMessage {...mainTitle}/>
                 </Button>                        
                 <Button
-                    disabled={disabled || options.length == 1}
+                    disabled={disabled || options.length == 1 || firstEnabledOptionIndex === -1}
                     color="primary"
                     size="small"
                     aria-controls={open ? 'split-button-menu' : undefined}
@@ -95,11 +100,11 @@ const SplitButton = ({
                 placement={placement}
                 transition
                 disablePortal
-                /*
+                
                 style={{
                     zIndex: 999
                 }}
-                */
+                
             >
             {({ TransitionProps, placement }) => (
                 <Grow

@@ -5,10 +5,12 @@ import { SnackbarProvider } from 'notistack';
 import Helmet from 'react-helmet'
 import { StylesProvider } from '@material-ui/core/styles';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
-import DateFnsUtils from '@material-ui/pickers/adapter/date-fns';
+import DateFnsAdapter from "@material-ui/pickers/adapter/date-fns";
 import { LocalizationProvider } from '@material-ui/pickers';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import styled, { ThemeProvider } from 'styled-components'
+
+import { useDateFnsLocale } from 'utils/hooks'
 
 import { defaultTheme } from 'themes'
 
@@ -70,6 +72,8 @@ const AppLayout = () => {
   const [height, setHeight] = useState(64)  
   const [pageTitle, setPageTitle] = useState(null)
 
+  const { locale } = useDateFnsLocale()
+
   useLayoutEffect(() => {
     if (appBarRef?.current) {
       const { clientHeight } = appBarRef.current
@@ -86,27 +90,29 @@ const AppLayout = () => {
 
   return (
     <FullSizeDiv>
-      <AppContext.Provider
-                value={contextObject}
-      >
-      <Helmet titleTemplate={`%s - ${SITE_NAME}`}
-              defaultTitle={SITE_NAME}
-      />
-      <ProgressBar />
-      <Flex>
-        <ModalProvider />
-        <Notification />
-        <NavBar
-          pageTitle={pageTitle}
-          appBarRef={appBarRef}
-          appTabRef={appBarTabsRef}
+      <LocalizationProvider dateAdapter={DateFnsAdapter} locale={locale}>
+        <AppContext.Provider
+                  value={contextObject}
+        >
+        <Helmet titleTemplate={`%s - ${SITE_NAME}`}
+                defaultTitle={SITE_NAME}
         />
-        <MainContent height={height}>
-          <ContentSpacer height={height}/>
-          <Routes routes={routes}/>
-        </MainContent> 
-      </Flex>
-      </AppContext.Provider>
+        <ProgressBar />
+        <Flex>
+          <ModalProvider />
+          <Notification />
+          <NavBar
+            pageTitle={pageTitle}
+            appBarRef={appBarRef}
+            appTabRef={appBarTabsRef}
+          />
+          <MainContent height={height}>
+            <ContentSpacer height={height}/>
+            <Routes routes={routes}/>
+          </MainContent> 
+        </Flex>
+        </AppContext.Provider>
+      </LocalizationProvider>
     </FullSizeDiv>
   )
 }

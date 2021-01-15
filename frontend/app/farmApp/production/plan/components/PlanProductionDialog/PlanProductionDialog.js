@@ -21,7 +21,7 @@ import {
     TaskPage,
 } from './MainCropProduction'
 
-import { PLAN_FORM_NAME } from '../../constants'
+import { PLAN_PRODUCTION_FORM_NAME } from '../../constants'
 
 const Container = styled.div`
     flex-grow: 1;
@@ -47,7 +47,7 @@ const StepperContainer = styled.div`
 
 
 const withForm = reduxForm({
-    form: PLAN_FORM_NAME,
+    form: PLAN_PRODUCTION_FORM_NAME,
     //validate,
     //enableReinitialize: true,
     //keepDirtyOnReinitialize: true,
@@ -55,20 +55,33 @@ const withForm = reduxForm({
     forceUnregisterOnUnmount: true, 
 })
 
-const formSelector = formValueSelector(PLAN_FORM_NAME)
+const formSelector = formValueSelector(PLAN_PRODUCTION_FORM_NAME)
 
 const withConnect = connect(
     (state, props) => {
         const { initialValues : locinitialValues, ...rest } = props
-        //console.debug("locinitialValues: ", locinitialValues)
+        console.debug("locinitialValues: ", locinitialValues)
 
-        const parcels = formSelector(state, 'parcels')
+        const { parcels, template } = formSelector(state, 'parcels', 'template')
         return {        
             initialValues: {
                 parcels: [],
+                template: {
+                    configuration: {
+                        startDate: {
+                            mode: 'automatic',
+                            parameters: {},
+                        },
+                        features: {
+                            chemicalSpraying: false,
+                            chemicalFertilizer: false,
+                        }
+                    },
+                },
                 ...locinitialValues
             },
             parcels,
+            template,
             ...rest
         }
     },
@@ -114,8 +127,13 @@ const PlanProductionDialog = ({
     ]
 
     const closeDestroy = () => {
-        dispatch(destroy(PLAN_FORM_NAME))
+        dispatch(destroy(PLAN_PRODUCTION_FORM_NAME))
         onClose && onClose()
+    }
+
+    const handleSubmit = (data) => {
+        dispatch(destroy(PLAN_PRODUCTION_FORM_NAME))
+        handleConfirm(data)
     }
 
     const contents = [
@@ -137,7 +155,7 @@ const PlanProductionDialog = ({
             />,
         ({onBack, ...props}) => 
             <ConnectedTaskPage 
-                onSubmit={(d) => console.debug("Submit: ", d)}
+                onSubmit={handleSubmit}
                 onBack={onBack}
                 initialValues={initialValues}
                 {...props}
@@ -157,7 +175,7 @@ const PlanProductionDialog = ({
                         //defaultStep={1} // TODO: REmove
                         steps={steps}
                         contents={contents}
-                        defaultStep={2}
+                        defaultStep={0}
                         containerComponent={StepperContainer}
                     />
                 </Container>

@@ -6,18 +6,15 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { 
-    BooleanComponent,
-    BooleanField,
-    TextComponent,
     SearchSelectField,
-    SearchSelectComponent
 } from 'components/Form'
 
 import { DetailFooter } from 'farmApp/components/Detail'
 
 import { 
     TemplateSummaryList,
-    TemplatePeriodSelector
+    TemplatePeriodSelector,
+    TemplateFeatureSelector
 } from 'farmApp/production/template/components'
 
 import {
@@ -62,6 +59,8 @@ const FlexForm = styled(FormControl)`
 const TaskPage = ({
     handleSubmit,
     onBack,
+    // Form values
+    template,
 
 }) => {
 
@@ -81,6 +80,11 @@ const TaskPage = ({
      * The returned tempalte values should be stored in a redux state and used by the template summary
      */
 
+    const handleFieldChange = (e, v, d ,c) => {
+        console.debug("Field change: ", e, v, d, c)
+        // TODO: Dispatch an action to fetch the new template details
+    }
+
     return (
         <Form onSubmit={handleSubmit} >  
             <ContentContainer>
@@ -89,7 +93,7 @@ const TaskPage = ({
                         <Grid container item xs={12} spacing={3}>
                             <Grid container item xs={6} spacing={3}>
                                 <Grid item xs={10}>
-                                    <SearchSelectField name="templateName"
+                                    <SearchSelectField name="template.base"
                                         //label={intl.formatMessage(messages.cropType)}
                                         label="Select template"
                                         //variant="outlined"
@@ -99,23 +103,21 @@ const TaskPage = ({
                                         //idAccessor={(o) => o.id}
                                         groupBy={(option) => option.category}
                                         getOptionLabel={(option) => option.title}
-                                        onChange={(e ,v, n, a) => console.debug("E: ", e, v, n, a)}
+                                        onChange={handleFieldChange}
                                     />
                                 </Grid>
                                 <Grid container item xs={10}>
-                                    <TemplatePeriodSelector />
+                                    <TemplatePeriodSelector name="template.configuration.startDate"
+                                        onChange={handleFieldChange}
+                                        startDate={template?.configuration?.startDate}
+                                    />
                                 </Grid>                  
                             </Grid>
                             <Grid container item xs={6}>
-                                <FlexForm component="fieldset">
-                                    <FormLabel component="legend">
-                                        Select features
-                                    </FormLabel>
-                                    <FormGroup>
-                                        <BooleanComponent name="test" label="Műtrágya" />
-                                        <BooleanComponent name="test" label="Vegyszeres kezelések" />
-                                    </FormGroup>
-                                </FlexForm>
+                                <TemplateFeatureSelector name="template.configuration.features"
+                                    onChange={handleFieldChange}
+                                    features={template?.configuration?.features}
+                                />
                             </Grid>
                         </Grid>                
                     </Grid>

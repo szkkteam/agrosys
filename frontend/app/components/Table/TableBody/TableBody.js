@@ -74,13 +74,13 @@ export default ({
     } 
 
     const defaultComponents = {
-        ...Object.assign(components, {
+        ...{
             Toolbar: props => (
                 <TableToolbar ref={toolbarRef} {...props} myProps={1}/>
             ),
             Action: TableAction,
             //Actions: (props) => <ItemMenu items={items} />
-        })
+        }, ...components
     }
 
     return (

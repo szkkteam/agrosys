@@ -7,10 +7,11 @@ import styled from 'styled-components'
 import { 
     BooleanComponent,
     TextComponent,
-    //SearchSelectField,
+    SearchSelectField,
     SearchSelectComponent,
     DatePickerField,
     DatePickerComponent,
+    RadioGroupField,
 } from 'components/Form'
 
 import {
@@ -30,9 +31,9 @@ const Container = styled.div`
 `
 
 
-const DATE_AUTOMATIC = "DATE_AUTOMATIC"
-const DATE_MANUAL = "DATE_MANUAL"
-const DATE_KEY_EVENT = "DATE_KEY_EVENT"
+const DATE_AUTOMATIC = "automatic"
+const DATE_MANUAL = "manual"
+const DATE_KEY_EVENT = "keyEvent"
 
 const dateKeys = [
     {id: 1, title: 'Sowing'},
@@ -40,12 +41,21 @@ const dateKeys = [
 ]
 
 const DateKeyEvent = ({
-
+    name,
+    onChange,
 }) => {
     return (
-        <>
+        <>            
             <Grid item xs={12}>
-                <SearchSelectComponent name="cropType"
+                <DatePickerField name={`${name}.date`}
+                    onChange={onChange}
+                    label="Select date"
+                    formProps={{fullWidth: true}}
+                />
+            </Grid>
+            <Grid item xs={12}>
+                <SearchSelectField name={`${name}.keyEvent`}
+                    onChange={onChange}
                     //label={intl.formatMessage(messages.cropType)}
                     label="Select template"
                     //variant="outlined"
@@ -57,22 +67,18 @@ const DateKeyEvent = ({
                     getOptionLabel={(option) => option.title}
                 />
             </Grid>
-            <Grid item xs={12}>
-                <TextComponent name="cropType"
-                    label="Select date"
-                    formProps={{fullWidth: true}}
-                />
-            </Grid>
         </>
     )
 }
 
 const DateManual = ({
-
+    name,
+    onChange
 }) => {
     return (
         <Grid item xs={12}>
-            <DatePickerComponent name="templateDate"
+            <DatePickerField name={`${name}.date`}
+                onChange={onChange}
                 label="Select date"
                 formProps={{fullWidth: true}}
             />
@@ -81,25 +87,22 @@ const DateManual = ({
 }
 
 const TemplatePeriodSelector = ({
-
+    name="",
+    onChange,
+    startDate,
+    ...props
 }) => {
 
-    const [value, setValue] = useState(DATE_AUTOMATIC)
-
-    const handleChange = (event) => {
-        setValue(event.target.value);
-    };
-
-    console.debug("Value: ", value)
-
     const getContent = () => {
-        switch(value) {
+        switch(startDate?.mode) {
             case DATE_AUTOMATIC:
                 return 'div'
             case DATE_MANUAL:
                 return DateManual
             case DATE_KEY_EVENT:
                 return DateKeyEvent
+            default:
+                return 'div'
         }
     }
 
@@ -108,19 +111,43 @@ const TemplatePeriodSelector = ({
     return (
         <>
             <Grid item xs={4}>
-                <FormControl component="fieldset">
-                    <FormLabel component="legend">
-                        Date calculation
-                    </FormLabel>
-                    <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
-                        <FormControlLabel value={DATE_AUTOMATIC} control={<Radio />} label="Automatic" />
-                        <FormControlLabel value={DATE_MANUAL} control={<Radio />} label="Fixed" />
-                        <FormControlLabel value={DATE_KEY_EVENT} control={<Radio />} label="Key event" />
-                    </RadioGroup>
-                </FormControl>
+                <RadioGroupField name={`${name}.mode`}
+                    onChange={onChange}
+                    formLabel={
+                        <FormLabel component="legend">
+                            Date calculation
+                        </FormLabel>
+                    }
+                >
+                    <FormControlLabel 
+                        label="Automatic" 
+                        value={DATE_AUTOMATIC} 
+                        control={
+                            <Radio />
+                        }                             
+                    />
+                    <FormControlLabel 
+                        disabled // TODO: Implement this feature
+                        label="Fixed" 
+                        value={DATE_MANUAL} 
+                        control={
+                            <Radio />
+                        }
+                    />
+                    <FormControlLabel 
+                        disabled // TODO: Implement this feature
+                        label="Key event" 
+                        value={DATE_KEY_EVENT}
+                        control={
+                            <Radio />
+                        }
+                    />
+                </RadioGroupField>                
             </Grid>
             <Grid container item xs={8}>
                 <Content
+                    name={`${name}.parameters`}
+                    onChange={onChange}
                 />
             </Grid>
         </>

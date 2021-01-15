@@ -148,7 +148,8 @@ const Stepper = ({
                 {steps.map((label, index) => (
                     <Step key={`${index}`}>
                         <StepButton
-                            onClick={completed[index]? handleStep(index): null}
+                            onClick={handleStep(index)}
+                            //onClick={completed[index]? handleStep(index): null}
                             completed={completed[index]}
                         >
                             <FormattedMessage {...label} />

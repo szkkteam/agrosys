@@ -4,14 +4,17 @@ import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { Field, reduxForm, formValueSelector, destroy } from 'redux-form'
+
 import { PLAN_PRODUCTION_CREATE_DIALOG } from 'site/modalTypes'
 import { usePushModalWindow } from 'utils/hooks'
 
-import { TableBase } from 'components/Table'
 import { SplitButton } from 'components/Button'
 import { 
-    TextWithUnitComponent,
-    TextComponent,
+    TextWithUnitField,
+    TextField,
     //SearchSelectField,
     SearchSelectComponent
 } from 'components/Form'
@@ -26,6 +29,13 @@ import {
     InputAdornment
 } from '@material-ui/core'
 
+import {
+    PlanSummaryTable
+} from '../../components'
+
+import { PLAN_FORM_NAME } from '../../constants'
+import { MODAL_TYPE_CONFIRM } from 'site/modalResultTypes'
+
 const Container = styled.div`
     width: 100%;
     height: 100%;
@@ -38,121 +48,40 @@ const FormControlContainer = styled(FormControl)`
 
 `
 
-const TableContainer = styled.div`
-    //width: 50%;
-`
+
+const withForm = reduxForm({
+    form: PLAN_FORM_NAME,
+    //validate,
+    //enableReinitialize: true,
+    //keepDirtyOnReinitialize: true,
+    //destroyOnUnmount: false, 
+    //forceUnregisterOnUnmount: true, 
+})
+
+const formSelector = formValueSelector(PLAN_FORM_NAME)
+
+const withConnect = connect(
+    (state, props) => {
+        const { initialValues : locinitialValues, ...rest } = props
+        //console.debug("locinitialValues: ", locinitialValues)
+
+        //const { parcels, template } = formSelector(state, 'parcels', 'template')
+        const productions = formSelector(state, 'productions')
+        return {        
+            initialValues: {
+                productions: [],                                
+                ...locinitialValues
+            },
+            productions,
+            ...rest
+        }
+    },
+)
 
 const currency = [
     {id: 1, title: 'EUR'},
     {id: 2, title: 'HUF'},
 ]
-
-const ValueSelector = ({
-    name,
-    unitName,
-    label,
-    units=currency,
-    defaultUnit=null,
-    input: { value = "", onChange, onBlur, ...inputRest } = {},
-
-}) => {
-    //const intl = useIntl()
-    const [unit, setUnit] = useState(defaultUnit)
-
-    const convertToValue = (newValue = null, newUnit = null) => {
-        return  {
-            [name]: newValue ?? value,
-            [unitName]: newUnit ?? unit
-        }
-        
-    }
-
-    const handleInputBlur = (event) => {
-        const converted = convertToValue(event.target.value)
-        console.debug("onChange: ", converted)
-        onBlur && onBlur(converted)
-    }
-
-    const handleInputOnChange = (event) => {
-        const converted = convertToValue(event.target.value)
-        console.debug("onChange: ", converted)
-        onChange && onChange(converted)
-
-    }
-
-    const handleUnitChange = (e, unit) => {
-        setUnit(unit)
-        const converted = convertToValue(null, unit)
-        console.debug("onChange: ", converted)
-        onChange && onChange(converted)
-    }
-
-
-
-    return (
-        <div style={{
-            display: "flex",
-            alignItems: "flex-end"
-        }}>
-            <TextComponent name={name}
-                //label={intl.formatMessage(messages.cropType)}
-                label={label}
-                //variant="outlined"
-                //variant="outlined"
-                formProps={{style: { flexGrow: 2}}}
-                value={value[name]}
-                onChange={handleInputOnChange}
-                onBlur={handleInputBlur}
-                //idAccessor={(o) => o.id}
-               
-            />
-            <SearchSelectComponent
-                disableClearable={true}
-                formProps={{style: {flexGrow: 0.5}}}
-                options={units}
-                onChange={handleUnitChange}
-                value={unit}
-                variant="filled"
-                //idAccessor={(o) => o.id}
-                groupBy={(option) => option.category}
-                getOptionLabel={(option) => option.title}
-            />
-        </div>
-    )
-}
-
-
-const PlanSummaryTable = ({
-
-}) => {
-
-    const columns = [
-        {title: 'Crop', field: 'crop',},
-        {title: 'Planned yield', field: 'yield'},        
-        {title: 'Type', field: 'type'},
-        {title: 'Period', field: 'period'},
-        {title: 'Fields size', field: 'size'},
-        {title: 'Number of tasks', field: 'tasks'},
-    ]
-
-    const data = [
-        {id: 1, crop: 'Winter wheat', yield: '5t', type: 'Main crop', period: '2020 july 5 - 2020 november 30', size: '35 ha', tasks: 24},
-    ]
-    return (
-        <TableBase
-            title="Productions in this season"
-            columns={columns}
-            data={data}
-            options={{
-                emptyRowsWhenPaging: true,
-                paging: false, // By default remove paging
-            }}
-            components={{
-                Container: (props) => <TableContainer {...props}/>,
-            }}
-        />
-    )
-}
 
 /**
  * TODO: 
@@ -163,7 +92,8 @@ const PlanSummaryTable = ({
  */
 
 const PlanSummary = ({
-
+    array,
+    productions,
 }) => {
 
 
@@ -179,18 +109,38 @@ const PlanSummary = ({
     }
 
     const openProductionCreation = () => {
-        push(PLAN_PRODUCTION_CREATE_DIALOG, {initialValues}).then((status) => {
-            console.debug("Finished: ", status)
+        push(PLAN_PRODUCTION_CREATE_DIALOG, {initialValues}).then(({payload, status}) => {
+            // Production submitted
+            if (status === MODAL_TYPE_CONFIRM) {
+                array.push('productions', payload)
+            }
+            //console.debug("Payload: ", payload)
+            //console.debug("Finished: ", status)
         })
     }
-    
+    /*
     useEffect(() => {
         openProductionCreation()
     }, [])
-    
+    */
+    const editProduction = (data, index) => {
+        console.debug("Production data: ", data)
+        push(PLAN_PRODUCTION_CREATE_DIALOG, {initialValues: data}).then(({payload, status}) => {
+            // Production submitted
+            if (status === MODAL_TYPE_CONFIRM) {
+                array.splice('productions', index, 1, payload)
+            }
+        })
+    }
+
+    const deleteProduction = (data, index) => {
+        array.remove('productions', index)
+    }
+
+    const hasMainCrop = productions? productions.find(x => x.productionType === 'mainCropProduction'): false
 
     const addButtonOptions = [
-        { title: messages.addMainCrop, onClick: openProductionCreation},
+        { title: messages.addMainCrop, disabled: !!hasMainCrop, onClick: openProductionCreation},
         { title: messages.addSecondaryCrop, disabled: true, onClick: () => console.debug("Secondary click") }
     ]
     
@@ -210,7 +160,7 @@ const PlanSummary = ({
                                     Season global parameters
                                 </FormLabel>
                                 <FormGroup>
-                                    <TextComponent name="cropType"
+                                    <TextField name="title"
                                         label="Season name"
                                         variant="outlined"
                                         formProps={{fullWidth: true}}
@@ -222,28 +172,18 @@ const PlanSummary = ({
                     <Grid container item xs={6}>
                         
                         <Grid container item xs={8} >
-                            <FormControlContainer component="fieldset">
-                                <FormLabel component="legend">
-                                    Bevétel
-                                </FormLabel>
-                                <FormGroup>
-                                    <TextWithUnitComponent name="cropType" unitName="currency"
-                                        label="Eladási egységár"
-                                        variant="outlined"
-                                        units={currency}
-                                        formProps={{fullWidth: true}}
-                                    />
-                                </FormGroup>
-                            </FormControlContainer>
                         </Grid>
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
-                    <PlanSummaryTable                
-                    />
-                    <SplitButton 
-                        options={addButtonOptions}
-                    />
+                    <PlanSummaryTable     
+                        onOpenProduction={editProduction}
+                        onDeleteProduction={deleteProduction}
+                    >
+                        <SplitButton 
+                            options={addButtonOptions}
+                        />
+                    </PlanSummaryTable>
                 </Grid>
 
 
@@ -252,8 +192,34 @@ const PlanSummary = ({
     )
 }
 
+/*
+TODO: This is not working properly
+<FormControlContainer component="fieldset">
+    <FormLabel component="legend">
+        Bevétel
+    </FormLabel>
+    <FormGroup>
+        <TextWithUnitField name="cropUnitPrice" unitName="currency"
+            label="Eladási egységár"
+            variant="outlined"
+            defaultUnit={currency[1]}
+            units={currency}
+            formProps={{fullWidth: true}}
+        />
+    </FormGroup>
+</FormControlContainer>
+
+*/
+
 PlanSummary.propTypes = {
 
 }
 
-export default PlanSummary
+
+const ConnectedPlanSummary = compose(
+    withConnect,
+    withForm,
+)(PlanSummary) 
+
+
+export default ConnectedPlanSummary

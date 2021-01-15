@@ -4,35 +4,45 @@ import styled from 'styled-components'
 
 import { useDateFnsLocale } from 'utils/hooks'
 
-import MomentUtils from '@material-ui/pickers/adapter/moment';
+import DateFnsAdapter from "@material-ui/pickers/adapter/date-fns";
 import { LocalizationProvider } from '@material-ui/pickers';
 
 import { DatePicker } from "@material-ui/pickers";
 import {
-    TextField
+    TextField,
+    FormControl
 } from '@material-ui/core'
+
+
 
 export default ({
     input={},
     inputProps,
+    formProps,
     ...props
 }) => {
-    const locale = useDateFnsLocale()
+    const { mask } = useDateFnsLocale()
     console.debug("Locale: ", locale)
 
-    const [value, setValue] = React.useState(new Date());
+    //const [value, setValue] = React.useState(new Date());
+    //console.debug("Date value: ", value)
     return (
-        <LocalizationProvider dateAdapter={MomentUtils} locale={locale}>
+        <FormControl
+            {...formProps}
+        >
             <DatePicker
+                mask={mask}
                 label="Basic example"
-                
-                value={value}
+                allowSameDateSelection
+                //value={value}
+                /*
                 onChange={(newValue) => {
                     console.debug("newValue: ", newValue)
                     setValue(newValue)}
                 }
-                //{...input}
-                //{...props} 
+                */
+                {...input}
+                {...props} 
                 renderInput={(props) => 
                     <TextField 
                         {...props}
@@ -40,7 +50,7 @@ export default ({
                     />
                 }
             />
-        </LocalizationProvider>  
+        </FormControl>
     )
 }
 

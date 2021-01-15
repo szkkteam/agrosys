@@ -12,6 +12,7 @@ const Modal = ({
 
     return (
         <Dialog
+            //TODO: This is mandatory, if the modal has focustrap element.
             disableEnforceFocus
             open={true}
             {...props}

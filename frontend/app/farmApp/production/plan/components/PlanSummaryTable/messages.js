@@ -5,7 +5,7 @@ export const scope = 'app.production.plan.PlanSummaryTable'
 export default defineMessages({
     title: {
         id: `${scope}.Table.title`,  
-        defaultMessage: 'Define your fields and what you grow there.',
+        defaultMessage: 'Productions in this season',
     },
     
   })

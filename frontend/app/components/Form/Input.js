@@ -27,7 +27,8 @@ import {
   renderAutocomplete,
   renderTextField,
   renderTextWithUnit,
-  renderDatePicker
+  renderDatePicker,
+  renderRadioGroup
 } from './components'
 
 export const EmailField = (props) =>
@@ -82,6 +83,12 @@ export const DatePickerField = (props) =>
 
 export const DatePickerComponent = (props) => 
   renderDatePicker({...props})
+
+export const RadioGroupField = (props) => 
+  <Field component={RadioGroupComponent} {...props} />
+
+export const RadioGroupComponent = (props) => 
+  renderRadioGroup({...props})
 
 export const SelectOption = React.forwardRef(({children, ...props}, ref) =>
   //<MenuItem {...props} ref={ref}>{children}</MenuItem>)

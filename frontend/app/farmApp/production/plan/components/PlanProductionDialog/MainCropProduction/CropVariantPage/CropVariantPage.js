@@ -16,6 +16,11 @@ import {
     SearchSelectComponent
 } from 'components/Form'
 
+import { 
+    Table,
+    TableHeader,
+} from 'components/Table'
+
 import { DetailFooter } from 'farmApp/components/Detail'
 
 import GridTable from 'farmApp/components/GridTable'
@@ -37,6 +42,15 @@ import PlanAddParcelButton from '../../../PlanAddParcelButton'
 
 const ContentContainer = styled.div`
     padding: 10px 15px;
+    flex-grow: 1;
+`
+
+
+const FlexGrid = styled(Grid)`
+    display: flex;
+`
+
+const Spacer = styled.div`
     flex-grow: 1;
 `
 
@@ -93,7 +107,7 @@ class CropVariantPage extends React.Component {
         const columns = [
             {title: 'Parcels', size: 1.5, render: (field, i) => 
                 <FieldListItem 
-                    data={{id: parcels[i].parcelId}}
+                    data={parcels ? {id: parcels[i].parcelId} : null}
                 />
             },
             {title: 'Variant', render: (field, i) => <SearchSelectField name={`${field}.crop.variant`}
