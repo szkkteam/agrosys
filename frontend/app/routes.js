@@ -20,7 +20,7 @@ import {
 import {
   routes as productionRoutes,
   ROUTES as productionRoutesKeys,
-} from 'farmApp/production/routes'
+} from 'farmApp/cropProduction/routes'
 
 import {
   routes as securityRoutes,

@@ -1,7 +1,7 @@
 import { defineMessages } from 'react-intl'
 
 export const scope = 'app.global'
-const production = 'app.farmApp.production.production'
+const production = 'app.farmApp.cropProduction.production'
 
 export default defineMessages({
     edit: {

@@ -27,7 +27,7 @@ import {
 
 import {
   ResourceHeaderTab
-} from 'farmApp/resource/resource/pages'
+} from 'farmApp/resource/pages'
 
 import { ProtectedRoute } from 'utils/route'
 

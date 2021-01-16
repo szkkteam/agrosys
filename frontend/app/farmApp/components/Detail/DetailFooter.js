@@ -25,19 +25,20 @@ const Footer = styled(DialogActions)`
 
 //<FormattedMessage {...title} />
 const DetailFooter = ({
+    hideButtons=false,
     onClose,
     ...props
 }) => {
     return (
         <Footer>
-            <SubmitButton
+            { !hideButtons && <SubmitButton
                 cancelTitle={ButtonMessages.cancel}
                 submitTitle={ButtonMessages.submit}
                 submitDisabled={false}
                 onCancel={onClose}
                 //onSubmit={() => null}
                 {...props}
-            />            
+            /> }
         </Footer>
     )
 }

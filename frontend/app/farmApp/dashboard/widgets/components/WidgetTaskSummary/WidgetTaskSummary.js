@@ -10,7 +10,7 @@ import {
 
 import {
     TaskSmallCard
-} from 'farmApp/production/task/components'
+} from 'farmApp/cropProduction/task/components'
 
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
