@@ -149,6 +149,7 @@ const Stepper = ({
                     <Step key={`${index}`}>
                         <StepButton
                             onClick={handleStep(index)}
+                            //onClick={completed[index]? handleStep(index): null}
                             completed={completed[index]}
                         >
                             <FormattedMessage {...label} />

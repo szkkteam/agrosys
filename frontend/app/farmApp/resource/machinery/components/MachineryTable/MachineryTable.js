@@ -74,7 +74,7 @@ const data = [
 const Tab1 = props => <div>Tab 1</div>
 const Tab2 = props => <div>Tab 2</div>
 
-import { TaskCalendar } from 'farmApp/production/task/components'
+import { TaskCalendar } from 'farmApp/cropProduction/task/components'
 const Reservation = (props) => {
     return (
         <TaskCalendar />
@@ -163,7 +163,7 @@ const MachineryTable = ({
                     open={!!selectedData}
                 >
                     <TableBody
-                        height={height}
+                        //height={height}
                         columns={columns}
                         data={data}
                         actionItems={items}

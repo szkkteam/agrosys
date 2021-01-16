@@ -1,5 +1,3 @@
-import { fromPrefixLen } from 'ip'
-
 export { default as usePrevious } from './usePrevious'
 export { default as useQuery } from './useQuery'
 export { default as useInjectReducer } from './useInjectReducer'
@@ -16,3 +14,4 @@ export { default as usePageTitle } from './usePageTitle'
 export { default as useRouteMap } from './useRouteMap'
 export { default as usePushModalWindow } from './usePushModalWindow'
 export { default as useLocale } from './useLocale'
+export { default as useDateFnsLocale } from './useDateFnsLocale'

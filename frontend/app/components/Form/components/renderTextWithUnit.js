@@ -21,6 +21,7 @@ export default ({
 
 }) => {
     //const intl = useIntl()
+    console.debug("value: ", value)
     const [unit, setUnit] = useState(defaultUnit)
 
     const convertToValue = (newValue = null, newUnit = null) => {
@@ -47,6 +48,7 @@ export default ({
     const handleUnitChange = (e, unit) => {
         setUnit(unit)
         const converted = convertToValue(null, unit)
+        console.debug("converted: ", converted)
         //console.debug("onChange: ", converted)
         onChange && onChange(converted)
     }

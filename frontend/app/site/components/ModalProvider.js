@@ -15,11 +15,12 @@ import { getModal, isModalActive } from '../selectors'
 import { TestModal } from 'site/components'
 import { FarmPickOnMap } from 'farmApp/resource/farm/components'
 import { BlockCreateModal, BlockDrawModal } from 'farmApp/resource/block/components'
-import { FieldDrawModal } from 'farmApp/production/field/components'
+import { FieldDrawModal } from 'farmApp/cropProduction/field/components'
 import { MachineryForm } from 'farmApp/resource/machinery/components'
-import { CropForm } from 'farmApp/production/crop/components'
-import { ProductionPlanSelectorForm} from 'farmApp/production/production/components'
-import { PlanProductionCreateForm } from 'farmApp/production/plan/components'
+import { CropCreateDialog } from 'farmApp/cropProduction/crop/components'
+import { PlanSelectorDialog } from 'farmApp/cropProduction/plan/components'
+import { ProductionCreateDialog } from 'farmApp/cropProduction/production/components'
+
 
 import { 
     EDIT_FILE_DIALOG,
@@ -29,8 +30,8 @@ import {
     FIELD_DRAW_DIALOG,
     MACHINERY_DIALOG,
     CROP_DIALOG,
-    PRODUCTION_PLAN_SELECTOR_DIALOG,
-    PLAN_PRODUCTION_CREATE_DIALOG,
+    PLAN_SELECTOR_DIALOG,
+    PRODUCTION_CREATE_DIALOG,
  } from '../modalTypes'
 
 const ModalProvider = ({
@@ -49,9 +50,9 @@ const ModalProvider = ({
             [BLOCK_DRAW_DIALOG, BlockDrawModal],
             [FIELD_DRAW_DIALOG, FieldDrawModal],
             [MACHINERY_DIALOG, MachineryForm],
-            [CROP_DIALOG, CropForm],
-            [PRODUCTION_PLAN_SELECTOR_DIALOG, ProductionPlanSelectorForm],
-            [PLAN_PRODUCTION_CREATE_DIALOG, PlanProductionCreateForm]
+            [CROP_DIALOG, CropCreateDialog],
+            [PLAN_SELECTOR_DIALOG, PlanSelectorDialog],
+            [PRODUCTION_CREATE_DIALOG, ProductionCreateDialog]
     ]))
     const Component = modalsMap.get(modalType) || null;
 

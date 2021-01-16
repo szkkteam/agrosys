@@ -100,7 +100,8 @@ GridTable.propTypes = {
         size: PropTypes.any,
         spacing: PropTypes.number,
     })).isRequired,
-    data: PropTypes.arrayOf(PropTypes.any).isRequired
+    //data: PropTypes.arrayOf(PropTypes.any).isRequired
+    data: PropTypes.any.isRequired
 }
 
 export default GridTable

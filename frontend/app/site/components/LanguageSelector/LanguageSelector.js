@@ -6,36 +6,27 @@ import styled from 'styled-components'
 import { changeLocale } from 'site/actions'
 import { useDispatch } from 'react-redux';
 
+import Flags from 'country-flag-icons/react/3x2'
+
 import {
     TextField,
     Paper,
     Select,
     MenuItem
 }  from '@material-ui/core';
-import {
-    Autocomplete
-} from '@material-ui/lab'
 
 import { useLocale } from 'utils/hooks'
 
 const countries = [
-    { locale: 'hu-HU', code: 'HU', label: 'Magyar', phone: '36' },
-    { locale: 'en-US', code: 'US', label: 'English', phone: '1' },
+    { locale: 'hu-HU', code: 'HU', label: 'Magyar', Flag: Flags.HU },
+    { locale: 'en-US', code: 'US', label: 'English', Flag: Flags.US },
 ]
-
-const countryToFlag = (isoCode) => {
-    return typeof String.fromCodePoint !== 'undefined'
-      ? isoCode
-          .toUpperCase()
-          .replace(/./g, (char) => String.fromCodePoint(char.charCodeAt(0) + 127397))
-      : isoCode;
-}
 
 const StyledMenuItem = styled(MenuItem)`
         font-size: 15px;
-        & > span {
+        & > svg {
+            width: 20px;
             margin-right: 10px;
-            font-size: 18px;
         }
 `
 
@@ -43,9 +34,9 @@ const StyledMenuItem = styled(MenuItem)`
 const StyledSelect = styled(Select)`
         .MuiSelect-select {
             font-size: 15px;
-            & > span {
+            & > svg {
+                width: 20px;
                 margin-right: 10px;
-                font-size: 18px;
             }
         }
 
@@ -67,13 +58,13 @@ const LanguageSelector = ({
             value={locale}
             onChange={handleChange}
         >
-            { countries.map((option, i) => (
+            { countries.map(({code, locale, label, Flag}, i) => (
                 <StyledMenuItem
-                    key={`locale-${option.code}-${i}`}
-                    value={option.locale}
+                    key={`locale-${code}-${i}`}
+                    value={locale}
                 >
-                    <span>{countryToFlag(option.code)}</span>
-                    {option.label}
+                    <Flag />
+                    {label}
                 </StyledMenuItem>
             ))}
         </StyledSelect>            

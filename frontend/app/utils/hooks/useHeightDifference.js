@@ -7,8 +7,8 @@ export default (container, child, defaultHeight = 700) => {
         const containerHeight = _.isInteger(container)? container : container?.current && 'current' in container ? container.current.clientHeight : null
         const childHeight = _.isInteger(child)? child : child?.current && 'current' in child ? child.current.clientHeight : null
 
-        console.debug("containerHeight: ", containerHeight)
-        console.debug("childHeight: ", childHeight)
+        //console.debug("containerHeight: ", containerHeight)
+        //console.debug("childHeight: ", childHeight)
 
         if (containerHeight && childHeight) {     
             setHeight(containerHeight - childHeight)
