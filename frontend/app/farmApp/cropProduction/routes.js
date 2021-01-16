@@ -11,15 +11,11 @@ import {
 
 
 import {
-  CropOverview,
-  CropTimeline,
   CropSettings
 } from './crop/pages'
 
 import {
-  ProductionSummary,
   ProductionCreate,
-  ProductionDetail,
   ProductionTimeline,
   ProductionSettings,
 } from './production/pages'

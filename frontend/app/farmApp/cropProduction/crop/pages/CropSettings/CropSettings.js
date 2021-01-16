@@ -4,7 +4,6 @@ import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 
-import { CropSummaryLayout } from '../../components'
 
 const Container = styled.div`
     height: 100%;
@@ -23,7 +22,6 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <CropSummaryLayout />
         </Container>
     )
 }

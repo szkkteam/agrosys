@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { Detail, DetailContainer } from 'farmApp/components/Detail'
 
-import CropTabGeneral from '../CropForm/CropTabGeneral'
+import CropTabGeneral from './CropTabGeneral'
 
 const Container = styled.div`
     padding: 10px 15px;
