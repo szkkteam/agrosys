@@ -1,6 +1,7 @@
 import { defineMessages } from 'react-intl'
 
 export const scope = 'app.global'
+const production = 'app.farmApp.production.production'
 
 export default defineMessages({
     edit: {
@@ -46,5 +47,13 @@ export default defineMessages({
     next: {
         id: `${scope}.next`,  
         defaultMessage: 'Next',
-    }
+    },
+    mainCropProduction: {
+        id: `${production}.cropProductionType.mainCropProduction`,
+        defaultMessage: 'Main crop production',
+    },
+    secondaryCropProduction: {
+        id: `${production}.cropProductionType.secondaryCropProduction`,
+        defaultMessage: 'Secondary crop production',
+    },
   })

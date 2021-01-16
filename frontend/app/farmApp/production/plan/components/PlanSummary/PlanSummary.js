@@ -35,10 +35,18 @@ import {
 
 import { PLAN_FORM_NAME } from '../../constants'
 import { MODAL_TYPE_CONFIRM } from 'site/modalResultTypes'
+import { PRODUCTION_TYPE } from 'farmApp/production/production/constants'
+
 
 const Container = styled.div`
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+`
+
+const FullHeightTable = styled(props => <PlanSummaryTable {...props} />)`
+
 `
 
 const FormControlContainer = styled(FormControl)`
@@ -48,6 +56,9 @@ const FormControlContainer = styled(FormControl)`
 
 `
 
+const StretchColumn = styled.div`
+    flex: 1 1 auto;    
+`
 
 const withForm = reduxForm({
     form: PLAN_FORM_NAME,
@@ -105,7 +116,7 @@ const PlanSummary = ({
 
     const initialValues = {
         cropId: 1,
-        productionType: 'mainCropProduction'
+        productionType: PRODUCTION_TYPE.mainCropProduction
     }
 
     const openProductionCreation = () => {
@@ -137,7 +148,7 @@ const PlanSummary = ({
         array.remove('productions', index)
     }
 
-    const hasMainCrop = productions? productions.find(x => x.productionType === 'mainCropProduction'): false
+    const hasMainCrop = productions? productions.find(x => x.productionType === PRODUCTION_TYPE.mainCropProduction): false
 
     const addButtonOptions = [
         { title: messages.addMainCrop, disabled: !!hasMainCrop, onClick: openProductionCreation},
@@ -152,7 +163,7 @@ const PlanSummary = ({
                         Create a new season
                     </Typography>
                 </Grid>
-                <Grid container item xs={12} spacing={3}>
+                <Grid container item xs={12}>
                     <Grid container item xs={6} >
                         <Grid container item xs={8} >
                             <FormControlContainer component="fieldset">
@@ -175,19 +186,27 @@ const PlanSummary = ({
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <PlanSummaryTable     
-                        onOpenProduction={editProduction}
-                        onDeleteProduction={deleteProduction}
-                    >
-                        <SplitButton 
-                            options={addButtonOptions}
-                        />
-                    </PlanSummaryTable>
-                </Grid>
-
-
             </Grid>
+            <Grid container style={{flexGrow: 1}}>
+                <Grid container item xs={12} direction="column">
+                    <StretchColumn style={{display: "flex"}}>
+                        <FullHeightTable     
+                            onOpenProduction={editProduction}
+                            onDeleteProduction={deleteProduction}
+                        >
+                            <SplitButton 
+                                options={addButtonOptions}
+                            />
+                        </FullHeightTable>
+                    </StretchColumn>
+                    <StretchColumn>
+                        Summary
+                    </StretchColumn>
+                </Grid>
+            </Grid>
+            <div>
+                Buttons
+            </div>
         </Container>
     )
 }

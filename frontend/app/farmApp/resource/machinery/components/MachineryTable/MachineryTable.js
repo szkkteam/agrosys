@@ -163,7 +163,7 @@ const MachineryTable = ({
                     open={!!selectedData}
                 >
                     <TableBody
-                        height={height}
+                        //height={height}
                         columns={columns}
                         data={data}
                         actionItems={items}

@@ -62,6 +62,7 @@
     "react-redux-loading-bar": "^2.9.2",
     "react-router": "5.2.0",
     "react-router-dom": "5.2.0",
+    "react-sizeme": "^2.6.12",
     "react-slick": "^0.26.1",
     "react-svg": "^2.1.22",
     "redux": "^3.7.2",

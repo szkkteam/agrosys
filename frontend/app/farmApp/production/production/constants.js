@@ -11,3 +11,8 @@ export const VIEW_MODULE = '#module'
 export const VIEW_LIST = '#list'
 
 export const PLAN_SELECTOR_FORM = 'planSelectorForm'
+
+export const PRODUCTION_TYPE = {
+    mainCropProduction: 'mainCropProduction',
+    secondaryCropProduction: 'secondaryCropProduction'
+}

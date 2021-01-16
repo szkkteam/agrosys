@@ -1,4 +1,5 @@
 import React, { useState, useRef, useLayoutEffect, useEffect } from 'react'
+import globalMessages from 'messages'
 import messages from './messages';
 import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
@@ -18,12 +19,13 @@ import {
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import { PLAN_FORM_NAME } from '../../constants'
 import { getProductionsFromForm } from '../../selectors'
 
 const TableContainer = styled.div`
-    //width: 50%;
+    width: 100%;
     padding: 0 10px;
+    display: flex;
+    flex-direction: column;
 `
 
 const FlexGrid = styled(Grid)`
@@ -36,6 +38,7 @@ const Spacer = styled.div`
 
 
 const PlanSummaryTable = ({
+    className,
     onOpenProduction,
     onDeleteProduction,
     children,
@@ -47,7 +50,7 @@ const PlanSummaryTable = ({
     const columns = [
         {title: 'Crop', field: 'crop',},
         {title: 'Planned yield', field: 'yield'},        
-        {title: 'Type', field: 'type'},
+        {title: 'Type', field: 'type', render: (rowData) => <FormattedMessage {...globalMessages[rowData.type]}/> },
         {title: 'Period', field: 'period'},
         {title: 'Fields size', field: 'size'},
         {title: 'Number of tasks', field: 'tasks'},
@@ -64,7 +67,7 @@ const PlanSummaryTable = ({
     }
 
     return (
-        <TableContainer>
+        <TableContainer className={className}>
             <TableHeader
                 title={messages.title}
                 gridProps={{
