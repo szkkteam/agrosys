@@ -35,7 +35,7 @@ const ProductionCreateLayout = ({
     /* On mount, open the plan selector dialog */
     
     useEffect(() => {
-        openPlanSelector()
+        //openPlanSelector()
     }, [])
     
 

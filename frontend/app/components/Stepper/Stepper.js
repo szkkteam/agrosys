@@ -20,9 +20,14 @@ const StepContentContainer = styled.div`
     height: 100%;
 `
 
+const StepperContainer = styled.div`
+
+`
+
 const Stepper = ({
     defaultStep=0,
     steps,
+    stepperContainer: StepperContainerComponent = StepperContainer,
     stepsVisible=true,
     contents,
     finishedContent=null,
@@ -135,34 +140,40 @@ const Stepper = ({
             </ContainerComponent>
         )
 
+    console.debug("StepperContainerComponent: ", StepperContainerComponent)
+
     return (
         <div
             className={className}
         >
-            { stepsVisible && <MuiStepper
-                nonLinear
-                activeStep={activeStep}
-                orientation={orientation}
-                {...props}
-            >
-                {steps.map((label, index) => (
-                    <Step key={`${index}`}>
-                        <StepButton
-                            onClick={handleStep(index)}
-                            //onClick={completed[index]? handleStep(index): null}
-                            completed={completed[index]}
-                        >
-                            <FormattedMessage {...label} />
-                        </StepButton>
-                        { orientation === "vertical"
-                            ? (<StepContent>
-                                {renderStepContent()}
-                            </StepContent>)
-                            : null
-                        }
-                    </Step>
-                ))}
-            </MuiStepper> }
+            { stepsVisible && 
+            <StepperContainerComponent>
+                <MuiStepper
+                    nonLinear
+                    activeStep={activeStep}
+                    orientation={orientation}
+                    {...props}
+                >
+                    {steps.map((label, index) => (
+                        <Step key={`${index}`}>
+                            <StepButton
+                                onClick={handleStep(index)}
+                                //onClick={completed[index]? handleStep(index): null}
+                                completed={completed[index]}
+                            >
+                                <FormattedMessage {...label} />
+                            </StepButton>
+                            { orientation === "vertical"
+                                ? (<StepContent>
+                                    {renderStepContent()}
+                                </StepContent>)
+                                : null
+                            }
+                        </Step>
+                    ))}
+                </MuiStepper> 
+            </StepperContainerComponent>
+            }
             { orientation === "horizontal"
                 ? renderStepContent()
                 : null

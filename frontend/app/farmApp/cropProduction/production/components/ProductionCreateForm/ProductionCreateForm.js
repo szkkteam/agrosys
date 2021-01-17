@@ -21,6 +21,11 @@ import {
     TaskPage,
 } from '../ProductionMainCropProduction'
 
+import {
+    Portal
+} from '@material-ui/core'
+import ReactDOM from 'react-dom'
+
 import { PRODUCTION_FORM_NAME } from '../../constants'
 
 const Container = styled.div`
@@ -60,7 +65,6 @@ const formSelector = formValueSelector(PRODUCTION_FORM_NAME)
 const withConnect = connect(
     (state, props) => {
         const { initialValues : locinitialValues, ...rest } = props
-        console.debug("locinitialValues: ", locinitialValues)
 
         const { parcels, template } = formSelector(state, 'parcels', 'template')
         return {        
@@ -103,6 +107,10 @@ const ConnectedTaskPage = compose(
     withForm,
 )(TaskPage) 
 
+const HeaderStepper = styled.div`
+    width: 50%;
+    margin: 0 auto;
+`
 
 const ProductionCreateForm = ({
     onClose,
@@ -162,24 +170,23 @@ const ProductionCreateForm = ({
             />,
     ]
 
-
     return (
         <Flex>          
             <DetailHeader
                 title={messages.title}
                 onClose={closeDestroy}
-            >                        
+            >            
             </DetailHeader>
-                <Container /*ref={ ref => setContainerRef(ref)}*/>
-                    <FlexStepper 
-                        //defaultStep={1} // TODO: REmove
-                        steps={steps}
-                        contents={contents}
-                        defaultStep={0}
-                        containerComponent={StepperContainer}
-                    />
-                </Container>
-
+            <Container /*ref={ ref => setContainerRef(ref)}*/>
+                <FlexStepper 
+                    //defaultStep={1} // TODO: REmove
+                    steps={steps}
+                    contents={contents}
+                    defaultStep={0}
+                    stepperContainer={HeaderStepper}
+                    containerComponent={StepperContainer}
+                />
+            </Container>
         </Flex>        
     )
 }

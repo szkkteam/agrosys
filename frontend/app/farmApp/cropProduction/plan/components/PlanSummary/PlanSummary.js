@@ -129,11 +129,11 @@ const PlanSummary = ({
             //console.debug("Finished: ", status)
         })
     }
-    /*
+    
     useEffect(() => {
         openProductionCreation()
     }, [])
-    */
+    
     const editProduction = (data, index) => {
         console.debug("Production data: ", data)
         push(PRODUCTION_CREATE_DIALOG, {initialValues: data}).then(({payload, status}) => {

@@ -102,16 +102,7 @@ const FieldSideSelector = ({
     ])
     */
    const items = [1, 2 ,3 ,4 ,5 ,6]
-
-    useEffect(() => {
-        console.debug("Mount")
-        return () => {
-            console.debug("unMount")
-        }
-    }, [])
-
-    console.debug("Selected parcels: ", selected)
-
+   
     const handleSelected = ({id}) => {
         const newState = !selected.find(x => x === id)
         onSelected && onSelected(id, newState)
