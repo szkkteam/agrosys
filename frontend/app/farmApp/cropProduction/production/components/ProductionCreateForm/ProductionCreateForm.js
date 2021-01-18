@@ -1,4 +1,5 @@
 import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react'
+import ReactDOM from 'react-dom'
 import messages from './messages';
 import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
@@ -10,10 +11,9 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Field, reduxForm, formValueSelector, destroy } from 'redux-form'
 
-import { Modal } from 'site/components'
 import { Stepper } from 'components'
 import { DetailHeader, DetailContainer, DetailFooter } from 'farmApp/components/Detail'
-//import ProductionTabGeneral from './ProductionTabGeneral'
+import { Modal, ModalHeader, ModalContent, ModalFooter, ModalContext } from 'components'
 
 import {
     CropVariantPage,
@@ -21,14 +21,9 @@ import {
     TaskPage,
 } from '../ProductionMainCropProduction'
 
-import {
-    Portal
-} from '@material-ui/core'
-import ReactDOM from 'react-dom'
-
 import { PRODUCTION_FORM_NAME } from '../../constants'
 
-const Container = styled.div`
+const Container = styled(props => <ModalContent {...props} />)`
     flex-grow: 1;
 `
 
@@ -172,11 +167,9 @@ const ProductionCreateForm = ({
 
     return (
         <Flex>          
-            <DetailHeader
+            <ModalHeader
                 title={messages.title}
-                onClose={closeDestroy}
-            >            
-            </DetailHeader>
+            />
             <Container /*ref={ ref => setContainerRef(ref)}*/>
                 <FlexStepper 
                     //defaultStep={1} // TODO: REmove

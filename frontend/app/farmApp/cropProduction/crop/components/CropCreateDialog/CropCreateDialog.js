@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
 import messages from './messages';
+import globalMessages from 'messages'
 import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
 import { useHistory, useLocation } from "react-router-dom";
@@ -13,13 +14,13 @@ import { Detail, DetailContainer } from 'farmApp/components/Detail'
 
 import CropTabGeneral from './CropTabGeneral'
 
-const Container = styled.div`
-    padding: 10px 15px;
-`
-
-
-import { Modal } from 'site/components'
+import { Modal, ModalHeader, ModalContent, ModalFooter, ModalContext } from 'components'
 import { CROP_FORM } from '../../constants'
+
+
+const Container = styled(props => <ModalContent {...props} />)`
+    //padding: 10px 15px;
+`
 
 const withForm = reduxForm({
     form: CROP_FORM,
@@ -52,17 +53,24 @@ const CropForm = ({
    
     return (      
         <form onSubmit={handleSubmit}>
-            <Detail
-            title={messages.title}
-            onClose={onClose}
-        >
+            <ModalHeader
+                title={messages.title}
+            />
             <Container>
                 <CropTabGeneral 
                     title={messages.tabGeneral}
                     {...props}
                 />
             </Container>
-        </Detail>
+            <ModalFooter
+                primaryButtonProps={{
+                    title: globalMessages.save,
+                    type: 'submit'
+                }}
+                secondaryButtonProps={{
+                    title: globalMessages.close,
+                }}
+            />
         </form>
   ) 
 }
@@ -84,7 +92,7 @@ export default ({
     ...props
 }) => {
 
-    const { handleConfirm } = headerProps
+    const { handleConfirm } = useContext(ModalContext)
 
     const handleSubmit = (d) => {
         console.debug("Submitting ... : ", d)
@@ -94,7 +102,6 @@ export default ({
         <Modal
             fullWidth
             maxWidth="md"
-            {...headerProps}
         >   
             <ConnectedCropForm
                 initialValues={data}

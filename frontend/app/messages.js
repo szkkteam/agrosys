@@ -24,6 +24,10 @@ export default defineMessages({
         id: `${scope}.open`,  
         defaultMessage: 'Open',
     },
+    close: {
+        id: `${scope}.close`,  
+        defaultMessage: 'Close',
+    },
     emptyList: {
         id: `${scope}.emptyList`,  
         defaultMessage: 'No options',

@@ -16,3 +16,6 @@ export { TabHeader, PageHeader } from './Header'
 export { MasterList } from './List'
 export { Popover } from './Popover'
 export { WidgetContainer } from './Widget'
+
+// Modal
+export { Modal, ModalContext, ModalHeader, ModalFooter, ModalContent } from './Modal'

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux'
 import { bindActionCreators } from 'redux'
 import { useSelector } from 'react-redux'
+import { ModalContext } from 'components'
 
 import { popModalWindow } from 'redux-promising-modals';
 import Dialog from '@material-ui/core/Dialog';
@@ -69,22 +70,32 @@ const ModalProvider = ({
     const handleAction = (type, payload) => {
         popModalWindow({ status: type , payload });
     }
+
+    const contextObject = {
+        open: true,
+        handleCancel,
+        handleConfirm,
+        handleAction,
+    }
+
     return (
         <React.Fragment>
-            { Component && 
-            <Component
-                
-                headerProps={{
-                    open: true,
-                    onClose: handleCancel,
-                }}
-                {...modalProps}
-                resultTypes={modalResultTypes}
-                popModalWindow={popModalWindow}
-                handleCancel={handleCancel}
-                handleConfirm={handleConfirm}
-                handleAction={handleAction}
-            /> }  
+            <ModalContext.Provider value={contextObject}>
+                { Component && 
+                <Component
+                    
+                    headerProps={{
+                        open: true,
+                        onClose: handleCancel,
+                    }}
+                    {...modalProps}
+                    resultTypes={modalResultTypes}
+                    popModalWindow={popModalWindow}
+                    handleCancel={handleCancel}
+                    handleConfirm={handleConfirm}
+                    handleAction={handleAction}
+                /> }  
+            </ModalContext.Provider>
         </React.Fragment>
     )
 }
