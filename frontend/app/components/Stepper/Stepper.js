@@ -3,42 +3,18 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components'
 
-import {
-    Portal
-} from '@material-ui/core'
-
-import { 
-    Stepper as MuiStepper,
-    Step,
-    StepButton,
-    StepContent,
-    Button,
-    Typography
-} from '@material-ui/core';
-
-const StepContentContainer = styled.div`
-    height: 100%;
-`
-
-const StepperContainer = styled.div`
-
-`
+import StepperContext from './StepperContext'
 
 const Stepper = ({
     defaultStep=0,
     steps,
-    stepperContainer: StepperContainerComponent = StepperContainer,
-    stepsVisible=true,
     contents,
-    finishedContent=null,
-    className,
-    contentRef=null,
-    containerComponent: ContainerComponent = StepContentContainer,
-    orientation="horizontal",
+    children,
     ...props
 }) => {
 
     const [activeStep, setActiveStep] = React.useState(defaultStep);
+
     const [completed, setCompleted] = React.useState({});
 
     const totalSteps = () => {
@@ -50,11 +26,11 @@ const Stepper = ({
     }
 
     const isLastStep = () => {
-        return activeStep === totalSteps() - 1;
+        return activeStep === totalSteps - 1;
     }
 
     const allStepsCompleted = () => {
-        return completedSteps() === totalSteps();
+        return completedSteps() === totalSteps;
     }
 
     const handleNext = () => {
@@ -71,7 +47,7 @@ const Stepper = ({
         setActiveStep((prevActiveStep) => prevActiveStep - 1)
     }
 
-    const handleStep = (step) => () => {
+    const handleStep = (step) => {
         setActiveStep(step)
     }
 
@@ -88,113 +64,29 @@ const Stepper = ({
         setCompleted({})
     }
 
-    const renderFinishedContent = finishedContent? typeof(finishedContent) == 'function'? finishedContent : () => finishedContent :  null
-
-    //_.isFunction(contents[activeStep])
-    //const activeContent = typeof(contents[activeStep] ) == 'function'? contents[activeStep] : (props) => contents[activeStep]
-    const activeContent = contents[activeStep]
-
-    const stepContentProps = {
-        numOfSteps: totalSteps,
-        completedSteps,
+    const contextObject = {
+        contents,
+        steps,
         activeStep,
-        onComplete: handleComplete,
-        onNext: handleNext,
-        onBack: handleBack,
+        completed,
+        handleStep,
+        handleComplete,
+        handleNext,
+        handleBack
     }
-    //console.debug("Stepper - contentRef: ", contentRef.current)
-    const PortalContent = ({children, ...props}) => (
-        <Portal container={contentRef.current}>
-            {children}
-        </Portal>
-    )
-    console.debug("Stepper render: ", ContainerComponent)
-    //const ContentContainer = contentRef? PortalContent : ContainerComponent
-
-    /*
-    const renderStepContent = useMemo(() => {
-        return () => finishedContent && allStepsCompleted()? (
-                <div>
-                    { renderFinishedContent() }
-                </div>
-            ) : (
-                <ContainerComponent>
-                    { _.isFunction(activeContent)
-                        ? activeContent(stepContentProps)
-                        : React.cloneElement(activeContent, stepContentProps)
-
-                    }
-                </ContainerComponent>
-            )
-    }, [activeContent, ContainerComponent])
-    */
-
-   const renderStepContent = () => 
-        (
-            <ContainerComponent>
-                { _.isFunction(activeContent)
-                    ? activeContent(stepContentProps)
-                    : React.cloneElement(activeContent, stepContentProps)
-
-                }
-            </ContainerComponent>
-        )
-
-    console.debug("StepperContainerComponent: ", StepperContainerComponent)
 
     return (
-        <div
-            className={className}
-        >
-            { stepsVisible && 
-            <StepperContainerComponent>
-                <MuiStepper
-                    nonLinear
-                    activeStep={activeStep}
-                    orientation={orientation}
-                    {...props}
-                >
-                    {steps.map((label, index) => (
-                        <Step key={`${index}`}>
-                            <StepButton
-                                onClick={handleStep(index)}
-                                //onClick={completed[index]? handleStep(index): null}
-                                completed={completed[index]}
-                            >
-                                <FormattedMessage {...label} />
-                            </StepButton>
-                            { orientation === "vertical"
-                                ? (<StepContent>
-                                    {renderStepContent()}
-                                </StepContent>)
-                                : null
-                            }
-                        </Step>
-                    ))}
-                </MuiStepper> 
-            </StepperContainerComponent>
-            }
-            { orientation === "horizontal"
-                ? renderStepContent()
-                : null
-            }
-        </div>
+        <StepperContext.Provider value={contextObject}>
+            {children}
+        </StepperContext.Provider>
     )
+        
 }
 
-/*
-<StepButton
-    onClick={handleStep(index)}
-    completed={completed[index]}
->
-    <FormattedMessage {...label} />
-</StepButton>
-*/
 
 Stepper.propTypes = {
     defaultStep: PropTypes.number,
     steps: PropTypes.array,
-    contents: PropTypes.array
 }
 
 export default Stepper

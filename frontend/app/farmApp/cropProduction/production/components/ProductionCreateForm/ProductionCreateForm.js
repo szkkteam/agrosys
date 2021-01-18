@@ -11,9 +11,13 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Field, reduxForm, formValueSelector, destroy } from 'redux-form'
 
-import { Stepper } from 'components'
-import { DetailHeader, DetailContainer, DetailFooter } from 'farmApp/components/Detail'
-import { Modal, ModalHeader, ModalContent, ModalFooter, ModalContext } from 'components'
+import { 
+    Stepper,
+    StepperHeader,
+    StepperContent,
+    ModalHeader,
+    ModalContent,
+} from 'components'
 
 import {
     CropVariantPage,
@@ -21,10 +25,14 @@ import {
     TaskPage,
 } from '../ProductionMainCropProduction'
 
+import StepperBack from './StepperBack'
+
 import { PRODUCTION_FORM_NAME } from '../../constants'
 
 const Container = styled(props => <ModalContent {...props} />)`
+    display: flex;
     flex-grow: 1;
+    padding: 0;
 `
 
 const Flex = styled.div`
@@ -33,16 +41,15 @@ const Flex = styled.div`
     height: 100%;
 `
 
-const FlexStepper = styled(props => <Stepper {...props} />)`
+const StepperHeaderContainer = styled.div`
     display: flex;
-    height: 100%;
-    flex-direction: column;
+    align-items: center;
+    flex-direction: row;
 `
 
-const StepperContainer = styled.div`
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
+const MediumStepperHeader = styled(props => <StepperHeader {...props} />)`
+    width: 70%;
+    margin: 0 auto;
 `
 
 
@@ -102,10 +109,6 @@ const ConnectedTaskPage = compose(
     withForm,
 )(TaskPage) 
 
-const HeaderStepper = styled.div`
-    width: 50%;
-    margin: 0 auto;
-`
 
 const ProductionCreateForm = ({
     onClose,
@@ -140,26 +143,26 @@ const ProductionCreateForm = ({
     }
 
     const contents = [
-        ({onComplete, onBack, ...props}) => 
+        ({handleComplete, onBack, ...props}) => 
             <ConnectedCropVariantPage 
-                onSubmit={onComplete}
+                onSubmit={handleComplete}
                 onBack={closeDestroy}
                 data={data}
                 initialValues={initialValues}
                 {...props}
             />,
-        ({onComplete, onBack, ...props}) => 
+        ({handleComplete, handleBack, ...props}) => 
             <ConnectedSubsidyPage 
-                onSubmit={onComplete}
-                onBack={onBack}
+                onSubmit={handleComplete}
+                onBack={handleBack}
                 data={data}
                 initialValues={initialValues}
                 {...props} 
             />,
-        ({onBack, ...props}) => 
+        ({handleBack, ...props}) => 
             <ConnectedTaskPage 
                 onSubmit={handleSubmit}
-                onBack={onBack}
+                onBack={handleBack}
                 initialValues={initialValues}
                 {...props}
             />,
@@ -170,23 +173,34 @@ const ProductionCreateForm = ({
             <ModalHeader
                 title={messages.title}
             />
-            <Container /*ref={ ref => setContainerRef(ref)}*/>
-                <FlexStepper 
-                    //defaultStep={1} // TODO: REmove
-                    steps={steps}
-                    contents={contents}
-                    defaultStep={0}
-                    stepperContainer={HeaderStepper}
-                    containerComponent={StepperContainer}
-                />
-            </Container>
+            <Stepper
+                steps={steps}
+                //contents={contents}
+                defaultStep={0}
+            >
+                <StepperHeaderContainer>
+                    <StepperBack />
+                    <MediumStepperHeader />
+                </StepperHeaderContainer>
+                
+                <Container /*ref={ ref => setContainerRef(ref)}*/>
+                    <StepperContent>
+                        {({activeStep, ...props}) =>  contents[activeStep](props)}
+                    </StepperContent>
+                </Container>
+            </Stepper>
         </Flex>        
     )
 }
 /*
-            <DetailFooter
-                onClose={onClose}
-            />
+<FlexStepper 
+    //defaultStep={1} // TODO: REmove
+    steps={steps}
+    contents={contents}
+    defaultStep={0}
+    stepperContainer={HeaderStepper}
+    containerComponent={StepperContainer}
+/>
 */
 
 ProductionCreateForm.propTypes = {

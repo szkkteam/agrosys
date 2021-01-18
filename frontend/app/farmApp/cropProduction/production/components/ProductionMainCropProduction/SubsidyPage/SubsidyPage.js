@@ -31,6 +31,8 @@ import {
     Button,
 } from '@material-ui/core'
 
+import StepperFooter from '../StepperFooter'
+
 
 const ContentContainer = styled.div`
     padding: 10px 15px;
@@ -131,11 +133,8 @@ class SubsidyPage extends React.Component {
                 <ContentContainer>
                     <FieldArray name="parcels" component={this.renderTable} />
                 </ContentContainer>
-                <DetailFooter
-                    cancelTitle={globalMessages.back}
-                    submitTitle={globalMessages.next}
-                    onClose={onBack}
-                    //onSubmit={onSubmit}
+                <StepperFooter
+                    title={globalMessages.next}
                 />
             </Form>
         )

@@ -37,6 +37,8 @@ import {
     Button,
 } from '@material-ui/core'
 
+import StepperFooter from '../StepperFooter'
+
 const ContentContainer = styled.div`
     padding: 10px 15px;
     flex-grow: 1;
@@ -202,11 +204,8 @@ class CropVariantPage extends React.Component {
                     <FieldArray name="parcels" component={this.renderTable} />
                     
                 </ContentContainer>
-                <DetailFooter
-                    cancelTitle={globalMessages.cancel}
-                    submitTitle={globalMessages.next}
-                    onClose={onBack}
-                    //onSubmit={onSubmit}
+                <StepperFooter
+                    title={globalMessages.next}
                 />
             </Form>
         )

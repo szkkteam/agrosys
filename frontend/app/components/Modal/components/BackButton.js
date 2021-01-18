@@ -4,16 +4,8 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { useModalContext } from '../hooks'
 
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import {
-    IconButton
-} from '@material-ui/core';
+import BackButton from 'components/Button/BackButton'
 
-const StyledButton = styled(IconButton)`
-    padding: 5px;
-    margin-left: 15px;
-    color: #fff;
-`
 
 const BackButton = forwardRef(({
     onBack,
@@ -21,14 +13,11 @@ const BackButton = forwardRef(({
 }, ref) => {
     const { handleCancel } = useModalContext()
     return (
-        <StyledButton 
+        <BackButton 
             ref={ref}
-            aria-label="close"
             onClick={onBack ?? handleCancel}
             {...props}
-        >
-            <ArrowBackIosIcon />
-        </StyledButton>      
+        />
     )
 })
 
