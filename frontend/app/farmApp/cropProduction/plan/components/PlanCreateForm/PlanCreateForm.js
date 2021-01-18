@@ -102,7 +102,7 @@ const currency = [
  * 4) We need a submit/save button
  */
 
-const PlanSummary = ({
+const PlanCreateForm = ({
     array,
     productions,
 }) => {
@@ -130,9 +130,6 @@ const PlanSummary = ({
         })
     }
     
-    useEffect(() => {
-        openProductionCreation()
-    }, [])
     
     const editProduction = (data, index) => {
         console.debug("Production data: ", data)
@@ -230,15 +227,15 @@ TODO: This is not working properly
 
 */
 
-PlanSummary.propTypes = {
+PlanCreateForm.propTypes = {
 
 }
 
 
-const ConnectedPlanSummary = compose(
+const ConnectedPlanCreateForm = compose(
     withConnect,
     withForm,
-)(PlanSummary) 
+)(PlanCreateForm) 
 
 
-export default ConnectedPlanSummary
+export default ConnectedPlanCreateForm

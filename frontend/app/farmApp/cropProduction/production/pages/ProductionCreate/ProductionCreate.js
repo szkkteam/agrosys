@@ -4,7 +4,6 @@ import messages from './messages';
 import { useIntl } from 'react-intl'
 
 import { PageContent } from 'components'
-import { ProductionCreateLayout } from '../../components'
 
 export default ({
 
@@ -18,7 +17,6 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <ProductionCreateLayout />
         </PageContent>
 
     )

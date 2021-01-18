@@ -15,13 +15,13 @@ import {
 } from './crop/pages'
 
 import {
-  ProductionCreate,
   ProductionTimeline,
   ProductionSettings,
 } from './production/pages'
 
 import {
-  SeasonProduction
+  SeasonProduction,
+  SeasonCreate,
 } from './season/pages'
 
 import {
@@ -122,7 +122,7 @@ export const routes = [
       {
         key: ROUTES.ProductionCreate,
         path: '/crops/:cropId/seasons/new',
-        component: ProductionCreate,
+        component: SeasonCreate,
         routeComponent: ProtectedRoute,
         props: { exact: true }
       },

@@ -1,6 +1,5 @@
 export { default as ProductionLayout } from './ProductionLayout'
 export { default as ProductionCreateForm } from './ProductionCreateForm'
 export { default as ProductionCreateDialog } from './ProductionCreateDialog'
-export { default as ProductionCreateLayout } from './ProductionCreateLayout'
 export { default as ProductionLayoutHeader } from './ProductionLayoutHeader'
 export { default as ProductionSummaryTable } from './ProductionSummaryTable'

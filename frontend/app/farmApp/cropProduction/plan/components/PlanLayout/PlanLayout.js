@@ -22,7 +22,7 @@ const PlanLayout = ({
 }) => {
    
     return (
-        <PlanSummary />
+        null
     )
 }
 

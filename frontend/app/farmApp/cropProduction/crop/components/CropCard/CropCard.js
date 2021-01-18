@@ -13,7 +13,6 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import StarIcon from '@material-ui/icons/Star';
 
-import PrimaryActionButton from 'components/Button/PrimaryActionButton'
 import { ItemMenu } from 'components'
 
 import {
@@ -32,12 +31,9 @@ import {
     CropProductionItem
 } from '../../components'
 
-const IconLink = withLinkComponent(IconButton)
-const ActionLink = withLinkComponent(PrimaryActionButton)
+import { SeasonCreateButton } from 'farmApp/cropProduction/season/components'
 
-const CardContainer = styled.div`
-    //margin: 5px;
-`
+const IconLink = withLinkComponent(IconButton)
 
 const CropGraph = styled.div`
     height: 100px;
@@ -112,6 +108,11 @@ const CropCard = ({
         {title: gobalMessages.delete, onClick: () => null},
     ]
 
+    const data = {
+        cropId: 1,
+        productionId: 1,
+    }
+
     return (
         <Card
             {...props}
@@ -122,7 +123,7 @@ const CropCard = ({
                 avatar={
                     <SmallIconButton
                         to={ROUTES.Production}
-                        params={{cropId: 1, productionId: 1}}
+                        params={data}
                     >
                         <Avatar aria-label="wheat">
                             W
@@ -176,11 +177,7 @@ const CropCard = ({
                 </List>               
             </StyledCardContent>
             <CardActions disableSpacing>
-                {true && <ActionLink
-                    title={messages.addNewTitle}
-                    to={ROUTES.ProductionCreate}
-                    params={{cropId: 1}}
-                /> }
+                {true && <SeasonCreateButton cropId={data.cropId} />}
                 
             </CardActions>
         </Card>

@@ -8,6 +8,8 @@ import ProductionCreateForm from '../ProductionCreateForm/ProductionCreateForm'
 
 import { Modal, ModalContext } from 'components'
 
+import { useCloseModalOnBack } from 'utils/hooks'
+
 
 export default ({
     headerProps,
@@ -21,6 +23,9 @@ export default ({
         console.debug("Submitting ... : ", d)
         handleConfirm && handleConfirm(d)
     }
+
+    const blocker = useCloseModalOnBack()
+
     return (
         <Modal
             fullWidth

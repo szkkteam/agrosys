@@ -4,12 +4,9 @@ import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 
 import { ModalFooter } from 'components'
-import { useModalContext } from 'components/Modal/hooks'
 import PrimaryButton from 'components/Modal/components/PrimaryButton'
 
-const StepperFooter = ({
-    ...props
-}) => {
+const StepperFooter = (props) => {
     
     return (
         <ModalFooter>
