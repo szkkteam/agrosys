@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import messages from './messages'
 import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
@@ -6,7 +7,9 @@ import styled from 'styled-components'
 import { messages as ButtonMessages } from 'components/Button'
 import { FieldFormStepButton } from '..'
 
-import { Modal } from 'site/components'
+import { Modal, ModalHeader, ModalContent } from 'components'
+import BackButton from 'components/Modal/components/BackButton'
+import { useModalContext } from 'components/Modal/hooks'
 
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import {
@@ -60,11 +63,6 @@ const Title = styled(Typography)`
     color: #fff;
 `
 
-const BackButton = styled(IconButton)`
-    padding: 5px;
-    margin-left: 15px;
-    color: #fff;
-`
 
 const Explanation = styled.div`
     z-index: 9999;
@@ -97,12 +95,11 @@ const ButtonContainer = styled.div`
     }
 `
 
-const FieldDrawModal = ({
-    headerProps,
+const FieldDrawDialog = ({
     handleCancel,
     handleConfirm,
 
-    title,
+    //title,
     onSubmit,
     onBack,
     ...props
@@ -130,21 +127,13 @@ const FieldDrawModal = ({
             maxWidth="sm"
             fullScreen={true}
             //disableBackdropClick={true}
-            {...headerProps}
         >   
-            <Header disableTypography id="max-width-dialog-title">
-                <div
-                    style={{
-                        display: "flex"
-                    }}
-                >
-                    <BackButton aria-label="close" onClick={handleCancel}>
-                        <ArrowBackIosIcon />
-                    </BackButton>      
-                    <Title variant="h6">
-                        <FormattedMessage {...title} />
-                    </Title>         
-                </div>
+            <ModalHeader
+                title={messages.title}
+                startComponent={
+                    <BackButton />
+                }
+            >
                 <ButtonContainer
                 >
                     <Button
@@ -171,7 +160,7 @@ const FieldDrawModal = ({
                         Upload parcels
                     </Button>
                 </ButtonContainer>
-            </Header>
+            </ModalHeader>            
             <Content className="dialog-content">
                 <Drawer
                     anchor="right"
@@ -201,8 +190,8 @@ const FieldDrawModal = ({
 }
 
 
-FieldDrawModal.propTypes = {
+FieldDrawDialog.propTypes = {
 
 }
 
-export default FieldDrawModal
+export default FieldDrawDialog

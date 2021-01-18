@@ -4,7 +4,7 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { useModalContext } from '../hooks'
 
-import BackButton from 'components/Button/BackButton'
+import Button from 'components/Button/BackButton'
 
 
 const BackButton = forwardRef(({
@@ -13,7 +13,7 @@ const BackButton = forwardRef(({
 }, ref) => {
     const { handleCancel } = useModalContext()
     return (
-        <BackButton 
+        <Button 
             ref={ref}
             onClick={onBack ?? handleCancel}
             {...props}

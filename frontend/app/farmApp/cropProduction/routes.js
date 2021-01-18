@@ -25,7 +25,7 @@ import {
 } from './season/pages'
 
 import {
-  FieldCreateDraw,
+  FieldSeasonCreate,
   FieldProductionList,
 } from './field/pages'
 
@@ -173,7 +173,7 @@ export const routes = [
           {
             key: ROUTES.FieldCreateDraw,
             path: '/crops/:cropId/seasons/:productionId/parcels/new',
-            component: FieldCreateDraw,
+            component: FieldSeasonCreate,
             routeComponent: ProtectedRoute,
             props: { exact: true }
           },

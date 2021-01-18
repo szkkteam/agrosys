@@ -1,5 +1,6 @@
 import React, { useState, useRef, useLayoutEffect, useEffect } from 'react'
 import messages from './messages';
+import globalMessages from 'messages';
 import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
@@ -11,7 +12,7 @@ import { Field, reduxForm, formValueSelector, destroy } from 'redux-form'
 import { PRODUCTION_CREATE_DIALOG } from 'site/modalTypes'
 import { usePushModalWindow } from 'utils/hooks'
 
-import { SplitButton } from 'components/Button'
+import { SplitButton, PrimaryButton } from 'components/Button'
 import { 
     TextWithUnitField,
     TextField,
@@ -201,9 +202,13 @@ const PlanCreateForm = ({
                     </StretchColumn>
                 </Grid>
             </Grid>
-            <div>
-                Buttons
-            </div>
+            <Grid container
+                justify="flex-end"
+            >
+                <div>
+                    <PrimaryButton title={globalMessages.submit} type="submit" />
+                </div>
+            </Grid>
         </Container>
     )
 }

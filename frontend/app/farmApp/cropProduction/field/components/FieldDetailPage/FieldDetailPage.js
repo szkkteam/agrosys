@@ -1,10 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
-import { useIntl, FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { pushModalWindow } from 'redux-promising-modals';
+import { bindActionCreators } from 'redux'
+
 import { Field, reduxForm, formValueSelector } from 'redux-form'
+
+import { FIELD_DRAW_DIALOG } from 'site/modalTypes'
+import { MODAL_TYPE_CONFIRM } from 'site/modalResultTypes'
+import { usePushModalWindow } from 'utils/hooks'
 
 import {
     Typography,
@@ -52,7 +61,7 @@ const tabProps = (index) => {
         'aria-controls': `vertical-tabpanel-${index}`,
     }
 }
-
+/*
 const FieldDetailPage = ({
     invalid,
     handleSubmit,
@@ -62,32 +71,61 @@ const FieldDetailPage = ({
     dirty,
     change,
     tasks,
-    onBack,
+    //onBack,
     onEditBorder,
-    onComplete,
     currentTitle,
+
+    startDraw=false,
     ...rest 
 }) => {
+*/
+class FieldDetailPage extends React.Component {
+    constructor(props) {
+        super(props)
 
-    const intl = useIntl()
-
-    //{intl.formatMessage(messages.farmDashboardTitle)}
-    console.log("OnBack: ", onBack)
-
-    /**
-     * 1) Put a title which shows a placeholder (based on country) and the area (optional)
-     * 2) Put a leaflet map, which shows statically the polygon + area somewhere
-     * 3) Put a section
-     * 4) Inside the section, define the form
-     */
-
-    const [activeTab, activateTab] = useState(0)
-
-    const handleTabChange = (e, newValue) => {
-        activateTab(newValue)
+        this.state = {
+            activeTab: 0
+        }
     }
 
-    const getTabComponent = (tab) => {
+    componentDidMount() {
+        const { startDraw = false } = this.props
+        // If component is called within create context
+        // FIXME: Modal is rendered twice because something if fucked up with the routers
+        if (startDraw)
+            this.openFieldDraw()
+        
+    }
+
+    openFieldDraw = () => {
+        const { pushModalWindow } = this.props
+
+        const initialValues = {
+
+        }
+
+
+        console.debug("Push modal")
+        // FIXME: Modal is rendered twice because something if fucked up with the routers
+        pushModalWindow(FIELD_DRAW_DIALOG, {initialValues}).then(({payload, status}) => {
+            // Production submitted
+            if (status === MODAL_TYPE_CONFIRM) {
+                //array.push('productions', payload)
+            }
+            //console.debug("Payload: ", payload)
+            //console.debug("Finished: ", status)
+        })
+    }
+
+
+    handleTabChange = (e, newValue) => {
+        this.setState({
+            activeTab: newValue
+        })
+    }
+
+
+    getTabComponent = (tab) => {
         switch(tab) {
             case 0:
                 return FieldTabGeneral
@@ -100,87 +138,107 @@ const FieldDetailPage = ({
         }
     }
 
-    const TabComponent = getTabComponent(activeTab)
+    render() {
 
-    return (      
-        <Container
-            container
-            spacing={0}
-        >
-            <Grid item xs={8}>
-                <Grid item xs={12}>
-                    <Title
-                        variant="h4"
-                    >
-                        { currentTitle ? currentTitle : "Block name" }, 4 ha
-                    </Title>
-                </Grid>
-                <Grid item xs={11} style={{marginTop: "40px"}}>
-                    <form onSubmit={handleSubmit} >  
-                        <Grid
-                            container
-                            spacing={3}
+        const { activeTab } = this.state
+        const {
+            handleSubmit,
+            pristine,
+            invalid,
+
+            currentTitle,
+            intl,
+        } = this.props
+
+        const TabComponent = this.getTabComponent(activeTab)
+
+        return (      
+            <Container
+                container
+                spacing={0}
+            >
+                <Grid item xs={8}>
+                    <Grid item xs={12}>
+                        <Title
+                            variant="h4"
                         >
-                            <Grid item xs={3}>
-                                <div style={{flexGrow: 1, display: 'flex'}}>
-                                    <Tabs
-                                        orientation="vertical"
-                                        //variant="scrollable"
-                                        value={activeTab}
-                                        onChange={handleTabChange}
-                                    >
-                                        <Tab label={intl.formatMessage(messages.generalTabTitle)} {...tabProps(0)} />
-                                        <Tab label={intl.formatMessage(messages.lpisTabTitle)} {...tabProps(1)} />
-                                        <Tab label={intl.formatMessage(messages.cropTabTitle)} {...tabProps(2)} />                                        
-                                    </Tabs>
-                                </div>
-                            </Grid>                        
-                            <Grid item xs={9}>
-                                <TabComponent />
-                            </Grid>          
-                            <Grid item xs={12}>
-                                <FieldFormStepButton
-                                    cancelTitle={ButtonMessages.back}
-                                    submitTitle={ButtonMessages.submit}
-                                    //cancelDisabled={true}
-                                    submitDisabled={pristine || invalid}
-                                    //onSubmit={onSubmit}
-                                    onCancel={onBack}
-                                />  
-                            </Grid>          
-                        </Grid>
-                    </form>   
+                            { currentTitle ? currentTitle : "Block name" }, 4 ha
+                        </Title>
+                    </Grid>
+                    <Grid item xs={11} style={{marginTop: "40px"}}>
+                        <form onSubmit={handleSubmit} >  
+                            <Grid
+                                container
+                                spacing={3}
+                            >
+                                <Grid item xs={3}>
+                                    <div style={{flexGrow: 1, display: 'flex'}}>
+                                        <Tabs
+                                            orientation="vertical"
+                                            //variant="scrollable"
+                                            value={activeTab}
+                                            onChange={this.handleTabChange}
+                                        >
+                                            <Tab label={intl.formatMessage(messages.generalTabTitle)} {...tabProps(0)} />
+                                            <Tab label={intl.formatMessage(messages.lpisTabTitle)} {...tabProps(1)} />
+                                            <Tab label={intl.formatMessage(messages.cropTabTitle)} {...tabProps(2)} />                                        
+                                        </Tabs>
+                                    </div>
+                                </Grid>                        
+                                <Grid item xs={9}>
+                                    <TabComponent />
+                                </Grid>          
+                                <Grid item xs={12}>
+                                    <FieldFormStepButton
+                                        cancelTitle={ButtonMessages.back}
+                                        submitTitle={ButtonMessages.submit}
+                                        //cancelDisabled={true}
+                                        submitDisabled={pristine || invalid}
+                                        //onSubmit={onSubmit}
+                                        //onCancel={onBack}
+                                    />  
+                                </Grid>          
+                            </Grid>
+                        </form>   
+                    </Grid>
                 </Grid>
-            </Grid>
-            <Grid item xs={4}>
-                <Grid item xs={12}>
-                    <MapSnapshot
-                    />
+                <Grid item xs={4}>
+                    <Grid item xs={12}>
+                        <MapSnapshot
+                        />
+                    </Grid>
+                    <Grid item xs={12} style={{marginTop: "20px"}}>
+                        <DescriptionContainer>
+                            <Typography variant="h6">
+                                <FormattedMessage {...messages.borderEditTitle}/>
+                            </Typography>
+                            <Typography variant="body2">
+                                <FormattedMessage {...messages.borderEditDesc}/>
+                            </Typography>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={this.openFieldDraw}
+                            >
+                                <FormattedMessage {...messages.borderEditButtonTitle}/>
+                            </Button>
+                        </DescriptionContainer>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} style={{marginTop: "20px"}}>
-                    <DescriptionContainer>
-                        <Typography variant="h6">
-                            <FormattedMessage {...messages.borderEditTitle}/>
-                        </Typography>
-                        <Typography variant="body2">
-                            <FormattedMessage {...messages.borderEditDesc}/>
-                        </Typography>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={onEditBorder ?? onBack}
-                        >
-                            <FormattedMessage {...messages.borderEditButtonTitle}/>
-                        </Button>
-                    </DescriptionContainer>
-                </Grid>
-            </Grid>
-        </Container>
-    ) 
+            </Container>
+        ) 
+    }
 }
 
-FieldDetailPage.propTypes = {
 
-}
-
-export default FieldDetailPage
+  
+  const withConnect = connect(
+    null,
+    (dispatch) => bindActionCreators({ pushModalWindow }, dispatch),
+  )
+  
+  
+export default compose(
+    withConnect,
+    injectIntl
+)(FieldDetailPage)

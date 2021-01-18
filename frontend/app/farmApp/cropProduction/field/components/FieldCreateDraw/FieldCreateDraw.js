@@ -27,7 +27,6 @@ import {
 } from '../../components'
 */
 
-import FieldDetailPage from '../FieldDetailPage/FieldDetailPage'
 import FieldDrawPage from '../FieldDrawPage/FieldDrawPage'
 
 const withForm = reduxForm({
@@ -56,10 +55,6 @@ const ConnectedFieldDrawPage = compose(
     withForm,
 )(FieldDrawPage) 
 
-const ConnectedFieldDetailPage = compose(
-    withConnect,
-    withForm,
-)(FieldDetailPage) 
 
 const FirstPage = ({
     onComplete,
@@ -86,7 +81,8 @@ const FirstPage = ({
 const SecondPage = ({
     onComplete,
     ...props
-}) => <ConnectedFieldDetailPage onSubmit={(e) => console.log("Submitting: ", e)} {...props} />
+}) => null
+//<ConnectedFieldDetailPage onSubmit={(e) => console.log("Submitting: ", e)} {...props} />
 
 const steps = [
     messages.step1Title,
