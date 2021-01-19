@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { Route, Switch, Redirect, matchPath } from 'react-router-dom'
 import startCase from 'lodash/startCase'
 import { compile } from 'path-to-regexp'
@@ -231,16 +231,18 @@ const CustomRouter = ({routes}) => {
           return (
             <RouteComponent 
               path={path}
-              key={path}
-              component={props => {                
-                return (
-                  <Layout>
-                    <Component {...props} /> 
-                    {children && children.length > 0 ?
-                      <CustomRouter {...props} routes={children} />
-                    : null}
-                  </Layout>
-              )}}
+              //key={path}
+              key="1"
+              component={props => {  
+                  return (
+                    <Layout>
+                      <Component {...props} /> 
+                      {children && children.length > 0 ?
+                        <CustomRouter {...props}  routes={children} />
+                      : null}
+                    </Layout>
+                )  
+                }}
               {...rest}
             />
           )

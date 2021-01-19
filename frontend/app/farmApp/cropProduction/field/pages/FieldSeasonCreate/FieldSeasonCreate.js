@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Helmet from 'react-helmet'
 import messages from './messages';
 import { useIntl } from 'react-intl'
@@ -21,6 +21,11 @@ export default ({
     ...rest  
 }) => {
     const intl = useIntl()
+        
+    useEffect(() => {
+        console.debug("Mount - FieldCreateDraw")
+    }, [])
+
     return (
         <>
             <Helmet>

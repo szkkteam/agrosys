@@ -72,7 +72,7 @@ export const HashRoute = ({
 }) => (
   <Route
     {...routeProps}
-    component={({ location, ...props}) => 
+    render={({ location, ...props}) => 
       location.hash === path && <Component location={location} {...props} />
   } 
   />

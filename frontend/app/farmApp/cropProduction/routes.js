@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react'
+import styled from 'styled-components'
+
 import Content from 'components/Layout/Content'
 import HeaderContent from 'components/Layout/HeaderContent'
 /**
@@ -68,12 +70,23 @@ export const ROUTES = {
   ProductionDetailSummary: 'ProductionDetailSummary',
   ProductionDetailTask: 'ProductionDetailTask',
   ProductionDetailField: 'ProductionDetailField',
+  ProductionDetailFieldList: 'ProductionDetailFieldList',
+
   ProductionDetailAnalysis: 'ProductionDetailAnalysis',
   ProductionDetailWeather: 'ProductionDetailWeather',
   ProductionSettings: 'ProductionSettings',
   // Field
   FieldCreateDraw: 'FieldCreateDraw',
 }
+
+const PlaceHolder = styled.div`
+  display: none;
+  & + div {
+    height: 100%;
+  }
+`
+
+const PlaceholderDiv = props => <PlaceHolder />
 
 /**
  * route details
@@ -171,18 +184,27 @@ export const routes = [
             props: { exact: true }
           },
           {
-            key: ROUTES.FieldCreateDraw,
-            path: '/crops/:cropId/seasons/:productionId/parcels/new',
-            component: FieldSeasonCreate,
-            routeComponent: ProtectedRoute,
-            props: { exact: true }
-          },
-          {
             key: ROUTES.ProductionDetailField,
             path: '/crops/:cropId/seasons/:productionId/parcels',
-            component: FieldProductionList,
+            component: PlaceholderDiv,
             routeComponent: ProtectedRoute,
-            props: { exact: false } // Set to false, to prevent error in parcel/new page. This must be the last
+            props: { exact: false },
+            routes: [
+              {
+                key: ROUTES.ProductionDetailFieldList,
+                path: '/crops/:cropId/seasons/:productionId/parcels',
+                component: FieldProductionList,
+                routeComponent: ProtectedRoute,
+                props: { exact: true },
+              },
+              {
+                key: ROUTES.FieldCreateDraw,
+                path: '/crops/:cropId/seasons/:productionId/parcels/new',
+                component: FieldSeasonCreate,
+                routeComponent: ProtectedRoute,
+                props: { exact: true }
+              },
+            ]
           },
           {
             key: ROUTES.ProductionDetailAnalysis,

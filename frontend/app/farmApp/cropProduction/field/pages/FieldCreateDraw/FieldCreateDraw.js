@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Helmet from 'react-helmet'
 import messages from './messages';
 import { useIntl } from 'react-intl'
@@ -25,6 +25,7 @@ const Container = styled.div`
 export default ({
     ...rest  
 }) => {
+
     const intl = useIntl()
     return (
         <Container>
