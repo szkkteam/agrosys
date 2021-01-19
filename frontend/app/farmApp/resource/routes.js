@@ -2,14 +2,6 @@ import React, { useEffect } from 'react'
 import Content from 'components/Layout/Content'
 
 import {
-  BlockList,
-  BlockDetail,
-  BlockCreateDraw,
-  BlockCreateUpload,
-  BlockCreateLPIS
-} from 'farmApp/resource/block/pages'
-
-import {
   WorkerList,
 } from 'farmApp/resource/worker/pages'
 
@@ -38,12 +30,6 @@ export const ROUTES = {
      */
     Resource: 'Resource',
   
-    // Block
-    BlockList: 'BlockList',
-    BlockDetail: 'BlockDetail',
-    BlockCreateDraw: 'BlockCreateDraw',
-    BlockCreateUpload: 'BlockCreateUpload',
-    BlockCreateLPIS: 'BlockCreateLPIS',
     // Worker
     WorkerList: 'WorkerList',
   
@@ -81,40 +67,6 @@ export const routes = [
     routeComponent: ProtectedRoute,
     layoutComponent: Content,
     routes: [
-      {
-        key: ROUTES.BlockCreateDraw,
-        path: '/resource/fields/new/draw',
-        component: BlockCreateDraw,
-        routeComponent: ProtectedRoute,
-        props: { exact: true }
-      },
-      {    
-        key: ROUTES.BlockCreateUpload, // This must come before BlockList
-        path: '/resource/fields/new/upload',
-        component: BlockCreateUpload,
-        routeComponent: ProtectedRoute,
-        props: { exact: true }
-      },
-      {    
-        key: ROUTES.BlockCreateLPIS, // This must come before BlockList
-        path: '/resource/fields/new/lpis',
-        component: BlockCreateLPIS,
-        routeComponent: ProtectedRoute,
-        props: { exact: true }
-      },
-      {    
-        key: ROUTES.BlockDetail, // This must come before BlockList
-        path: '/resource/fields/:id/detail',
-        component: BlockDetail,
-        routeComponent: ProtectedRoute,
-        props: { exact: true }
-      },      
-      {        
-        key: ROUTES.BlockList, //Block list must be in the end of the list, because it's accepting multiple routes (exact=false)
-        path: '/resource/fields',
-        component: BlockList,
-        routeComponent: ProtectedRoute,
-      },
       // Worker routes    
       {
         key: ROUTES.WorkerList,

@@ -105,7 +105,8 @@ const FieldListItem = ({
 }) => {
     console.debug("FieldListItem - data: ", data)
     const items = [
-        {title: messages.edit, link: { to: ROUTES.BlockDetail, params: {id: 1}}},
+        //{title: messages.edit, link: { to: ROUTES.BlockDetail, params: {id: 1}}},
+        {title: messages.edit, onClink: null},
         {title: messages.delete, onClink: null}
     ]
 

@@ -15,7 +15,7 @@ import { getModal, isModalActive } from '../selectors'
 // Import modals
 import { TestModal } from 'site/components'
 import { FarmPickOnMap } from 'farmApp/resource/farm/components'
-import { BlockCreateModal, BlockDrawModal } from 'farmApp/resource/block/components'
+//import { BlockCreateModal, BlockDrawModal } from 'farmApp/resource/block/components'
 import { FieldDrawDialog } from 'farmApp/cropProduction/field/components'
 import { MachineryForm } from 'farmApp/resource/machinery/components'
 import { CropCreateDialog } from 'farmApp/cropProduction/crop/components'
@@ -47,8 +47,8 @@ const ModalProvider = ({
         new Map([
             [EDIT_FILE_DIALOG, TestModal],
             [FARM_PICK_ON_MAP_DIALOG, FarmPickOnMap],
-            [BLOCK_CREATE_DIALOG, BlockCreateModal],
-            [BLOCK_DRAW_DIALOG, BlockDrawModal],
+            //[BLOCK_CREATE_DIALOG, BlockCreateModal],
+            //[BLOCK_DRAW_DIALOG, BlockDrawModal],
             [FIELD_DRAW_DIALOG, FieldDrawDialog],
             [MACHINERY_DIALOG, MachineryForm],
             [CROP_DIALOG, CropCreateDialog],

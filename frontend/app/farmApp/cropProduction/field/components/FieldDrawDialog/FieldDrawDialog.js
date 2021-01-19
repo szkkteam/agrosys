@@ -26,7 +26,6 @@ import {
 import { LeafletMap } from 'components/Map/components'
 
 import FieldList from './FieldList'
-import BlockList from './BlockList'
 
 const listWidth = 350
 
@@ -76,10 +75,6 @@ const Explanation = styled.div`
     }
 `
 
-const FixedBlockList = styled(props => <BlockList {...props}/>)`
-    width: ${listWidth}px;
-`
-
 const FixedFieldList = styled(props => <FieldList {...props}/>)`
     width: ${listWidth}px;
 `
@@ -106,19 +101,13 @@ const FieldDrawDialog = ({
 }) => {
 
     const [open, setOpen] = useState(false)
-    const [panel, setPanel] = useState(null)
-
-    const [blockSelected, setblockSelected] = useState(false)
 
     const closeDrawer = (e) => {
         setOpen(false)
     }
 
-    const openDrawer = (panel) => (e) => {
-        setPanel(panel)
+    const openDrawer = (e) => {        
         setOpen(true)
-        // TODO: Update this part
-        setblockSelected(true)
     }
 
     return (
@@ -139,22 +128,13 @@ const FieldDrawDialog = ({
                     <Button
                         variant="contained"
                         color="default"
-                        onClick={openDrawer(listBlock)}
-                    >
-                        Select block
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="default"
-                        disabled={!blockSelected}
-                        onClick={openDrawer(listField)}
+                        onClick={openDrawer}
                     >
                         Select template
                     </Button>
                     <Button
                         variant="contained"
                         color="default"
-                        disabled={!blockSelected}
                         //onClick={toggleDrawer(true)}
                     >
                         Upload parcels
@@ -167,10 +147,7 @@ const FieldDrawDialog = ({
                     open={open}
                     onClose={closeDrawer}
                 >
-                    { panel === listBlock
-                        ? <FixedBlockList />
-                        : <FixedFieldList />
-                    }
+                    <FixedFieldList />
                 </Drawer>
                 <Container>
                     <FullPageMap
@@ -179,7 +156,6 @@ const FieldDrawDialog = ({
                         cancelTitle={ButtonMessages.cancel}
                         submitTitle={ButtonMessages.next}
                         //cancelDisabled={true}
-                        submitDisabled={!blockSelected}
                         onSubmit={handleConfirm}
                         onCancel={handleCancel}
                     />   
