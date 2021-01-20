@@ -21,7 +21,7 @@ import { DetailFooter } from 'farmApp/components/Detail'
 
 import {
     FieldListItem
-} from 'farmApp/cropProduction/field/components'
+} from 'farmApp/resource/field/components'
 
 import DeleteIcon from '@material-ui/icons/Delete';
 

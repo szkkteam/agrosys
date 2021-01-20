@@ -26,10 +26,11 @@ import {
   SeasonCreate,
 } from './season/pages'
 
+
 import {
-  FieldSeasonCreate,
   FieldProductionList,
-} from './field/pages'
+} from './fieldProduction/pages'
+
 
 import {
   TaskProductionList
@@ -77,6 +78,8 @@ export const ROUTES = {
   ProductionSettings: 'ProductionSettings',
   // Field
   FieldCreateDraw: 'FieldCreateDraw',
+  CropProductionFieldProduction: 'CropProductionFieldProduction',
+  CropProductionFieldProductionList: 'CropProductionFieldProductionList',
 }
 
 const PlaceHolder = styled.div`
@@ -184,14 +187,14 @@ export const routes = [
             props: { exact: true }
           },
           {
-            key: ROUTES.ProductionDetailField,
+            key: ROUTES.CropProductionFieldProduction,
             path: '/crops/:cropId/seasons/:productionId/parcels',
             component: PlaceholderDiv,
             routeComponent: ProtectedRoute,
             props: { exact: false },
             routes: [
               {
-                key: ROUTES.ProductionDetailFieldList,
+                key: ROUTES.CropProductionFieldProductionList,
                 path: '/crops/:cropId/seasons/:productionId/parcels',
                 component: FieldProductionList,
                 routeComponent: ProtectedRoute,
@@ -200,7 +203,7 @@ export const routes = [
               {
                 key: ROUTES.FieldCreateDraw,
                 path: '/crops/:cropId/seasons/:productionId/parcels/new',
-                component: FieldSeasonCreate,
+                component: PlaceholderDiv,
                 routeComponent: ProtectedRoute,
                 props: { exact: true }
               },

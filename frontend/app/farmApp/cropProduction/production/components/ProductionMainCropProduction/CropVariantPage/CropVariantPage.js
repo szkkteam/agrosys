@@ -27,7 +27,7 @@ import GridTable from 'farmApp/components/GridTable'
 import {
     FieldListItem,
     FieldSideSelector
-} from 'farmApp/cropProduction/field/components'
+} from 'farmApp/resource/field/components'
 
 import DeleteIcon from '@material-ui/icons/Delete';
 

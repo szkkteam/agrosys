@@ -1,9 +1,16 @@
 import React, { useEffect } from 'react'
+import styled from 'styled-components'
 import Content from 'components/Layout/Content'
 
 import {
   WorkerList,
 } from 'farmApp/resource/worker/pages'
+
+import {
+  FieldList,
+  FieldCreateDraw,
+  FieldEdit,
+} from 'farmApp/resource/field/pages'
 
 import {
   MachineryList
@@ -29,6 +36,12 @@ export const ROUTES = {
      * Resources Keys
      */
     Resource: 'Resource',
+    // Field
+    ResourceField: 'ResourceField',
+    ResourceFieldList: 'ResourceFieldList',
+    ResourceFieldEdit: 'ResourceFieldEdit',
+    ResourceFieldCreateDraw: 'ResourceFieldCreateDraw',
+    ResourceFieldCreateUpload: 'ResourceFieldCreateUpload',
   
     // Worker
     WorkerList: 'WorkerList',
@@ -47,6 +60,15 @@ export const ROUTES = {
     // Inventory
     InventoryList: 'InventoryList',  
 }
+
+
+const PlaceHolder = styled.div`
+  display: none;
+  & + div {
+    height: 100%;
+  }
+`
+const PlaceholderDiv = props => <PlaceHolder />
 
 /**
  * route details
@@ -67,6 +89,44 @@ export const routes = [
     routeComponent: ProtectedRoute,
     layoutComponent: Content,
     routes: [
+      // Field routes
+      {
+        key: ROUTES.FieldList,
+        path: '/resource/fields',
+        component: PlaceholderDiv,
+        routeComponent: ProtectedRoute,
+        routes: [
+          {
+            key: ROUTES.ResourceFieldList,
+            path: '/resource/fields',
+            component: FieldList,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },
+          {
+            key: ROUTES.ResourceFieldEdit,
+            path: '/resource/fields/:id/edit',
+            component: FieldEdit,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },
+          {
+            key: ROUTES.ResourceFieldCreateDraw,
+            path: '/resource/fields/new/draw',
+            component: FieldCreateDraw,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },
+          {
+            key: ROUTES.ResourceFieldCreateUpload,
+            path: '/resource/fields/new/upload',
+            component: FieldList,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },          
+        ]
+        //props: { exact: true }
+      },
       // Worker routes    
       {
         key: ROUTES.WorkerList,
