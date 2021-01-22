@@ -36,7 +36,7 @@ const ModalFooter = ({
 
     return (
         <Footer
-        className={className}
+            className={className}
         >
             <Grid container
                 justify={alignChildren === "right"? "flex-end" : alignChildren === "left"? "flex-start" : "center"}

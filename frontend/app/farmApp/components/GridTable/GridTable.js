@@ -9,8 +9,8 @@ const Row = styled.div`
     display: flex;
     align-items: center;
     ${({theme, hoverable=null}) => `
-        cursor: pointer;
         ${hoverable? `
+            cursor: pointer;
             &:hover {
                 background-color: rgba(0, 0, 0, 0.04);
             }
@@ -32,6 +32,7 @@ const Column = styled.div`
 
 const Container = styled.div`
     padding: 20px 5px;
+    width: 100%;
     //display: flex;
     //align-items: center;
 `

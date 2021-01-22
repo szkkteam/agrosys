@@ -13,6 +13,8 @@ import { LeafletMap } from 'components/Map/components'
 
 import { FieldMasterList } from 'farmApp/resource/field/components'
 
+import FieldProductionSideDetail from '../FieldProductionSideDetail/FieldProductionSideDetail'
+
 const FieldProductionMasterDetail = ({
     
 }) => {
@@ -20,7 +22,7 @@ const FieldProductionMasterDetail = ({
     const [selected, setSelected] = useState(null)
 
     const handleSelect = (data) => {
-        setSelected(!!selected? null : data)
+        setSelected(!!selected? null : {id: 1})
     }
 
     const handleClose = () => {
@@ -37,16 +39,14 @@ const FieldProductionMasterDetail = ({
                 open={!!selected}
             >
                 <LeafletMap />
-                <div>Detail</div>
+                <FieldProductionSideDetail
+                    onClose={handleClose}
+                />
             </SideSheet>
         </MasterDetail>
     )
 }
-/*
-<FieldSideDetail
-                    onClose={handleClose}
-                />
-*/
+
 
 FieldProductionMasterDetail.propTypes = {
 

@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { Content } from 'components'
 
-import { FieldCreateDraw } from '../../components'
+import { FieldEdit } from '../../components'
 
 /**
  * 1) Render a form component
@@ -34,8 +34,7 @@ export default ({
                 </title>
             </Helmet>
                 <Content>
-                    <FieldCreateDraw 
-                        startDraw={false}
+                    <FieldEdit 
                     />
                 </Content>
         </>

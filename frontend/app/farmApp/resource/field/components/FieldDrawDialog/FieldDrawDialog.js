@@ -122,24 +122,7 @@ const FieldDrawDialog = ({
                 startComponent={
                     <BackButton />
                 }
-            >
-                <ButtonContainer
-                >
-                    <Button
-                        variant="contained"
-                        color="default"
-                        onClick={openDrawer}
-                    >
-                        Select template
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="default"
-                        //onClick={toggleDrawer(true)}
-                    >
-                        Upload parcels
-                    </Button>
-                </ButtonContainer>
+            >                
             </ModalHeader>            
             <Content className="dialog-content">
                 <Drawer

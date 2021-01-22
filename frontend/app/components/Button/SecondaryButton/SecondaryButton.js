@@ -8,31 +8,27 @@ import {
     Button
 } from '@material-ui/core'
 
-const StyledPrimaryButton = styled(Button)`
-    min-width: 220px;
-    margin: 10px 15px;
-    padding: 8px 16px;
+const StyledSecondaryButton = styled(Button)`
+    margin: 10px 7px;
+    min-width: 100px;
 `
 
-const PrimaryButton = ({
-    title=messages.submit,
+const SecondaryButton = ({
+    title=messages.cancel,
     ...props
 }) => {
-    const { onClick, type } = props
-
     return (
-        <StyledPrimaryButton
-            color="primary"
-            variant="contained"            
+        <StyledSecondaryButton
+            variant="contained"
             {...props}
         >
             <FormattedMessage {...title} />
-        </StyledPrimaryButton>
+        </StyledSecondaryButton>
     )
 }
 
-PrimaryButton.propTypes = {
+SecondaryButton.propTypes = {
 
 }
 
-export default PrimaryButton
+export default SecondaryButton

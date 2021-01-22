@@ -21,4 +21,4 @@ export { Modal, ModalContext, ModalHeader, ModalFooter, ModalContent } from './M
 // Stepper
 export { Stepper, StepperContent, StepperHeader, StepperContext } from './Stepper'
 // Buttons
-export { SubmitButton, BackButton, SplitButton, SearchButton, PrimaryActionButton, PrimaryButton } from './Button'
+export { SubmitButton, BackButton, SplitButton, SearchButton, PrimaryActionButton, PrimaryButton, SecondaryButton } from './Button'

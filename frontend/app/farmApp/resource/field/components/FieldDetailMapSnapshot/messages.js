@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.farmApp.block.BlockDetailPage'
+export const scope = 'app.farmApp.resource.field.FieldDetailMapSnapshot'
 
 export default defineMessages({
     borderEditTitle: {
@@ -15,20 +15,5 @@ export default defineMessages({
         id: `${scope}.button.title`,  
         defaultMessage: 'edit borders',
     },
-    generalTabTitle: {
-        id: `${scope}.GeneralTab.title`,  
-        defaultMessage: 'general',
-    },
-    lpisTabTitle: {
-        id: `${scope}.LpisTab.title`,  
-        defaultMessage: 'subsidies',
-    },
-    fieldBlockTitle: {
-        id: `${scope}.form.blockTitle`,  
-        defaultMessage: 'Block Title',
-    },
-    cropTabTitle: {
-        id: `${scope}.CropTab.title`,  
-        defaultMessage: 'crop',
-    },    
+    
   })

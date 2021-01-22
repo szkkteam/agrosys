@@ -1,6 +1,7 @@
 import React, { useContext, useMemo, useState, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages'
+import globalMessages from 'messages'
 import styled from 'styled-components'
 import { useIntl, FormattedMessage } from 'react-intl'
 import { Redirect, useLocation, Switch } from "react-router-dom";

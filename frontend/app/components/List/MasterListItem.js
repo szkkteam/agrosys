@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 
 const MasterListItem = ({
+    index,
     data,
     children,
     ...props
@@ -21,7 +22,7 @@ const MasterListItem = ({
     } = useMasterListContext()
 
     const handleSelect = () => {
-        onSelect && onSelect(data)
+        onSelect && onSelect(index, data)
     }
 
     return (
@@ -37,6 +38,7 @@ const MasterListItem = ({
 
 MasterListItem.propTypes = {
     data: PropTypes.object,
+    index: PropTypes.number.isRequired,
     //children: PropTypes.element.isRequired,
 }
 

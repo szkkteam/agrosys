@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useEffect, forwardRef } from 'react'
+import React, { useContext, useRef, useEffect, forwardRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { useRouteMatch, useHistory } from "react-router-dom";
@@ -15,6 +15,7 @@ import {
 const Container = styled.div`
     position: relative;
     height: 100%;
+    width: 100%;
 `
 
 const ScrollListContainer = styled.div`
@@ -36,6 +37,7 @@ const defaultOptions = {
 }
 
 const MasterList = ({
+    className,
     children,
     addButton,
     options={},
@@ -48,6 +50,7 @@ const MasterList = ({
 
     const buttonRef = useRef(null)
     const listRef = useRef(null)
+    const [selected, setSelected] = useState(null)
 
     //const height = useHeightDifference(listRef, buttonRef || 0, maxHeight)
     const height = maxHeight
@@ -57,7 +60,8 @@ const MasterList = ({
     const match = useRouteMatch()
     const history = useHistory()
 
-    const handleSelect = (data = null) => {
+    const handleSelect = (index, data = null) => {
+        setSelected(index)
         onSelect && onSelect(data)
     }
 
@@ -67,6 +71,7 @@ const MasterList = ({
 
     return (
         <Container
+            className={className}
             {...props}
         >
             <MasterListContext.Provider
@@ -78,9 +83,11 @@ const MasterList = ({
                     component="ul"
                 >
                     { React.Children.map(children, (
-                        child => {
+                        (child, i) => {
                             return (
                                 React.cloneElement(child, {
+                                    selected: selected != null && selected === i,
+                                    index: i,
                                     match,
                                     history
                                 })

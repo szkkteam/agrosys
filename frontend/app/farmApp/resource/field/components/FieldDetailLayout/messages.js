@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.farmApp.block.BlockDetailPage'
+export const scope = 'app.farmApp.resource.field.FieldDetailLayout'
 
 export default defineMessages({
     borderEditTitle: {

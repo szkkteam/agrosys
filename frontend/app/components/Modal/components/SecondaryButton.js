@@ -5,14 +5,7 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { useModalContext } from '../hooks'
 
-import {
-    Button
-} from '@material-ui/core'
-
-const StyledSecondaryButton = styled(Button)`
-    margin: 10px 7px;
-    min-width: 100px;
-`
+import Button from 'components/Button/SecondaryButton'
 
 const SecondaryButton = ({
     title,
@@ -21,13 +14,11 @@ const SecondaryButton = ({
 }) => {
     const { handleCancel } = useModalContext()
     return (
-        <StyledSecondaryButton
+        <Button
             variant="contained"
             onClick={onClick ?? handleCancel}
             {...props}
-        >
-            <FormattedMessage {...title} />
-        </StyledSecondaryButton>
+        />
     )
 }
 

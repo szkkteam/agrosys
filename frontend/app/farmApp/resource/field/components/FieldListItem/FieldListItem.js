@@ -114,6 +114,7 @@ const FieldListItem = ({
         <ListContainer
             data={data}
             className={className}
+            {...props}
         >
             {children}
             <ListInnerContainer>

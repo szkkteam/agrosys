@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.resource.field.FieldSideDetail'
+export const scope = 'app.farmApp.cropProduction.fieldProduction.FieldProductionSideDetail'
 
 export default defineMessages({
     edit: {

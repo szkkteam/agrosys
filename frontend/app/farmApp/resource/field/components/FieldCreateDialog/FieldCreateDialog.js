@@ -66,7 +66,7 @@ FieldCreateDialog.propTypes = {
         title: PropTypes.object.isRequired,
         to: PropTypes.string.isRequired,
         description: PropTypes.object.isRequired
-    })).isRequired
+    }))
 }
 
 export default FieldCreateDialog
