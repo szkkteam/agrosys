@@ -3,18 +3,19 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { push } from 'connected-react-router'
 import { Route, Redirect } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 import { enqueueNotification } from 'site/actions'
 import { ROUTES, ROUTE_MAP } from 'routes'
 
 
-const UnconnectedProtectedRoute = (props) => {
+export const ProtectedRoute = (props) => {
   const {
     component: Component,
-    isAuthenticated,
     location,
     ...routeProps
   } = props
+  const isAuthenticated = useSelector(state => state.security.isAuthenticated)
 
   return <Route {...routeProps} render={(props) => (
     isAuthenticated
@@ -25,11 +26,6 @@ const UnconnectedProtectedRoute = (props) => {
         }} />
   )} />
 }
-
-export const ProtectedRoute = connect(
-  (state) => ({ isAuthenticated: state.security.isAuthenticated }),
-)(UnconnectedProtectedRoute)
-
 
 class UnconnectedAnonymousRoute extends React.Component {
   componentDidMount() {
@@ -72,7 +68,7 @@ export const HashRoute = ({
 }) => (
   <Route
     {...routeProps}
-    component={({ location, ...props}) => 
+    render={({ location, ...props}) => 
       location.hash === path && <Component location={location} {...props} />
   } 
   />

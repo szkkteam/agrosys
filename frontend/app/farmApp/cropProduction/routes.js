@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react'
+import styled from 'styled-components'
+
 import Content from 'components/Layout/Content'
 import HeaderContent from 'components/Layout/HeaderContent'
 /**
@@ -15,19 +17,20 @@ import {
 } from './crop/pages'
 
 import {
-  ProductionCreate,
   ProductionTimeline,
   ProductionSettings,
 } from './production/pages'
 
 import {
-  SeasonProduction
+  SeasonProduction,
+  SeasonCreate,
 } from './season/pages'
 
+
 import {
-  FieldCreateDraw,
   FieldProductionList,
-} from './field/pages'
+} from './fieldProduction/pages'
+
 
 import {
   TaskProductionList
@@ -68,12 +71,25 @@ export const ROUTES = {
   ProductionDetailSummary: 'ProductionDetailSummary',
   ProductionDetailTask: 'ProductionDetailTask',
   ProductionDetailField: 'ProductionDetailField',
+  ProductionDetailFieldList: 'ProductionDetailFieldList',
+
   ProductionDetailAnalysis: 'ProductionDetailAnalysis',
   ProductionDetailWeather: 'ProductionDetailWeather',
   ProductionSettings: 'ProductionSettings',
   // Field
   FieldCreateDraw: 'FieldCreateDraw',
+  CropProductionFieldProduction: 'CropProductionFieldProduction',
+  CropProductionFieldProductionList: 'CropProductionFieldProductionList',
 }
+
+const PlaceHolder = styled.div`
+  display: none;
+  & + div {
+    height: 100%;
+  }
+`
+
+const PlaceholderDiv = props => <PlaceHolder />
 
 /**
  * route details
@@ -122,7 +138,7 @@ export const routes = [
       {
         key: ROUTES.ProductionCreate,
         path: '/crops/:cropId/seasons/new',
-        component: ProductionCreate,
+        component: SeasonCreate,
         routeComponent: ProtectedRoute,
         props: { exact: true }
       },
@@ -171,18 +187,27 @@ export const routes = [
             props: { exact: true }
           },
           {
-            key: ROUTES.FieldCreateDraw,
-            path: '/crops/:cropId/seasons/:productionId/parcels/new',
-            component: FieldCreateDraw,
-            routeComponent: ProtectedRoute,
-            props: { exact: true }
-          },
-          {
-            key: ROUTES.ProductionDetailField,
+            key: ROUTES.CropProductionFieldProduction,
             path: '/crops/:cropId/seasons/:productionId/parcels',
-            component: FieldProductionList,
+            component: PlaceholderDiv,
             routeComponent: ProtectedRoute,
-            props: { exact: false } // Set to false, to prevent error in parcel/new page. This must be the last
+            props: { exact: false },
+            routes: [
+              {
+                key: ROUTES.CropProductionFieldProductionList,
+                path: '/crops/:cropId/seasons/:productionId/parcels',
+                component: FieldProductionList,
+                routeComponent: ProtectedRoute,
+                props: { exact: true },
+              },
+              {
+                key: ROUTES.FieldCreateDraw,
+                path: '/crops/:cropId/seasons/:productionId/parcels/new',
+                component: PlaceholderDiv,
+                routeComponent: ProtectedRoute,
+                props: { exact: true }
+              },
+            ]
           },
           {
             key: ROUTES.ProductionDetailAnalysis,

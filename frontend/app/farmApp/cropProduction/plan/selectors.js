@@ -13,7 +13,6 @@ const dummyCropLookup = {
 export const getProductionsFromForm = createSelector(
     productions,
     (productions) => {
-        console.debug("Productions: ", productions)
         if (!productions) return []
         return productions.map((production, i) => {
 

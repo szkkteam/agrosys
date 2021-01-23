@@ -13,24 +13,35 @@ import { useHeaderContentHeight } from './hooks'
 import { useHeightDifference } from 'utils/hooks'
 
 //height: calc(100vh - ${theme.custom.topSpacingHeight}px - ${theme.custom.pagePadding}px);
-const LayoutHeaderContent = styled(Grid)`
+const LayoutHeaderContent = styled.div`
     ${({ theme }) => `
         height: 100%;
+        display: flex;
+        flex-direction: column;
     `}
 `
 
-const Header = styled(Grid)`
+const Header = styled.div`
     /* border-bottom: 1px solid rgba(0,0,0,0.12); */
     padding: 0;
 
 `
-
+/*
 const Content = styled(forwardRef(({height: dummy = null, ...rest}, ref) => <Grid {...rest} ref={ref} /> ))`
     ${({ theme, height }) => `
     height: calc(${height}px + ${theme.spacing(1)/2}px);
     > div {
         height: 100%;
     }
+    `}
+`
+*/
+const Content = styled.div`
+    ${({ theme, height }) => `
+        flex-grow: 1;
+        > div {
+            height: 100%;
+        }
     `}
 `
 
@@ -62,8 +73,6 @@ const HeaderContent = forwardRef(({
     return (
         <LayoutHeaderContent 
             ref={containerRef}
-            container
-            spacing={0}
         >
             <HeaderContentContext.Provider
                 value={contextObject}
@@ -85,7 +94,6 @@ const HeaderContent = forwardRef(({
                 </Header>
                 <Content
                     ref={contentRef}
-                    item xs={12}
                     height={height}
                 >
                     {_.isFunction(contentComponent)? 

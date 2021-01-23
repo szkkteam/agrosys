@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useLayoutEffect, useState } from 'react'
+import React, { useRef, useMemo, forwardRef, useState } from 'react'
 import PropTypes from 'prop-types'
 //import messages from './messages';
 import { FormattedMessage } from 'react-intl'
@@ -38,15 +38,15 @@ const Icon = styled(CloseIcon)`
     `}  
 `
 
-const DetailHeader = ({
+const DetailHeader = forwardRef(({
     title,
     onClose,
     children,
     ...props
-}) => {
+}, ref) => {
 
     return (
-        <Header disableTypography id="max-width-dialog-title">
+        <Header ref={ref} disableTypography id="max-width-dialog-title">
             <Title variant="h6">
                 <FormattedMessage {...title} />
             </Title>    
@@ -57,7 +57,7 @@ const DetailHeader = ({
             </IconButton>      
         </Header>
     )
-}
+})
 
 
 DetailHeader.propTypes = {

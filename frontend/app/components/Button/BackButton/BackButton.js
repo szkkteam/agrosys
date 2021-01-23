@@ -1,29 +1,33 @@
-import React from 'react'
-import Button from '@material-ui/core/Button';
-import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
-import { useHistory } from "react-router-dom";
+import React, { forwardRef } from 'react'
+import PropTypes from 'prop-types'
+import { useIntl, FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
 
-export default ({
-    title,
-    redirect=null,
-}) => {
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import {
+    IconButton
+} from '@material-ui/core';
 
-    let history = useHistory()
+const StyledButton = styled(IconButton)`
+    color: #fff;
+`
 
-    const onClick = () => {
-        redirect && history.push(redirect)
-    }
-
+const BackButton = forwardRef(({
+    ...props
+}, ref) => {
     return (
-        <Button
-            disabled={redirect === null}
-            onClick={onClick}
-            variant="contained"
+        <StyledButton 
+            ref={ref}
+            aria-label="close"
+            {...props}
         >
-            <ArrowLeftIcon />
-            <span>
-                {title}    
-            </span>
-        </Button>
+            <ArrowBackIosIcon />
+        </StyledButton>      
     )
+})
+
+
+BackButton.propTypes = {
 }
+
+export default BackButton

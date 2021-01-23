@@ -1,17 +1,16 @@
 import React, { useEffect } from 'react'
+import styled from 'styled-components'
 import Content from 'components/Layout/Content'
-
-import {
-  BlockList,
-  BlockDetail,
-  BlockCreateDraw,
-  BlockCreateUpload,
-  BlockCreateLPIS
-} from 'farmApp/resource/block/pages'
 
 import {
   WorkerList,
 } from 'farmApp/resource/worker/pages'
+
+import {
+  FieldList,
+  FieldCreateDraw,
+  FieldEdit,
+} from 'farmApp/resource/field/pages'
 
 import {
   MachineryList
@@ -37,13 +36,13 @@ export const ROUTES = {
      * Resources Keys
      */
     Resource: 'Resource',
+    // Field
+    ResourceField: 'ResourceField',
+    ResourceFieldList: 'ResourceFieldList',
+    ResourceFieldEdit: 'ResourceFieldEdit',
+    ResourceFieldCreateDraw: 'ResourceFieldCreateDraw',
+    ResourceFieldCreateUpload: 'ResourceFieldCreateUpload',
   
-    // Block
-    BlockList: 'BlockList',
-    BlockDetail: 'BlockDetail',
-    BlockCreateDraw: 'BlockCreateDraw',
-    BlockCreateUpload: 'BlockCreateUpload',
-    BlockCreateLPIS: 'BlockCreateLPIS',
     // Worker
     WorkerList: 'WorkerList',
   
@@ -61,6 +60,15 @@ export const ROUTES = {
     // Inventory
     InventoryList: 'InventoryList',  
 }
+
+
+const PlaceHolder = styled.div`
+  display: none;
+  & + div {
+    height: 100%;
+  }
+`
+const PlaceholderDiv = props => <PlaceHolder />
 
 /**
  * route details
@@ -81,39 +89,43 @@ export const routes = [
     routeComponent: ProtectedRoute,
     layoutComponent: Content,
     routes: [
+      // Field routes
       {
-        key: ROUTES.BlockCreateDraw,
-        path: '/resource/fields/new/draw',
-        component: BlockCreateDraw,
-        routeComponent: ProtectedRoute,
-        props: { exact: true }
-      },
-      {    
-        key: ROUTES.BlockCreateUpload, // This must come before BlockList
-        path: '/resource/fields/new/upload',
-        component: BlockCreateUpload,
-        routeComponent: ProtectedRoute,
-        props: { exact: true }
-      },
-      {    
-        key: ROUTES.BlockCreateLPIS, // This must come before BlockList
-        path: '/resource/fields/new/lpis',
-        component: BlockCreateLPIS,
-        routeComponent: ProtectedRoute,
-        props: { exact: true }
-      },
-      {    
-        key: ROUTES.BlockDetail, // This must come before BlockList
-        path: '/resource/fields/:id/detail',
-        component: BlockDetail,
-        routeComponent: ProtectedRoute,
-        props: { exact: true }
-      },      
-      {        
-        key: ROUTES.BlockList, //Block list must be in the end of the list, because it's accepting multiple routes (exact=false)
+        key: ROUTES.FieldList,
         path: '/resource/fields',
-        component: BlockList,
+        component: PlaceholderDiv,
         routeComponent: ProtectedRoute,
+        routes: [
+          {
+            key: ROUTES.ResourceFieldList,
+            path: '/resource/fields',
+            component: FieldList,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },
+          {
+            key: ROUTES.ResourceFieldEdit,
+            path: '/resource/fields/:id/edit',
+            component: FieldEdit,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },
+          {
+            key: ROUTES.ResourceFieldCreateDraw,
+            path: '/resource/fields/new/draw',
+            component: FieldCreateDraw,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },
+          {
+            key: ROUTES.ResourceFieldCreateUpload,
+            path: '/resource/fields/new/upload',
+            component: FieldList,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },          
+        ]
+        //props: { exact: true }
       },
       // Worker routes    
       {

@@ -68,6 +68,10 @@ const ProductionTabGeneral = ({
 
     const intl = useIntl()
 
+    const handleClick = () => {
+        onCreate && onCreate({})
+    }
+
     return (
             <Container container spacing={1} >
                 <InnerContainer container direction="column" item xs={12} justify="center" alignItems="center">
@@ -96,7 +100,7 @@ const ProductionTabGeneral = ({
                             <AddButton
                                 type="submit"
                                 title={messages.addNewPlan}
-                                onClick={onCreate}
+                                onClick={handleClick}
                             />  
                         </Grid>
                     </Grid>

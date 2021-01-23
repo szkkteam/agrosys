@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux'
 import { bindActionCreators } from 'redux'
 import { useSelector } from 'react-redux'
+import { ModalContext } from 'components'
 
 import { popModalWindow } from 'redux-promising-modals';
 import Dialog from '@material-ui/core/Dialog';
@@ -14,8 +15,8 @@ import { getModal, isModalActive } from '../selectors'
 // Import modals
 import { TestModal } from 'site/components'
 import { FarmPickOnMap } from 'farmApp/resource/farm/components'
-import { BlockCreateModal, BlockDrawModal } from 'farmApp/resource/block/components'
-import { FieldDrawModal } from 'farmApp/cropProduction/field/components'
+//import { BlockCreateModal, BlockDrawModal } from 'farmApp/resource/block/components'
+import { FieldDrawDialog, FieldCreateDialog } from 'farmApp/resource/field/components'
 import { MachineryForm } from 'farmApp/resource/machinery/components'
 import { CropCreateDialog } from 'farmApp/cropProduction/crop/components'
 import { PlanSelectorDialog } from 'farmApp/cropProduction/plan/components'
@@ -25,7 +26,7 @@ import { ProductionCreateDialog } from 'farmApp/cropProduction/production/compon
 import { 
     EDIT_FILE_DIALOG,
     FARM_PICK_ON_MAP_DIALOG,
-    BLOCK_CREATE_DIALOG,
+    FIELD_CREATE_DIALOG,
     BLOCK_DRAW_DIALOG,
     FIELD_DRAW_DIALOG,
     MACHINERY_DIALOG,
@@ -46,9 +47,9 @@ const ModalProvider = ({
         new Map([
             [EDIT_FILE_DIALOG, TestModal],
             [FARM_PICK_ON_MAP_DIALOG, FarmPickOnMap],
-            [BLOCK_CREATE_DIALOG, BlockCreateModal],
-            [BLOCK_DRAW_DIALOG, BlockDrawModal],
-            [FIELD_DRAW_DIALOG, FieldDrawModal],
+            [FIELD_CREATE_DIALOG, FieldCreateDialog],
+            //[BLOCK_DRAW_DIALOG, BlockDrawModal],
+            [FIELD_DRAW_DIALOG, FieldDrawDialog],
             [MACHINERY_DIALOG, MachineryForm],
             [CROP_DIALOG, CropCreateDialog],
             [PLAN_SELECTOR_DIALOG, PlanSelectorDialog],
@@ -69,22 +70,32 @@ const ModalProvider = ({
     const handleAction = (type, payload) => {
         popModalWindow({ status: type , payload });
     }
+
+    const contextObject = {
+        open: true,
+        handleCancel,
+        handleConfirm,
+        handleAction,
+    }
+
     return (
         <React.Fragment>
-            { Component && 
-            <Component
-                
-                headerProps={{
-                    open: true,
-                    onClose: handleCancel,
-                }}
-                {...modalProps}
-                resultTypes={modalResultTypes}
-                popModalWindow={popModalWindow}
-                handleCancel={handleCancel}
-                handleConfirm={handleConfirm}
-                handleAction={handleAction}
-            /> }  
+            <ModalContext.Provider value={contextObject}>
+                { Component && 
+                <Component
+                    
+                    headerProps={{
+                        open: true,
+                        onClose: handleCancel,
+                    }}
+                    {...modalProps}
+                    resultTypes={modalResultTypes}
+                    popModalWindow={popModalWindow}
+                    handleCancel={handleCancel}
+                    handleConfirm={handleConfirm}
+                    handleAction={handleAction}
+                /> }  
+            </ModalContext.Provider>
         </React.Fragment>
     )
 }

@@ -24,6 +24,8 @@ import {
     FormGroup,
 } from '@material-ui/core'
 
+import StepperFooter from '../StepperFooter'
+
 const Container = styled.div`
     height: 100%;
     display: flex;
@@ -126,11 +128,8 @@ const TaskPage = ({
                     </TaskContainer>
                 </Container>
             </ContentContainer>
-            <DetailFooter
-                cancelTitle={globalMessages.back}
-                submitTitle={globalMessages.submit}
-                onClose={onBack}
-                //onSubmit={onSubmit}
+            <StepperFooter
+                title={globalMessages.save}
             />
         </Form>
     )

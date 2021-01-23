@@ -24,8 +24,9 @@ const TabHeader = ({
     let value = null
     items.map(({ to }, i) => {
         const route = ROUTE_MAP[to]
+        //console.debug("Route: ", route)
         const matched = useRouteMatch({ path: route?.path, ...route.props})
-        console.debug("Matched: ", matched)
+        //console.debug("Matched: ", matched)
         if (matched) {
             value = i
         }
@@ -33,11 +34,12 @@ const TabHeader = ({
     const isMatchFound = !_.isNull(value)
 
     const params = useParams()
+    //console.debug("Route-params: ", params)
 
     return (
         <>
         { !isMatchFound
-            ? redirect ? <Redirect to={redirectRoute.toPath()} /> : null
+            ? redirect ? <Redirect to={redirectRoute.toPath(params)} /> : null
             : <StyledTabs
                 value={value}
                 orientation="horizontal"

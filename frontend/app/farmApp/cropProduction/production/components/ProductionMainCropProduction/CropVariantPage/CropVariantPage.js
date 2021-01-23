@@ -27,7 +27,7 @@ import GridTable from 'farmApp/components/GridTable'
 import {
     FieldListItem,
     FieldSideSelector
-} from 'farmApp/cropProduction/field/components'
+} from 'farmApp/resource/field/components'
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
@@ -36,6 +36,8 @@ import {
     IconButton,
     Button,
 } from '@material-ui/core'
+
+import StepperFooter from '../StepperFooter'
 
 const ContentContainer = styled.div`
     padding: 10px 15px;
@@ -202,11 +204,8 @@ class CropVariantPage extends React.Component {
                     <FieldArray name="parcels" component={this.renderTable} />
                     
                 </ContentContainer>
-                <DetailFooter
-                    cancelTitle={globalMessages.cancel}
-                    submitTitle={globalMessages.next}
-                    onClose={onBack}
-                    //onSubmit={onSubmit}
+                <StepperFooter
+                    title={globalMessages.next}
                 />
             </Form>
         )

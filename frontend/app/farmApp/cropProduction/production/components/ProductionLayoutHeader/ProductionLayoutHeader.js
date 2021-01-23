@@ -47,7 +47,7 @@ const ProductionLayoutHeader = ({
         {to: ROUTES.ProductionDetailSummary, value: TAB_SUMMARY, label: intl.formatMessage(messages.tabSummaryTitle)},
         {to: ROUTES.ProductionDetailTask, value: TAB_TASKS, label: intl.formatMessage(messages.tabTasksTitle)},
         //{to: ROUTES.CropMultiView, value: TAB_CROP_VARIANTS, label: intl.formatMessage(messages.tabCropVariantTitle)},
-        {to: ROUTES.ProductionDetailField, value: TAB_FIELDS, label: intl.formatMessage(messages.tabFieldsTitle)},
+        {to: ROUTES.CropProductionFieldProduction, value: TAB_FIELDS, label: intl.formatMessage(messages.tabFieldsTitle)},
         //{to: ROUTES.CropMultiView, value: TAB_PESTS, label: intl.formatMessage(messages.tabPestsTitle)},
         {to: ROUTES.ProductionDetailAnalysis, value: TAB_ANALYSIS, label: intl.formatMessage(messages.tabAnalysisTitle)},
         {to: ROUTES.ProductionDetailWeather, value: TAB_WEATHER, label: intl.formatMessage(messages.tabWeatherTitle)},

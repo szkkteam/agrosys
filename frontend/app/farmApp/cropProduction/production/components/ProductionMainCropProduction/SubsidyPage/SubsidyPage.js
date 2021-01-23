@@ -21,7 +21,7 @@ import { DetailFooter } from 'farmApp/components/Detail'
 
 import {
     FieldListItem
-} from 'farmApp/cropProduction/field/components'
+} from 'farmApp/resource/field/components'
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
@@ -30,6 +30,8 @@ import {
     IconButton,
     Button,
 } from '@material-ui/core'
+
+import StepperFooter from '../StepperFooter'
 
 
 const ContentContainer = styled.div`
@@ -131,11 +133,8 @@ class SubsidyPage extends React.Component {
                 <ContentContainer>
                     <FieldArray name="parcels" component={this.renderTable} />
                 </ContentContainer>
-                <DetailFooter
-                    cancelTitle={globalMessages.back}
-                    submitTitle={globalMessages.next}
-                    onClose={onBack}
-                    //onSubmit={onSubmit}
+                <StepperFooter
+                    title={globalMessages.next}
                 />
             </Form>
         )
