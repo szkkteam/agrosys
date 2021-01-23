@@ -1,7 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 import Helmet from 'react-helmet'
 
-import { Map,
+import { 
+    MapContainer,
     ZoomControl,
     Popup,
     TileLayer,
@@ -80,7 +81,7 @@ export default class LeafletMap extends React.Component {
                 <Helmet>
                     <link rel="stylesheet" href="//unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
                 </Helmet>
-                <Map
+                <MapContainer
                     ref={e => { this.mapInstance = e }}
                     center={[45.4, -75.7]}
                     zoom={12}
@@ -106,7 +107,7 @@ export default class LeafletMap extends React.Component {
                         {overlay}
                     </LayersControl>                
                     {children}
-                </Map>
+                </MapContainer>
             </React.Fragment>
         )
     }

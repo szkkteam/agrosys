@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 
 const APP_ROOT = path.join(process.cwd(), 'frontend', 'app')
+const NODE_ROOT = path.join(process.cwd(), 'node_modules')
 const appConfig = require(path.join(APP_ROOT, 'config'))
 const STYLES_ROOT = path.join(APP_ROOT, 'styles')
 
@@ -12,14 +13,14 @@ module.exports = (options) => ({
   target: 'web',
   performance: options.performance || {},
   resolve: {
-    modules: [APP_ROOT, STYLES_ROOT, 'node_modules'],
+    modules: [APP_ROOT, 'node_modules'],
     extensions: ['.js', '.jsx'],
-    /* FIXME: https://github.com/redux-orm/redux-orm/issues/53 removed, because of the issue. But this could cause unkown issues. Try to find another solution
     mainFields: [
+      'module',
       'browser',
       'jsnext:main',
       'main',
-    ],*/
+    ],
   },
   entry: options.entry,
   output: Object.assign({
@@ -32,8 +33,12 @@ module.exports = (options) => ({
       {
         test: /\.js$/,
         use: [{ loader: 'babel-loader' }],
-        include: APP_ROOT,
-        exclude: /node_modules/,
+        include: [
+          APP_ROOT,
+          path.join(NODE_ROOT, 'react-leaflet'),
+          path.join(NODE_ROOT, '@react-leaflet'),
+        ],
+        //exclude: /node_modules/,
       },
       {
         test: /\.css$/,
