@@ -31,6 +31,8 @@ const dllConfig = {
         'redux',
         'redux-form',
         'redux-saga',
+        'react-leaflet',
+        'redux-orm',
       ],
     },
     entry(pkg) {
