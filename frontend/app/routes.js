@@ -100,7 +100,7 @@ export const ROUTES = {
   ...resourceRoutesKeys,
   ...securityRoutesKeys,
 }
-
+console.debug("ROUTE KEYS: ", ROUTES)
 /**
  * route details
  *
@@ -191,7 +191,7 @@ export const routes = [
     label: 'Not found',
   }
 ]
-
+console.debug("STATIC ROUTES: ", routes)
 /**
  * ROUTE_MAP: A public lookup for route details by key
  */
@@ -223,7 +223,7 @@ const complieRoutes = (routes) => {
   })
 }
 complieRoutes(routes)
-console.log(ROUTE_MAP)
+console.debug("ROUTE_MAP: ", ROUTE_MAP)
 
 // TODO: How to add the 404 route?
 // cachedRoutes.push(<Route component={NotFound} key="*" />)

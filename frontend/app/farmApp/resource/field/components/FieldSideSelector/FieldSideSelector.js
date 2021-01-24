@@ -54,20 +54,23 @@ const Content = () => <div>Content</div>
 
 const Selector = ({
     data,
-    selected,
+    selectedField,
+    selected: notUsed,
+    ...props
 }) => {
     //const [selected, setSelected] = useState(false)
     //const handleSelect = () => setSelected(!selected)
-
+    console.debug("selectedField: ", selectedField)
     return (
         <FieldListItem
             data={{id: data}}
             disableAction={true}
+            {...props}
         >
             <SelectIcon>
                 <Checkbox
                     edge="start"
-                    checked={selected}
+                    checked={selectedField}
                     tabIndex={-1}
                     //onClick={handleSelect}
                     disableRipple
@@ -141,7 +144,7 @@ const FieldSideSelector = ({
                         addButton={children}
                     >
                         {items.map((item, i) => 
-                            <Selector key={i} data={item} selected={!!selected.find(x => x === item)}/>
+                            <Selector key={i} data={item} selectedField={!!selected.find(x => x === item)}/>
                         )}
                     </MasterList>
                 </List>
