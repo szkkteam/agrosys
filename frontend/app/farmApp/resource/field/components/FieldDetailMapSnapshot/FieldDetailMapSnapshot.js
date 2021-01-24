@@ -10,7 +10,7 @@ import {
     Grid
 } from '@material-ui/core';
 
-import { LeafletMap } from 'components/Map/components'
+import { LeafletMap } from 'farmApp/map/components'
 
 const MapSnapshot = styled(LeafletMap)`
     width: 100%;

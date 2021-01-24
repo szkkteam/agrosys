@@ -16,7 +16,7 @@ import {
     ViewButtonGroup
 } from 'components'
 
-import { LeafletMap } from 'components/Map/components'
+import { LeafletMap } from 'farmApp/map/components'
 
 import {
     Grid,

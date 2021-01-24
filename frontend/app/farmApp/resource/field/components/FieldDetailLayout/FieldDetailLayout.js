@@ -26,7 +26,7 @@ import {
 
 //import { messages as ButtonMessages } from 'components/Button'
 //import { FieldFormStepButton } from '../../components'
-import { LeafletMap } from 'components/Map/components'
+import { LeafletMap } from 'farmApp/map/components'
 
 import { PrimaryButton, SecondaryButton, MasterDetail } from 'components'
 

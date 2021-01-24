@@ -9,7 +9,7 @@ import {
     SideSheet,
 } from 'components'
 
-import { LeafletMap } from 'components/Map/components'
+import { LeafletMap } from 'farmApp/map/components'
 
 import { FieldMasterList } from 'farmApp/resource/field/components'
 

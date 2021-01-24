@@ -12,7 +12,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import { SubmitButton, messages as ButtonMessages } from 'components/Button'
 
-import { LeafletMap } from 'components/Map/components'
+import { LeafletMap } from 'farmApp/map/components'
 
 import './farmpickonmap.scss'
 

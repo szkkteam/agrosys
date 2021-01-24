@@ -23,7 +23,9 @@ import {
 } from '@material-ui/core';
 
 
-import { LeafletMap } from 'components/Map/components'
+import { MapContainer, MapControlUndoRedo, MapControlDraw, MapControlGeoSearch } from 'farmApp/map/components'
+
+import FieldDrawFormButtons from '../FieldDrawFormButtons/FieldDrawFormButtons'
 
 import FieldList from './FieldList'
 
@@ -38,9 +40,6 @@ const Container = styled.div`
     height: 100%;
 `
 
-const FullPageMap = styled(LeafletMap)`
-    height: 100%;
-`
 
 const Header = styled(DialogTitle)`
     ${({ theme }) => `
@@ -91,9 +90,6 @@ const ButtonContainer = styled.div`
 `
 
 const FieldDrawDialog = ({
-    handleCancel,
-    handleConfirm,
-
     //title,
     onSubmit,
     onBack,
@@ -108,6 +104,40 @@ const FieldDrawDialog = ({
 
     const openDrawer = (e) => {        
         setOpen(true)
+    }
+
+
+    const dummyGeojson = {
+        type: "Feature",
+        properties: {},
+        geometry: {
+            type: "Polygon",
+            coordinates: [[
+                [-109.05, 41.00],
+                [-102.06, 40.99],
+                [-102.03, 36.99],
+                [-109.04, 36.99],
+                [-109.05, 41.00]
+            ]]
+        }
+    }
+
+    // Payload should be an array of geometries. Also give the possibility to the user to fill out some data directly on the map
+    // 
+    const dummyPayload = [
+        { title: "Valami tábla", geometry: dummyGeojson, area: 13231.23 },
+        { title: "Másik tábla", geometry: dummyGeojson, area: 13231.23, lpis: {mepar: "7634XD-45"} },
+        { geometry: dummyGeojson, area: 13231.23 },
+    ]
+
+
+    const {
+        handleCancel,
+        handleConfirm
+    } = useModalContext()
+ 
+    const handleSubmit = () => {
+        handleConfirm && handleConfirm(dummyPayload)
     }
 
     return (
@@ -133,15 +163,21 @@ const FieldDrawDialog = ({
                     <FixedFieldList />
                 </Drawer>
                 <Container>
-                    <FullPageMap
-                    />                    
-                    <FieldFormStepButton
-                        cancelTitle={ButtonMessages.cancel}
-                        submitTitle={ButtonMessages.next}
-                        //cancelDisabled={true}
-                        onSubmit={handleConfirm}
-                        onCancel={handleCancel}
-                    />   
+                    <MapContainer
+                        controls={
+                            <>
+                            <MapControlGeoSearch />
+                            <MapControlUndoRedo />
+                            <MapControlDraw />
+                            <FieldDrawFormButtons
+                                onCancel={handleCancel}
+                                onSubmit={handleSubmit}
+                            />
+                            </>
+                        }
+                    >
+                        
+                    </MapContainer>
                 </Container>
             </Content>
         </Modal>
