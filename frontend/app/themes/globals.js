@@ -12,6 +12,7 @@ export default {
           body: {
             height: '100vh',
             width: '100vw',
+            overflowX: 'hidden',
           },
           '#app': {
             height: '100%',
