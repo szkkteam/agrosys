@@ -8,6 +8,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { pushModalWindow } from 'redux-promising-modals';
 import { bindActionCreators } from 'redux'
+import { goBack } from 'connected-react-router'
 
 import { FIELD_DRAW_DIALOG } from 'site/modalTypes'
 import { MODAL_TYPE_CONFIRM } from 'site/modalResultTypes'
@@ -62,9 +63,8 @@ class FieldCreateDraw extends React.Component {
     componentDidMount() {
         const { startDraw = false } = this.props
         // If component is called within create context
-        // FIXME: Modal is rendered twice because something if fucked up with the routers
         if (startDraw) {
-            this.openFieldDraw()
+            this.openFieldDraw(true)
         }
             
         
@@ -77,43 +77,18 @@ class FieldCreateDraw extends React.Component {
         })
     }
 
-    openFieldDraw = () => {
-        const { pushModalWindow, array } = this.props
+    openFieldDraw = (exitOnCancel=false) => {
+        const { pushModalWindow, array, goBack } = this.props
 
-        const initialValues = {
-
-        }
-
-        const dummyGeojson = {
-            type: "Feature",
-            properties: {},
-            geometry: {
-                type: "Polygon",
-                coordinates: [[
-                    [-109.05, 41.00],
-                    [-102.06, 40.99],
-                    [-102.03, 36.99],
-                    [-109.04, 36.99],
-                    [-109.05, 41.00]
-                ]]
-            }
-        }
-
-        // Payload should be an array of geometries. Also give the possibility to the user to fill out some data directly on the map
-        // 
-        const dummyPayload = [
-            { title: "Valami tábla", geometry: dummyGeojson, area: 13231.23 },
-            { title: "Másik tábla", geometry: dummyGeojson, area: 13231.23, lpis: {mepar: "7634XD-45"} },
-            { geometry: dummyGeojson, area: 13231.23 },
-        ]
-
-        console.debug("Push modal")
-        pushModalWindow(FIELD_DRAW_DIALOG, {initialValues}).then(({payload, status}) => {
+        pushModalWindow(FIELD_DRAW_DIALOG, {}).then(({payload, status}) => {
 
             if (status === MODAL_TYPE_CONFIRM) {
-                console.debug("Payload: ", payload)
-                dummyPayload.map(field => array.push('parcels', field))
+                payload.map(field => array.push('parcels', field))
                 //array.push('productions', payload)
+            } else {
+                if (exitOnCancel) {
+                    goBack()
+                }
             }
         })
     }
@@ -175,7 +150,7 @@ const withConnect = connect(
             ...rest
         }
     },
-    (dispatch) => bindActionCreators({ pushModalWindow }, dispatch),
+    (dispatch) => bindActionCreators({ pushModalWindow, goBack }, dispatch),
 )
 
 const ConnectedFieldCreateDraw = compose(

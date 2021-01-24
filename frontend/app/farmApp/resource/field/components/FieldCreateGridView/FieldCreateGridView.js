@@ -51,6 +51,10 @@ const FieldCreateGridView = ({
         onDeleteItem && onDeleteItem(index)
     }
 
+    const handleAddNew = () => {
+        onAddNew && onAddNew()
+    }
+
     const columns = useMemo(() => [
         {title: 'Shape', size: 0.5, render: (field, i) => <FieldSnapshot />
         },
@@ -97,7 +101,7 @@ const FieldCreateGridView = ({
         >
             <PrimaryActionButton 
                 title={messages.drawNew}
-                onClick={onAddNew}
+                onClick={handleAddNew}
             />
         </GridTable>
     )
