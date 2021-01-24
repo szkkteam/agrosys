@@ -9,7 +9,7 @@ import {
     SideSheet,
 } from 'components'
 
-import { LeafletMap } from 'farmApp/map/components'
+import { MapContainer, MapControlGeoSearch } from 'farmApp/map/components'
 
 import FieldMasterList from '../FieldMasterList/FieldMasterList'
 
@@ -36,7 +36,13 @@ const FieldMasterDetail = ({
             <SideSheet
                 open={!!selected}
             >
-                <LeafletMap />
+                <MapContainer
+                    controls={
+                        <>
+                        <MapControlGeoSearch />
+                        </>
+                    }
+                />
                 <div>Detail</div>
             </SideSheet>
         </MasterDetail>
