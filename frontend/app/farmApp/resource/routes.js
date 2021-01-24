@@ -91,7 +91,7 @@ export const routes = [
     routes: [
       // Field routes
       {
-        key: ROUTES.FieldList,
+        key: ROUTES.ResourceField,
         path: '/resource/fields',
         component: PlaceholderDiv,
         routeComponent: ProtectedRoute,
