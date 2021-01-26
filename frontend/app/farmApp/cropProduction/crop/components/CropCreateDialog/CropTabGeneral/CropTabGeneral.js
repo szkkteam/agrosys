@@ -61,6 +61,8 @@ const CropTabGeneral = ({
 
     const {payload: cropTypes, isLoading } = useFetchCropTypes()
 
+    console.debug("cropTypes: ", cropTypes)
+
     return (
             <Container container spacing={1} >
                 <Grid container direction="column" item xs={12}>
@@ -86,7 +88,7 @@ const CropTabGeneral = ({
                             variant="outlined"
                             formProps={{fullWidth: true}}
                             options={cropTypes}
-                            idAccessor={(o) => o.id}
+                            //idAccessor={(o) => o.id}
                             groupBy={(option) => option.category}
                             getOptionLabel={(option) => option.title}
                         />

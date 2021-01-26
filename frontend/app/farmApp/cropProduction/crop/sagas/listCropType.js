@@ -8,7 +8,7 @@ import { listCropType } from '../actions'
 
 import { selectCropTypeRequest } from '../reducers/cropTypeRequest'
 
-export const KEY = 'listCropType'
+export const KEY = 'listCropTypeSaga'
 
 export const fixture = [
     {id: 1, title: "Téli búza", category: "Takarmány növény"},

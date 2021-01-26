@@ -6,9 +6,6 @@ import createSagaMiddleware from 'redux-saga'
 import { listCropTypeSaga, fixture } from '../listCropType'
 import { listCropType as listCropTypeAction } from '../../actions'
 import reducer from '../../reducers/cropTypeRequest'
-import { ExpansionPanelActions } from '@material-ui/core';
-//import { selectSelectedSeason } from 'season/reducers/seasonDetail'
-//import { listSeasonParcel, actionParcel } from 'parcel/actions'
 
 describe('listCropType saga', () => {
     let dispatchedActions = [];

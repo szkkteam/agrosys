@@ -17,6 +17,10 @@ import CropTabGeneral from './CropTabGeneral'
 import { Modal, ModalHeader, ModalContent, ModalFooter, ModalContext } from 'components'
 import { CROP_FORM } from '../../constants'
 
+import { useInjectSaga } from 'utils/hooks'
+
+import { createUserCrop } from '../../actions'
+
 const Container = styled(props => <ModalContent {...props} />)`
     //padding: 10px 15px;
 `
@@ -46,12 +50,15 @@ const withConnect = connect(
 const CropForm = ({
     action,
     onClose,
+    submitting,
+    pristine,
     handleSubmit,
     ...props
 }) => {
+    useInjectSaga(require('../../sagas/createUserCrop'))
    
     return (      
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(createUserCrop)}>
             <ModalHeader
                 title={messages.title}
             />
@@ -64,7 +71,8 @@ const CropForm = ({
             <ModalFooter
                 primaryButtonProps={{
                     title: globalMessages.save,
-                    type: 'submit'
+                    type: 'submit',
+                    disabled: submitting || pristine,
                 }}
                 secondaryButtonProps={{
                     title: globalMessages.close,
