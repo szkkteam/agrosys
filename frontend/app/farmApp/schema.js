@@ -1,5 +1,5 @@
 import { ORM } from "redux-orm";
-//import { ReferenceParcel } from 'parcel/models'
+import { CropType } from './cropProduction/crop/models'
 //import { Season } from 'season/models'
 //import { Farm } from 'farm/models'
 
@@ -8,6 +8,7 @@ const orm = new ORM({
 });
 
 orm.register(
+    CropType,
     //Farm,
     //Season,
     //ReferenceParcel,

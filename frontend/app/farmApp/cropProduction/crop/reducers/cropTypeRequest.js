@@ -1,6 +1,6 @@
 import { listCropType } from '../actions'
 
-export const KEY = 'cropTypesRequest'
+export const KEY = 'cropTypeRequest'
 
 const initialState = {
     isLoading: false,
@@ -37,4 +37,4 @@ export default function(state = initialState, action) {
     }
 }
 
-export const selectCropTypesRequest = (state) => state[KEY]
+export const selectCropTypeRequest = (state) => state[KEY]

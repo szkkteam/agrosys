@@ -1,12 +1,12 @@
-import cropTypesRequestReducer from '../cropTypesRequest'
+import cropTypeRequestReducer from '../cropTypeRequest'
 import {
     listCropType,
 } from '../../actions'
 
-describe('cropTypesRequest reducer test', () => {
+describe('cropTypeRequestReducer reducer test', () => {
 
     it ('initial state', () => {
-        expect(cropTypesRequestReducer(undefined, {})
+        expect(cropTypeRequestReducer(undefined, {})
         ).toEqual({
             isLoading: false, 
             isLoaded: false,
@@ -15,7 +15,7 @@ describe('cropTypesRequest reducer test', () => {
     })
     
     it ('action request', () => {
-        expect(cropTypesRequestReducer(undefined, listCropType.request())
+        expect(cropTypeRequestReducer(undefined, listCropType.request())
         ).toEqual({
             isLoading: true, 
             isLoaded: false,
@@ -24,7 +24,7 @@ describe('cropTypesRequest reducer test', () => {
     })
 
     it ('action success', () => {
-        expect(cropTypesRequestReducer(undefined, listCropType.success())
+        expect(cropTypeRequestReducer(undefined, listCropType.success())
         ).toEqual({
             isLoading: false, 
             isLoaded: true,
@@ -33,7 +33,7 @@ describe('cropTypesRequest reducer test', () => {
     })
 
     it ('action fulfill', () => {
-        expect(cropTypesRequestReducer({isLoading: true, isLoaded: false, error: null}, listCropType.fulfill())
+        expect(cropTypeRequestReducer({isLoading: true, isLoaded: false, error: null}, listCropType.fulfill())
         ).toEqual({
             isLoading: false, 
             isLoaded: false,

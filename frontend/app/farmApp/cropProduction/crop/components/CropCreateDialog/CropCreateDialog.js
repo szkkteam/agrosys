@@ -17,7 +17,6 @@ import CropTabGeneral from './CropTabGeneral'
 import { Modal, ModalHeader, ModalContent, ModalFooter, ModalContext } from 'components'
 import { CROP_FORM } from '../../constants'
 
-
 const Container = styled(props => <ModalContent {...props} />)`
     //padding: 10px 15px;
 `

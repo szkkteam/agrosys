@@ -3,14 +3,14 @@ import { runSaga } from "redux-saga";
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 
-import { listCropTypesSaga, fixture } from '../listCropTypes'
+import { listCropTypeSaga, fixture } from '../listCropType'
 import { listCropType as listCropTypeAction } from '../../actions'
-import reducer from '../../reducers/cropTypesRequest'
+import reducer from '../../reducers/cropTypeRequest'
 import { ExpansionPanelActions } from '@material-ui/core';
 //import { selectSelectedSeason } from 'season/reducers/seasonDetail'
 //import { listSeasonParcel, actionParcel } from 'parcel/actions'
 
-describe('listCropTypes saga', () => {
+describe('listCropType saga', () => {
     let dispatchedActions = [];
     let fakeStore;
 
@@ -28,7 +28,7 @@ describe('listCropTypes saga', () => {
     it('test saga', async () => {
         const data = { payload: null };
 
-        await runSaga(fakeStore, listCropTypesSaga, data).done
+        await runSaga(fakeStore, listCropTypeSaga, data).done
         
         expect(dispatchedActions[0]).toEqual(listCropTypeAction.request())
         expect(dispatchedActions[1]).toEqual(listCropTypeAction.success({ cropTypes: fixture }))
