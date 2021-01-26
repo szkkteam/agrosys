@@ -32,8 +32,8 @@ export const createUserCropSaga = createRoutineFormSaga(
     }))   
     // Close the popup when the form is submitted successfully
     yield put(popModalWindow())
-    console.debug(payloadWithId)
-    yield put(enqueueNotification(userCropCreated(payloadWithId.title)))
+    // Push notification
+    yield put(enqueueNotification(userCropCreated(payloadWithId)))
 
   },
 )

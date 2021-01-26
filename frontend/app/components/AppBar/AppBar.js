@@ -84,7 +84,6 @@ const AppBar = forwardRef(({
                 </TabContent>
                 <div style={{flexGrow: 1}} />
                 <div className="">
-                    <TutorialProgressBar />
                     <NotificationButton />
                     <IconButton
                         edge="end"
@@ -102,6 +101,9 @@ const AppBar = forwardRef(({
         </StyledAppBar>
     )
 })
+/*
+                    <TutorialProgressBar />
+*/
 
 AppBar.propTypes = {
     title: PropTypes.object,
