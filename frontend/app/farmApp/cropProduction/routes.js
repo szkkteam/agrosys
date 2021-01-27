@@ -113,7 +113,7 @@ export const routes = [
       // Crops overall view (Timeline). Show all crops , productions and seasons
       {
         key: ROUTES.Crop,
-        path: '/crops/overview',
+        path: '/overview',
         component: CropProductionOverviewHeader,
         routeComponent: ProtectedRoute,
         layoutComponent: HeaderContent,
@@ -121,14 +121,14 @@ export const routes = [
         routes: [
           {
             key: ROUTES.CropProductionTimeline,
-            path: '/crops/overview',
+            path: '',
             component: CropProductionOverview,
             routeComponent: ProtectedRoute,
             props: { exact: true },
           },
           {
             key: ROUTES.CropProductionOverview,
-            path: '/crops/overview/timeline',
+            path: '/timeline',
             component: CropProductionTimeline,
             routeComponent: ProtectedRoute,
             props: { exact: true }
@@ -137,14 +137,14 @@ export const routes = [
       },
       {
         key: ROUTES.ProductionCreate,
-        path: '/crops/:cropId/seasons/new',
+        path: '/:cropId/seasons/new',
         component: SeasonCreate,
         routeComponent: ProtectedRoute,
         props: { exact: true }
       },
       {
         key: ROUTES.CropSettings,
-        path: '/crops/:cropId/settings',
+        path: '/:cropId/settings',
         component: CropSettings,
         routeComponent: ProtectedRoute,
         props: { exact: true }
@@ -152,14 +152,14 @@ export const routes = [
       // Specific crop and production view (Subtabs). Show all resource to that specific production      
       {
         key: ROUTES.Production,
-        path: '/crops/:cropId/seasons/:productionId',
+        path: '/:cropId/seasons/:productionId',
         component: ProductionLayoutHeader,
         routeComponent: ProtectedRoute,
         layoutComponent: HeaderContent,
         routes: [
           {
             key: ROUTES.ProductionDetailSummary,
-            path: '/crops/:cropId/seasons/:productionId',
+            path: '',
             component: SeasonProduction,
             routeComponent: ProtectedRoute,
             props: { exact: true }            
@@ -167,42 +167,42 @@ export const routes = [
           // TODO: Maybe move the timeline into the summary page?
           {
             key: ROUTES.ProductionTimeline,
-            path: '/crops/:cropId/seasons/:productionId/timeline',
+            path: '/timeline',
             component: ProductionTimeline,
             routeComponent: ProtectedRoute,
             props: { exact: true }
           },        
           {
             key: ROUTES.ProductionSettings  ,
-            path: '/crops/:cropId/seasons/:productionId/settings',
+            path: '/settings',
             component: ProductionSettings  ,
             routeComponent: ProtectedRoute,
             props: { exact: true }
           },                  
           {
             key: ROUTES.ProductionDetailTask,
-            path: '/crops/:cropId/seasons/:productionId/tasks',
+            path: '/tasks',
             component: TaskProductionList,
             routeComponent: ProtectedRoute,
             props: { exact: true }
           },
           {
             key: ROUTES.CropProductionFieldProduction,
-            path: '/crops/:cropId/seasons/:productionId/parcels',
+            path: '/parcels',
             component: PlaceholderDiv,
             routeComponent: ProtectedRoute,
             props: { exact: false },
             routes: [
               {
                 key: ROUTES.CropProductionFieldProductionList,
-                path: '/crops/:cropId/seasons/:productionId/parcels',
+                path: '',
                 component: FieldProductionList,
                 routeComponent: ProtectedRoute,
                 props: { exact: true },
               },
               {
                 key: ROUTES.FieldCreateDraw,
-                path: '/crops/:cropId/seasons/:productionId/parcels/new',
+                path: '/new',
                 component: PlaceholderDiv,
                 routeComponent: ProtectedRoute,
                 props: { exact: true }
@@ -211,14 +211,14 @@ export const routes = [
           },
           {
             key: ROUTES.ProductionDetailAnalysis,
-            path: '/crops/:cropId/seasons/:productionId/analysis',
+            path: '/analysis',
             component: 'div',
             routeComponent: ProtectedRoute,
             props: { exact: true }
           },
           {
             key: ROUTES.ProductionDetailWeather,
-            path: '/crops/:cropId/seasons/:productionId/weather',
+            path: '/weather',
             component: 'div',
             routeComponent: ProtectedRoute,
             props: { exact: true }

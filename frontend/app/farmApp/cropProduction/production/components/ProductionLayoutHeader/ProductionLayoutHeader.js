@@ -38,8 +38,6 @@ const SelectorContainer = styled.div`
 `
 
 const ProductionLayoutHeader = ({
-    match,
-    ...props
 }) => {
     const intl = useIntl()
 
@@ -56,18 +54,18 @@ const ProductionLayoutHeader = ({
 
     return (
         <Container>
-            <SelectorContainer>
-                <SeasonSelector />
-            </SelectorContainer>
             <TabHeader
                 items={tabs}
-                match={match}
             />
         </Container>
     )
 }
+/*
+<SeasonSelector />
+*/
+
 
 ProductionLayoutHeader.propTypes = {
 }
 
-export default ProductionLayoutHeader
+export default React.memo(ProductionLayoutHeader)

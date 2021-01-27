@@ -57,7 +57,7 @@ const MainContent = styled(({height: dummy = null, ...rest}) => <div {...rest}/>
 // TODO: +2px because 64-8 looks not enough
 const ContentSpacer = styled(({height: dummy = null, ...rest}) => <div {...rest}/> )`
     ${({ theme, height }) => `
-      height: calc(${height}px - ${theme.custom.pagePadding}px + 2px);
+      height: calc(${height}px - ${theme.custom.pagePadding}px);
       display: flex;
       align-items: center;
     `}

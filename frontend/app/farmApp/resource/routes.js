@@ -92,34 +92,34 @@ export const routes = [
       // Field routes
       {
         key: ROUTES.ResourceField,
-        path: '/resource/fields',
+        path: '/fields',
         component: PlaceholderDiv,
         routeComponent: ProtectedRoute,
         routes: [
           {
             key: ROUTES.ResourceFieldList,
-            path: '/resource/fields',
+            path: '',
             component: FieldList,
             routeComponent: ProtectedRoute,
             props: { exact: true }
           },
           {
             key: ROUTES.ResourceFieldEdit,
-            path: '/resource/fields/:id/edit',
+            path: '/:id/edit',
             component: FieldEdit,
             routeComponent: ProtectedRoute,
             props: { exact: true }
           },
           {
             key: ROUTES.ResourceFieldCreateDraw,
-            path: '/resource/fields/new/draw',
+            path: '/new/draw',
             component: FieldCreateDraw,
             routeComponent: ProtectedRoute,
             props: { exact: true }
           },
           {
             key: ROUTES.ResourceFieldCreateUpload,
-            path: '/resource/fields/new/upload',
+            path: '/new/upload',
             component: FieldList,
             routeComponent: ProtectedRoute,
             props: { exact: true }
@@ -130,7 +130,7 @@ export const routes = [
       // Worker routes    
       {
         key: ROUTES.WorkerList,
-        path: '/resource/workers',
+        path: '/workers',
         component: WorkerList,
         routeComponent: ProtectedRoute,
         //props: { exact: true }
@@ -138,7 +138,7 @@ export const routes = [
       // Machinery routes  
       {
         key: ROUTES.MachineryList,
-        path: '/resource/machinery',
+        path: '/machinery',
         component: MachineryList,
         routeComponent: ProtectedRoute,
         props: { exact: true }
@@ -146,7 +146,7 @@ export const routes = [
       // Entity routes  
       {
         key: ROUTES.EntityList,
-        path: '/resource/entities',
+        path: '/entities',
         component: EntityList,
         routeComponent: ProtectedRoute,
         props: { exact: true }
