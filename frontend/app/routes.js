@@ -120,11 +120,11 @@ const CustomRouter = ({routes, parentMatch=""}) => {
   return (
       <Switch>
         {routes.map(({key, routes: children, layoutComponent: Layout = 'div'}) => {
-          const { component: Component, relPath, props: rest, routeComponent: RouteComponent } = ROUTE_MAP[key]
+          const { component: Component, path, relPath, props: rest, routeComponent: RouteComponent } = ROUTE_MAP[key]
           return (
             <RouteComponent 
-              path={`${parentMatch}${relPath}`}
-              //path={path}
+              //path={`${parentMatch}${relPath}`}
+              path={path}
               //key={path}
               key="1"
               component={props => {  

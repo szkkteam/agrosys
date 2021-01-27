@@ -177,6 +177,14 @@ export const routes = [
             routeComponent: ProtectedRoute,
             //props: { exact: true }
             routes: [
+              // Exact routes must come before layout routes
+              {
+                key: ROUTES.ProductionCreate,
+                path: '/new',
+                component: SeasonCreate,
+                routeComponent: ProtectedRoute,
+                props: { exact: true }
+              },
               {
                 key: ROUTES.CropProductionSeason,
                 path: '',
@@ -187,7 +195,7 @@ export const routes = [
                   {
                     key: ROUTES.CropProductionSeasonSummary,
                     path: '',
-                    component: SeasonSummary,
+                    component: SeasonProduction,
                     routeComponent: ProtectedRoute,
                     props: { exact: true }
                   },
@@ -222,13 +230,6 @@ export const routes = [
                     ]
                   },
                 ]
-              },
-              {
-                key: ROUTES.ProductionCreate,
-                path: '/new',
-                component: SeasonCreate,
-                routeComponent: ProtectedRoute,
-                props: { exact: true }
               },
             ]
           },

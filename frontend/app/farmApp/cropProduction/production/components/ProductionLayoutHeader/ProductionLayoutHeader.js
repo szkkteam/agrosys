@@ -13,6 +13,11 @@ import {
     SplitButton
 } from 'components'
 
+import {
+    Typography,
+    Button
+} from '@material-ui/core'
+
 import { 
     TAB_TASKS,
     TAB_SUMMARY, 
@@ -30,11 +35,21 @@ import {
 
 const Container = styled.div`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    flex-direction: column;
+`
+
+const SubContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
 `
 
 const SelectorContainer = styled.div`
-    margin-left: 15px;
+    margin-right: 15px;
+`
+const Spacer = styled.div`
+    flex-grow: 1;
 `
 
 const ProductionLayoutHeader = ({
@@ -48,6 +63,7 @@ const ProductionLayoutHeader = ({
 
     const tabs = [
         {to: ROUTES.CropProductionSeasonSummary, value: TAB_SUMMARY, label: intl.formatMessage(messages.tabSummaryTitle)},
+
         //{to: ROUTES.ProductionDetailSummary, value: TAB_SUMMARY, label: intl.formatMessage(messages.tabSummaryTitle)},
         {to: ROUTES.ProductionDetailTask, value: TAB_TASKS, label: intl.formatMessage(messages.tabTasksTitle)},
         {to: ROUTES.CropProductionFieldProduction, value: TAB_FIELDS, label: intl.formatMessage(messages.tabFieldsTitle)},
@@ -66,7 +82,7 @@ const ProductionLayoutHeader = ({
     )
 }
 /*
-<SeasonSelector />
+
 */
 
 

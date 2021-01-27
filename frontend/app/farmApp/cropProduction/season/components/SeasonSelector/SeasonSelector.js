@@ -41,15 +41,15 @@ const SeasonSelector = ({
             id="grouped-demo"
             disableClearable={true}
             options={options}
-            value={selected}
+            value={options[0]}
             getOptionLabel={(option) => option.title}
-            onChange={handleChange}
-            style={{ width: 220 }}
+            //onChange={handleChange}
+            style={{ width: 160 }}
             renderInput={(params) => 
                 <TextField 
                     {...params}
                     //label="Current season"
-                    variant="outlined" 
+                    //variant="outlined" 
                 />
             }
             {...props}
