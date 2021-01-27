@@ -12,6 +12,7 @@ import { PageHeader } from 'components'
 
 import { useFetchUserCrops } from 'farmApp/cropProduction/crop/hooks'
 
+
 const CropProductionMyCropsHeader = ({
     ...props
 }) => {
@@ -32,19 +33,21 @@ const CropProductionMyCropsHeader = ({
      */
 
     const { payload: userCrops, isLoading } = useFetchUserCrops()
+    //const isLoading = true
+    //const userCrops = []
+
 
     const items = [
-        {cropId: 0, value: 0, label: intl.formatMessage(messages.productionMultiView), to: ROUTES.Crop},
+        {value: "0", label: intl.formatMessage(messages.productionMultiView), to: ROUTES.Crop},
     ]
 
     const tabItems = useMemo(() => {
 
-        const userCropTabs = userCrops.map(x => ({
-            cropId: x.id,
-            value: x.id,
-            productionId: 1, // FIXME: This is hardcoded now. We need a more sofisticated selector later
-            label: x.title,
-            to: ROUTES.Production,
+        const userCropTabs = userCrops.map(({id, title}) => ({
+            params: {cropId: id},
+            value: id.toString(),
+            label: title,
+            to: ROUTES.CropProductionSeason,
         }))
         if (isLoading) {
             return items
@@ -54,25 +57,35 @@ const CropProductionMyCropsHeader = ({
         
     }, [userCrops, isLoading])
 
-    //const { cropId = "0" } = useParams()
 
-    let cropId = null
+    let value = null
     let foundMatch = null
-    tabItems.map(({ to, cropId: tabValue }) => {
-        const route = ROUTE_MAP[to]
-        const matched = useRouteMatch({ path: route?.path, ...route.props})
+    {
+        const route = ROUTE_MAP[ROUTES.CropDetail]
+        const matched = useRouteMatch({ path: route?.path, ...route.props})   
         if (matched) {
             foundMatch = matched
-            cropId = matched.params.cropId || "0"
+            value = matched.params.cropId
         }
-    })
+    }
+    
+
+    if (!foundMatch) {
+        const route = ROUTE_MAP[ROUTES.Crop]
+        const matched = useRouteMatch({ path: route?.path, ...route.props})  
+        if (matched) {
+            foundMatch = matched
+            value = "0"
+        }
+    }
+    console.debug("tabItems: ", tabItems)
     console.debug("foundMatch: ", foundMatch)
-    console.debug("cropId: ", cropId)
+    console.debug("value: ", value)
     
     return (
         <PageHeader 
             items={tabItems}
-            value={foundMatch? parseInt(cropId) : null}
+            value={foundMatch? value : null}
             redirectTo={ROUTES.Crop}
             
         />                 

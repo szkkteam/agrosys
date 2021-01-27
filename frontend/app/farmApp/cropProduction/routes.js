@@ -13,7 +13,8 @@ import {
 
 
 import {
-  CropSettings
+  CropSettings,
+  CropDetail
 } from './crop/pages'
 
 import {
@@ -24,6 +25,7 @@ import {
 import {
   SeasonProduction,
   SeasonCreate,
+  SeasonSummary,
 } from './season/pages'
 
 
@@ -61,6 +63,12 @@ export const ROUTES = {
 
   // Crop
   Crop: 'Crop',
+  CropDetail: 'CropDetail',
+
+  // Season
+  CropProductionSeason: 'CropProductionSeason',
+  CropProductionSeasonContainer: 'CropProductionSeasonContainer',
+  CropProductionSeasonSummary: 'CropProductionSeasonSummary',
 
   CropSettings: 'CropSettings',
 
@@ -113,6 +121,15 @@ export const routes = [
       // Crops overall view (Timeline). Show all crops , productions and seasons
       {
         key: ROUTES.Crop,
+        path: '',
+        component: CropProductionOverview,
+        routeComponent: ProtectedRoute,
+        //layoutComponent: HeaderContent,
+        props: { exact: true },        
+      },
+      /*
+      {
+        key: ROUTES.Crop,
         path: '/overview',
         component: CropProductionOverviewHeader,
         routeComponent: ProtectedRoute,
@@ -135,6 +152,96 @@ export const routes = [
           },    
         ],
       },
+      */
+      {
+        key: ROUTES.CropDetail,
+        path: '/:cropId',
+        component: PlaceholderDiv,
+        routeComponent: ProtectedRoute,
+        //props: { exact: true },
+        /**
+         * A crop alatt először a crop/summary nézetet kapjuk meg. Ezt azt tudja, hogy KPI-ket az aktuális szezonról,
+         * majd mutatja a szezonokat.
+         * Töltse be alapból szezon KPI nézetet. Jobb oldalon a szezon választó
+         * Ez a route redirecteljen az aktuális szezon routera
+         * 
+         */
+        routes: [
+          {
+            /**
+             * This should handle the crop-season overview. Get the current season, and provide 
+             */
+            key: ROUTES.CropProductionSeasonContainer,
+            path: '/seasons',
+            component: PlaceholderDiv,
+            routeComponent: ProtectedRoute,
+            //props: { exact: true }
+            routes: [
+              {
+                key: ROUTES.CropProductionSeason,
+                path: '',
+                component: ProductionLayoutHeader,
+                routeComponent: ProtectedRoute,
+                layoutComponent: HeaderContent,
+                routes: [
+                  {
+                    key: ROUTES.CropProductionSeasonSummary,
+                    path: '',
+                    component: SeasonSummary,
+                    routeComponent: ProtectedRoute,
+                    props: { exact: true }
+                  },
+                  {
+                    key: ROUTES.ProductionDetailTask,
+                    path: '/:seasonId/tasks',
+                    component: TaskProductionList,
+                    routeComponent: ProtectedRoute,
+                    props: { exact: true }
+                  },
+                  {
+                    key: ROUTES.CropProductionFieldProduction,
+                    path: '/:seasonId/parcels',
+                    component: PlaceholderDiv,
+                    routeComponent: ProtectedRoute,
+                    props: { exact: false },
+                    routes: [
+                      {
+                        key: ROUTES.CropProductionFieldProductionList,
+                        path: '',
+                        component: FieldProductionList,
+                        routeComponent: ProtectedRoute,
+                        props: { exact: true },
+                      },
+                      {
+                        key: ROUTES.FieldCreateDraw,
+                        path: '/new',
+                        component: PlaceholderDiv,
+                        routeComponent: ProtectedRoute,
+                        props: { exact: true }
+                      },
+                    ]
+                  },
+                ]
+              },
+              {
+                key: ROUTES.ProductionCreate,
+                path: '/new',
+                component: SeasonCreate,
+                routeComponent: ProtectedRoute,
+                props: { exact: true }
+              },
+            ]
+          },
+          {
+            key: ROUTES.CropSettings,
+            path: '/settings',
+            component: CropSettings,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          }, 
+        ]
+      },
+      /*
       {
         key: ROUTES.ProductionCreate,
         path: '/:cropId/seasons/new',
@@ -148,7 +255,8 @@ export const routes = [
         component: CropSettings,
         routeComponent: ProtectedRoute,
         props: { exact: true }
-      },      
+      },
+      */      
       // Specific crop and production view (Subtabs). Show all resource to that specific production      
       {
         key: ROUTES.Production,
@@ -178,7 +286,8 @@ export const routes = [
             component: ProductionSettings  ,
             routeComponent: ProtectedRoute,
             props: { exact: true }
-          },                  
+          },              
+          /*    
           {
             key: ROUTES.ProductionDetailTask,
             path: '/tasks',
@@ -186,6 +295,7 @@ export const routes = [
             routeComponent: ProtectedRoute,
             props: { exact: true }
           },
+          
           {
             key: ROUTES.CropProductionFieldProduction,
             path: '/parcels',
@@ -209,6 +319,7 @@ export const routes = [
               },
             ]
           },
+          */
           {
             key: ROUTES.ProductionDetailAnalysis,
             path: '/analysis',

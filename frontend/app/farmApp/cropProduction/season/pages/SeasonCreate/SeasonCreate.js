@@ -22,7 +22,7 @@ export default ({
                 </title>
             </Helmet>
             <PlanCreateForm
-                initialValues={location.state.initialValues}
+                initialValues={location.state?.initialValues ?? {}}
             />
         </>
     )

@@ -58,7 +58,7 @@ const PageHeader = ({
                     }}
                 >
                     { items && items.map((item, i) => {
-                        const { to, label, value, ...params } = item
+                        const { to, label, value, params={} } = item
                         return <StyledTab key={i} to={to} label={label} params={{...params}} value={value} />
                     }
                             
