@@ -11,8 +11,8 @@ export const KEY = 'login'
 
 export const loginSaga = createRoutineFormSaga(
   login,
-  function *successGenerator(actionPayload) {
-    const { redirect, ...payload } = actionPayload
+  function *successGenerator(actionPayload) {    
+    const { redirect='/', ...payload } = actionPayload
     const { token, user } = yield call(SecurityApi.login, payload)
     yield put(login.success({ token, user }))
     yield put(push(redirect))

@@ -1,7 +1,8 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 import { push } from 'connected-react-router'
 
-import { ROUTES, ROUTE_MAP } from 'routes'
+import { ROUTES as SECU_ROUTES, ROUTE_MAP as SECU_ROUTE_MAP } from 'security/routes'
+import { ROUTES as APP_ROUTES, ROUTE_MAP as APP_ROUTE_MAP } from 'farmApp/routes'
 import { createRoutineFormSaga } from 'sagas'
 
 import { signUp } from 'security/actions'
@@ -15,12 +16,14 @@ export const signUpSaga = createRoutineFormSaga(
   function *successGenerator(payload) {
     const { token, user } = yield call(SecurityApi.signUp, payload)
     yield put(signUp.success({ token, user }))
+
     if (token) {
+      
       yield put(push({
-        pathname: ROUTE_MAP[ROUTES.FarmCreate].path,
+        pathname: APP_ROUTE_MAP[APP_ROUTES.DashboardHome].path,
       }))
     } else {
-      yield put(push(ROUTE_MAP[ROUTES.PendingConfirmation].path))
+      yield put(push(SECU_ROUTE_MAP[SECU_ROUTES.PendingConfirmation].path))
     }
   },
 )

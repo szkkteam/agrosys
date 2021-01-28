@@ -9,6 +9,7 @@ import DateFnsAdapter from "@material-ui/pickers/adapter/date-fns";
 import { LocalizationProvider } from '@material-ui/pickers';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import styled, { ThemeProvider } from 'styled-components'
+import { Switch, Route } from 'react-router-dom'
 
 import { useDateFnsLocale } from 'utils/hooks'
 
@@ -18,8 +19,9 @@ import { NavBar, ProgressBar } from 'components'
 import Notification from 'components/Notification'
 import { LanguageProvider, ModalProvider } from 'site/components'
 import { SITE_NAME } from 'config'
-import Routes, { routes } from 'routes'
 
+import FarmApp from 'farmApp'
+import Security from 'security'
 
 
 import AppContext from './AppContext'
@@ -36,56 +38,14 @@ const Flex = styled.main`
 `
 
 
-const MainContent = styled(({height: dummy = null, ...rest}) => <div {...rest}/> )`
-    ${({ theme, height }) => `
-    height: 100%;
-    width: 100%;
-    > div:nth-child(2) {
-      display: flex;
-      height: calc(100% - ${height}px + ${theme.custom.pagePadding}px);
-
-    }
-    `}
-`
-
-/*
-      > div {
-        height: 100%;
-        width: 100%;
-      }
-*/
-// TODO: +2px because 64-8 looks not enough
-const ContentSpacer = styled(({height: dummy = null, ...rest}) => <div {...rest}/> )`
-    ${({ theme, height }) => `
-      height: calc(${height}px - ${theme.custom.pagePadding}px);
-      display: flex;
-      align-items: center;
-    `}
-`
-
-
 const AppLayout = () => {
-
-  const appBarRef = useRef(null)
-  const appBarTabsRef = useRef(null)
-
-  const [height, setHeight] = useState(64)  
-  const [pageTitle, setPageTitle] = useState(null)
-
   const { locale } = useDateFnsLocale()
 
-  useLayoutEffect(() => {
-    if (appBarRef?.current) {
-      const { clientHeight } = appBarRef.current
-      setHeight(clientHeight)
-      console.debug(clientHeight)
-    }
-  }, [appBarRef])
-
   const contextObject = {
-    appBarTabsRef,
-    setPageTitle, 
-    appBarHeight: height,
+    appBarBackButtonRef: null,
+    appBarTabsRef: null,
+    setPageTitle: () => null, 
+    appBarHeight: 64,
   }
 
   return (
@@ -101,15 +61,11 @@ const AppLayout = () => {
         <Flex>
           <ModalProvider />
           <Notification />
-          <NavBar
-            pageTitle={pageTitle}
-            appBarRef={appBarRef}
-            appTabRef={appBarTabsRef}
-          />
-          <MainContent height={height}>
-            <ContentSpacer height={height}/>
-            <Routes routes={routes}/>
-          </MainContent> 
+          <Switch>
+            <Route path="/(security)" component={Security} />
+            <Route component={FarmApp} />
+          </Switch>
+
         </Flex>
         </AppContext.Provider>
       </LocalizationProvider>

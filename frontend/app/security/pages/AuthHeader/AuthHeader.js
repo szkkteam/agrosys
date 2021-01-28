@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { useRouteMatch, useLocation, Switch } from "react-router-dom";
 import { HashRoute } from 'utils/route'
 import { useHeightDifference } from 'utils/hooks'
-import { ROUTES, ROUTE_MAP } from 'routes'
+import { ROUTES, ROUTE_MAP } from 'security/routes'
 
 import { 
     TabHeader,

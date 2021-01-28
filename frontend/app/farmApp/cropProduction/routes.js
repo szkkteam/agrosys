@@ -56,6 +56,7 @@ export const ROUTES = {
    * Productions keys
    */
   CropProduction: 'CropProduction',
+  CropProductionDetail: 'CropProductionDetail',
 
   // CropProduction
   CropProductionTimeline: 'CropProductionTimeline',
@@ -64,6 +65,7 @@ export const ROUTES = {
   // Crop
   Crop: 'Crop',
   CropDetail: 'CropDetail',
+  CropDashboard: 'CropDashboard',
 
   // Season
   CropProductionSeason: 'CropProductionSeason',
@@ -127,6 +129,14 @@ export const routes = [
         //layoutComponent: HeaderContent,
         props: { exact: true },        
       },
+      {
+        key: ROUTES.CropDashboard,
+        path: '/dashboard',
+        component: PlaceholderDiv,
+        routeComponent: ProtectedRoute,
+        //layoutComponent: HeaderContent,
+        props: { exact: true },  
+      },
       /*
       {
         key: ROUTES.Crop,
@@ -153,95 +163,87 @@ export const routes = [
         ],
       },
       */
+    ]
+  },
+  {
+    key: ROUTES.CropProductionDetail,
+    path: '/crops/:cropId',
+    component: ProductionLayoutHeader,
+    routeComponent: ProtectedRoute,
+    layoutComponent: Content,
+    routes: [
       {
-        key: ROUTES.CropDetail,
-        path: '/:cropId',
+        /**
+         * This should handle the crop-season overview. Get the current season, and provide 
+         */
+        key: ROUTES.CropProductionSeasonContainer,
+        path: '/seasons',
         component: PlaceholderDiv,
         routeComponent: ProtectedRoute,
-        //props: { exact: true },
-        /**
-         * A crop alatt először a crop/summary nézetet kapjuk meg. Ezt azt tudja, hogy KPI-ket az aktuális szezonról,
-         * majd mutatja a szezonokat.
-         * Töltse be alapból szezon KPI nézetet. Jobb oldalon a szezon választó
-         * Ez a route redirecteljen az aktuális szezon routera
-         * 
-         */
+        //props: { exact: true }
         routes: [
+          // Exact routes must come before layout routes
           {
-            /**
-             * This should handle the crop-season overview. Get the current season, and provide 
-             */
-            key: ROUTES.CropProductionSeasonContainer,
-            path: '/seasons',
+            key: ROUTES.ProductionCreate,
+            path: '/new',
+            component: SeasonCreate,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },
+          {
+            key: ROUTES.CropProductionSeason,
+            path: '',
             component: PlaceholderDiv,
             routeComponent: ProtectedRoute,
-            //props: { exact: true }
             routes: [
-              // Exact routes must come before layout routes
               {
-                key: ROUTES.ProductionCreate,
-                path: '/new',
-                component: SeasonCreate,
+                key: ROUTES.CropProductionSeasonSummary,
+                path: '',
+                component: SeasonProduction,
                 routeComponent: ProtectedRoute,
                 props: { exact: true }
               },
               {
-                key: ROUTES.CropProductionSeason,
-                path: '',
-                component: ProductionLayoutHeader,
+                key: ROUTES.ProductionDetailTask,
+                path: '/:seasonId/tasks',
+                component: TaskProductionList,
                 routeComponent: ProtectedRoute,
-                layoutComponent: HeaderContent,
+                props: { exact: true }
+              },
+              {
+                key: ROUTES.CropProductionFieldProduction,
+                path: '/:seasonId/parcels',
+                component: PlaceholderDiv,
+                routeComponent: ProtectedRoute,
+                props: { exact: false },
                 routes: [
                   {
-                    key: ROUTES.CropProductionSeasonSummary,
+                    key: ROUTES.CropProductionFieldProductionList,
                     path: '',
-                    component: SeasonProduction,
+                    component: FieldProductionList,
                     routeComponent: ProtectedRoute,
-                    props: { exact: true }
+                    props: { exact: true },
                   },
                   {
-                    key: ROUTES.ProductionDetailTask,
-                    path: '/:seasonId/tasks',
-                    component: TaskProductionList,
-                    routeComponent: ProtectedRoute,
-                    props: { exact: true }
-                  },
-                  {
-                    key: ROUTES.CropProductionFieldProduction,
-                    path: '/:seasonId/parcels',
+                    key: ROUTES.FieldCreateDraw,
+                    path: '/new',
                     component: PlaceholderDiv,
                     routeComponent: ProtectedRoute,
-                    props: { exact: false },
-                    routes: [
-                      {
-                        key: ROUTES.CropProductionFieldProductionList,
-                        path: '',
-                        component: FieldProductionList,
-                        routeComponent: ProtectedRoute,
-                        props: { exact: true },
-                      },
-                      {
-                        key: ROUTES.FieldCreateDraw,
-                        path: '/new',
-                        component: PlaceholderDiv,
-                        routeComponent: ProtectedRoute,
-                        props: { exact: true }
-                      },
-                    ]
+                    props: { exact: true }
                   },
                 ]
               },
             ]
           },
-          {
-            key: ROUTES.CropSettings,
-            path: '/settings',
-            component: CropSettings,
-            routeComponent: ProtectedRoute,
-            props: { exact: true }
-          }, 
         ]
       },
+      {
+        key: ROUTES.CropSettings,
+        path: '/settings',
+        component: CropSettings,
+        routeComponent: ProtectedRoute,
+        props: { exact: true }
+      }, 
       /*
       {
         key: ROUTES.ProductionCreate,

@@ -6,26 +6,7 @@ import { Route, Redirect } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { enqueueNotification } from 'site/actions'
-import { ROUTES, ROUTE_MAP } from 'routes'
-
-
-export const ProtectedRoute = (props) => {
-  const {
-    component: Component,
-    location,
-    ...routeProps
-  } = props
-  const isAuthenticated = useSelector(state => state.security.isAuthenticated)
-
-  return <Route {...routeProps} render={(props) => (
-    isAuthenticated
-      ? <Component {...props} />
-      : <Redirect to={{
-          pathname: ROUTE_MAP[ROUTES.Login].path,
-          search: `?next=${location.pathname}`,
-        }} />
-  )} />
-}
+import { ROUTES, ROUTE_MAP } from 'farmApp/routes'
 
 class UnconnectedAnonymousRoute extends React.Component {
   componentDidMount() {
@@ -55,21 +36,7 @@ class UnconnectedAnonymousRoute extends React.Component {
   }
 }
 
-export const AnonymousRoute = connect(
+export default connect(
   (state) => ({ isAuthenticated: state.security.isAuthenticated }),
   (dispatch) => bindActionCreators({ enqueueNotification, push }, dispatch),
 )(UnconnectedAnonymousRoute)
-
-
-export const HashRoute = ({
-  component: Component,
-  path,
-  ...routeProps
-}) => (
-  <Route
-    {...routeProps}
-    render={({ location, ...props}) => 
-      location.hash === path && <Component location={location} {...props} />
-  } 
-  />
-)

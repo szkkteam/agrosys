@@ -7,6 +7,10 @@ export default defineMessages({
         id: `${scope}.title`,  
         defaultMessage: 'Production',
     },
+    pageTitle: {
+        id: `${scope}.page.title`,  
+        defaultMessage: 'Crop - Búza',
+    },
     tabSummaryTitle: {
         id: `${scope}.Summary.title`,  
         defaultMessage: 'Seasons',

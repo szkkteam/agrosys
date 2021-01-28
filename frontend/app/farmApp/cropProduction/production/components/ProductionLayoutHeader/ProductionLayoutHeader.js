@@ -5,11 +5,11 @@ import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { useRouteMatch, useLocation, useParams } from "react-router-dom";
 import { HashRoute } from 'utils/route'
-import { useHeightDifference } from 'utils/hooks'
+import { usePageTitle } from 'utils/hooks'
 import { ROUTES, ROUTE_MAP } from 'routes'
 
 import { 
-    TabHeader,
+    PageHeader,
     SplitButton
 } from 'components'
 
@@ -59,6 +59,7 @@ const ProductionLayoutHeader = ({
     // TODO: Get the current season from the storage. If no season is created yet, deactivate the rotues
     const params = { seasonId: 3}
 
+    usePageTitle(messages.pageTitle)
 
 
     const tabs = [
@@ -74,7 +75,8 @@ const ProductionLayoutHeader = ({
 
     return (
         <Container>
-            <TabHeader
+            <PageHeader
+                prevLink={ROUTES.Crop}
                 items={tabs}
                 params={params}
             />

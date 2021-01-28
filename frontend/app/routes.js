@@ -37,7 +37,6 @@ export const ROUTES = {
   ...farmAppRoutesKeys,
   ...securityRoutesKeys,
 }
-console.debug("ROUTE KEYS: ", ROUTES)
 /**
  * route details
  *
@@ -69,7 +68,6 @@ export const routes = [
     props: { exact: true }
   },
 ]
-console.debug("STATIC ROUTES: ", routes)
 /**
  * ROUTE_MAP: A public lookup for route details by key
  */
@@ -108,7 +106,6 @@ const complieRoutes = (routes, parentPath="") => {
   })
 }
 complieRoutes(routes)
-console.debug("ROUTE_MAP: ", ROUTE_MAP)
 
 // TODO: How to add the 404 route?
 // cachedRoutes.push(<Route component={NotFound} key="*" />)

@@ -39,6 +39,7 @@ const NavBar = ({
   pageTitle,
   appBarRef,
   appTabRef,
+  appBarBackButtonRef,
   isAuthenticated,
 }) => {
 
@@ -68,6 +69,7 @@ const NavBar = ({
         <AppBar
           ref={appBarRef}
           appTabRef={appTabRef}
+          appBarBackButtonRef={appBarBackButtonRef}
           title={pageTitle}
           isDrawerOpen={isDrawerOpen}
           onDrawerOpen={handleDrawerOpen}

@@ -1,3 +1,4 @@
+import { compileRoutes } from 'utils/route/utils'
 
 import {
   DashboardHome
@@ -154,3 +155,8 @@ export const routes = [
   ...productionRoutes,
   
 ]
+
+export const ROUTE_MAP = {}
+
+// Compile the routes to a flat list
+compileRoutes(ROUTE_MAP, routes)

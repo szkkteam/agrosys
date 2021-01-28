@@ -4,72 +4,57 @@ import styled from 'styled-components'
 import { useIntl, FormattedMessage } from 'react-intl'
 import { useParams, useRouteMatch, Redirect } from 'react-router-dom'
 import { ROUTES, ROUTE_MAP } from 'routes'
+import { withLinkComponent } from 'utils/hoc'
+
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 import {
-    Portal
+    Portal,
+    IconButton
 } from '@material-ui/core';
+
+const ButtonLink = withLinkComponent(IconButton)
 
 import AppContext from 'components/AppContext'
 
 import { Tabs, TabLink } from 'components'
 
+import TabHeader from './TabHeader'
 
-const StyledTab = styled(props => <TabLink {...props}/>)`
-    ${({ theme }) => `
-        &.Mui-selected {
-            color: ${theme.palette.primary.main}
-        }
+const BackIcon = styled(ArrowBackIosIcon)`
+    ${({theme}) => `
+        color: ${theme.palette.primary.contrastText};
     `}
     
 `
 
 const PageHeader = ({
-    items,
-    value,
-    redirectTo=null,
+    prevLink,
     ...props
 }) => {
-    const redirectRoute = ROUTE_MAP[redirectTo ?? items[0].to]
-    const isMatchFound = !_.isNull(value)
-
+    
     const {
         appBarTabsRef,
+        appBarBackButtonRef,
     } = useContext(AppContext)
     
   
     return (
-        <Portal container={appBarTabsRef.current}>
-            { !isMatchFound
-                ? <Redirect to={redirectRoute.toPath()} />
-                : <Tabs
-                    value={value}
-                    orientation="horizontal"
-                    variant="scrollable"
-                    scrollButtons="auto"
-                    TabIndicatorProps={{
-                        style: {
-                            height: "85%",
-                            backgroundColor: "white",
-                            zIndex: "-1",
-                            borderTopLeftRadius: "15px",
-                            borderTopRightRadius: "15px",
-
-                        }
-                    }}
-                >
-                    { items && items.map((item, i) => {
-                        const { to, label, value, params={} } = item
-                        return <StyledTab key={i} to={to} label={label} params={{...params}} value={value} />
-                    }
-                            
-                    )}
-                </Tabs> 
-            }
-        </Portal>           
+        <>
+            {prevLink && <Portal container={appBarBackButtonRef.current}>
+                <ButtonLink to={prevLink}>
+                    <BackIcon />
+                </ButtonLink>
+            </Portal>}
+            <Portal container={appBarTabsRef.current}>
+                <TabHeader {...props} />
+            </Portal>           
+        </>
     )
 }
 
 PageHeader.propTypes = {
+    /*
     items: PropTypes.arrayOf(PropTypes.shape({
         to: PropTypes.string.isRequired,
         label: PropTypes.string.isRequired,
@@ -77,6 +62,7 @@ PageHeader.propTypes = {
     })),
     value: PropTypes.any,
     redirectTo: PropTypes.string,
+    */
 }
 
 export default PageHeader

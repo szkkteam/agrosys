@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState, forwardRef } from 'react'
+import React, { useContext, useMemo, useState, forwardRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
 import styled from 'styled-components'
@@ -36,56 +36,21 @@ const CropProductionMyCropsHeader = ({
     //const isLoading = true
     //const userCrops = []
 
+    useEffect(() => {
+        console.debug("Mount - CropProductionMyCropsHeader")
+        return () => {
+            console.debug("unmount - CropProductionMyCropsHeader")
+        }
+    }, [])
 
     const items = [
-        {value: "0", label: intl.formatMessage(messages.productionMultiView), to: ROUTES.Crop},
+        {label: intl.formatMessage(messages.productionMultiView), to: ROUTES.Crop},
+        {label: intl.formatMessage(messages.cropDashboard), to: ROUTES.CropDashboard},
     ]
 
-    const tabItems = useMemo(() => {
-
-        const userCropTabs = userCrops.map(({id, title}) => ({
-            params: {cropId: id},
-            value: id.toString(),
-            label: title,
-            to: ROUTES.CropProductionSeason,
-        }))
-        if (isLoading) {
-            return items
-        } else {
-            return _.concat(items, userCropTabs)
-        }
-        
-    }, [userCrops, isLoading])
-
-
-    let value = null
-    let foundMatch = null
-    {
-        const route = ROUTE_MAP[ROUTES.CropDetail]
-        const matched = useRouteMatch({ path: route?.path, ...route.props})   
-        if (matched) {
-            foundMatch = matched
-            value = matched.params.cropId
-        }
-    }
-    
-
-    if (!foundMatch) {
-        const route = ROUTE_MAP[ROUTES.Crop]
-        const matched = useRouteMatch({ path: route?.path, ...route.props})  
-        if (matched) {
-            foundMatch = matched
-            value = "0"
-        }
-    }
-    console.debug("tabItems: ", tabItems)
-    console.debug("foundMatch: ", foundMatch)
-    console.debug("value: ", value)
-    
     return (
         <PageHeader 
-            items={tabItems}
-            value={foundMatch? value : null}
+            items={items}
             redirectTo={ROUTES.Crop}
             
         />                 
