@@ -1,20 +1,29 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Content from 'components/Layout/Content'
+import { Redirect } from 'react-router-dom'
+
+import { ResourceAppBar } from 'farmApp/resource/components'
 
 import {
-  WorkerList,
-} from 'farmApp/resource/worker/pages'
+  machineryOverview,
+  machineryDetail,
+  ROUTES as machineryRoutesKeys,
+} from 'farmApp/resource/machinery/routes'
+
+import {
+  workerOverview,
+  //machineryDetail,
+  ROUTES as workerRoutesKeys,
+} from 'farmApp/resource/worker/routes'
+
+
 
 import {
   FieldList,
   FieldCreateDraw,
   FieldEdit,
 } from 'farmApp/resource/field/pages'
-
-import {
-  MachineryList
-} from 'farmApp/resource/machinery/pages'
 
 import {
   EntityList
@@ -43,11 +52,7 @@ export const ROUTES = {
     ResourceFieldCreateDraw: 'ResourceFieldCreateDraw',
     ResourceFieldCreateUpload: 'ResourceFieldCreateUpload',
   
-    // Worker
-    WorkerList: 'WorkerList',
   
-    // Machinery
-    MachineryList: 'MachineryList',
     // Entitiy
     EntityList: 'EntityList',
     /**
@@ -59,6 +64,9 @@ export const ROUTES = {
   
     // Inventory
     InventoryList: 'InventoryList',  
+
+    ...machineryRoutesKeys,
+    ...workerRoutesKeys
 }
 
 
@@ -81,15 +89,21 @@ const PlaceholderDiv = props => <PlaceHolder />
  *  - label: optional, label to use for links (default: startCase(key))
  */
 
+
+const RedirectToOverview = (props) => (
+  <Redirect to={"/resources/overview"} />
+)
+
+
 export const routes = [
   {
     key: ROUTES.Resource,
-    path: '/resource',
-    component: ResourceHeaderTab,
+    path: '/resources',
+    //component: ResourceAppBar,
+    component: ResourceAppBar,
     routeComponent: ProtectedRoute,
-    layoutComponent: Content,
+    //layoutComponent: Content,
     routes: [
-      // Field routes
       {
         key: ROUTES.ResourceField,
         path: '/fields',
@@ -127,22 +141,7 @@ export const routes = [
         ]
         //props: { exact: true }
       },
-      // Worker routes    
-      {
-        key: ROUTES.WorkerList,
-        path: '/workers',
-        component: WorkerList,
-        routeComponent: ProtectedRoute,
-        //props: { exact: true }
-      },
-      // Machinery routes  
-      {
-        key: ROUTES.MachineryList,
-        path: '/machinery',
-        component: MachineryList,
-        routeComponent: ProtectedRoute,
-        props: { exact: true }
-      },
+          
       // Entity routes  
       {
         key: ROUTES.EntityList,
@@ -151,6 +150,9 @@ export const routes = [
         routeComponent: ProtectedRoute,
         props: { exact: true }
       },
+      ...machineryOverview,
+      ...workerOverview,
+      //...machineryDetail,
     ]
   },
   // Inventory routes  
@@ -161,4 +163,5 @@ export const routes = [
     routeComponent: ProtectedRoute,
     props: { exact: false }
   },
+
 ]

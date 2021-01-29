@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 
@@ -32,6 +32,7 @@ const NavBar = ({
     handleDrawerOpen,
     handleDrawerClose,
   }
+
 
   return (
       <NavigationContext.Provider

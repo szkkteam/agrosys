@@ -12,7 +12,7 @@ class UnconnectedAnonymousRoute extends React.Component {
   componentDidMount() {
     const { isAuthenticated, push, enqueueNotification } = this.props
     if (isAuthenticated) {
-      push(ROUTE_MAP[ROUTES.DashboardHome].path)
+      push(ROUTE_MAP[ROUTES.DashboardOverview].path)
       enqueueNotification({
         message: 'You are already logged in.',
         options: {

@@ -12,6 +12,7 @@ import styled, { ThemeProvider } from 'styled-components'
 import { Switch, Route } from 'react-router-dom'
 
 import { useDateFnsLocale } from 'utils/hooks'
+import { ProtectedRoute, AnonymusRoute } from 'utils/route'
 
 import { defaultTheme } from 'themes'
 
@@ -47,6 +48,10 @@ const AppLayout = () => {
     setPageTitle: () => null, 
     appBarHeight: 64,
   }
+  /*
+              <AnonymusRoute path="/(security)" component={Security} />
+            <ProtectedRoute path="*" component={FarmApp}/>
+  */
 
   return (
     <FullSizeDiv>
@@ -61,10 +66,10 @@ const AppLayout = () => {
         <Flex>
           <ModalProvider />
           <Notification />
-          <Switch>
-            <Route path="/(security)" component={Security} />
-            <Route component={FarmApp} />
-          </Switch>
+            <Switch>
+              <AnonymusRoute path="/(security)" component={Security} />
+              <ProtectedRoute path="*" component={FarmApp}/>
+            </Switch>
 
         </Flex>
         </AppContext.Provider>

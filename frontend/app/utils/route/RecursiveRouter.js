@@ -16,6 +16,7 @@ const RecursiveRouter = ({
               path={path}
               //key={path}
               key="1"
+              //key={key}
               component={props => {  
                   const { match } = props
                   return (
@@ -35,4 +36,6 @@ const RecursiveRouter = ({
   )
 }
 
-export default RecursiveRouter
+
+
+export default React.memo(RecursiveRouter)

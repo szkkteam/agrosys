@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef, useState, useLayoutEffect } from 'react'
+import React, { forwardRef, useEffect, useState, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { useIntl, FormattedMessage } from 'react-intl'
@@ -66,7 +66,7 @@ const ContentSpacer = styled(({height: dummy = null, ...rest}) => <div {...rest}
 `
 
 const PageTitle = styled(Typography)`
-    width: 200px;
+    min-width: 200px;
     font-size: 1.5rem;
 `
 
@@ -93,6 +93,14 @@ const AppBar = forwardRef(({
     goUpRoute,
     children,
 }, ref) => { 
+
+
+  useEffect(() => {
+    console.debug("appbar - mount")
+    return () => {
+      console.debug("appbar - un-mount")
+    }
+  })
 
     return (
         <StyledAppBar 
@@ -135,7 +143,9 @@ const AppBar = forwardRef(({
 
 AppBar.propTypes = {
     title: PropTypes.object,
-    goUpRoute: PropTypes.string,
+    goUpRoute: PropTypes.shape({
+        to: PropTypes.string.isRequired
+    }),
 }
 
 export default Container

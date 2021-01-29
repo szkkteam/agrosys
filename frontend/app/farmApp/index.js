@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect } from 'react'
+import React, { useState, useRef, useLayoutEffect, useEffect } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 
 import { useDateFnsLocale } from 'utils/hooks'
@@ -34,38 +34,45 @@ const ContentSpacer = styled(({height: dummy = null, ...rest}) => <div {...rest}
     `}
 `
 
+class FarmApp extends React.Component {
 
+  componentDidMount() {
+    console.debug("farmApp - mount")
+  }
+
+  render() {
+    return (
+      <>
+      <NavBar />
+      <MainContent>
+        <RecursiveRouter routes={routes} routeMap={ROUTE_MAP} />
+      </MainContent> 
+    </>
+    )
+  }
+}
+
+export default FarmApp
+/*
 export default (props) => {
 
-  const appBarRef = useRef(null)
-  const appBarTabsRef = useRef(null)
-  const appBarBackButtonRef = useRef(null)
-
-  const [height, setHeight] = useState(64)  
-  const [pageTitle, setPageTitle] = useState(null)
-
-  const { locale } = useDateFnsLocale()
-
-  useLayoutEffect(() => {
-    if (appBarRef?.current) {
-      const { clientHeight } = appBarRef.current
-      setHeight(clientHeight)
-      console.debug(clientHeight)
+  useEffect(() => {
+    console.debug("farmApp - mount")
+    return () => {
+      console.debug("farmApp - un-mount")
     }
-  }, [appBarRef])
-
-  console.debug("Render navbar")
+  })
 
   return (
     <>
       <NavBar />
-      <MainContent height={height}>
+      <MainContent>
         <RecursiveRouter routes={routes} routeMap={ROUTE_MAP} />
       </MainContent> 
     </>
   )
 }
-  
+  */
 /*
 <NavBar
         pageTitle={pageTitle}

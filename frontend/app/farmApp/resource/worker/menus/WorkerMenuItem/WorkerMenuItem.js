@@ -13,7 +13,7 @@ const WorkerMenuItem = ({
     return (
         <MenuItem
             title={messages.title}
-            to={ROUTES.WorkerList}
+            to={ROUTES.ResourceWorker}
             IconComponent={PeopleIcon}
             {...rest}
         />       

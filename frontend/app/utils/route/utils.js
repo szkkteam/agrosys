@@ -5,11 +5,12 @@ import { compile } from 'path-to-regexp'
 
 export const compileRoutes = (routeMap, routes, parentPath="") => {
     routes.forEach((route) => {
-      let { component, key, label, path: relPath, routeComponent, props } = route
-    
+      let { component = null, key, label, path: relPath, routeComponent, props } = route
+      /*
       if (!component) {
         throw new Error(`component was not specified for the ${key} route!`)
       }
+      */
       /*
       if (!relPath) {
         throw new Error(`path was not specified for the ${key} route!`)
