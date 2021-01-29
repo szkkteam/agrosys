@@ -13,7 +13,7 @@ const DashboardMenuItem = ({
     return (
         <MenuItem
             title={messages.title}
-            to={ROUTES.DashboardHome}
+            to={ROUTES.DashboardOverview}
             IconComponent={DashboardIcon}
             {...rest}
         />       

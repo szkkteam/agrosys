@@ -10,7 +10,6 @@ export { MenuButton, NestedMenuItem, MenuItem, ItemMenu } from './Menu'
 
 export { ViewButtonGroup } from './ButtonGroup'
 export { HeaderContent, MasterDetail, Content, SideSheet, HeaderContentContext, Container } from './Layout'
-export { TabLink, Tabs, TabsButton, TabButton } from './Tab'
 export { TabHeader, PageHeader } from './Header'
 export { MasterList } from './List'
 export { Popover } from './Popover'
@@ -22,3 +21,5 @@ export { Modal, ModalContext, ModalHeader, ModalFooter, ModalContent } from './M
 export { Stepper, StepperContent, StepperHeader, StepperContext } from './Stepper'
 // Buttons
 export { SubmitButton, BackButton, SplitButton, SearchButton, PrimaryActionButton, PrimaryButton, SecondaryButton } from './Button'
+// Tabs
+export { TabLink, Tabs, TabsButton, TabButton, TabsRoute } from './Tab'

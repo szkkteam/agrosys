@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
-import { ROUTES } from 'routes'
+import { ROUTES } from 'farmApp/routes'
 
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import { NavRailItem } from 'components/NavRail'
@@ -13,7 +13,7 @@ const DashboardMenuItem = ({
     return (
         <NavRailItem
             title={messages.title}
-            to={ROUTES.DashboardHome}
+            to={ROUTES.DashboardOverview}
             IconComponent={DashboardIcon}
             {...rest}
         />       

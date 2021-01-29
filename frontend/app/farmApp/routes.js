@@ -1,8 +1,9 @@
 import { compileRoutes } from 'utils/route/utils'
 
 import {
-  DashboardHome
-} from 'farmApp/dashboard/dashboard/pages'
+  routes as dashboardRoutes,
+  ROUTES as dashboardRoutesKeys,
+} from 'farmApp/dashboard/routes'
 
 import {
   routes as reportRoutes,
@@ -58,7 +59,7 @@ import { AnonymousRoute, ProtectedRoute } from 'utils/route'
  */
 export const ROUTES = {
   // Dashboard
-  DashboardHome: 'DashboardHome',
+  ...dashboardRoutesKeys,
 
   /**
    * Report keys
@@ -94,14 +95,7 @@ console.debug("ROUTE KEYS: ", ROUTES)
  */
 
 export const routes = [
-  // Dashboard routes
-  {
-    key: ROUTES.DashboardHome,
-    path: '/',
-    component: DashboardHome,
-    routeComponent: ProtectedRoute,
-    props: { exact: true}
-  },
+  ...dashboardRoutes,
   // Report routes  
   ...reportRoutes,
   // Sale routes  
