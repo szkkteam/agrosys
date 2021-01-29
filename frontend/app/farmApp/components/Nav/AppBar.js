@@ -71,23 +71,6 @@ const PageTitle = styled(Typography)`
 `
 
 
-const Container = (props) => {
-    return (
-        <SizeMe monitorHeight noPlaceholder>
-            {({ size }) => 
-                <>
-                    <AppBar
-                        size={size}
-                        {...props}
-                    />
-                    <ContentSpacer height={size.height} />
-                </>
-            }
-        </SizeMe>
-    )
-}
-
-
 const AppBar = forwardRef(({
     title,
     goUpRoute,
@@ -98,43 +81,51 @@ const AppBar = forwardRef(({
   useEffect(() => {
     console.debug("appbar - mount")
     return () => {
-      console.debug("appbar - un-mount")
+      //console.debug("appbar - un-mount")
     }
-  })
+  }, [])
 
     return (
-        <StyledAppBar 
-            ref={ref}
-            position="fixed"
-        >
-            <Toolbar>               
-                <div>
-                    { goUpRoute &&
-                        <BackButtonLink {...goUpRoute} />
-                    }
-                </div>  
-                <PageTitle variant="h1">
-                    {title? <FormattedMessage {...title} /> : null }
-                </PageTitle>
-                <div>
-                    {children}
-                </div>
-                <div style={{flexGrow: 1}} />
-                <div className="">
-                    <NotificationButton />
-                    <IconButton
-                        edge="end"
-                        aria-label="account of current user"
-                        aria-controls="primary-search-account-menu"
-                        aria-haspopup="true"
-                        //onClick={handleProfileMenuOpen}
-                        color="inherit"
+        <SizeMe monitorHeight noPlaceholder>
+            {({ size }) => 
+                <>
+                    <StyledAppBar 
+                        ref={ref}
+                        position="fixed"
                     >
-                        <AccountCircle />
-                    </IconButton>                    
-                </div>
-            </Toolbar>
-        </StyledAppBar>
+                        <Toolbar>               
+                            <div>
+                                { goUpRoute &&
+                                    <BackButtonLink {...goUpRoute} />
+                                }
+                            </div>  
+                            <PageTitle variant="h1">
+                                {title? <FormattedMessage {...title} /> : null }
+                            </PageTitle>
+                            <div>
+                                {children}
+                            </div>
+                            <div style={{flexGrow: 1}} />
+                            <div className="">
+                                <NotificationButton />
+                                <IconButton
+                                    edge="end"
+                                    aria-label="account of current user"
+                                    aria-controls="primary-search-account-menu"
+                                    aria-haspopup="true"
+                                    //onClick={handleProfileMenuOpen}
+                                    color="inherit"
+                                >
+                                    <AccountCircle />
+                                </IconButton>                    
+                            </div>
+                        </Toolbar>
+                    </StyledAppBar>
+                    <ContentSpacer height={size.height} />
+                </>
+            }
+        </SizeMe>
+        
     )
 })
 /*
@@ -148,4 +139,4 @@ AppBar.propTypes = {
     }),
 }
 
-export default Container
+export default React.memo(AppBar)

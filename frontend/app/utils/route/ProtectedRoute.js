@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
@@ -12,7 +12,7 @@ const ProtectedRoute = (props) => {
     ...routeProps
   } = props
   const isAuthenticated = useSelector(state => state.security.isAuthenticated)
-  /*
+  
   return <Route {...routeProps} render={(props) => (
     isAuthenticated
       ? <Component {...props} />
@@ -21,19 +21,6 @@ const ProtectedRoute = (props) => {
           search: `?next=${location.pathname}`,
         }} />
   )} />
-        */
-  return (
-    <Route key="1" {...routeProps}>
-      {(props) => (
-        isAuthenticated
-        ? <Component {...props} />
-        : <Redirect to={{
-            pathname: ROUTE_MAP[ROUTES.Login].path,
-            search: `?next=${location.pathname}`,
-          }} />
-      )}
-    </Route>
-  )
 }
 
-export default React.memo(ProtectedRoute)
+export default ProtectedRoute

@@ -46,4 +46,4 @@ Tabs.propTypes = {
     children: PropTypes.arrayOf(PropTypes.element)
 }
 
-export default Tabs
+export default React.memo(Tabs)

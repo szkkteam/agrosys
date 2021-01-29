@@ -34,14 +34,12 @@ export const routes = [
     key: 'DashboardAppbar',
     path: '/dashboard',
     component: DashboardAppBar,
-    routeComponent: ProtectedRoute,
     routes: [
       // Dashboard routes
       {
         key: ROUTES.DashboardOverview,
         path: '',
         component: DashboardHome,
-        routeComponent: ProtectedRoute,
         props: { exact: true}
       },
     ]

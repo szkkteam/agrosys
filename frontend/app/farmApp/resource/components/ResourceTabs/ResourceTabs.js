@@ -30,4 +30,4 @@ ResourceTabs.propTypes = {
 
 }
 
-export default ResourceTabs
+export default React.memo(ResourceTabs)

@@ -17,6 +17,9 @@ export const ROUTES = {
     ResourceMachinery: 'ResourceMachinery',
 
     MachineryDatabase: 'MachineryDatabase',
+
+    TESTA: 'TEST1',
+    TESTB: 'TEST2',
   
 }
 
@@ -39,9 +42,20 @@ export const machineryOverview = [
         key: ROUTES.ResourceMachinery,
         path: '/machinery',
         component: MachineryOverview,
-        routeComponent: ProtectedRoute,
         // TODO: Include a table view, and the reservations view
         //props: { exact: true }
+        routes: [
+            {
+                key: ROUTES.TESTA,
+                path: '/test1',
+                component: 'div',
+            },
+            {
+                key: ROUTES.TESTB,
+                path: '/test2',
+                component: 'div',
+            }
+        ]
     },
 ]
 
@@ -50,7 +64,6 @@ export const machineryDetail = [
         key: 'MachineryDetailAppbar',
         path: '/machinery',
         component: MachineryTableAppBar,
-        routeComponent: ProtectedRoute,
         // TODO: Include a table view, and the reservations view
         //props: { exact: true }
         routes: [
@@ -58,7 +71,6 @@ export const machineryDetail = [
                 key: ROUTES.MachineryDatabase,
                 path: '/list',
                 component: MachineryTable,
-                routeComponent: ProtectedRoute,
                 // TODO: Include a table view, and the reservations view
                 //props: { exact: true }
             },

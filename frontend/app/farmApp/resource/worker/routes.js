@@ -37,7 +37,6 @@ export const workerOverview = [
         key: ROUTES.ResourceWorker,
         path: '/worker',
         component: WorkerOverview,
-        routeComponent: ProtectedRoute,
         // TODO: Include a table view, and the reservations view
         //props: { exact: true }
     },

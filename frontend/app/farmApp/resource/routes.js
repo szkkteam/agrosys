@@ -76,7 +76,14 @@ const PlaceHolder = styled.div`
     height: 100%;
   }
 `
-const PlaceholderDiv = props => <PlaceHolder />
+const PlaceholderDiv = props => {
+
+  useEffect(() => {
+    console.debug("PlaceholderDiv - mount")
+  }, [])
+
+  return <PlaceHolder key="123456"/>
+}
 
 /**
  * route details
@@ -90,69 +97,82 @@ const PlaceholderDiv = props => <PlaceHolder />
  */
 
 
-const RedirectToOverview = (props) => (
-  <Redirect to={"/resources/overview"} />
-)
+const RedirectToOverview = (props) => {
+  return <Redirect to={"/resources/overview"} />
+}
 
+
+const MemoizedRedirect = React.memo(RedirectToOverview)
 
 export const routes = [
   {
     key: ROUTES.Resource,
     path: '/resources',
-    //component: ResourceAppBar,
-    component: ResourceAppBar,
-    routeComponent: ProtectedRoute,
+    component: 'div',
+    //component: PlaceholderDiv,
     //layoutComponent: Content,
     routes: [
       {
-        key: ROUTES.ResourceField,
-        path: '/fields',
-        component: PlaceholderDiv,
-        routeComponent: ProtectedRoute,
-        routes: [
-          {
-            key: ROUTES.ResourceFieldList,
-            path: '',
-            component: FieldList,
-            routeComponent: ProtectedRoute,
-            props: { exact: true }
-          },
-          {
-            key: ROUTES.ResourceFieldEdit,
-            path: '/:id/edit',
-            component: FieldEdit,
-            routeComponent: ProtectedRoute,
-            props: { exact: true }
-          },
-          {
-            key: ROUTES.ResourceFieldCreateDraw,
-            path: '/new/draw',
-            component: FieldCreateDraw,
-            routeComponent: ProtectedRoute,
-            props: { exact: true }
-          },
-          {
-            key: ROUTES.ResourceFieldCreateUpload,
-            path: '/new/upload',
-            component: FieldList,
-            routeComponent: ProtectedRoute,
-            props: { exact: true }
-          },          
-        ]
-        //props: { exact: true }
-      },
-          
-      // Entity routes  
-      {
-        key: ROUTES.EntityList,
-        path: '/entities',
-        component: EntityList,
-        routeComponent: ProtectedRoute,
+        key: 'RedirectToOVerview',
+        path: '',
+        component: RedirectToOverview,
         props: { exact: true }
       },
-      ...machineryOverview,
-      ...workerOverview,
-      //...machineryDetail,
+      {
+        key: 'ResourceAppBar',
+        path: '/overview',
+        component: ResourceAppBar,
+        routes: [
+          {
+            key: ROUTES.ResourceField,
+            path: '/fields',
+            component: PlaceholderDiv,
+            routeComponent: ProtectedRoute,
+            routes: [
+              {
+                key: ROUTES.ResourceFieldList,
+                path: '',
+                component: FieldList,
+                routeComponent: ProtectedRoute,
+                props: { exact: true }
+              },
+              {
+                key: ROUTES.ResourceFieldEdit,
+                path: '/:id/edit',
+                component: FieldEdit,
+                routeComponent: ProtectedRoute,
+                props: { exact: true }
+              },
+              {
+                key: ROUTES.ResourceFieldCreateDraw,
+                path: '/new/draw',
+                component: FieldCreateDraw,
+                routeComponent: ProtectedRoute,
+                props: { exact: true }
+              },
+              {
+                key: ROUTES.ResourceFieldCreateUpload,
+                path: '/new/upload',
+                component: FieldList,
+                routeComponent: ProtectedRoute,
+                props: { exact: true }
+              },          
+            ]
+            //props: { exact: true }
+          },
+              
+          // Entity routes  
+          {
+            key: ROUTES.EntityList,
+            path: '/entities',
+            component: EntityList,
+            routeComponent: ProtectedRoute,
+            props: { exact: true }
+          },
+          ...machineryOverview,
+          ...workerOverview,
+        ]
+      },
     ]
   },
   // Inventory routes  
@@ -160,8 +180,11 @@ export const routes = [
     key: ROUTES.InventoryList,
     path: '/inventory',
     component: InventoryList,
-    routeComponent: ProtectedRoute,
     props: { exact: false }
   },
 
 ]
+
+/*
+
+*/

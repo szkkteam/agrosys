@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Helmet from 'react-helmet'
 import messages from './messages';
 import { useIntl } from 'react-intl'
@@ -16,10 +16,22 @@ import { Button } from "@material-ui/core";
 
 const Link = withLinkComponent(Button)
 
+import { TabsRoute } from 'components'
+
 export default ({
 
 }) => {
     const intl = useIntl()
+
+    useEffect(() => {
+
+        console.debug("MachineryOverview - mount")
+    }, [])
+
+    const items = [
+        {to: ROUTES.TESTA, label: 'test 1'},
+        {to: ROUTES.TESTB, label: 'test 2'},
+    ]
 
     return (
         <>
@@ -31,7 +43,9 @@ export default ({
             <Link to={ROUTES.MachineryDatabase}>                
                 Go to machinery database
             </Link>
-            <div>Overview</div>
+            <TabsRoute 
+                items={items}
+            />
         </>
     )
 }
