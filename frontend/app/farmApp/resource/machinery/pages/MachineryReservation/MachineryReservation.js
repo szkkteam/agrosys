@@ -24,7 +24,7 @@ export default ({
             <MachineryTableAppBar
                 title={messages.title}
             />
-            <div>Header, filters, table management, etc</div>
+            <div>Reservation Header, filters, table management, etc</div>
         </>
     )
 }

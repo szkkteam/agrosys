@@ -5,6 +5,8 @@ import Content from 'components/Layout/Content'
 import {
     WorkerList,
     WorkerOverview,
+    WorkerTable,
+    WorkerRole,
 } from 'farmApp/resource/worker/pages'
   
 
@@ -15,6 +17,8 @@ export const ROUTES = {
     // Worker
     ResourceWorker: 'ResourceWorker',
 
+    WorkerDatabase: 'WorkerDatabase',
+    WorkerRole: 'WorkerRole',
   
 }
 
@@ -41,26 +45,20 @@ export const workerOverview = [
         //props: { exact: true }
     },
 ]
-/*
+
 export const workerDetail = [
     {
-        key: 'MachineryDetailAppbar',
-        path: '/machinery',
-        component: MachineryTableAppBar,
-        routeComponent: ProtectedRoute,
+        key: ROUTES.WorkerDatabase,
+        path: '/worker',
+        component: WorkerTable,
         // TODO: Include a table view, and the reservations view
-        //props: { exact: true }
-        routes: [
-            {
-                key: ROUTES.MachineryDatabase,
-                path: '/list',
-                component: MachineryTable,
-                routeComponent: ProtectedRoute,
-                // TODO: Include a table view, and the reservations view
-                //props: { exact: true }
-            },
-        ]
+        props: { exact: true }
     },
+    {
+        key: ROUTES.WorkerRole,
+        path: '/worker/role',
+        component: WorkerRole,
+        props: { exact: true }
+    }
     
 ]
-*/

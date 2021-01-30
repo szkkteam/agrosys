@@ -23,14 +23,14 @@ const RecursiveRouter = ({
     parentMatch="",
     routeMap,
 }) => {
-
+  /*
   useEffect(() => {
     console.debug("RecursiveRouter - mount: ", parentMatch)
     return () => {
       console.debug("RecursiveRouter - unmount: ", parentMatch)
     }
   }, [])
-
+  */
 
   return (
       <Switch>

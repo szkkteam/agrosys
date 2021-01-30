@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
-import { ROUTES, ROUTE_MAP } from 'farmApp/routes'
+import { ROUTES } from 'farmApp/routes'
 
 import { AppBar } from 'farmApp/components'
 
@@ -13,11 +13,10 @@ import { AppBar } from 'farmApp/components'
 const ResourceAppBar = ({
     ...props
 }) => {
-   
     return (
         <AppBar
             goUpRoute={{
-                to: ROUTES.ResourceMachinery
+                to: ROUTES.ResourceWorker
             }}
             {...props}
         >

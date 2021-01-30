@@ -9,8 +9,12 @@ import {
 } from '@material-ui/core'
 
 const StyledSecondaryButton = styled(Button)`
-    margin: 10px 7px;
-    min-width: 100px;
+    ${({theme}) => `
+        margin: 10px 7px;
+        min-width: 50px;
+        min-width: 100px;
+    `}
+    
 `
 
 const SecondaryButton = ({

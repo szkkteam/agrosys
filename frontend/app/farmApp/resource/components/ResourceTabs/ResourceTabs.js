@@ -15,7 +15,7 @@ const ResourceTabs = ({
     const routes = [
         {to: ROUTES.ResourceMachinery, label: intl.formatMessage(messages.machinery) },
         {to: ROUTES.ResourceWorker, label: intl.formatMessage(messages.worker) },
-        //{to: ROUTES.DashboardOverview, label: intl.formatMessage(messages.entity) },
+        {to: ROUTES.ResourceField, label: intl.formatMessage(messages.field) },
         //{to: ROUTES.DashboardOverview, label: intl.formatMessage(messages.resource) },
     ]
 

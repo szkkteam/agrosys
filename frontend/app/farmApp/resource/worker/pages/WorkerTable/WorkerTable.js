@@ -3,8 +3,8 @@ import Helmet from 'react-helmet'
 import messages from './messages';
 import { useIntl } from 'react-intl'
 
-import { 
-    MachineryTableAppBar,
+import {
+    WorkerTableAppBar
 } from '../../components'
 
 export default ({
@@ -21,10 +21,10 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <MachineryTableAppBar
+            <WorkerTableAppBar
                 title={messages.title}
             />
-            <div>Header, filters, table management, etc</div>
+            <div>Worker Header, filters, table management, etc</div>
         </>
     )
 }

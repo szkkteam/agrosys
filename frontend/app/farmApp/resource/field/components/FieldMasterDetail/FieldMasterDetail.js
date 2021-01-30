@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import messages from './messages'
 import styled from 'styled-components'
 import { useIntl, FormattedMessage } from 'react-intl'
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { MASTER_DETAIL_BREAKPOINT } from 'farmApp/constants'
 
 import { 
     MasterDetail,
@@ -27,24 +30,25 @@ const FieldMasterDetail = ({
         setSelected(null)
     }
 
+    const theme = useTheme();
+    const isLarge = useMediaQuery(theme.breakpoints.up(MASTER_DETAIL_BREAKPOINT));
+
     return (
         <MasterDetail
         >
             <FieldMasterList
                 onSelect={handleSelect}
-            />            
-            <SideSheet
-                open={!!selected}
-            >
+            /> 
+            {isLarge &&
                 <MapContainer
                     controls={
                         <>
-                        <MapControlGeoSearch />
+                            <MapControlGeoSearch />
                         </>
                     }
                 />
-                <div>Detail</div>
-            </SideSheet>
+            }
+                     
         </MasterDetail>
     )
 }

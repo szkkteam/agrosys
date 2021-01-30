@@ -96,8 +96,6 @@ const ActionIcon = styled(props => <ItemMenu {...props}/>)`
 
 const FieldListItem = ({
     data,
-    match,
-    history,
     children,
     className,
     disableAction=false,

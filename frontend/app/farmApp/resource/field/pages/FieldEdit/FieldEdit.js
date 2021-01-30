@@ -5,7 +5,10 @@ import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { Content } from 'components'
 
-import { FieldEdit } from '../../components'
+import { 
+    FieldEdit,
+    FieldAppBar
+} from '../../components'
 
 /**
  * 1) Render a form component
@@ -33,10 +36,13 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-                <Content>
-                    <FieldEdit 
-                    />
-                </Content>
+            <FieldAppBar
+                title={{
+                    values: { fieldTitle: 'Saját földem 1' },
+                    ...messages.title}}
+            />
+            <FieldEdit 
+            />
         </>
     )
 }

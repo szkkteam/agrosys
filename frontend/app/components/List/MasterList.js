@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { useRouteMatch, useHistory } from "react-router-dom";
 import { useIntl, FormattedMessage } from 'react-intl'
+import sizeMe, { SizeMe } from 'react-sizeme'
 
-import { useHeightDifference } from 'utils/hooks'
+import { PrimaryActionButton } from 'components'
 
 import {
     List,
@@ -12,53 +13,33 @@ import {
 
  import MasterListContext from './MasterListContext'
 
+const bottomPadding = 10
+
 const Container = styled.div`
     position: relative;
-    height: 100%;
+    height: calc(100% - ${bottomPadding}px);
     width: 100%;
+    display: flex;
+    flex-direction: column;
 `
 
-const ScrollListContainer = styled.div`
-    height: 100%;
-`
-
-const ScrollList = styled(forwardRef(({maxHeight: dummy = null, ...rest}, ref) => <List {...rest} ref={ref} /> ))`
-    ${({ theme, maxHeight }) => `
-    max-height: ${maxHeight}px;
+const ScrollList = styled(props => <List {...props} /> )`
     overflow-y: auto;
     padding: 0;
     margin: 8px 0;
-    `}
+    flex-grow: 1;
 `
 
-
-const defaultOptions = {
-    maxHeight: 760,
-}
 
 const MasterList = ({
     className,
     children,
     addButton,
-    options={},
+    buttonProps=null,
     onSelect,
     ...props
 }) => {
-    const {
-        maxHeight,
-    } = {...defaultOptions, ...options}
-
-    const buttonRef = useRef(null)
-    const listRef = useRef(null)
     const [selected, setSelected] = useState(null)
-
-    //const height = useHeightDifference(listRef, buttonRef || 0, maxHeight)
-    const height = maxHeight
-    
-    // TODO: Do we really need match and history?
-    // TODO: Implement a onClick global handler
-    const match = useRouteMatch()
-    const history = useHistory()
 
     const handleSelect = (index, data = null) => {
         setSelected(index)
@@ -78,8 +59,6 @@ const MasterList = ({
                 value={contextObject}
             >
                 <ScrollList
-                    ref={listRef}
-                    maxHeight={height}
                     component="ul"
                 >
                     { React.Children.map(children, (
@@ -88,14 +67,13 @@ const MasterList = ({
                                 React.cloneElement(child, {
                                     selected: selected != null && selected === i,
                                     index: i,
-                                    match,
-                                    history
                                 })
                             )
                         }
                     ))}
                 </ScrollList>
-                { addButton && React.cloneElement(addButton, { ref: buttonRef }) }
+                { addButton }
+
             </MasterListContext.Provider>
         </Container>
     )

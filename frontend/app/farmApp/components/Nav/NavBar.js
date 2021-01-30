@@ -11,11 +11,15 @@ import { InventoryRailItem } from 'farmApp/resource/inventory/menus'
 import { DashboardRailItem } from 'farmApp/dashboard/menus'
 import { ReportRailItem } from 'farmApp/report/report/menus'
 
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 
 const NavBar = ({
 
 }) => {
+  const theme = useTheme();
+  const isTablet = useMediaQuery(theme.breakpoints.up('navRailHide'));
 
   const [isDrawerOpen, setDrawer] = useState(false)
 
@@ -38,13 +42,13 @@ const NavBar = ({
       <NavigationContext.Provider
         value={contextObject}
       >
-        <NavRail>
+        { isTablet && <NavRail>
           <DashboardRailItem />   
           <ProductionRailItem />
           <InventoryRailItem />
           <ResourceRailItem />
           <ReportRailItem />    
-        </NavRail>
+        </NavRail> }
       </NavigationContext.Provider>      
   )
 }

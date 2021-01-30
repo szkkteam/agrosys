@@ -28,34 +28,23 @@ import { TutorialProgressBar } from 'farmApp/tutorial/components'
 import { NotificationButton } from 'farmApp/notification/components'
 
 const StyledAppBar = styled(MuiAppBar)`
-    ${({ theme }) => `
+    ${({theme}) => `
         z-index: 1300;
         box-shadow: none;
-        width: calc(100% - ${theme.custom.navrailWidth}px);
-        margin-left: ${theme.custom.navrailWidth}px;
         transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms,margin 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
 
         .MuiToolbar-root {
             padding-left: 15px;
         }
+        margin-left: 0px;
+        width: 100%;
+        ${theme.breakpoints.up('navRailHide')} {
+            margin-left: ${theme.custom.navrailWidth}px;
+            width: calc(100% - ${theme.custom.navrailWidth}px);
+        }
     `}
 `
 
-
-const TabContent = styled.div`
-    height: 64px;
-    display: flex;
-    align-items: center;
-    > div {
-        height: 100%;
-        align-items: center;
-        > div {
-            height: 100%;
-            align-items: center;
-            display: flex;
-        }
-    }
-`
 // TODO: +2px because 64-8 looks not enough
 const ContentSpacer = styled(({height: dummy = null, ...rest}) => <div {...rest}/> )`
     ${({ theme, height }) => `
@@ -70,6 +59,17 @@ const PageTitle = styled(Typography)`
     font-size: 1.5rem;
 `
 
+const FlexWrapper = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+`
+
+const FlexNoWrap = styled.div`
+    display: flex;
+    flex-wrap: nowrap;
+`
+
 
 const AppBar = forwardRef(({
     title,
@@ -77,13 +77,14 @@ const AppBar = forwardRef(({
     children,
 }, ref) => { 
 
-
+/*
   useEffect(() => {
     console.debug("appbar - mount")
     return () => {
       //console.debug("appbar - un-mount")
     }
   }, [])
+  */
 
     return (
         <SizeMe monitorHeight noPlaceholder>
@@ -93,20 +94,22 @@ const AppBar = forwardRef(({
                         ref={ref}
                         position="fixed"
                     >
-                        <Toolbar>               
-                            <div>
-                                { goUpRoute &&
-                                    <BackButtonLink {...goUpRoute} />
-                                }
-                            </div>  
-                            <PageTitle variant="h1">
-                                {title? <FormattedMessage {...title} /> : null }
-                            </PageTitle>
-                            <div>
-                                {children}
-                            </div>
+                        <Toolbar>
+                            <FlexWrapper>
+                                <div>
+                                    { goUpRoute &&
+                                        <BackButtonLink {...goUpRoute} />
+                                    }
+                                </div>  
+                                <PageTitle variant="h1">
+                                    {title? <FormattedMessage {...title} /> : null }
+                                </PageTitle>
+                                <div>
+                                    {children}
+                                </div>
+                            </FlexWrapper>               
                             <div style={{flexGrow: 1}} />
-                            <div className="">
+                            <FlexNoWrap>
                                 <NotificationButton />
                                 <IconButton
                                     edge="end"
@@ -118,7 +121,7 @@ const AppBar = forwardRef(({
                                 >
                                     <AccountCircle />
                                 </IconButton>                    
-                            </div>
+                            </FlexNoWrap>
                         </Toolbar>
                     </StyledAppBar>
                     <ContentSpacer height={size.height} />

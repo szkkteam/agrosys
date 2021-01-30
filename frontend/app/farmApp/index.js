@@ -13,7 +13,8 @@ const MainContent = styled(({height: dummy = null, ...rest}) => <div {...rest}/>
     ${({ theme, height }) => `
     height: 100%;
     width: 100%;
-    
+    display: flex;
+    flex-direction: column;
     `}
 `
 

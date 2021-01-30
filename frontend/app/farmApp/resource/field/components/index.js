@@ -17,3 +17,5 @@ export { default as FieldEdit } from './FieldEdit'
 export { default as FieldDetailMapSnapshot } from './FieldDetailMapSnapshot'
 export { default as FieldCreateGridView } from './FieldCreateGridView'
 export { default as FieldDrawFormButtons } from './FieldDrawFormButtons'
+
+export { default as FieldAppBar } from './FieldAppBar'

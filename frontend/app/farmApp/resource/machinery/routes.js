@@ -6,7 +6,8 @@ import { MachineryTableAppBar } from 'farmApp/resource/machinery/components'
 
 import {
   MachineryTable,
-  MachineryOverview
+  MachineryOverview,
+  MachineryReservation
 } from 'farmApp/resource/machinery/pages'
 
 import { ProtectedRoute } from 'utils/route'
@@ -17,9 +18,8 @@ export const ROUTES = {
     ResourceMachinery: 'ResourceMachinery',
 
     MachineryDatabase: 'MachineryDatabase',
+    MachineryReservation: 'MachineryReservation',
 
-    TESTA: 'TEST1',
-    TESTB: 'TEST2',
   
 }
 
@@ -44,37 +44,23 @@ export const machineryOverview = [
         component: MachineryOverview,
         // TODO: Include a table view, and the reservations view
         //props: { exact: true }
-        routes: [
-            {
-                key: ROUTES.TESTA,
-                path: '/test1',
-                component: 'div',
-            },
-            {
-                key: ROUTES.TESTB,
-                path: '/test2',
-                component: 'div',
-            }
-        ]
+        
     },
 ]
 
 export const machineryDetail = [
     {
-        key: 'MachineryDetailAppbar',
+        key: ROUTES.MachineryDatabase,
         path: '/machinery',
-        component: MachineryTableAppBar,
+        component: MachineryTable,
+        // TODO: Include a table view, and the reservations view
+        props: { exact: true }
+    },
+    {
+        key: ROUTES.MachineryReservation,
+        path: '/machinery/reservation',
+        component: MachineryReservation,
         // TODO: Include a table view, and the reservations view
         //props: { exact: true }
-        routes: [
-            {
-                key: ROUTES.MachineryDatabase,
-                path: '/list',
-                component: MachineryTable,
-                // TODO: Include a table view, and the reservations view
-                //props: { exact: true }
-            },
-        ]
     },
-    
 ]
