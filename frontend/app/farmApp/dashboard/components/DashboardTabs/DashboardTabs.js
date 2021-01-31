@@ -13,7 +13,7 @@ const DashboardTabs = ({
     const intl = useIntl()
 
     const routes = [
-        {to: ROUTES.DashboardOverview, label: intl.formatMessage(messages.overview) },
+        {to: ROUTES.Dashboard, value: {tab: 'overview' }, label: intl.formatMessage(messages.overview) },
         //{to: ROUTES.DashboardOverview, label: intl.formatMessage(messages.crop) },
         //{to: ROUTES.DashboardOverview, label: intl.formatMessage(messages.finance) },
         //{to: ROUTES.DashboardOverview, label: intl.formatMessage(messages.resource) },
@@ -21,6 +21,7 @@ const DashboardTabs = ({
 
     return (
         <TabsRoute
+        valueAccessor="tab"
             items={routes}
         />
     )

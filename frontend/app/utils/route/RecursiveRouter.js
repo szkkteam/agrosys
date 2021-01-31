@@ -36,6 +36,7 @@ const RecursiveRouter = ({
       <Switch>
         {routes.map(({key, routes: children, layoutComponent: Layout = React.Fragment}) => {
           const { component: Component, path, relPath, props: rest, routeComponent: RouteComponent } = routeMap[key]
+          //console.debug("Path: ", path, children)
           return (
             <RouteComponent 
               //path={`${parentMatch}${relPath}`}

@@ -52,6 +52,7 @@ export const ROUTES = {
      * Resources Keys
      */
     Resource: 'Resource',
+    ResourceOverview: 'ResourceOverview',
     /*
     // Field
     ResourceField: 'ResourceField',
@@ -121,9 +122,10 @@ export const routes = [
         props: { exact: true }
       },
       {
-        key: 'ResourceAppBar',
-        path: '/overview',
+        key: ROUTES.ResourceOverview,
+        path: '/overview/:tab?',
         component: ResourceAppBar,
+        //props: { exact: true }, NOT WORKING
         routes: [
           
               

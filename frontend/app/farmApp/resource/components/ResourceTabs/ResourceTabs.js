@@ -13,14 +13,15 @@ const ResourceTabs = ({
     const intl = useIntl()
 
     const routes = [
-        {to: ROUTES.ResourceMachinery, label: intl.formatMessage(messages.machinery) },
-        {to: ROUTES.ResourceWorker, label: intl.formatMessage(messages.worker) },
-        {to: ROUTES.ResourceField, label: intl.formatMessage(messages.field) },
+        {to: ROUTES.ResourceOverview, value: {tab: 'machinery' },  label: intl.formatMessage(messages.machinery) },
+        {to: ROUTES.ResourceOverview, value: {tab: 'worker' }, label: intl.formatMessage(messages.worker) },
+        {to: ROUTES.ResourceOverview, value: {tab: 'fields' }, label: intl.formatMessage(messages.field) },
         //{to: ROUTES.DashboardOverview, label: intl.formatMessage(messages.resource) },
     ]
 
     return (
         <TabsRoute
+            valueAccessor='tab'
             items={routes}
         />
     )

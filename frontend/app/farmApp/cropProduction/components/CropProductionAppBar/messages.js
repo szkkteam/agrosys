@@ -1,10 +1,10 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.farmApp.cropProduction.season.SeasonSummary'
+export const scope = 'app.farmApp.cropProduction.CropProductionAppBar'
 
 export default defineMessages({
     title: {
         id: `${scope}.title`,  
-        defaultMessage: "Seasons",
-    },
-  })
+        defaultMessage: 'Crops',
+    },    
+})

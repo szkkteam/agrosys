@@ -22,7 +22,7 @@ const SeasonCreateButton = ({
 
     const history = useHistory()
 
-    const destination = ROUTE_MAP[ROUTES.ProductionCreate]
+    const destination = ROUTE_MAP[ROUTES.CropProductionSeasonCreate]
 
     const push = usePushModalWindow()
 
@@ -42,8 +42,6 @@ const SeasonCreateButton = ({
         <PrimaryActionButton
             title={messages.addNewTitle}
             onClick={openPlanSelector}
-            //to={ROUTES.ProductionCreate}
-            //params={{cropId: 1}}
         />
     )
 }

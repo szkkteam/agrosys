@@ -4,11 +4,7 @@ import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { useParams, Redirect } from 'react-router-dom'
-import { ROUTES, ROUTE_MAP } from 'routes'
-
-const Container = styled.div`
-    height: 100%;
-`
+import { ROUTES, ROUTE_MAP } from 'farmApp/routes'
 
 export default ({    
     ...props
@@ -16,17 +12,16 @@ export default ({
 
     const intl = useIntl()
     const { cropId } = useParams()
-    // TODO: Get the title for the given crop and provide as a value
 
     return (
-        <Container>
+        <>
             <Helmet>
                 <title>
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <div>Season overview</div>
-        </Container>
+            <div>Season overview, with season</div>
+        </>
     )
 }
 

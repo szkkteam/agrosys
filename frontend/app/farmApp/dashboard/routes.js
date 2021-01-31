@@ -31,8 +31,8 @@ export const ROUTES = {
 
 export const routes = [
   {
-    key: 'DashboardAppbar',
-    path: '/dashboard',
+    key: ROUTES.Dashboard,
+    path: '/dashboard/:tab?',
     component: DashboardAppBar,
     routes: [
       // Dashboard routes

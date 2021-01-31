@@ -42,7 +42,7 @@ export const workerOverview = [
         path: '/worker',
         component: WorkerOverview,
         // TODO: Include a table view, and the reservations view
-        //props: { exact: true }
+        //props: { absolute: true }
     },
 ]
 

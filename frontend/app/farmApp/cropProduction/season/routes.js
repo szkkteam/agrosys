@@ -1,24 +1,26 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Content from 'components/Layout/Content'
-
-import { MachineryTableAppBar } from 'farmApp/resource/machinery/components'
+import { Redirect, generatePath } from 'react-router-dom'
 
 import {
-  MachineryTable,
-  MachineryOverview,
-  MachineryReservation
-} from 'farmApp/resource/machinery/pages'
+    SeasonOverview,
+    SeasonEmpty,
+    SeasonCreate,
+  //MachineryOverview,
+  //MachineryReservation
+} from 'farmApp/cropProduction/season/pages'
+
+import { Button } from '@material-ui/core'
+import { withLinkComponent } from 'utils/hoc'
+const Link = withLinkComponent(Button)
 
 import { ProtectedRoute } from 'utils/route'
 
 export const ROUTES = {
-   
-    // Machinery
-    ResourceMachinery: 'ResourceMachinery',
 
-    MachineryDatabase: 'MachineryDatabase',
-    MachineryReservation: 'MachineryReservation',
+    CropProductionSeason: 'CropProductionSeason',
+    CropProductionSeasonCreate: 'CropProductionSeasonCreate',
 
   
 }
@@ -37,18 +39,36 @@ export const ROUTES = {
  /**
   * Route prefix: /resource
   */
-export const machineryOverview = [
+export const seasonOverview = [
     {
-        key: ROUTES.ResourceMachinery,
-        path: '/machinery',
-        component: MachineryOverview,
+        // TODO: Season components
+        key: "SpecificCropInCaseofNoSeason",
+        path: '',
+        component: SeasonEmpty,
+        routes: [
+          {
+            // TODO: This will be used as a jump point (for specific crop check if has season, if yes redirect here)
+            // TODO: Season components
+            key: ROUTES.CropProductionSeason,
+            path: '/seasons/:seasonId',
+            component: SeasonOverview,
+          }
+        ]
+      },
+]
+
+export const seasonCreate = [
+    {
+        key: ROUTES.CropProductionSeasonCreate,
+        path: '/:cropId/season',
+        component: SeasonCreate,
         // TODO: Include a table view, and the reservations view
-        //props: { absolute: true }
         props: { exact: true }
     },
 ]
 
-export const machineryDetail = [
+export const seasonDetail = [
+    /*
     {
         key: ROUTES.MachineryDatabase,
         path: '/machinery',
@@ -63,4 +83,5 @@ export const machineryDetail = [
         // TODO: Include a table view, and the reservations view
         //props: { exact: true }
     },
+    */
 ]

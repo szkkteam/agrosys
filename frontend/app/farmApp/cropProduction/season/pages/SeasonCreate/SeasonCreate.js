@@ -5,7 +5,13 @@ import styled from 'styled-components'
 import { useIntl } from 'react-intl'
 import { Route } from "react-router-dom";
 
-import { PlanCreateForm } from 'farmApp/cropProduction/plan/components'
+import { 
+    PlanCreateForm,
+} from 'farmApp/cropProduction/plan/components'
+
+import {
+    SeasonAppBar
+} from '../../components'
 
 export default ({
     location,
@@ -21,6 +27,9 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
+            <SeasonAppBar
+                title={messages.title}
+            />
             <PlanCreateForm
                 initialValues={location.state?.initialValues ?? {}}
             />
