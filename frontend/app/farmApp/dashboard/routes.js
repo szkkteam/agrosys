@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Content from 'components/Layout/Content'
+import { Redirect } from 'react-router-dom'
 
 import {
   DashboardAppBar
@@ -31,6 +32,12 @@ export const ROUTES = {
 
 export const routes = [
   {
+    key: "EmptyEntryTODO",
+    path: '/',
+    props: { exact: true},
+    component: () => <Redirect from="/" to="/dashboard" />
+  },
+  {
     key: ROUTES.Dashboard,
     path: '/dashboard/:tab?',
     component: DashboardAppBar,
@@ -38,7 +45,7 @@ export const routes = [
       // Dashboard routes
       {
         key: ROUTES.DashboardOverview,
-        path: '',
+        path: '/overview',
         component: DashboardHome,
         props: { exact: true}
       },

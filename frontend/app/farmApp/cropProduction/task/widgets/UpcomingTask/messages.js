@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.farmApp.cropProduction.crop.CropSummaryLayout'
+export const scope = 'app.farmApp.cropProduction.task.widget.UpcomingTask'
 
 export default defineMessages({
     title: {

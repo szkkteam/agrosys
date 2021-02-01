@@ -41,7 +41,7 @@ import { PRODUCTION_TYPE } from 'farmApp/cropProduction/production/constants'
 
 const Container = styled.div`
     width: 100%;
-    height: 100%;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
 `
@@ -162,8 +162,8 @@ const PlanCreateForm = ({
                     </Typography>
                 </Grid>
                 <Grid container item xs={12}>
-                    <Grid container item xs={6} >
-                        <Grid container item xs={8} >
+                    <Grid container item xs={12} sm={6}>
+                        <Grid container item xs={10} md={8}>
                             <FormControlContainer component="fieldset">
                                 <FormLabel component="legend">
                                     Season global parameters
@@ -178,7 +178,7 @@ const PlanCreateForm = ({
                             </FormControlContainer>
                         </Grid>
                     </Grid>
-                    <Grid container item xs={6}>
+                    <Grid container item xs={12} sm={6}>
                         
                         <Grid container item xs={8} >
                         </Grid>

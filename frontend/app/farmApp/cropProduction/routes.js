@@ -6,6 +6,10 @@ import {
   CropProductionAppBar
 } from 'farmApp/cropProduction/components'
 
+import {
+  CropProductionOverview
+} from 'farmApp/cropProduction/pages'
+
 
 import {
   seasonOverview,
@@ -13,7 +17,6 @@ import {
   seasonDetail,
   ROUTES as seasonRoutesKeys,
 } from 'farmApp/cropProduction/season/routes'
-
 
 
 /*
@@ -169,11 +172,7 @@ export const routes = [
             key: ROUTES.CropProductionDashboard,
             path: '/all',
             props: { exact: true },        
-            component: () => <div>
-                              <Link to={ROUTES.CropProductionTimeline} >                
-                                Go to machinery database
-                              </Link>
-                            </div>
+            component: CropProductionOverview,
           },
           ...seasonOverview
         ]

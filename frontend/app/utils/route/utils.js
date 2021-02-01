@@ -19,11 +19,7 @@ export const compileRoutes = (routeMap, routes, parentPath="") => {
       
       const { absolute = false } = props
       const path = absolute? relPath : parentPath + relPath
-      //console.debug("compile path: ", path)
-      if (path === "/resources/overview/machinery") {
-        //console.debug("compile toPath: ", compile(path)())
 
-      }
       if (route.routes?.length) {
         compileRoutes(routeMap, route.routes, path)
       }

@@ -60,7 +60,7 @@ export const seasonOverview = [
 export const seasonCreate = [
     {
         key: ROUTES.CropProductionSeasonCreate,
-        path: '/:cropId/season',
+        path: '/:cropId/seasons/new',
         component: SeasonCreate,
         // TODO: Include a table view, and the reservations view
         props: { exact: true }

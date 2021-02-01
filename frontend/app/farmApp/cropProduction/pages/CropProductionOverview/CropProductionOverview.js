@@ -6,9 +6,6 @@ import styled from 'styled-components'
 
 import { CropProductionOverviewLayout } from '../../components'
 
-const Container = styled.div`
-    height: 100%;
-`
 
 export default ({    
     ...props
@@ -17,13 +14,13 @@ export default ({
     const intl = useIntl()
    
     return (
-        <Container>
+        <>
             <Helmet>
                 <title>
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
             <CropProductionOverviewLayout />
-        </Container>
+        </>
     )
 }
