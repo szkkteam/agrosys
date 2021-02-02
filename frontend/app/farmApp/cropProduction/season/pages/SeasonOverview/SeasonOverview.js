@@ -6,6 +6,10 @@ import styled from 'styled-components'
 import { useParams, Redirect } from 'react-router-dom'
 import { ROUTES, ROUTE_MAP } from 'farmApp/routes'
 
+import {
+    SeasonOverviewLayout
+} from '../../components'
+
 export default ({    
     ...props
 }) => {
@@ -20,7 +24,7 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <div>Season overview, with season</div>
+            <SeasonOverviewLayout />
         </>
     )
 }
