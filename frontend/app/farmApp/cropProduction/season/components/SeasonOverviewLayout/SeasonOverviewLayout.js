@@ -4,6 +4,8 @@ import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 
+import { DashboardLayout } from 'farmApp/components'
+
 import SeasonTimeline from '../SeasonTimeline/SeasonTimeline'
 
 import {
@@ -20,6 +22,10 @@ const Container = styled.div`
             padding: 15px calc(${theme.spacing(spacing)}px / 2 + 1px);
         }
     `}
+`
+
+const TestDiv = styled.div`
+    background-color: grey;
 `
 
 const SeasonOverviewLayout = ({
@@ -45,7 +51,15 @@ const SeasonOverviewLayout = ({
 
                     >
                         <Grid item xs={8}>
-                            Dashboard
+                            <DashboardLayout
+                                disabled
+                                compactType="horizontal"
+                                verticalCompact={false}
+                            >
+                                <TestDiv key="1">1</TestDiv>
+                                <TestDiv key="2">2</TestDiv>
+                                <TestDiv key="3">3</TestDiv>
+                            </DashboardLayout>
                         </Grid>
                         <Grid item xs={4}>
                             <SeasonTimeline />
