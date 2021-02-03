@@ -36,9 +36,6 @@ const Container = styled.div`
     `}
 `
 
-const TestDiv = styled.div`
-    background-color: grey;
-`
 
 const CropProductionOverviewLayout = ({
 
@@ -87,6 +84,14 @@ const CropProductionOverviewLayout = ({
 
     }
 
+    const components = [
+        {key: "CultivatedArea", component: <CultivatedArea />},
+        {key: "CropIncome", component: <CropIncome />},
+        {key: "CropExpense", component: <CropExpense />},
+        {key: "CropROI", component: <CropROI />},
+        {key: "UpcomingTask", component: <UpcomingTask />},
+    ]
+
     return (
         <Container
             spacing={4}
@@ -106,79 +111,12 @@ const CropProductionOverviewLayout = ({
                     //verticalCompact={false}
                     //rowHeight={30}
                     layouts={layouts}
-                >
-                    <div key="CultivatedArea">
-                        <CultivatedArea />
-                    </div>
-                    <div key="CropIncome" >
-                        <CropIncome />
-                    </div>
-                    <div key="CropExpense">
-                        <CropExpense />
-                    </div>
-                    <div key="CropROI">
-                        <CropROI />
-                    </div>
-                    <div key="UpcomingTask">
-                        <UpcomingTask />
-                    </div>
-                    
-                </DashboardLayout>
+                    components={components}
+                />
             </div>
         </Container>
     )
 }
-/*
-<DashboardLayout
-                disabled
-                compactType="horizontal"
-                verticalCompact={false}
-            >
-                <TestDiv key="1">1</TestDiv>
-                <TestDiv key="2">2</TestDiv>
-                <TestDiv key="3">3</TestDiv>
-            </DashboardLayout>
-            <Grid 
-                container
-                spacing={2}
-            >
-                <Grid item xs={12}>
-                    <Typography variant="h5">
-                        Crops dashboard
-                    </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                    <CropProductionOverviewToolbar />
-                </Grid>
-                <Grid
-                    alignItems="stretch"
-                    container
-                    item xs={12}
-                    spacing={2}
-                >   
-                    <Grid item xs={12} sm={6} md={3}>
-                        <CultivatedArea />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={3}>
-                        <CropIncome />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={3}>
-                        <CropExpense />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={3}>
-                        <CropROI />
-                    </Grid>
-                </Grid>
-                <Grid 
-                    container item xs={12} 
-                    spacing={2}
-                >
-                    <Grid item xs={12} sm={6} lg={4} xl={3}>
-                        <UpcomingTask />
-                    </Grid>
-                </Grid>
-            </Grid>
-*/
 
 /*
 content<br/>

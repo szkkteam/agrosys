@@ -21,6 +21,9 @@ const BottomButton = styled(forwardRef((props, ref) => <FieldCreateButton {...pr
 
 const BorderFieldListItem = styled(props => <FieldListItem {...props} />)`
     border-top: 1px solid rgba(214, 220, 225, 0.5);
+    padding: 10px 20px;
+    max-width: 250px;
+    min-width: 220px;
 `
 
 const FieldMasterList = ({
