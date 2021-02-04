@@ -40,7 +40,7 @@ const SeasonOverviewToolbar = ({
 
 }) => {
 
-    const { cropId, seasonId } = useParams()
+    const params = useParams()
 
     const handleClick = () => {
 
@@ -51,16 +51,20 @@ const SeasonOverviewToolbar = ({
             <Grid container>
                 <Grid container item xs={12} /*justify="space-evenly" */>
                     <LinkChip
-                        to={ROUTES.CropProductionSeason}
-                        params={{cropId, seasonId}}
+                        to={ROUTES.CropProductionSeasonView}
+                        params={params}
                         label="Seasons"
                         onClick={handleClick}
                     />
-                    <ButtonChip
+                    <LinkChip
+                        to={ROUTES.CropProductionTaskView}
+                        params={params}
                         label="Tasks"
                         onClick={handleClick}
                     />
-                    <ButtonChip
+                    <LinkChip
+                        to={ROUTES.CropProductionFieldProductionView}
+                        params={params}
                         label="Fields"
                         onClick={handleClick}
                     />

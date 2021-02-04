@@ -42,6 +42,7 @@ class FarmApp extends React.Component {
   }
 
   render() {
+    //console.debug("ROUTE_MAP: ", ROUTE_MAP)
     return (
       <>
       <NavBar />

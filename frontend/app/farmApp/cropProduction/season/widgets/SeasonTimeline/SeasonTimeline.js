@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
+import { Redirect, useParams, Switch } from "react-router-dom";
+import { ROUTES } from 'farmApp/routes'
+import { withLinkComponent } from 'utils/hoc'
 
 import { useSeasonCreateDialog } from '../../hooks'
 
@@ -43,10 +46,14 @@ const PaddingTimeline = styled(Timeline)`
     padding: 6px;
 `
 
+const LinkButton = withLinkComponent(Button)
+
 const SeasonTimeline = ({
 
 }) => {
     const intl = useIntl()
+    const params = useParams()
+
 
     const data = [
         {startDate: new Date('2021/03/01'), title: "Wheat 2021", status: SEASON_STATUS.PLANNED},
@@ -83,9 +90,12 @@ const SeasonTimeline = ({
                         ))}
                 </PaddingTimeline>
             </div>            
-            <Button>
+            <LinkButton
+                to={ROUTES.CropProductionSeasonView}
+                params={params}
+            >
                 show more
-            </Button>
+            </LinkButton>
         </Card>
     )
 }

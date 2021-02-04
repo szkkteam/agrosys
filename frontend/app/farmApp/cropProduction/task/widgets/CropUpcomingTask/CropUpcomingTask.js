@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
-import { Redirect, useLocation, Switch } from "react-router-dom";
+import { Redirect, useParams, Switch } from "react-router-dom";
+import { ROUTES } from 'farmApp/routes'
+import { withLinkComponent } from 'utils/hoc'
 
 import {
     TaskListItem
@@ -26,9 +28,13 @@ const ScrollList = styled(List)`
     overflow-y: auto;
 `
 
+const LinkButton = withLinkComponent(Button)
+
 const CropUpcomingTask = ({
 
 }) => {
+    const params = useParams()
+    
     return (
         <Card>
             <CardHeader                
@@ -45,9 +51,12 @@ const CropUpcomingTask = ({
                 <TaskListItem />
                 <TaskListItem />
             </ScrollList>
-            <Button>
+            <LinkButton
+                to={ROUTES.CropProductionTaskView}
+                params={params}
+            >
                 show more
-            </Button>
+            </LinkButton>
         </Card>
     )
 }

@@ -86,6 +86,11 @@ const AppBar = forwardRef(({
     }
   }, [])
   */
+    const appTitle = typeof(title) === 'object' ?
+    (
+        <FormattedMessage {...title} />
+    ) : title
+
 
     return (
         <SizeMe monitorHeight noPlaceholder>
@@ -103,7 +108,7 @@ const AppBar = forwardRef(({
                                     }
                                 </div>  
                                 <PageTitle variant="h1">
-                                    {title? <FormattedMessage {...title} /> : null }
+                                    {appTitle}
                                 </PageTitle>
                                 <div>
                                     {children}
@@ -137,7 +142,11 @@ const AppBar = forwardRef(({
 */
 
 AppBar.propTypes = {
-    title: PropTypes.object,
+    title: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.string,
+        PropTypes.element,
+    ]),
     goUpRoute: PropTypes.shape({
         to: PropTypes.string.isRequired
     }),

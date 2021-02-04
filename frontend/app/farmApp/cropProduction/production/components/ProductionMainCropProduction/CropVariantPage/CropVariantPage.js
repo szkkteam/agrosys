@@ -49,8 +49,8 @@ const FlexGrid = styled(Grid)`
     display: flex;
 `
 
-const Spacer = styled.div`
-    flex-grow: 1;
+const AddParcelButton = styled(PrimaryActionButton)`
+    max-width: 220px;
 `
 
 const Form = styled.form`
@@ -159,7 +159,7 @@ class CropVariantPage extends React.Component {
                 data={fields}
                 columnSpacing={3}
             >
-                <PrimaryActionButton 
+                <AddParcelButton 
                     title={messages.addParcel}
                     onClick={this.handleDrawerOpen}
                 />

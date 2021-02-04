@@ -1,18 +1,21 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Helmet from 'react-helmet'
 import messages from './messages';
-import styled from 'styled-components'
 import { useIntl } from 'react-intl'
-import { Route } from "react-router-dom";
+import styled from 'styled-components'
 
-import { FieldProductionLayout } from '../../components'
+import { SeasonAppBar } from 'farmApp/cropProduction/season/components'
+import { TaskLayout } from '../../components'
 
-export default ({
+const Container = styled.div`
+    height: 100%;
+`
+
+export default ({    
     ...props
 }) => {
-
     const intl = useIntl()
-    
+
     return (
         <>
             <Helmet>
@@ -20,14 +23,10 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <FieldProductionLayout
+            <SeasonAppBar
+                title={messages.title}
             />
+            <TaskLayout />
         </>
     )
 }
-
-/*
-<FieldLayout
-
-            />
-*/

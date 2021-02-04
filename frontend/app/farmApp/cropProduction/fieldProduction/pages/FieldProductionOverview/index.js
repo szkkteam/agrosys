@@ -1,5 +1,5 @@
 import Loadable from 'components/Loadable'
 
 export default Loadable({
-  loader: () => import('./SeasonProduction')
+  loader: () => import('./FieldProductionOverview'),
 })

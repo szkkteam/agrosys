@@ -4,9 +4,20 @@ import Content from 'components/Layout/Content'
 import { Redirect, generatePath } from 'react-router-dom'
 
 import {
+  taskOverview,
+  ROUTES as taskRoutesKeys,
+} from 'farmApp/cropProduction/task/routes'
+
+import {
+  fieldProductionOverview,
+  ROUTES as fieldProductionRoutesKeys,
+} from 'farmApp/cropProduction/fieldProduction/routes'
+
+import {
     SeasonOverview,
     SeasonEmpty,
     SeasonCreate,
+    SeasonList,
   //MachineryOverview,
   //MachineryReservation
 } from 'farmApp/cropProduction/season/pages'
@@ -19,10 +30,16 @@ import { ProtectedRoute } from 'utils/route'
 
 export const ROUTES = {
 
+    CropProductionnNoSeason: 'CropProductionnNoSeason',
     CropProductionSeason: 'CropProductionSeason',
     CropProductionSeasonCreate: 'CropProductionSeasonCreate',
 
-  
+    CropProductionSeasonViews: 'CropProductionSeasonViews',
+
+    CropProductionSeasonView: 'CropProductionSeasonView',
+
+    ...taskRoutesKeys,
+    ...fieldProductionRoutesKeys,
 }
 
 /**
@@ -42,7 +59,7 @@ export const ROUTES = {
 export const seasonOverview = [
     {
         // TODO: Season components
-        key: "SpecificCropInCaseofNoSeason",
+        key: ROUTES.CropProductionnNoSeason,
         path: '',
         component: SeasonEmpty,
         routes: [
@@ -58,30 +75,30 @@ export const seasonOverview = [
 ]
 
 export const seasonCreate = [
-    {
-        key: ROUTES.CropProductionSeasonCreate,
-        path: '/:cropId/seasons/new',
-        component: SeasonCreate,
-        // TODO: Include a table view, and the reservations view
-        props: { exact: true }
-    },
+    
 ]
 
 export const seasonDetail = [
-    /*
-    {
-        key: ROUTES.MachineryDatabase,
-        path: '/machinery',
-        component: MachineryTable,
-        // TODO: Include a table view, and the reservations view
-        props: { exact: true }
-    },
-    {
-        key: ROUTES.MachineryReservation,
-        path: '/machinery/reservation',
-        component: MachineryReservation,
-        // TODO: Include a table view, and the reservations view
-        //props: { exact: true }
-    },
-    */
+  {
+    key: ROUTES.CropProductionSeasonCreate,
+    path: '/:cropId/seasons/new',
+    component: SeasonCreate,
+    // TODO: Include a table view, and the reservations view
+    props: { exact: true }
+  },
+  {
+    // This will be used a jump point (Navigate back from deeply nested views)
+    key: ROUTES.CropProductionSeasonViews,
+    path: '/:cropId/seasons/:seasonId/views',
+    component: () => <div>appbar</div>,    
+    routes: [
+      {
+        key: ROUTES.CropProductionSeasonView,
+        path: '/seasons',
+        component: SeasonList,
+      },
+      ...taskOverview,
+      ...fieldProductionOverview,
+    ]
+  }
 ]

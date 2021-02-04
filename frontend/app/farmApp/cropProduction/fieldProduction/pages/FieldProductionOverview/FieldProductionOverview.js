@@ -5,11 +5,8 @@ import styled from 'styled-components'
 import { useIntl } from 'react-intl'
 import { Route } from "react-router-dom";
 
-import { SeasonLayout } from '../../components'
-
-const Container = styled.div`
-    height: 100%;
-`
+import { SeasonAppBar } from 'farmApp/cropProduction/season/components'
+import { FieldProductionLayout } from '../../components'
 
 export default ({
     ...props
@@ -24,8 +21,17 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <SeasonLayout
+            <SeasonAppBar
+                title={messages.title}
+            />
+            <FieldProductionLayout
             />
         </>
     )
 }
+
+/*
+<FieldLayout
+
+            />
+*/

@@ -184,10 +184,13 @@ export const routes = [
         component: () => <div>Crop timeline</div>
       },
       ...seasonCreate,
+      ...seasonDetail,
       {
+       
+        /*
         // This will be used a jump point (Navigate back from deeply nested views)
         key: ROUTES.CropDetail,
-        path: '/:cropId/season/:seasonId/views/:tab?',
+        path: '/:cropId/seasons/:seasonId/views/:tab?',
         component: () => <div>Appbar</div>,
         routes: [
           {
@@ -196,7 +199,7 @@ export const routes = [
             component: () => <div>tasks</div>,
           }
         ]
-        
+        */
       },
       {
         key: "Group depply nested views",

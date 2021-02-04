@@ -12,16 +12,25 @@ import { AppBar } from 'farmApp/components'
 //import ResourceTabs from '../ResourceTabs/ResourceTabs'
 
 const SeasonAppBar = ({
+    title,
     ...props
 }) => {
-    const { cropId } = useParams()
+    const intl = useIntl()
+    const { cropId, seasonId } = useParams()
+
+    // TODO: Lookup for crop and season name
+    const cropTitle = "My wheat"
+    const seasonTitle = "Wheat 2020"
+
+    const appTitle = `${cropTitle}`
 
     return (
         <AppBar
             goUpRoute={{
-                to: ROUTES.CropProductionOverview,
-                params: {cropId}
+                to: seasonId? ROUTES.CropProductionSeason : ROUTES.CropProductionnNoSeason,
+                params: {cropId, seasonId}
             }}
+            title={appTitle}
             {...props}
         >
         </AppBar>
