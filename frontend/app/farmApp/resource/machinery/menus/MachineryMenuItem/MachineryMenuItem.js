@@ -13,7 +13,7 @@ const MachineryMenuItem = ({
     return (
         <MenuItem
             title={messages.title}
-            to={ROUTES.MachineryList}
+            to={ROUTES.ResourceMachinery}
             IconComponent={LocalShippingIcon}
             {...rest}
         />       

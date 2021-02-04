@@ -75,7 +75,7 @@ const ProductionTabGeneral = ({
     return (
             <Container container spacing={1} >
                 <InnerContainer container direction="column" item xs={12} justify="center" alignItems="center">
-                    <Grid container direction="row" item xs={6} justify="center" alignItems="center" spacing={3}>
+                    <Grid container direction="row" item xs={12} sm={8} md={6} justify="center" alignItems="center" spacing={3}>
                         <Grid item>
                             <Typography variant="body1" component="p">
                                 <FormattedMessage {...messages.description1} />

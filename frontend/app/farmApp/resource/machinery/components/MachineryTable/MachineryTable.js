@@ -23,8 +23,6 @@ import {
 
 import { SideDetail } from 'farmApp/components/SideDetail'
 
-import { useHeightDifference } from 'utils/hooks'
-
 const FlexGrid = styled(Grid)`
     display: flex;
 `
@@ -82,13 +80,10 @@ const Reservation = (props) => {
 }
 
 const MachineryTable = ({
-    height: parentHeight,
-    siblingRef,
     ...props
 }) => {
     const intl = useIntl()
     
-    const headerRef = useRef(null)
     const [selectedData, setSelectedData] = useState(null)
 
     const handleClose = () => {
@@ -99,8 +94,6 @@ const MachineryTable = ({
         setSelectedData(rowData)
     }
 
-    const height = useHeightDifference(parentHeight, headerRef, 542)
-    
     const columns = [
         { title: 'Role', field: 'role', hiddenByColumnsButton: true},
         { title: 'Name', field: 'name'},

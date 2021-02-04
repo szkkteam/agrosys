@@ -6,52 +6,14 @@ import { compile } from 'path-to-regexp'
  * Dashboard
  */
 import {
-  DashboardHome
-} from 'farmApp/dashboard/dashboard/pages'
-
-import {
-  routes as reportRoutes,
-  ROUTES as reportRoutesKeys,
-} from 'farmApp/report/routes'
-
-import {
-  routes as resourceRoutes,
-  ROUTES as resourceRoutesKeys,
-} from 'farmApp/resource/routes'
-
-import {
-  routes as productionRoutes,
-  ROUTES as productionRoutesKeys,
-} from 'farmApp/cropProduction/routes'
+  routes as farmAppRoutes,
+  ROUTES as farmAppRoutesKeys,
+} from 'farmApp/routes'
 
 import {
   routes as securityRoutes,
   ROUTES as securityRoutesKeys,
 } from 'security/routes'
-
-/**
- * Resources
- */
-import {
-  FarmCreate,
-  FarmDashboard,
-} from 'farmApp/resource/farm/pages'
-
-/**
- * Finance
- */
-
-import {
-  SaleDashboard
-} from 'farmApp/finance/sale/pages'
-
-import {
-  ExpenseDashboard
-} from 'farmApp/finance/expense/pages'
-
-import {
-  BudgetDashboard
-} from 'farmApp/finance/budget/pages'
 
 /**
  * Site
@@ -62,7 +24,6 @@ import {
 } from 'security/pages'
 
 import {
-  Dashboard,
   NotFound,
 } from 'site/pages'
 
@@ -75,32 +36,9 @@ import { AnonymousRoute, ProtectedRoute } from 'utils/route'
  * Both keys and values are component class names
  */
 export const ROUTES = {
-  // Dashboard
-  DashboardHome: 'DashboardHome',
-
-  /**
-   * Report keys
-   */
-  ...reportRoutesKeys,
-
-  // Sale
-  SaleDashboard: 'SaleDashboard',
-
-  // Expense
-  ExpenseDashboard: 'ExpenseDashboard',
-
-  // Budget
-  BudgetDashboard: 'BudgetDashboard',
-
-  // Farm
-  FarmCreate: 'FarmCreate',
-  FarmDashboard: 'FarmDashboard',
-
-  ...productionRoutesKeys,
-  ...resourceRoutesKeys,
+  ...farmAppRoutesKeys,
   ...securityRoutesKeys,
 }
-console.debug("ROUTE KEYS: ", ROUTES)
 /**
  * route details
  *
@@ -113,63 +51,10 @@ console.debug("ROUTE KEYS: ", ROUTES)
  */
 
 export const routes = [
-  // Dashboard routes
-  {
-    key: ROUTES.DashboardHome,
-    path: '/',
-    component: DashboardHome,
-    routeComponent: ProtectedRoute,
-    props: { exact: true}
-  },
-  // Report routes  
-  ...reportRoutes,
-  // Sale routes  
-  {
-    key: ROUTES.SaleDashboard,
-    path: '/sales',
-    component: SaleDashboard,
-    routeComponent: ProtectedRoute,
-    props: { exact: true}
-  },
-  // Expense routes  
-  {
-    key: ROUTES.ExpenseDashboard,
-    path: '/expenses',
-    component: ExpenseDashboard,
-    routeComponent: ProtectedRoute,
-    props: { exact: true}
-  },
-  // Budget routes  
-  {
-    key: ROUTES.BudgetDashboard,
-    path: '/budgets',
-    component: BudgetDashboard,
-    routeComponent: ProtectedRoute,
-    props: { exact: true}
-  },
-  // Farm routes
-  {
-    key: ROUTES.FarmCreate,
-    path: '/farms/new',
-    component: FarmCreate,
-    routeComponent: ProtectedRoute,
-    props: { exact: true }
-  },
-  {
-    key: ROUTES.FarmDashboard,
-    path: '/farms/dashboard',
-    component: FarmDashboard,
-    routeComponent: ProtectedRoute,
-    props: { exact: true }
-  },
   /**
-   * Resources routes
+   * farmApp routes
    */
-  ...resourceRoutes,
-  /**
-   * Production routes
-   */
-  ...productionRoutes,
+  ...farmAppRoutes,
   
   /**
    * Security routes
@@ -191,29 +76,32 @@ export const routes = [
     label: 'Not found',
   }
 ]
-console.debug("STATIC ROUTES: ", routes)
 /**
  * ROUTE_MAP: A public lookup for route details by key
  */
 export const ROUTE_MAP = {}
 
-const complieRoutes = (routes) => {
+const complieRoutes = (routes, parentPath="") => {
   routes.forEach((route) => {
-    let { component, key, label, path, routeComponent, props } = route
+    let { component, key, label, path: relPath, routeComponent, props } = route
   
-    if (!component) {
-      throw new Error(`component was not specified for the ${key} route!`)
-    }
-    if (!path) {
+    /*
+    if (!relPath) {
       throw new Error(`path was not specified for the ${key} route!`)
     }
+    */
+    
+
+    const path = parentPath + relPath
 
     if (route.routes?.length) {
-      complieRoutes(route.routes)
+      complieRoutes(route.routes, path)
     }
+
   
     ROUTE_MAP[key] = {
       path,
+      relPath,
       toPath: compile(path),
       component,
       routeComponent: routeComponent || Route,
@@ -223,7 +111,6 @@ const complieRoutes = (routes) => {
   })
 }
 complieRoutes(routes)
-console.debug("ROUTE_MAP: ", ROUTE_MAP)
 
 // TODO: How to add the 404 route?
 // cachedRoutes.push(<Route component={NotFound} key="*" />)
@@ -231,22 +118,24 @@ console.debug("ROUTE_MAP: ", ROUTE_MAP)
 /*
   FIXME: Somehow for nested rotues the whole tree is re-rendered
 */
-const CustomRouter = ({routes}) => {
+const CustomRouter = ({routes, parentMatch=""}) => {
   return (
       <Switch>
         {routes.map(({key, routes: children, layoutComponent: Layout = 'div'}) => {
-          const { component: Component, path, props: rest, routeComponent: RouteComponent } = ROUTE_MAP[key]
+          const { component: Component, path, relPath, props: rest, routeComponent: RouteComponent } = ROUTE_MAP[key]
           return (
             <RouteComponent 
+              //path={`${parentMatch}${relPath}`}
               path={path}
               //key={path}
               key="1"
               component={props => {  
+                  const { match } = props
                   return (
                     <Layout>
                       <Component {...props} /> 
                       {children && children.length > 0 ?
-                        <CustomRouter {...props}  routes={children} />
+                        <CustomRouter {...props} routes={children} parentMatch={match.url}/>
                       : null}
                     </Layout>
                 )  

@@ -31,10 +31,10 @@ const Column = styled.div`
 `
 
 const Container = styled.div`
-    padding: 20px 5px;
+    //padding: 20px 5px;
     width: 100%;
-    //display: flex;
-    //align-items: center;
+    display: flex;
+    flex-direction: column;
 `
 
 const HeaderContainer = styled.div`
@@ -45,8 +45,7 @@ const HeaderContainer = styled.div`
 `
 
 const BodyContainer = styled.div`
-    //display: flex;
-    //align-items: center;
+    overflow-y: auto;
 `
 
 

@@ -20,9 +20,10 @@ const ListContainer = styled(MasterListItem)`
     height: 70px;
     width: 100%;
     //border-top: 1px solid rgba(214, 220, 225, 0.5);
-    padding: 10px 20px;
-    max-width: 250px;
-    min-width: 220px;
+    padding: 10px 0px;
+    //max-width: 250px;
+    //min-width: 220px;
+    
     cursor: pointer;
 `
 
@@ -96,8 +97,6 @@ const ActionIcon = styled(props => <ItemMenu {...props}/>)`
 
 const FieldListItem = ({
     data,
-    match,
-    history,
     children,
     className,
     disableAction=false,

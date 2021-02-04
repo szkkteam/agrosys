@@ -31,8 +31,8 @@ import FieldMasterDetail from '../FieldMasterDetail/FieldMasterDetail'
 
 
 const Container = styled.div`
-    padding: 0px 20px;
-    padding-top: 15px;
+    //padding: 0px 20px;
+    //padding-top: 15px;
     height: 100%;
     display: flex;
     flex-direction: column;

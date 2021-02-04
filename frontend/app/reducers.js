@@ -10,7 +10,7 @@ import localeReducer from 'site/reducers/language'
 import history from 'utils/history'
 
 import { createReducer as createReducerORM } from 'redux-orm'
-import orm from 'orm'
+import schema from 'farmApp/schema'
 
 export default function createReducer(injectedReducers) {
   return combineReducers({
@@ -23,7 +23,7 @@ export default function createReducer(injectedReducers) {
     loadingBar: loadingBarReducer,
     modals: modalsReducer,
 
-    entities: createReducerORM(orm),
+    entities: createReducerORM(schema),
 
     ...injectedReducers,
   })

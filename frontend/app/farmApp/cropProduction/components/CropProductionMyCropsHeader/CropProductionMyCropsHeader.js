@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState, forwardRef } from 'react'
+import React, { useContext, useMemo, useState, forwardRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
 import styled from 'styled-components'
@@ -9,6 +9,9 @@ import { ROUTES, ROUTE_MAP } from 'routes'
 import { usePageTitle } from 'utils/hooks'
 
 import { PageHeader } from 'components'
+
+import { useFetchUserCrops } from 'farmApp/cropProduction/crop/hooks'
+
 
 const CropProductionMyCropsHeader = ({
     ...props
@@ -29,31 +32,25 @@ const CropProductionMyCropsHeader = ({
      * Set back the previously viewed tab when the crop is changing
      */
 
+    const { payload: userCrops, isLoading } = useFetchUserCrops()
+    //const isLoading = true
+    //const userCrops = []
+
+    useEffect(() => {
+        console.debug("Mount - CropProductionMyCropsHeader")
+        return () => {
+            console.debug("unmount - CropProductionMyCropsHeader")
+        }
+    }, [])
+
     const items = [
-        {cropId: 0, value: 0, label: intl.formatMessage(messages.productionMultiView), to: ROUTES.Crop},
-        {cropId: 1, value: 1, productionId: 1, label: "My wheat", to: ROUTES.Production},
-        {cropId: 2, value: 2, productionId: 2, label: "My corn", to: ROUTES.Production},
+        {label: intl.formatMessage(messages.productionMultiView), to: ROUTES.Crop},
+        {label: intl.formatMessage(messages.cropDashboard), to: ROUTES.CropDashboard},
     ]
 
-    //const { cropId = "0" } = useParams()
-
-    let cropId = null
-    let foundMatch = null
-    items.map(({ to, cropId: tabValue }) => {
-        const route = ROUTE_MAP[to]
-        const matched = useRouteMatch({ path: route?.path, ...route.props})
-        if (matched) {
-            foundMatch = matched
-            cropId = matched.params.cropId || "0"
-        }
-    })
-    console.debug("foundMatch: ", foundMatch)
-    console.debug("cropId: ", cropId)
-    
     return (
         <PageHeader 
             items={items}
-            value={foundMatch? parseInt(cropId) : null}
             redirectTo={ROUTES.Crop}
             
         />                 

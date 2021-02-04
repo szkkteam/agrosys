@@ -5,7 +5,10 @@ import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { Content } from 'components'
 
-import { FieldCreateDraw } from '../../components'
+import { 
+    FieldCreateDraw,
+    FieldAppBar
+} from '../../components'
 
 /**
  * 1) Render a form component
@@ -33,11 +36,12 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-                <Content>
-                    <FieldCreateDraw
-                        startDraw={true}
-                    />
-                </Content>
+            <FieldAppBar
+                title={messages.title}
+            />
+            <FieldCreateDraw
+                startDraw={true}
+            />
         </>
     )
 }

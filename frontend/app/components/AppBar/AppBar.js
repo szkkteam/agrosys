@@ -66,6 +66,7 @@ className={clsx(classes.menuButton, {
 const AppBar = forwardRef(({
     title,
     appTabRef,
+    appBarBackButtonRef,
     isDrawerOpen,
     onDrawerOpen,
 }, ref) => { 
@@ -75,16 +76,17 @@ const AppBar = forwardRef(({
             ref={ref}
             position="fixed"
         >
-            <Toolbar>                 
+            <Toolbar>               
+                <div ref={appBarBackButtonRef}>
+                </div>  
                 <PageTitle variant="h1">
                     {title? <FormattedMessage {...title} /> : null }
                 </PageTitle>
-                <TabContent ref={appTabRef}>
+                <div ref={appTabRef}>
 
-                </TabContent>
+                </div>
                 <div style={{flexGrow: 1}} />
                 <div className="">
-                    <TutorialProgressBar />
                     <NotificationButton />
                     <IconButton
                         edge="end"
@@ -102,6 +104,9 @@ const AppBar = forwardRef(({
         </StyledAppBar>
     )
 })
+/*
+                    <TutorialProgressBar />
+*/
 
 AppBar.propTypes = {
     title: PropTypes.object,

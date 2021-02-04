@@ -102,7 +102,7 @@ const CropCard = ({
     ]
 
     const items = [
-        {title: gobalMessages.open, link: { to: ROUTES.Production, params: {cropId: 1, productionId: 1}}},
+        {title: gobalMessages.open, link: { to: ROUTES.CropProductionSeason, params: {cropId: 1}}},
         {title: gobalMessages.edit, onClick: () => null},
         {title: gobalMessages.archive, onClick: () => null},
         {title: gobalMessages.delete, onClick: () => null},
@@ -122,7 +122,7 @@ const CropCard = ({
             <CardHeader
                 avatar={
                     <SmallIconButton
-                        to={ROUTES.Production}
+                        to={ROUTES.CropProductionSeason}
                         params={data}
                     >
                         <Avatar aria-label="wheat">

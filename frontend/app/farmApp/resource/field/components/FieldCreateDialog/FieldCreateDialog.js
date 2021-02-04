@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import messages from './messages';
 import { FormattedMessage } from 'react-intl';
-import { ROUTES } from 'routes'
+import { ROUTES } from 'farmApp/routes'
 
 import { Modal, ModalHeader, ModalContent } from 'components'
 
@@ -15,7 +15,7 @@ import FieldCreateOption from '../FieldCreateOption/FieldCreateOption'
 
 const getDefaultOptions = () => [
     {title: messages.drawTitle, description: messages.drawDesc, to: ROUTES.ResourceFieldCreateDraw },
-    {title: messages.uploadTitle, description: messages.uploadDesc, to: ROUTES.ResourceFieldCreateUpload },
+    {title: messages.uploadTitle, description: messages.uploadDesc, to: ROUTES.ResourceField },
 ]
 
 const PaddedContent = styled(ModalContent)`

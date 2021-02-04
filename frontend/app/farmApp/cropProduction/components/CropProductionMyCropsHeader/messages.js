@@ -11,4 +11,8 @@ export default defineMessages({
         id: `${scope}.multiView`,  
         defaultMessage: 'All',
     },
+    cropDashboard: {
+        id: `${scope}.dashboard`,  
+        defaultMessage: 'Dashboard',
+    },
   })

@@ -78,7 +78,7 @@ export const routes = [
       // Crops overall view (Timeline). Show all crops , productions and seasons
       {
         key: ROUTES.ReportCountry,
-        path: '/reports/country',
+        path: '/country',
         component: CountryTabHeader,
         routeComponent: ProtectedRoute,
         layoutComponent: HeaderContent,
@@ -87,14 +87,14 @@ export const routes = [
           // TODO: Maybe remove this? I think we don't need a summary here
           {
             key: ROUTES.ReportCountrySummary,
-            path: '/reports/country',
+            path: '',
             component: CountrySummary,
             routeComponent: ProtectedRoute,
             props: { exact: true },
           },
           {
             key: ROUTES.ReportCountryGn,
-            path: '/reports/country/gazdasagi-naplo',
+            path: '/gazdasagi-naplo',
             component: CountryGn,
             routeComponent: ProtectedRoute,
             props: { exact: true },
@@ -103,7 +103,7 @@ export const routes = [
       },
       {
         key: ROUTES.ReportResource,
-        path: '/reports/resource',
+        path: '/resource',
         component: ResourceTabHeader,
         routeComponent: ProtectedRoute,
         layoutComponent: HeaderContent,
@@ -111,35 +111,35 @@ export const routes = [
         routes: [          
           {
             key: ROUTES.ReportResourceUsage,
-            path: '/reports/resource/usage',
+            path: '/usage',
             component: ResourceUsage,
             routeComponent: ProtectedRoute,
             props: { exact: true },
           },
           {
             key: ROUTES.ReportResourceBlock,
-            path: '/reports/resource/fields',
+            path: '/fields',
             component: ResourceBlock,
             routeComponent: ProtectedRoute,
             props: { exact: true },
           },
           {
             key: ROUTES.ReportResourceMachinery,
-            path: '/reports/resource/machinery',
+            path: '/machinery',
             component: ResourceMachinery,
             routeComponent: ProtectedRoute,
             props: { exact: true },
           },
           {
             key: ROUTES.ReportResourceWorker,
-            path: '/reports/resource/worker',
+            path: '/worker',
             component: ResourceWorker,
             routeComponent: ProtectedRoute,
             props: { exact: true },
           },
           {
             key: ROUTES.ReportResourceInventory,
-            path: '/reports/resource/inventory',
+            path: '/inventory',
             component: ResourceInventory,
             routeComponent: ProtectedRoute,
             props: { exact: true },

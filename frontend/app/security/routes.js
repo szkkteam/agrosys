@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import Container from 'components/Layout/Container'
+import { compileRoutes } from 'utils/route/utils'
 
 /**
  * Site
@@ -62,7 +63,7 @@ export const routes = [
     routes: [
             {
         key: ROUTES.Login,
-        path: '/security/login',
+        path: '/login',
         component: Login,
         routeComponent: AnonymousRoute,
         label: 'Login',
@@ -70,7 +71,7 @@ export const routes = [
       },
       {
         key: ROUTES.ForgotPassword,
-        path: '/security/login/forgot-password',
+        path: '/login/forgot-password',
         component: ForgotPassword,
         routeComponent: AnonymousRoute,
         label: 'Forgot password?',
@@ -78,14 +79,14 @@ export const routes = [
       },
       {
         key: ROUTES.Logout,
-        path: '/security/logout',
+        path: '/logout',
         component: Logout,
         label: 'Logout',
         props: { exact: true }
       },
       {
         key: ROUTES.PendingConfirmation,
-        path: '/security/sign-up/pending-confirm-email',
+        path: '/sign-up/pending-confirm-email',
         component: PendingConfirmation,
         routeComponent: AnonymousRoute,
         label: 'Pending Confirm Email',
@@ -93,7 +94,7 @@ export const routes = [
       },
       {
         key: ROUTES.ResendConfirmation,
-        path: '/security/sign-up/resend-confirmation-email',
+        path: '/sign-up/resend-confirmation-email',
         component: ResendConfirmation,
         routeComponent: AnonymousRoute,
         label: 'Resend Confirmation Email',
@@ -101,7 +102,7 @@ export const routes = [
       },
       {
         key: ROUTES.ResetPassword,
-        path: '/security/login/reset-password/:token',
+        path: '/login/reset-password/:token',
         component: ResetPassword,
         routeComponent: AnonymousRoute,
         label: 'Reset Password',
@@ -109,7 +110,7 @@ export const routes = [
       },
       {
         key: ROUTES.SignUp,
-        path: '/security/sign-up',
+        path: '/sign-up',
         component: SignUp,
         routeComponent: AnonymousRoute,
         label: 'Sign Up',
@@ -119,3 +120,8 @@ export const routes = [
   },
  
 ]
+
+export let ROUTE_MAP = {}
+
+// Compile the routes to a flat list
+compileRoutes(ROUTE_MAP, routes)

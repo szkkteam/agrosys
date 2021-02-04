@@ -9,9 +9,12 @@ import {
 } from '@material-ui/core'
 
 const StyledPrimaryButton = styled(Button)`
-    min-width: 220px;
-    margin: 10px 15px;
-    padding: 8px 16px;
+
+    ${({theme}) => `
+        margin: 10px 15px;
+        padding: 8px 16px;
+        min-width: 220px;
+    `}
 `
 
 const PrimaryButton = ({

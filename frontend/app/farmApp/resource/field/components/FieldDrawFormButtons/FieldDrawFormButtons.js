@@ -6,7 +6,8 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 
 import {
-    Typography
+    Typography,
+    Grid
 } from '@material-ui/core'
 
 import { PrimaryButton, SecondaryButton } from 'components'
@@ -29,6 +30,10 @@ const SummaryContainer = styled.div`
     padding: 0 10px;
 `
 
+const Flex = styled.div`
+    display: flex;
+    flex-wrap: nowrap;
+`
 
 const FieldDrawFormButtons = ({
     disabled=false,
@@ -47,7 +52,7 @@ const FieldDrawFormButtons = ({
                 </Typography>
             </SummaryContainer>
             <div>
-                <SecondaryButton
+                <SecondaryButton 
                     onClick={onCancel}
                     style={{paddingTop: "9px", paddingBottom: "9px"}}
                 />

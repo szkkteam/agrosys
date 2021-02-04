@@ -1,4 +1,4 @@
-import { call, put, race, take, takeEvery } from 'redux-saga/effects'
+import { call, put, race, take, takeEvery, fork } from 'redux-saga/effects'
 //import SubmissionError from 'redux-form/es/SubmissionError'
 import { SubmissionError } from 'redux-form'
 
@@ -18,6 +18,7 @@ export function createRoutineSaga(routine, successGenerator, failureGenerator) {
   return function *({ payload }) {
     try {
       yield put(routine.request())
+      //yield call(successGenerator, payload)
       yield successGenerator(payload)
     } catch (e) {
       yield failureGenerator(e)

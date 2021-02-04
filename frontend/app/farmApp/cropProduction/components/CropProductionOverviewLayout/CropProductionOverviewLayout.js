@@ -3,127 +3,128 @@ import PropTypes from 'prop-types'
 import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
-import { Redirect, useLocation, Switch } from "react-router-dom";
-import { withLinkComponent } from 'utils/hoc'
-import { HashRoute } from 'utils/route'
-import { ROUTES } from 'routes'
 
-import { CROP_DIALOG } from 'site/modalTypes'
-import { usePushModalWindow } from 'utils/hooks'
+import { DashboardLayout } from 'farmApp/components'
 
-import { VIEW_MODULE, VIEW_LIST } from '../../constants'
+import CropProductionOverviewToolbar from '../CropProductionOverviewToolbar/CropProductionOverviewToolbar'
 
-import { 
-    TableHeader,
-} from 'components/Table'
+import {
+    UpcomingTask
+} from 'farmApp/cropProduction/task/widgets'
 
-import { 
-    PrimaryActionButton,
-    ViewButtonGroup
-} from 'components'
-
-import CropProductionModuleLayout from '../CropProductionModuleLayout/CropProductionModuleLayout'
-
-import ViewModuleIcon from '@material-ui/icons/ViewModule';
-import ListIcon from '@material-ui/icons/List';
+import {
+    CropExpense,
+    CropIncome,
+    CropROI,
+    CultivatedArea
+} from 'farmApp/cropProduction/widgets'
 
 import {
     Grid,
+    Typography,
 } from '@material-ui/core'
 
 const Container = styled.div`
-    padding: 15px 20px;
-    height: 100%;
-    overflow: hidden;
+    ${({theme, spacing}) => `
+        flex-grow: 1;
+        padding: 7px 8px;
+        display: flex;
+        flex-direction: column;
+        ${theme.breakpoints.up('sm')} {
+            //padding: 15px calc(${theme.spacing(spacing)}px / 2 + 1px);
+        }
+    `}
 `
-
-const FlexGrid = styled(Grid)`
-    display: flex;
-`
-
-const Spacer = styled.div`
-    flex-grow: 1;
-`
-
-const CropRoutes = ({
-    height,
-}) => {
-    return (
-        <>
-            <HashRoute path={VIEW_MODULE} component={props => <CropProductionModuleLayout height={height} {...props} />} />
-            <HashRoute path={VIEW_LIST} component={props => <CropProductionModuleLayout height={height} {...props} />} />
-            <HashRoute path="" component={({location}) => <Redirect to={{...location, hash: VIEW_MODULE}} />} />
-        </>
-    )
-}
 
 
 const CropProductionOverviewLayout = ({
 
 }) => {
 
-   const views = [
-        {value: VIEW_MODULE, icon: ViewModuleIcon},
-        {value: VIEW_LIST, icon: ListIcon},
+    const widgetDefaults = {w: 3, h: 5, static: true}
+
+    const upcomingTaskDefault = {...widgetDefaults, h: 9}
+
+    const layouts = {
+        xxs: [
+            {...widgetDefaults, i: 'CultivatedArea', x: 0, y: 0},
+            {...widgetDefaults, i: 'CropIncome', x: 3, y: 0},
+            {...widgetDefaults, i: 'CropExpense', x: 6, y: 0},
+            {...widgetDefaults, i: 'CropROI', x: 9, y: 0},
+            {...upcomingTaskDefault, i: 'UpcomingTask', x: 0, y: 0},
+        ],
+        xs: [
+            {...widgetDefaults, i: 'CultivatedArea', x: 0, y: 0, w: 2},
+            {...widgetDefaults, i: 'CropIncome', x: 2, y: 0, w: 2},
+            {...widgetDefaults, i: 'CropExpense', x: 0, y: 5, w: 2},
+            {...widgetDefaults, i: 'CropROI', x: 2, y: 10, w: 2},
+            {...upcomingTaskDefault, i: 'UpcomingTask', x: 0, y: 15, w: 4},
+        ],
+        sm: [
+            {...widgetDefaults, i: 'CultivatedArea', x: 0, y: 0},
+            {...widgetDefaults, i: 'CropIncome', x: 3, y: 0},
+            {...widgetDefaults, i: 'CropExpense', x: 0, y: 5},
+            {...widgetDefaults, i: 'CropROI', x: 3, y: 10},
+            {...upcomingTaskDefault, i: 'UpcomingTask', x: 0, y: 15},
+        ],
+        md: [
+            {...widgetDefaults, i: 'CultivatedArea', x: 0, y: 0},
+            {...widgetDefaults, i: 'CropIncome', x: 3, y: 0},
+            {...widgetDefaults, i: 'CropExpense', x: 6, y: 0},
+            {...widgetDefaults, i: 'CropROI', x: 9, y: 0},
+            {...upcomingTaskDefault, i: 'UpcomingTask', x: 0, y: 5, w: 4},
+        ],
+        lg: [
+            {...widgetDefaults, i: 'CultivatedArea', x: 0, y: 0},
+            {...widgetDefaults, i: 'CropIncome', x: 3, y: 0},
+            {...widgetDefaults, i: 'CropExpense', x: 6, y: 0},
+            {...widgetDefaults, i: 'CropROI', x: 9, y: 0},
+            {...upcomingTaskDefault, i: 'UpcomingTask', x: 0, y: 5},
+        ]
+
+    }
+
+    const components = [
+        {key: "CultivatedArea", component: <CultivatedArea />},
+        {key: "CropIncome", component: <CropIncome />},
+        {key: "CropExpense", component: <CropExpense />},
+        {key: "CropROI", component: <CropROI />},
+        {key: "UpcomingTask", component: <UpcomingTask />},
     ]
 
-
-    const push = usePushModalWindow()
-
-    const openEdit = (e, data) => {
-        push(CROP_DIALOG, {data}).then((status) => {
-            console.debug("Finished: ", status)
-        })
-    }
-
-    const handleAddNew = (e) => {
-        push(CROP_DIALOG, {}).then((status) => {
-            console.debug("Finished: ", status)
-        })
-    }
-
-    //TODO: Remove
-    /*
-    useEffect(() => {
-        handleAddNew()
-    }, [])
-    */
-
     return (
-        <Container>
-            <TableHeader
-                title={messages.title}
-            >   
-                <Grid
-                    container
-                    justify="flex-end"
-                >
-                    <FlexGrid item xs={9}>
-                        <Spacer />
-                        <PrimaryActionButton
-                            title={messages.addNewTitle}
-                            onClick={handleAddNew}
-                        />
-                    </FlexGrid>
-                    <FlexGrid item xs={3}>      
-                        <Spacer />
-                        <ViewButtonGroup
-                            items={views}
-                        />
-                    </FlexGrid>
-                </Grid>
-            </TableHeader>
-            <CropRoutes />
+        <Container
+            spacing={4}
+        >
+            <div>
+                <Typography variant="h5">
+                    Crops dashboard
+                </Typography>
+            </div>
+            <div style={{width: "100%"}}>
+                <CropProductionOverviewToolbar />
+            </div>
+            <div >
+                <DashboardLayout
+                    //disabled
+                    //compactType="horizontal"
+                    //verticalCompact={false}
+                    //rowHeight={30}
+                    layouts={layouts}
+                    components={components}
+                />
+            </div>
         </Container>
     )
 }
 
 /*
-        <div>
-        Crop overview. Show quick stats about crops and running productions.<br/>
-        Add possibility to create crop, or create production directly under specifc crop or create inline crop for it.<br/>
-        Also manage the seasons?<br/>
-    </div>
+content<br/>
+            1) Page title, enough whitespaces.<br/>
+                              2) Filter toolbar. Crop chips, select all, edit crops button, add crop button<br/>
+                              3) A row (maybe carousel) to display common KPIs<br/>
+                              4) Grid layout, to put widgets inside. Based on filtered crops<br/>
+                              4.1) Tasks, crop growth, weather, ROI, yield, crop finance, usages, etc...
 */
 
 CropProductionOverviewLayout.propTypes = {

@@ -20,6 +20,8 @@ import {
     IconButton
 } from '@material-ui/core'
 
+import { useFetchCropTypes } from '../../../hooks'
+
 const Divider = styled.div`
     margin: 15px 0;
     width: 100%;
@@ -50,33 +52,16 @@ const Container = styled(Grid)`
     margin-bottom: 60px;
 `
 
-const crops = [
-    {id: 1, title: 'Wheat', category: 'Crops'},
-    {id: 2, title: 'Corn', category: 'Crops'},
-    {id: 3, title: 'Durum wheat', category: 'Crops'},
-    {id: 4, title: 'Sweat Corn', category: 'Crops'},
-    {id: 5, title: 'Lucerna', category: 'Other'},
-    {id: 6, title: 'Wine', category: 'Fruit'},
-    {id: 7, title: 'Wheat2', category: 'Crops'},
-    {id: 8, title: 'Corn2', category: 'Crops'},
-    {id: 9, title: 'Durum wheat2', category: 'Crops'},
-    {id: 10, title: 'Sweat Corn2', category: 'Crops'},
-    {id: 11, title: 'Lucerna2', category: 'Other'},
-    {id: 12, title: 'Wine2', category: 'Fruit'},
-    {id: 13, title: 'Wheat3', category: 'Crops'},
-    {id: 14, title: 'Corn3', category: 'Crops'},
-    {id: 15, title: 'Durum wheat3', category: 'Crops'},
-    {id: 16, title: 'Sweat Corn3', category: 'Crops'},
-    {id: 17, title: 'Lucerna3', category: 'Other'},
-    {id: 18, title: 'Wine3', category: 'Fruit'},
-]
-
 const CropTabGeneral = ({
     title,
 
 }) => {
 
     const intl = useIntl()
+
+    const {payload: cropTypes, isLoading } = useFetchCropTypes()
+
+    console.debug("cropTypes: ", cropTypes)
 
     return (
             <Container container spacing={1} >
@@ -99,10 +84,11 @@ const CropTabGeneral = ({
                     <Grid item xs={6}>
                         <SearchSelectField name="cropType"
                             label={intl.formatMessage(messages.cropType)}
+                            loading={isLoading}
                             variant="outlined"
                             formProps={{fullWidth: true}}
-                            options={crops}
-                            idAccessor={(o) => o.id}
+                            options={cropTypes}
+                            //idAccessor={(o) => o.id}
                             groupBy={(option) => option.category}
                             getOptionLabel={(option) => option.title}
                         />

@@ -1,20 +1,36 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Content from 'components/Layout/Content'
+import { Redirect } from 'react-router-dom'
+
+import { ResourceAppBar } from 'farmApp/resource/components'
 
 import {
-  WorkerList,
-} from 'farmApp/resource/worker/pages'
+  machineryOverview,
+  machineryDetail,
+  ROUTES as machineryRoutesKeys,
+} from 'farmApp/resource/machinery/routes'
+
+import {
+  workerOverview,
+  workerDetail,
+  ROUTES as workerRoutesKeys,
+} from 'farmApp/resource/worker/routes'
+
+
+import {
+  fieldOverview,
+  fieldDetail,
+  ROUTES as fieldRoutesKeys,
+} from 'farmApp/resource/field/routes'
+
+
 
 import {
   FieldList,
   FieldCreateDraw,
   FieldEdit,
 } from 'farmApp/resource/field/pages'
-
-import {
-  MachineryList
-} from 'farmApp/resource/machinery/pages'
 
 import {
   EntityList
@@ -36,18 +52,16 @@ export const ROUTES = {
      * Resources Keys
      */
     Resource: 'Resource',
+    ResourceOverview: 'ResourceOverview',
+    /*
     // Field
     ResourceField: 'ResourceField',
     ResourceFieldList: 'ResourceFieldList',
     ResourceFieldEdit: 'ResourceFieldEdit',
     ResourceFieldCreateDraw: 'ResourceFieldCreateDraw',
     ResourceFieldCreateUpload: 'ResourceFieldCreateUpload',
+    */
   
-    // Worker
-    WorkerList: 'WorkerList',
-  
-    // Machinery
-    MachineryList: 'MachineryList',
     // Entitiy
     EntityList: 'EntityList',
     /**
@@ -59,6 +73,10 @@ export const ROUTES = {
   
     // Inventory
     InventoryList: 'InventoryList',  
+
+    ...machineryRoutesKeys,
+    ...workerRoutesKeys,
+    ...fieldRoutesKeys,
 }
 
 
@@ -68,7 +86,10 @@ const PlaceHolder = styled.div`
     height: 100%;
   }
 `
-const PlaceholderDiv = props => <PlaceHolder />
+const PlaceholderDiv = props => {
+
+  return <PlaceHolder key="123456"/>
+}
 
 /**
  * route details
@@ -81,76 +102,50 @@ const PlaceholderDiv = props => <PlaceHolder />
  *  - label: optional, label to use for links (default: startCase(key))
  */
 
+
+const RedirectToOverview = (props) => {
+  return <Redirect from="/resources" to="/resources/overview" />
+}
+
 export const routes = [
   {
     key: ROUTES.Resource,
-    path: '/resource',
-    component: ResourceHeaderTab,
-    routeComponent: ProtectedRoute,
-    layoutComponent: Content,
+    path: '/resources',
+    component: 'div',
+    //component: PlaceholderDiv,
+    //layoutComponent: Content,
     routes: [
-      // Field routes
       {
-        key: ROUTES.ResourceField,
-        path: '/resource/fields',
-        component: PlaceholderDiv,
-        routeComponent: ProtectedRoute,
+        key: 'RedirectToOVerview',
+        path: '',
+        component: RedirectToOverview,
+        props: { exact: true }
+      },
+      {
+        key: ROUTES.ResourceOverview,
+        path: '/overview/:tab?',
+        component: ResourceAppBar,
+        //props: { exact: true }, NOT WORKING
         routes: [
+          
+              
+          // Entity routes  
           {
-            key: ROUTES.ResourceFieldList,
-            path: '/resource/fields',
-            component: FieldList,
+            key: ROUTES.EntityList,
+            path: '/entities',
+            component: EntityList,
             routeComponent: ProtectedRoute,
             props: { exact: true }
           },
-          {
-            key: ROUTES.ResourceFieldEdit,
-            path: '/resource/fields/:id/edit',
-            component: FieldEdit,
-            routeComponent: ProtectedRoute,
-            props: { exact: true }
-          },
-          {
-            key: ROUTES.ResourceFieldCreateDraw,
-            path: '/resource/fields/new/draw',
-            component: FieldCreateDraw,
-            routeComponent: ProtectedRoute,
-            props: { exact: true }
-          },
-          {
-            key: ROUTES.ResourceFieldCreateUpload,
-            path: '/resource/fields/new/upload',
-            component: FieldList,
-            routeComponent: ProtectedRoute,
-            props: { exact: true }
-          },          
+
+          ...machineryOverview,
+          ...workerOverview,
+          ...fieldOverview,
         ]
-        //props: { exact: true }
       },
-      // Worker routes    
-      {
-        key: ROUTES.WorkerList,
-        path: '/resource/workers',
-        component: WorkerList,
-        routeComponent: ProtectedRoute,
-        //props: { exact: true }
-      },
-      // Machinery routes  
-      {
-        key: ROUTES.MachineryList,
-        path: '/resource/machinery',
-        component: MachineryList,
-        routeComponent: ProtectedRoute,
-        props: { exact: true }
-      },
-      // Entity routes  
-      {
-        key: ROUTES.EntityList,
-        path: '/resource/entities',
-        component: EntityList,
-        routeComponent: ProtectedRoute,
-        props: { exact: true }
-      },
+      ...machineryDetail,
+      ...workerDetail,
+      ...fieldDetail,
     ]
   },
   // Inventory routes  
@@ -158,7 +153,47 @@ export const routes = [
     key: ROUTES.InventoryList,
     path: '/inventory',
     component: InventoryList,
-    routeComponent: ProtectedRoute,
     props: { exact: false }
   },
+
 ]
+
+/*
+{
+            key: ROUTES.ResourceField,
+            path: '/fields',
+            component: PlaceholderDiv,
+            routeComponent: ProtectedRoute,
+            routes: [
+              {
+                key: ROUTES.ResourceFieldList,
+                path: '',
+                component: FieldList,
+                routeComponent: ProtectedRoute,
+                props: { exact: true }
+              },
+              {
+                key: ROUTES.ResourceFieldEdit,
+                path: '/:id/edit',
+                component: FieldEdit,
+                routeComponent: ProtectedRoute,
+                props: { exact: true }
+              },
+              {
+                key: ROUTES.ResourceFieldCreateDraw,
+                path: '/new/draw',
+                component: FieldCreateDraw,
+                routeComponent: ProtectedRoute,
+                props: { exact: true }
+              },
+              {
+                key: ROUTES.ResourceFieldCreateUpload,
+                path: '/new/upload',
+                component: FieldList,
+                routeComponent: ProtectedRoute,
+                props: { exact: true }
+              },          
+            ]
+            //props: { exact: true }
+          },
+*/

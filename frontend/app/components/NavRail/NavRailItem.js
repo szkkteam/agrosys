@@ -56,7 +56,6 @@ const NavRailItem = ({
         <StyledLinkListItem
             button
             to={to}
-            key={title.id}
             onClick={onClick}
             //{...rest}
         >

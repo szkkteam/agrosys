@@ -16,25 +16,35 @@ const TabHeader = ({
     items,
     redirectTo=null,
     redirect=true,
+    params={},
     ...props
 }) => {
     const intl = useIntl()
     const redirectRoute = ROUTE_MAP[redirectTo ?? items[0].to]
 
     let value = null
+    let matchParams = params
     items.map(({ to }, i) => {
         const route = ROUTE_MAP[to]
         //console.debug("Route: ", route)
         const matched = useRouteMatch({ path: route?.path, ...route.props})
-        //console.debug("Matched: ", matched)
+        console.debug("Matched: ", matched)
         if (matched) {
+            matchParams = {
+                ...matched.params,
+                ...matchParams
+            }
             value = i
         }
     })
     const isMatchFound = !_.isNull(value)
 
-    const params = useParams()
-    //console.debug("Route-params: ", params)
+    const urlParams = useParams()
+    console.debug("Route-params: ", urlParams)
+    const { path, url } = useRouteMatch()
+
+    console.debug(path) // /topics/:topicId/:subId
+    console.debug(url) // /topics/react-router/url-parameters
 
     return (
         <>
@@ -45,8 +55,8 @@ const TabHeader = ({
                 orientation="horizontal"
                 {...props}
             >
-                { items && items.map((tab, i) => 
-                    <TabLink key={i} {...tab} value={i} params={params} />    
+                { items && items.map(({params=urlParams, ...tab}, i) => 
+                    <TabLink key={i} {...tab} value={i} params={{...matchParams, ...params}} />    
                 )}            
             </StyledTabs>
         }
@@ -62,6 +72,7 @@ TabHeader.propTypes = {
         label: PropTypes.string.isRequired
     })),    
     redirect: PropTypes.bool,
+    params: PropTypes.object,
     //history: PropTypes.object.isRequired,
     //match: PropTypes.object.isRequired,
 }
