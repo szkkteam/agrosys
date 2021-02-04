@@ -14,19 +14,28 @@ import {
 } from '@material-ui/core'
 
 
-const WideToolbar = styled(MuiToolbar)`
+const WideToolbar = styled(({sticky, ...props}) => <MuiToolbar {...props}/>)`
     width: 100%;
     padding-top: 7px;
     padding-bottom: 7px;
+    ${({theme, sticky}) => sticky
+        ? `
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        `
+        : ``}   
 `
 
 const Toolbar = ({
+    sticky=false,
     children,
 
 }) => {
 
     return (
         <WideToolbar
+            sticky={sticky}
             component={Paper}
         >
             {children}

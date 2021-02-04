@@ -6,6 +6,8 @@ import styled from 'styled-components'
 
 import { DashboardLayout, DashboardCard } from 'farmApp/components/Dashboard'
 
+import SeasonOverviewToolbar from '../SeasonOverviewToolbar/SeasonOverviewToolbar'
+
 import { SeasonTimeline } from 'farmApp/cropProduction/season/widgets'
 import { FieldWeather } from 'farmApp/cropProduction/fieldProduction/widgets'
 import { CropUpcomingTask } from 'farmApp/cropProduction/task/widgets'
@@ -18,13 +20,21 @@ import {
 const Container = styled.div`
     ${({theme, spacing}) => `
         flex-grow: 1;
-        padding: 7px 8px;
-        display: flex;
+        //padding: 7px 8px;
+        padding: 0 8px 7px;
+        display: flex;        
+        overflow-y: auto;
         flex-direction: column;
         ${theme.breakpoints.up('sm')} {
             //padding: 15px calc(${theme.spacing(spacing)}px / 2 + 1px);
         }
     `}
+`
+
+const TitleContainer = styled.div`
+    margin-top: 5px;
+    margin-bottom: 10px;
+    
 `
 
 const TestDiv = styled.div`
@@ -44,7 +54,7 @@ const SeasonOverviewLayout = ({
 
     const upcomingTaskDefaults = {...widgetDefaults, i: 'CropUpcomingTask', x: 6, y: 0, w: 3, h: 10}
 
-    const test = {...widgetDefaults, i: 'test', x: 0, y: 10, w: 3, h: 10}
+    const test = {...widgetDefaults, i: 'test', x: 0, y: 10, w: 3, h: 15}
 
     const components = [
         {key: 'SeasonTimeline', component: <SeasonTimeline />},
@@ -99,14 +109,16 @@ const SeasonOverviewLayout = ({
         <Container
             spacing={4}
         >
-            <div>
+            <TitleContainer>
                 <Typography variant="h5">
-                    My wheat - wheat 2020 (2020.06.05 - 2020.08.10)
+                    Season - wheat 2020
                 </Typography>
-            </div>
-            <div style={{width: "100%"}}>
-                Toolbar
-            </div>
+                <Typography variant="body2">
+                    From: 2020.06.05 to: 2020.08.10
+                </Typography>
+            </TitleContainer>
+            <SeasonOverviewToolbar
+            />
             <div>
                 <DashboardLayout
                     layouts={layouts}

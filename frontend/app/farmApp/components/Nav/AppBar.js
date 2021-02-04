@@ -49,6 +49,7 @@ const StyledAppBar = styled(MuiAppBar)`
 const ContentSpacer = styled(({height: dummy = null, ...rest}) => <div {...rest}/> )`
     ${({ theme, height }) => `
       height: calc(${height}px - ${theme.custom.pagePadding}px);
+      min-height: calc(${height}px - ${theme.custom.pagePadding}px);
       display: flex;
       align-items: center;
     `}
