@@ -6,6 +6,12 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import { Redirect, useLocation, Switch } from "react-router-dom";
 import { HashRoute } from 'utils/route'
 
+import {
+    PageHeader,
+    PageContent,
+    PageToolbar
+} from 'components'
+
 import { VIEW_MAP, VIEW_LIST, VIEW_MODULE } from '../../constants'
 
 import { 
@@ -70,25 +76,18 @@ const FieldLayoutRouter = ({
 
 
     return (
-        <Container>
-            <TableHeader
-                title={messages.title}
-            >   
-                <Grid
-                    container
-                    justify="flex-end"
-                >
-                    <Grid item xs={8}>
-                        {children}
-                    </Grid>
-                    <FlexGrid item xs={4}>      
-                        <Spacer />
-                        <ViewButtonGroup
-                            items={viewLookup}
-                        />                      
-                    </FlexGrid>
-                </Grid>
-            </TableHeader>                            
+        <PageContent>
+            <PageHeader
+                title="Agricultural parcels"
+            >
+
+            </PageHeader>
+            <PageToolbar>
+                <Spacer />
+                <ViewButtonGroup
+                    items={viewLookup}
+                /> 
+            </PageToolbar>
             {viewLookup.map(({value}) => {
                 const Component = viewComponents[value]
                 return (
@@ -96,7 +95,7 @@ const FieldLayoutRouter = ({
                 )
             })}
             <HashRoute path="" component={({location}) => <Redirect to={{...location, hash: VIEW_MAP}} />} />
-        </Container>
+        </PageContent>
     )
 }
 

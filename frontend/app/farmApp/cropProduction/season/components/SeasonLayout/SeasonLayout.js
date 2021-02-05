@@ -16,7 +16,10 @@ import {
 
 import { 
     PrimaryActionButton,
-    ViewButtonGroup
+    ViewButtonGroup,
+    PageHeader,
+    PageContent,
+    PageToolbar
 } from 'components'
 
 import SeasonList from '../SeasonList/SeasonList'
@@ -64,16 +67,20 @@ const SeasonLayout = ({
 }) => {
 
    const views = [
-        {value: VIEW_MODULE, icon: ViewModuleIcon},
         {value: VIEW_LIST, icon: ListIcon},
+        {value: VIEW_MODULE, icon: ViewModuleIcon},
     ]
 
     return (
-        <Container
+        <PageContent
         >
-            <TableHeader
-                title={messages.title}
-            >   
+            <PageHeader
+                title="Seasons - list"
+            >
+                
+            </PageHeader>
+            <PageToolbar
+            >
                 <Grid
                     container
                     justify="flex-end"
@@ -91,10 +98,10 @@ const SeasonLayout = ({
                         />
                     </FlexGrid>
                 </Grid>
-            </TableHeader>
+            </PageToolbar>            
             <ProductionRoutes 
             />
-        </Container>
+        </PageContent>
     )
 }
 

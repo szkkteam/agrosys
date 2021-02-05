@@ -4,6 +4,12 @@ import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 
+import {
+    PageHeader,
+    PageContent,
+    PageToolbar
+} from 'components'
+
 import { DashboardLayout } from 'farmApp/components'
 
 import CropProductionOverviewToolbar from '../CropProductionOverviewToolbar/CropProductionOverviewToolbar'
@@ -18,23 +24,6 @@ import {
     CropROI,
     CultivatedArea
 } from 'farmApp/cropProduction/widgets'
-
-import {
-    Grid,
-    Typography,
-} from '@material-ui/core'
-
-const Container = styled.div`
-    ${({theme, spacing}) => `
-        flex-grow: 1;
-        padding: 7px 8px;
-        display: flex;
-        flex-direction: column;
-        ${theme.breakpoints.up('sm')} {
-            //padding: 15px calc(${theme.spacing(spacing)}px / 2 + 1px);
-        }
-    `}
-`
 
 
 const CropProductionOverviewLayout = ({
@@ -93,17 +82,17 @@ const CropProductionOverviewLayout = ({
     ]
 
     return (
-        <Container
+        <PageContent
             spacing={4}
         >
-            <div>
-                <Typography variant="h5">
-                    Crops dashboard
-                </Typography>
-            </div>
-            <div style={{width: "100%"}}>
+            <PageHeader
+                title="Crops dashboard"
+            >
+
+            </PageHeader>
+            <PageToolbar sticky>
                 <CropProductionOverviewToolbar />
-            </div>
+            </PageToolbar>            
             <div >
                 <DashboardLayout
                     //disabled
@@ -114,7 +103,7 @@ const CropProductionOverviewLayout = ({
                     components={components}
                 />
             </div>
-        </Container>
+        </PageContent>
     )
 }
 

@@ -2,6 +2,7 @@ import React, { useRef, useState, useContext, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+import Zoom from '@material-ui/core/Zoom';
 
 import InfoIcon from '@material-ui/icons/Info';
 import {
@@ -15,7 +16,7 @@ const CardInfo = ({
     ...props
 }) => {
     return (
-        <Tooltip title={
+        <Tooltip TransitionComponent={Zoom} disableFocusListener interactive title={
                 <FormattedMessage {...title}/>
             }
             {...props}

@@ -11,20 +11,10 @@ import {
 
 import {
     Grid,
-    Typography,
-    Toolbar,
     Chip,
     Avatar,
     Button,
-    Paper,
 } from '@material-ui/core'
-
-
-const WideToolbar = styled(Toolbar)`
-    width: 100%;
-    padding-top: 7px;
-    padding-bottom: 7px;
-`
 
 const CropChip = styled(Chip)`
     margin: 3px 4px;
@@ -96,16 +86,12 @@ const CropProductionOverviewToolbar = ({
 }) => {
 
     return (
-        <WideToolbar
-            component={Paper}
-        >
-            <Grid container>
-                <Grid container item xs={12} md={10}>
-                    <CropFilter />
-                </Grid>
-                
+        <Grid container>
+            <Grid container item xs={12} md={10}>
+                <CropFilter />
             </Grid>
-        </WideToolbar>
+            
+        </Grid>
     )
 }
 /*

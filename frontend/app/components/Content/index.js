@@ -1,4 +1,3 @@
-import DocComponent from './DocComponent'
-import PageContent from './PageContent'
-
-export { DocComponent, PageContent }
+export { default as PageContent } from './PageContent'
+export { default as PageHeader } from './PageHeader'
+export { default as PageToolbar } from './PageToolbar'

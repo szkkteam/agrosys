@@ -90,7 +90,7 @@ export const seasonDetail = [
     // This will be used a jump point (Navigate back from deeply nested views)
     key: ROUTES.CropProductionSeasonViews,
     path: '/:cropId/seasons/:seasonId/views',
-    component: () => <div>appbar</div>,    
+    component: 'div',    
     routes: [
       {
         key: ROUTES.CropProductionSeasonView,

@@ -7,6 +7,10 @@ import {
     SideSheet,
 } from 'components'
 
+import {
+    Calendar
+} from 'farmApp/components'
+
 import CloseIcon from '@material-ui/icons/Close';
 
 import {
@@ -17,10 +21,10 @@ import {
     ButtonGroup
 } from '@material-ui/core';
 
-import TaskCalendar from '../TaskCalendar'
 import TaskSmallCard from '../TaskSmallCard'
 
 const Container = styled.div`
+    display: flex;
     height: 100%;
     width: 100%;
 `
@@ -29,7 +33,7 @@ const TaskCard = styled(props => <TaskSmallCard {...props}/>)`
     margin: 15px 5px;
 `
 
-const FullWidthCalendar = styled(props => <TaskCalendar {...props} />)`
+const FullWidthCalendar = styled(props => <Calendar {...props} />)`
     width: 100%;
 `
 

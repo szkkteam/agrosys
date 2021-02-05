@@ -30,7 +30,10 @@ import {
 
 import { 
     PrimaryActionButton,
-    ViewButtonGroup
+    ViewButtonGroup,
+    PageHeader,
+    PageContent,
+    PageToolbar
 } from 'components'
 
 import {
@@ -57,12 +60,11 @@ const Spacer = styled.div`
 
 
 const TaskRoutes = ({
-    height,
 }) => {
     return (
         <>
-            <HashRoute path={VIEW_CALENDAR} component={props => <TaskCalendarLayout height={height} {...props} />} />
-            <HashRoute path={VIEW_LIST} component={props => <TaskTable height={height} {...props} />} />
+            <HashRoute path={VIEW_CALENDAR} component={props => <TaskCalendarLayout {...props} />} />
+            <HashRoute path={VIEW_LIST} component={props => <TaskTable {...props} />} />
             <HashRoute path="" component={({location}) => <Redirect to={{...location, hash: VIEW_CALENDAR}} />} />
         </>
     )
@@ -72,9 +74,7 @@ const TaskRoutes = ({
 const TaskLayout = ({
     
 }) => {
-    const headerRef = useRef(null)
-    const containerRef = useRef(null)
-
+  
     const [currentView, setCurrentView] = useState(VIEW_CALENDAR)
 
     const views = [
@@ -82,16 +82,14 @@ const TaskLayout = ({
         {value: VIEW_LIST, icon: ListIcon},
     ]
 
-    const height = useHeightDifference(containerRef, headerRef)
-
     return (
-        <Container
-            ref={containerRef}
-        >
-            <TableHeader
-                ref={headerRef}
+        <PageContent>
+            <PageHeader
                 title={ currentView === VIEW_CALENDAR? messages.calendarTitle : messages.listTitle}
-            >   
+            >
+                
+            </PageHeader>
+            <PageToolbar>
                 <Grid
                     container
                     justify="flex-end"
@@ -110,11 +108,10 @@ const TaskLayout = ({
                         />                      
                     </FlexGrid>
                 </Grid>
-            </TableHeader>
+            </PageToolbar>           
             <TaskRoutes 
-                height={height - 10}
             />
-        </Container>
+        </PageContent>
     )
 }
 

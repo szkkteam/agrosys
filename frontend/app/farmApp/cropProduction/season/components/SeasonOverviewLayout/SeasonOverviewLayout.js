@@ -4,6 +4,12 @@ import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 
+import {
+    PageHeader,
+    PageContent,
+    PageToolbar
+} from 'components'
+
 import { DashboardLayout, DashboardCard } from 'farmApp/components/Dashboard'
 
 import SeasonOverviewToolbar from '../SeasonOverviewToolbar/SeasonOverviewToolbar'
@@ -11,35 +17,6 @@ import SeasonOverviewToolbar from '../SeasonOverviewToolbar/SeasonOverviewToolba
 import { SeasonTimeline } from 'farmApp/cropProduction/season/widgets'
 import { FieldWeather } from 'farmApp/cropProduction/fieldProduction/widgets'
 import { CropUpcomingTask } from 'farmApp/cropProduction/task/widgets'
-
-import {
-    Grid,
-    Typography
-} from '@material-ui/core'
-
-const Container = styled.div`
-    ${({theme, spacing}) => `
-        flex-grow: 1;
-        //padding: 7px 8px;
-        padding: 0 8px 7px;
-        display: flex;        
-        overflow-y: auto;
-        flex-direction: column;
-        ${theme.breakpoints.up('sm')} {
-            //padding: 15px calc(${theme.spacing(spacing)}px / 2 + 1px);
-        }
-    `}
-`
-
-const TitleContainer = styled.div`
-    margin-top: 5px;
-    margin-bottom: 10px;
-    
-`
-
-const TestDiv = styled.div`
-    background-color: grey;
-`
 
 const SeasonOverviewLayout = ({
 
@@ -106,19 +83,20 @@ const SeasonOverviewLayout = ({
     }
 
     return (
-        <Container
+        <PageContent
+            overflow
             spacing={4}
         >
-            <TitleContainer>
-                <Typography variant="h5">
-                    Season - wheat 2020
-                </Typography>
-                <Typography variant="body2">
-                    From: 2020.06.05 to: 2020.08.10
-                </Typography>
-            </TitleContainer>
-            <SeasonOverviewToolbar
-            />
+            <PageHeader
+                title="Season - wheat 2020"
+                subtitle="From: 2020.06.05 to: 2020.08.10"
+            >
+
+            </PageHeader>
+            <PageToolbar sticky>
+                <SeasonOverviewToolbar
+                />
+            </PageToolbar>
             <div>
                 <DashboardLayout
                     layouts={layouts}
@@ -126,7 +104,7 @@ const SeasonOverviewLayout = ({
                 >                    
                 </DashboardLayout>
             </div>
-        </Container>
+        </PageContent>
     )
 }
 

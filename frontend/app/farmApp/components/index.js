@@ -15,3 +15,7 @@ export { default as GridTable } from './GridTable'
  * Toolbar components
  */
 export { Toolbar } from './Toolbar'
+/**
+ * Calendar components
+ */
+export { Calendar } from './Calendar'
