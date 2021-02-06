@@ -48,7 +48,7 @@ const Login = ({
   ...props
 }) => {
   const intl = useIntl()
-
+  const isDev = process.env.NODE_ENV !== 'production'
   const submitTitle = intl.formatMessage(!submitting? messages.submitTitle : messages.submittingTitle)
 
   return (
@@ -88,7 +88,7 @@ const Login = ({
             <Grid item xs={12}>
               <SubmitButton 
                 type="submit"
-                disabled={pristine || submitting}
+                disabled={ !isDev? pristine: false || submitting}
                 variant="contained"
                 color="primary"
               >
@@ -109,9 +109,9 @@ const withConnect = connect(
     const isDev = process.env.NODE_ENV !== 'production'
     return ({
       initialValues: {
-        redirect: parse(props.location.search).next || '/',
-        //email: isDev? "user1@user.com": null,
-        //password: isDev? "password": null,
+        redirect: parse(props.location.search).next || '/',        
+        email: isDev? "user1@user.com": null,
+        password: isDev? "password": null,
       }
     })
   }

@@ -2,6 +2,7 @@ import React, { useRef, useState, useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+import { fade } from '@material-ui/core/styles/colorManipulator';
 
 import {
     Typography
@@ -16,10 +17,18 @@ const ChildContent = styled.div`
     flex-grow: 1;
 `
 
+const SubHeader = styled(Typography)`
+    ${({theme}) => `
+        color: ${theme.palette.text.secondary};
+    `}
+    
+`
+
 const PageHeader = ({
+    className,
     noWrap=false,
     title,
-    subtitle,
+    subheader,
     children
 }) => {
     const formattedTitle = typeof(title) === 'object' ?
@@ -27,20 +36,20 @@ const PageHeader = ({
         <FormattedMessage {...title} />
     ) : title
 
-    const formattedSubtitle = typeof(subtitle) === 'object' ?
+    const formattedSubheader = typeof(subheader) === 'object' ?
     (
-        <FormattedMessage {...subtitle} />
-    ) : subtitle
+        <FormattedMessage {...subheader} />
+    ) : subheader
 
     return (
-        <Container>
+        <Container className={className}>
             <div>
                 {formattedTitle && <Typography variant="h5" component="h1" noWrap={noWrap}>
                     {formattedTitle}
                 </Typography> }
-                {formattedSubtitle && <Typography variant="body2" component="p" noWrap={noWrap}>
-                    {formattedSubtitle}
-                </Typography>}
+                {formattedSubheader && <SubHeader variant="body1" component="p" noWrap={noWrap}>
+                    {formattedSubheader}
+                </SubHeader>}
             </div>
             <ChildContent>
                 {children}

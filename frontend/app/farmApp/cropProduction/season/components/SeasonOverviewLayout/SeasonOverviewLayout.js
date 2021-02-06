@@ -15,6 +15,93 @@ import { SeasonTimeline } from 'farmApp/cropProduction/season/widgets'
 import { FieldWeather } from 'farmApp/cropProduction/fieldProduction/widgets'
 import { CropUpcomingTask } from 'farmApp/cropProduction/task/widgets'
 
+import {
+    Paper,
+    Grid,
+    Typography,
+    LinearProgress
+} from '@material-ui/core'
+
+const FullWidth = styled.div`
+    width: 100%;
+`
+
+const Spacer = styled.div`
+    flex-grow: 1;
+`
+
+const Bar = ({
+    title,
+    valueTitle,
+    value
+}) => {
+    return (
+        <>
+            <div style={{ paddingBottom: "10px", width: "100%", display: "flex"}}>
+                <Typography variant="body2">
+                    {title}
+                </Typography>
+                <Spacer />
+                <Typography variant="body2">
+                    {valueTitle}
+                </Typography>
+            </div>
+            <LinearProgress
+                variant="determinate"
+                value={value}
+            />
+        </>
+    )
+}
+
+const CashFlow = ({
+
+}) => {
+    return (
+        <FullWidth>
+            <Bar title="Bevétel" valueTitle="23.000 HUF" value={100}/>
+            <Bar title="Kiadás" valueTitle="13.000 HUF" value={50}/>
+        </FullWidth>
+    )
+}
+
+const Header = ({
+
+}) => {
+    return (
+        <Grid container>
+            <Grid container item xs={4}>
+                <Grid item xs={12}>
+                    <Typography variant="h6">
+                        Wheat 2020
+                    </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                    From: 2020 Szeptember 1
+                </Grid>
+                <Grid item xs={12}>
+                    To: 2020 Szeptember 1
+                </Grid>
+                <Grid item xs={12}>
+                    Main crop: Tavaszi búza
+                </Grid>
+                <Grid item xs={12}>
+                    Várható hozam: 9t
+                </Grid>
+                <Grid item xs={12}>
+                    Várható bevétel: 3500 HUF
+                </Grid>
+                <Grid item xs={12}>
+                    <CashFlow />
+                </Grid>
+            </Grid>
+            <Grid item xs={8}>
+                Selectable
+            </Grid>
+        </Grid>
+    )
+}
+
 const SeasonOverviewLayout = ({
 
 }) => {
@@ -74,8 +161,8 @@ const SeasonOverviewLayout = ({
     return (
         <DashboardLayout
             headerProps={{
-                title: "Season - wheat 2020",
-                subtitle: "From: 2020.06.05 to: 2020.08.10",
+                title: "Current season - Wheat 2020",
+                subheader: "2020 Szepember 1 - 2020 November 20"
             }}
             toolbar={
                 <SeasonOverviewToolbar
