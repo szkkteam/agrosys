@@ -22,7 +22,7 @@ const Container = ({
                 {
                     console.debug("Resize: ", size)
                     return (
-                        <DashboardLayout width={size.width} {...props} />
+                        <DashboardContainer width={size.width} {...props} />
                     )
                 }
                 
@@ -31,7 +31,7 @@ const Container = ({
     )
 }
 
-const DashboardLayout = ({
+const DashboardContainer = ({
     components,
     layouts: initialLayouts={},
     disabled=false,
@@ -111,7 +111,7 @@ const DashboardLayout = ({
     )
 }
 
-DashboardLayout.propTypes = {
+DashboardContainer.propTypes = {
     components: PropTypes.arrayOf(PropTypes.shape({
         key: PropTypes.string.isRequired,
         component: PropTypes.element.isRequired

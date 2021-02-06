@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import messages from './messages'
 import styled from 'styled-components'
 
-import { Calendar, Views, momentLocalizer  } from 'react-big-calendar'
+import { Calendar as BigCalendar, Views, momentLocalizer  } from 'react-big-calendar'
 import moment from 'moment'
 import * as dates from 'react-big-calendar/lib/utils/dates'
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
@@ -19,10 +19,10 @@ const ColoredDateCellWrapper = ({ children }) =>
         },
     })
 
-const DraggableCalendar = withDragAndDrop(Calendar);
+const DraggableCalendar = withDragAndDrop(BigCalendar);
 
 
-const TaskCalendar = ({
+const Calendar = ({
     disabled=false,
     ...props
 }) => {
@@ -67,9 +67,20 @@ const TaskCalendar = ({
     )
 }
 
-TaskCalendar.propTypes = {
+Calendar.propTypes = {
     disabled: PropTypes.bool,
 
 }
 
-export default TaskCalendar
+import sizeMe, { SizeMe } from 'react-sizeme'
+
+const Container = (props) => (
+    <SizeMe monitorHeight monitorWidth noPlaceholder>
+    {({ size }) => 
+        <Calendar {...props} {...size}/>
+        
+    }
+    </SizeMe>
+)
+
+export default Container

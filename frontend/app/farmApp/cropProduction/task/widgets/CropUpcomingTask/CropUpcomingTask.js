@@ -5,18 +5,14 @@ import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { Redirect, useParams, Switch } from "react-router-dom";
 import { ROUTES } from 'farmApp/routes'
-import { withLinkComponent } from 'utils/hoc'
 
 import {
     TaskListItem
 } from '../../components'
 
 import {
-    Card,
-    CardFab,
-    CardHeader,
-    CardInfo
-} from 'farmApp/components/Card'
+    WidgetMedium,
+} from 'farmApp/components'
 
 import {
     List,
@@ -28,21 +24,19 @@ const ScrollList = styled(List)`
     overflow-y: auto;
 `
 
-const LinkButton = withLinkComponent(Button)
-
 const CropUpcomingTask = ({
 
 }) => {
     const params = useParams()
     
     return (
-        <Card>
-            <CardHeader                
-                action={<CardInfo title={messages.tooltip}/>}
-                title="Upcoming tasks"
-            >
-                <CardFab />
-            </CardHeader>
+        <WidgetMedium
+            title="Upcoming tasks"
+            link={{
+                to: ROUTES.CropProductionTaskView,
+                title: "show more"
+            }}
+        >
             <ScrollList>
                 <TaskListItem />
                 <TaskListItem />
@@ -50,14 +44,8 @@ const CropUpcomingTask = ({
                 <TaskListItem />
                 <TaskListItem />
                 <TaskListItem />
-            </ScrollList>
-            <LinkButton
-                to={ROUTES.CropProductionTaskView}
-                params={params}
-            >
-                show more
-            </LinkButton>
-        </Card>
+            </ScrollList>            
+        </WidgetMedium>
     )
 }
 

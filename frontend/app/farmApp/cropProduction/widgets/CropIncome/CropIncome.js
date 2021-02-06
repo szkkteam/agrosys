@@ -5,28 +5,19 @@ import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 
 import { 
-    KpiContainer,
+    WidgetLight,
 } from 'farmApp/components'
-
-import {
-    Typography,
-} from '@material-ui/core'
-
-const FullHeightContainer = styled(KpiContainer)`
-    height: 100%;
-`
 
 const CropIncome = ({
 
 }) => {
-    const progress = 86
     return (
-        <FullHeightContainer
+        <WidgetLight
             title={messages.title}
             subheader={messages.subheader}
         >
             TODO: Income
-        </FullHeightContainer>
+        </WidgetLight>
     )
 }
 

@@ -10,16 +10,8 @@ import { withLinkComponent } from 'utils/hoc'
 import { useSeasonCreateDialog } from '../../hooks'
 
 import {
-    Card,
-    CardFab,
-    CardHeader,
-    CardInfo
-} from 'farmApp/components/Card'
-
-import {
-    Paper,
-    Button,
-} from '@material-ui/core'
+    WidgetMedium,
+} from 'farmApp/components'
 
 import {
     Timeline,
@@ -28,25 +20,12 @@ import {
 import { SEASON_STATUS } from '../../constants'
 
 import {
-    AddSeasonItem,
     SeasonItem
 } from './TimelineItems'
-
-const FullHeightPaper = styled(Paper)`
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    //overflow-y: auto;
-    padding: 10px 5px;
-`
-
-//const ScrollContent = styled()
 
 const PaddingTimeline = styled(Timeline)`
     padding: 6px;
 `
-
-const LinkButton = withLinkComponent(Button)
 
 const SeasonTimeline = ({
 
@@ -70,15 +49,16 @@ const SeasonTimeline = ({
     }
 
     return (
-        <Card>
-            <CardHeader
-                title="Seasons"
-                action={<CardInfo title={messages.tooltip}/>}
-            >
-                <CardFab
-                    onClick={handleCreate}
-                />
-            </CardHeader>
+        <WidgetMedium
+            title="Seasons"
+            primaryAction={{
+                onClick: handleCreate,
+            }}
+            link={{
+                title: "Show more",
+                to: ROUTES.CropProductionSeasonView,
+            }}
+        >
             <div style={{flexGrow: 1, overflowY: "auto"}}>
                 <PaddingTimeline align="left">
                         {data.map((d, i) => (
@@ -89,14 +69,9 @@ const SeasonTimeline = ({
                         />
                         ))}
                 </PaddingTimeline>
-            </div>            
-            <LinkButton
-                to={ROUTES.CropProductionSeasonView}
-                params={params}
-            >
-                show more
-            </LinkButton>
-        </Card>
+            </div>  
+        </WidgetMedium>
+        
     )
 }
 //                     <AddSeasonItem />

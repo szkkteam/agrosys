@@ -7,10 +7,6 @@ import { Redirect, useParams, Switch } from "react-router-dom";
 import { ROUTES } from 'farmApp/routes'
 import { withLinkComponent } from 'utils/hoc'
 
-import { 
-    Toolbar,
-} from 'farmApp/components'
-
 import {
     Grid,
     Typography,
@@ -47,39 +43,37 @@ const SeasonOverviewToolbar = ({
     }
 
     return (
-        <Toolbar sticky>
-            <Grid container>
-                <Grid container item xs={12} /*justify="space-evenly" */>
-                    <LinkChip
-                        to={ROUTES.CropProductionSeasonView}
-                        params={params}
-                        label="Seasons"
-                        onClick={handleClick}
-                    />
-                    <LinkChip
-                        to={ROUTES.CropProductionTaskView}
-                        params={params}
-                        label="Tasks"
-                        onClick={handleClick}
-                    />
-                    <LinkChip
-                        to={ROUTES.CropProductionFieldProductionView}
-                        params={params}
-                        label="Fields"
-                        onClick={handleClick}
-                    />
-                    <ButtonChip
-                        label="Weather"
-                        onClick={handleClick}
-                    />
-                    <ButtonChip
-                        label="Analysis"
-                        onClick={handleClick}
-                    />
-                </Grid>
-                
+        <Grid container>
+            <Grid container item xs={12} /*justify="space-evenly" */>
+                <LinkChip
+                    to={ROUTES.CropProductionSeasonView}
+                    params={params}
+                    label="Seasons"
+                    onClick={handleClick}
+                />
+                <LinkChip
+                    to={ROUTES.CropProductionTaskView}
+                    params={params}
+                    label="Tasks"
+                    onClick={handleClick}
+                />
+                <LinkChip
+                    to={ROUTES.CropProductionFieldProductionView}
+                    params={params}
+                    label="Fields"
+                    onClick={handleClick}
+                />
+                <ButtonChip
+                    label="Weather"
+                    onClick={handleClick}
+                />
+                <ButtonChip
+                    label="Analysis"
+                    onClick={handleClick}
+                />
             </Grid>
-        </Toolbar>
+            
+        </Grid>
     )
 }
 /*

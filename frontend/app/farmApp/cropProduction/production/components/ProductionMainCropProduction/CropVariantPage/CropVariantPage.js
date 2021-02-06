@@ -76,6 +76,7 @@ class CropVariantPage extends React.Component {
     }
 
     handleSelectParcel = (parcelId, selected) => {
+        const { parcels = [] } = this.props
         if (selected) {
             this.props.array.push('parcels', { parcelId })
         } else {

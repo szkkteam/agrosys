@@ -1,5 +1,4 @@
 export { DangerAlert } from './Alert'
-export { DocComponent, PageContent } from './Content'
 export { Date, LongDate, Time, DateTime, LongDateTime } from './Date'
 export { Loading, ProgressBar, Spinner } from './Loading'
 export { HashLink, NavLink, NavBar, ScrollIntoView } from './Nav'
@@ -10,7 +9,7 @@ export { MenuButton, NestedMenuItem, MenuItem, ItemMenu } from './Menu'
 
 export { ViewButtonGroup } from './ButtonGroup'
 export { HeaderContent, MasterDetail, Content, SideSheet, HeaderContentContext, Container } from './Layout'
-export { TabHeader, PageHeader } from './Header'
+export { TabHeader } from './Header'
 export { MasterList } from './List'
 export { Popover } from './Popover'
 export { WidgetContainer } from './Widget'
@@ -23,3 +22,5 @@ export { Stepper, StepperContent, StepperHeader, StepperContext } from './Steppe
 export { SubmitButton, BackButton, SplitButton, SearchButton, PrimaryActionButton, PrimaryButton, SecondaryButton } from './Button'
 // Tabs
 export { TabLink, Tabs, TabsButton, TabButton, TabsRoute } from './Tab'
+// Content
+export { PageContent, PageHeader, PageToolbar } from './Content'
