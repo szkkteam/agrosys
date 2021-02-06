@@ -4,13 +4,10 @@ import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 
-import {
-    PageHeader,
-    PageContent,
-    PageToolbar
-} from 'components'
-
-import { DashboardLayout } from 'farmApp/components'
+import { 
+    DashboardContainer,
+    DashboardLayout
+} from 'farmApp/components'
 
 import CropProductionOverviewToolbar from '../CropProductionOverviewToolbar/CropProductionOverviewToolbar'
 
@@ -82,28 +79,23 @@ const CropProductionOverviewLayout = ({
     ]
 
     return (
-        <PageContent
-            spacing={4}
-        >
-            <PageHeader
-                title="Crops dashboard"
-            >
-
-            </PageHeader>
-            <PageToolbar sticky>
+        <DashboardLayout
+            headerProps={{
+                title: "Crops dashboard"
+            }}
+            toolbar={
                 <CropProductionOverviewToolbar />
-            </PageToolbar>            
-            <div >
-                <DashboardLayout
-                    //disabled
-                    //compactType="horizontal"
-                    //verticalCompact={false}
-                    //rowHeight={30}
-                    layouts={layouts}
-                    components={components}
-                />
-            </div>
-        </PageContent>
+            }
+        >
+            <DashboardContainer
+                //disabled
+                //compactType="horizontal"
+                //verticalCompact={false}
+                //rowHeight={30}
+                layouts={layouts}
+                components={components}
+            />
+        </DashboardLayout>
     )
 }
 

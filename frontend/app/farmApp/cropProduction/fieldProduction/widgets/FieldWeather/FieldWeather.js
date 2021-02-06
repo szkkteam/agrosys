@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
+import { ROUTES } from 'farmApp/routes'
 
 import {
     Grid,
@@ -13,17 +14,14 @@ import {
 } from '@material-ui/core'
 
 import {
-    Card,
-    CardFab,
-    CardHeader,
-    CardInfo
-} from 'farmApp/components/Card'
+    WidgetMedium,
+} from 'farmApp/components'
 
 import {
     FieldListItem,
 } from 'farmApp/resource/field/components'
 
-import { GridTable, DashboardWidget } from 'farmApp/components'
+import { GridTable } from 'farmApp/components'
 
 const ScrollTable = styled(GridTable)`
     //overflow-y: auto;
@@ -71,21 +69,20 @@ const FieldWeather = ({
     ]
 
     return (
-        <Card>
-            <CardHeader
-                shrinkHeader
-                title={intl.formatMessage(messages.title)}
-                action={<CardInfo title={messages.tooltip}/>}
-            />
+        <WidgetMedium
+            //shrinkHeader
+            title={intl.formatMessage(messages.title)}
+            link={{
+                title: "Show more",
+                to: ROUTES.CropProductionSeasonView,
+            }}
+        >
             <ScrollTable
                 columns={columns}
                 data={data}
                 columnSpacing={3}
             />             
-            <Button>
-                show more
-            </Button>
-        </Card>        
+        </WidgetMedium>        
     )
 }
 

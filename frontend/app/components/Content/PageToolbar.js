@@ -26,13 +26,14 @@ const WideToolbar = styled(({sticky, ...props}) => <MuiToolbar {...props}/>)`
 const PageToolbar = ({
     sticky=false,
     children,
-
+    ...props
 }) => {
 
     return (
         <WideToolbar
             sticky={sticky}
             component={Paper}
+            {...props}
         >
             {children}
         </WideToolbar>

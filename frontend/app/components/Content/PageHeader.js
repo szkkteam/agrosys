@@ -17,6 +17,7 @@ const ChildContent = styled.div`
 `
 
 const PageHeader = ({
+    noWrap=false,
     title,
     subtitle,
     children
@@ -34,10 +35,10 @@ const PageHeader = ({
     return (
         <Container>
             <div>
-                {formattedTitle && <Typography variant="h5" component="h1">
+                {formattedTitle && <Typography variant="h5" component="h1" noWrap={noWrap}>
                     {formattedTitle}
                 </Typography> }
-                {formattedSubtitle && <Typography variant="body2" component="p">
+                {formattedSubtitle && <Typography variant="body2" component="p" noWrap={noWrap}>
                     {formattedSubtitle}
                 </Typography>}
             </div>

@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 
 import { 
-    KpiContainer,
+    WidgetLight,
 } from 'farmApp/components'
 
 import {
@@ -17,8 +17,9 @@ import {
 const Spacer = styled.div`
     flex-grow: 1;
 `
-const FullHeightContainer = styled(KpiContainer)`
-    height: 100%;
+
+const FullWidth = styled.div`
+    width: 100%;
 `
 
 const CultivatedArea = ({
@@ -26,11 +27,11 @@ const CultivatedArea = ({
 }) => {
     const progress = 86
     return (
-        <FullHeightContainer
+        <WidgetLight
             title={messages.title}
             subheader={messages.subheader}
         >
-            <div>
+            <FullWidth>
                 <div style={{ paddingBottom: "10px", width: "100%", display: "flex"}}>
                 <Typography variant="h5">
                     Utilization:
@@ -48,8 +49,8 @@ const CultivatedArea = ({
                 <Typography variant="caption">
                     67.5 ha / 102 ha
                 </Typography>
-            </div>
-        </FullHeightContainer>
+            </FullWidth>
+        </WidgetLight>        
     )
 }
 

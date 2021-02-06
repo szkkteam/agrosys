@@ -2,7 +2,7 @@ import React, { useRef, useState, useContext, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
-import { fade } from '@material-ui/core/styles/colorManipulator';
+import { Spacing } from 'styles'
 
 import { useSplitComponents } from 'utils/hooks'
 
@@ -27,17 +27,20 @@ const FullHeightCard = styled(MuiCard)`
     flex-direction: column;
 `
 
-const ScrollContent = styled(({disableBottomPadding=false, ...props}) => <CardContent {...props} />)`
+const ScrollContent = styled(({disableBottomPadding=false, margin, spacing, ...props}) => <CardContent {...props} />)`
+    ${Spacing}
     ${({disableBottomPadding}) => `
         overflow-y: hidden;
         display: flex;
-        padding: 16px 0;
-        padding-bottom: ${(disableBottomPadding? `0px`:`20px`)};
+        //padding: 16px 0;
+        padding-bottom: ${(disableBottomPadding? `0px`:`16px`)};
     `}
     
 `
 
 const Card = ({
+    margin=0,
+    spacing=[2, 0],
     className,
     children,
     ...props
@@ -53,6 +56,8 @@ const Card = ({
                 header ?? null
             }
             <ScrollContent
+                margin={margin}
+                spacing={spacing}
                 disableBottomPadding={!!actions}
             >
                 {_.isFunction(content)? 
