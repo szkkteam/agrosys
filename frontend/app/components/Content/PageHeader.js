@@ -10,11 +10,13 @@ import {
 
 const Container = styled.div`
     display: flex;
+    align-items: center;
     padding: 7px 8px;
 `
 
 const ChildContent = styled.div`
     flex-grow: 1;
+    display: flex;
 `
 
 const SubHeader = styled(Typography)`
@@ -29,7 +31,8 @@ const PageHeader = ({
     noWrap=false,
     title,
     subheader,
-    children
+    children,
+    ...props
 }) => {
     const formattedTitle = typeof(title) === 'object' ?
     (
@@ -40,6 +43,8 @@ const PageHeader = ({
     (
         <FormattedMessage {...subheader} />
     ) : subheader
+
+    console.debug("children: ", children)
 
     return (
         <Container className={className}>
@@ -59,7 +64,14 @@ const PageHeader = ({
 }
 
 PageHeader.propTypes = {
-
+    title: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object
+    ]),
+    subheader: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object
+    ]),
 }
 
 export default PageHeader

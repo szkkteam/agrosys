@@ -11,7 +11,7 @@ import {
 
 import SeasonOverviewToolbar from '../SeasonOverviewToolbar/SeasonOverviewToolbar'
 
-import { SeasonTimeline } from 'farmApp/cropProduction/season/widgets'
+import { SeasonTimeline, SeasonStats } from 'farmApp/cropProduction/season/widgets'
 import { FieldWeather } from 'farmApp/cropProduction/fieldProduction/widgets'
 import { CropUpcomingTask } from 'farmApp/cropProduction/task/widgets'
 
@@ -111,9 +111,11 @@ const SeasonOverviewLayout = ({
 
     const seasonTimelineDefaults = {...widgetDefaults, i: 'SeasonTimeline', x: 12, y: 0, w: 3, h: 10}
 
-    const fieldWeatherDefaults = {...widgetDefaults, i: 'FieldWeather', x: 0, y: 0, w: 6, h: 10}
+    const fieldWeatherDefaults = {...widgetDefaults, i: 'FieldWeather', x: 0, y: 10, w: 6, h: 10}
 
-    const upcomingTaskDefaults = {...widgetDefaults, i: 'CropUpcomingTask', x: 6, y: 0, w: 3, h: 10}
+    const upcomingTaskDefaults = {...widgetDefaults, i: 'CropUpcomingTask', x: 5, y: 0, w: 4, h: 10}
+
+    const seasonsStatsDefaults = {...widgetDefaults, i: 'SeasonStats', x: 0, y: 0, w: 5, h: 10}
 
     const test = {...widgetDefaults, i: 'test', x: 0, y: 10, w: 3, h: 15}
 
@@ -121,6 +123,7 @@ const SeasonOverviewLayout = ({
         {key: 'SeasonTimeline', component: <SeasonTimeline />},
         {key: 'FieldWeather', component: <FieldWeather />},
         {key: 'CropUpcomingTask', component: <CropUpcomingTask />},       
+        {key: 'SeasonStats', component: <SeasonStats />},       
         
     ]
 
@@ -129,31 +132,31 @@ const SeasonOverviewLayout = ({
             {...seasonTimelineDefaults},
             {...fieldWeatherDefaults},
             {...upcomingTaskDefaults},
-            {...test},
+            {...seasonsStatsDefaults},
         ],
         xs: [
             {...seasonTimelineDefaults},
             {...fieldWeatherDefaults},
             {...upcomingTaskDefaults},
-            {...test},
+            {...seasonsStatsDefaults},
         ],
         sm: [
             {...seasonTimelineDefaults},
             {...fieldWeatherDefaults},
             {...upcomingTaskDefaults},
-            {...test},
+            {...seasonsStatsDefaults},
         ],
         md: [
             {...seasonTimelineDefaults},
             {...fieldWeatherDefaults},
             {...upcomingTaskDefaults},
-            {...test},
+            {...seasonsStatsDefaults},
         ],
         lg: [
             {...seasonTimelineDefaults},
             {...fieldWeatherDefaults},
             {...upcomingTaskDefaults},
-            {...test},
+            {...seasonsStatsDefaults},
         ]
 
     }

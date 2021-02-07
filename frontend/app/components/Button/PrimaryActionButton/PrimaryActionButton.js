@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 //import messages from './messages';
 import { FormattedMessage } from 'react-intl';
+import { useFormatTitle } from 'utils/hooks'
 
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Button from '@material-ui/core/Button';
@@ -11,6 +12,8 @@ const PrimaryActionButton = forwardRef(({
     Icon=AddCircleIcon,
     ...props
 }, ref) => {
+
+    const formattedTitle = useFormatTitle(title)
     return (
         <Button
             ref={ref}
@@ -21,13 +24,16 @@ const PrimaryActionButton = forwardRef(({
             }
             {...props}
         >
-            <FormattedMessage {...title} />
+            {formattedTitle}
       </Button>
     )
 })
 
 PrimaryActionButton.propTypes = {
-    title: PropTypes.object.isRequired,
+    title: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object
+    ]).isRequired,
     onClick: PropTypes.func,
     Icon: PropTypes.element,
 }

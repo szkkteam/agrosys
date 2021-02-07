@@ -4,15 +4,26 @@ import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { Spacing } from 'styles'
 
+import SettingsIcon from '@material-ui/icons/Settings';
+
 import {
     PageHeader,
     PageContent,
     PageToolbar
 } from 'components'
 
+import {
+    IconButton
+} from '@material-ui/core'
+
 const PaddedHeader = styled(PageHeader)`
     ${Spacing}
 `
+
+const Spacer = styled.div`
+    flex-grow: 1;
+`
+
 
 const DashboardLayout = ({
     overflow=true,
@@ -31,7 +42,10 @@ const DashboardLayout = ({
                 spacing={[3,2]}
                 {...headerProps}
             >
-
+                <Spacer />
+                <IconButton>
+                    <SettingsIcon />
+                </IconButton>
             </PaddedHeader>
             {toolbar &&<PageToolbar sticky={sticky}>
                 {toolbar}

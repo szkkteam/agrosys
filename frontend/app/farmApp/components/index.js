@@ -27,3 +27,7 @@ export { TableLayout, DashboardLayout } from './Layout'
  * Widget components
  */
 export { WidgetLight, WidgetMedium } from './Widget'
+/**
+ * Metric componenets
+ */
+export { SimpleProgress } from './Metric'

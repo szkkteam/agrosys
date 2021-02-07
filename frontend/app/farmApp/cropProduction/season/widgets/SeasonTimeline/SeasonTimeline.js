@@ -50,7 +50,7 @@ const SeasonTimeline = ({
 
     return (
         <WidgetMedium
-            title="Seasons"
+            title="Seasons timeline"
             primaryAction={{
                 onClick: handleCreate,
             }}

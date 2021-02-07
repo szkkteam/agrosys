@@ -22,6 +22,7 @@ const WidgetMedium = ({
     title,
     subheader,
     headerProps={},
+    headerChildren,
     primaryAction,
     link,
     children,
@@ -48,6 +49,7 @@ const WidgetMedium = ({
                 {primaryAction && <CardFab
                     {...primaryAction}
                 /> }
+                {headerChildren}
             </CardHeader>
             {children}
             {link && <LinkButton
@@ -79,7 +81,8 @@ WidgetMedium.propTypes = {
         ]).isRequired,
         to: PropTypes.string.isRequired,
         params: PropTypes.object
-    })
+    }),
+    headerChildren: PropTypes.element
 }
 
 export default WidgetMedium
