@@ -4,54 +4,21 @@ import messages from './messages';
 import { injectIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { pushModalWindow } from 'redux-promising-modals';
-import { bindActionCreators } from 'redux'
-
-import { Field, reduxForm, formValueSelector } from 'redux-form'
-
-import { FIELD_DRAW_DIALOG } from 'site/modalTypes'
-import { MODAL_TYPE_CONFIRM } from 'site/modalResultTypes'
-import { usePushModalWindow } from 'utils/hooks'
+import { FullscreenFormLayout } from 'farmApp/components'
 
 import {
-    Typography,
-    Button,
-    Tabs,
-    Tab,
-    Box,
     Grid
 } from '@material-ui/core';
 
-//import { messages as ButtonMessages } from 'components/Button'
-//import { FieldFormStepButton } from '../../components'
-import { LeafletMap } from 'farmApp/map/components'
 
-import { PrimaryButton, SecondaryButton, MasterDetail } from 'components'
-
-const MapSnapshot = styled(LeafletMap)`
-    width: 100%;
-    height: 300px;
-`
-
-const Container = styled.div`
-    padding: 15px;
-    display: flex;
-    width: 100%;
-`
+import { PrimaryButton, SecondaryButton } from 'components'
 
 const ColumnContainer = styled.div`
     display: flex;
     flex-grow: 1;
     flex-direction: column;
-    align-items: center
-`
-
-const ColumnHeader = styled.div`
-    width: 100%;
-    margin: auto;
-    flex: 0 0 92px;
+    align-items: center;
+    overflow-x: hidden;
 `
 
 const ColumnFooter = styled.div`
@@ -68,35 +35,9 @@ const ColumnContent = styled.div`
     flex: 1;
 `
 
-const Title = styled(Typography)`
-    margin-bottom: 10px;
-`
-
-const DescriptionContainer = styled.div`
-    margin: 0px 25px;
-    h6 {
-        margin-bottom: 15px;
-    }
-    button {
-        margin-top: 25px;
-    }
-`
-
-const SimpleLayout = ({children, props}) => (
-    <Grid 
-        container
-        direction="row"
-        justify="center"
-        spacing={1}
-    >
-        <Grid container item xs spacing={2}>
-            {children}
-        </Grid>
-    </Grid>
-)
-
 const FieldDetailLayout = ({
     title,
+    subheader,
     master,
     primaryButtonProps,
     secondaryButtonProps,
@@ -106,10 +47,13 @@ const FieldDetailLayout = ({
 
 
     return (      
-        <Container>
-            { title && <ColumnHeader>
-                {title}
-            </ColumnHeader> }
+        <FullscreenFormLayout
+            headerProps={{
+                title,
+                subheader
+            }}
+        >
+
             <ColumnContainer>
                            
                 <ColumnContent>
@@ -117,9 +61,9 @@ const FieldDetailLayout = ({
                         container
                         direction="row"
                         justify="center"
-                        spacing={1}
+                        //spacing={1}
                     >
-                        <Grid container item xs spacing={2}>
+                        <Grid container item xs>
                             {children}
                         </Grid>
                     </Grid>
@@ -133,7 +77,7 @@ const FieldDetailLayout = ({
                     </Grid>
                 </ColumnFooter>                                
             </ColumnContainer>            
-        </Container>
+        </FullscreenFormLayout>
     ) 
 }
 /*

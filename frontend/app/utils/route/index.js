@@ -1,5 +1,5 @@
 export { default as ProtectedRoute } from './ProtectedRoute'
-export { default as AnonymusRoute } from './AnonymusRoute'
+export { default as AnonymousRoute } from './AnonymousRoute'
 export { default as HashRoute } from './HashRoute'
 export { default as RecursiveRouter } from './RecursiveRouter'
 //export { compileRoutes } from './utils'

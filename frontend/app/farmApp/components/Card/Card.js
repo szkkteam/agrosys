@@ -31,6 +31,7 @@ const ScrollContent = styled(({disableBottomPadding=false, margin, spacing, ...p
     ${Spacing}
     ${({disableBottomPadding}) => `
         overflow-y: hidden;
+        height: 100%;
         display: flex;
         //padding: 16px 0;
         padding-bottom: ${(disableBottomPadding? `0px`:`16px`)};

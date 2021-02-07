@@ -17,7 +17,7 @@ import {
   AuthHeader,
 } from 'security/pages'
 
-import { AnonymousRoute } from 'utils/route'
+import AnonymousRoute from 'utils/route/AnonymousRoute'
 
 /**
  * ROUTES: The canonical store of frontend routes. Routes throughout the system

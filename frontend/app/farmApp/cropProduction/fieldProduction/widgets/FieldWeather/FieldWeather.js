@@ -23,10 +23,6 @@ import {
 
 import { GridTable } from 'farmApp/components'
 
-const ScrollTable = styled(GridTable)`
-    //overflow-y: auto;
-`
-
 const WeatherColumn = ({
 
 }) => {
@@ -77,7 +73,7 @@ const FieldWeather = ({
                 to: ROUTES.CropProductionSeasonView,
             }}
         >
-            <ScrollTable
+            <GridTable
                 columns={columns}
                 data={data}
                 columnSpacing={3}

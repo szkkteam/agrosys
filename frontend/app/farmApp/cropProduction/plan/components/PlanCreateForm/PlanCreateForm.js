@@ -12,6 +12,8 @@ import { Field, reduxForm, formValueSelector, destroy } from 'redux-form'
 import { PRODUCTION_CREATE_DIALOG } from 'site/modalTypes'
 import { usePushModalWindow } from 'utils/hooks'
 
+import { FullscreenFormLayout } from 'farmApp/components'
+
 import { SplitButton, PrimaryButton } from 'components/Button'
 import { 
     TextWithUnitField,
@@ -154,62 +156,61 @@ const PlanCreateForm = ({
     ]
     
     return (
-        <Container>
-            <Grid container>
-                <Grid item xs={12}>
-                    <Typography variant="h5">
-                        Create a new season
-                    </Typography>
-                </Grid>
-                <Grid container item xs={12}>
-                    <Grid container item xs={12} sm={6}>
-                        <Grid container item xs={10} md={8}>
-                            <FormControlContainer component="fieldset">
-                                <FormLabel component="legend">
-                                    Season global parameters
-                                </FormLabel>
-                                <FormGroup>
-                                    <TextField name="title"
-                                        label="Season name"
-                                        variant="outlined"
-                                        formProps={{fullWidth: true}}
-                                    />
-                                </FormGroup>
-                            </FormControlContainer>
+        <FullscreenFormLayout
+            headerProps={{
+                title: "Create a new season",
+                subheader: "Specifc the crop production parameters"
+            }}
+        >
+            <Container>
+                <Grid container>                    
+                    <Grid container item xs={12}>
+                        <Grid container item xs={12} sm={6}>
+                            <Grid container item xs={10} md={8}>
+                                <FormControlContainer component="fieldset">
+                                    <FormGroup>
+                                        <TextField name="title"
+                                            label="Season name"
+                                            variant="outlined"
+                                            formProps={{fullWidth: true}}
+                                        />
+                                    </FormGroup>
+                                </FormControlContainer>
+                            </Grid>
+                        </Grid>
+                        <Grid container item xs={12} sm={6}>
+                            
+                            <Grid container item xs={8} >
+                            </Grid>
                         </Grid>
                     </Grid>
-                    <Grid container item xs={12} sm={6}>
-                        
-                        <Grid container item xs={8} >
-                        </Grid>
+                </Grid>
+                <Grid container style={{flexGrow: 1}}>
+                    <Grid container item xs={12} direction="column">
+                        <StretchColumn style={{display: "flex"}}>
+                            <FullHeightTable     
+                                onOpenProduction={editProduction}
+                                onDeleteProduction={deleteProduction}
+                            >
+                                <SplitButton 
+                                    options={addButtonOptions}
+                                />
+                            </FullHeightTable>
+                        </StretchColumn>
+                        <StretchColumn>
+                            {/* TODO: Display some summary information about the season */}
+                        </StretchColumn>
                     </Grid>
                 </Grid>
-            </Grid>
-            <Grid container style={{flexGrow: 1}}>
-                <Grid container item xs={12} direction="column">
-                    <StretchColumn style={{display: "flex"}}>
-                        <FullHeightTable     
-                            onOpenProduction={editProduction}
-                            onDeleteProduction={deleteProduction}
-                        >
-                            <SplitButton 
-                                options={addButtonOptions}
-                            />
-                        </FullHeightTable>
-                    </StretchColumn>
-                    <StretchColumn>
-                        Summary
-                    </StretchColumn>
+                <Grid container
+                    justify="flex-end"
+                >
+                    <div>
+                        <PrimaryButton title={globalMessages.submit} type="submit" />
+                    </div>
                 </Grid>
-            </Grid>
-            <Grid container
-                justify="flex-end"
-            >
-                <div>
-                    <PrimaryButton title={globalMessages.submit} type="submit" />
-                </div>
-            </Grid>
-        </Container>
+            </Container>
+        </FullscreenFormLayout>
     )
 }
 

@@ -22,8 +22,12 @@ export { Calendar } from './Calendar'
 /**
  * Common layout componenets
  */
-export { TableLayout, DashboardLayout } from './Layout'
+export { TableLayout, DashboardLayout, FullscreenFormLayout } from './Layout'
 /**
  * Widget components
  */
 export { WidgetLight, WidgetMedium } from './Widget'
+/**
+ * Metric componenets
+ */
+export { SimpleProgress } from './Metric'

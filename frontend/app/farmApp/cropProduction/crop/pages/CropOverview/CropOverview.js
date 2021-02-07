@@ -7,7 +7,7 @@ import { useParams, Redirect } from 'react-router-dom'
 import { ROUTES, ROUTE_MAP } from 'farmApp/routes'
 
 import {
-    SeasonCreateButton
+    CropOverviewLayout
 } from '../../components'
 
 export default ({    
@@ -15,10 +15,7 @@ export default ({
 }) => {
 
     const intl = useIntl()
-    const params = useParams()
-    console.debug("params: ", params)
-
-    const { cropId } = params
+    const { cropId } = useParams()
 
     // TODO: Check if crop has a season already
     const seasonId = cropId === "1"? 1 : null
@@ -34,10 +31,7 @@ export default ({
                         {intl.formatMessage(messages.title)}
                     </title>
                 </Helmet>
-                <div>Season overview, no season</div>
-                <SeasonCreateButton
-                    cropId={parseInt(cropId)}
-                />
+                <CropOverviewLayout />
             </>
         )
 }

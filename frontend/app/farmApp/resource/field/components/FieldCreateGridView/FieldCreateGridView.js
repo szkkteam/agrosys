@@ -29,6 +29,12 @@ import {
 
 import FieldSnapshot from './FieldSnapshot'
 
+
+const DrawFieldButton = styled(PrimaryActionButton)`
+    max-width: 220px;
+`
+
+
 const ownership = [
     {id: 1, title: "Tulajdon", },
     {id: 2, title: "Földhaszonbérlet", },
@@ -99,7 +105,7 @@ const FieldCreateGridView = ({
             data={fields}
             columnSpacing={3}
         >
-            <PrimaryActionButton 
+            <DrawFieldButton 
                 title={messages.drawNew}
                 onClick={handleAddNew}
             />

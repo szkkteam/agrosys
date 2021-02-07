@@ -122,6 +122,7 @@ class FieldCreateDraw extends React.Component {
         return (
             <Form onSubmit={handleSubmit}>  
                 <FieldDetailLayout
+                    title="Add your fields"
                 >
                     <FieldArray name="parcels" component={this.renderTable} />                
                 </FieldDetailLayout>  
