@@ -12,7 +12,7 @@ import styled, { ThemeProvider } from 'styled-components'
 import { Switch, Route } from 'react-router-dom'
 
 import { useDateFnsLocale } from 'utils/hooks'
-import { ProtectedRoute, AnonymusRoute } from 'utils/route'
+import { ProtectedRoute, AnonymousRoute } from 'utils/route'
 
 import { defaultTheme } from 'themes'
 
@@ -67,7 +67,7 @@ const AppLayout = () => {
           <ModalProvider />
           <Notification />
             <Switch>
-              <AnonymusRoute path="/(security)" component={Security} />
+              <AnonymousRoute path="/(security)" component={Security} />
               <ProtectedRoute path="*" component={FarmApp}/>
             </Switch>
 

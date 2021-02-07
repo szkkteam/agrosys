@@ -72,10 +72,9 @@ const data = [
 const Tab1 = props => <div>Tab 1</div>
 const Tab2 = props => <div>Tab 2</div>
 
-import { TaskCalendar } from 'farmApp/cropProduction/task/components'
 const Reservation = (props) => {
     return (
-        <TaskCalendar />
+        <div>Placeholder</div>
     )
 }
 
