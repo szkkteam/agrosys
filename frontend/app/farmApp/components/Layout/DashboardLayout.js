@@ -50,9 +50,7 @@ const DashboardLayout = ({
             {toolbar &&<PageToolbar sticky={sticky}>
                 {toolbar}
             </PageToolbar> }
-            <div>
-                {children}
-            </div>
+            {children}
         </PageContent>
     )
 }

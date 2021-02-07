@@ -20,7 +20,7 @@ const Container = ({
         <SizeMe monitorWidth noPlaceholder>
             {({ size }) => 
                 {
-                    console.debug("Resize: ", size)
+                    //console.debug("Resize: ", size)
                     return (
                         <DashboardContainer width={size.width} {...props} />
                     )
@@ -50,7 +50,7 @@ const DashboardContainer = ({
     }, []) 
 
     const handleLayoutChange = (layout, layouts) => {
-        console.debug("Layout: ", layout)
+        //console.debug("Layout: ", layout)
         setLayouts(layouts)
     }
 
@@ -71,8 +71,8 @@ const DashboardContainer = ({
         xs: 4,
         xxs: 2
     }
-    console.debug("Breakpoints: ", breakpoints)
-    console.debug("Theme breakpoints: ", theme.breakpoints.values)
+    //console.debug("Breakpoints: ", breakpoints)
+    //console.debug("Theme breakpoints: ", theme.breakpoints.values)
 
     const contextObject = {
         breakpoints,

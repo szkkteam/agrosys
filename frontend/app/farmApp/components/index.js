@@ -22,7 +22,7 @@ export { Calendar } from './Calendar'
 /**
  * Common layout componenets
  */
-export { TableLayout, DashboardLayout } from './Layout'
+export { TableLayout, DashboardLayout, FullscreenFormLayout } from './Layout'
 /**
  * Widget components
  */

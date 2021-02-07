@@ -15,8 +15,10 @@ export default ({
 }) => {
 
     const intl = useIntl()
-    const { cropId } = useParams()
+    const { cropId, seasonId } = useParams()
 
+    console.debug("Crop id: ", cropId)
+    console.debug("Season id: ", seasonId)
     return (
         <>
             <Helmet>

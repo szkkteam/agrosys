@@ -30,7 +30,7 @@ import { ProtectedRoute } from 'utils/route'
 
 export const ROUTES = {
 
-    CropProductionnNoSeason: 'CropProductionnNoSeason',
+    CropProductionCrop: 'CropProductionCrop',
     CropProductionSeason: 'CropProductionSeason',
     CropProductionSeasonCreate: 'CropProductionSeasonCreate',
 
@@ -57,26 +57,15 @@ export const ROUTES = {
   * Route prefix: /resource
   */
 export const seasonOverview = [
-    {
-        // TODO: Season components
-        key: ROUTES.CropProductionnNoSeason,
-        path: '',
-        component: SeasonEmpty,
-        routes: [
-          {
-            // TODO: This will be used as a jump point (for specific crop check if has season, if yes redirect here)
-            // TODO: Season components
-            key: ROUTES.CropProductionSeason,
-            path: '/seasons/:seasonId',
-            component: SeasonOverview,
-          }
-        ]
-      },
+  {
+    // TODO: This will be used as a jump point (for specific crop check if has season, if yes redirect here)
+    // TODO: Season components
+    key: ROUTES.CropProductionSeason,
+    path: '/seasons/:seasonId',
+    component: SeasonOverview,
+  }
 ]
 
-export const seasonCreate = [
-    
-]
 
 export const seasonDetail = [
   {

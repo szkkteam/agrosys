@@ -8,6 +8,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Button from '@material-ui/core/Button';
 
 const PrimaryActionButton = forwardRef(({
+    className,
     title,
     Icon=AddCircleIcon,
     ...props
@@ -17,6 +18,7 @@ const PrimaryActionButton = forwardRef(({
     return (
         <Button
             ref={ref}
+            className={className}
             variant="contained"
             color="primary"
             startIcon={

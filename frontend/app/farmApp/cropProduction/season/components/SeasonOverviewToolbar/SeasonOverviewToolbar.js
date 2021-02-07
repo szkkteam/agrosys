@@ -33,7 +33,7 @@ const LowerCase = styled(Button)`
 
 
 const SeasonOverviewToolbar = ({
-
+    disabled=false,
 }) => {
 
     const params = useParams()
@@ -42,32 +42,39 @@ const SeasonOverviewToolbar = ({
 
     }
 
+    const ChipButton = !disabled? LinkChip : ButtonChip
+    const chipProps = !disabled? {params} : {disabled: true}
+
+    console.debug("ChipButton: ", ChipButton)
+
     return (
         <Grid container>
             <Grid container item xs={12} /*justify="space-evenly" */>
-                <LinkChip
+                <ChipButton
                     to={ROUTES.CropProductionSeasonView}
-                    params={params}
+                    {...chipProps}
                     label="Seasons"
                     onClick={handleClick}
                 />
-                <LinkChip
+                <ChipButton
                     to={ROUTES.CropProductionTaskView}
-                    params={params}
+                    {...chipProps}
                     label="Tasks"
                     onClick={handleClick}
                 />
-                <LinkChip
+                <ChipButton
                     to={ROUTES.CropProductionFieldProductionView}
-                    params={params}
+                    {...chipProps}
                     label="Fields"
                     onClick={handleClick}
                 />
-                <ButtonChip
+                <ChipButton
+                    {...chipProps}
                     label="Weather"
                     onClick={handleClick}
                 />
-                <ButtonChip
+                <ChipButton
+                    {...chipProps}
                     label="Analysis"
                     onClick={handleClick}
                 />

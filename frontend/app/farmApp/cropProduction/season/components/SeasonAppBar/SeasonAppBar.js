@@ -27,7 +27,7 @@ const SeasonAppBar = ({
     return (
         <AppBar
             goUpRoute={{
-                to: seasonId? ROUTES.CropProductionSeason : ROUTES.CropProductionnNoSeason,
+                to: seasonId? ROUTES.CropProductionSeason : ROUTES.CropProductionCrop,
                 params: {cropId, seasonId}
             }}
             title={appTitle}
