@@ -8,8 +8,7 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 
 import { useHistory } from "react-router-dom";
-import { ROUTES } from 'routes'
-import { ROUTE_MAP } from 'routes'
+import { ROUTES, ROUTE_MAP } from 'farmApp/routes'
 
 import { MenuButton } from 'components/Menu'
 

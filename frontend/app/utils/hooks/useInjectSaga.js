@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import { useStore } from 'react-redux'
 import get from 'lodash/get'
 
@@ -35,9 +35,9 @@ export default (props) => {
     }
     const {key, sagas, mode} = props
 
-    const store = useStore();
+    const store = useStore()
 
-    const isInjected = React.useRef(false);
+    const isInjected = useRef(false)
   
     if (!isInjected.current) {
       // create a root saga to inject
@@ -49,7 +49,7 @@ export default (props) => {
       isInjected.current = true;
     }
   
-    React.useEffect(
+    useEffect(
       () => () => {
         getInjectors(store).ejectSaga(key);
       },

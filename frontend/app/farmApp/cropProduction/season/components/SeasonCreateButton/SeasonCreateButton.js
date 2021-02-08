@@ -6,7 +6,7 @@ import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { useHistory, useLocation, Switch } from "react-router-dom";
 import { withLinkComponent } from 'utils/hoc'
-import { ROUTES, ROUTE_MAP } from 'routes'
+import { ROUTES, ROUTE_MAP } from 'farmApp/routes'
 
 import PrimaryActionButton from 'components/Button/PrimaryActionButton'
 

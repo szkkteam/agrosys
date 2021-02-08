@@ -7,17 +7,30 @@ import { ROUTES, ROUTE_MAP } from 'farmApp/routes'
 
 import { TabsRoute } from 'components'
 
+import { useFetchUserCrops } from 'farmApp/cropProduction/crop/hooks'
+
 const CropProductionTabs = ({
 
 }) => {
     const intl = useIntl()
 
-    const routes = [
-        {to: ROUTES.CropProductionOverview, value: {cropId: "all" },  label: intl.formatMessage(messages.overview) },
-        {to: ROUTES.CropProductionOverview, value: {cropId: '1' }, label: 'My wheat' },
-        {to: ROUTES.CropProductionOverview, value: {cropId: '2' }, label: 'My corn' },
+    const { payload, isLoading } = useFetchUserCrops()
+    
 
+    const fixedRoute = [
+        {to: ROUTES.CropProductionOverview, value: {cropId: "all" },  label: intl.formatMessage(messages.overview) },
     ]
+
+    const routes = useMemo(() => {
+        if (isLoading) return fixedRoute
+        return _.concat(fixedRoute, payload.map(({id, title: label}) => ({
+            to: ROUTES.CropProductionOverview,
+            value: { cropId: id.toString() },
+            label
+        })))
+    }, [isLoading, payload])
+
+    console.debug("payload: ", payload)
 
     return (
         <TabsRoute

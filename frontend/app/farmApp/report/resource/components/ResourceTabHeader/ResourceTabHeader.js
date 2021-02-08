@@ -6,12 +6,7 @@ import styled from 'styled-components'
 import { useRouteMatch, useLocation, Switch } from "react-router-dom";
 import { HashRoute } from 'utils/route'
 import { useHeightDifference } from 'utils/hooks'
-import { ROUTES, ROUTE_MAP } from 'routes'
-
-import { 
-    TabHeader,
-    SplitButton
-} from 'components'
+import { ROUTES, ROUTE_MAP } from 'farmApp/routes'
 
 import { 
     TAB_FIELD,
@@ -38,9 +33,7 @@ const ResourceTabHeader = ({
     ]
 
     return (
-        <TabHeader
-            items={tabs}
-        />
+        <div>tab header</div>
 
         
     )

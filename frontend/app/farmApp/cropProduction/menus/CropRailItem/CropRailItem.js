@@ -3,25 +3,25 @@ import PropTypes from 'prop-types'
 import messages from './messages';
 import { ROUTES } from 'farmApp/routes'
 
-import AssessmentIcon from '@material-ui/icons/Assessment';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
 import { NavRailItem } from 'components/NavRail'
  
-const DashboardMenuItem = ({
+const CropRailItem = ({
     ...rest
 }) => {
    
     return (
         <NavRailItem
             title={messages.title}
-            to={ROUTES.Report}
-            IconComponent={AssessmentIcon}
+            to={ROUTES.CropProduction}
+            IconComponent={AutorenewIcon}
             {...rest}
         />       
     )
 }
 
-DashboardMenuItem.propTypes = {
+CropRailItem.propTypes = {
 
 }
 
-export default DashboardMenuItem
+export default CropRailItem

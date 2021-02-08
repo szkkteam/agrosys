@@ -1,8 +1,10 @@
-import React, { useRef, useState, useContext } from 'react'
+import React, { useRef, useState, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
+import globalMessages from 'messages'
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
+import { useParams } from 'react-router-dom'
 
 import { PrimaryActionButton } from 'components'
 
@@ -18,6 +20,7 @@ import {
 
 import { SeasonOverviewToolbar } from 'farmApp/cropProduction/season/components'
 import { useSeasonCreateDialog } from 'farmApp/cropProduction/season/hooks'
+import { useSelectUserCrop } from 'farmApp/cropProduction/crop/hooks'
 
 const Media = styled(({width, height, ...props}) => <CardMedia {...props} />)`
     ${({theme, width, height}) => `
@@ -45,7 +48,16 @@ const Container = styled.div`
 const CropOverviewLayout = ({
 
 }) => {
+    const { cropId } = useParams()
     const openDialog = useSeasonCreateDialog()
+    const { payload, isLoading } = useSelectUserCrop(cropId)
+
+    const title = useMemo(() => {
+        if (isLoading) return globalMessages.isLoading
+        return payload.title
+    }, [payload, isLoading])
+
+    console.debug("payload: ", payload)
 
     const handleCreate = () => {
         openDialog()
@@ -54,7 +66,7 @@ const CropOverviewLayout = ({
     return (
         <DashboardLayout
             headerProps={{
-                title: "My corn",
+                title: title,
                 subheader: "No season created yet"
             }}
             toolbar={

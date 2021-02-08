@@ -2,7 +2,6 @@ import React, { forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { useDynamicMatch } from 'utils/hooks'
 import { useLocation, useRouteMatch, useHistory } from "react-router-dom"
-import { ROUTE_MAP, routes } from 'routes'
 
 import { Tabs as MuiTabs } from '@material-ui/core';
 

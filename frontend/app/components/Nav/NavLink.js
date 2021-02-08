@@ -3,24 +3,24 @@ import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import isFunction from 'lodash/isFunction'
 
-import { ROUTE_MAP } from 'routes'
-
-
 export default class LoadableNavLink extends React.Component {
 
   static propTypes = {
     children: PropTypes.node,
     to: PropTypes.string,
     params: PropTypes.object,
+    routeMap: PropTypes.object,
   }
 
   constructor(props) {
     super(props)
-    this.route = ROUTE_MAP[props.to]
+    const { routeMap } = props
+    this.route = routeMap[props.to]
   }
 
   componentWillReceiveProps(nextProps) {
-    this.route = ROUTE_MAP[nextProps.to]
+    const { routeMap } = this.props
+    this.route = routeMap[nextProps.to]
   }
 
   maybePreloadComponent = () => {
@@ -35,7 +35,7 @@ export default class LoadableNavLink extends React.Component {
   }
 
   render() {
-    const { children, to, params, dataProps = null, ...props } = this.props    
+    const { children, routeMap, to, params, dataProps = null, ...props } = this.props    
     return (
       <NavLink {...props}
                activeClassName="active"

@@ -53,15 +53,17 @@ const ForgotPassword = ({
         <title>Forgot Password</title>
       </Helmet>
 
-      {error && <DangerAlert>{error}</DangerAlert>}
-      <Title variant="h4">
-        <FormattedMessage {...messages.title} />
-      </Title>
+      {error && <DangerAlert>{error}</DangerAlert>}      
       <form onSubmit={handleSubmit(forgotPassword)}>
         <Container 
           container
           spacing={3}
         >
+          <Grid item xs={12}>
+            <Typography variant="h6">
+              <FormattedMessage {...messages.title} />
+            </Typography>
+          </Grid>
           <Grid item xs={12}>
             <EmailField name="email"
               formProps={{

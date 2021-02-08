@@ -5,7 +5,6 @@ export { NavigationContext, NavBar, AppBar } from './Nav'
 /**
  * Dashboard components
  */
-export { KpiContainer } from './Kpi'
 export { DashboardContainer } from './Dashboard'
 /**
  * Table components

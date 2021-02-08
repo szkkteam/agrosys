@@ -7,6 +7,7 @@ import { parse } from 'query-string'
 import styled from 'styled-components'
 import messages from './messages'
 import { useIntl, FormattedMessage } from 'react-intl'
+import { ROUTE_MAP } from 'security/routes'
 
 import { login } from 'security/actions'
 import {
@@ -17,7 +18,7 @@ import {
 
 import { NavLink } from 'components/Nav'
 import { HiddenField, PasswordField, TextField } from 'components/Form'
-import { ROUTES } from 'routes'
+import { ROUTES } from 'security/routes'
 import { injectSagas } from 'utils/async'
 
 //import './login.scss'
@@ -80,7 +81,7 @@ const Login = ({
                               label={intl.formatMessage(messages.fieldPassword)}
                 />
               <div>
-                <SupportLink to={ROUTES.ForgotPassword}>
+                <SupportLink to={ROUTES.ForgotPassword} routeMap={ROUTE_MAP}>
                   <FormattedMessage {...messages.forgotPassword} />
                 </SupportLink>
               </div>

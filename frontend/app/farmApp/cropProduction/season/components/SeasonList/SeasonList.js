@@ -3,7 +3,7 @@ import messages from './messages';
 import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
 import { useHistory, useParams } from 'react-router-dom'
-import { ROUTES } from 'routes'
+import { ROUTES } from 'farmApp/routes'
 import { useRouteMap } from 'utils/hooks'
 
 import { 

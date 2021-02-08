@@ -65,3 +65,26 @@ export const getUserCrops = createSelectorOrm(
         return response
     }
 )
+
+export const getUserCrop = () => createSelectorOrm(
+    schema,
+    selectUserCropRequest,
+    (_, cropId) => cropId,
+    (session, request, cropId) => {
+        const { isLoading = true, error = null } = request || {}
+        let response = {payload: null, isLoading, error }
+        if (isLoading || error) return response
+
+        let payload = null
+
+        const { UserCrop } = session
+        if (UserCrop.idExists(cropId)) {
+            const userCrop = UserCrop.withId(cropId)    
+            const { ref } = userCrop 
+            payload = {...ref}
+        }
+        
+        response.payload = payload
+        return response
+    }
+)

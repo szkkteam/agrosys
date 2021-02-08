@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom'
-import { ROUTE_MAP } from 'routes'
 import { withLinkComponent } from 'utils/hoc'
 
 import ListItem from '@material-ui/core/ListItem';

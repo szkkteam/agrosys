@@ -2,7 +2,6 @@ import React, { useContext, useMemo, useState, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { useIntl, FormattedMessage } from 'react-intl'
-import { ROUTES } from 'routes'
 
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 

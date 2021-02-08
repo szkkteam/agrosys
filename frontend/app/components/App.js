@@ -16,16 +16,13 @@ import { ProtectedRoute, AnonymousRoute } from 'utils/route'
 
 import { defaultTheme } from 'themes'
 
-import { NavBar, ProgressBar } from 'components'
+import { ProgressBar } from 'components'
 import Notification from 'components/Notification'
 import { LanguageProvider, ModalProvider } from 'site/components'
 import { SITE_NAME } from 'config'
 
 import FarmApp from 'farmApp'
 import Security from 'security'
-
-
-import AppContext from './AppContext'
 
 const FullSizeDiv = styled.div`
   height: 100%;
@@ -42,12 +39,6 @@ const Flex = styled.main`
 const AppLayout = () => {
   const { locale } = useDateFnsLocale()
 
-  const contextObject = {
-    appBarBackButtonRef: null,
-    appBarTabsRef: null,
-    setPageTitle: () => null, 
-    appBarHeight: 64,
-  }
   /*
               <AnonymusRoute path="/(security)" component={Security} />
             <ProtectedRoute path="*" component={FarmApp}/>
@@ -56,9 +47,6 @@ const AppLayout = () => {
   return (
     <FullSizeDiv>
       <LocalizationProvider dateAdapter={DateFnsAdapter} locale={locale}>
-        <AppContext.Provider
-                  value={contextObject}
-        >
         <Helmet titleTemplate={`%s - ${SITE_NAME}`}
                 defaultTitle={SITE_NAME}
         />
@@ -72,7 +60,6 @@ const AppLayout = () => {
             </Switch>
 
         </Flex>
-        </AppContext.Provider>
       </LocalizationProvider>
     </FullSizeDiv>
   )
