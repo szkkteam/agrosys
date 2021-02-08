@@ -18,7 +18,6 @@ import {
 } from 'security/pages'
 
 import AnonymousRoute from 'utils/route/AnonymousRoute'
-
 /**
  * ROUTES: The canonical store of frontend routes. Routes throughout the system
  * should be referenced using these constants
@@ -65,7 +64,6 @@ export const routes = [
         key: ROUTES.Login,
         path: '/login',
         component: Login,
-        routeComponent: AnonymousRoute,
         label: 'Login',
         props: { exact: true }
       },
@@ -73,7 +71,6 @@ export const routes = [
         key: ROUTES.ForgotPassword,
         path: '/login/forgot-password',
         component: ForgotPassword,
-        routeComponent: AnonymousRoute,
         label: 'Forgot password?',
         props: { exact: true }
       },
@@ -88,7 +85,6 @@ export const routes = [
         key: ROUTES.PendingConfirmation,
         path: '/sign-up/pending-confirm-email',
         component: PendingConfirmation,
-        routeComponent: AnonymousRoute,
         label: 'Pending Confirm Email',
         props: { exact: true }
       },
@@ -96,7 +92,6 @@ export const routes = [
         key: ROUTES.ResendConfirmation,
         path: '/sign-up/resend-confirmation-email',
         component: ResendConfirmation,
-        routeComponent: AnonymousRoute,
         label: 'Resend Confirmation Email',
         props: { exact: true }
       },
@@ -104,7 +99,6 @@ export const routes = [
         key: ROUTES.ResetPassword,
         path: '/login/reset-password/:token',
         component: ResetPassword,
-        routeComponent: AnonymousRoute,
         label: 'Reset Password',
         props: { exact: true }
       },
@@ -112,7 +106,6 @@ export const routes = [
         key: ROUTES.SignUp,
         path: '/sign-up',
         component: SignUp,
-        routeComponent: AnonymousRoute,
         label: 'Sign Up',
         props: { exact: true }
       },
