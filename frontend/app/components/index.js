@@ -1,6 +1,5 @@
 export { DangerAlert } from './Alert'
 export { Date, LongDate, Time, DateTime, LongDateTime } from './Date'
-export { Loading, ProgressBar, Spinner } from './Loading'
 export { HashLink, NavLink, NavBar, ScrollIntoView } from './Nav'
 export { Table } from './Table'
 
@@ -24,3 +23,5 @@ export { SubmitButton, BackButton, SplitButton, SearchButton, PrimaryActionButto
 export { TabLink, Tabs, TabsButton, TabButton, TabsRoute } from './Tab'
 // Content
 export { PageContent, PageHeader, PageToolbar } from './Content'
+// Loading indicator
+export { DataLoading, Loading, ProgressBar, Spinner } from './Loading'

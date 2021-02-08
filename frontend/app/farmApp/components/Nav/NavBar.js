@@ -6,7 +6,7 @@ import NavigationContext from './NavigationContext'
 import { NavRail } from 'components/NavRail'
 
 import { ResourceRailItem } from 'farmApp/resource/menus'
-import { ProductionRailItem } from 'farmApp/cropProduction/menus'
+import { CropRailItem } from 'farmApp/cropProduction/menus'
 import { InventoryRailItem } from 'farmApp/resource/inventory/menus'
 import { DashboardRailItem } from 'farmApp/dashboard/menus'
 import { ReportRailItem } from 'farmApp/report/report/menus'
@@ -44,10 +44,10 @@ const NavBar = ({
       >
         { isTablet && <NavRail>
           <DashboardRailItem />   
-          <ProductionRailItem />
-          <InventoryRailItem />
+          <CropRailItem />
+          <InventoryRailItem disabled/>
           <ResourceRailItem />
-          <ReportRailItem />    
+          <ReportRailItem disabled/>    
         </NavRail> }
       </NavigationContext.Provider>      
   )

@@ -6,7 +6,7 @@ import { ROUTES } from 'routes'
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import { NavRailItem } from 'components/NavRail'
  
-const ProductionRailItem = ({
+const CropRailItem = ({
     ...rest
 }) => {
    
@@ -20,8 +20,8 @@ const ProductionRailItem = ({
     )
 }
 
-ProductionRailItem.propTypes = {
+CropRailItem.propTypes = {
 
 }
 
-export default ProductionRailItem
+export default CropRailItem

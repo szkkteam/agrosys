@@ -57,7 +57,7 @@ const NavRailItem = ({
             button
             to={to}
             onClick={onClick}
-            //{...rest}
+            {...rest}
         >
             <Container>
                 <IconComponent {...selectedProps}/>

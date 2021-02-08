@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 export default (action, selector, force=false) => {
 
     const dispatch = useDispatch()
-    const actionTrigger = force? action.trigger : action.maybeTrigger
     /*
     const [payload, setPayload] = useState([])
     const [isLoading, setIsLoading] = useState(false)
@@ -13,7 +12,11 @@ export default (action, selector, force=false) => {
 
     useEffect(() => {
         // Trigger the action
-        dispatch(actionTrigger())
+        if (force) {
+            dispatch(action.trigger())    
+        } else {
+            dispatch(action.maybeTrigger())
+        }
     }, [])
 
     return useSelector(selector)

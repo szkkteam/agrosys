@@ -60,4 +60,8 @@ export default defineMessages({
         id: `${production}.cropProductionType.secondaryCropProduction`,
         defaultMessage: 'Secondary crop production',
     },
+    loading: {
+        id: `${scope}.loading`,  
+        defaultMessage: 'Loading ...',
+    }
   })

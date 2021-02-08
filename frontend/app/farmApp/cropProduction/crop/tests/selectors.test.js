@@ -2,7 +2,8 @@ import schema from 'farmApp/schema'
 import {
     getCropTypes,
     getUserCropIds,
-    getUserCrops
+    getUserCrops,
+    getUserCrop
 } from '../selectors.js'
 
 describe('crop selectors', () => {
@@ -125,6 +126,47 @@ describe('crop selectors', () => {
             fixture.forEach(x => UserCrop.parse(x))
 
             const selected = getUserCrops.resultFunc(session, requestFixtures)
+            expect(selected).toEqual(expectedResult)
+        })
+        
+    })
+
+    describe('getUserCrop', () => {
+
+        it('should return with null object', () => {
+
+            const expectedResult = {
+                payload: null,
+                isLoading: false,
+                error: null
+            }
+            const fnc = getUserCrop()
+            const selected = fnc.resultFunc(session, requestFixtures, 1)
+            expect(selected).toEqual(expectedResult)
+        })
+        
+        it('should return with model instance', () => {
+            const fixture = [
+                {id: 1, title: "Búza", cropType: {id: 1, title: "Téli búza", category: "Takarmány növény"}},
+                {id: 2, title: "Búza", cropType: {id: 1, title: "Téli búza", category: "Takarmány növény"}},
+            ]
+
+            const expectedFixture = {
+                id: 1,
+                title: "Búza",
+                cropType: 1
+            }
+
+            const expectedResult = {
+                payload: expectedFixture,
+                isLoading: false,
+                error: null,
+            }
+            const { UserCrop } = session
+            fixture.forEach(x => UserCrop.parse(x))
+
+            const fnc = getUserCrop()
+            const selected = fnc.resultFunc(session, requestFixtures, 1)
             expect(selected).toEqual(expectedResult)
         })
         
