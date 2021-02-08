@@ -9,6 +9,6 @@ export default defineMessages({
     },   
     addNewTitle: {
         id: `${scope}.AddButton.title`,  
-        defaultMessage: 'Add crop',
+        defaultMessage: 'Add new crop',
     }, 
   })

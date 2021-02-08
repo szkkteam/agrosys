@@ -68,13 +68,13 @@ const SeasonOverviewToolbar = ({
                     label="Fields"
                     onClick={handleClick}
                 />
-                <ChipButton
-                    {...chipProps}
+                <ButtonChip
+                    disabled
                     label="Weather"
                     onClick={handleClick}
                 />
-                <ChipButton
-                    {...chipProps}
+                <ButtonChip
+                    disabled
                     label="Analysis"
                     onClick={handleClick}
                 />

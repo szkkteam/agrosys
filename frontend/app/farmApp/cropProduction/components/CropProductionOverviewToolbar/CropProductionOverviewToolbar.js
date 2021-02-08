@@ -74,7 +74,6 @@ const CropFilter = ({}) => {
             </LowerCase>
             <Spacer />
             <PrimaryActionButton
-                variant="outlined"
                 title={messages.addNewTitle}
             />
         </>
