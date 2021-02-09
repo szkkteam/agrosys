@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl';
 import { useRouteMatch } from 'react-router-dom'
-import { ROUTE_MAP } from 'routes'
+import { ROUTE_MAP } from 'farmApp/routes'
 import { withLinkComponent } from 'utils/hoc'
 
 import {

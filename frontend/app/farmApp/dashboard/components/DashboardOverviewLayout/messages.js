@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.farmApp.dashboard.DashboardWidgetLayout'
+export const scope = 'app.farmApp.dashboard.DashboardOverviewLayout'
 
 export default defineMessages({
     widgetTaskSummary: {

@@ -5,7 +5,7 @@ import { compile } from 'path-to-regexp'
 
 export const compileRoutes = (routeMap, routes, parentPath="") => {
     routes.forEach((route) => {
-      let { component = null, key, label, path: relPath, routeComponent, props = {} } = route
+      let { component = null, key, label, path: relPath, routeComponent, params={}, props = {} } = route
       /*
       if (!component) {
         throw new Error(`component was not specified for the ${key} route!`)
@@ -20,10 +20,11 @@ export const compileRoutes = (routeMap, routes, parentPath="") => {
       const { absolute = false } = props
       const path = absolute? relPath : parentPath + relPath
 
-      if (route.routes?.length) {
+      if (route?.routes?.length) {
         compileRoutes(routeMap, route.routes, path)
       }
   
+
       try {
         routeMap[key] = {
           path,
@@ -36,6 +37,7 @@ export const compileRoutes = (routeMap, routes, parentPath="") => {
         }
       } catch (e) {
         console.debug("Error: ", e)
+        throw new Error(e)
       }
       
     })

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
-import { ROUTES } from 'routes'
+import { ROUTES } from 'farmApp/routes'
 
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import { NavRailItem } from 'components/NavRail'

@@ -8,9 +8,8 @@ import { HashRoute } from 'utils/route'
 import { useHeightDifference } from 'utils/hooks'
 import { ROUTES, ROUTE_MAP } from 'security/routes'
 
-import { 
-    TabHeader,
-} from 'components'
+import { TabsRoute } from 'components'
+
 import { LanguageSelector } from 'site/components'
 
 const Container = styled.div`
@@ -33,8 +32,8 @@ const AuthHeader = ({
     const intl = useIntl()
 
     const tabs = [
-        {to: ROUTES.Login, value: 0, label: intl.formatMessage(messages.tabLogin)},
-        {to: ROUTES.SignUp, value: 1, label: intl.formatMessage(messages.tabSignup)},
+        {to: ROUTES.Authentication, value: {tab: 'login' }, label: intl.formatMessage(messages.tabLogin) },
+        {to: ROUTES.Authentication, value: {tab: 'sign-up' }, label: intl.formatMessage(messages.tabSignup) },
     ]
 
     return (
@@ -44,11 +43,12 @@ const AuthHeader = ({
                 <LanguageSelector />
             </Flex>
             
-            <TabHeader
-                redirect={false}
+            <TabsRoute
+                routeMap={ROUTE_MAP}
                 items={tabs}
-                match={match}
+                valueAccessor="tab"
                 indicatorColor="primary"
+                variant="fullWidth"
             />
         </Container>
     )

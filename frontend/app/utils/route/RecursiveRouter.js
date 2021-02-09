@@ -4,7 +4,7 @@ import { Route, Switch, Redirect, matchPath } from 'react-router-dom'
 class DefaultLayout extends React.PureComponent {
 
   componentWillUnmount() {
-    console.debug("Layout will unmount: ", this.props.parentMatch)
+    //console.debug("Layout will unmount: ", this.props.parentMatch)
   }
 
   render() {

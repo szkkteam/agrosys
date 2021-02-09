@@ -1,6 +1,5 @@
 export { default as SeasonLayout } from './SeasonLayout'
 export { default as SeasonList } from './SeasonList'
-export { default as SeasonSelector } from './SeasonSelector'
 export { default as SeasonCreateButton } from './SeasonCreateButton'
 export { default as SeasonAppBar } from './SeasonAppBar'
 export { default as SeasonOverviewLayout } from './SeasonOverviewLayout'

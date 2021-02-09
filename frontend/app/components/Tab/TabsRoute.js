@@ -62,7 +62,7 @@ const TabsRoute = ({
                 value={value}
             >
                 { items && items.map(({value, ...tab}, i) => 
-                    <TabLink key={i} {...tab} value={value[valueAccessor]} params={{...params, ...value}} />    
+                    <TabLink key={i} {...tab} value={value[valueAccessor]} params={{...params, ...value}} routeMap={routeMap}/>    
                 )}            
             </Tabs>
         }

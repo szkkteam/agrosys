@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
-import { ROUTES } from 'routes'
+import { ROUTES } from 'farmApp/routes'
 
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import { MenuItem } from 'components'
