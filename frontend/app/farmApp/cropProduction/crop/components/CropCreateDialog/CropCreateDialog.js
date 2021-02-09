@@ -5,6 +5,8 @@ import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
 import { useHistory, useLocation } from "react-router-dom";
 import styled from 'styled-components'
+import { syncValidator } from 'utils/validator'
+import * as Yup from 'yup'
 
 import { compose } from 'redux'
 import { connect } from 'react-redux'
@@ -25,8 +27,22 @@ const Container = styled(props => <ModalContent {...props} />)`
     //padding: 10px 15px;
 `
 
+
+export const schema = Yup.object().shape({
+    title: Yup
+        .string()
+        .required(messages.titleMissing),    
+    cropType: Yup
+        .object()
+        .required(messages.cropTypeMissing)    
+  })
+
+
 const withForm = reduxForm({
     form: CROP_FORM,
+    //asyncValidate: validator(schema)
+    validate: syncValidator(schema),
+    //validate: val,
     //validate,
     //enableReinitialize: true,
     //keepDirtyOnReinitialize: true,
@@ -112,7 +128,7 @@ export default ({
         >   
             <ConnectedCropForm
                 initialValues={data}
-                onSubmit={handleSubmit}
+                //onSubmit={handleSubmit}
                 {...headerProps}
                 {...props}
             />

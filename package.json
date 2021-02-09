@@ -37,7 +37,6 @@
     "invariant": "^2.2.2",
     "isomorphic-fetch": "^2.2.1",
     "js-cookie": "^2.1.4",
-    "react-leaflet": "^3.0.5",
     "leaflet": "^1.7.0",
     "leaflet-editable": "^1.2.0",
     "lodash": "^4.17.19",
@@ -56,6 +55,7 @@
     "react-helmet": "^5.2.0",
     "react-highlight": "github:briancappello/react-highlight#react-v16-compiled",
     "react-intl": "^5.8.8",
+    "react-leaflet": "^3.0.5",
     "react-loadable": "^4.0.5",
     "react-redux": "^7.2.2",
     "react-redux-loading-bar": "^2.9.2",
@@ -72,7 +72,8 @@
     "reselect": "^4.0.0",
     "styled-components": "^5.2.1",
     "super-skeleton": "github:briancappello/super-skeleton",
-    "use-callback-ref": "^1.2.4"
+    "use-callback-ref": "^1.2.4",
+    "yup": "^0.32.8"
   },
   "devDependencies": {
     "uglifyjs-webpack-plugin": "1.0.1",

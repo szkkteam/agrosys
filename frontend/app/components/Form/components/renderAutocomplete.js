@@ -51,9 +51,10 @@ export default ({
     // Input specific props
     inputProps,
     variant,
-    meta: { touched = null, error = null } = {},
+    meta: { touched = null, invalid = null, error = null } = {},
     ...custom
 }) => {
+    const intl = useIntl()
     const { onChange: onChangeRF, onBlur: onBlurRF, value, ...inputRest } = input || {}
 
     const defaultGetOptionLabel = (option) => 
@@ -70,6 +71,11 @@ export default ({
             //...idAccessor? { getOptionSelected: (o, v) => { /*console.debug("option: ", o, v, idAccessor(o) == v);*/ return idAccessor(o) == v} }: {},
         }
         : {}
+
+
+    const translatedError = (typeof(error) === 'object' && error !== null)
+    ? intl.formatMessage(error)
+    : error
 
   return (
         <FormControl
@@ -97,6 +103,8 @@ export default ({
                     label={label}
                     autoComplete="disabled"
                     variant={variant}
+                    error={touched && invalid}
+                    helperText={touched && translatedError}
                     {...params}
                     {...inputProps}
                 />
