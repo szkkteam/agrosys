@@ -14,8 +14,11 @@ import {
   SignUp,
   ResendConfirmation,
   ResetPassword,
-  AuthHeader,
 } from 'security/pages'
+
+import {
+  AuthHeader
+} from 'security/components'
 
 import AnonymousRoute from 'utils/route/AnonymousRoute'
 /**
@@ -55,17 +58,24 @@ export const routes = [
    */
   {
     key: ROUTES.Authentication,
-    path: '/security',
+    path: '/security/:tab?',
     component: AuthHeader,
     label: 'Authentication',
     layoutComponent: Container,
     routes: [
-            {
+      {
         key: ROUTES.Login,
-        path: '/login',
+        path: '/security/login',
         component: Login,
         label: 'Login',
-        props: { exact: true }
+        props: { exact: true, absolute: true }
+      },
+      {
+        key: ROUTES.SignUp,
+        path: '/security/sign-up',
+        component: SignUp,
+        label: 'Sign Up',
+        props: { exact: true, absolute: true }
       },
       {
         key: ROUTES.ForgotPassword,
@@ -102,15 +112,10 @@ export const routes = [
         label: 'Reset Password',
         props: { exact: true }
       },
-      {
-        key: ROUTES.SignUp,
-        path: '/sign-up',
-        component: SignUp,
-        label: 'Sign Up',
-        props: { exact: true }
-      },
+      
     ]
   },
+  
  
 ]
 

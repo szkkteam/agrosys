@@ -5,7 +5,6 @@ import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { Redirect, useLocation, Switch } from "react-router-dom";
 import { withLinkComponent } from 'utils/hoc'
-import { ROUTES } from 'routes'
 
 import {
     ListItem,

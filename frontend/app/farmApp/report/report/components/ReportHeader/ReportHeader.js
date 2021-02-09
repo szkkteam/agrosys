@@ -4,7 +4,7 @@ import messages from './messages';
 import styled from 'styled-components'
 import { useIntl, FormattedMessage } from 'react-intl'
 import { useParams, useRouteMatch, Redirect } from 'react-router-dom'
-import { ROUTES, ROUTE_MAP } from 'routes'
+import { ROUTES, ROUTE_MAP } from 'farmApp/routes'
 
 import { PageHeader } from 'components'
 

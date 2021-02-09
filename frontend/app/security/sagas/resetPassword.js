@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 import { push } from 'connected-react-router'
 
-import { ROUTES, ROUTE_MAP } from 'routes'
+import { ROUTES, ROUTE_MAP } from 'farmApp/routes'
 import { createRoutineFormSaga } from 'sagas'
 
 import { resetPassword } from 'security/actions'

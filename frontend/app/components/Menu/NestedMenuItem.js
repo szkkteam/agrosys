@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from 'react'
 import PropTypes, { object } from 'prop-types'
 import { useIntl } from 'react-intl'
 import { FormattedMessage } from 'react-intl';
-import { NavBarContext } from 'components/Nav'
 import { usePrevious } from 'utils/hooks'
 
 import ListItem from '@material-ui/core/ListItem';
@@ -24,12 +23,14 @@ const NestedMenuItem = ({
     const intl = useIntl()
     const [open, setOpen] = useState(false)
 
+    const isDrawerOpen = false
+    /*
     const {
         isDrawerOpen,
         handleDrawerOpen,
         handleDrawerClose,
     } = useContext(NavBarContext)
-
+    */
     const prevIsDrawerOpen = usePrevious(isDrawerOpen)
 
     useEffect(() => {
@@ -39,7 +40,7 @@ const NestedMenuItem = ({
     }, [isDrawerOpen])
 
     const handleClick = () => {
-        !open && !isDrawerOpen && handleDrawerOpen()
+        //!open && !isDrawerOpen && handleDrawerOpen()
         setOpen(!open);
     }
 

@@ -9,7 +9,6 @@ import { HashRoute } from 'utils/route'
 
 import { 
     HeaderContent,
-    TabsButton,
     HeaderContentContext,
     Tabs,
     TabLink

@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { ROUTE_MAP } from 'routes'
+import { ROUTE_MAP } from 'farmApp/routes'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 
@@ -23,16 +23,19 @@ const withLinkComponent = (WrappedComponent) => {
     
         constructor(props) {
             super(props)
-            this.route = ROUTE_MAP[props.to]
+            const { routeMap = ROUTE_MAP } = props
+            this.route = routeMap[props.to]
         }
     
         componentDidMount() {
-            this.route = ROUTE_MAP[this.props.to]
+            const { routeMap = ROUTE_MAP } = this.props
+            this.route = routeMap[this.props.to]
         }
 
         componentDidUpdate(prevProps) {
+            const { routeMap = ROUTE_MAP } = this.props
             if (prevProps.to !== this.props.to) {
-                this.route = ROUTE_MAP[this.props.to]
+                this.route = routeMap[this.props.to]
             }            
         }
     
@@ -54,7 +57,7 @@ const withLinkComponent = (WrappedComponent) => {
         }
     
         render() {
-            const { to, params, dataProps, location, dispatch: notUsed, ...rest } = this.props
+            const { to, params, dataProps, routeMap, location, dispatch: notUsed, ...rest } = this.props
 
             //console.debug("Location: ", location)
             const state = {

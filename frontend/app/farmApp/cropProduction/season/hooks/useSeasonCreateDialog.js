@@ -1,7 +1,7 @@
 import React, { useRef, useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { useHistory, useParams, Switch } from "react-router-dom";
-import { ROUTES, ROUTE_MAP } from 'routes'
+import { ROUTES, ROUTE_MAP } from 'farmApp/routes'
 
 
 import { PLAN_SELECTOR_DIALOG } from 'site/modalTypes'

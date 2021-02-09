@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { ROUTE_MAP } from 'routes'
+import { ROUTE_MAP } from 'farmApp/routes'
 
 export default (to) => {
     const route = useMemo(() => {

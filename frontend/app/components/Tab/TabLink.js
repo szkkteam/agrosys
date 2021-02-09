@@ -1,7 +1,6 @@
 import React, { forwardRef } from 'react'
 import PropTypes from 'prop-types'
 //import { Link } from 'react-router-dom'
-import { ROUTE_MAP } from 'routes'
 import Tab from '@material-ui/core/Tab';
 import { withLinkComponent } from 'utils/hoc'
 
