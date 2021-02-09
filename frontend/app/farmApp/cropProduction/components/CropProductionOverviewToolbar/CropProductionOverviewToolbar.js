@@ -7,6 +7,7 @@ import { Redirect, useLocation, Switch } from "react-router-dom";
 
 import { 
     PrimaryActionButton,
+    DataLoading,
 } from 'components'
 
 import {
@@ -15,6 +16,8 @@ import {
     Avatar,
     Button,
 } from '@material-ui/core'
+
+import { useCropDialog, useFetchUserCrops } from 'farmApp/cropProduction/crop/hooks'
 
 const CropChip = styled(Chip)`
     margin: 3px 4px;
@@ -27,22 +30,40 @@ const LowerCase = styled(Button)`
     text-transform: initial;
 `
 
+const CropFilterContainer = ({
+    data,
+    selected,
+    onClick
+}) => {
+    return (
+        data.map(({id, title}, i) => (
+            <CropChip 
+                key={i}
+                color={id in selected? "primary" : "default"}
+                avatar={<Avatar alt={title}>{title.charAt(0)}</Avatar> }
+                label={title}
+                onClick={onClick(id)}
+            />
+        ))
+    )
+}
+
 const CropFilter = ({}) => {
     const [selected, setSelected] = useState({})
 
-    const data = [
-        {id: 1, title: 'My wheat'},
-        {id: 2, title: 'My corn'},
-        {id: 3, title: 'My etc'},
-    ]
+    const { payload, isLoading } = useFetchUserCrops()
+    //const { payload = [], isLoading = false } = {}
 
+    // TODO: Store selected crops in redux store.
     const handleSelectAll = () => {
-        const ids = data.map(x => x.id)
-        let { ...newSelected } = selected
-        ids.forEach(x => {
-            newSelected[x] = true
-        })
-        setSelected(newSelected)
+        if (Array.isArray(payload)) {
+            const ids = payload.map(x => x.id)
+            let { ...newSelected } = selected
+            ids.forEach(x => {
+                newSelected[x] = true
+            })
+            setSelected(newSelected)
+        }
     }
 
     const handleClick = (i) => () => {
@@ -55,17 +76,23 @@ const CropFilter = ({}) => {
         setSelected(newSelected)
     }
 
+    const openDialog = useCropDialog()
+
+    const handleCreate = () => {
+        openDialog()
+    }
+
     return (
         <>
-            {data.map(({id, title}, i) => (
-                <CropChip 
-                    key={i}
-                    color={id in selected? "primary" : "default"}
-                    avatar={<Avatar alt={title}>W</Avatar> }
-                    label={title}
-                    onClick={handleClick(id)}
-                />
-            ))}
+            {!isLoading? (
+                <CropFilterContainer
+                    data={payload}
+                    selected={selected}
+                    onClick={handleClick}
+                />  
+            ) : (
+                <DataLoading />
+            )}
             <LowerCase
                 color="primary"
                 onClick={handleSelectAll}
@@ -74,7 +101,7 @@ const CropFilter = ({}) => {
             </LowerCase>
             <Spacer />
             <PrimaryActionButton
-                variant="outlined"
+                onClick={handleCreate}
                 title={messages.addNewTitle}
             />
         </>

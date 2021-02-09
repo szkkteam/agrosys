@@ -17,7 +17,7 @@ import {
 
 import {
     CropExpense,
-    CropIncome,
+    CropCashFlow,
     CropROI,
     CultivatedArea
 } from 'farmApp/cropProduction/widgets'
@@ -34,35 +34,35 @@ const CropProductionOverviewLayout = ({
     const layouts = {
         xxs: [
             {...widgetDefaults, i: 'CultivatedArea', x: 0, y: 0},
-            {...widgetDefaults, i: 'CropIncome', x: 3, y: 0},
+            {...widgetDefaults, i: 'CropCashFlow', x: 3, y: 0},
             {...widgetDefaults, i: 'CropExpense', x: 6, y: 0},
             {...widgetDefaults, i: 'CropROI', x: 9, y: 0},
             {...upcomingTaskDefault, i: 'UpcomingTask', x: 0, y: 0},
         ],
         xs: [
             {...widgetDefaults, i: 'CultivatedArea', x: 0, y: 0, w: 2},
-            {...widgetDefaults, i: 'CropIncome', x: 2, y: 0, w: 2},
+            {...widgetDefaults, i: 'CropCashFlow', x: 2, y: 0, w: 2},
             {...widgetDefaults, i: 'CropExpense', x: 0, y: 5, w: 2},
             {...widgetDefaults, i: 'CropROI', x: 2, y: 10, w: 2},
             {...upcomingTaskDefault, i: 'UpcomingTask', x: 0, y: 15, w: 4},
         ],
         sm: [
             {...widgetDefaults, i: 'CultivatedArea', x: 0, y: 0},
-            {...widgetDefaults, i: 'CropIncome', x: 3, y: 0},
+            {...widgetDefaults, i: 'CropCashFlow', x: 3, y: 0},
             {...widgetDefaults, i: 'CropExpense', x: 0, y: 5},
             {...widgetDefaults, i: 'CropROI', x: 3, y: 10},
             {...upcomingTaskDefault, i: 'UpcomingTask', x: 0, y: 15},
         ],
         md: [
             {...widgetDefaults, i: 'CultivatedArea', x: 0, y: 0},
-            {...widgetDefaults, i: 'CropIncome', x: 3, y: 0},
+            {...widgetDefaults, i: 'CropCashFlow', x: 3, y: 0},
             {...widgetDefaults, i: 'CropExpense', x: 6, y: 0},
             {...widgetDefaults, i: 'CropROI', x: 9, y: 0},
             {...upcomingTaskDefault, i: 'UpcomingTask', x: 0, y: 5, w: 4},
         ],
         lg: [
             {...widgetDefaults, i: 'CultivatedArea', x: 0, y: 0},
-            {...widgetDefaults, i: 'CropIncome', x: 3, y: 0},
+            {...widgetDefaults, i: 'CropCashFlow', x: 3, y: 0},
             {...widgetDefaults, i: 'CropExpense', x: 6, y: 0},
             {...widgetDefaults, i: 'CropROI', x: 9, y: 0},
             {...upcomingTaskDefault, i: 'UpcomingTask', x: 0, y: 5},
@@ -72,7 +72,7 @@ const CropProductionOverviewLayout = ({
 
     const components = [
         {key: "CultivatedArea", component: <CultivatedArea />},
-        {key: "CropIncome", component: <CropIncome />},
+        {key: "CropCashFlow", component: <CropCashFlow />},
         {key: "CropExpense", component: <CropExpense />},
         {key: "CropROI", component: <CropROI />},
         {key: "UpcomingTask", component: <UpcomingTask />},

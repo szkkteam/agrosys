@@ -30,14 +30,16 @@ const ThickProgress = styled(LinearProgress)`
 
 const SimpleProgress = ({
     className,
+    style,
     title,
     valueText,
     textProps={},
     progress,
-
+    children,
+    ...props
 }) => {
     return (
-        <FullWidth className={className}>
+        <FullWidth className={className} style={style}>
             <TopTextContainer>
                 <Typography variant="body2" {...textProps}>
                     {title}
@@ -52,6 +54,7 @@ const SimpleProgress = ({
                 variant="determinate"
                 value={progress}
             />
+            {children}
         </FullWidth>
     )
 }
