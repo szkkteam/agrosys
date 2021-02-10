@@ -46,6 +46,7 @@ const ownership = [
 ]
 
 const FieldCreateGridView = ({
+    fieldsData,
     onAddNew,
     onDeleteItem,
     fields,
@@ -62,14 +63,14 @@ const FieldCreateGridView = ({
     }
 
     const columns = useMemo(() => [
-        {title: 'Shape', size: 0.5, render: (field, i) => <FieldSnapshot />
+        {title: 'Shape', size: 0.5, render: (field, i) => <FieldSnapshot {...fieldsData[i]}/>
         },
         {title: 'Title', render: (field, i) => <TextField name={`${field}.title`}
                                                     label="Title"
                                                     formProps={{fullWidth: true}}
                                                 />
         },
-        {title: 'Ownership', render: (field, i) => <SearchSelectField name={`${field}.ownership`}
+        {title: 'Ownership', render: (field, i) => <SearchSelectField name={`${field}.lpis.ownership`}
                                                 label="Ownership"
                                                 disableClearable={true}
                                                 formProps={{fullWidth: true}}
@@ -84,7 +85,7 @@ const FieldCreateGridView = ({
                                                             formProps={{fullWidth: true}}
                                                         />
         },
-        {title: 'MePAR block' , render: (field, i) => <TextField name={`${field}.lpis.mepar`}
+        {title: 'MePAR block' , render: (field, i) => <TextField name={`${field}.lpis.meparId`}
                                                             label="MePAR block identifier"
                                                             formProps={{fullWidth: true}}
                                                             />

@@ -86,10 +86,10 @@ const FieldDetailLayout = ({
 
 FieldDetailLayout.propTypes = {
     primaryButtonProps: PropTypes.shape({
-        title: PropTypes.object.isRequired
+        title: PropTypes.object
     }),
     secondaryButtonProps: PropTypes.shape({
-        title: PropTypes.object.isRequired
+        title: PropTypes.object
     })
 }
 

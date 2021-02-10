@@ -4,7 +4,6 @@ import messages from './messages';
 import styled from 'styled-components'
 import { ROUTES } from 'farmApp/routes'
 import { useIntl, FormattedMessage } from 'react-intl'
-import convert from 'convert-units'
 
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
@@ -17,7 +16,7 @@ import {
     IconButton
 } from '@material-ui/core';
 
-import { useSelectField } from '../../hooks'
+import { useSelectField, useConvertArea } from '../../hooks'
 
 const ListContainer = styled(MasterListItem)`
     height: 70px;
@@ -106,7 +105,6 @@ const FieldListItem = ({
     disableAction=false,
     ...props
 }) => {
-    const intl = useIntl()
     //console.debug("FieldListItem - data: ", data)
     const items = [
         {title: messages.edit, link: { to: ROUTES.ResourceFieldEdit, params: {id: 1}}},
@@ -119,11 +117,10 @@ const FieldListItem = ({
     const { 
         title,
         area: areaM2,
-        meparId
+        lpis: { meparId },
     } = payload 
 
-    const unit = {narrow: 'ha', long: 'hectare'}
-    const areaUnit = convert(areaM2).from('m2').to(unit.narrow)
+    const area = useConvertArea(areaM2)
 
     return (
         <ListContainer
@@ -136,7 +133,7 @@ const FieldListItem = ({
                 <Thumbnail image="https://via.placeholder.com/48/48"/>
                 <Content>
                     <Title variant="h2" noWrap>
-                        {`${title}, ${intl.formatNumber(areaUnit, {unit: unit.long, style: 'unit', unitDisplay: 'narrow'})}`}
+                        {`${title}, ${area}`}
                     </Title>                    
                     <MetaContainer>
                         <LpisMeta>

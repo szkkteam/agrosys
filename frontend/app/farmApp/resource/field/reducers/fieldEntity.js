@@ -3,16 +3,19 @@ import { listField, createField } from '../actions'
 
 export default function(action, Field, session) {
     const { type, payload } = action
+    const { fields } = payload || []
 
     switch(type) {
     
         case listField.SUCCESS:
-            const { fields } = payload || []
             fields.forEach(field => Field.parse(field))
             break
         case createField.SUCCESS:
-            const { field } = payload || null
-            Field.parse(field)
+            if (Array.isArray(fields)) {
+                fields.forEach(field => Field.parse(field))
+            } else {
+                Field.parse(fields)
+            }
         default:
             break    
     }

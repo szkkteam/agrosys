@@ -72,7 +72,7 @@ const aloisTieberGeom = {
   }
 
 export const fixture = [
-    {id: 1, title: "Tábla 1", area: 21000, geometry: aloisTieberGeom, ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "ABCDEF-11"},
+    {id: 1, title: "Tábla 1", area: 21000, geometry: aloisTieberGeom, lpis: { ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "ABCDEF-11"}},
 ]
 
 export const maybeListFieldSaga = function *() {

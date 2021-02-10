@@ -4,6 +4,7 @@ import messages from './messages';
 import styled from 'styled-components'
 import { ROUTES } from 'farmApp/routes'
 import { useIntl, FormattedMessage } from 'react-intl'
+import { useConvertArea } from '../../hooks'
 
 import {
     ListItem,
@@ -56,11 +57,12 @@ const Title = styled(Typography)`
 
 
 const FieldSnapshot = ({
-    children,
     className,
+    area,
+    children,
     ...props
 }) => {
-   
+    const convertedArea = useConvertArea(area)
 
     return (
         <ListContainer
@@ -70,7 +72,7 @@ const FieldSnapshot = ({
                 <Thumbnail image="https://via.placeholder.com/48/48"/>
                 <Content>
                     <Title variant="h2" noWrap>
-                        2.1ha
+                        {convertedArea}
                     </Title>                                        
                 </Content>   
             </ListInnerContainer>
