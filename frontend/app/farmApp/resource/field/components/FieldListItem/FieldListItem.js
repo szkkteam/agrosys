@@ -4,6 +4,7 @@ import messages from './messages';
 import styled from 'styled-components'
 import { ROUTES } from 'farmApp/routes'
 import { useIntl, FormattedMessage } from 'react-intl'
+import convert from 'convert-units'
 
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
@@ -15,6 +16,8 @@ import {
     Typography,
     IconButton
 } from '@material-ui/core';
+
+import { useSelectField } from '../../hooks'
 
 const ListContainer = styled(MasterListItem)`
     height: 70px;
@@ -96,18 +99,31 @@ const ActionIcon = styled(props => <ItemMenu {...props}/>)`
 `
 
 const FieldListItem = ({
+    id,
     data,
     children,
     className,
     disableAction=false,
     ...props
 }) => {
-    console.debug("FieldListItem - data: ", data)
+    const intl = useIntl()
+    //console.debug("FieldListItem - data: ", data)
     const items = [
         {title: messages.edit, link: { to: ROUTES.ResourceFieldEdit, params: {id: 1}}},
         //{title: messages.edit, onClink: null},
         {title: messages.delete, onClink: null}
     ]
+
+    const { payload, isLoading } = useSelectField(id)
+
+    const { 
+        title,
+        area: areaM2,
+        meparId
+    } = payload 
+
+    const unit = {narrow: 'ha', long: 'hectare'}
+    const areaUnit = convert(areaM2).from('m2').to(unit.narrow)
 
     return (
         <ListContainer
@@ -120,12 +136,12 @@ const FieldListItem = ({
                 <Thumbnail image="https://via.placeholder.com/48/48"/>
                 <Content>
                     <Title variant="h2" noWrap>
-                        Parcel 1, 2.1ha
+                        {`${title}, ${intl.formatNumber(areaUnit, {unit: unit.long, style: 'unit', unitDisplay: 'narrow'})}`}
                     </Title>                    
                     <MetaContainer>
                         <LpisMeta>
                             <Typography variant="caption" >
-                                (Field 1, 3.3ha)
+                                ({meparId})
                             </Typography>
                         </LpisMeta>
                         <Utilization>
