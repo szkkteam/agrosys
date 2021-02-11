@@ -5,7 +5,7 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { PlanSelector } from 'farmApp/cropProduction/plan/components'
+import SeasonSelector from '../SeasonSelector/SeasonSelector'
 import { PrimaryActionButton } from 'components'
 
 import { 
@@ -61,7 +61,7 @@ const AddButton = styled(props => <PrimaryActionButton {...props} />)`
     width: 100%;
 `
 
-const ProductionTabGeneral = ({
+const SeasonSelectCreate = ({
     title,
     onCreate,
 }) => {
@@ -82,7 +82,7 @@ const ProductionTabGeneral = ({
                             </Typography>
                         </Grid>
                         <Grid item xs={8}>
-                            <PlanSelector 
+                            <SeasonSelector 
                                 /*
                                 noOptionButton={{
                                     title: messages.addNewPlan,
@@ -114,8 +114,8 @@ const ProductionTabGeneral = ({
     )
 }
 
-ProductionTabGeneral.propTypes = {
+SeasonSelectCreate.propTypes = {
 
 }
 
-export default ProductionTabGeneral
+export default SeasonSelectCreate

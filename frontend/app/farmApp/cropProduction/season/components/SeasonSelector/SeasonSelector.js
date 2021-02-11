@@ -18,7 +18,7 @@ const templates = [
     {id: 3, title: 'Winter wheat 2018, 20ha'},
 ]
 
-const PlanSelector = ({
+const SeasonSelector = ({
     ...props
 }) => {
     const intl = useIntl()
@@ -36,8 +36,8 @@ const PlanSelector = ({
     )
 }
 
-PlanSelector.propTypes = {
+SeasonSelector.propTypes = {
 
 }
 
-export default PlanSelector
+export default SeasonSelector

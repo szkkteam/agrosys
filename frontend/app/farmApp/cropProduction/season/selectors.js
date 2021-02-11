@@ -1,9 +1,9 @@
 import { createSelector } from 'reselect';
 
 import { formValueSelector } from 'redux-form'
-import { PLAN_FORM_NAME } from './constants'
+import { SEASON_FORM } from './constants'
 
-const formSelector = formValueSelector(PLAN_FORM_NAME)
+const formSelector = formValueSelector(SEASON_FORM)
 const productions = (state) => formSelector(state, 'productions')
 
 const dummyCropLookup = {

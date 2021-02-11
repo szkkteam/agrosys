@@ -6,8 +6,8 @@ import { useIntl } from 'react-intl'
 import { Route } from "react-router-dom";
 
 import { 
-    PlanCreateForm,
-} from 'farmApp/cropProduction/plan/components'
+    SeasonCreateForm,
+} from '../../components'
 
 import {
     SeasonAppBar
@@ -30,7 +30,7 @@ export default ({
             <SeasonAppBar
                 title={messages.title}
             />
-            <PlanCreateForm
+            <SeasonCreateForm
                 initialValues={location.state?.initialValues ?? {}}
             />
         </>

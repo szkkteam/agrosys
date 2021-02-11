@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.farmApp.cropProduction.plan.PlanSummary'
+export const scope = 'app.farmApp.cropProduction.season.SeasonCreateForm'
 
 export default defineMessages({
     addMainCrop: {

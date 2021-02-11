@@ -36,7 +36,7 @@ import {
     ProductionSummaryTable
 } from 'farmApp/cropProduction/production/components'
 
-import { PLAN_FORM_NAME } from '../../constants'
+import { SEASON_FORM } from '../../constants'
 import { MODAL_TYPE_CONFIRM } from 'site/modalResultTypes'
 import { PRODUCTION_TYPE } from 'farmApp/cropProduction/production/constants'
 
@@ -64,7 +64,7 @@ const StretchColumn = styled.div`
 `
 
 const withForm = reduxForm({
-    form: PLAN_FORM_NAME,
+    form: SEASON_FORM,
     //validate,
     //enableReinitialize: true,
     //keepDirtyOnReinitialize: true,
@@ -72,7 +72,7 @@ const withForm = reduxForm({
     //forceUnregisterOnUnmount: true, 
 })
 
-const formSelector = formValueSelector(PLAN_FORM_NAME)
+const formSelector = formValueSelector(SEASON_FORM)
 
 const withConnect = connect(
     (state, props) => {
@@ -105,7 +105,7 @@ const currency = [
  * 4) We need a submit/save button
  */
 
-const PlanCreateForm = ({
+const SeasonCreateForm = ({
     array,
     productions,
 }) => {
@@ -233,15 +233,15 @@ TODO: This is not working properly
 
 */
 
-PlanCreateForm.propTypes = {
+SeasonCreateForm.propTypes = {
 
 }
 
 
-const ConnectedPlanCreateForm = compose(
+const ConnectedSeasonCreateForm = compose(
     withConnect,
     withForm,
-)(PlanCreateForm) 
+)(SeasonCreateForm) 
 
 
-export default ConnectedPlanCreateForm
+export default ConnectedSeasonCreateForm

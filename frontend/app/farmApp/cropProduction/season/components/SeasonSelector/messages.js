@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.farmApp.cropProduction.plan.PlanSelect'
+export const scope = 'app.farmApp.cropProduction.season.SeasonSelector'
 
 export default defineMessages({
     seasonTemplate: {

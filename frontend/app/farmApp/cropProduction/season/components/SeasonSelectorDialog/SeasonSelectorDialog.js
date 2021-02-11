@@ -9,20 +9,20 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 
 import { Field, reduxForm } from 'redux-form'
-import PlanSelectorDialog from './PlanSelectorDialog'
+import PlanSelectorDialog from './SeasonSelectorDialog'
 
 import { Modal } from 'site/components'
-import { PLAN_SELECTOR_FORM } from '../../constants'
+import { SEASON_SELECTOR_FORM } from '../../constants'
 
 import { DetailHeader, DetailContainer } from 'farmApp/components/Detail'
-import ProductionTabGeneral from './ProductionTabGeneral'
+import SeasonSelectCreate from './SeasonSelectCreate'
 
 const Container = styled.div`
     padding: 10px 15px;
 `
 
 const withForm = reduxForm({
-    form: PLAN_SELECTOR_FORM,
+    form: SEASON_SELECTOR_FORM,
     //validate,
     //enableReinitialize: true,
     //keepDirtyOnReinitialize: true,
@@ -43,7 +43,7 @@ const withConnect = connect(
 )
 
 
-const PlanSelectorForm = ({
+const SeasonSelectorDialog = ({
     action,
     onClose,
     handleSubmit,
@@ -58,7 +58,7 @@ const PlanSelectorForm = ({
                 onClose={onClose}
             />
             <Container>
-                <ProductionTabGeneral 
+                <SeasonSelectCreate 
                     title={messages.tabGeneral}
                     onCreate={handleConfirm}
                     {...props}
@@ -68,15 +68,15 @@ const PlanSelectorForm = ({
   ) 
 }
 
-PlanSelectorForm.propTypes = {
+SeasonSelectorDialog.propTypes = {
 
 }
 
 
-const ConnectedPlanSelectorForm = compose(
+const ConnectedSeasonSelectorDialog = compose(
     withConnect,
     withForm,
-)(PlanSelectorForm) 
+)(SeasonSelectorDialog) 
 
 
 export default ({
@@ -97,7 +97,7 @@ export default ({
             maxWidth="md"
             {...headerProps}
         >   
-            <ConnectedPlanSelectorForm
+            <ConnectedSeasonSelectorDialog
                 initialValues={data}
                 onSubmit={handleSubmit}
                 {...headerProps}

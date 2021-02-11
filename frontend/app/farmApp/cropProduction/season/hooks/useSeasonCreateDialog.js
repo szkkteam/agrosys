@@ -4,7 +4,7 @@ import { useHistory, useParams, Switch } from "react-router-dom";
 import { ROUTES, ROUTE_MAP } from 'farmApp/routes'
 
 
-import { PLAN_SELECTOR_DIALOG } from 'site/modalTypes'
+import { SEASON_SELECTOR_DIALOG } from 'site/modalTypes'
 import { MODAL_TYPE_CONFIRM } from 'site/modalResultTypes'
 import { usePushModalWindow } from 'utils/hooks'
 
@@ -18,7 +18,7 @@ export default () => {
     const { cropId: urlCropId } = useParams()
 
     return (cropId = urlCropId) => {
-        return push(PLAN_SELECTOR_DIALOG, {}).then(({payload: initialValues = {}, status}) => {
+        return push(SEASON_SELECTOR_DIALOG, {}).then(({payload: initialValues = {}, status}) => {
             if (status === MODAL_TYPE_CONFIRM) {
                 history.push({
                     // TODO: Get the cropId

@@ -11,7 +11,7 @@ import { ROUTES, ROUTE_MAP } from 'farmApp/routes'
 import PrimaryActionButton from 'components/Button/PrimaryActionButton'
 
 
-import { PLAN_SELECTOR_DIALOG } from 'site/modalTypes'
+import { SEASON_SELECTOR_DIALOG } from 'site/modalTypes'
 import { MODAL_TYPE_CONFIRM } from 'site/modalResultTypes'
 import { usePushModalWindow } from 'utils/hooks'
 
@@ -27,7 +27,7 @@ const SeasonCreateButton = ({
     const push = usePushModalWindow()
 
     const openPlanSelector = () => {
-        push(PLAN_SELECTOR_DIALOG, {}).then(({payload: initialValues = {}, status}) => {
+        push(SEASON_SELECTOR_DIALOG, {}).then(({payload: initialValues = {}, status}) => {
             if (status === MODAL_TYPE_CONFIRM) {
                 history.push({
                     // TODO: Get the cropId

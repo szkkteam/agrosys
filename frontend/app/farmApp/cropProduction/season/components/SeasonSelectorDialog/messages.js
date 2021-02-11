@@ -1,8 +1,12 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.farmApp.cropProduction.production.ProductionPlanSelectorDialog.ProductionTabGeneral'
+export const scope = 'app.farmApp.cropProduction.season.SeasonSelectorDialog'
 
 export default defineMessages({
+    title: {
+        id: `${scope}.title`,  
+        defaultMessage: 'Select template for your season',        
+    },
     addNewPlan: {
         id: `${scope}.ButtonAddNew.title`,  
         defaultMessage: "Create new template",        

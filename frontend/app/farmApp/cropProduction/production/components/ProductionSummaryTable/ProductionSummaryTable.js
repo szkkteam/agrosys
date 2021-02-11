@@ -19,7 +19,7 @@ import {
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import { getProductionsFromForm } from '../../../plan/selectors'
+import { getProductionsFromForm } from '../../../season/selectors'
 
 const TableContainer = styled.div`
     width: 100%;
