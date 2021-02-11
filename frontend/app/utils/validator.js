@@ -1,5 +1,4 @@
 
-
 export const syncValidator = (schema) => formValues => {
     console.debug("formValues: ", formValues)
     try {
@@ -7,13 +6,11 @@ export const syncValidator = (schema) => formValues => {
         return {}
     } catch (errors) {
         if (!errors?.inner) return {}
-
-        const retVal = errors.inner.reduce(
-            (errors, err) => ({
-                ...errors,
-                [err.path]: err.message
-            })
-        , {})
+        let retVal = {}
+        errors.inner.forEach((err) => {
+            _.set(retVal, err.path, err.message)
+        })
+        
         console.debug("Errors: ", retVal)
         return retVal
 

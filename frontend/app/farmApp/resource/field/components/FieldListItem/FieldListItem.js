@@ -97,9 +97,9 @@ const ActionIcon = styled(props => <ItemMenu {...props}/>)`
     }
 `
 
-const FieldListItem = ({
+const FieldListItem = ({    
     id,
-    data,
+    //payload,
     children,
     className,
     disableAction=false,
@@ -117,14 +117,16 @@ const FieldListItem = ({
     const { 
         title,
         area: areaM2,
-        lpis: { meparId },
-    } = payload 
+        lpis,
+    } = payload || {}
+
+    const { meparId } = lpis || {}
 
     const area = useConvertArea(areaM2)
 
     return (
         <ListContainer
-            data={data}
+            data={id}
             className={className}
             {...props}
         >

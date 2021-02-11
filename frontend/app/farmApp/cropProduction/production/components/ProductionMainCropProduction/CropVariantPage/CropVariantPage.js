@@ -106,8 +106,9 @@ class CropVariantPage extends React.Component {
         const { parcels } = this.props
         const columns = [
             {title: 'Parcels', size: 1.5, render: (field, i) => 
-                <FieldListItem 
-                    data={parcels ? {id: parcels[i].parcelId} : null}
+                <FieldListItem
+                    disableAction={true}
+                    {... parcels && parcels.length? {id: parcels[i].parcelId} : {}} 
                 />
             },
             {title: 'Variant', render: (field, i) => <SearchSelectField name={`${field}.crop.variant`}

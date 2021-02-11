@@ -57,6 +57,8 @@ export default ({
     const intl = useIntl()
     const { onChange: onChangeRF, onBlur: onBlurRF, value, ...inputRest } = input || {}
 
+    const overrideGetOptionLabel = Array.isArray(options) && options.length && typeof(options[0]) == 'string'
+
     const defaultGetOptionLabel = (option) => 
         typeof option === 'object' && propGetOptionLabel? propGetOptionLabel(option) : ""
 
@@ -91,7 +93,7 @@ export default ({
                 //autoSelect={true}
                 {...rfPropsFix} // Used to fix the onChange event handler for redux-form
                 options={options}
-                getOptionLabel={defaultGetOptionLabel}
+                getOptionLabel={overrideGetOptionLabel? propGetOptionLabel : defaultGetOptionLabel}
                 value={value2? value2: ""} // Used because if the input is clreared it's returning with undefined
                 noOptionsText={
                   noOptionButton? <NoOptionButton {...noOptionButton}/> : <FormattedMessage {...messages.emptyList} />

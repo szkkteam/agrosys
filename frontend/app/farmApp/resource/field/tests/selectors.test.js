@@ -1,7 +1,8 @@
 import schema from 'farmApp/schema'
 import {
     getFieldIds,
-    getField
+    getField,
+    getSelectedFieldsArea
 } from '../selectors.js'
 
 describe('field selectors', () => {
@@ -161,6 +162,64 @@ describe('field selectors', () => {
             fixture.forEach(x => Field.parse(x))
 
             const fnc = getField()
+            const selected = fnc.resultFunc(session, requestFixtures, 1)
+            expect(selected).toEqual(expectedResult)
+        })
+        
+    })
+
+    describe('getSelectedFieldsArea', () => {
+
+        it('should return with 0 ', () => {
+
+            const expectedResult = {
+                payload: {area: 0},
+                isLoading: false,
+                error: null
+            }
+            const fnc = getSelectedFieldsArea()
+            const selected = fnc.resultFunc(session, requestFixtures, [1, 2])
+            expect(selected).toEqual(expectedResult)
+        })
+        
+        it('should return with sum of area', () => {
+            const fixture = [
+                {id: 1, title: "Tábla 1", area: 21000, geometry: {}, ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "ABCDEF-11"},
+                {id: 2, title: "Tábla 2", area: 21000, geometry: {}, ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "ABCDEF-11"},
+            ]
+
+            const expectedFixture = { area: 21000 + 21000 }
+
+            const expectedResult = {
+                payload: expectedFixture,
+                isLoading: false,
+                error: null,
+            }
+            const { Field } = session
+            fixture.forEach(x => Field.parse(x))
+
+            const fnc = getSelectedFieldsArea()
+            const selected = fnc.resultFunc(session, requestFixtures, [1, 2])
+            expect(selected).toEqual(expectedResult)
+        })
+
+        it('should return with sum of area, one index', () => {
+            const fixture = [
+                {id: 1, title: "Tábla 1", area: 21000, geometry: {}, ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "ABCDEF-11"},
+                {id: 2, title: "Tábla 2", area: 21000, geometry: {}, ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "ABCDEF-11"},
+            ]
+
+            const expectedFixture = { area: 21000 }
+
+            const expectedResult = {
+                payload: expectedFixture,
+                isLoading: false,
+                error: null,
+            }
+            const { Field } = session
+            fixture.forEach(x => Field.parse(x))
+
+            const fnc = getSelectedFieldsArea()
             const selected = fnc.resultFunc(session, requestFixtures, 1)
             expect(selected).toEqual(expectedResult)
         })

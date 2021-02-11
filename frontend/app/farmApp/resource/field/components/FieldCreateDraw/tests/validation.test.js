@@ -74,7 +74,7 @@ describe('Validate FieldCreateDraw form', () => {
     it('validation pass', () => {
                 
         const fixture = {fields: [
-            {title: "Tábla 1", area: 21000, geometry, lpis: { ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "ABCDEF-11"}},
+            {title: "Tábla 1", area: 21000, geometry, lpis: { ownership: "Tulajdon" , cadastralPlot: "116/2, 117/2", meparId: "ABCDEF-11"}},
         ]}        
 
         const result = validator(fixture)
@@ -84,11 +84,20 @@ describe('Validate FieldCreateDraw form', () => {
     it('missing area', () => {
                 
         const fixture = {fields: [
-            {title: "Tábla 1", geometry, lpis: { ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "ABCDEF-11"}},
+            {title: "Tábla 1", geometry, lpis: { ownership: "Tulajdon" , cadastralPlot: "116/2, 117/2", meparId: "ABCDEF-11"}},
         ]}        
 
         const result = validator(fixture)
-        expect(result).toEqual({"fields[0].area": messages.areaMissing})
+        expect(result).toEqual({fields: [{area: messages.areaMissing}]})
     })
     
+    it('missing ownership', () => {
+                
+        const fixture = {fields: [
+            {title: "Tábla 1", area: 21000, geometry, lpis: { cadastralPlot: "116/2, 117/2", meparId: "ABCDEF-11"}},
+        ]}        
+
+        const result = validator(fixture)
+        expect(result).toEqual({fields: [{lpis: {ownership: messages.ownershipMissing}}]})
+    })
 })

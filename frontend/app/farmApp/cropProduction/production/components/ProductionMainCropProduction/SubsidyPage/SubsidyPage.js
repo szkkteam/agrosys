@@ -71,9 +71,10 @@ class SubsidyPage extends React.Component {
 
         const columns = [
             {title: 'Parcels', size: 1.5, render: (field, i) => 
-                <FieldListItem 
-                    data={parcels ? {id: parcels[i].parcelId} : null}
-                />
+                <FieldListItem
+                    disableAction={true}
+                    {... parcels && parcels.length? {id: parcels[i].parcelId} : {}} 
+                />                
             },
             {title: 'Table number', render: (field, i) => <TextField name={`${field}.field.tableNumber`}
                                                         label="Table number"

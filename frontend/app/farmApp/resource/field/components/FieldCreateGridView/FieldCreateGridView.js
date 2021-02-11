@@ -34,7 +34,7 @@ const DrawFieldButton = styled(PrimaryActionButton)`
     max-width: 220px;
 `
 
-
+/*
 const ownership = [
     {id: 1, title: "Tulajdon", },
     {id: 2, title: "Földhaszonbérlet", },
@@ -43,6 +43,17 @@ const ownership = [
     {id: 5, title: "Közeli hozzátartozó", },
     {id: 6, title: "Mindezek vegyesen", },
     {id: 7, title: "Egyéb", },
+]
+*/
+
+const ownership = [
+    "Tulajdon",
+    "Földhaszonbérlet",
+    "Szivességi földhasználat",
+    "Vagyonkezelő",
+    "Közeli hozzátartozó",
+    "Mindezek vegyesen",
+    "Egyéb",
 ]
 
 const FieldCreateGridView = ({
@@ -76,8 +87,9 @@ const FieldCreateGridView = ({
                                                 formProps={{fullWidth: true}}
                                                 options={ownership}
                                                 //idAccessor={(o) => o.id}
-                                                groupBy={(option) => option.category}
-                                                getOptionLabel={(option) => option.title}
+                                                //groupBy={(option) => option.category}
+                                                //getOptionLabel={(option) => option.title}
+                                                getOptionLabel={(option) => option}
                                             />
         },
         {title: 'Cadastral plot' , render: (field, i) => <TextField name={`${field}.lpis.cadastralPlot`}

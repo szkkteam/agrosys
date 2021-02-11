@@ -4,8 +4,8 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import globalMessages from 'messages'
 import styled from 'styled-components'
 
+import { useFetchFields, useSelectFieldsArea, useConvertArea } from '../../hooks'
 
-import { updateObjectInArray } from 'utils'
 
 import {
     List,
@@ -23,21 +23,25 @@ import {
 
 import { 
     MasterList,
+    PageContent,
+    PageHeader,
     PrimaryActionButton
 } from 'components'
 
 import MasterListContext from 'components/List/MasterListContext'
+import messages from './messages'
 
 const SelectIcon = styled(ListItemIcon)`
     min-width: 30px;
     margin-right: 10px;
 `
 
-const Container = styled.div`
-    height: 100%;
-    padding: 10px 5px;
-    display: flex;
-    flex-direction: column;
+const Container = styled(PageContent)`
+    width: 270px;
+`
+
+const PaddedList = styled(MasterList)`
+    padding: 0 16px;
 `
 
 const TextContainer = styled.div`
@@ -45,31 +49,24 @@ const TextContainer = styled.div`
     padding-bottom: 10px;
 `
 
-const SaveButton = styled(Button)`
-    width: 100%;
-    padding: 5px 5px;
-`
-
-const Content = () => <div>Content</div>
-
-const Selector = ({
-    data,
+const Selector = ({    
+    disabled,
     selectedField,
     selected: notUsed,
     ...props
 }) => {
     //const [selected, setSelected] = useState(false)
     //const handleSelect = () => setSelected(!selected)
-    console.debug("selectedField: ", selectedField)
     return (
         <FieldListItem
-            data={{id: data}}
             disableAction={true}
+            disabled={disabled}
             {...props}
         >
             <SelectIcon>
                 <Checkbox
                     edge="start"
+                    disabled={disabled}
                     checked={selectedField}
                     tabIndex={-1}
                     //onClick={handleSelect}
@@ -89,8 +86,6 @@ const FieldSideSelector = ({
     children,
     ...props
 }) => {
-    const containerRef = useRef(null)
-    const [height, setHeight] = useState(800)
     /*
     const [items, setItems] = useState([
         {id: 1, selected: false},
@@ -101,18 +96,15 @@ const FieldSideSelector = ({
         {id: 6, selected: false},
     ])
     */
-   const items = [1, 2 ,3 ,4 ,5 ,6]
-   
-    const handleSelected = ({id}) => {
+   const { payload, isLoading } = useFetchFields()
+
+    const handleSelected = (id) => {
         const newState = !selected.find(x => x === id)
         onSelected && onSelected(id, newState)
     }
 
-    useLayoutEffect(() => {
-        if (containerRef && containerRef.current) {
-            setHeight(containerRef.current.clientHeight)
-        }
-    })
+    const { payload: { area } } = useSelectFieldsArea(selected)
+    const convertedArea = useConvertArea(area)
 
     return (
         <Drawer
@@ -120,34 +112,32 @@ const FieldSideSelector = ({
             open={open}
             onClose={onClose}
         >       
-            <Container ref={containerRef}>
-                <TextContainer>
-                    <Typography variant="h5" >
-                        Select parcels
-                    </Typography>
-                </TextContainer>
-                <List
-                    subheader={
-                        <Typography variant="body2">
-                            Selected total area: 53ha
-                        </Typography>
-                    }
-                    style={{flexGrow: 1, display: "flex", flexDirection: "column"}}
+            <Container>
+                <PageHeader
+                    //noWrap
+                    title={messages.title}
+                    //subheader={`Selected total area: ${convertedArea}`}
+                    subheader={{
+                        values: {
+                            b: (chunk) => <b>{convertedArea}</b>
+                        },
+                        ...messages.area
+                    }}
+                />
+                <PaddedList
+                    onSelect={handleSelected}
+                    isLoading={isLoading}
+                    options={{
+                        // TODO: Fixme
+                        maxHeight: 800,
+                    }}
+                    style={{flexGrow: 1}}
+                    addButton={children}
                 >
-                    <MasterList
-                        onSelect={handleSelected}
-                        options={{
-                            // TODO: Fixme
-                            maxHeight: 800,
-                        }}
-                        style={{flexGrow: 1}}
-                        addButton={children}
-                    >
-                        {items.map((item, i) => 
-                            <Selector key={i} data={item} selectedField={!!selected.find(x => x === item)}/>
-                        )}
-                    </MasterList>
-                </List>
+                    {payload && payload.map((id, i) => (
+                        <Selector key={i} id={id} disabled={false} selectedField={!!selected.find(x => x === id)}/>
+                    ))}
+                </PaddedList>
             </Container>
         </Drawer>
     )
