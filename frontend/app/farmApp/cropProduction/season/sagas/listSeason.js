@@ -5,7 +5,7 @@ import { createRoutineSaga } from 'sagas'
 
 import { listSeason } from '../actions'
 // TODO: Import API
-import fixture from '../fixtures'
+import { seasons as fixture } from 'farmApp/fixtures'
 
 import { selectSeasonRequest } from '../reducers/seasonRequest'
 

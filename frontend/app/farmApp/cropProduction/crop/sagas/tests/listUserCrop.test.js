@@ -2,8 +2,9 @@ import { put } from 'redux-saga/effects'
 import { runSaga } from "redux-saga";
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
+import { userCrops as fixture } from 'farmApp/fixtures'
 
-import { listUserCropSaga, fixture } from '../listUserCrop'
+import { listUserCropSaga } from '../listUserCrop'
 import { listUserCrop as listUserCropAction } from '../../actions'
 
 describe('listUserCrop saga', () => {

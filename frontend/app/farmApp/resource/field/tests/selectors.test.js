@@ -1,4 +1,6 @@
 import schema from 'farmApp/schema'
+import { fields, field_table1 } from 'farmApp/fixtures'
+
 import {
     getFieldIds,
     getField,
@@ -74,8 +76,8 @@ describe('field selectors', () => {
         
         it('should return with model ids', () => {
             const fixture = [
-                {id: 1, title: "Tábla 1", area: 21000, geometry: {}, ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "ABCDEF-11"},
-                {id: 2, title: "Tábla 2", area: 21000, geometry: {}, ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "ABCDEF-11"},
+                field_table1,
+                {...field_table1, id: 2},
             ]
 
             const expectedResult = {
@@ -147,8 +149,8 @@ describe('field selectors', () => {
         
         it('should return with model instance', () => {
             const fixture = [
-                {id: 1, title: "Tábla 1", area: 21000, geometry: {}, ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "ABCDEF-11"},
-                {id: 2, title: "Tábla 2", area: 21000, geometry: {}, ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "ABCDEF-11"},
+                field_table1,
+                {...field_table1, id: 2},
             ]
 
             const expectedFixture = fixture[0]
@@ -184,8 +186,8 @@ describe('field selectors', () => {
         
         it('should return with sum of area', () => {
             const fixture = [
-                {id: 1, title: "Tábla 1", area: 21000, geometry: {}, ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "ABCDEF-11"},
-                {id: 2, title: "Tábla 2", area: 21000, geometry: {}, ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "ABCDEF-11"},
+                field_table1,
+                {...field_table1, id: 2},
             ]
 
             const expectedFixture = { area: 21000 + 21000 }
@@ -205,8 +207,8 @@ describe('field selectors', () => {
 
         it('should return with sum of area, one index', () => {
             const fixture = [
-                {id: 1, title: "Tábla 1", area: 21000, geometry: {}, ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "ABCDEF-11"},
-                {id: 2, title: "Tábla 2", area: 21000, geometry: {}, ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "ABCDEF-11"},
+                field_table1,
+                {...field_table1, id: 2},
             ]
 
             const expectedFixture = { area: 21000 }

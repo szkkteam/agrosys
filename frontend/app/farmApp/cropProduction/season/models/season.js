@@ -28,8 +28,9 @@ export class Season extends Model {
         const { UserCrop } = this.session
         let clonedData = {
             ...data,
-            userCrop: UserCrop.parse({...data.userCrop})
+            //userCrop: UserCrop.parse({...data.userCrop})
         }
+        console.debug("Cloned data: ", clonedData)
         
         // TODO: Do some parsing magic with relations
         return this.upsert(clonedData)

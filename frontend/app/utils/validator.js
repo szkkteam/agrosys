@@ -1,6 +1,6 @@
 
 export const syncValidator = (schema) => formValues => {
-    console.debug("formValues: ", formValues)
+    //console.debug("formValues: ", formValues)
     try {
         schema.validateSync(formValues, { abortEarly: false })
         return {}
@@ -11,7 +11,7 @@ export const syncValidator = (schema) => formValues => {
             _.set(retVal, err.path, err.message)
         })
         
-        console.debug("Errors: ", retVal)
+        //console.debug("Errors: ", retVal)
         return retVal
 
     }

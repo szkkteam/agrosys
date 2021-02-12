@@ -1,4 +1,5 @@
 import orm from 'farmApp/schema'
+import { field_table1 } from 'farmApp/fixtures'
 
 describe('Test ield model', () => {
     // This will be the initial state.
@@ -14,10 +15,9 @@ describe('Test ield model', () => {
     })
 
     it('parse simple from json', () => {
-        const fixture = {id: 1, title: "Tábla 1", area: 21000, geometry: {}, ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "ABCDEF-11"}
 
         const { Field } = session
-        Field.parse(fixture)
+        Field.parse(field_table1)
         
         expect(Field.count()).toEqual(1)     
     

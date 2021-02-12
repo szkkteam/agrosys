@@ -2,8 +2,9 @@ import { put } from 'redux-saga/effects'
 import { runSaga } from "redux-saga";
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
+import { cropTypes as fixture } from 'farmApp/fixtures'
 
-import { listCropTypeSaga, fixture } from '../listCropType'
+import { listCropTypeSaga } from '../listCropType'
 import { listCropType as listCropTypeAction } from '../../actions'
 import reducer from '../../reducers/cropTypeRequest'
 

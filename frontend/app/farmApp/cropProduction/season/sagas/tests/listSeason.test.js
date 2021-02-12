@@ -2,10 +2,10 @@ import { put } from 'redux-saga/effects'
 import { runSaga } from "redux-saga";
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
+import { seasons as fixture } from 'farmApp/fixtures'
 
 import { listSeasonSaga as saga } from '../listSeason'
 import { listSeason as action } from '../../actions'
-import fixture from '../../fixtures'
 
 describe('listSeason saga', () => {
     let dispatchedActions = [];

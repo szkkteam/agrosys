@@ -2,8 +2,9 @@ import { put } from 'redux-saga/effects'
 import { runSaga } from "redux-saga";
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
+import { fields } from 'farmApp/fixtures'
 
-import { listFieldSaga, fixture } from '../listField'
+import { listFieldSaga } from '../listField'
 import { listField as action } from '../../actions'
 
 describe('listField saga', () => {
@@ -27,7 +28,7 @@ describe('listField saga', () => {
         await runSaga(fakeStore, listFieldSaga, data).done
         
         expect(dispatchedActions[0]).toEqual(action.request())
-        expect(dispatchedActions[1]).toEqual(action.success({ fields: fixture }))
+        expect(dispatchedActions[1]).toEqual(action.success({ fields: fields }))
         expect(dispatchedActions[2]).toEqual(action.fulfill())
     })
     
