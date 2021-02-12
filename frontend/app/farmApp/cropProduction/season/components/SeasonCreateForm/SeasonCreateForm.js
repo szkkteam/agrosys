@@ -9,7 +9,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Field, reduxForm, formValueSelector, destroy } from 'redux-form'
 
-import { PRODUCTION_CREATE_DIALOG } from 'site/modalTypes'
+import { FIELD_PRODUCTION_CREATE_DIALOG } from 'site/modalTypes'
 import { usePushModalWindow } from 'utils/hooks'
 
 import { FullscreenFormLayout } from 'farmApp/components'
@@ -33,12 +33,12 @@ import {
 } from '@material-ui/core'
 
 import {
-    ProductionSummaryTable
-} from 'farmApp/cropProduction/production/components'
+    FieldProductionSummaryTable
+} from 'farmApp/cropProduction/fieldProduction/components'
 
 import { SEASON_FORM } from '../../constants'
 import { MODAL_TYPE_CONFIRM } from 'site/modalResultTypes'
-import { PRODUCTION_TYPE } from 'farmApp/cropProduction/production/constants'
+import { PRODUCTION_TYPE } from 'farmApp/cropProduction/fieldProduction/constants'
 
 
 const Container = styled.div`
@@ -48,7 +48,7 @@ const Container = styled.div`
     flex-direction: column;
 `
 
-const FullHeightTable = styled(props => <ProductionSummaryTable {...props} />)`
+const FullHeightTable = styled(props => <FieldProductionSummaryTable {...props} />)`
 
 `
 
@@ -110,20 +110,11 @@ const SeasonCreateForm = ({
     productions,
 }) => {
 
-
-    const data = [
-        {id: 1}
-    ]
-
     const push = usePushModalWindow()
 
-    const initialValues = {
-        cropId: 1,
-        productionType: PRODUCTION_TYPE.mainCropProduction
-    }
 
-    const openProductionCreation = () => {
-        push(PRODUCTION_CREATE_DIALOG, {initialValues}).then(({payload, status}) => {
+    const openProductionCreation = (initialValues) => () => {
+        push(FIELD_PRODUCTION_CREATE_DIALOG, {initialValues}).then(({payload, status}) => {
             // Production submitted
             if (status === MODAL_TYPE_CONFIRM) {
                 array.push('productions', payload)
@@ -136,7 +127,7 @@ const SeasonCreateForm = ({
     
     const editProduction = (data, index) => {
         console.debug("Production data: ", data)
-        push(PRODUCTION_CREATE_DIALOG, {initialValues: data}).then(({payload, status}) => {
+        push(FIELD_PRODUCTION_CREATE_DIALOG, {initialValues: data}).then(({payload, status}) => {
             // Production submitted
             if (status === MODAL_TYPE_CONFIRM) {
                 array.splice('productions', index, 1, payload)
@@ -151,8 +142,16 @@ const SeasonCreateForm = ({
     const hasMainCrop = productions? productions.find(x => x.productionType === PRODUCTION_TYPE.mainCropProduction): false
 
     const addButtonOptions = [
-        { title: messages.addMainCrop, disabled: !!hasMainCrop, onClick: openProductionCreation},
-        { title: messages.addSecondaryCrop, disabled: true, onClick: () => console.debug("Secondary click") }
+        { 
+            title: messages.addMainCrop,
+            disabled: !!hasMainCrop,
+            onClick: openProductionCreation({productionType: PRODUCTION_TYPE.mainCropProduction})
+        },
+        { 
+            title: messages.addSecondaryCrop,
+            disabled: true,
+            onClick: () => console.debug("Secondary click") 
+        }
     ]
     
     return (

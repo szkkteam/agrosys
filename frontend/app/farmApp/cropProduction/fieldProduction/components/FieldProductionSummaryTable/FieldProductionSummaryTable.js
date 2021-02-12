@@ -37,14 +37,15 @@ const Spacer = styled.div`
 `
 
 
-const ProductionSummaryTable = ({
+const FieldProductionSummaryTable = ({
     className,
     onOpenProduction,
     onDeleteProduction,
     children,
     //data,
 }) => {
-    const productions = useSelector(getProductionsFromForm)
+    //const productions = useSelector(getProductionsFromForm)
+    const productions = []
     console.debug("Productions selector: ", productions)
 
     const columns = [
@@ -107,7 +108,7 @@ const ProductionSummaryTable = ({
     )
 }
 
-ProductionSummaryTable.propTypes = {
+FieldProductionSummaryTable.propTypes = {
 
 }
 
@@ -135,4 +136,4 @@ ProductionSummaryTable.propTypes = {
         />
 */
 
-export default ProductionSummaryTable
+export default FieldProductionSummaryTable

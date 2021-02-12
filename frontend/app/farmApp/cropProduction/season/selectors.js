@@ -5,6 +5,7 @@ import { SEASON_FORM } from './constants'
 
 const formSelector = formValueSelector(SEASON_FORM)
 const productions = (state) => formSelector(state, 'productions')
+const userCropId = (state) => formSelector(state, 'userCropId')
 
 const dummyCropLookup = {
     1: { title: 'Winter Wheat'}
@@ -12,16 +13,17 @@ const dummyCropLookup = {
 
 export const getProductionsFromForm = createSelector(
     productions,
-    (productions) => {
+    userCropId,
+    (productions, userCropId) => {
         if (!productions) return []
         return productions.map((production, i) => {
 
-            const {cropId, parcels, productionType: type, template} = production
+            const {cropId, fields, productionType: type, template} = production
 
             const crop = dummyCropLookup[cropId].title
 
-            const plannedYield = parcels.reduce((yieldSum, parcel) => {
-                return yieldSum + parseInt(parcel?.crop?.yield ?? "0")
+            const plannedYield = fields.reduce((yieldSum, field) => {
+                return yieldSum + parseInt(field?.crop?.yield ?? "0")
             }, 0)
 
             // TODO: Lookup for fields sizes

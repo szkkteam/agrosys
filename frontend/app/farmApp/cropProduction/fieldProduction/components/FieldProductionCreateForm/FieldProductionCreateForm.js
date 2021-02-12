@@ -23,11 +23,11 @@ import {
     CropVariantPage,
     SubsidyPage,
     TaskPage,
-} from '../ProductionMainCropProduction'
+} from '../FieldProductionMainCropProduction'
 
 import StepperBack from './StepperBack'
 
-import { PRODUCTION_FORM_NAME } from '../../constants'
+import { FIELD_PRODUCTION_FORM_NAME } from '../../constants'
 
 const Container = styled(props => <ModalContent {...props} />)`
     display: flex;
@@ -54,7 +54,7 @@ const MediumStepperHeader = styled(props => <StepperHeader {...props} />)`
 
 
 const withForm = reduxForm({
-    form: PRODUCTION_FORM_NAME,
+    form: FIELD_PRODUCTION_FORM_NAME,
     //validate,
     //enableReinitialize: true,
     //keepDirtyOnReinitialize: true,
@@ -62,13 +62,13 @@ const withForm = reduxForm({
     forceUnregisterOnUnmount: true, 
 })
 
-const formSelector = formValueSelector(PRODUCTION_FORM_NAME)
+const formSelector = formValueSelector(FIELD_PRODUCTION_FORM_NAME)
 
 const withConnect = connect(
     (state, props) => {
         const { initialValues : locinitialValues, ...rest } = props
 
-        const { parcels, template } = formSelector(state, 'parcels', 'template')
+        const { fields, template } = formSelector(state, 'fields', 'template')
         return {        
             initialValues: {
                 parcels: [],
@@ -86,7 +86,7 @@ const withConnect = connect(
                 },
                 ...locinitialValues
             },
-            parcels,
+            fields,
             template,
             ...rest
         }
@@ -110,7 +110,7 @@ const ConnectedTaskPage = compose(
 )(TaskPage) 
 
 
-const ProductionCreateForm = ({
+const FieldProductionCreateForm = ({
     onClose,
     handleConfirm,
     initialValues,
@@ -133,12 +133,12 @@ const ProductionCreateForm = ({
     ]
 
     const closeDestroy = () => {
-        dispatch(destroy(PRODUCTION_FORM_NAME))
+        dispatch(destroy(FIELD_PRODUCTION_FORM_NAME))
         onClose && onClose()
     }
 
     const handleSubmit = (data) => {
-        dispatch(destroy(PRODUCTION_FORM_NAME))
+        dispatch(destroy(FIELD_PRODUCTION_FORM_NAME))
         handleConfirm(data)
     }
 
@@ -203,8 +203,8 @@ const ProductionCreateForm = ({
 />
 */
 
-ProductionCreateForm.propTypes = {
+FieldProductionCreateForm.propTypes = {
 
 }
 
-export default ProductionCreateForm
+export default FieldProductionCreateForm

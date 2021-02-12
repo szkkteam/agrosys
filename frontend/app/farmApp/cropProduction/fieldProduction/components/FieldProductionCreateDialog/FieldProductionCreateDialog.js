@@ -4,7 +4,7 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import { useHistory, useLocation } from "react-router-dom";
 import styled from 'styled-components'
 
-import ProductionCreateForm from '../ProductionCreateForm/ProductionCreateForm'
+import FieldProductionCreateForm from '../FieldProductionCreateForm/FieldProductionCreateForm'
 
 import { Modal, ModalContext } from 'components'
 
@@ -32,7 +32,7 @@ export default ({
             fullScreen={true}
             maxWidth="md"
         >   
-             <ProductionCreateForm
+             <FieldProductionCreateForm
                 initialValues={data}
                 onSubmit={handleSubmit}
                 {...headerProps}

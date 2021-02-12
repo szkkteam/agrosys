@@ -75,18 +75,18 @@ class CropVariantPage extends React.Component {
 
     }
 
-    handleSelectParcel = (parcelId, selected) => {
-        const { parcels = [] } = this.props
+    handleSelectParcel = (fieldId, selected) => {
+        const { fields = [] } = this.props
         if (selected) {
-            this.props.array.push('parcels', { parcelId })
+            this.props.array.push('fields', { fieldId })
         } else {
-            const index = _.findIndex(parcels, x => x.parcelId === parcelId)
-            this.props.array.remove('parcels', index)
+            const index = _.findIndex(fields, x => x.fieldId === fieldId)
+            this.props.array.remove('fields', index)
         }
     }
 
     handleDeleteParcel = (index) => () => {
-        this.props.array.remove('parcels', index)
+        this.props.array.remove('fields', index)
     }
 
     handleDrawerClose = () => {
@@ -103,12 +103,12 @@ class CropVariantPage extends React.Component {
 
 
     renderTable = ({fields, meta: { error, submitFailed }}) => {
-        const { parcels } = this.props
+        const { fields: fieldsData } = this.props
         const columns = [
-            {title: 'Parcels', size: 1.5, render: (field, i) => 
+            {title: 'Fields', size: 1.5, render: (field, i) => 
                 <FieldListItem
                     disableAction={true}
-                    {... parcels && parcels.length? {id: parcels[i].parcelId} : {}} 
+                    {... fieldsData && fieldsData.length? {id: fieldsData[i].fieldId} : {}} 
                 />
             },
             {title: 'Variant', render: (field, i) => <SearchSelectField name={`${field}.crop.variant`}
@@ -179,7 +179,7 @@ class CropVariantPage extends React.Component {
             children,
             openDrawer,    
             array,
-            parcels = [],
+            fields = [],
             ...props
         } = this.props
 
@@ -188,14 +188,14 @@ class CropVariantPage extends React.Component {
         } = this.state
 
 
-        const selectedParcels = parcels.map(x => x.parcelId)
+        const selectedFields = fields.map(x => x.fieldId)
 
         return (
             <Form onSubmit={handleSubmit}>
                 <ContentContainer>
                     <FieldSideSelector 
                         open={drawerOpen}
-                        selected={selectedParcels}
+                        selected={selectedFields}
                         onSelected={this.handleSelectParcel}
                         onClose={this.handleDrawerClose}
                     />
@@ -203,7 +203,7 @@ class CropVariantPage extends React.Component {
                     <HiddenField name="cropId" />
                     <HiddenField name="productionType" />
 
-                    <FieldArray name="parcels" component={this.renderTable} />
+                    <FieldArray name="fields" component={this.renderTable} />
                     
                 </ContentContainer>
                 <StepperFooter

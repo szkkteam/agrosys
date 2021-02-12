@@ -1,4 +1,5 @@
 import orm from 'farmApp/schema'
+import { userCrop_wheat as fixture } from 'farmApp/fixtures'
 
 describe('Test userCrop model', () => {
     // This will be the initial state.
@@ -14,13 +15,13 @@ describe('Test userCrop model', () => {
     })
 
     it('parse simple from json', () => {
-        const fixture = {id: 1, title: "Búza", cropType: {id: 1, title: "Téli búza", category: "Takarmány növény"}}
 
-        const { UserCrop, CropType } = session
+        const { UserCrop, CropType, Season } = session
         UserCrop.parse(fixture)
         
         expect(UserCrop.count()).toEqual(1)     
         expect(CropType.count()).toEqual(1)
+        expect(Season.count()).toEqual(1)
     
     })
     /*

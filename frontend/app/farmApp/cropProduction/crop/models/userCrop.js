@@ -19,11 +19,11 @@ export class UserCrop extends Model {
     }
 
     static parse(data) {
-
-        const { CropType } = this.session
+        const { CropType, Season } = this.session
         let clonedData = {
             ...data,
-            cropType: CropType.parse({...data.cropType})
+            cropType: CropType.parse({...data.cropType}),
+            seasons: data.seasons && data.seasons.map(season => Season.parse(season))
         }
         
         // TODO: Do some parsing magic with relations

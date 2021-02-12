@@ -62,18 +62,18 @@ class SubsidyPage extends React.Component {
 
     handleDeleteParcel = (index) => () => {
         const { array } = this.props
-        array.remove('parcels', index)
+        array.remove('fields', index)
     }
 
 
     renderTable = ({fields, meta: { error, submitFailed }}) => {
-        const { parcels } = this.props
+        const { fields: fieldsData } = this.props
 
         const columns = [
-            {title: 'Parcels', size: 1.5, render: (field, i) => 
+            {title: 'Fields', size: 1.5, render: (field, i) => 
                 <FieldListItem
                     disableAction={true}
-                    {... parcels && parcels.length? {id: parcels[i].parcelId} : {}} 
+                    {... fieldsData && fieldsData.length? {id: fieldsData[i].fieldId} : {}} 
                 />                
             },
             {title: 'Table number', render: (field, i) => <TextField name={`${field}.field.tableNumber`}
@@ -132,7 +132,7 @@ class SubsidyPage extends React.Component {
         return (
             <Form onSubmit={handleSubmit}>
                 <ContentContainer>
-                    <FieldArray name="parcels" component={this.renderTable} />
+                    <FieldArray name="fields" component={this.renderTable} />
                 </ContentContainer>
                 <StepperFooter
                     title={globalMessages.next}

@@ -13,6 +13,6 @@ export default defineMessages({
     },
     fieldListTitle: {
         id: `${scope}.FieldList.title`,  
-        defaultMessage: 'Select a parcel template',
+        defaultMessage: 'Select a field template',
     },
   })

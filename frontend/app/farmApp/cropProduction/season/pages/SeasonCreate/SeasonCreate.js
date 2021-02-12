@@ -3,6 +3,7 @@ import Helmet from 'react-helmet'
 import messages from './messages';
 import styled from 'styled-components'
 import { useIntl } from 'react-intl'
+import { useParams } from 'react-router-dom'
 import { Route } from "react-router-dom";
 
 import { 
@@ -19,7 +20,8 @@ export default ({
 }) => {
 
     const intl = useIntl()
-    
+    const { cropId: userCropId } = useParams()
+
     return (
         <>
             <Helmet>
@@ -31,7 +33,10 @@ export default ({
                 title={messages.title}
             />
             <SeasonCreateForm
-                initialValues={location.state?.initialValues ?? {}}
+                initialValues={{
+                    userCropId,
+                    ...location.state?.initialValues ?? {}
+                }}
             />
         </>
     )
