@@ -1,7 +1,39 @@
-import { createSelector } from 'reselect';
+import { createSelector } from 'reselect'
+import { createSelector as createSelectorOrm } from 'redux-orm';
+import schema from 'farmApp/schema'
+
+import { selectUserCropRequest } from 'farmApp/cropProduction/crop/reducers/userCropRequest'
+import { selectSeasonRequest } from './reducers/seasonRequest'
 
 import { formValueSelector } from 'redux-form'
 import { SEASON_FORM } from './constants'
+
+
+export const getSeasonById = () => createSelectorOrm(
+    schema,
+    selectUserCropRequest,
+    (_, seasonId) => seasonId,
+    (session, request, seasonId) => {
+        const { isLoading = true, error = null } = request || {}
+        let response = {payload: null, isLoading, error }
+        if (isLoading || error || (!seasonId)) return response
+
+        const { Season } = session
+
+        if (!Season.idExists(seasonId)) return response
+
+        // TODO: Fetch productions, fieldProductions and related fields also in one shot
+        const season = {...Season.withId(seasonId).ref}
+        
+        response.payload = season
+        return response
+    }
+)
+
+
+
+
+
 
 const formSelector = formValueSelector(SEASON_FORM)
 const productions = (state) => formSelector(state, 'productions')

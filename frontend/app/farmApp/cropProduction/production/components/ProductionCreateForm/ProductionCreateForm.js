@@ -73,7 +73,7 @@ const withConnect = connect(
         const { fields, template } = formSelector(state, 'fields', 'template')
         return {        
             initialValues: {
-                parcels: [],
+                fields: [],
                 template: {
                     configuration: {
                         startDate: {

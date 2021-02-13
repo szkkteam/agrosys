@@ -2,12 +2,13 @@ import { Schema, many, fk, attr } from 'redux-orm';
 import { PropTypes } from 'react';
 import seasonEntity from '../reducers/seasonEntity'
 import Model from 'utils/Model'
+import { getId } from 'utils'
 
 export class Season extends Model {
 
     static get fields() {
         return {
-            id: attr(),
+            id: attr({getDefault: () => getId()}),
             title: attr(),
             userCropId: fk({
                 to: 'UserCrop',
@@ -33,9 +34,11 @@ export class Season extends Model {
 
     static parse(data) {
 
-        //const { Field } = this.session
+        const { Production } = this.session
         const clonedData = {...data}
-        //clonedData.fields = data.fields && data.fields.map(field => Field.parse(field))
+        //console.debug("Season-data: ", data)
+        clonedData.productions = data.productions && data.productions.map(production => Production.parse({...production, season: data.id}))
+        //console.debug("Season-clonedData: ", clonedData)
         
         
         // TODO: Do some parsing magic with relations

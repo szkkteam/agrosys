@@ -84,13 +84,13 @@ export const cropType_canola =
  * FieldProduction fixtures
  */
 export const fieldProduction_wheat2020_mainCrop_field_table1 = 
-  { id: 1, field: field_table1, /*TODO: Crop ,variant, yield, etc? */ }
+  { id: 1, fieldId: field_table1.id, /*TODO: Crop ,variant, yield, etc? */ }
 
 /**
  * Production fixtures
  */
 export const production_wheat2020_mainCrop =
-  { id: 1, fields: [fieldProduction_wheat2020_mainCrop_field_table1, ], productionType: '' }
+  { id: 1, fields: [fieldProduction_wheat2020_mainCrop_field_table1, ], productionType: 'mainCropProduction' }
 
 /**
  * Season fixtures

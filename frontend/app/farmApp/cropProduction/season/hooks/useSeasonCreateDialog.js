@@ -5,27 +5,17 @@ import { ROUTES, ROUTE_MAP } from 'farmApp/routes'
 
 
 import { SEASON_SELECTOR_DIALOG } from 'site/modalTypes'
-import { MODAL_TYPE_CONFIRM } from 'site/modalResultTypes'
-import { usePushModalWindow } from 'utils/hooks'
+import { usePushDialog } from 'utils/hooks'
 
-export default () => {
+export default (userCropId = null) => {
     const history = useHistory()
-
     const destination = ROUTE_MAP[ROUTES.CropProductionSeasonCreate]
-
-    const push = usePushModalWindow()
-
     const { cropId: urlCropId } = useParams()
-
-    return (cropId = urlCropId) => {
-        return push(SEASON_SELECTOR_DIALOG, {}).then(({payload: initialValues = {}, status}) => {
-            if (status === MODAL_TYPE_CONFIRM) {
-                history.push({
-                    // TODO: Get the cropId
-                    pathname: destination.toPath({cropId}),      
-                    state: { initialValues }
-                })
-            }
+    return usePushDialog(SEASON_SELECTOR_DIALOG, (initialValues) => {
+        history.push({
+            // TODO: Get the cropId
+            pathname: destination.toPath({cropId: userCropId ?? urlCropId}),      
+            state: { initialValues }
         })
-    }
+    })    
 }

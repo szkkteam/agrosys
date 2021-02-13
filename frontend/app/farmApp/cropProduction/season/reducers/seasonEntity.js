@@ -11,8 +11,8 @@ export default function(action, Season, session) {
             seasons.forEach(season => Season.parse(season))
             break
         case createSeason.SUCCESS:
-            const { season } = payload || []
-            Season.parse(season)
+            const { season, userCropId } = payload || {}
+            Season.parse({...season, userCropId})
         default:
             break    
     }

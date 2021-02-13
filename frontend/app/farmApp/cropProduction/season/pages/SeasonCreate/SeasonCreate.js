@@ -21,6 +21,7 @@ export default ({
 
     const intl = useIntl()
     const { cropId: userCropId } = useParams()
+    console.debug("SeasonCreate-userCropId: ", userCropId)
 
     return (
         <>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
+import { useSelectSeason } from '../../hooks'
 
 import { 
     DashboardContainer,
@@ -16,9 +17,12 @@ import { FieldWeather } from 'farmApp/cropProduction/fieldProduction/widgets'
 import { CropUpcomingTask } from 'farmApp/cropProduction/task/widgets'
 
 const SeasonOverviewLayout = ({
-
+    seasonId,
+    ...props
 }) => {
-
+    const intl = useIntl()
+    const { payload, isLoading } = useSelectSeason(seasonId)
+    const { title } = payload || {}
 
     const widgetDefaults = {static: true}
 
@@ -77,7 +81,7 @@ const SeasonOverviewLayout = ({
     return (
         <DashboardLayout
             headerProps={{
-                title: "Current season - Wheat 2020",
+                title: intl.formatMessage(messages.title, {title}),
                 subheader: "2020 Szepember 1 - 2020 November 20"
             }}
             toolbar={

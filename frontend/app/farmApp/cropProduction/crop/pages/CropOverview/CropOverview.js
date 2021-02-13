@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { useParams, Redirect } from 'react-router-dom'
 import { ROUTES, ROUTE_MAP } from 'farmApp/routes'
+import { useSelectCurrentSeason } from '../../hooks'
 
 import {
     CropOverviewLayout
@@ -16,10 +17,12 @@ export default ({
 
     const intl = useIntl()
     const { cropId } = useParams()
+    const { payload, isLoading } = useSelectCurrentSeason(cropId)
 
-    // TODO: Check if crop has a season already
-    const seasonId = cropId === "1"? 1 : null
     const redirectRoute = ROUTE_MAP[ROUTES.CropProductionSeason]
+
+    console.debug("seasonId: ", payload)
+    const seasonId = !isLoading && payload? payload.id : null
 
     if (seasonId)
         return <Redirect to={redirectRoute.toPath({cropId, seasonId})} />

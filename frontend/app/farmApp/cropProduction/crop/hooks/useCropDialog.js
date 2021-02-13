@@ -1,10 +1,7 @@
 import { CROP_DIALOG } from 'site/modalTypes'
-import { usePushModalWindow } from 'utils/hooks'
+import { usePushDialog } from 'utils/hooks'
 
 export default () => {
-    const push = usePushModalWindow()
+    return usePushDialog(CROP_DIALOG)
 
-    return (payload={}) => {
-        return push(CROP_DIALOG, {payload})
-    }
 }

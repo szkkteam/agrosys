@@ -9,7 +9,7 @@ export default defineMessages({
     },
     addParcel: {
         id: `${scope}.AddParcel.title`,  
-        defaultMessage: 'Add parcels',
+        defaultMessage: 'Add fields',
     }
     
   })

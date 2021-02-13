@@ -10,6 +10,11 @@ import {
   CropProductionOverview
 } from 'farmApp/cropProduction/pages'
 
+import {
+  seasonOverview,
+  seasonDetail,
+  ROUTES as seasonRoutesKeys,
+} from 'farmApp/cropProduction/season/routes'
 
 import {
   cropOverview,
@@ -78,7 +83,7 @@ export const ROUTES = {
   CropProductionUserCrop: 'CropProductionUserCrop',
 
   ...cropRoutesKeys,
-
+  ...seasonRoutesKeys,
 
 
 
@@ -173,7 +178,8 @@ export const routes = [
             props: { exact: true },        
             component: CropProductionOverview,
           },
-          ...cropOverview
+          ...cropOverview,
+          ...seasonOverview
         ]
       },
       // Specific crops should come here
@@ -183,6 +189,7 @@ export const routes = [
         component: () => <div>Crop timeline</div>
       },
       ...cropDetail,
+      ...seasonDetail,
       {
        
         /*

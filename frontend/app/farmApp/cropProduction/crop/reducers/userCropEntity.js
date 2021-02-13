@@ -13,6 +13,7 @@ export default function(action, UserCrop, session) {
         case createUserCrop.SUCCESS:
             const { userCrop } = payload || []
             UserCrop.parse(userCrop)
+            break       
         default:
             break    
     }

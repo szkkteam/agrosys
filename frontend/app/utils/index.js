@@ -22,3 +22,8 @@ export const updateObjectInArray = (array, index, newData) => {
     }
   })
 }
+
+
+export const getId = (max = 10000) => {
+  return Math.floor(Math.random() * Math.floor(max));
+}

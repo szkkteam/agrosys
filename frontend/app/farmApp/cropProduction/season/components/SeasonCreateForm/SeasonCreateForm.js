@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect, useEffect } from 'react'
+import React, { useState, useRef, useLayoutEffect, useEffect, useMemo } from 'react'
 import messages from './messages';
 import globalMessages from 'messages';
 import PropTypes from 'prop-types'
@@ -8,9 +8,7 @@ import styled from 'styled-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Field, reduxForm, formValueSelector, destroy } from 'redux-form'
-
-import { PRODUCTION_CREATE_DIALOG } from 'site/modalTypes'
-import { usePushModalWindow } from 'utils/hooks'
+import { useInjectSaga } from 'utils/hooks'
 
 import { FullscreenFormLayout } from 'farmApp/components'
 
@@ -37,11 +35,12 @@ import {
 } from 'farmApp/cropProduction/production/components'
 
 import { SEASON_FORM } from '../../constants'
-import { MODAL_TYPE_CONFIRM } from 'site/modalResultTypes'
+import { useProductionCreateDialog } from '../../hooks'
+import { createSeason } from '../../actions'
 import { PRODUCTION_TYPE } from 'farmApp/cropProduction/production/constants'
 
 
-const Container = styled.div`
+const Form = styled.form`
     width: 100%;
     flex-grow: 1;
     display: flex;
@@ -108,44 +107,42 @@ const currency = [
 const SeasonCreateForm = ({
     array,
     productions,
+    userCropId,
+    handleSubmit,
+    submitting,
+    pristine,
 }) => {
+    useInjectSaga(require('../../sagas/createSeason'))
 
-    const push = usePushModalWindow()
+    const productionCreateDialog = useProductionCreateDialog((payload) => {
+        array.push('productions', payload)
+    })
+    const productionEditDialog = useProductionCreateDialog((payload, status, index) => {
+        array.splice('productions', index, 1, payload)
+    })
 
-
-    const openProductionCreation = (initialValues) => () => {
-        push(PRODUCTION_CREATE_DIALOG, {initialValues}).then(({payload, status}) => {
-            // Production submitted
-            if (status === MODAL_TYPE_CONFIRM) {
-                array.push('productions', payload)
-            }
-            //console.debug("Payload: ", payload)
-            //console.debug("Finished: ", status)
-        })
+    const createProduction = (initialValues) => () => {
+        productionCreateDialog({initialValues, userCropId})
     }
-    
-    
+
     const editProduction = (data, index) => {
-        console.debug("Production data: ", data)
-        push(PRODUCTION_CREATE_DIALOG, {initialValues: data}).then(({payload, status}) => {
-            // Production submitted
-            if (status === MODAL_TYPE_CONFIRM) {
-                array.splice('productions', index, 1, payload)
-            }
-        })
+        productionEditDialog({initialValues: data, userCropId}, index)
     }
 
     const deleteProduction = (data, index) => {
         array.remove('productions', index)
     }
 
-    const hasMainCrop = productions? productions.find(x => x.productionType === PRODUCTION_TYPE.mainCropProduction): false
+    const hasMainCrop = useMemo(() => 
+        productions? productions.find(x => x.productionType === PRODUCTION_TYPE.mainCropProduction): false
+        , [productions]
+    )
 
     const addButtonOptions = [
         { 
             title: messages.addMainCrop,
             disabled: !!hasMainCrop,
-            onClick: openProductionCreation({productionType: PRODUCTION_TYPE.mainCropProduction})
+            onClick: createProduction({productionType: PRODUCTION_TYPE.mainCropProduction})
         },
         { 
             title: messages.addSecondaryCrop,
@@ -161,7 +158,7 @@ const SeasonCreateForm = ({
                 subheader: "Specifc the crop production parameters"
             }}
         >
-            <Container>
+            <Form onSubmit={handleSubmit(createSeason)}>
                 <Grid container>                    
                     <Grid container item xs={12}>
                         <Grid container item xs={12} sm={6}>
@@ -205,10 +202,14 @@ const SeasonCreateForm = ({
                     justify="flex-end"
                 >
                     <div>
-                        <PrimaryButton title={globalMessages.submit} type="submit" />
+                        <PrimaryButton 
+                            disabled={submitting || pristine}
+                            type="submit" 
+                            title={globalMessages.submit}
+                        />
                     </div>
                 </Grid>
-            </Container>
+            </Form>
         </FullscreenFormLayout>
     )
 }

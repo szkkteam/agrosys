@@ -1,6 +1,88 @@
 import orm from 'farmApp/schema'
-import { season_wheat2020 as fixture } from 'farmApp/fixtures'
 
+
+const aloisTieberGeom = {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                15.80683171749115,
+                47.0677724300821
+              ],
+              [
+                15.806558132171629,
+                47.067122035283184
+              ],
+              [
+                15.807357430458067,
+                47.0668699138166
+              ],
+              [
+                15.807212591171263,
+                47.06642413091398
+              ],
+              [
+                15.80828547477722,
+                47.066442400778335
+              ],
+              [
+                15.808795094490051,
+                47.06647163254827
+              ],
+              [
+                15.809036493301392,
+                47.06707088029944
+              ],
+              [
+                15.808634161949158,
+                47.06743261805917
+              ],
+              [
+                15.807738304138184,
+                47.06752031169185
+              ],
+              [
+                15.807239413261414,
+                47.06764089020118
+              ],
+              [
+                15.80683171749115,
+                47.0677724300821
+              ]
+            ]
+          ]
+        }
+      }
+    ]
+}
+/**
+ * Field fixtures
+ */
+const field_table1 = 
+    {id: 1, title: "Tábla 1", area: 21000, geometry: aloisTieberGeom, lpis: { ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "ABCDEF-11"}}
+
+
+
+const production_fixture = { id: 1, fields: [{ id: 1, fieldId: field_table1.id}, ], productionType: 'mainCropProduction' }
+
+const season_fixture = 
+    {id: 1, title: 'Búza 2020', productions: [ production_fixture ] }
+
+const fields = [field_table1]
+const seasons = [season_fixture]
+
+const loadFixtures = (session) => {
+    const { Field, Season } = session
+    fields.map(field => Field.parse(field))
+    seasons.map(season => Season.parse(season))
+
+}
 
 describe('Test season model', () => {
     // This will be the initial state.
@@ -12,16 +94,24 @@ describe('Test season model', () => {
         state = orm.getEmptyState()
         session = orm.mutableSession(state)
 
+        loadFixtures(session)
         done()
     })
 
     it('parse simple from json', () => {
-        const { UserCrop, Season } = session
-        Season.parse(fixture)
+
+        const { Production, Season } = session
 
         //expect(UserCrop.count()).toEqual(1)     
         expect(Season.count()).toEqual(1)
+        expect(Production.count()).toEqual(1)
     
+
+    })
+
+    it('season should have production', () => {
+        const { Production, Season } = session
+        expect(Production.filter({id: season_fixture.id}).count()).toEqual(1)
     })
     /*
     it('parse season with mixed types', () => {

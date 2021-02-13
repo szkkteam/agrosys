@@ -88,3 +88,27 @@ export const getUserCrop = () => createSelectorOrm(
         return response
     }
 )
+
+
+export const getCurrentSeasonByUserCropId = () => createSelectorOrm(
+    schema,
+    selectUserCropRequest,
+    (_, userCropId) => userCropId,
+    (session, request, userCropId) => {
+        const { isLoading = true, error = null } = request || {}
+        let response = {payload: null, isLoading, error }
+        if (isLoading || error || (!userCropId)) return response
+
+
+        const { Season, UserCrop } = session        
+        // TODO: Perform more filter based on tasks date and actual date
+        // TODO: Fetch productions, fieldProductions and related fields also in one shot
+        const season = Season.all().filter({userCropId}).toRefArray()[0] || null
+        //const season = {...ref}
+        console.debug("getCurrentSeasonByUserCropId-userCropId: ", userCropId)                
+        console.debug("getCurrentSeasonByUserCropId-season: ", season)                
+        response.payload = season
+        return response
+    }
+)
+
