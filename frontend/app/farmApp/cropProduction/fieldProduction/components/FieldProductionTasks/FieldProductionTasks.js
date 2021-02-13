@@ -24,8 +24,6 @@ import {
     FormGroup,
 } from '@material-ui/core'
 
-import StepperFooter from '../StepperFooter'
-
 const Container = styled.div`
     height: 100%;
     display: flex;
@@ -58,12 +56,12 @@ const FlexForm = styled(FormControl)`
     width: 100%;
 `
 
-const TaskPage = ({
+const FieldProductionTasks = ({
     handleSubmit,
     onBack,
     // Form values
     template,
-
+    footer
 }) => {
 
     const containerRef = useRef(null)
@@ -128,15 +126,13 @@ const TaskPage = ({
                     </TaskContainer>
                 </Container>
             </ContentContainer>
-            <StepperFooter
-                title={globalMessages.save}
-            />
+            {footer}
         </Form>
     )
 }
 
-TaskPage.propTypes = {
+FieldProductionTasks.propTypes = {
 
 }
 
-export default TaskPage
+export default FieldProductionTasks

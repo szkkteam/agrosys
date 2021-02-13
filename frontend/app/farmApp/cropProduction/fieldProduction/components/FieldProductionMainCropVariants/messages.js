@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.farmApp.cropProduction.production.PlanSummaryTable'
+export const scope = 'app.farmApp.cropProduction.fieldProduction.FieldProductionMainCropVariants'
 
 export default defineMessages({
     title: {

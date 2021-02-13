@@ -1,8 +1,8 @@
 import orm from 'farmApp/schema'
-import { season_wheat2020 as fixture } from 'farmApp/fixtures'
+import { production_wheat2020_mainCrop as fixture } from 'farmApp/fixtures'
 
 
-describe('Test season model', () => {
+describe('Test fieldProduction model', () => {
     // This will be the initial state.
     let state
     // This will be a Session instance with the initial data.
@@ -16,11 +16,12 @@ describe('Test season model', () => {
     })
 
     it('parse simple from json', () => {
-        const { UserCrop, Season } = session
-        Season.parse(fixture)
+        const { Production, FieldProduction } = session
+        Production.parse(fixture)
 
         //expect(UserCrop.count()).toEqual(1)     
-        expect(Season.count()).toEqual(1)
+        expect(Production.count()).toEqual(1)
+        expect(FieldProduction.count()).toEqual(1)
     
     })
     /*

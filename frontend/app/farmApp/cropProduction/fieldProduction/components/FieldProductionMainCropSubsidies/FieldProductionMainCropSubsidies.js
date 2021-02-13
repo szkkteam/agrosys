@@ -31,8 +31,6 @@ import {
     Button,
 } from '@material-ui/core'
 
-import StepperFooter from '../StepperFooter'
-
 
 const ContentContainer = styled.div`
     padding: 10px 15px;
@@ -50,7 +48,7 @@ const variants = [
     {id: 2, title: "ACTIVUS", },
 ]
 
-class SubsidyPage extends React.Component {
+class FieldProductionMainCropSubsidies extends React.Component {
 
     constructor(props) {
         super(props)
@@ -127,6 +125,7 @@ class SubsidyPage extends React.Component {
         const {
             handleSubmit,
             onBack,
+            footer,
         } = this.props
 
         return (
@@ -134,12 +133,10 @@ class SubsidyPage extends React.Component {
                 <ContentContainer>
                     <FieldArray name="fields" component={this.renderTable} />
                 </ContentContainer>
-                <StepperFooter
-                    title={globalMessages.next}
-                />
+                {footer}
             </Form>
         )
     }
 }
 
-export default SubsidyPage
+export default FieldProductionMainCropSubsidies

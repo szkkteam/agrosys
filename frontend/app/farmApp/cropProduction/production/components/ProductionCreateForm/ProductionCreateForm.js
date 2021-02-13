@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import messages from './messages';
+import globalMessages from 'messages'
 import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
@@ -20,14 +21,15 @@ import {
 } from 'components'
 
 import {
-    CropVariantPage,
-    SubsidyPage,
-    TaskPage,
-} from '../FieldProductionMainCropProduction'
+    FieldProductionMainCropVariants,
+    FieldProductionMainCropSubsidies,
+    FieldProductionTasks,
+} from 'farmApp/cropProduction/fieldProduction/components'
 
 import StepperBack from './StepperBack'
+import StepperFooter from './StepperFooter'
 
-import { FIELD_PRODUCTION_FORM_NAME } from '../../constants'
+import { PRODUCTION_FORM_NAME } from '../../constants'
 
 const Container = styled(props => <ModalContent {...props} />)`
     display: flex;
@@ -54,7 +56,7 @@ const MediumStepperHeader = styled(props => <StepperHeader {...props} />)`
 
 
 const withForm = reduxForm({
-    form: FIELD_PRODUCTION_FORM_NAME,
+    form: PRODUCTION_FORM_NAME,
     //validate,
     //enableReinitialize: true,
     //keepDirtyOnReinitialize: true,
@@ -62,7 +64,7 @@ const withForm = reduxForm({
     forceUnregisterOnUnmount: true, 
 })
 
-const formSelector = formValueSelector(FIELD_PRODUCTION_FORM_NAME)
+const formSelector = formValueSelector(PRODUCTION_FORM_NAME)
 
 const withConnect = connect(
     (state, props) => {
@@ -97,20 +99,20 @@ const withConnect = connect(
 const ConnectedCropVariantPage = compose(
     withConnect,
     withForm,
-)(CropVariantPage) 
+)(FieldProductionMainCropVariants) 
 
 const ConnectedSubsidyPage = compose(
     withConnect,
     withForm,
-)(SubsidyPage) 
+)(FieldProductionMainCropSubsidies) 
 
 const ConnectedTaskPage = compose(
     withConnect,
     withForm,
-)(TaskPage) 
+)(FieldProductionTasks) 
 
 
-const FieldProductionCreateForm = ({
+const ProductionCreateForm = ({
     onClose,
     handleConfirm,
     initialValues,
@@ -133,12 +135,12 @@ const FieldProductionCreateForm = ({
     ]
 
     const closeDestroy = () => {
-        dispatch(destroy(FIELD_PRODUCTION_FORM_NAME))
+        dispatch(destroy(PRODUCTION_FORM_NAME))
         onClose && onClose()
     }
 
     const handleSubmit = (data) => {
-        dispatch(destroy(FIELD_PRODUCTION_FORM_NAME))
+        dispatch(destroy(PRODUCTION_FORM_NAME))
         handleConfirm(data)
     }
 
@@ -149,6 +151,11 @@ const FieldProductionCreateForm = ({
                 onBack={closeDestroy}
                 data={data}
                 initialValues={initialValues}
+                footer={
+                    <StepperFooter
+                        title={globalMessages.next}
+                    />
+                }
                 {...props}
             />,
         ({handleComplete, handleBack, ...props}) => 
@@ -157,6 +164,11 @@ const FieldProductionCreateForm = ({
                 onBack={handleBack}
                 data={data}
                 initialValues={initialValues}
+                footer={
+                    <StepperFooter
+                        title={globalMessages.next}
+                    />
+                }
                 {...props} 
             />,
         ({handleBack, ...props}) => 
@@ -164,6 +176,11 @@ const FieldProductionCreateForm = ({
                 onSubmit={handleSubmit}
                 onBack={handleBack}
                 initialValues={initialValues}
+                footer={
+                    <StepperFooter
+                        title={globalMessages.save}
+                    />
+                }
                 {...props}
             />,
     ]
@@ -203,8 +220,8 @@ const FieldProductionCreateForm = ({
 />
 */
 
-FieldProductionCreateForm.propTypes = {
+ProductionCreateForm.propTypes = {
 
 }
 
-export default FieldProductionCreateForm
+export default ProductionCreateForm

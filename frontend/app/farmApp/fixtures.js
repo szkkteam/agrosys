@@ -78,11 +78,25 @@ export const cropType_corn =
 export const cropType_canola = 
     {id: 4, title: "Repce", category: "Takarmány növény"}
 
+
+
+/**
+ * FieldProduction fixtures
+ */
+export const fieldProduction_wheat2020_mainCrop_field_table1 = 
+  { id: 1, field: field_table1, /*TODO: Crop ,variant, yield, etc? */ }
+
+/**
+ * Production fixtures
+ */
+export const production_wheat2020_mainCrop =
+  { id: 1, fields: [fieldProduction_wheat2020_mainCrop_field_table1, ], productionType: '' }
+
 /**
  * Season fixtures
  */
 export const season_wheat2020 = 
-    {id: 1, title: 'Búza 2020', /* userCrop: userCrop_wheat, */ productions: [] }
+    {id: 1, title: 'Búza 2020', /* userCrop: userCrop_wheat, */ productions: [ production_wheat2020_mainCrop ] }
 
 /**
  * UserCrop fixtures

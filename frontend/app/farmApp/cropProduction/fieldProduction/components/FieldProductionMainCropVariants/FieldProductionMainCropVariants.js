@@ -37,7 +37,6 @@ import {
     Button,
 } from '@material-ui/core'
 
-import StepperFooter from '../StepperFooter'
 
 const ContentContainer = styled.div`
     padding: 10px 15px;
@@ -64,7 +63,7 @@ const variants = [
     {id: 2, title: "ACTIVUS", },
 ]
 
-class CropVariantPage extends React.Component {
+class FieldProductionMainCropVariants extends React.Component {
 
     constructor(props) {
         super(props)
@@ -180,6 +179,7 @@ class CropVariantPage extends React.Component {
             openDrawer,    
             array,
             fields = [],
+            footer,
             ...props
         } = this.props
 
@@ -206,9 +206,7 @@ class CropVariantPage extends React.Component {
                     <FieldArray name="fields" component={this.renderTable} />
                     
                 </ContentContainer>
-                <StepperFooter
-                    title={globalMessages.next}
-                />
+                {footer}
             </Form>
         )
     }
@@ -220,4 +218,4 @@ CropVariantPage.propTypes = {
 }
 */
 
-export default CropVariantPage
+export default FieldProductionMainCropVariants
