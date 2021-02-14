@@ -5,14 +5,12 @@ import { createRoutineSaga } from 'sagas'
 
 import { listUserCrop } from '../actions'
 // TODO: Import API
+import { userCrops as fixture } from 'farmApp/fixtures'
 
 import { selectUserCropRequest } from '../reducers/userCropRequest'
 
 export const KEY = 'listUserCropSaga'
 
-export const fixture = [
-    {id: 1, title: "Búza", cropType: {id: 1, title: "Téli búza", category: "Takarmány növény"}},
-]
 
 export const maybeListUserCropSaga = function *() {
     const { isLoading, isLoaded } = yield select(selectUserCropRequest)

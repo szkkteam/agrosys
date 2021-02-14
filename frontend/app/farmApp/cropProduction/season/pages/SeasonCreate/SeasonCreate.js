@@ -3,11 +3,12 @@ import Helmet from 'react-helmet'
 import messages from './messages';
 import styled from 'styled-components'
 import { useIntl } from 'react-intl'
+import { useParams } from 'react-router-dom'
 import { Route } from "react-router-dom";
 
 import { 
-    PlanCreateForm,
-} from 'farmApp/cropProduction/plan/components'
+    SeasonCreateForm,
+} from '../../components'
 
 import {
     SeasonAppBar
@@ -19,7 +20,9 @@ export default ({
 }) => {
 
     const intl = useIntl()
-    
+    const { cropId: userCropId } = useParams()
+    console.debug("SeasonCreate-userCropId: ", userCropId)
+
     return (
         <>
             <Helmet>
@@ -30,8 +33,11 @@ export default ({
             <SeasonAppBar
                 title={messages.title}
             />
-            <PlanCreateForm
-                initialValues={location.state?.initialValues ?? {}}
+            <SeasonCreateForm
+                initialValues={{
+                    userCropId,
+                    ...location.state?.initialValues ?? {}
+                }}
             />
         </>
     )

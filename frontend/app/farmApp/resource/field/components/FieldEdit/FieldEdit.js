@@ -15,7 +15,7 @@ import { FIELD_DRAW_DIALOG } from 'site/modalTypes'
 import { MODAL_TYPE_CONFIRM } from 'site/modalResultTypes'
 import { usePushModalWindow } from 'utils/hooks'
 
-import { FIELD_SEASON_FORM } from '../../constants'
+import { FIELD_FORM } from '../../constants'
 
 import {
     Typography,
@@ -36,11 +36,30 @@ const Form = styled.form`
     display: flex;
 `
 
-class FieldEdit extends React.Component {
-    constructor(props) {
-        super(props)
+const withForm = reduxForm({
+    form: FIELD_FORM,
+    //validate,
+    //enableReinitialize: true,
+    //keepDirtyOnReinitialize: true,
+    //destroyOnUnmount: false, 
+    forceUnregisterOnUnmount: true, 
+})
 
-    }
+const withConnect = connect(
+    (state, props) => {
+        const { initialValues : locinitialValues, ...rest } = props
+        return {        
+            initialValues: {
+                ...locinitialValues
+            },
+            ...rest
+        }
+    },
+    (dispatch) => bindActionCreators({ pushModalWindow }, dispatch),
+)
+
+class FieldEdit extends React.Component {
+   
 
     componentDidMount() {
         const { startDraw = false } = this.props
@@ -93,28 +112,6 @@ class FieldEdit extends React.Component {
 }
 
 
-
-const withForm = reduxForm({
-    form: FIELD_SEASON_FORM,
-    //validate,
-    //enableReinitialize: true,
-    //keepDirtyOnReinitialize: true,
-    //destroyOnUnmount: false, 
-    forceUnregisterOnUnmount: true, 
-})
-
-const withConnect = connect(
-    (state, props) => {
-        const { initialValues : locinitialValues, ...rest } = props
-        return {        
-            initialValues: {
-                ...locinitialValues
-            },
-            ...rest
-        }
-    },
-    (dispatch) => bindActionCreators({ pushModalWindow }, dispatch),
-)
 
 
 export default compose(

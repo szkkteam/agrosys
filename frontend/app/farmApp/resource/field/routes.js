@@ -45,8 +45,9 @@ export const ROUTES = {
 export const fieldOverview = [
     {
         key: ROUTES.ResourceField,
-        path: '/fields',
+        path: '/resources/overview/fields',
         component: FieldOverview, 
+        props: { absolute: true }
     },
 ]
 

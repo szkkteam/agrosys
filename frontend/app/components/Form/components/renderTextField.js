@@ -17,6 +17,10 @@ export default ({
   meta: { touched = null, invalid = null, error = null } = {},
   ...custom
 }) => {
+  const intl = useIntl()
+  const translatedError = (typeof(error) === 'object' && error !== null)
+  ? intl.formatMessage(error)
+  : error
   //console.log("Label: " + label + " touched: ", touched, " invalid: " + invalid + " dirty: ", dirty, " pristine: ", pristine, " autofilled: ", autofilled, " initial: ", initial)
   return (
     <FormControl
@@ -26,7 +30,7 @@ export default ({
         label={label}
         placeholder={label}
         error={touched && invalid}
-        helperText={touched && error}
+        helperText={touched && translatedError}
         {...input}
         {...custom}
       />

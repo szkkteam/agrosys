@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import messages from './messages';
+import globalMessages from 'messages'
 import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
@@ -20,12 +21,13 @@ import {
 } from 'components'
 
 import {
-    CropVariantPage,
-    SubsidyPage,
-    TaskPage,
-} from '../ProductionMainCropProduction'
+    FieldProductionMainCropVariants,
+    FieldProductionMainCropSubsidies,
+    FieldProductionTasks,
+} from 'farmApp/cropProduction/fieldProduction/components'
 
 import StepperBack from './StepperBack'
+import StepperFooter from './StepperFooter'
 
 import { PRODUCTION_FORM_NAME } from '../../constants'
 
@@ -68,10 +70,10 @@ const withConnect = connect(
     (state, props) => {
         const { initialValues : locinitialValues, ...rest } = props
 
-        const { parcels, template } = formSelector(state, 'parcels', 'template')
+        const { fields, template } = formSelector(state, 'fields', 'template')
         return {        
             initialValues: {
-                parcels: [],
+                fields: [],
                 template: {
                     configuration: {
                         startDate: {
@@ -86,7 +88,7 @@ const withConnect = connect(
                 },
                 ...locinitialValues
             },
-            parcels,
+            fields,
             template,
             ...rest
         }
@@ -97,17 +99,17 @@ const withConnect = connect(
 const ConnectedCropVariantPage = compose(
     withConnect,
     withForm,
-)(CropVariantPage) 
+)(FieldProductionMainCropVariants) 
 
 const ConnectedSubsidyPage = compose(
     withConnect,
     withForm,
-)(SubsidyPage) 
+)(FieldProductionMainCropSubsidies) 
 
 const ConnectedTaskPage = compose(
     withConnect,
     withForm,
-)(TaskPage) 
+)(FieldProductionTasks) 
 
 
 const ProductionCreateForm = ({
@@ -149,6 +151,11 @@ const ProductionCreateForm = ({
                 onBack={closeDestroy}
                 data={data}
                 initialValues={initialValues}
+                footer={
+                    <StepperFooter
+                        title={globalMessages.next}
+                    />
+                }
                 {...props}
             />,
         ({handleComplete, handleBack, ...props}) => 
@@ -157,6 +164,11 @@ const ProductionCreateForm = ({
                 onBack={handleBack}
                 data={data}
                 initialValues={initialValues}
+                footer={
+                    <StepperFooter
+                        title={globalMessages.next}
+                    />
+                }
                 {...props} 
             />,
         ({handleBack, ...props}) => 
@@ -164,6 +176,11 @@ const ProductionCreateForm = ({
                 onSubmit={handleSubmit}
                 onBack={handleBack}
                 initialValues={initialValues}
+                footer={
+                    <StepperFooter
+                        title={globalMessages.save}
+                    />
+                }
                 {...props}
             />,
     ]

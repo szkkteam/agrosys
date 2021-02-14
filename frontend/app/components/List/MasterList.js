@@ -6,6 +6,7 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import sizeMe, { SizeMe } from 'react-sizeme'
 
 import { PrimaryActionButton } from 'components'
+import DataLoading from '../Loading/DataLoading'
 
 import {
     List,
@@ -30,11 +31,18 @@ const ScrollList = styled(props => <List {...props} /> )`
     flex-grow: 1;
 `
 
+const LoadingContainer = styled.div`
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
 
 const MasterList = ({
     className,
     children,
     addButton,
+    isLoading=false,
     buttonProps=null,
     onSelect,
     ...props
@@ -58,20 +66,26 @@ const MasterList = ({
             <MasterListContext.Provider
                 value={contextObject}
             >
-                <ScrollList
-                    component="ul"
-                >
-                    { React.Children.map(children, (
-                        (child, i) => {
-                            return (
-                                React.cloneElement(child, {
-                                    selected: selected != null && selected === i,
-                                    index: i,
-                                })
-                            )
-                        }
-                    ))}
-                </ScrollList>
+                {isLoading? (
+                    <LoadingContainer>
+                        <DataLoading />
+                    </LoadingContainer>
+                ) : (
+                    <ScrollList
+                        component="ul"
+                    >
+                        { React.Children.map(children, (
+                            (child, i) => {
+                                return (
+                                    React.cloneElement(child, {
+                                        selected: selected != null && selected === i,
+                                        index: i,
+                                    })
+                                )
+                            }
+                        ))}
+                    </ScrollList>
+                )}                
                 { addButton }
 
             </MasterListContext.Provider>
@@ -81,7 +95,6 @@ const MasterList = ({
 
 MasterList.propTypes = {
     addButton: PropTypes.element,
-    children: PropTypes.arrayOf(PropTypes.element).isRequired,
     options: PropTypes.shape({
         maxHeight: PropTypes.number,
     })

@@ -23,17 +23,17 @@ export const createUserCropSaga = createRoutineFormSaga(
     yield delay(250)
 
     // FIXME: Random ID generated for now
-    const id = getRandomInt()
-    const payloadWithId = Object.assign(payload, {id})
+    //const id = getRandomInt()
+    //const payloadWithId = Object.assign(payload, {id})
 
     // TODO: Put result to redux-orm model
     yield put(createUserCrop.success({
-        userCrop: payloadWithId,
+        userCrop: payload,
     }))   
     // Close the popup when the form is submitted successfully
     yield put(popModalWindow())
     // Push notification
-    yield put(enqueueNotification(userCropCreated(payloadWithId)))
+    yield put(enqueueNotification(userCropCreated(payload)))
 
   },
 )

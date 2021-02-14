@@ -16,9 +16,6 @@ export default ({
 
     const intl = useIntl()
     const { cropId, seasonId } = useParams()
-
-    console.debug("Crop id: ", cropId)
-    console.debug("Season id: ", seasonId)
     return (
         <>
             <Helmet>
@@ -26,7 +23,9 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <SeasonOverviewLayout />
+            <SeasonOverviewLayout
+                seasonId={seasonId}
+            />
         </>
     )
 }

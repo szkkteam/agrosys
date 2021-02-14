@@ -3,12 +3,12 @@ import { defineMessages } from 'react-intl'
 export const scope = 'app.farmApp.resource.field.FieldSideSelector'
 
 export default defineMessages({
-    blockListTitle: {
-        id: `${scope}.BlockList.title`,  
-        defaultMessage: 'Select a field',
+    title: {
+        id: `${scope}.title`,  
+        defaultMessage: 'Select your fields',
     },
-    fieldListTitle: {
-        id: `${scope}.FieldList.title`,  
-        defaultMessage: 'Select a parcel template',
+    area: {
+        id: `${scope}.area`,  
+        defaultMessage: "total area: <b>0</b>",
     },
   })

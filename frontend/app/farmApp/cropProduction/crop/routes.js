@@ -4,12 +4,6 @@ import Content from 'components/Layout/Content'
 import { Redirect, generatePath } from 'react-router-dom'
 
 import {
-  seasonOverview,
-  seasonDetail,
-  ROUTES as seasonRoutesKeys,
-} from 'farmApp/cropProduction/season/routes'
-
-import {
     CropOverview,
 } from 'farmApp/cropProduction/crop/pages'
 
@@ -17,7 +11,7 @@ export const ROUTES = {
 
     CropProductionCrop: 'CropProductionCrop',
 
-    ...seasonRoutesKeys,
+    //...seasonRoutesKeys,
 }
 
 /**
@@ -40,13 +34,16 @@ export const cropOverview = [
         key: ROUTES.CropProductionCrop,
         path: '',
         component: CropOverview,
+        props: { exact: true }
+        /*
         routes: [
           ...seasonOverview,
           
         ]
+        */
       },
 ]
 
 export const cropDetail = [
-    ...seasonDetail  
+    //...seasonDetail  
 ]

@@ -16,6 +16,8 @@ import {
     IconButton
 } from '@material-ui/core';
 
+import { useSelectField, useConvertArea } from '../../hooks'
+
 const ListContainer = styled(MasterListItem)`
     height: 70px;
     width: 100%;
@@ -95,23 +97,36 @@ const ActionIcon = styled(props => <ItemMenu {...props}/>)`
     }
 `
 
-const FieldListItem = ({
-    data,
+const FieldListItem = ({    
+    id,
+    //payload,
     children,
     className,
     disableAction=false,
     ...props
 }) => {
-    console.debug("FieldListItem - data: ", data)
+    //console.debug("FieldListItem - data: ", data)
     const items = [
         {title: messages.edit, link: { to: ROUTES.ResourceFieldEdit, params: {id: 1}}},
         //{title: messages.edit, onClink: null},
         {title: messages.delete, onClink: null}
     ]
 
+    const { payload, isLoading } = useSelectField(id)
+
+    const { 
+        title,
+        area: areaM2,
+        lpis,
+    } = payload || {}
+
+    const { meparId } = lpis || {}
+
+    const area = useConvertArea(areaM2)
+
     return (
         <ListContainer
-            data={data}
+            data={id}
             className={className}
             {...props}
         >
@@ -120,12 +135,12 @@ const FieldListItem = ({
                 <Thumbnail image="https://via.placeholder.com/48/48"/>
                 <Content>
                     <Title variant="h2" noWrap>
-                        Parcel 1, 2.1ha
+                        {`${title}, ${area}`}
                     </Title>                    
                     <MetaContainer>
                         <LpisMeta>
                             <Typography variant="caption" >
-                                (Field 1, 3.3ha)
+                                ({meparId})
                             </Typography>
                         </LpisMeta>
                         <Utilization>

@@ -4,14 +4,10 @@ import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { messages as ButtonMessages } from 'components/Button'
-import { FieldFormStepButton } from '..'
-
 import { Modal, ModalHeader, ModalContent } from 'components'
 import BackButton from 'components/Modal/components/BackButton'
 import { useModalContext } from 'components/Modal/hooks'
 
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import {
     DialogTitle,
     DialogActions,
@@ -31,9 +27,6 @@ import FieldList from './FieldList'
 
 const listWidth = 350
 
-const listField = 'listField'
-const listBlock = 'listBlock'
-
 const Container = styled.div`
     position: relative;
     width: 100%;
@@ -41,53 +34,14 @@ const Container = styled.div`
 `
 
 
-const Header = styled(DialogTitle)`
-    ${({ theme }) => `
-        padding: 16px 0;
-        //margin: 0 24px;
-        background-color: ${theme.palette.primary.main};
-        display: flex;
-        align-items: center;
-        position: relative;
-    `}    
-`
-
 const Content = styled(DialogContent)`
     padding: 0;
-`
-
-const Title = styled(Typography)`    
-    margin-left: 20px;
-    color: #fff;
-`
-
-
-const Explanation = styled.div`
-    z-index: 9999;
-    position: absolute;
-    top: 30%;
-    left: 20%;
-    background-color: rgba(0,0,0,0.7);
-    padding: 20px;
-    p {
-        color: white; 
-    }
 `
 
 const FixedFieldList = styled(props => <FieldList {...props}/>)`
     width: ${listWidth}px;
 `
 
-
-const ButtonContainer = styled.div`
-    display: flex;
-    position: absolute;
-    right: ${listWidth}px;
-    > button {
-        margin-left: 15px;
-        margin-right: 15px;
-    }
-`
 
 const FieldDrawDialog = ({
     //title,
@@ -107,27 +61,74 @@ const FieldDrawDialog = ({
     }
 
 
-    const dummyGeojson = {
-        type: "Feature",
-        properties: {},
-        geometry: {
-            type: "Polygon",
-            coordinates: [[
-                [-109.05, 41.00],
-                [-102.06, 40.99],
-                [-102.03, 36.99],
-                [-109.04, 36.99],
-                [-109.05, 41.00]
-            ]]
-        }
-    }
+    const aloisTieberGeom = {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {},
+            "geometry": {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [
+                    15.80683171749115,
+                    47.0677724300821
+                  ],
+                  [
+                    15.806558132171629,
+                    47.067122035283184
+                  ],
+                  [
+                    15.807357430458067,
+                    47.0668699138166
+                  ],
+                  [
+                    15.807212591171263,
+                    47.06642413091398
+                  ],
+                  [
+                    15.80828547477722,
+                    47.066442400778335
+                  ],
+                  [
+                    15.808795094490051,
+                    47.06647163254827
+                  ],
+                  [
+                    15.809036493301392,
+                    47.06707088029944
+                  ],
+                  [
+                    15.808634161949158,
+                    47.06743261805917
+                  ],
+                  [
+                    15.807738304138184,
+                    47.06752031169185
+                  ],
+                  [
+                    15.807239413261414,
+                    47.06764089020118
+                  ],
+                  [
+                    15.80683171749115,
+                    47.0677724300821
+                  ]
+                ]
+              ]
+            }
+          }
+        ]
+      }
+    
 
     // Payload should be an array of geometries. Also give the possibility to the user to fill out some data directly on the map
     // 
     const dummyPayload = [
-        { title: "Valami tábla", geometry: dummyGeojson, area: 13231.23 },
-        { title: "Másik tábla", geometry: dummyGeojson, area: 13231.23, lpis: {mepar: "7634XD-45"} },
-        { geometry: dummyGeojson, area: 13231.23 },
+        //{ title: "Valami tábla", geometry: dummyGeojson, area: 13231.23 },
+        //{ title: "Másik tábla", geometry: dummyGeojson, area: 13231.23, lpis: {meparId: "7634XD-45"} },
+        { geometry: aloisTieberGeom, area: 45000 },
     ]
 
 

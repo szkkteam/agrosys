@@ -7,3 +7,6 @@ export const SEASON_STATUS = {
     PLANNED: 'planned',
     FINISHED: 'finsihed'
 }
+
+export const SEASON_SELECTOR_FORM = 'seasonSelectorForm'
+export const SEASON_FORM = 'seasonForm'

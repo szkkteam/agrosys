@@ -6,7 +6,10 @@ import { useIntl, FormattedMessage } from 'react-intl'
 
 import { 
     MasterList,
+    DataLoading
 } from 'components'
+
+import { useFetchFields } from '../../hooks'
 
 import FieldCreateButton from '../FieldCreateButton/FieldCreateButton'
 import FieldListItem from '../FieldListItem/FieldListItem'
@@ -29,8 +32,11 @@ const FieldMasterList = ({
     ...props
 }) => {
 
+    const { payload, isLoading } = useFetchFields()
+
     return (
         <MasterList
+            isLoading={isLoading}
             options={{
                 maxHeight: 570,
             }}
@@ -40,23 +46,29 @@ const FieldMasterList = ({
             }
             {...props}
         >
-            <BorderFieldListItem />
-            <BorderFieldListItem />
-            <BorderFieldListItem />
-            <BorderFieldListItem />
-            <BorderFieldListItem />
-            <BorderFieldListItem />
-            <BorderFieldListItem />
-            <BorderFieldListItem />
-            <BorderFieldListItem />
-            <BorderFieldListItem />
-            <BorderFieldListItem />
-            <BorderFieldListItem />
-            <BorderFieldListItem />
-            <BorderFieldListItem />
+            {payload && payload.map((id, i) => (
+                <BorderFieldListItem key={i} id={id}/>
+            ))}
+            
         </MasterList>
     )
 }
+/*
+<BorderFieldListItem />
+<BorderFieldListItem />
+<BorderFieldListItem />
+<BorderFieldListItem />
+<BorderFieldListItem />
+<BorderFieldListItem />
+<BorderFieldListItem />
+<BorderFieldListItem />
+<BorderFieldListItem />
+<BorderFieldListItem />
+<BorderFieldListItem />
+<BorderFieldListItem />
+<BorderFieldListItem />
+<BorderFieldListItem />
+*/
 
 FieldMasterList.propTypes = {
 

@@ -19,7 +19,7 @@ import { FarmPickOnMap } from 'farmApp/resource/farm/components'
 import { FieldDrawDialog, FieldCreateDialog } from 'farmApp/resource/field/components'
 import { MachineryForm } from 'farmApp/resource/machinery/components'
 import { CropCreateDialog } from 'farmApp/cropProduction/crop/components'
-import { PlanSelectorDialog } from 'farmApp/cropProduction/plan/components'
+import { SeasonSelectorDialog } from 'farmApp/cropProduction/season/components'
 import { ProductionCreateDialog } from 'farmApp/cropProduction/production/components'
 
 
@@ -31,7 +31,7 @@ import {
     FIELD_DRAW_DIALOG,
     MACHINERY_DIALOG,
     CROP_DIALOG,
-    PLAN_SELECTOR_DIALOG,
+    SEASON_SELECTOR_DIALOG,
     PRODUCTION_CREATE_DIALOG,
  } from '../modalTypes'
 
@@ -52,7 +52,7 @@ const ModalProvider = ({
             [FIELD_DRAW_DIALOG, FieldDrawDialog],
             [MACHINERY_DIALOG, MachineryForm],
             [CROP_DIALOG, CropCreateDialog],
-            [PLAN_SELECTOR_DIALOG, PlanSelectorDialog],
+            [SEASON_SELECTOR_DIALOG, SeasonSelectorDialog],
             [PRODUCTION_CREATE_DIALOG, ProductionCreateDialog]
     ]))
     const Component = modalsMap.get(modalType) || null;

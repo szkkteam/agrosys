@@ -34,7 +34,7 @@ const DrawFieldButton = styled(PrimaryActionButton)`
     max-width: 220px;
 `
 
-
+/*
 const ownership = [
     {id: 1, title: "Tulajdon", },
     {id: 2, title: "Földhaszonbérlet", },
@@ -44,8 +44,20 @@ const ownership = [
     {id: 6, title: "Mindezek vegyesen", },
     {id: 7, title: "Egyéb", },
 ]
+*/
+
+const ownership = [
+    "Tulajdon",
+    "Földhaszonbérlet",
+    "Szivességi földhasználat",
+    "Vagyonkezelő",
+    "Közeli hozzátartozó",
+    "Mindezek vegyesen",
+    "Egyéb",
+]
 
 const FieldCreateGridView = ({
+    fieldsData,
     onAddNew,
     onDeleteItem,
     fields,
@@ -62,21 +74,22 @@ const FieldCreateGridView = ({
     }
 
     const columns = useMemo(() => [
-        {title: 'Shape', size: 0.5, render: (field, i) => <FieldSnapshot />
+        {title: 'Shape', size: 0.5, render: (field, i) => <FieldSnapshot {...fieldsData[i]}/>
         },
         {title: 'Title', render: (field, i) => <TextField name={`${field}.title`}
                                                     label="Title"
                                                     formProps={{fullWidth: true}}
                                                 />
         },
-        {title: 'Ownership', render: (field, i) => <SearchSelectField name={`${field}.ownership`}
+        {title: 'Ownership', render: (field, i) => <SearchSelectField name={`${field}.lpis.ownership`}
                                                 label="Ownership"
                                                 disableClearable={true}
                                                 formProps={{fullWidth: true}}
                                                 options={ownership}
                                                 //idAccessor={(o) => o.id}
-                                                groupBy={(option) => option.category}
-                                                getOptionLabel={(option) => option.title}
+                                                //groupBy={(option) => option.category}
+                                                //getOptionLabel={(option) => option.title}
+                                                getOptionLabel={(option) => option}
                                             />
         },
         {title: 'Cadastral plot' , render: (field, i) => <TextField name={`${field}.lpis.cadastralPlot`}
@@ -84,7 +97,7 @@ const FieldCreateGridView = ({
                                                             formProps={{fullWidth: true}}
                                                         />
         },
-        {title: 'MePAR block' , render: (field, i) => <TextField name={`${field}.lpis.mepar`}
+        {title: 'MePAR block' , render: (field, i) => <TextField name={`${field}.lpis.meparId`}
                                                             label="MePAR block identifier"
                                                             formProps={{fullWidth: true}}
                                                             />

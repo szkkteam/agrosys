@@ -3,8 +3,24 @@ import {
     getCropTypes,
     getUserCropIds,
     getUserCrops,
-    getUserCrop
+    getUserCrop,
+    getCurrentSeasonByUserCropId
 } from '../selectors.js'
+
+export const season_1 = 
+    {id: 1, title: 'Búza 2020', }
+
+export const season_2 = 
+    {id: 2, title: 'Búza 2021', }
+
+export const season_3 = 
+    {id: 3, title: 'Búza 2022', }
+
+export const fixture = [
+    {id: 1, title: "Búza", seasons: [season_1, season_2]},
+    {id: 2, title: "Búza 2", seasons: [season_3]},
+]
+    
 
 describe('crop selectors', () => {
     const requestFixtures = {
@@ -168,6 +184,40 @@ describe('crop selectors', () => {
             const fnc = getUserCrop()
             const selected = fnc.resultFunc(session, requestFixtures, 1)
             expect(selected).toEqual(expectedResult)
+        })
+        
+    })
+
+
+    describe('getCurrentSeasonByUserCropId', () => {
+
+        it('should return with null object', () => {
+
+            const expectedResult = {
+                payload: null,
+                isLoading: false,
+                error: null
+            }
+            const fnc = getCurrentSeasonByUserCropId()
+            const selected = fnc.resultFunc(session, requestFixtures, 1)
+            expect(selected).toEqual(expectedResult)
+        })
+        
+        it('should return with model instance', () => {
+            const expectedFixture = season_3
+
+            const expectedResult = {
+                payload: expectedFixture,
+                isLoading: false,
+                error: null,
+            }
+            const { UserCrop } = session
+            fixture.forEach(x => UserCrop.parse(x))
+
+            const fnc = getCurrentSeasonByUserCropId()
+            const result = fnc.resultFunc(session, requestFixtures, fixture[1].id)
+            const {id, title} = result.payload
+            expect(Object.assign(result, {payload: {id, title}})).toEqual(expectedResult)
         })
         
     })

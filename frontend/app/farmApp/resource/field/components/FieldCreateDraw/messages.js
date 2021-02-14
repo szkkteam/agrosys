@@ -1,6 +1,7 @@
 import { defineMessages } from 'react-intl'
 
 export const scope = 'app.farmApp.block.BlockDetailPage'
+const validationScope = `${scope}.Validation`
 
 export default defineMessages({
     borderEditTitle: {
@@ -30,5 +31,21 @@ export default defineMessages({
     cropTabTitle: {
         id: `${scope}.CropTab.title`,  
         defaultMessage: 'crop',
-    },    
+    },  
+    titleMissing: {
+        id: `${validationScope}.title.Missing`,  
+        defaultMessage: 'Title is required',        
+    },
+    areaMissing: {
+        id: `${validationScope}.area.Missing`,  
+        defaultMessage: 'Area is required',        
+    },
+    ownershipMissing: {
+        id: `${validationScope}.ownership.Missing`,  
+        defaultMessage: 'Ownership is required',        
+    },  
+    meparIdMissing: {
+        id: `${validationScope}.meparId.Missing`,  
+        defaultMessage: 'MePAR number is required',        
+    },  
   })

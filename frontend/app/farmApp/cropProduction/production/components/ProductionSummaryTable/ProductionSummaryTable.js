@@ -19,7 +19,7 @@ import {
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import { getProductionsFromForm } from '../../../plan/selectors'
+import { getProductionsFromForm } from '../../../season/selectors'
 
 const TableContainer = styled.div`
     width: 100%;
@@ -44,7 +44,8 @@ const ProductionSummaryTable = ({
     children,
     //data,
 }) => {
-    const productions = useSelector(getProductionsFromForm)
+    //const productions = useSelector(getProductionsFromForm)
+    const productions = []
     console.debug("Productions selector: ", productions)
 
     const columns = [

@@ -45,6 +45,7 @@ module.exports = {
         ],
         plugins: [
           '@babel/plugin-transform-modules-commonjs',
+          "transform-class-properties",
           'dynamic-import-node',
         ],
       },
