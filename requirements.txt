@@ -4,107 +4,323 @@
 #
 #    pip-compile --output-file=requirements.txt requirements.in
 #
-alembic==1.3.1            # via flask-migrate, sqlalchemy-unchained
-amqp==5.0.5               # via kombu
-aniso8601==7.0.0          # via graphene
-apispec==3.3.2            # via flask-unchained
+alembic==1.3.1
+    # via
+    #   flask-migrate
+    #   sqlalchemy-unchained
+amqp==5.0.5
+    # via kombu
+aniso8601==7.0.0
+    # via graphene
+apispec==3.3.2
+    # via flask-unchained
 appdirs==1.4.3
-arrow==0.15.4             # via jinja2-time
-babel==2.7.0              # via flask-babelex
+    # via -r requirements.in
+arrow==0.15.4
+    # via jinja2-time
+babel==2.7.0
+    # via flask-babelex
 bcrypt==3.2.0
-beautifulsoup4==4.9.3     # via flask-unchained
-billiard==3.6.3.0         # via celery
-blinker==1.4              # via flask-debugtoolbar, flask-principal, flask-unchained
-cachelib==0.1.1           # via flask-oauthlib, flask-session
-celery==5.0.5             # via flask-unchained
-certifi==2019.11.28       # via requests
-cffi==1.13.2              # via bcrypt
-chardet==3.0.4            # via requests
-click-didyoumean==0.0.3   # via celery
-click-plugins==1.1.1      # via celery
-click-repl==0.1.6         # via celery
-click==7.1.2              # via celery, click-didyoumean, click-plugins, click-repl, flask, flask-unchained
-decorator==4.4.2          # via networkx
-dill==0.3.3               # via flask-unchained
-dnspython==2.1.0          # via email-validator
-email-validator==1.1.2    # via flask-unchained
-factory-boy==3.2.0        # via flask-unchained
-faker==6.1.1              # via factory-boy, py-yaml-fixtures
-flask-admin==1.5.7        # via flask-unchained
-flask-babelex==0.9.4      # via flask-unchained
+    # via
+    #   -r requirements.in
+    #   flask-unchained
+beautifulsoup4==4.9.3
+    # via flask-unchained
+billiard==3.6.3.0
+    # via celery
+blinker==1.4
+    # via
+    #   flask-debugtoolbar
+    #   flask-principal
+    #   flask-unchained
+cachelib==0.1.1
+    # via
+    #   flask-oauthlib
+    #   flask-session
+celery==5.0.5
+    # via flask-unchained
+certifi==2019.11.28
+    # via requests
+cffi==1.13.2
+    # via bcrypt
+chardet==3.0.4
+    # via requests
+click-didyoumean==0.0.3
+    # via celery
+click-plugins==1.1.1
+    # via celery
+click-repl==0.1.6
+    # via celery
+click==7.1.2
+    # via
+    #   celery
+    #   click-didyoumean
+    #   click-plugins
+    #   click-repl
+    #   flask
+    #   flask-unchained
+decorator==4.4.2
+    # via networkx
+dill==0.3.3
+    # via flask-unchained
+dnspython==2.1.0
+    # via email-validator
+email-validator==1.1.2
+    # via flask-unchained
+factory-boy==3.2.0
+    # via flask-unchained
+faker==6.1.1
+    # via
+    #   factory-boy
+    #   py-yaml-fixtures
+flask-admin==1.5.7
+    # via flask-unchained
+flask-babelex==0.9.4
+    # via flask-unchained
 flask-debugtoolbar==0.10.1
-flask-graphql==2.0.1      # via flask-unchained
-flask-login==0.5.0        # via flask-unchained
-flask-marshmallow==0.14.0  # via flask-unchained
-flask-migrate==2.6.0      # via flask-unchained
-flask-oauthlib==0.9.6     # via flask-unchained
-flask-principal==0.4.0    # via flask-unchained
-flask-session==0.3.2      # via flask-unchained
-flask-sqlalchemy-unchained==0.7.3  # via flask-unchained
-flask-sqlalchemy==2.4.1   # via flask-migrate, flask-sqlalchemy-unchained
-flask-unchained[admin,api,celery,graphene,mail,oauth,security,session,sqlalchemy]==0.8.1
-flask-wtf==0.14.3         # via flask-unchained
+    # via -r requirements.in
+flask-graphql==2.0.1
+    # via flask-unchained
+flask-login==0.5.0
+    # via flask-unchained
+flask-marshmallow==0.14.0
+    # via flask-unchained
+flask-migrate==2.6.0
+    # via flask-unchained
+flask-oauthlib==0.9.6
+    # via flask-unchained
+flask-principal==0.4.0
+    # via flask-unchained
+flask-session==0.3.2
+    # via flask-unchained
+flask-sqlalchemy-unchained==0.7.3
+    # via flask-unchained
+flask-sqlalchemy==2.4.1
+    # via
+    #   flask-migrate
+    #   flask-sqlalchemy-unchained
+flask-unchained[admin,api,celery,graphene,mail,oauth,security,session,sqlalchemy]>=0.8.1
+    # via -r requirements.in
+flask-wtf==0.14.3
+    # via flask-unchained
 flask==1.1.2
+    # via
+    #   -r requirements.in
+    #   flask-admin
+    #   flask-babelex
+    #   flask-debugtoolbar
+    #   flask-graphql
+    #   flask-login
+    #   flask-marshmallow
+    #   flask-migrate
+    #   flask-oauthlib
+    #   flask-principal
+    #   flask-session
+    #   flask-sqlalchemy
+    #   flask-unchained
+    #   flask-wtf
 geoalchemy2==0.8.3
-graphene-sqlalchemy==2.3.0  # via flask-unchained
-graphene==2.1.8           # via flask-unchained, graphene-sqlalchemy
-graphql-core==2.3.2       # via flask-graphql, flask-unchained, graphene, graphql-relay, graphql-server-core
-graphql-relay==2.0.1      # via flask-unchained, graphene
-graphql-server-core==1.2.0  # via flask-graphql, flask-unchained
+    # via -r requirements.in
+graphene-sqlalchemy==2.3.0
+    # via flask-unchained
+graphene==2.1.8
+    # via
+    #   flask-unchained
+    #   graphene-sqlalchemy
+graphql-core==2.3.2
+    # via
+    #   flask-graphql
+    #   flask-unchained
+    #   graphene
+    #   graphql-relay
+    #   graphql-server-core
+graphql-relay==2.0.1
+    # via
+    #   flask-unchained
+    #   graphene
+graphql-server-core==1.2.0
+    # via
+    #   flask-graphql
+    #   flask-unchained
 gunicorn==20.0.4
-idna==2.8                 # via email-validator, requests
-importlib-metadata==0.23  # via kombu
-itsdangerous==1.1.0       # via flask, flask-debugtoolbar, flask-unchained, flask-wtf
+    # via -r requirements.in
+idna==2.8
+    # via
+    #   email-validator
+    #   requests
+importlib-metadata==0.23
+    # via kombu
+itsdangerous==1.1.0
+    # via
+    #   flask
+    #   flask-debugtoolbar
+    #   flask-unchained
+    #   flask-wtf
 jinja2-time==0.2.0
+    # via -r requirements.in
 jinja2==2.10.3
-kombu==5.0.2              # via celery
+    # via
+    #   -r requirements.in
+    #   flask
+    #   flask-babelex
+    #   jinja2-time
+    #   py-yaml-fixtures
+kombu==5.0.2
+    # via celery
 loguru==0.3.2
-lxml==4.6.2               # via flask-unchained
-mako==1.1.0               # via alembic
+    # via -r requirements.in
+lxml==4.6.2
+    # via flask-unchained
+mako==1.1.0
+    # via alembic
 markdown==3.1.1
-markupsafe==1.1.1         # via jinja2, mako, wtforms
+    # via -r requirements.in
+markupsafe==1.1.1
+    # via
+    #   jinja2
+    #   mako
+    #   wtforms
 marshmallow-enum==1.5.1
-marshmallow-sqlalchemy==0.24.2  # via flask-unchained
-marshmallow==3.10.0       # via flask-marshmallow, flask-unchained, marshmallow-enum, marshmallow-sqlalchemy
-more-itertools==7.2.0     # via zipp
-networkx==2.5             # via flask-unchained, py-yaml-fixtures
-oauthlib==2.1.0           # via flask-oauthlib, requests-oauthlib
-passlib==1.7.4            # via flask-unchained
-promise==2.3              # via graphene-sqlalchemy, graphql-core, graphql-relay, graphql-server-core
-prompt-toolkit==3.0.16    # via click-repl
+    # via -r requirements.in
+marshmallow-sqlalchemy==0.24.2
+    # via flask-unchained
+marshmallow==3.10.0
+    # via
+    #   flask-marshmallow
+    #   flask-unchained
+    #   marshmallow-enum
+    #   marshmallow-sqlalchemy
+more-itertools==7.2.0
+    # via zipp
+networkx==2.5
+    # via
+    #   flask-unchained
+    #   py-yaml-fixtures
+oauthlib==2.1.0
+    # via
+    #   flask-oauthlib
+    #   requests-oauthlib
+passlib==1.7.4
+    # via flask-unchained
+promise==2.3
+    # via
+    #   graphene-sqlalchemy
+    #   graphql-core
+    #   graphql-relay
+    #   graphql-server-core
+prompt-toolkit==3.0.16
+    # via click-repl
 psycopg2==2.8.4
-py-meta-utils==0.7.8      # via flask-unchained, sqlalchemy-unchained
+    # via -r requirements.in
+py-meta-utils==0.7.8
+    # via
+    #   flask-unchained
+    #   sqlalchemy-unchained
 py-yaml-fixtures==0.6.1
-pycparser==2.19           # via cffi
-pyterminalsize==0.1.0     # via flask-unchained
+    # via -r requirements.in
+pycparser==2.19
+    # via cffi
+pyterminalsize==0.1.0
+    # via flask-unchained
 python-dateutil==2.8.1
-python-editor==1.0.4      # via alembic
+    # via
+    #   -r requirements.in
+    #   alembic
+    #   arrow
+    #   faker
+    #   py-yaml-fixtures
+python-editor==1.0.4
+    # via alembic
 python-frontmatter==0.4.5
+    # via -r requirements.in
 pytz==2019.3
-pyyaml==5.1.2             # via py-yaml-fixtures, python-frontmatter
+    # via
+    #   -r requirements.in
+    #   babel
+    #   celery
+    #   tzlocal
+pyyaml==5.1.2
+    # via
+    #   py-yaml-fixtures
+    #   python-frontmatter
 redis==3.3.11
-requests-oauthlib==1.1.0  # via flask-oauthlib
+    # via -r requirements.in
+requests-oauthlib==1.1.0
+    # via flask-oauthlib
 requests==2.22.0
-rx==1.6.1                 # via graphql-core
+    # via
+    #   -r requirements.in
+    #   requests-oauthlib
+    #   stripe
+rx==1.6.1
+    # via graphql-core
 shapely==1.7.0
-singledispatch==3.4.0.3   # via graphene-sqlalchemy
-six==1.13.0               # via bcrypt, click-repl, flask-marshmallow, graphene, graphene-sqlalchemy, graphql-core, graphql-relay, promise, python-dateutil, python-frontmatter, singledispatch, sqlalchemy-utils
-soupsieve==1.9.5          # via beautifulsoup4
-speaklater==1.3           # via flask-babelex
-sqlalchemy-unchained==0.11.0  # via flask-sqlalchemy-unchained, flask-unchained
+    # via -r requirements.in
+singledispatch==3.4.0.3
+    # via graphene-sqlalchemy
+six==1.14.0
+    # via
+    #   bcrypt
+    #   click-repl
+    #   flask-marshmallow
+    #   graphene
+    #   graphene-sqlalchemy
+    #   graphql-core
+    #   graphql-relay
+    #   promise
+    #   python-dateutil
+    #   python-frontmatter
+    #   singledispatch
+    #   sqlalchemy-utils
+soupsieve==1.9.5
+    # via beautifulsoup4
+speaklater==1.3
+    # via flask-babelex
+sqlalchemy-unchained==0.11.0
+    # via
+    #   flask-sqlalchemy-unchained
+    #   flask-unchained
 sqlalchemy-utils==0.36.1
-sqlalchemy==1.3.11        # via alembic, flask-sqlalchemy, geoalchemy2, graphene-sqlalchemy, marshmallow-sqlalchemy, sqlalchemy-unchained, sqlalchemy-utils, wtforms-sqlalchemy
+    # via -r requirements.in
+sqlalchemy==1.3.11
+    # via
+    #   alembic
+    #   flask-sqlalchemy
+    #   geoalchemy2
+    #   graphene-sqlalchemy
+    #   marshmallow-sqlalchemy
+    #   sqlalchemy-unchained
+    #   sqlalchemy-utils
+    #   wtforms-sqlalchemy
 stripe==2.42.0
-text-unidecode==1.3       # via faker
+    # via -r requirements.in
+text-unidecode==1.3
+    # via faker
 tzlocal==2.0.0
-urllib3==1.25.8           # via requests
-uwsgi==2.0.18
-vine==5.0.0               # via amqp, celery
-wcwidth==0.2.5            # via prompt-toolkit
-werkzeug==1.0.1           # via flask, flask-debugtoolbar, flask-unchained
-wtforms-sqlalchemy==0.2   # via flask-unchained
-wtforms==2.3.3            # via flask-admin, flask-unchained, flask-wtf, wtforms-sqlalchemy
-zipp==0.6.0               # via importlib-metadata
+    # via -r requirements.in
+urllib3==1.25.8
+    # via requests
+vine==5.0.0
+    # via
+    #   amqp
+    #   celery
+wcwidth==0.2.5
+    # via prompt-toolkit
+werkzeug==1.0.1
+    # via
+    #   flask
+    #   flask-debugtoolbar
+    #   flask-unchained
+wtforms-sqlalchemy==0.2
+    # via flask-unchained
+wtforms==2.3.3
+    # via
+    #   flask-admin
+    #   flask-unchained
+    #   flask-wtf
+    #   wtforms-sqlalchemy
+zipp==0.6.0
+    # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
-# setuptools==53.0.0        # via gunicorn, markdown
+# setuptools

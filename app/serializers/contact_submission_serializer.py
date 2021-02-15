@@ -2,7 +2,7 @@ import html
 import re
 
 from flask_unchained.bundles.api import ma
-from backend.models import ContactSubmission
+from app.models import ContactSubmission
 
 
 class ContactSubmissionSerializer(ma.ModelSerializer):

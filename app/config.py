@@ -7,6 +7,21 @@ from flask_unchained import BundleConfig, get_boolean_env, url_for
 from werkzeug.local import LocalProxy
 
 
+BUNDLES = [
+    'flask_unchained.bundles.controller',
+    'flask_unchained.bundles.admin',
+    'flask_unchained.bundles.api',
+    'flask_unchained.bundles.graphene',
+    'flask_unchained.bundles.mail',
+    'flask_unchained.bundles.celery',  # must be after mail bundle to send async email
+    'flask_unchained.bundles.session',
+    'flask_unchained.bundles.sqlalchemy',
+
+    #'bundles.blog',
+    'bundles.security',
+    'backend',  # app bundle must be last
+]
+
 
 class Config(BundleConfig):
     ##########################################################################

@@ -2,7 +2,7 @@ from flask_unchained import (controller, resource, func, include, prefix,
                              get, delete, post, patch, put, rule)
 from flask_unchained.bundles.security import SecurityController, UserResource
 
-from backend.views import ContactSubmissionResource, SiteController
+from app.views import ContactSubmissionResource, SiteController
 
 
 routes = lambda: [

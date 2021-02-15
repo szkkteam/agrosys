@@ -22,5 +22,5 @@ BUNDLES = [
 
     #'bundles.blog',
     'bundles.security',
-    'backend',  # app bundle must be last
+    'app',  # app bundle must be last
 ]

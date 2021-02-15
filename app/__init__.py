@@ -2,7 +2,7 @@
 
 from flask_wtf.csrf import generate_csrf
 from flask_unchained import AppBundle, FlaskUnchained, session
-
+import unchained_config
 
 class BackendBundle(AppBundle):
     def before_init_app(self, app: FlaskUnchained):

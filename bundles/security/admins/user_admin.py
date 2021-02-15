@@ -3,7 +3,7 @@ from flask_unchained.bundles.admin.forms import ReorderableForm
 from flask_unchained.bundles.security.forms import unique_user_email
 from flask_unchained.forms import fields, validators
 
-from backend.utils import utcnow
+from app.utils import utcnow
 
 from ..models import User
 
@@ -15,8 +15,8 @@ password_length = validators.Length(
 class BaseUserForm(ReorderableForm):
     def populate_obj(self, user):
         super().populate_obj(user)
-        if user.active and not user.confirmed_at:
-            user.confirmed_at = utcnow()
+        #if user.active and not user.confirmed_at:
+        #    user.confirmed_at = utcnow()
 
 
 class UserAdmin(ModelAdmin):
@@ -26,13 +26,13 @@ class UserAdmin(ModelAdmin):
     category_name = 'Security'
     menu_icon_value = 'glyphicon-user'
 
-    column_list = ('username', 'email', 'first_name', 'last_name', 'active')
+    column_list = ('username', 'email', 'first_name', 'last_name', )
     column_searchable_list = ('username', 'email', 'first_name', 'last_name')
-    column_filters = ('active',)
+    #column_filters = ('active',)
 
     column_details_list = ('username', 'email', 'first_name', 'last_name',
-                           'active', 'confirmed_at', 'created_at', 'updated_at')
-    column_editable_list = ('active',)
+                           'confirmed_at', 'created_at', 'updated_at')
+    #column_editable_list = ('active',)
 
     column_formatters = {
         'confirmed_at': macro('column_formatters.datetime'),
@@ -41,7 +41,7 @@ class UserAdmin(ModelAdmin):
 
     form_base_class = BaseUserForm
 
-    form_columns = ('username', 'email', 'first_name', 'last_name', 'roles', 'active')
+    form_columns = ('username', 'email', 'first_name', 'last_name', 'roles',)
     form_excluded_columns = ('articles', 'password', 'user_roles')
 
     form_overrides = dict(email=fields.EmailField)
@@ -77,6 +77,6 @@ class UserAdmin(ModelAdmin):
 
         CreateForm.field_order = (
             'username', 'email', 'first_name', 'last_name',
-            'password', 'confirm_password', 'roles', 'active')
+            'password', 'confirm_password', 'roles',)
 
         return CreateForm

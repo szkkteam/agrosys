@@ -12,8 +12,8 @@ NON_ALPHANUMERIC_RE = re.compile(r'[^\w]')
 class UserSerializer(BaseUserSerializer):
     class Meta:
         model = User
-        exclude = ('confirmed_at', 'created_at', 'updated_at', 'user_roles', 'articles')
-        dump_only = ('active', 'roles')
+        exclude = ('confirmed_at', 'created_at', 'updated_at', 'user_roles', )
+        dump_only = ('roles',)
         load_only = ('password',)
 
     @ma.validates('username')
