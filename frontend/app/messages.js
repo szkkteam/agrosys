@@ -2,6 +2,7 @@ import { defineMessages } from 'react-intl'
 
 export const scope = 'app.global'
 const production = 'app.farmApp.cropProduction.production'
+const validation = 'app.global.form.validationErrors'
 
 export default defineMessages({
     edit: {
@@ -63,5 +64,10 @@ export default defineMessages({
     loading: {
         id: `${scope}.loading`,  
         defaultMessage: 'Loading ...',
-    }
+    },
+    validationRequired: {
+        id: `${validation}.required`,  
+        defaultMessage: 'Field required',
+    },
+    
   })

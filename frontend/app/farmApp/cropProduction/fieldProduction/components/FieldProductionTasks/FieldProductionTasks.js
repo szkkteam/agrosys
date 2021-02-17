@@ -11,11 +11,13 @@ import {
 
 import { DetailFooter } from 'farmApp/components/Detail'
 
+
 import { 
     TemplateSummaryList,
     TemplatePeriodSelector,
     TemplateFeatureSelector
 } from 'farmApp/cropProduction/template/components'
+
 
 import {
     Grid,

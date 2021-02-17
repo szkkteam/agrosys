@@ -72,7 +72,8 @@ const Stepper = ({
         handleStep,
         handleComplete,
         handleNext,
-        handleBack
+        handleBack,
+        isLastStep: isLastStep(),
     }
 
     return (

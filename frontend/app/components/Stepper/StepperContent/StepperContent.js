@@ -27,11 +27,16 @@ const StepperContent = ({
     if (_.isFunction(children))
         return children({...childProps, ...props})
     else if (contents && contents.length) {
-        const activeContent = contents[activeStep]
-
-        return  (_.isFunction(activeContent)
-                ? activeContent(stepContentProps)
-                : React.cloneElement(activeContent, stepContentProps))
+        if (React.Children.toArray(children).length > 1) {
+            const activeContent = React.Children.toArray(children)[activeStep]
+            return React.cloneElement(activeContent, childProps)
+        } else {
+            const activeContent = contents[activeStep]
+            return  (_.isFunction(activeContent)
+                    ? activeContent(childProps)
+                    : React.cloneElement(activeContent, childProps))
+        }
+        
     }
     else 
         return React.cloneElement(children, {...childProps, ...props})

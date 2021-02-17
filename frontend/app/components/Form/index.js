@@ -1,3 +1,6 @@
+/**
+ * Deprecated
+ */
 export {
   EmailField,
   HiddenField,
@@ -32,3 +35,6 @@ export {
 export {
   onlyDecimal,
 } from './normalizers'
+
+// Formik form components
+export { default as WizzardForm } from './WizzardForm'

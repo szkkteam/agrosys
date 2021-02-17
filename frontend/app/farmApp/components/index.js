@@ -30,3 +30,7 @@ export { WidgetLight, WidgetMedium } from './Widget'
  * Metric componenets
  */
 export { SimpleProgress } from './Metric'
+/**
+ * Panel components
+ */
+export { ExpandPanel } from './Panel'

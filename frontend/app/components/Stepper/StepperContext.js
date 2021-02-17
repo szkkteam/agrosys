@@ -8,7 +8,8 @@ const defaultValues = {
     handleStep: null,
     handleComplete: null,
     handleBack: null,
-    handleNext: null
+    handleNext: null,
+    isLastStep: false,
 }
 
 export default React.createContext(defaultValues)

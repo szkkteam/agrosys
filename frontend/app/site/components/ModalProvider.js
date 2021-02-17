@@ -22,6 +22,8 @@ import { CropCreateDialog } from 'farmApp/cropProduction/crop/components'
 import { SeasonSelectorDialog } from 'farmApp/cropProduction/season/components'
 import { ProductionCreateDialog } from 'farmApp/cropProduction/production/components'
 
+import { PlanCropDialog } from 'farmApp/cropProduction/plan/components'
+
 
 import { 
     EDIT_FILE_DIALOG,
@@ -33,6 +35,7 @@ import {
     CROP_DIALOG,
     SEASON_SELECTOR_DIALOG,
     PRODUCTION_CREATE_DIALOG,
+    PLAN_CROP_DIALOG
  } from '../modalTypes'
 
 const ModalProvider = ({
@@ -53,7 +56,8 @@ const ModalProvider = ({
             [MACHINERY_DIALOG, MachineryForm],
             [CROP_DIALOG, CropCreateDialog],
             [SEASON_SELECTOR_DIALOG, SeasonSelectorDialog],
-            [PRODUCTION_CREATE_DIALOG, ProductionCreateDialog]
+            [PRODUCTION_CREATE_DIALOG, ProductionCreateDialog],
+            [PLAN_CROP_DIALOG, PlanCropDialog]
     ]))
     const Component = modalsMap.get(modalType) || null;
 

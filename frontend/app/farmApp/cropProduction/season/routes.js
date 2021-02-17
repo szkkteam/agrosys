@@ -14,6 +14,10 @@ import {
 } from 'farmApp/cropProduction/fieldProduction/routes'
 
 import {
+  PlanCreate,
+} from 'farmApp/cropProduction/plan/pages'
+
+import {
     SeasonOverview,
     SeasonCreate,
     SeasonList,
@@ -70,7 +74,7 @@ export const seasonDetail = [
   {
     key: ROUTES.CropProductionSeasonCreate,
     path: '/:cropId/seasons/new',
-    component: SeasonCreate,
+    component: PlanCreate,
     // TODO: Include a table view, and the reservations view
     props: { exact: true }
   },
