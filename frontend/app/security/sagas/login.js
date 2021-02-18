@@ -17,8 +17,17 @@ export const loginSaga = createRoutineFormSaga(
     const defaultRedirect = ROUTE_MAP[ROUTES.DashboardOverview].toPath()
 
     const { redirect=defaultRedirect, ...payload } = actionPayload
-    const { token, user } = yield call(SecurityApi.login, payload)
-    yield put(login.success({ token, user }))
+    console.debug("payload: ", payload)
+    const isDev = process.env.NODE_ENV !== 'production'
+    
+    if (!isDev) {
+      const { token, user } = yield call(SecurityApi.login, payload)
+      yield put(login.success({ token, user }))
+    } else {
+      const token = ""
+      const user = payload
+      yield put(login.success({ token, user }))
+    }
     yield put(push(redirect))
     //yield put(flashSuccess('You have been successfully logged in.'))
   },
