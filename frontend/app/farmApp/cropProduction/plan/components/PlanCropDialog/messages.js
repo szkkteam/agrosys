@@ -23,8 +23,12 @@ export default defineMessages({
         id: `${scope}.step3.title`,  
         defaultMessage: 'Fields',        
     },
-    stepFinance: {
+    stepSubsidy: {
         id: `${scope}.step4.title`,  
+        defaultMessage: 'Subsidies',        
+    },
+    stepFinance: {
+        id: `${scope}.step5.title`,  
         defaultMessage: 'Finance',        
     },
   })

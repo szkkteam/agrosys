@@ -27,6 +27,7 @@ import StepperBack from './StepperBack'
 import CropPage from './CropPage'
 import TaskPage from './TaskPage'
 import FieldPage from './FieldPage'
+import SubsidyPage from './SubsidyPage'
 import FinancePage from './FinancePage'
 
 
@@ -66,6 +67,7 @@ const defaultInitialValues = {
     ...TaskPage.initialValues,
     ...FinancePage.initialValues,
     ...FieldPage.initialValues,
+    ...SubsidyPage.initialValues,
 }
 
 const PlanCropForm = ({
@@ -76,6 +78,7 @@ const PlanCropForm = ({
         messages.stepCrop,
         messages.stepTask,
         messages.stepField,
+        messages.stepSubsidy,
         messages.stepFinance,
     ]
     
@@ -101,6 +104,7 @@ const PlanCropForm = ({
                         <CropPage validationSchema={CropPage.schema}/>
                         <TaskPage validationSchema={TaskPage.schema}/>
                         <FieldPage validationSchema={FieldPage.schema}/>
+                        <SubsidyPage validationSchema={SubsidyPage.schema}/> 
                         <FinancePage validationSchema={FinancePage.schema}/>
                     </FlexWizzard>
                 </Container>

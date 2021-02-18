@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react'
+import React, { useContext, useMemo, useState, useCallback } from 'react'
 import messages from './messages';
 import globalMessages from 'messages'
 import PropTypes from 'prop-types'
@@ -46,9 +46,9 @@ const AddFieldRow = ({
 }) => {
     const [open, setOpen] = useState(false)
 
-    const selectedFields = fields.map(x => x.fieldId)
+    const selectedFields = useMemo(() => fields.map(x => x.fieldId), [fields])
 
-    const handleAddfield = (fieldId, selected) => {
+    const handleAddfield = useCallback((fieldId, selected) => {
         if (selected) {
             // TODO: Push initial shape
             arrayHelper.push({fieldId})
@@ -56,15 +56,15 @@ const AddFieldRow = ({
             const index = _.findIndex(fields, x => x.fieldId === fieldId)
             arrayHelper.remove(index)
         }
-    }
+    }, [])   
 
     const handleDrawerOpen = () => {
         setOpen(true)
     }
 
-    const handleDrawerClose = () => {
+    const handleDrawerClose = useCallback(() => {
         setOpen(false)
-    }
+    }, [])
 
     return (
         <TableRow>
@@ -90,40 +90,59 @@ const FieldSection = ({
 }) => {
    
     const columns = [
-        {title: 'Field', render: (row, i) => <FieldListItem />},
-        {title: 'Vaiant', render: (row, i) => <Field
-                                                name={`fields[${i}].crop.variant`}
-                                                component={TextField}
-                                                label="Variant"
-                                                />
-                                        },
-        {title: 'Yield', render: (row, i) => <Field
-                                                name={`fields[${i}].crop.yield`}
-                                                component={TextField}
-                                                label="Yield"
-                                              />
-                                        },
-        {title: 'Crop code', render: (row, i) => <Field
-                                        name={`fields[${i}].lpis.cropCode`}
-                                        component={TextField}
-                                        label="CropCode"
-                                      />
-                                },
-        {title: '', render: (row, i, props) => {
-            
-            const handleDelete = () => {
-                props.arrayHelper.remove(i)   
-            }
-
-            return (
-                <IconButton
-                    onClick={handleDelete}
-                >
-                    <RemoveCircleIcon />
-                </IconButton>
+        {
+            title: 'Field',
+            render: (row, i) => (
+                <FieldListItem
+                    disableAction={true}
+                    {... values.fields && values.fields.length? {id: values.fields[i].fieldId} : {}} 
+                />
             )
-        }
-        
+        },
+        {
+            title: 'Vaiant',
+            render: (row, i) => (
+                <Field
+                    name={`fields[${i}].crop.variant`}
+                    component={TextField}
+                    label="Variant"
+                />
+            )
+        },
+        {
+            title: 'Yield',
+            render: (row, i) => (
+                <Field
+                    name={`fields[${i}].crop.yield`}
+                    component={TextField}
+                    label="Yield"
+                />
+            )
+        },
+        {
+            title: 'Crop code',
+            render: (row, i) => (
+                <Field
+                    name={`fields[${i}].lpis.cropCode`}
+                    component={TextField}
+                    label="CropCode"
+                    />
+            )
+        },
+        {
+            title: '',
+            render: (row, i, props) => {
+                const handleDelete = () => {
+                    props.arrayHelper.remove(i)   
+                }
+                return (
+                    <IconButton
+                        onClick={handleDelete}
+                    >
+                        <RemoveCircleIcon />
+                    </IconButton>
+                )
+            }
         },
     ]
 

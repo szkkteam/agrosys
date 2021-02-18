@@ -43,7 +43,7 @@ const SimpleTable = ({
                 <TableHead>
                     <TableRow>
                         {columns && columns.map(({title="", headerCellProps={}}, i) => (
-                            <TableCell {...headerCellProps}>{title}</TableCell>
+                            <TableCell key={i} {...headerCellProps}>{title}</TableCell>
                         ))}                       
                     </TableRow>
                 </TableHead>
