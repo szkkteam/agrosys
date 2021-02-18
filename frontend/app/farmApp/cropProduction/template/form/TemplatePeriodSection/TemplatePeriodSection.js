@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { Formik, Field } from "formik";
+import * as Yup from 'yup';
+import globalMessages from 'messages'
 
 import { 
     Autocomplete,
@@ -35,6 +37,9 @@ const dateKeys = [
     {id: 1, title: 'Sowing'},
     {id: 2, title: 'Harvest'},
 ]
+
+import schema from './schema'
+
 
 const DateKeyEvent = ({
     name,
@@ -86,7 +91,7 @@ const DateManual = ({
     )
 }
 
-const TemplatePeriodSelector = ({
+const TemplatePeriodSection = ({
     name="",
     onChange,
     startDate,
@@ -155,8 +160,14 @@ const TemplatePeriodSelector = ({
     )
 }
 
-TemplatePeriodSelector.propTypes = {
-
+TemplatePeriodSection.propTypes = {
+    name: PropTypes.string.isRequired,
 }
 
-export default TemplatePeriodSelector
+TemplatePeriodSection.initialValues = {
+    mode: DATE_AUTOMATIC,
+}
+
+TemplatePeriodSection.schema = schema
+
+export default TemplatePeriodSection

@@ -3,16 +3,16 @@ import messages from './messages';
 import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+import { Formik, Field } from "formik";
+import { TextField, Autocomplete } from 'components/FormB'
+import * as Yup from 'yup';
 
-import { 
-    SearchSelectField,
-} from 'components/Form'
+import { useFetchCropTypes } from '../../hooks'
 
-import { useFetchCropTypes } from '../../../hooks'
-
-const CropSelect = ({
+const CropSelectSection = ({
+    name,
+    label,
     ...props
-
 }) => {
 
     const intl = useIntl()
@@ -20,17 +20,19 @@ const CropSelect = ({
     const {payload: cropTypes, isLoading } = useFetchCropTypes()
 
     return (
-        <SearchSelectField name="cropType"            
-            label={intl.formatMessage(messages.cropType)}
-            loading={isLoading}
-            variant="outlined"
+        <Field 
+            name={name}
+            component={Autocomplete}
             formProps={{fullWidth: true}}
+            loading={isLoading}
+            disableClearable={true}
             options={cropTypes}
-            //idAccessor={(o) => o.id}
             groupBy={(option) => option.category}
             getOptionLabel={(option) => option.title}
-            {...props}
-        />
+            inputParams={{
+                label
+            }}                
+        />            
     )
 }
 /* TODO: Post request as array, not supported.
@@ -40,9 +42,16 @@ const CropSelect = ({
                         </IconButton>
                     </Grid>
 */
+/*
+PlanCropTaskSection.initialValues = {
+    period: TemplatePeriodSection.initialValues,
+    template: "",
+}
+PlanCropSection.schema = schema
+*/
 
-CropSelect.propTypes = {
+CropSelectSection.propTypes = {
 
 }
 
-export default CropSelect
+export default CropSelectSection

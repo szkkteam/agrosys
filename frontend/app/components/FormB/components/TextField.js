@@ -1,5 +1,6 @@
 import React from 'react'
 import MuiTextField from '@material-ui/core/TextField'
+import FormControl from '@material-ui/core/FormControl'
 import { getIn } from 'formik'
 import { useFormatError } from 'utils/hooks'
 
@@ -13,7 +14,6 @@ export const fieldToTextField = ({
 }) => {
     const fieldError = getIn(errors, field.name)
     const showError = getIn(touched, field.name) && !!fieldError
-
     const formattedError = useFormatError(fieldError)
     return {
         variant: props.variant,
@@ -30,6 +30,13 @@ export const fieldToTextField = ({
       }
 }
 
-export default ({children, ...props}) => {
-    return <MuiTextField {...fieldToTextField(props)}>{children}</MuiTextField>
+export default ({
+  children,
+  ...props
+}) => {
+    return (
+      <MuiTextField {...fieldToTextField(props)}>
+        {children}
+      </MuiTextField>
+    )
 }

@@ -25,16 +25,17 @@ import {
 import StepperBack from './StepperBack'
 
 import CropPage from './CropPage'
-import cropPageSchema from './cropPageSchema'
 import TaskPage from './TaskPage'
-import taskPageSchema from './taskPageSchema'
+import FieldPage from './FieldPage'
+import FinancePage from './FinancePage'
 
 
 const Container = styled(props => <ModalContent {...props} />)`
     display: flex;
     flex-grow: 1;
     padding: 0;
-    min-height: 400px;
+    padding-top: 35px;
+    min-height: 450px;
     position: relative;
 `
 
@@ -59,18 +60,23 @@ const FlexWizzard = styled(WizzardForm)`
     flex-grow: 1;
 `
 
+
 const defaultInitialValues = {
-    cropType: "",
-    template: ""
+    ...CropPage.initialValues,
+    ...TaskPage.initialValues,
+    ...FinancePage.initialValues,
+    ...FieldPage.initialValues,
 }
 
 const PlanCropForm = ({
     initialValues=defaultInitialValues
 }) => {
-
+    console.debug("initialValues: ", initialValues)
     const steps = [
         messages.stepCrop,
-        messages.stepSubsidy,
+        messages.stepTask,
+        messages.stepField,
+        messages.stepFinance,
     ]
     
     return (
@@ -81,7 +87,7 @@ const PlanCropForm = ({
             <Stepper
                 steps={steps}
                 //contents={contents}
-                defaultStep={0}
+                defaultStep={2}
             >
                 <StepperHeaderContainer>
                     <StepperBack />
@@ -92,9 +98,10 @@ const PlanCropForm = ({
                     <FlexWizzard
                         initialValues={initialValues}
                     >
-                        <CropPage validationSchema={cropPageSchema}/>
-                        <TaskPage validationSchema={taskPageSchema}/>
-
+                        <CropPage validationSchema={CropPage.schema}/>
+                        <TaskPage validationSchema={TaskPage.schema}/>
+                        <FieldPage validationSchema={FieldPage.schema}/>
+                        <FinancePage validationSchema={FinancePage.schema}/>
                     </FlexWizzard>
                 </Container>
             </Stepper>
@@ -110,6 +117,7 @@ const PlanCropDialog = ({
     return (
         <Modal
             fullWidth
+            fullScreen={true}
             maxWidth="md"
         >   
             <PlanCropForm />

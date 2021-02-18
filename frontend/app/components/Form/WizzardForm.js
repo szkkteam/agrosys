@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
 import { useHistory, useLocation } from "react-router-dom";
 import styled from 'styled-components'
-import { Formik, Field } from "formik";
+import { Formik, withFormik, yupToFormErrors } from "formik";
 
 import StepperContext from './../Stepper/StepperContext'
 
@@ -26,6 +26,7 @@ const WizzardForm = ({
     } = useContext(StepperContext)
 
     const handleSubmit = (values, bag) => {
+        console.debug("values: ", values)
         if (isLastStep) {
             return onSubmit(values, bag)
         } else {
@@ -37,8 +38,10 @@ const WizzardForm = ({
 
     const pageValidationSchema = useMemo(() => {
         const activePage = React.Children.toArray(children)[activeStep]
+        console.debug("Re-run pageValidationSchema")
         return activePage.props.validationSchema? activePage.props.validationSchema : validationSchema
     }, [activeStep])
+    console.debug("pageValidationSchema: ", pageValidationSchema)
 
     const handleValidateForm = (values) => {
         console.debug("Values: ", values)
@@ -57,8 +60,7 @@ const WizzardForm = ({
     return (
         <Formik
             initialValues={values}
-            onSubmit={handleSubmit}
-            //validate={handleValidate}
+            onSubmit={handleSubmit}            
             validateForm={handleValidateForm}
             validationSchema={pageValidationSchema}
             render={(props) => (

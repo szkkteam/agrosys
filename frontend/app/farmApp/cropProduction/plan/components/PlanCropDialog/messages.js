@@ -13,14 +13,18 @@ export default defineMessages({
     },
     stepCrop: {
         id: `${scope}.step1.title`,  
-        defaultMessage: 'Crops and variants',        
-    },
-    stepSubsidy: {
-        id: `${scope}.step2.title`,  
-        defaultMessage: 'Subsidies',        
+        defaultMessage: 'Crops',        
     },
     stepTask: {
-        id: `${scope}.step3.title`,  
+        id: `${scope}.step2.title`,  
         defaultMessage: 'Tasks',        
-    }
+    },
+    stepField: {
+        id: `${scope}.step3.title`,  
+        defaultMessage: 'Fields',        
+    },
+    stepFinance: {
+        id: `${scope}.step4.title`,  
+        defaultMessage: 'Finance',        
+    },
   })

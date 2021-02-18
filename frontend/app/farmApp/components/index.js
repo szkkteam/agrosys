@@ -10,6 +10,7 @@ export { DashboardContainer } from './Dashboard'
  * Table components
  */
 export { default as GridTable } from './GridTable'
+export { SimpleTable } from './Table'
 /**
  * Toolbar components
  */

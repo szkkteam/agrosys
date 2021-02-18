@@ -104,7 +104,6 @@ const FieldSideSelector = ({
     }
 
     const result = useSelectFieldsArea(selected)
-    console.debug("Result: ", result)
     const { payload: { area } } = useSelectFieldsArea(selected)
     const convertedArea = useConvertArea(area)
 
@@ -149,4 +148,10 @@ FieldSideSelector.propTypes = {
 
 }
 
-export default FieldSideSelector
+const equal = (prev, next) => {
+    console.debug("Prev: ", prev)
+    console.debug("Nrev: ", next)
+    return false
+}
+
+export default React.memo(FieldSideSelector, equal)

@@ -1,6 +1,7 @@
 import React from 'react'
 import MuiAutocomplete from '@material-ui/lab/Autocomplete'
 import MuiTextField from '@material-ui/core/TextField'
+import FormControl from '@material-ui/core/FormControl'
 import { getIn } from 'formik'
 import { useFormatError } from 'utils/hooks'
 
@@ -53,12 +54,12 @@ export const fieldToAutocomplete = ({
 }
 
 export default ({
-    inputParams,
+    formProps={},
+    inputParams={},
     options,
     getOptionLabel: propGetOptionLabel,
     ...props
 }) => {
-    const formProps = fieldToAutocomplete(props)
     
     const {
         field,
@@ -77,18 +78,23 @@ export default ({
     const formattedError = useFormatError(fieldError)
 
     return (
-        <MuiAutocomplete
-            options={options}
-            getOptionLabel={overrideGetOptionLabel? propGetOptionLabel : defaultGetOptionLabel}
-            {...formProps}
-            renderInput={(params) => 
-                <MuiTextField 
-                    autoComplete="disabled"
-                    error={showError}
-                    helperText={showError ? formattedError : helperText}
-                    {...params}
-                    {...inputParams}
-                />
-            }
-        />)
+        <FormControl
+          {...formProps}
+        >
+          <MuiAutocomplete
+              options={options}
+              getOptionLabel={overrideGetOptionLabel? propGetOptionLabel : defaultGetOptionLabel}
+              {...fieldToAutocomplete(props)}
+              renderInput={(params) => 
+                  <MuiTextField 
+                      autoComplete="disabled"
+                      error={showError}
+                      helperText={showError ? formattedError : helperText}
+                      {...params}
+                      {...inputParams}
+                  />
+              }
+          />
+        </FormControl>
+      )
 }
