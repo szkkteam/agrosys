@@ -39,6 +39,20 @@ const InnerContainer = styled.div`
     padding: 0px 25px;
 `
 
+const fieldInitialValue = {
+    crop: {
+        variant: "",
+        yield: "",        
+    },
+    lpis: {
+        cropCode: "",
+        tableId: "",
+        akg: "",
+        ketkat: "",
+        subsidies: ""
+    }
+}
+
 const AddFieldRow = ({
     fields=[],
     arrayHelper
@@ -51,7 +65,7 @@ const AddFieldRow = ({
     const handleAddfield = useCallback((fieldId, selected) => {
         if (selected) {
             // TODO: Push initial shape
-            arrayHelper.push({fieldId})
+            arrayHelper.push({...fieldInitialValue, fieldId})
         } else {
             const index = _.findIndex(fields, x => x.fieldId === fieldId)
             arrayHelper.remove(index)

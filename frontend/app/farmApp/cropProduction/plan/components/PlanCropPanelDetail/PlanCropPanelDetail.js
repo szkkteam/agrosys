@@ -1,14 +1,11 @@
-
-
-
-
-
 import React, { useState, useRef, useLayoutEffect, useEffect, useMemo } from 'react'
 import messages from './messages';
 import globalMessages from 'messages';
 import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+
+import { SimpleTable } from 'farmApp/components'
 
 import {
     Table,
@@ -25,6 +22,8 @@ const PlanCropPanelDetail = ({
 
 }) => {
     const data = [1,2,3]
+    
+
     return (
         <TableContainer>
             <Table

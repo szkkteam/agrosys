@@ -38,3 +38,4 @@ export {
 
 // Formik form components
 export { default as WizzardForm } from './WizzardForm'
+export { default as FieldArrayHelper } from './FieldArrayHelper'

@@ -1,10 +1,11 @@
-import React, { useState, useRef, useLayoutEffect, useEffect, useMemo } from 'react'
+import React, { useState, useRef, useLayoutEffect, useEffect, useMemo, forwardRef, useImperativeHandle } from 'react'
 import messages from './messages';
 import globalMessages from 'messages';
 import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { Spacing } from 'styles'
+import { Formik, Field, Form, FieldArray } from 'formik';
 import { usePlanCropDialog } from '../../hooks'
 
 import {
@@ -12,7 +13,11 @@ import {
     PageContent,
     PageToolbar,
     PrimaryActionButton,
+    PrimaryButton,
+    SecondaryButton,
 } from 'components'
+
+import { FieldArrayHelper } from 'components/Form'
 
 import {
     FullscreenFormLayout,
@@ -30,8 +35,16 @@ import {
 import PlanCropPanelSummary from '../PlanCropPanelSummary/PlanCropPanelSummary'
 import PlanCropPanelDetail from '../PlanCropPanelDetail/PlanCropPanelDetail'
 
+import EmptyGrowSeason from './EmptyGrowSeason'
+
 const Spacer = styled.div`
     flex-grow: 1;
+`
+
+const StyledForm = styled(Form)`
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 `
 
 const AddParcelButton = styled(PrimaryActionButton)`
@@ -48,9 +61,15 @@ const Section = styled.div`
     ${Spacing}
 `
 
-const CropAccordion = ({
-    onDelete,
+const initialValues = {
+    title: "",
+    growingSeasons: [{}, {}, {}]
+}
 
+const CropAccordion = ({
+    //expanded,
+    onDelete,
+    onEdit,
 }) => {
     const [expanded, setExpanded] = useState(true)
 
@@ -68,14 +87,16 @@ const CropAccordion = ({
             }
             actions={
                 <>
-                    <AddParcelButton 
-                        title="Add field"
-                        //onClick={this.handleDrawerOpen}
+                    <SecondaryButton
+                        //size="small"
+                        onClick={onDelete}
+                        title={globalMessages.delete}
                     />
-                    <Spacer />
-                    <Button size="small" color="secondary">
-                        delete
-                    </Button>
+                    <PrimaryButton 
+                        //size="small"
+                        onClick={onEdit}
+                        title={globalMessages.edit}
+                    />
                 </>
             }
         >
@@ -89,36 +110,37 @@ const CropAccordion = ({
     )
 }
 
-const PlanCreateForm = ({
-
+const FormContent = ({
+    values,
+    ...props
 }) => {
-    const openDialog = usePlanCropDialog()
-    const [data, setData] = useState([1,])
 
-    const handleAddCrop = () => {
-        openDialog()
-        setData(_.concat(data, 1))
+    const arrayRef = useRef();
+
+    const growSeasonCreateDialog = usePlanCropDialog((payload) => {
+        arrayRef.current.push(payload);
+    })
+
+    const growSeasonEditDialog = usePlanCropDialog((payload, status, index) => {
+        arrayRef.current.replace(index, payload)
+    })
+
+    const createGrowSeason = () => {
+        growSeasonCreateDialog();
     }
 
-    useEffect(() => {
-        openDialog()
-    }, [])
-
-    const handleDelete = (index) => () => {
-        //const copy = [...data]
-        setData([ ...data.slice(0, index), //copy the first 2 elements
-            ...data.slice(index + 1, data.length) //copy the last 2 elements
-          ])
-        //setData(copy.splice(index, 1))
+    const deleteGrowSeason = (index) => () => {
+        arrayRef.current.remove(index);
     }
-    /**
-     * Mi lenne akkor ha minden accordion 1 külön form lenne. 
-     * Ezt a nézetet fellehetne használni máshol is esetleg, nem form formájában. Kiegészítve az oszlopokat
-     * Az accordionon belül lehetne egy stepper, ahol az crop paramétereket majd az country paramétereket és végül a finance paramétereket állítja be az illető
-     * 
-     */
+
+    const editGrowSeason = (data, index) => () => {
+        growSeasonEditDialog({initialValues: data}, index)
+    }
+
+    const hasGrowingSeason = values.growingSeasons && values.growingSeasons.length
+
     return (
-        <PageContent spacing={[1, 2]} overflow>
+        <StyledForm>
             <PageHeader
                 spacing={[3,2]}
                 title="Create new season plan"
@@ -131,20 +153,60 @@ const PlanCreateForm = ({
                         Season (2019 Szeptember 9 - 2020 Január 10)
                     </Typography>
                     <Spacer />
-                    <PrimaryActionButton
-                        title="Add crop"
-                        onClick={handleAddCrop}
-                    /> 
+                    {hasGrowingSeason? (
+                        <PrimaryActionButton
+                            title="Add crop"
+                            onClick={createGrowSeason}
+                        />                    
+                    ) : (
+                        null
+                    )}
                 </Flex>
             </PageToolbar>     
             <Section spacing={2}>
             </Section>
-            {data.map((data, i) => (
-                <CropAccordion key={i}
-                    onDelete={handleDelete(i)}
-                    index={i}
-                />
-            ))}
+            <FieldArray
+                name="growingSeasons"
+                render={arrayHelpers => (
+                    <FieldArrayHelper
+                        ref={arrayRef}
+                        arrayHelpers={arrayHelpers}
+                    >
+                        {hasGrowingSeason ? 
+                            values.growingSeasons.map((data, i) => (
+                                <CropAccordion key={i}
+                                    onDelete={deleteGrowSeason(i)}
+                                    onEdit={editGrowSeason(data, i)}
+                                    index={i}
+                                />
+                            ))
+                        : <EmptyGrowSeason onCreate={createGrowSeason} />
+                        }
+                    </FieldArrayHelper>
+                )}
+
+            />
+        </StyledForm>
+    )
+}
+
+const PlanCreateForm = ({
+
+}) => {
+
+
+    return (
+        <PageContent spacing={[1, 2]} overflow>
+            <Formik
+                initialValues={initialValues}
+            >
+                {(props) => (
+                    <FormContent 
+                        {...props}
+                    />
+                )}
+
+            </Formik>            
             
         </PageContent>
     )

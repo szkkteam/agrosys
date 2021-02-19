@@ -47,46 +47,70 @@ const SubsidySection = ({
 }) => {
    
     const columns = [
-        {title: 'Field', render: (row, i) => <FieldListItem />},
-        {title: 'Table number', render: (row, i) => <Field
-                                                name={`fields[${i}].lpis.tableId`}
-                                                component={TextField}
-                                                label="Table number"
-                                                />
-                                        },
-        {title: 'AKG codes', render: (row, i) => <Field
-                                                name={`fields[${i}].lpis.akg`}
-                                                component={TextField}
-                                                label="AKG"
-                                              />
-                                        },
-        {title: 'KET/KAT', render: (row, i) => <Field
-                                        name={`fields[${i}].lpis.ketkat`}
-                                        component={TextField}
-                                        label="KE/KAT"
-                                      />
-                                },
-        {title: 'Subsidies', render: (row, i) => <Field
-                                name={`fields[${i}].lpis.subsidies`}
-                                component={TextField}
-                                label="Subsidies"
-                              />
-                        },
-        {title: '', render: (row, i, props) => {
-            
-            const handleDelete = () => {
-                props.arrayHelper.remove(i)   
-            }
-
-            return (
-                <IconButton
-                    onClick={handleDelete}
-                >
-                    <RemoveCircleIcon />
-                </IconButton>
+        {
+            title: 'Field',
+            render: (row, i) => (
+                <FieldListItem
+                    disableAction={true}
+                    {... values.fields && values.fields.length? {id: values.fields[i].fieldId} : {}} 
+                />
+            ) 
+        },
+        {
+            title: 'Table number',
+            render: (row, i) => (
+                <Field
+                    name={`fields[${i}].lpis.tableId`}
+                    component={TextField}
+                    label="Table number"
+                />
             )
-        }
-        
+        },
+        {
+            title: 'AKG codes',
+            render: (row, i) => (
+                <Field
+                    name={`fields[${i}].lpis.akg`}
+                    component={TextField}
+                    label="AKG"
+                />
+            )
+        },
+        {
+            title: 'KET/KAT',
+            render: (row, i) => (
+                <Field
+                    name={`fields[${i}].lpis.ketkat`}
+                    component={TextField}
+                    label="KE/KAT"
+                />
+            )
+        },
+        {
+            title: 'Subsidies',
+            render: (row, i) => (
+                <Field
+                    name={`fields[${i}].lpis.subsidies`}
+                    component={TextField}
+                    label="Subsidies"
+                />
+            )
+        },
+        {
+            title: '',
+            render: (row, i, props) => {
+                const handleDelete = () => {
+                    props.arrayHelper.remove(i)   
+                }
+
+                return (
+                    <IconButton
+                        onClick={handleDelete}
+                    >
+                        <RemoveCircleIcon />
+                    </IconButton>
+                )
+            }
         },
     ]
 

@@ -71,7 +71,9 @@ const defaultInitialValues = {
 }
 
 const PlanCropForm = ({
-    initialValues=defaultInitialValues
+    handleConfirm,
+    initialValues=defaultInitialValues,
+    ...props
 }) => {
     console.debug("initialValues: ", initialValues)
     const steps = [
@@ -81,6 +83,12 @@ const PlanCropForm = ({
         messages.stepSubsidy,
         messages.stepFinance,
     ]
+
+
+    const handleSubmit = (d) => {
+        console.debug("Submitting ... : ", d)
+        handleConfirm && handleConfirm(d)
+    }
     
     return (
         <Flex>          
@@ -90,7 +98,7 @@ const PlanCropForm = ({
             <Stepper
                 steps={steps}
                 //contents={contents}
-                defaultStep={2}
+                //defaultStep={2}
             >
                 <StepperHeaderContainer>
                     <StepperBack />
@@ -100,6 +108,7 @@ const PlanCropForm = ({
                 <Container /*ref={ ref => setContainerRef(ref)}*/>
                     <FlexWizzard
                         initialValues={initialValues}
+                        onSubmit={handleSubmit}
                     >
                         <CropPage validationSchema={CropPage.schema}/>
                         <TaskPage validationSchema={TaskPage.schema}/>
@@ -113,10 +122,8 @@ const PlanCropForm = ({
     )
 }
 
-// {({activeStep, ...props}) =>  contents[activeStep](props)}
-
 const PlanCropDialog = ({
-
+    ...props
 }) => {
     return (
         <Modal
@@ -124,19 +131,14 @@ const PlanCropDialog = ({
             fullScreen={true}
             maxWidth="md"
         >   
-            <PlanCropForm />
+            <PlanCropForm
+                {...props}
+            />
         </Modal>
         
     )
 }
-/*
-<ConnectedCropForm
-                initialValues={data}
-                //onSubmit={handleSubmit}
-                {...headerProps}
-                {...props}
-            />
-*/
+
 
 PlanCropDialog.propTypes = {
 

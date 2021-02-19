@@ -174,7 +174,7 @@ const FinancePage = ({
                 />
             </InnerContainer>
             <StepperNext
-                title={globalMessages.next}
+                title={globalMessages.save}
             />
         </>     
     )

@@ -26,11 +26,10 @@ const WizzardForm = ({
     } = useContext(StepperContext)
 
     const handleSubmit = (values, bag) => {
-        console.debug("values: ", values)
+        handleComplete()
         if (isLastStep) {
             return onSubmit(values, bag)
         } else {
-            handleComplete()
             setValues(values)
             bag.setSubmitting(false);
         }
@@ -38,13 +37,10 @@ const WizzardForm = ({
 
     const pageValidationSchema = useMemo(() => {
         const activePage = React.Children.toArray(children)[activeStep]
-        console.debug("Re-run pageValidationSchema")
         return activePage.props.validationSchema? activePage.props.validationSchema : validationSchema
     }, [activeStep])
-    console.debug("pageValidationSchema: ", pageValidationSchema)
 
     const handleValidateForm = (values) => {
-        console.debug("Values: ", values)
         const activePage = React.Children.toArray(children)[activeStep]
         return activePage.props.validationSchema? activePage.props.validationSchema(values) : validationSchema(values)
     }
@@ -63,7 +59,8 @@ const WizzardForm = ({
             onSubmit={handleSubmit}            
             validateForm={handleValidateForm}
             validationSchema={pageValidationSchema}
-            render={(props) => (
+        >
+            {(props) => (
                 <form className={className} onSubmit={props.handleSubmit}>
                     {_.isFunction(activePage) ? (
                         activePage({...parentProps, ...props})
@@ -72,9 +69,7 @@ const WizzardForm = ({
                     )}
                 </form>
             )}
-        />
-
-
+        </Formik>
     )
 }
 
