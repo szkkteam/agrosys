@@ -48,15 +48,16 @@ export function createRoutineActions(routineName, actionList) {
     const actionName = `${routineName}_${actionType}`
     //console.log("createRoutineActions-actionName: ", actionName)
     routine[actionType] = actionName
-    routine[camelCase(actionType)] = (payload) => ({
+    routine[camelCase(actionType)] = (payload, meta) => ({
       type: actionName,
       payload,
+      meta,
     })
     //console.log("createRoutineActions-routine: ", routine)
     return routine
   }, {})
 
-  const routinePromise = (data, dispatch) => {
+  const routinePromise = (data, dispatch, formHelper) => {
     return new Promise((resolve, reject) => dispatch({
       type: ROUTINE_PROMISE,
       payload: {
@@ -64,6 +65,9 @@ export function createRoutineActions(routineName, actionList) {
         routine,
         defer: { resolve, reject },
       },
+      meta: {
+        ...formHelper
+      }
     }))
   }
   let o = Object.assign(routinePromise, routine)

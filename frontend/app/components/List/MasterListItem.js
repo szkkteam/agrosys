@@ -39,7 +39,7 @@ const MasterListItem = ({
 
 MasterListItem.propTypes = {
     data: PropTypes.any,
-    index: PropTypes.number.isRequired,
+    index: PropTypes.number,
     //children: PropTypes.element.isRequired,
 }
 

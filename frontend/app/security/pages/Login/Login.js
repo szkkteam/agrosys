@@ -8,16 +8,21 @@ import styled from 'styled-components'
 import messages from './messages'
 import { useIntl, FormattedMessage } from 'react-intl'
 import { ROUTE_MAP } from 'security/routes'
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import { useInjectSaga, useFormDispatch } from 'utils/hooks'
+import { TextField } from 'components/FormB'
+import * as Yup from 'yup';
 
 import { login } from 'security/actions'
 import {
   Grid,
-  Button
+  Button,
+  FormHelperText
 } from '@material-ui/core';
 
 
 import { NavLink } from 'components/Nav'
-import { HiddenField, PasswordField, TextField } from 'components/Form'
+//import { HiddenField, PasswordField, TextField } from 'components/Form'
 import { ROUTES } from 'security/routes'
 import { injectSagas } from 'utils/async'
 
@@ -48,61 +53,81 @@ const Login = ({
   pristine,
   ...props
 }) => {
+  useInjectSaga(require('security/sagas/login'))
+
   const intl = useIntl()
+  const submit = useFormDispatch();
+
   const isDev = process.env.NODE_ENV !== 'production'
-  const submitTitle = intl.formatMessage(!submitting? messages.submitTitle : messages.submittingTitle)
 
   return (
     <>
       <Helmet>
         <title>Login</title>
       </Helmet>
-      <form onSubmit={handleSubmit(login)}>
-        <Container 
-          container
-          spacing={3}
-        >
-            <HiddenField name="redirect" />
-            <Grid item xs={12}>
-              <TextField name="email"
-                        formProps={{
-                          fullWidth: true
-                        }}
-                        label={intl.formatMessage(messages.fieldUsername)}
-                        autoFocus
-              />
-            </Grid>
-            <Grid item xs={12}>
-              
-                <PasswordField name="password"
-                              formProps={{
-                                fullWidth: true
-                              }}
-                              label={intl.formatMessage(messages.fieldPassword)}
-                />
-              <div>
-                <SupportLink to={ROUTES.ForgotPassword} routeMap={ROUTE_MAP}>
-                  <FormattedMessage {...messages.forgotPassword} />
-                </SupportLink>
-              </div>
-            </Grid>
-            <Grid item xs={12}>
-              <SubmitButton 
-                type="submit"
-                disabled={ !isDev? pristine: false || submitting}
-                variant="contained"
-                color="primary"
-              >
-                {submitTitle}
-              </SubmitButton>
-            </Grid>
-        </Container>
-          
-        </form>
+      <Formik
+        initialValues={{
+          redirect: parse(props.location.search).next || '/',        
+          email: isDev? "user1@user.com": null,
+          password: isDev? "password": null,
+          _error: "",
+        }}
+        onSubmit={submit(login)}
+      >
+        {({isSubmitting, dirty, errors, ...props}) => (
+          <Form>
+            <Container 
+              container
+              spacing={3}
+            >
+                <Grid item xs={12}>
+                  
+                  <Field
+                      name="email"
+                      component={TextField}
+                      fullWidth={true}
+                      color="primary"
+                      label={intl.formatMessage(messages.fieldUsername)}
+                      autoFocus
+                  />
+                  <ErrorMessage name="_error">
+                    {msg => <FormHelperText error>{msg}</FormHelperText>}
+                    
+                  </ErrorMessage>
+                </Grid>
+                <Grid item xs={12}>
+                  <Field
+                        name="password"
+                        component={TextField}
+                        fullWidth={true}
+                        color="primary"
+                        label={intl.formatMessage(messages.fieldPassword)}
+                    />
+                  <div>
+                    <SupportLink to={ROUTES.ForgotPassword} routeMap={ROUTE_MAP}>
+                      <FormattedMessage {...messages.forgotPassword} />
+                    </SupportLink>
+                  </div>
+                </Grid>
+                <Grid item xs={12}>
+                  <SubmitButton 
+                    type="submit"
+                    disabled={ isDev? false : !dirty || isSubmitting}
+                    variant="contained"
+                    color="primary"
+                  >
+                    {intl.formatMessage(!isSubmitting? messages.submitTitle : messages.submittingTitle)}
+                  </SubmitButton>
+                </Grid>
+            </Container>
+          </Form>
+        )}
+      </Formik>
+      
     </>
   )
 }
-
+/*
 const withForm = reduxForm({ form: FORM_NAME })
 
 const withConnect = connect(
@@ -125,3 +150,5 @@ export default compose(
   withForm,
   withSagas,
 )(Login)
+*/
+export default Login

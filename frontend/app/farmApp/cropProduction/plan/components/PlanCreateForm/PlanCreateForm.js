@@ -6,36 +6,28 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { Spacing } from 'styles'
 import { Formik, Field, Form, FieldArray } from 'formik';
+import { useInjectSaga, useFormDispatch } from 'utils/hooks'
+import { useDispatch } from 'react-redux'
 import { usePlanCropDialog } from '../../hooks'
+import { createPlan } from '../../actions'
 
 import {
     PageHeader,
     PageContent,
     PageToolbar,
     PrimaryActionButton,
-    PrimaryButton,
-    SecondaryButton,
+    PrimaryButton
 } from 'components'
 
 import { FieldArrayHelper } from 'components/Form'
 
 import {
-    FullscreenFormLayout,
-    ExpandPanel
-} from 'farmApp/components'
-
-import {
-    Button,
     Typography,
-    IconButton,
-    Collapse,
 
 } from '@material-ui/core'
 
-import PlanCropPanelSummary from '../PlanCropPanelSummary/PlanCropPanelSummary'
-import PlanCropPanelDetail from '../PlanCropPanelDetail/PlanCropPanelDetail'
-
 import EmptyGrowSeason from './EmptyGrowSeason'
+import GrowSeasonAccordion from './GrowSeasonAccordion'
 
 const Spacer = styled.div`
     flex-grow: 1;
@@ -47,9 +39,6 @@ const StyledForm = styled(Form)`
     flex-direction: column;
 `
 
-const AddParcelButton = styled(PrimaryActionButton)`
-    max-width: 220px;
-`
 
 const Flex = styled.div`
     display: flex;
@@ -63,61 +52,32 @@ const Section = styled.div`
 
 const initialValues = {
     title: "",
-    growingSeasons: [{}, {}, {}]
+    growingSeasons: []
 }
 
-const CropAccordion = ({
-    //expanded,
-    onDelete,
-    onEdit,
-}) => {
-    const [expanded, setExpanded] = useState(true)
+const SubmitButton = styled(PrimaryButton)`
 
-    const handleExpanded = () => {
-        setExpanded(!expanded)
-    }
-
-    return (
-        <ExpandPanel        
-            expanded={expanded}
-            onExpandChange={handleExpanded}
-            actionDisable
-            summary={(props) => (
-                <PlanCropPanelSummary {...props} />)
-            }
-            actions={
-                <>
-                    <SecondaryButton
-                        //size="small"
-                        onClick={onDelete}
-                        title={globalMessages.delete}
-                    />
-                    <PrimaryButton 
-                        //size="small"
-                        onClick={onEdit}
-                        title={globalMessages.edit}
-                    />
-                </>
-            }
-        >
-                <div>
-                    TODO: Place a stepper here. Also an edit/delete maybe a more button. At the bottom of the detail maybe place a save button?
-
-                </div>
-                <PlanCropPanelDetail />                
-        </ExpandPanel>
-        
-    )
-}
+    margin: 25px 0 0 auto;
+    max-width: 220px;
+`
 
 const FormContent = ({
     values,
+    handleSubmit,
     ...props
 }) => {
-
+    const [expanded, setExpanded] = useState({})
     const arrayRef = useRef();
 
+    const handleExpandChange = (i) => () => {
+        if (expanded[i] !== undefined) setExpanded({})
+        else setExpanded({[i]: true})
+    }
+
     const growSeasonCreateDialog = usePlanCropDialog((payload) => {
+        setExpanded({
+            [values.growingSeasons.length]: true
+        })
         arrayRef.current.push(payload);
     })
 
@@ -140,7 +100,9 @@ const FormContent = ({
     const hasGrowingSeason = values.growingSeasons && values.growingSeasons.length
 
     return (
-        <StyledForm>
+        <StyledForm
+            onSubmit={handleSubmit}
+        >
             <PageHeader
                 spacing={[3,2]}
                 title="Create new season plan"
@@ -174,7 +136,9 @@ const FormContent = ({
                     >
                         {hasGrowingSeason ? 
                             values.growingSeasons.map((data, i) => (
-                                <CropAccordion key={i}
+                                <GrowSeasonAccordion key={i}
+                                    expanded={expanded[i] !== undefined}
+                                    onExpandChange={handleExpandChange(i)}
                                     onDelete={deleteGrowSeason(i)}
                                     onEdit={editGrowSeason(data, i)}
                                     index={i}
@@ -186,6 +150,12 @@ const FormContent = ({
                 )}
 
             />
+            {hasGrowingSeason ? (
+                <SubmitButton
+                    type="submit"
+                    title={globalMessages.submit}
+                />
+            ) : null}
         </StyledForm>
     )
 }
@@ -193,21 +163,23 @@ const FormContent = ({
 const PlanCreateForm = ({
 
 }) => {
+    useInjectSaga(require('../../sagas/createPlan'))
+    const submit = useFormDispatch()
 
 
     return (
         <PageContent spacing={[1, 2]} overflow>
             <Formik
                 initialValues={initialValues}
+                onSubmit={submit(createPlan)}
+                //onSubmit={createPlan}
             >
                 {(props) => (
                     <FormContent 
                         {...props}
                     />
                 )}
-
-            </Formik>            
-            
+            </Formik>
         </PageContent>
     )
 }
