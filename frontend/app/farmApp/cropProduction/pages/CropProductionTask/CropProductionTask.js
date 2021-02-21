@@ -1,21 +1,18 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Helmet from 'react-helmet'
 import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 
-import { AppBar } from 'farmApp/components'
-
-import { 
-    CropProductionOverviewLayout
-} from '../../components'
+import { CropProductionOverviewLayout } from '../../components'
 
 
 export default ({    
     ...props
 }) => {
-    const intl = useIntl()
 
+    const intl = useIntl()
+   
     return (
         <>
             <Helmet>
@@ -23,14 +20,9 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <AppBar
-                title={messages.title}
-            />            
-            <CropProductionOverviewLayout
-            />
+            <div>Crop task view</div>
         </>
     )
 }
-//<CropProductionOverviewLayout />
 
-// 
+// <CropProductionOverviewLayout />

@@ -26,8 +26,12 @@ import {
 
 } from '@material-ui/core'
 
+import { 
+    CropProductionSeasonPanel as SeasonPanel
+} from 'farmApp/cropProduction/components'
+
 import EmptyGrowSeason from './EmptyGrowSeason'
-import GrowSeasonAccordion from './GrowSeasonAccordion'
+import PanelActions from './PanelActions'
 
 const Spacer = styled.div`
     flex-grow: 1;
@@ -68,21 +72,16 @@ const FormContent = ({
 }) => {
     const [expanded, setExpanded] = useState({})
     const arrayRef = useRef();
+    const panelRef = useRef();
 
-    const handleExpandChange = (i) => () => {
-        if (expanded[i] !== undefined) setExpanded({})
-        else setExpanded({[i]: true})
-    }
 
     const growSeasonCreateDialog = usePlanCropDialog((payload) => {
-        setExpanded({
-            [values.growingSeasons.length]: true
-        })
         arrayRef.current.push(payload);
+        panelRef.current.expand(values.growingSeasons.length)
     })
 
     const growSeasonEditDialog = usePlanCropDialog((payload, status, index) => {
-        arrayRef.current.replace(index, payload)
+        arrayRef.current.replace(index, payload);
     })
 
     const createGrowSeason = () => {
@@ -94,10 +93,10 @@ const FormContent = ({
     }
 
     const editGrowSeason = (data, index) => () => {
-        growSeasonEditDialog({initialValues: data}, index)
+        growSeasonEditDialog({initialValues: data}, index);
     }
 
-    const hasGrowingSeason = values.growingSeasons && values.growingSeasons.length
+    const hasGrowingSeason = values.growingSeasons && values.growingSeasons.length;
 
     return (
         <StyledForm
@@ -108,48 +107,53 @@ const FormContent = ({
                 title="Create new season plan"
                 subheader="Add crops to your season"
             >                
-            </PageHeader>       
-            <PageToolbar>
-                <Flex>
-                    <Typography variant="h6">
-                        Season (2019 Szeptember 9 - 2020 Január 10)
-                    </Typography>
-                    <Spacer />
-                    {hasGrowingSeason? (
-                        <PrimaryActionButton
-                            title="Add crop"
-                            onClick={createGrowSeason}
-                        />                    
-                    ) : (
-                        null
-                    )}
-                </Flex>
-            </PageToolbar>     
-            <Section spacing={2}>
-            </Section>
-            <FieldArray
-                name="growingSeasons"
-                render={arrayHelpers => (
-                    <FieldArrayHelper
-                        ref={arrayRef}
-                        arrayHelpers={arrayHelpers}
-                    >
-                        {hasGrowingSeason ? 
-                            values.growingSeasons.map((data, i) => (
-                                <GrowSeasonAccordion key={i}
-                                    expanded={expanded[i] !== undefined}
-                                    onExpandChange={handleExpandChange(i)}
-                                    onDelete={deleteGrowSeason(i)}
-                                    onEdit={editGrowSeason(data, i)}
-                                    index={i}
-                                />
-                            ))
-                        : <EmptyGrowSeason onCreate={createGrowSeason} />
-                        }
-                    </FieldArrayHelper>
-                )}
+            </PageHeader>  
+                <FieldArray
+                    name="growingSeasons"
+                    render={arrayHelpers => (
+                        <FieldArrayHelper
+                            ref={arrayRef}
+                            arrayHelpers={arrayHelpers}
+                        >
+                            <SeasonPanel
+                                ref={panelRef}
+                                action={
+                                    hasGrowingSeason ? (
+                                        <PrimaryActionButton
+                                            title={messages.addCropTitle}
+                                            onClick={createGrowSeason}
+                                        />
+                                    ) : null
+                                }
+                            >
+                                {hasGrowingSeason ?
+                                    values.growingSeasons.map((data, i) => (
+                                        <SeasonPanel.Panel
+                                            key={i}
+                                            summary={
+                                                <SeasonPanel.Summary />
+                                            }
+                                            actions={
+                                                <PanelActions
+                                                    onDelete={deleteGrowSeason(i)}
+                                                    onEdit={editGrowSeason(data, i)}
+                                                />
 
-            />
+                                            }
+                                            {...props}
+                                        >
+                                            <SeasonPanel.Detail />
+                                        </SeasonPanel.Panel>
+                                    ))
+                                : <EmptyGrowSeason onCreate={createGrowSeason} />
+                                }
+                            </SeasonPanel>
+                        </FieldArrayHelper>
+                    )}
+
+                />
+
+            <Spacer />
             {hasGrowingSeason ? (
                 <SubmitButton
                     type="submit"

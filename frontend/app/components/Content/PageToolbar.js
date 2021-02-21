@@ -14,13 +14,14 @@ const WideToolbar = styled(({sticky, ...props}) => <MuiToolbar {...props}/>)`
     display: flex;
     padding-top: 7px;
     padding-bottom: 7px;
+    min-height: initial;
     ${({theme, sticky}) => sticky
         ? `
             position: sticky;
             top: 0;
             z-index: 1;
         `
-        : ``}   
+        : ``}       
 `
 
 const PageToolbar = ({

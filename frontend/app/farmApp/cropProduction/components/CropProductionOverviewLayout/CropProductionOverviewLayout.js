@@ -1,115 +1,128 @@
-import React, { useRef, useState, useContext, useEffect } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState } from 'react'
+import Helmet from 'react-helmet'
 import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
+import { ROUTES } from 'farmApp/routes'
+import { withLinkComponent } from 'utils/hoc'
 
 import { 
-    DashboardContainer,
+    PrimaryActionButton,
+} from 'components'
+
+import {
+    Button,
+    Grid
+} from '@material-ui/core'
+
+import { 
     DashboardLayout
 } from 'farmApp/components'
 
-import CropProductionOverviewToolbar from '../CropProductionOverviewToolbar/CropProductionOverviewToolbar'
+import SeasonPanel from '../CropProductionSeasonPanel/CropProductionSeasonPanel'
+import Toolbar from '../CropProductionFeatureToolbar/CropProductionFeatureToolbar'
 
-import {
-    UpcomingTask
-} from 'farmApp/cropProduction/task/widgets'
+const LinkButton = withLinkComponent(PrimaryActionButton)
 
-import {
-    CropExpense,
-    CropCashFlow,
-    CropROI,
-    CultivatedArea
-} from 'farmApp/cropProduction/widgets'
+const Flex = styled.div`
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+`
 
+const Spacer = styled.div`
+    flex-grow: 1;
+`
 
-const CropProductionOverviewLayout = ({
-
+const Crop = ({
+    ...props
 }) => {
-
-    const widgetDefaults = {w: 3, h: 5, static: true}
-
-    const cultivatedAreaDefaults = {...widgetDefaults, i: 'CultivatedArea', x: 0, y: 0}
-    const cropCashFlowAreaDefaults = {...widgetDefaults, i: 'CropCashFlow', x: 3, y: 0}
-
-    const upcomingTaskDefault = {...widgetDefaults, h: 9}
-
-    const layouts = {
-        xxs: [
-            cultivatedAreaDefaults,
-            cropCashFlowAreaDefaults,
-            {...widgetDefaults, i: 'CropExpense', x: 6, y: 0},
-            {...widgetDefaults, i: 'CropROI', x: 9, y: 0},
-            {...upcomingTaskDefault, i: 'UpcomingTask', x: 0, y: 0},
-        ],
-        xs: [
-            {...cultivatedAreaDefaults, w: 2},
-            {...cropCashFlowAreaDefaults, x: 2, w: 2},
-            {...widgetDefaults, i: 'CropExpense', x: 0, y: 5, w: 2},
-            {...widgetDefaults, i: 'CropROI', x: 2, y: 10, w: 2},
-            {...upcomingTaskDefault, i: 'UpcomingTask', x: 0, y: 15, w: 4},
-        ],
-        sm: [
-            cultivatedAreaDefaults,
-            cropCashFlowAreaDefaults,
-            {...widgetDefaults, i: 'CropExpense', x: 0, y: 5},
-            {...widgetDefaults, i: 'CropROI', x: 3, y: 10},
-            {...upcomingTaskDefault, i: 'UpcomingTask', x: 0, y: 15},
-        ],
-        md: [
-            cultivatedAreaDefaults,
-            cropCashFlowAreaDefaults,
-            {...widgetDefaults, i: 'CropExpense', x: 6, y: 0},
-            {...widgetDefaults, i: 'CropROI', x: 9, y: 0},
-            {...upcomingTaskDefault, i: 'UpcomingTask', x: 0, y: 5, w: 4},
-        ],
-        lg: [
-            cultivatedAreaDefaults,
-            cropCashFlowAreaDefaults,
-            {...widgetDefaults, i: 'CropExpense', x: 6, y: 0},
-            {...widgetDefaults, i: 'CropROI', x: 9, y: 0},
-            {...upcomingTaskDefault, i: 'UpcomingTask', x: 0, y: 5},
-        ]
-
-    }
-
-    const components = [
-        {key: "CultivatedArea", component: <CultivatedArea />},
-        {key: "CropCashFlow", component: <CropCashFlow />},
-        {key: "CropExpense", component: <CropExpense />},
-        {key: "CropROI", component: <CropROI />},
-        {key: "UpcomingTask", component: <UpcomingTask />},
-    ]
-
     return (
-        <DashboardLayout
-            headerProps={{
-                title: "Crops dashboard"
-            }}
-            toolbar={
-                <CropProductionOverviewToolbar />
+        <SeasonPanel.Panel
+            summary={
+                <SeasonPanel.Summary />
             }
+            actions={
+                <>
+                    <Button color="secondary">
+                        delete
+                    </Button>
+                    <Spacer/>
+                    <Button color="primary">
+                        show more
+                    </Button>
+                </>
+
+            }
+            {...props}
         >
-            <DashboardContainer
-                //disabled
-                //compactType="horizontal"
-                //verticalCompact={false}
-                //rowHeight={30}
-                layouts={layouts}
-                components={components}
-            />
-        </DashboardLayout>
+            <SeasonPanel.Detail />
+        </SeasonPanel.Panel>
     )
 }
 
-/*
-content<br/>
-            1) Page title, enough whitespaces.<br/>
-                              2) Filter toolbar. Crop chips, select all, edit crops button, add crop button<br/>
-                              3) A row (maybe carousel) to display common KPIs<br/>
-                              4) Grid layout, to put widgets inside. Based on filtered crops<br/>
-                              4.1) Tasks, crop growth, weather, ROI, yield, crop finance, usages, etc...
-*/
+const Season = ({
+    className,
+    ...props
+}) => {
+    return (
+        <SeasonPanel className={className}>
+            <Crop />
+            <Crop />
+        </SeasonPanel>
+    )
+}
+
+const SeasonCard = styled(Season)`
+    margin: 8px;
+`
+
+const RightButton = styled(Button)`
+    margin-left: auto;
+    margin-right: 8px;
+`
+
+
+const CropProductionOverviewLayout = ({    
+    ...props
+}) => {
+    const [seasons, setSeasons] = useState([1])
+
+    const handleLoadMore = () => {
+        setSeasons(_.concat(seasons, [1]))
+    }
+    return (
+        <DashboardLayout
+            headerProps={{
+                title: "Your crop production by seasons"
+            }}
+            toolbar={
+                <Toolbar>
+                    <Grid container item xs={12} md={2} >
+                        <Spacer />
+                        <LinkButton
+                            style={{marginLeft: "auto", marginRight: "10px"}}                            
+                            title={messages.addSeasonTitle}
+                            to={ROUTES.CropProductionCreate}
+                        />
+                    </Grid>
+                </Toolbar>
+            }
+        >
+            <Flex>
+                {seasons.map((season, i) => (
+                    <SeasonCard key={i} />
+                ))}
+                <RightButton 
+                    onClick={handleLoadMore}
+                    color="primary"
+                >
+                    load more
+                </RightButton>
+            </Flex>
+        </DashboardLayout>
+    )
+}
 
 CropProductionOverviewLayout.propTypes = {
 

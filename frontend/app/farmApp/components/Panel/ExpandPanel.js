@@ -62,10 +62,14 @@ const ExpandPanel = ({
             <ColumnAccordion>
                 {children}                
             </ColumnAccordion>
-            <Divider />
-            <Actions>
-                {actions}
-            </Actions>
+            {actions && 
+            <>
+                <Divider />
+                <Actions>
+                    {actions}
+                </Actions> 
+            </>
+            }
             
         </Accordion>
     )

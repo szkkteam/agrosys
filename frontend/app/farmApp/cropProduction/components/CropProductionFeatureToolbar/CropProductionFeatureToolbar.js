@@ -7,6 +7,9 @@ import { Redirect, useParams, Switch } from "react-router-dom";
 import { ROUTES } from 'farmApp/routes'
 import { withLinkComponent } from 'utils/hoc'
 
+import EventNoteIcon from '@material-ui/icons/EventNote';
+import MapIcon from '@material-ui/icons/Map';
+
 import {
     Grid,
     Typography,
@@ -23,9 +26,9 @@ const LinkChip = styled(withLinkComponent(Chip))`
     margin: 3px 6px;
 `
 
-
-const SeasonOverviewToolbar = ({
+const CropProductionFeatureToolbar = ({
     disabled=false,
+    children
 }) => {
 
     const params = useParams()
@@ -41,20 +44,16 @@ const SeasonOverviewToolbar = ({
 
     return (
         <Grid container>
-            <Grid container item xs={12} /*justify="space-evenly" */>
+            <Grid container item xs={12} md={10}/*justify="space-evenly" */>
                 <ChipButton
-                    to={ROUTES.CropProductionSeasonView}
-                    {...chipProps}
-                    label="Seasons"
-                    onClick={handleClick}
-                />
-                <ChipButton
+                    icon={<EventNoteIcon />}
                     to={ROUTES.CropProductionTaskView}
                     {...chipProps}
                     label="Tasks"
                     onClick={handleClick}
                 />
                 <ChipButton
+                    icon={<MapIcon />}
                     to={ROUTES.CropProductionFieldProductionView}
                     {...chipProps}
                     label="Fields"
@@ -71,7 +70,7 @@ const SeasonOverviewToolbar = ({
                     onClick={handleClick}
                 />
             </Grid>
-            
+            {children}            
         </Grid>
     )
 }
@@ -81,8 +80,8 @@ const SeasonOverviewToolbar = ({
                 </Grid>
 */
 
-SeasonOverviewToolbar.propTypes = {
+CropProductionFeatureToolbar.propTypes = {
 
 }
 
-export default SeasonOverviewToolbar
+export default CropProductionFeatureToolbar
