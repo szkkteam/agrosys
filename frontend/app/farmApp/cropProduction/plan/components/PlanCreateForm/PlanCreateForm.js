@@ -116,7 +116,7 @@ const FormContent = ({
                             arrayHelpers={arrayHelpers}
                         >
                             <SeasonPanel
-                                ref={panelRef}
+                                ref={panelRef}                                
                                 action={
                                     hasGrowingSeason ? (
                                         <PrimaryActionButton

@@ -25,7 +25,7 @@ import {
     Typography
 } from '@material-ui/core'
 
-import { CropSelectSection } from 'farmApp/cropProduction/crop/form'
+import { CropSelect } from 'farmApp/cropProduction/crop/components'
 
 import StepperNext from '../StepperNext'
 
@@ -71,7 +71,7 @@ const PlanCropSection = ({
             </Grid>
             <Grid container item xs={12} justify="center">
                 <Grid item xs={6}>
-                    <CropSelectSection name="mainCrop.cropType"
+                    <CropSelect name="mainCrop.cropType"
                         label="Select main crop"
                     />
                 </Grid>            
@@ -87,7 +87,7 @@ const PlanCropSection = ({
                             />
                         </FormGroup>
                     </FormControl>
-                    {secondaryCrop && <CropSelectSection name="secondaryCrop.cropType"
+                    {secondaryCrop && <CropSelect name="secondaryCrop.cropType"
                         label="Select secondary crop"
                     /> }
                 </Grid>            

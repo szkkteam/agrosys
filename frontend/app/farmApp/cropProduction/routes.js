@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Redirect, generatePath } from 'react-router-dom'
 
 import {
-  CropProductionAppBar
+  CropProductionFeatureAppBar
 } from 'farmApp/cropProduction/components'
 
 import {
@@ -12,20 +12,8 @@ import {
   CropProductionCreate,
   CropProductionEdit,
   CropProductionTask,
+  CropProductionField,
 } from 'farmApp/cropProduction/pages'
-
-import {
-  seasonOverview,
-  seasonDetail,
-  ROUTES as seasonRoutesKeys,
-} from 'farmApp/cropProduction/season/routes'
-
-import {
-  cropOverview,
-  cropDetail,
-  ROUTES as cropRoutesKeys,
-} from 'farmApp/cropProduction/crop/routes'
-
 
 import { ProtectedRoute } from 'utils/route'
 
@@ -63,59 +51,7 @@ export const ROUTES = {
   CropProductionField: 'CropProductionField',
   
 
-  CropProductionDashboard: 'CropProductionDashboard',
-  CropProductionTimeline: 'CropProductionTimeline',
-
-  // Specific crop
-  CropProductionUserCrop: 'CropProductionUserCrop',
-
-  ...cropRoutesKeys,
-  ...seasonRoutesKeys,
-
-
-
-  CropProductionDetail: 'CropProductionDetail',
-  // CropProduction
-  CropProductionTimeline: 'CropProductionTimeline',
-  CropProductionOverview: 'CropProductionOverview',
-  // Crop
-  Crop: 'Crop',
-  CropDetail: 'CropDetail',
-  CropDashboard: 'CropDashboard',
-  // Season
-  CropProductionSeasonContainer: 'CropProductionSeasonContainer',
-  CropProductionSeasonSummary: 'CropProductionSeasonSummary',
-  CropSettings: 'CropSettings',
-  // Production
-  Production: 'Production',
-  ProductionTimeline: 'ProductionTimeline',
-  ProductionCreate: 'ProductionCreate',
-  ProductionDetailSummary: 'ProductionDetailSummary',
-  ProductionDetailTask: 'ProductionDetailTask',
-  ProductionDetailField: 'ProductionDetailField',
-  ProductionDetailFieldList: 'ProductionDetailFieldList',
-  ProductionDetailAnalysis: 'ProductionDetailAnalysis',
-  ProductionDetailWeather: 'ProductionDetailWeather',
-  ProductionSettings: 'ProductionSettings',
-  // Field
-  FieldCreateDraw: 'FieldCreateDraw',
-  CropProductionFieldProduction: 'CropProductionFieldProduction',
-  CropProductionFieldProductionList: 'CropProductionFieldProductionList',
-
 }
-
-const PlaceHolder = styled.div`
-  display: none;
-  & + div {
-    height: 100%;
-  }
-`
-
-const RedirectToOverview = (props) => {
-  return <Redirect from="/crops" to="/crops/overview/all" />
-}
-
-const PlaceholderDiv = props => <PlaceHolder />
 
 /**
  * route details
@@ -127,10 +63,6 @@ const PlaceholderDiv = props => <PlaceHolder />
  *  - routeComponent: optional, AnonymousRoute, ProtectedRoute or Route (default: Route)
  *  - label: optional, label to use for links (default: startCase(key))
  */
-
-import { Button } from '@material-ui/core'
-import { withLinkComponent } from 'utils/hoc'
-const Link = withLinkComponent(Button)
 
 /*
 <Link to={ROUTES.MachineryDatabase}>                
@@ -171,71 +103,23 @@ export const routes = [
       {
         key: ROUTES.CropProductionFeatures,
         path: '/views/:tab?', // We need the crop id and the season id
-        component: 'div',
+        component: CropProductionFeatureAppBar,
         props: { exact: true }, // Exact is needed, because subroutes can be shown separately
         routes: [
           {
             key: ROUTES.CropProductionTask,
-            path: '/crops/views/task', // We need the crop id and the season id
-            component: 'div',
+            path: '/crops/views/tasks', // We need the crop id and the season id
+            component: CropProductionTask,
             props: { absolute: true } // Absolute is needed because parent has parameter in route
           },
           {
             key: ROUTES.CropProductionField,
-            path: '/crops/views/field', // We need the crop id and the season id
-            component: 'div',
+            path: '/crops/views/fields', // We need the crop id and the season id
+            component: CropProductionField,
             props: { absolute: true } // Absolute is needed because parent has parameter in route
           },
         ]
       },
     ]
   }
-
-/*
-{
-        key: 'CropProductionRedirect',
-        path: '',
-        component: RedirectToOverview,
-        props: { exact: true },        
-      },
-      {
-        // TODO: This will be used as a jump point (navigate back)
-        key: ROUTES.CropProductionOverview,
-        path: '/overview/:cropId?',
-        component: CropProductionAppBar,
-        routes: [
-          {
-            // TODO: This is will be used as a jump point (navigate back to crop all)
-            // TODO: CropProduction componenets
-            key: ROUTES.CropProductionDashboard,
-            path: '/all',
-            props: { exact: true },        
-            component: CropProductionOverview,
-          },
-          ...cropOverview,
-          ...seasonOverview
-        ]
-      },
-      // Specific crops should come here
-      {
-        key: ROUTES.CropProductionTimeline,
-        path: '/timeline',
-        component: () => <div>Crop timeline</div>
-      },
-      ...cropDetail,
-      ...seasonDetail,
-      {
-       
-      },
-      {
-        key: "Group depply nested views",
-        path: '/:cropId/season/:seasonId',
-        component: 'div',
-        routes: [
-        
-        ]
-        
-      }
-*/
-
 ]

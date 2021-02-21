@@ -4,8 +4,7 @@ import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 
-import { CropProductionOverviewLayout } from '../../components'
-
+import { TaskLayout } from 'farmApp/cropProduction/task/components'
 
 export default ({    
     ...props
@@ -20,7 +19,8 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <div>Crop task view</div>
+            <TaskLayout
+            />
         </>
     )
 }

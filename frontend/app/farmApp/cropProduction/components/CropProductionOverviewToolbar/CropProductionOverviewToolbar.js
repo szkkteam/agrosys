@@ -17,8 +17,6 @@ import {
     Button,
 } from '@material-ui/core'
 
-import { useCropDialog, useFetchUserCrops } from 'farmApp/cropProduction/crop/hooks'
-
 const CropChip = styled(Chip)`
     margin: 3px 4px;
 `
@@ -51,7 +49,7 @@ const CropFilterContainer = ({
 const CropFilter = ({}) => {
     const [selected, setSelected] = useState({})
 
-    const { payload, isLoading } = useFetchUserCrops()
+    const { payload, isLoading } = {payload: [], isLoading: true}
     //const { payload = [], isLoading = false } = {}
 
     // TODO: Store selected crops in redux store.
@@ -76,10 +74,7 @@ const CropFilter = ({}) => {
         setSelected(newSelected)
     }
 
-    const openDialog = useCropDialog()
-
     const handleCreate = () => {
-        openDialog()
     }
 
     return (

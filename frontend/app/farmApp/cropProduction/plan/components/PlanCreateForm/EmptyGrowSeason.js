@@ -1,6 +1,6 @@
 import React, { useRef, useState, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import messages from '../../../season/components/SeasonCreateForm/messages';
+import messages from './messages';
 import globalMessages from 'messages'
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'

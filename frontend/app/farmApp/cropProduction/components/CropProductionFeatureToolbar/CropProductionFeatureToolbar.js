@@ -47,14 +47,14 @@ const CropProductionFeatureToolbar = ({
             <Grid container item xs={12} md={10}/*justify="space-evenly" */>
                 <ChipButton
                     icon={<EventNoteIcon />}
-                    to={ROUTES.CropProductionTaskView}
+                    to={ROUTES.CropProductionTask}
                     {...chipProps}
                     label="Tasks"
                     onClick={handleClick}
                 />
                 <ChipButton
                     icon={<MapIcon />}
-                    to={ROUTES.CropProductionFieldProductionView}
+                    to={ROUTES.CropProductionField}
                     {...chipProps}
                     label="Fields"
                     onClick={handleClick}
