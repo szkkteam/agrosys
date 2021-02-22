@@ -67,6 +67,7 @@
     "react-sizeme": "^2.6.12",
     "react-slick": "^0.26.1",
     "react-svg": "^2.1.22",
+    "recharts": "^2.0.7",
     "redux": "^3.7.2",
     "redux-form": "^8.3.6",
     "redux-orm": "^0.16.2",
