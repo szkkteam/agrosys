@@ -17,30 +17,27 @@ const Stepper = ({
 
     const [completed, setCompleted] = React.useState({});
 
-    const totalSteps = () => {
-        return steps.length;
-    }
+    const totalSteps = steps.length;
 
     const completedSteps = () => {
         return Object.keys(completed).length;
-    }
-
-    const isLastStep = () => {
-        return activeStep === totalSteps - 1;
-    }
+    }    
+    const isLastStep = activeStep === totalSteps - 1;
 
     const allStepsCompleted = () => {
         return completedSteps() === totalSteps;
     }
 
     const handleNext = () => {
-        const newActiveStep =
-          isLastStep() && !allStepsCompleted()
+        const newActiveStep = isLastStep
+        ? !allStepsCompleted() 
             ? // It's the last step, but not all steps have been completed,
               // find the first step that has been completed
               steps.findIndex((step, i) => !(i in completed))
-            : activeStep + 1
-        setActiveStep(newActiveStep)
+              // If its the last step, stay on the same step
+            : activeStep
+        : activeStep + 1
+        setActiveStep(newActiveStep)        
     }
 
     const handleBack = () => {
@@ -72,7 +69,8 @@ const Stepper = ({
         handleStep,
         handleComplete,
         handleNext,
-        handleBack
+        handleBack,
+        isLastStep,
     }
 
     return (

@@ -7,8 +7,8 @@ export default defineMessages({
         id: `${scope}.title`,  
         defaultMessage: 'Current crops',
     },   
-    addNewTitle: {
-        id: `${scope}.AddButton.title`,  
-        defaultMessage: 'Add crop',
+    addSeasonTitle: {
+        id: `${scope}.AddSeason.title`,  
+        defaultMessage: 'Add season',
     }, 
   })

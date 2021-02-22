@@ -3,16 +3,13 @@ import messages from './messages';
 import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+import { Formik, Field } from "formik";
 
 import { 
-    BooleanComponent,
-    TextComponent,
-    SearchSelectField,
-    SearchSelectComponent,
-    DatePickerField,
-    DatePickerComponent,
-    RadioGroupField,
-} from 'components/Form'
+    Autocomplete,
+    DatePicker,
+    RadioGroup,
+} from 'components/FormB'
 
 import {
     Grid,
@@ -20,7 +17,6 @@ import {
     FormLabel,
     FormControlLabel,
     Radio,
-    RadioGroup
 } from '@material-ui/core'
 
 const Container = styled.div`
@@ -47,15 +43,18 @@ const DateKeyEvent = ({
     return (
         <>            
             <Grid item xs={12}>
-                <DatePickerField name={`${name}.date`}
-                    onChange={onChange}
+                <Field name={`${name}.date`}
+                    component={DatePicker}
+                    //onChange={onChange}
                     label="Select date"
                     formProps={{fullWidth: true}}
                 />
             </Grid>
             <Grid item xs={12}>
-                <SearchSelectField name={`${name}.keyEvent`}
-                    onChange={onChange}
+                <Field 
+                    name={`${name}.keyEvent`}
+                    component={Autocomplete}
+                    //onChange={onChange}
                     //label={intl.formatMessage(messages.cropType)}
                     label="Select template"
                     //variant="outlined"
@@ -77,8 +76,9 @@ const DateManual = ({
 }) => {
     return (
         <Grid item xs={12}>
-            <DatePickerField name={`${name}.date`}
-                onChange={onChange}
+            <Field name={`${name}.date`}
+                component={DatePicker}
+                //onChange={onChange}
                 label="Select date"
                 formProps={{fullWidth: true}}
             />
@@ -111,8 +111,9 @@ const TemplatePeriodSelector = ({
     return (
         <>
             <Grid item xs={4}>
-                <RadioGroupField name={`${name}.mode`}
-                    onChange={onChange}
+                <Field name={`${name}.mode`}
+                    component={RadioGroup}
+                    //onChange={onChange}
                     formLabel={
                         <FormLabel component="legend">
                             Date calculation
@@ -142,7 +143,7 @@ const TemplatePeriodSelector = ({
                             <Radio />
                         }
                     />
-                </RadioGroupField>                
+                </Field>                
             </Grid>
             <Grid container item xs={8}>
                 <Content

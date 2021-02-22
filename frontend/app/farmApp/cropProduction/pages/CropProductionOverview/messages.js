@@ -5,6 +5,6 @@ export const scope = 'app.farmApp.cropProduction.CropProductionOverview'
 export default defineMessages({
     title: {
         id: `${scope}.title`,  
-        defaultMessage: 'Crops',
+        defaultMessage: 'Crops overview',
     },
   })

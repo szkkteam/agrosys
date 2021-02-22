@@ -10,6 +10,7 @@ export { DashboardContainer } from './Dashboard'
  * Table components
  */
 export { default as GridTable } from './GridTable'
+export { SimpleTable } from './Table'
 /**
  * Toolbar components
  */
@@ -30,3 +31,7 @@ export { WidgetLight, WidgetMedium } from './Widget'
  * Metric componenets
  */
 export { SimpleProgress } from './Metric'
+/**
+ * Panel components
+ */
+export { ExpandPanel } from './Panel'
