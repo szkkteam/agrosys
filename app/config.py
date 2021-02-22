@@ -110,13 +110,13 @@ class Config(BundleConfig):
     ##########################################################################
     # database                                                               #
     ##########################################################################
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{user}:{password}@{host}:{port}/{db_name}'.format(
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL','postgresql+psycopg2://{user}:{password}@{host}:{port}/{db_name}'.format(
         user=os.environ.get('FLASK_DATABASE_USER', 'flask_api'),
         password=os.environ.get('FLASK_DATABASE_PASSWORD', 'flask_api'),
         host=os.environ.get('FLASK_DATABASE_HOST', '127.0.0.1'),
         port=os.environ.get('FLASK_DATABASE_PORT', 5432),
         db_name=os.environ.get('FLASK_DATABASE_NAME', 'agro_dev'),
-    )
+    ))
 
 
 class DevConfig(Config):
