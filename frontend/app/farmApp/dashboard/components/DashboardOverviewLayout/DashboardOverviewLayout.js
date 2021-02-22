@@ -17,6 +17,9 @@ import {
     CultivatedArea
 } from 'farmApp/cropProduction/widgets'
 
+import {
+    CropsByArea
+} from 'farmApp/dashboard/widgets'
 
 const DashboardOverviewLayout = ({
 
@@ -26,43 +29,52 @@ const DashboardOverviewLayout = ({
     const widgetDefaults = {w: 3, h: 5, static: true}
 
     const cultivatedAreaDefaults = {...widgetDefaults, i: 'CultivatedArea', x: 0, y: 0}
-    const cropCashFlowAreaDefaults = {...widgetDefaults, i: 'CropCashFlow', x: 3, y: 0}
+    const cropRoiDefaults = {...widgetDefaults, i: 'CropROI', x: 3, y: 0}
+    const cropExpenseDefaults = {...widgetDefaults, i: 'CropExpense', x: 0, y: 5}
+    const cropCashFlowAreaDefaults = {...widgetDefaults, i: 'CropCashFlow', x: 3, y: 5}
+    const cropsByAreaDefaults = {...widgetDefaults, i: 'CropsByArea', x: 6, y: 0, w: 6, h: 10}
     
     const layouts = {
         xxs: [
+            cropsByAreaDefaults,
             cultivatedAreaDefaults,
             cropCashFlowAreaDefaults,
-            {...widgetDefaults, i: 'CropExpense', x: 6, y: 0},
-            {...widgetDefaults, i: 'CropROI', x: 9, y: 0},
+            cropRoiDefaults,
+            cropExpenseDefaults,
         ],
         xs: [
+            cropsByAreaDefaults,
             {...cultivatedAreaDefaults, w: 2},
             {...cropCashFlowAreaDefaults, x: 2, w: 2},
-            {...widgetDefaults, i: 'CropExpense', x: 0, y: 5, w: 2},
-            {...widgetDefaults, i: 'CropROI', x: 2, y: 10, w: 2},
+            {...cropExpenseDefaults, x: 0, w: 2},
+            {...cropRoiDefaults, x: 2, w: 2},
         ],
         sm: [
+            cropsByAreaDefaults,
             cultivatedAreaDefaults,
             cropCashFlowAreaDefaults,
-            {...widgetDefaults, i: 'CropExpense', x: 0, y: 5},
-            {...widgetDefaults, i: 'CropROI', x: 3, y: 10},
+            cropRoiDefaults,
+            cropExpenseDefaults,
         ],
         md: [
+            cropsByAreaDefaults,
             cultivatedAreaDefaults,
             cropCashFlowAreaDefaults,
-            {...widgetDefaults, i: 'CropExpense', x: 6, y: 0},
-            {...widgetDefaults, i: 'CropROI', x: 9, y: 0},
+            cropRoiDefaults,
+            cropExpenseDefaults,
         ],
         lg: [
+            cropsByAreaDefaults,
             cultivatedAreaDefaults,
             cropCashFlowAreaDefaults,
-            {...widgetDefaults, i: 'CropExpense', x: 6, y: 0},
-            {...widgetDefaults, i: 'CropROI', x: 9, y: 0},
+            cropRoiDefaults,
+            cropExpenseDefaults,
         ]
 
     }
 
     const components = [
+        {key: "CropsByArea", component: <CropsByArea />},
         {key: "CultivatedArea", component: <CultivatedArea />},
         {key: "CropCashFlow", component: <CropCashFlow />},
         {key: "CropExpense", component: <CropExpense />},

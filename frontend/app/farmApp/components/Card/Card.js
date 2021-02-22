@@ -48,7 +48,6 @@ const Card = ({
 }) => {
     
     const [header=null, content=null, actions=null] = useSplitComponents(children)
-
     return (
         <FullHeightCard className={className}>
             {_.isFunction(header)? 
