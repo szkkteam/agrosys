@@ -27,3 +27,13 @@ user1:
   is_active: True
   confirmed_at: utcnow
   roles: ['Role(ROLE_USER)']
+
+user2:
+  email: user1@user.com
+  username: user1
+  password: password
+  first_name: user
+  last_name: some
+  is_active: True
+  confirmed_at: utcnow
+  roles: ['Role(ROLE_USER)']
