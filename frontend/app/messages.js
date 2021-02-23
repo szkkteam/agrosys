@@ -69,5 +69,13 @@ export default defineMessages({
         id: `${validation}.required`,  
         defaultMessage: 'Field required',
     },
+    complete: {
+        id: `${scope}.complete`,  
+        defaultMessage: 'Complete',
+    },
+    pending: {
+        id: `${scope}.pending`,  
+        defaultMessage: 'Pending',
+    }
     
   })

@@ -18,6 +18,10 @@ import CardFab from '../Card/CardFab'
 
 const LinkButton = withLinkComponent(Button)
 
+const Spacer = styled.div`
+    flex-grow: 1;
+`
+
 const WidgetMedium = ({
     title,
     subheader,
@@ -36,7 +40,6 @@ const WidgetMedium = ({
             spacing={[2, 2]}
         >
             <CardHeader
-                color="primary"
                 //shrinkHeader
                 title={title}
                 subheader={subheader}
@@ -52,12 +55,15 @@ const WidgetMedium = ({
                 {headerChildren}
             </CardHeader>
             {children}
-            {link && <LinkButton
-                to={link.to}
-                params={{...params, ...link.params || {}}}
-            >
-                {formattedLinkTitle}
-            </LinkButton> }
+            {link && <>
+                <Spacer />
+                <LinkButton
+                    to={link.to}
+                    params={{...params, ...link.params || {}}}
+                >
+                    {formattedLinkTitle}
+                </LinkButton> 
+            </>}
         </Card>  
     )
 }

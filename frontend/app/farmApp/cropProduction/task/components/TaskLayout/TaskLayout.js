@@ -23,11 +23,11 @@ const TaskLayout = ({
     
 }) => {
   
-    const [currentView, setCurrentView] = useState(VIEW_CALENDAR)
+    const [currentView, setCurrentView] = useState(VIEW_LIST)
 
     const views = [
-        {value: VIEW_CALENDAR, icon: DateRangeIcon, component: TaskCalendarLayout},
         {value: VIEW_LIST, icon: ListIcon, component: TaskTable},
+        {value: VIEW_CALENDAR, icon: DateRangeIcon, component: TaskCalendarLayout},
     ]
 
     return (

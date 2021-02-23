@@ -1,9 +1,16 @@
 import React, { useRef, useState, useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import globalMessages from 'messages'
 import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { Redirect, useLocation, Switch } from "react-router-dom";
+import { differenceInCalendarDays } from 'date-fns'
+import { useConvertArea } from 'utils/hooks'
+
+import {
+    SplitButton
+} from 'components'
 
 import InfoIcon from '@material-ui/icons/Info';
 import ExpandLess from '@material-ui/icons/ExpandLess';
@@ -26,13 +33,21 @@ const TaskDetailContainer = styled.div`
 `
 
 const TaskListItem = ({
-
+    title,
+    dates,
+    area: areaM2,
 }) => {
+    const intl = useIntl()
     const [open, setOpen] = useState(false)
 
     const handleOpenClose = () => {
         setOpen(!open)
     }
+
+    const today = new Date()
+    const startDueDate = differenceInCalendarDays(dates.start, today)
+    const area = useConvertArea(areaM2)
+
 
     return (
         <>
@@ -43,21 +58,24 @@ const TaskListItem = ({
                     <Avatar>W</Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                    primary="Harvesting, 4.3 ha"
+                    primary={`${title}, ${area}`}
                     secondary={
                         <>
                             <Typography variant="body2" component="span">
-                                due in 4 days
+                                {intl.formatRelativeTime(startDueDate, 'days')}
                             </Typography>
                         </>
                     }
                 />
                 <ListItemSecondaryAction>
-                    <IconButton
-                        onClick={handleOpenClose}
-                    >
-                        <ExpandMore />
-                    </IconButton>
+                    <SplitButton
+                        variant="outlined"
+                        options={[
+                            {title: globalMessages.complete, },
+                            {title: globalMessages.pending}
+                        ]}
+                    />
+                    
                 </ListItemSecondaryAction>
             </ListItem>
             <Collapse in={open} timeout="auto" unmountOnExit>
@@ -68,6 +86,13 @@ const TaskListItem = ({
         </>
     )
 }
+/*
+<IconButton
+                        onClick={handleOpenClose}
+                    >
+                        <ExpandMore />
+                    </IconButton>
+*/
 
 TaskListItem.propTypes = {
 

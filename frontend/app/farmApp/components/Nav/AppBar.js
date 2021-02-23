@@ -26,6 +26,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 
 import { TutorialProgressBar } from 'farmApp/tutorial/components'
 import { NotificationButton } from 'farmApp/notification/components'
+import { TaskCalendarButton } from 'farmApp/cropProduction/task/components'
 
 const StyledAppBar = styled(MuiAppBar)`
     ${({theme}) => `
@@ -116,6 +117,7 @@ const AppBar = forwardRef(({
                             </FlexWrapper>               
                             <div style={{flexGrow: 1}} />
                             <FlexNoWrap>
+                                <TaskCalendarButton />
                                 <NotificationButton />
                                 <IconButton
                                     edge="end"
