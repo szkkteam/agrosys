@@ -18,7 +18,8 @@ import {
 } from 'farmApp/cropProduction/widgets'
 
 import {
-    CropsByArea
+    CropsByArea,
+    UpcomingTask
 } from 'farmApp/dashboard/widgets'
 
 const DashboardOverviewLayout = ({
@@ -33,10 +34,12 @@ const DashboardOverviewLayout = ({
     const cropExpenseDefaults = {...widgetDefaults, i: 'CropExpense', x: 0, y: 5}
     const cropCashFlowAreaDefaults = {...widgetDefaults, i: 'CropCashFlow', x: 3, y: 5}
     const cropsByAreaDefaults = {...widgetDefaults, i: 'CropsByArea', x: 6, y: 0, w: 6, h: 10}
+    const upcomingTaskDefaults = {...widgetDefaults, i: 'UpcomingTask', x: 0, y: 10, w: 4, h: 10}
     
     const layouts = {
         xxs: [
             cropsByAreaDefaults,
+            upcomingTaskDefaults,
             cultivatedAreaDefaults,
             cropCashFlowAreaDefaults,
             cropRoiDefaults,
@@ -44,6 +47,7 @@ const DashboardOverviewLayout = ({
         ],
         xs: [
             cropsByAreaDefaults,
+            upcomingTaskDefaults,
             {...cultivatedAreaDefaults, w: 2},
             {...cropCashFlowAreaDefaults, x: 2, w: 2},
             {...cropExpenseDefaults, x: 0, w: 2},
@@ -51,6 +55,7 @@ const DashboardOverviewLayout = ({
         ],
         sm: [
             cropsByAreaDefaults,
+            upcomingTaskDefaults,
             cultivatedAreaDefaults,
             cropCashFlowAreaDefaults,
             cropRoiDefaults,
@@ -58,6 +63,7 @@ const DashboardOverviewLayout = ({
         ],
         md: [
             cropsByAreaDefaults,
+            upcomingTaskDefaults,
             cultivatedAreaDefaults,
             cropCashFlowAreaDefaults,
             cropRoiDefaults,
@@ -65,6 +71,7 @@ const DashboardOverviewLayout = ({
         ],
         lg: [
             cropsByAreaDefaults,
+            upcomingTaskDefaults,
             cultivatedAreaDefaults,
             cropCashFlowAreaDefaults,
             cropRoiDefaults,
@@ -75,6 +82,7 @@ const DashboardOverviewLayout = ({
 
     const components = [
         {key: "CropsByArea", component: <CropsByArea />},
+        {key: "UpcomingTask", component: <UpcomingTask />},
         {key: "CultivatedArea", component: <CultivatedArea />},
         {key: "CropCashFlow", component: <CropCashFlow />},
         {key: "CropExpense", component: <CropExpense />},

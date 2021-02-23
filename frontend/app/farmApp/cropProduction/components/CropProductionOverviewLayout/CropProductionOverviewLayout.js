@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { ROUTES } from 'farmApp/routes'
 import { withLinkComponent } from 'utils/hoc'
+import { useFetchFields } from 'farmApp/resource/field/hooks'
 
 import { 
     PrimaryActionButton,
@@ -19,6 +20,9 @@ import {
     DashboardLayout
 } from 'farmApp/components'
 
+import CropSummary from '../CropProductionCropSummary/CropProductionCropSummary'
+import CropDetail from '../CropProductionCropDetail/CropProductionCropDetail'
+import CropTabs from '../CropProductionCropFieldTabs/CropProductionCropFieldTabs'
 import SeasonPanel from '../CropProductionSeasonPanel/CropProductionSeasonPanel'
 import Toolbar from '../CropProductionFeatureToolbar/CropProductionFeatureToolbar'
 
@@ -40,7 +44,19 @@ const Crop = ({
     return (
         <SeasonPanel.Panel
             summary={
-                <SeasonPanel.Summary />
+                <CropSummary
+                    title="Őszi búza"
+                    dates={{
+                        start: new Date(2020, 9, 1),
+                        end: new Date(2021, 1, 19)
+                    }}
+                    measures={{
+                        area: 35.7*10000,
+                        yield: 12*1000,
+                        income: 32000,
+                        expenses: 16000,
+                    }}
+                />
             }
             actions={
                 <>
@@ -56,10 +72,24 @@ const Crop = ({
             }
             {...props}
         >
-            <SeasonPanel.Detail />
+            <CropDetail>
+                <CropDetail.Field
+                />
+
+            </CropDetail>
+            
         </SeasonPanel.Panel>
     )
 }
+/*
+<CropTabs
+                tabs={['Fields', 'Tasks', 'Weather']}
+            >
+                <CropFields />
+                <CropFields />
+                <CropFields />
+            </CropTabs>            
+*/
 
 const Season = ({
     className,
@@ -86,6 +116,8 @@ const RightButton = styled(Button)`
 const CropProductionOverviewLayout = ({    
     ...props
 }) => {
+
+    const { payload, isLoading } = useFetchFields()
     const [seasons, setSeasons] = useState([1])
 
     const handleLoadMore = () => {

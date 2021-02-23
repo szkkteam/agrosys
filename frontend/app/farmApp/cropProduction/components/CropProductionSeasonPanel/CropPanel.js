@@ -11,8 +11,6 @@ import {
 } from 'farmApp/components'
 
 const CropPanel = ({
-    onDelete,
-    onEdit,
     children,
     ...props
 }) => {

@@ -99,7 +99,7 @@ const SplitButton = ({
                 role={undefined}
                 placement={placement}
                 transition
-                disablePortal
+                //disablePortal
                 
                 style={{
                     zIndex: 999

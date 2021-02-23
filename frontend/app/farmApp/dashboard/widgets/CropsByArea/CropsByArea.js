@@ -125,6 +125,8 @@ const CropsByArea = ({
         { name: 'Kukorica', value: 300 },
         { name: 'Repce', value: 300 },
         { name: 'Tavaszi búza', value: 200 },
+        { name: 'Lucerna', value: 800 },
+        { name: 'Bíborhere', value: 400 },
     ];
     const total = data.reduce((prev, curr) => {
         return prev + curr.value;
