@@ -33,6 +33,7 @@ const TaskDetailContainer = styled.div`
 `
 
 const TaskListItem = ({
+    disableButton=false,
     title,
     dates,
     area: areaM2,
@@ -48,11 +49,12 @@ const TaskListItem = ({
     const startDueDate = differenceInCalendarDays(dates.start, today)
     const area = useConvertArea(areaM2)
 
+    const listProps = disableButton? { ContainerComponent: 'div' } : {button: true}
 
     return (
         <>
             <ListItem
-                button
+                {...listProps}
             >
                 <ListItemAvatar>
                     <Avatar>W</Avatar>
@@ -95,7 +97,7 @@ const TaskListItem = ({
 */
 
 TaskListItem.propTypes = {
-
+    disableButton: PropTypes.bool
 }
 
 export default TaskListItem

@@ -34,9 +34,10 @@ const FieldListItem = ({
     children,
     className,
     disableAction=false,
+    disableButton=false,
     ...props
 }) => {
-    const [showAction, setShowAction] = useState(false)
+    const [showAction, setShowAction] = useState(true)
 
     const handleShowAction = () => {
         setShowAction(true)
@@ -65,14 +66,16 @@ const FieldListItem = ({
 
     const area = useConvertArea(areaM2)
 
+    const listProps = disableButton? { ContainerComponent: 'div' } : {button: true, divider: true}
+
     return (
         <ListContainer
             data={id}
-            button
-            divider
+            {...listProps}
             className={className}
-            onMouseEnter={handleShowAction}
-            onMouseLeave={handleHideAction}
+            // FIXME: There is a bug somewhere. If leave is defined as soon the user hover over the action button, its triggered and hide it
+            //onMouseEnter={handleShowAction}
+            //onMouseLeave={handleHideAction}
             {...props}
         >
             {children}
@@ -99,7 +102,8 @@ const FieldListItem = ({
 }
 
 FieldListItem.propTypes = {
-
+    disableButton: PropTypes.bool,
+    disableAction: PropTypes.bool,
 }
 
 export default FieldListItem

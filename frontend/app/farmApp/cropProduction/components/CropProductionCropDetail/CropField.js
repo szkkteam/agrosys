@@ -11,12 +11,19 @@ import {
     FieldListItem,
 } from 'farmApp/resource/field/components'
 
+import {
+    TaskListItem
+} from 'farmApp/cropProduction/task/components'
+
 
 const CropField = ({
 
 }) => {
     const data = [
-        {fieldId: 1}
+        { fieldId: 1, nextTask: {title: "Harvesting", area: 136791, dates: {start: new Date(2021, 3, 26)}}, },
+        { fieldId: 1, nextTask: {title: "Harvesting", area: 136791, dates: {start: new Date(2021, 3, 26)}}, },
+        { fieldId: 1, nextTask: {title: "Harvesting", area: 136791, dates: {start: new Date(2021, 3, 26)}}, },
+        { fieldId: 1, nextTask: {title: "Harvesting", area: 136791, dates: {start: new Date(2021, 3, 26)}}, },
     ]
 
     const columns = [
@@ -24,7 +31,8 @@ const CropField = ({
             title: 'Field',
             render: (row, i) => (
                 <FieldListItem
-                    disableAction={true}
+                    disableAction
+                    disableButton
                     id={row.fieldId}
                 />
             )
@@ -32,9 +40,24 @@ const CropField = ({
         {
             title: 'Vaiant',
             render: (row, i) => (
-                <span>variant</span>
+                <span>Abonyi búza</span>
             )
-        },        
+        },  
+        {
+            title: 'Predicted yield',
+            render: (row, i) => (
+                <span>9t</span>
+            )
+        },      
+        {
+            title: 'Upcoming task',
+            render: (row, i) => (
+                <TaskListItem 
+                    disableButton
+                    {...row.nextTask}
+                />
+            )
+        }
     ]
 
     return (
