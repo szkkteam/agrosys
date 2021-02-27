@@ -15,29 +15,19 @@ import {
     IconButton
 } from '@material-ui/core'
 
+import { PanelContainer } from 'farmApp/components'
+
 import PanelContext from './Context'
 import CropPanel from './CropPanel'
 import CropDetail from './CropDetail'
 import CropSummary from './CropSummary'
 
-const CropProductionSeasonPanel = forwardRef(({
+const CropProductionSeasonPanel = ({
     className,
     children,
     ...props
-}, ref) => {
-    const [expanded, setExpanded] = useState({})
-
-    const handleExpandChange = (i) => () => {
-        if (expanded[i] !== undefined) setExpanded({})
-        else setExpanded({[i]: true})
-    }
-
-    useImperativeHandle(ref, () => ({
-        expand(i) {
-            setExpanded({[i]: true})
-        },        
-    }));
-    
+}) => {
+   
     const contextObject = {
 
     }
@@ -58,18 +48,14 @@ const CropProductionSeasonPanel = forwardRef(({
                     {...props}
                 />
                 <CardContent>
-                    {React.Children.map(children, (child, i) => (
-                        React.cloneElement(child, {
-                            key: i,
-                            expanded: expanded[i] !== undefined,
-                            onExpandChange: handleExpandChange(i)
-                        })
-                    ))}
+                    <PanelContainer>
+                        {children}
+                    </PanelContainer>                    
                 </CardContent>
             </Card>
         </PanelContext.Provider>
     )
-})
+}
 
 CropProductionSeasonPanel.propTypes = {
     action: PropTypes.element

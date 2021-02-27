@@ -31,7 +31,8 @@ const CropSelect = ({
             getOptionLabel={(option) => option.title}
             inputParams={{
                 label
-            }}                
+            }}  
+            {...props}              
         />            
     )
 }
