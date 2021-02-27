@@ -20,6 +20,16 @@ import {
   ROUTES as productionRoutesKeys,
 } from 'farmApp/cropProduction/routes'
 
+import {
+  routes as planRoutes,
+  ROUTES as planRoutesKeys,
+} from 'farmApp/plan/routes'
+
+import {
+  routes as operationRoutes,
+  ROUTES as operationRoutesKeys,
+} from 'farmApp/operation/routes'
+
 /**
  * Resources
  */
@@ -81,6 +91,8 @@ export const ROUTES = {
   
   ...productionRoutesKeys,
   ...resourceRoutesKeys,
+  ...planRoutesKeys,
+  ...operationRoutesKeys,
 }
 console.debug("ROUTE KEYS: ", ROUTES)
 /**
@@ -147,6 +159,14 @@ export const routes = [
    * Production routes
    */
   ...productionRoutes,
+  /**
+   * Plan routes
+   */
+  ...planRoutes,
+  /**
+   * Operation routes
+   */
+  ...operationRoutes,
   
 ]
 
