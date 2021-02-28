@@ -12,7 +12,7 @@ import {
 } from 'farmApp/components'
 
 import {
-    CropPlanOverview
+    CropPlanCreate
 } from 'farmApp/plan/cropPlan/components'
 
 export default ({
@@ -20,7 +20,7 @@ export default ({
     ...props
 }) => {
     const intl = useIntl()
-    //const { season } = useParams()
+    const { season } = useParams()
 
     return (
         <>
@@ -35,7 +35,9 @@ export default ({
                 }}
                 title={messages.title}
             />
-            <div>add new crop plan</div>
+            <CropPlanCreate
+                season={season}
+            />
         </>
     )
 }
