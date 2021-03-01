@@ -9,18 +9,72 @@ import styled from 'styled-components'
 import {
     ExpandPanel
 } from 'farmApp/components'
+import { ItemMenu } from 'components'
+
+import SettingsIcon from '@material-ui/icons/Settings';
+import {
+    Typography,
+    IconButton
+} from '@material-ui/core'
+
+import CropSummary from './CropSummary'
+import CropPlanTasks from './CropPlanTasks'
+
+const Flex = styled.div`
+    display: flex;
+    align-items: center;
+`
+
+const Spacer = styled.div`
+    flex-grow: 1;
+`
 
 const CropPlanCrop = ({
+    cropPlanId,
     ...props
 }) => {
+    // TODO: Fetch the data based on cropPlanId
+    const payload = {
+        title: "Őszi búza - 2020",
+        cropType: {
+            title: "Őszi búza",
+            short: "őb"
+        },
+        tasks: [
+            {title: "Disking", startDate: new Date(2021, 5, 12), type: "Tiling"},
+            {title: "Corn planting", startDate: new Date(2021, 6, 22), type: "Planting"},
+            {title: "Harvesting", startDate: new Date(2021, 8, 13), type: "Harvest"}
+        ]
+        
+    }
+
+    const menuItems = [
+        {title: globalMessages.edit, onClink: null},
+        //{title: messages.edit, onClink: null},
+        {title: globalMessages.delete, onClink: null}
+    ]
+
     return (
         <ExpandPanel
             {...props}
             summary={
-                <div>Crop</div>
+                <>
+                    <CropSummary
+                        title={payload.title}
+                        cropType={payload.cropType}
+                    />
+                    <Spacer />
+                    <ItemMenu 
+                        size="small"
+                        icon={SettingsIcon}
+                        items={menuItems}
+                    />                    
+                </>
             }
         >
-            <div>tasks</div>
+            <CropPlanTasks
+                data={payload.tasks}
+            />
         </ExpandPanel>
     )
 }

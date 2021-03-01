@@ -26,6 +26,7 @@ import {
 
 import StepperBack from './StepperBack'
 import CropPage from './CropPage'
+import TemplatePage from './TemplatePage'
 
 const Container = styled.div`
     display: flex;
@@ -35,7 +36,7 @@ const Container = styled.div`
     position: relative;
 `
 
-const StepperHeaderContainer = styled(Paper)`
+const StepperHeaderContainer = styled.div`
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -44,6 +45,7 @@ const StepperHeaderContainer = styled(Paper)`
 const MediumStepperHeader = styled(props => <StepperHeader {...props} />)`
     width: 70%;
     margin: 0 auto;
+    background-color: initial;
 `
 
 const FlexWizzard = styled(WizzardForm)`
@@ -57,6 +59,7 @@ const CropPlanCreate = ({
     const initialValues = {
         season,
         ...CropPage.initialValues,
+        ...TemplatePage.initialValues,
     }
 
     const steps = [
@@ -69,13 +72,13 @@ const CropPlanCreate = ({
         console.debug("Submitting ... : ", d)
         handleConfirm && handleConfirm(d)
     }
-
+ 
     return (
         <PageContent spacing={[1, 2]}>
             <Stepper
                 steps={steps}
                 //contents={contents}
-                //defaultStep={2}
+                //defaultStep={1}
             >
                 <StepperHeaderContainer>
                     <StepperBack />
@@ -87,8 +90,8 @@ const CropPlanCreate = ({
                         initialValues={initialValues}
                         onSubmit={handleSubmit}
                     >                        
-                       <CropPage validationSchema={CropPage.schema}>First page</CropPage>
-                       <div validationSchema={()=>null}>Second page</div>
+                       <CropPage validationSchema={CropPage.schema} />
+                       <TemplatePage validationSchema={TemplatePage.schema} />
                     </FlexWizzard>
                 </Container>
             </Stepper>

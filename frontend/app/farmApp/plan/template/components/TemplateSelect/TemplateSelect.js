@@ -5,11 +5,14 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { Formik, Field } from "formik";
 import { TextField, Autocomplete } from 'components/FormB'
-import * as Yup from 'yup';
 
-import { useFetchCropTypes } from '../../hooks'
 
-const CropSelect = ({
+const templates = [
+    {id: 1, title: 'Téli búza, mulcsos művelés'},
+    {id: 2, title: 'Téli búza, No till'}
+]
+
+const TemplateSelect = ({
     name,
     label,
     ...props
@@ -17,17 +20,15 @@ const CropSelect = ({
 
     const intl = useIntl()
 
-    const {payload: cropTypes, isLoading } = useFetchCropTypes()
-
     return (
         <Field 
             name={name}
             component={Autocomplete}
             formProps={{fullWidth: true}}
-            loading={isLoading}
+            //loading={isLoading}
             disableClearable={true}
-            options={cropTypes}
-            groupBy={(option) => option.category}
+            options={templates}
+            //groupBy={(option) => option.category}
             getOptionLabel={(option) => option.title}
             inputParams={{
                 label
@@ -38,8 +39,8 @@ const CropSelect = ({
 }
 
 
-CropSelect.propTypes = {
+TemplateSelect.propTypes = {
 
 }
 
-export default CropSelect
+export default TemplateSelect

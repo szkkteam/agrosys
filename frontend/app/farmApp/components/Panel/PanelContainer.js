@@ -38,4 +38,5 @@ PanelContainer.propTypes = {
     defaultOpen: PropTypes.number,
 }
 
+
 export default PanelContainer

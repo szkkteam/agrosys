@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react'
+import React, { useContext, useMemo, useEffect } from 'react'
 import messages from './messages';
 import globalMessages from 'messages'
 import PropTypes from 'prop-types'
@@ -53,6 +53,39 @@ const InnerContainer = styled.div`
     padding: 0px 25px;
 `
 
+const TitleSection = ({
+    values,
+    setFieldValue,
+    ...props
+}) => {
+    /*
+    const cropType = _.get(values, "cropType")
+    const season = _.get(values, "season")
+    const title = _.get(values, "title")
+
+    useEffect(() => {
+        if (title === "") {
+            //setFieldValue('cropType', `${cropType} - ${season}`)
+        }
+    }, [cropType])
+    */
+    return (
+        <Section item xs={12}>
+            <SectionTitle>
+                <FormLabel component="legend">
+                    Name your crop plan
+                </FormLabel>
+            </SectionTitle>
+            <Field
+                name="title"
+                component={TextField}
+                label="Title"
+                fullWidth
+            />
+        </Section>
+    )
+}
+
 const CropSection = ({
     values,
     ...props
@@ -62,9 +95,9 @@ const CropSection = ({
     return (
         <Section item xs={12}>
             <SectionTitle>
-                <Typography variant="body2">
+                <FormLabel component="legend">
                     What is the main crop you would like to grow?
-                </Typography>
+                </FormLabel>
             </SectionTitle>
             <CropSelect name="cropType"
                 label="Main crop type"
@@ -81,9 +114,9 @@ const YieldSection = ({
     return (
         <Section item xs={12}>
             <SectionTitle>
-                <Typography variant="body2">
+                <FormLabel component="legend">
                     What is the expected yield in t/ha?
-                </Typography>
+                </FormLabel>
             </SectionTitle>
             <Field
                 name="expectedYield"
@@ -108,6 +141,9 @@ const CropPage = ({
             <InnerContainer>
                 <Grid container>
                     <Grid container item xs={12} sm={8} md={4}>
+                        <TitleSection
+                            {...props}
+                        />
                         <CropSection
                             {...props}
                         />
@@ -131,6 +167,7 @@ CropPage.propTypes = {
 
 
 CropPage.initialValues = {
+    title: "",
     cropType: "",
     expectedYield: "",
 }

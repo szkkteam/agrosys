@@ -1,9 +1,10 @@
 import React, { useState, useRef, useLayoutEffect, useEffect, useMemo, forwardRef, useImperativeHandle } from 'react'
 import messages from './messages';
-import globalMessages from 'messages';
+import globalMessages from './messages';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
+import { useLocation, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { ROUTES } from 'farmApp/routes'
 import { withLinkComponent } from 'utils/hoc'
@@ -15,14 +16,20 @@ import {
     PrimaryActionButton,
     PrimaryButton
 } from 'components'
-import { PanelContainer } from 'farmApp/components'
+import { 
+    PanelContainer,
+    SeasonArrowSelector
+} from 'farmApp/components'
 
 import {
-    Grid
+    Grid,
+    Paper,
+    List,
 } from '@material-ui/core'
 
 import CropPlanCrop from '../CropPlanCrop/CropPlanCrop'
-import CropPlanTaskContainer from '../CropPlanTaskContainer/CropPlanTaskContainer'
+import CropPlanTaskList from '../CropPlanTaskList/CropPlanTaskList'
+
 
 const LinkButton = withLinkComponent(PrimaryActionButton)
 
@@ -34,24 +41,35 @@ const ButtonPadding = styled.div`
     padding-bottom: 25px;
 `
 
-
 const CropPlanOverview = ({
     season,
 }) => {
+
+    const location = useLocation()
+    const history = useHistory()
+
+    const handleSeasonChange = (newSeason) => {
+        history.push({
+            path: location.pathname,
+            search: `season=${newSeason}`
+        })
+    }
+
     return (
-        <PageContent spacing={[1, 2]} overflow>
+        <PageContent spacing={[1, 2]}>
             <PageHeader
                 spacing={[3,2]}
                 title={messages.title}
                 subheader={messages.subheader}
             >        
                 <Spacer />
-                <div>
-                    {season}
-                </div>
+                <SeasonArrowSelector
+                    season={season}
+                    onChange={handleSeasonChange}
+                />
             </PageHeader>  
-            <Grid container spacing={3}>
-                <Grid item xs={8}>
+            <Grid container spacing={3} style={{flexGrow: 1}}>
+                <Grid item xs={12} sm={6} md={8}>
                     <ButtonPadding>
                         <LinkButton
                             title={messages.addCropPlan}
@@ -66,16 +84,14 @@ const CropPlanOverview = ({
                         <CropPlanCrop />
                     </PanelContainer>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid container item xs={12} sm={6} md={4} direction="column">
                     <ButtonPadding>
                         <PrimaryActionButton
                             title={messages.addTaskPlan}
                             //onClick={createGrowSeason}
                         />
                     </ButtonPadding>
-                    <CropPlanTaskContainer>
-
-                    </CropPlanTaskContainer>
+                    <CropPlanTaskList />
                 </Grid>
             </Grid>
         </PageContent>

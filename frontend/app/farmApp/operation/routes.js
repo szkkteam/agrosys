@@ -3,6 +3,10 @@ import styled from 'styled-components'
 import { Redirect, generatePath } from 'react-router-dom'
 
 import {
+  OperationAppBar
+} from 'farmApp/operation/components'
+
+import {
   
 } from 'farmApp/plan/pages'
 
@@ -19,7 +23,9 @@ export const ROUTES = {
    * Entry point for navrails
    */
   Operation: 'Operation',
-
+  OperationViews: 'OperationViews',
+  OperationMap: 'OperationMap',
+  OperationTable: 'OperationTable',
 }
 
 /**
@@ -45,15 +51,27 @@ export const routes = [
     key: ROUTES.Operation,
     path: '/operations',
     component: 'div', // Empty div is okay as a componenet, because we are using it as a route group
-    /*
     routes: [
       {
-        key: ROUTES.PlanCropPlan,
-        path: '', // Match the same route
-        component: 'div',
-        props: { exact: true }, 
+        key: ROUTES.OperationViews,
+        path: '/:tab?', // Match the same route
+        component: OperationAppBar,
+        //props: { exact: true }, 
+        routes: [
+          {
+            key: ROUTES.OperationMap,
+            path: '/operations/map',
+            component: 'div',
+            props: { absolute: true}
+          },
+          {
+            key: ROUTES.OperationMap,
+            path: '/operations/table',
+            component: 'div',
+            props: { absolute: true}
+          }
+        ]
       },      
     ]
-    */
   }
 ]
