@@ -57,7 +57,7 @@ export default ({
   ...props
 }) => {
   return (
-      <FormControl
+    <FormControl
       {...formProps}
     >
     <FormControlLabel

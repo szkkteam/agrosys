@@ -5,14 +5,18 @@ import styled from 'styled-components'
 import { ROUTES } from 'farmApp/routes'
 import { useIntl, FormattedMessage } from 'react-intl'
 
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import { ItemMenu } from 'components'
 import MasterListItem from 'components/List/MasterListItem'
 
 import {
-    ListItem,
+    ListItemText,
+    ListItemAvatar,
+    ListItemSecondaryAction,
+    ListItemIcon,
     Typography,
+    Avatar,
     IconButton
 } from '@material-ui/core';
 
@@ -21,80 +25,7 @@ import { useSelectField, useConvertArea } from '../../hooks'
 const ListContainer = styled(MasterListItem)`
     height: 70px;
     width: 100%;
-    //border-top: 1px solid rgba(214, 220, 225, 0.5);
     padding: 10px 0px;
-    //max-width: 250px;
-    //min-width: 220px;
-    
-    cursor: pointer;
-`
-
-const ListInnerContainer = styled.div`
-    display: flex;
-    //min-width: 220px;
-    width: 100%;
-    align-items: center;
-    min-height: 69px;        
-`
-
-const Thumbnail = styled.div`
-    background-image: url(${props => props.image});
-    flex: 0 0 auto;
-    width: 48px;
-    height: 48px;
-    background-color: rgba(0,0,0,0.1);
-    background-size: cover;
-    background-position: 50%;
-    backgrind-repeat: no-repeat;
-    margin-right: 10px;
-`
-
-const Content = styled.div`
-    flex: 1 1 auto;
-    min-width: 0;
-    font-size: 14px;
-`
-
-const Title = styled(Typography)`
-    position: relative;
-    font-size: 1em;
-    font-weight: 700;
-    margin: 0 25px 3px 0;
-`
-
-const MetaContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-left: -10px;
-`
-
-const LpisMeta = styled.div`
-    flex: 1 1 auto;
-    position: relative;
-    margin-left: 10px;
-`
-
-const Utilization = styled.div`
-    font-size: 12px;
-    font-weight: 500;
-    flex: 0 0 auto;
-    white-space: nowrap;
-    margin-top: 1px;
-`
-
-const ActionIcon = styled(props => <ItemMenu {...props}/>)`
-    position: absolute;
-    right: 24px;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    //padding: 10px 0;
-    top: 5px;
-    display: none;
-    ${ListContainer}:hover & {
-        display: block;
-    }
 `
 
 const FieldListItem = ({    
@@ -103,8 +34,19 @@ const FieldListItem = ({
     children,
     className,
     disableAction=false,
+    disableButton=false,
     ...props
 }) => {
+    const [showAction, setShowAction] = useState(true)
+
+    const handleShowAction = () => {
+        setShowAction(true)
+    }
+
+    const handleHideAction = () => {
+        setShowAction(false)
+    }
+
     //console.debug("FieldListItem - data: ", data)
     const items = [
         {title: messages.edit, link: { to: ROUTES.ResourceFieldEdit, params: {id: 1}}},
@@ -124,40 +66,44 @@ const FieldListItem = ({
 
     const area = useConvertArea(areaM2)
 
+    const listProps = disableButton? { ContainerComponent: 'div' } : {button: true, divider: true}
+
     return (
         <ListContainer
             data={id}
+            {...listProps}
             className={className}
+            // FIXME: There is a bug somewhere. If leave is defined as soon the user hover over the action button, its triggered and hide it
+            //onMouseEnter={handleShowAction}
+            //onMouseLeave={handleHideAction}
             {...props}
         >
             {children}
-            <ListInnerContainer>
-                <Thumbnail image="https://via.placeholder.com/48/48"/>
-                <Content>
-                    <Title variant="h2" noWrap>
-                        {`${title}, ${area}`}
-                    </Title>                    
-                    <MetaContainer>
-                        <LpisMeta>
-                            <Typography variant="caption" >
-                                ({meparId})
-                            </Typography>
-                        </LpisMeta>
-                        <Utilization>
-                            50%
-                        </Utilization>
-                    </MetaContainer>
-                </Content>                
-                { !disableAction && <ActionIcon
-                    items={items}
-                /> }
-            </ListInnerContainer>
+            <ListItemAvatar>
+                <Avatar
+                    variant="square"
+                    sizes="48px"
+                    src="https://via.placeholder.com/48/48"
+                >
+
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText 
+                primary={`${title}, ${area}`}
+                secondary={`(${meparId})`}
+            />
+            
+            <ListItemSecondaryAction>
+                { !disableAction && showAction && 
+                <ItemMenu icon={MoreVertIcon} items={items} /> }
+            </ListItemSecondaryAction>
         </ListContainer>
     )
 }
 
 FieldListItem.propTypes = {
-
+    disableButton: PropTypes.bool,
+    disableAction: PropTypes.bool,
 }
 
 export default FieldListItem

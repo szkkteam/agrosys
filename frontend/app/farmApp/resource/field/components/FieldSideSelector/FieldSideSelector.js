@@ -36,6 +36,11 @@ const SelectIcon = styled(ListItemIcon)`
     margin-right: 10px;
 `
 
+const ButtonFieldItem = styled(FieldListItem)`
+    padding-left: 12px;
+    cursor: pointer;
+`
+
 const Container = styled(PageContent)`
     width: 270px;
 `
@@ -58,8 +63,9 @@ const Selector = ({
     //const [selected, setSelected] = useState(false)
     //const handleSelect = () => setSelected(!selected)
     return (
-        <FieldListItem
-            disableAction={true}
+        <ButtonFieldItem
+            disableAction
+            disableButton
             disabled={disabled}
             {...props}
         >
@@ -74,7 +80,7 @@ const Selector = ({
                     //inputProps={{ 'aria-labelledby': labelId }}
                 /> 
             </SelectIcon>
-        </FieldListItem>
+        </ButtonFieldItem>
     )
 }
 

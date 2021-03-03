@@ -24,6 +24,8 @@ import {
 
 import StepperBack from './StepperBack'
 
+import CropAndTaskPage from './CropAndTaskPage'
+
 import CropPage from './CropPage'
 import TaskPage from './TaskPage'
 import FieldPage from './FieldPage'
@@ -63,7 +65,7 @@ const FlexWizzard = styled(WizzardForm)`
 
 
 const defaultInitialValues = {
-    ...CropPage.initialValues,
+    ...CropAndTaskPage.initialValues,
     ...TaskPage.initialValues,
     ...FinancePage.initialValues,
     ...FieldPage.initialValues,
@@ -109,8 +111,8 @@ const PlanCropForm = ({
                     <FlexWizzard
                         initialValues={initialValues}
                         onSubmit={handleSubmit}
-                    >
-                        <CropPage validationSchema={CropPage.schema}/>
+                    >                        
+                        <CropAndTaskPage validationSchema={CropAndTaskPage.schema}/>
                         <TaskPage validationSchema={TaskPage.schema}/>
                         <FieldPage validationSchema={FieldPage.schema}/>
                         <SubsidyPage validationSchema={SubsidyPage.schema}/> 

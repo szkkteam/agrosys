@@ -18,6 +18,7 @@ export default {
             height: '100%',
             width: '100%',
             padding: `${pagePadding}px 0`,
+            paddingBottom: '0px',
           },
         },
       },

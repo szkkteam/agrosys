@@ -43,39 +43,47 @@ const MenuIconButton = styled(forwardRef(({onClick, icon: Icon = MoreHorizIcon,.
 const LinkMenuItem = withLinkComponent(MenuItem)
 
 
-const ListContainer = forwardRef(({items, data, onClose, ...props}, ref) =>
-    <Paper 
-        ref={ref}
-    >
-        { items && items.map((item, i)=> {
+const ListContainer = forwardRef(({
+    items,
+    data,
+    onClose,
+    ...props
+}, ref) => {
 
-            const handleClick = (localItem, param) => (e) => {
-                e.stopPropagation()
-                localItem.onClick && localItem.onClick(e, param)
-                onClose()
-            }
+    const handleClick = (localItem, param) => (e) => {
+        e.stopPropagation()
+        localItem.onClick && localItem.onClick(e, param)
+        onClose()
+    }
 
-            if ('link' in item) 
-                return (
-                    <LinkMenuItem 
-                        key={i}
-                        {...item.link}
-                    >
-                        <FormattedMessage {...item.title} />
-                    </LinkMenuItem>
-                )
-            else
-                return (
-                    <MenuItem 
-                        key={i}
-                        component='div'
-                        onClick={handleClick(item, data)}
-                    >
-                        <FormattedMessage {...item.title} />
-                    </MenuItem>
-                )
-        }) }
-    </Paper>)
+    return (
+        <Paper 
+            ref={ref}
+        >
+            { items && items.map((item, i)=> {
+                if ('link' in item) 
+                    return (
+                        <LinkMenuItem 
+                            key={i}
+                            {...item.link}
+                        >
+                            <FormattedMessage {...item.title} />
+                        </LinkMenuItem>
+                    )
+                else
+                    return (
+                        <MenuItem 
+                            key={i}
+                            component='div'
+                            onClick={handleClick(item, data)}
+                        >
+                            <FormattedMessage {...item.title} />
+                        </MenuItem>
+                    )
+            }) }
+        </Paper>
+    )
+})
 
 
 const ItemMenu = ({
@@ -88,9 +96,7 @@ const ItemMenu = ({
         <Popover
             component={MenuIconButton}
             className="inline-block"
-            componentProps={{
-                icon
-            }}
+            icon={icon}
             {...props}
         >
             <ListContainer

@@ -42,9 +42,9 @@ export const fieldToAutocomplete = ({
         field.onBlur(event ?? field.name);
       },
     onChange:
-      onChange ??
       function (_event, value) {
         setFieldValue(field.name, value);
+        onChange && onChange(_event, value)
       },
     disabled: disabled ?? isSubmitting,
     loading: isSubmitting,

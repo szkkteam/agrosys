@@ -6,9 +6,15 @@ import styled from 'styled-components'
 import { Redirect, useParams, Switch } from "react-router-dom";
 import { ROUTES } from 'farmApp/routes'
 
+import { 
+    MasterList,
+    DataLoading
+} from 'components'
+
 import {
-    TaskListItem
-} from 'farmApp/cropProduction/task/components'
+    OperationMasterList,
+    OperationListItem
+} from 'farmApp/operation/components'
 
 import {
     WidgetMedium,
@@ -40,18 +46,20 @@ const UpcomingTask = ({
             title="Upcoming tasks"
             subheader="For all crops"
             link={{
-                to: ROUTES.CropProductionTask,
+                to: ROUTES.OperationMap,
                 title: "show more"
             }}
             headerProps={{
                 shrinkHeader: true
             }}
         >
-            <ScrollList>
+            <MasterList
+                //isLoading={isLoading}
+            >
                 {data.map((d, i) => (
-                    <TaskListItem key={i} {...d} />
+                    <OperationListItem key={i} {...d} />
                 ))}
-            </ScrollList>            
+            </MasterList>
         </WidgetMedium>
     )
 }
