@@ -20,7 +20,7 @@ import {
     PrimaryButton
 } from 'components'
 import { TextField } from 'components/FormB'
-import { PanelContainer } from 'farmApp/components'
+import { ExpandPanel } from 'farmApp/components'
 
 import { FieldArrayHelper } from 'components/Form'
 
@@ -164,7 +164,7 @@ const FormContent = ({
                                         }
                                     />           
                                     <CardContent>
-                                        <PanelContainer
+                                        <ExpandPanel
                                             ref={panelRef}                                                                
                                         >
                                             {values.growingSeasons.map((data, i) => (
@@ -189,7 +189,7 @@ const FormContent = ({
                                                     />
                                                 </SeasonPanel.Panel>
                                             ))}
-                                        </PanelContainer>
+                                        </ExpandPanel>
                                     </CardContent>                 
                                 </Card>
                             ) : (

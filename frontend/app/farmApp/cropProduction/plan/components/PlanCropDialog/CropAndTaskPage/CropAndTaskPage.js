@@ -13,7 +13,7 @@ import * as Yup from 'yup';
 
 import {
     ExpandPanel,
-    PanelContainer,
+    ExpandPanelGroup,
 } from 'farmApp/components'
 
 import {
@@ -148,7 +148,7 @@ const CropAndTaskPage = ({
                             ref={arrayRef}
                             arrayHelpers={arrayHelpers}
                         >
-                            <PanelContainer
+                            <ExpandPanelGroup
                                 ref={panelRef}
                                 defaultOpen={0}
                             >
@@ -164,7 +164,7 @@ const CropAndTaskPage = ({
                                     else
                                         return <div>not implemented</div>
                                 })}
-                            </PanelContainer>
+                            </ExpandPanelGroup>
                         </FieldArrayHelper>
                     )}
                 />
