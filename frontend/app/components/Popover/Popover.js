@@ -61,15 +61,13 @@ const Popover = ({
     }
     
     return (
-        <div 
-            {...props}
-        >
+        <>
             <Component 
                 ref={anchorRef}
                 aria-controls={open ? 'menu-list-grow' : undefined}
                 aria-haspopup={"true"}
                 onClick={handleToggle}
-                {...componentProps}
+                {...props}
             >
                 {title}
             </Component>
@@ -95,7 +93,7 @@ const Popover = ({
                 </Grow>
             )}
             </Popper>
-        </div>
+        </>
     )
 }
 

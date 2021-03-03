@@ -34,4 +34,8 @@ export { SimpleProgress } from './Metric'
 /**
  * Panel components
  */
-export { ExpandPanel } from './Panel'
+export { ExpandPanel, ExpandPanelGroup } from './ExpandPanel'
+/**
+ * Season components
+ */
+export { SeasonArrowSelector } from './Season'

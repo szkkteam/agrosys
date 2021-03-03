@@ -18,7 +18,8 @@ const bottomPadding = 10
 
 const Container = styled.div`
     position: relative;
-    height: calc(100% - ${bottomPadding}px);
+    flex-grow: 1;
+    padding-bottom: ${bottomPadding}px;
     width: 100%;
     display: flex;
     flex-direction: column;
