@@ -7,8 +7,9 @@ import {
 } from 'farmApp/operation/components'
 
 import {
-  
-} from 'farmApp/plan/pages'
+  OperationMapOverview,
+  OperationTableOverview
+} from 'farmApp/operation/pages'
 
 import { ProtectedRoute } from 'utils/route'
 
@@ -61,13 +62,13 @@ export const routes = [
           {
             key: ROUTES.OperationMap,
             path: '/operations/map',
-            component: 'div',
+            component: OperationMapOverview,
             props: { absolute: true}
           },
           {
-            key: ROUTES.OperationMap,
+            key: ROUTES.OperationTable,
             path: '/operations/table',
-            component: 'div',
+            component: OperationTableOverview,
             props: { absolute: true}
           }
         ]

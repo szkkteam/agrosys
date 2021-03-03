@@ -96,9 +96,7 @@ const ItemMenu = ({
         <Popover
             component={MenuIconButton}
             className="inline-block"
-            componentProps={{
-                icon
-            }}
+            icon={icon}
             {...props}
         >
             <ListContainer

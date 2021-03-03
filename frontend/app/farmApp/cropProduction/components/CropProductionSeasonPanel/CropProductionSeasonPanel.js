@@ -15,7 +15,7 @@ import {
     IconButton
 } from '@material-ui/core'
 
-import { PanelContainer } from 'farmApp/components'
+import { ExpandPanelGroup } from 'farmApp/components'
 
 import PanelContext from './Context'
 import CropPanel from './CropPanel'
@@ -48,9 +48,9 @@ const CropProductionSeasonPanel = ({
                     {...props}
                 />
                 <CardContent>
-                    <PanelContainer>
+                    <ExpandPanelGroup>
                         {children}
-                    </PanelContainer>                    
+                    </ExpandPanelGroup>                    
                 </CardContent>
             </Card>
         </PanelContext.Provider>

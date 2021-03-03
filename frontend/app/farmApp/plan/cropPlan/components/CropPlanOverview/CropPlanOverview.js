@@ -17,7 +17,7 @@ import {
     PrimaryButton
 } from 'components'
 import { 
-    PanelContainer,
+    ExpandPanelGroup,
     SeasonArrowSelector
 } from 'farmApp/components'
 
@@ -78,11 +78,11 @@ const CropPlanOverview = ({
                             //onClick={createGrowSeason}
                         />
                     </ButtonPadding>
-                    <PanelContainer>
+                    <ExpandPanelGroup>
                         <CropPlanCrop />
                         <CropPlanCrop />
                         <CropPlanCrop />
-                    </PanelContainer>
+                    </ExpandPanelGroup>
                 </Grid>
                 <Grid container item xs={12} sm={6} md={4} direction="column">
                     <ButtonPadding>

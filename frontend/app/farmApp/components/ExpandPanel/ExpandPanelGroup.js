@@ -2,7 +2,7 @@ import React, { useState, useRef, useLayoutEffect, useEffect, useMemo, forwardRe
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-const PanelContainer = forwardRef(({
+const ExpandPanelGroup = forwardRef(({
     defaultOpen=null,
     children,
     ...props
@@ -33,10 +33,10 @@ const PanelContainer = forwardRef(({
     )
 })
 
-PanelContainer.propTypes = {
+ExpandPanelGroup.propTypes = {
     action: PropTypes.element,
     defaultOpen: PropTypes.number,
 }
 
 
-export default PanelContainer
+export default ExpandPanelGroup
