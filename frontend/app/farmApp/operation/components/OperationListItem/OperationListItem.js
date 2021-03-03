@@ -85,6 +85,7 @@ const OperationListItem = ({
     return (
          <HoverListItem
             button
+            divider
          >
              <ListItemAvatar>
                  <Progress 
