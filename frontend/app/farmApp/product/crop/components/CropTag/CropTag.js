@@ -23,7 +23,7 @@ const CropTag = ({
 
     const [clicked, setClicked] = useState(false)
 
-    const handleExpand = (e) => {
+    const toggleExpand = (e) => {
         e.stopPropagation()
         setClicked(!clicked)
     }
@@ -39,7 +39,7 @@ const CropTag = ({
                 clickable
                 size="small"
                 label={clicked? title: short}
-                onClick={handleExpand}
+                onClick={toggleExpand}
                 {...props}
             />
         </ClickAwayListener>
