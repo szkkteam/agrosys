@@ -6,17 +6,13 @@ import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 
 import { 
-    BackButton,
+    SecondaryButton,
 } from 'components'
 
 import { useStepperContext } from 'components/Stepper/hooks'
 
-const PrimaryBackButton = styled(props => <BackButton {...props} />)`
-    ${({ theme }) => `
-        color: ${theme.palette.primary.main};
-    `}
-    margin-left: 15px;
-    
+const PrimaryBackButton = styled(props => <SecondaryButton {...props} />)`    
+    margin: 0;
 `
 
 

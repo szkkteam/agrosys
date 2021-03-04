@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+import { spacing } from '@material-ui/system';
 
 import {
     PageHeader,
@@ -21,7 +22,8 @@ import {
 } from 'components/Form'
 
 import {
-    Paper
+    Paper,
+    Grid
 } from '@material-ui/core'
 
 import StepperBack from './StepperBack'
@@ -29,11 +31,7 @@ import CropPage from './CropPage'
 import TemplatePage from './TemplatePage'
 
 const Container = styled.div`
-    display: flex;
-    flex-grow: 1;
-    padding: 0;
-    padding-top: 35px;
-    position: relative;
+    ${spacing}
 `
 
 const StepperHeaderContainer = styled.div`
@@ -74,30 +72,47 @@ const CropPlanCreate = ({
     }
  
     return (
-        <PageContent spacing={[1, 2]}>
-            <Stepper
-                steps={steps}
-                //contents={contents}
-                //defaultStep={1}
-            >
-                <StepperHeaderContainer>
-                    <StepperBack />
-                    <MediumStepperHeader />
-                </StepperHeaderContainer>
-                
-                <Container /*ref={ ref => setContainerRef(ref)}*/>
-                    <FlexWizzard
-                        initialValues={initialValues}
-                        onSubmit={handleSubmit}
-                    >                        
-                       <CropPage validationSchema={CropPage.schema} />
-                       <TemplatePage validationSchema={TemplatePage.schema} />
-                    </FlexWizzard>
-                </Container>
-            </Stepper>
-        </PageContent>
+        <Stepper
+            steps={steps}
+            //contents={contents}
+            //defaultStep={1}
+        >
+            <Paper>
+                <Grid container>
+                    <Grid item xs={3}>
+                        <StepperHeader 
+                            orientation="vertical"
+                        />
+                    </Grid>
+                    <Grid item xs={9}>
+                        <Container
+                            p={3}
+                        >
+                            <FlexWizzard
+                                initialValues={initialValues}
+                                onSubmit={handleSubmit}
+                            >                        
+                                <CropPage validationSchema={CropPage.schema} />
+                                <TemplatePage validationSchema={TemplatePage.schema} />
+                            </FlexWizzard>
+                        </Container>
+                    </Grid>
+                </Grid>
+            </Paper>
+            
+        </Stepper>
     )
 }
+/*
+<StepperHeaderContainer>
+                <StepperBack />
+                
+            </StepperHeaderContainer>
+            
+            <Container >
+                
+            </Container>
+*/
 
 CropPlanCreate.propTypes = {
 

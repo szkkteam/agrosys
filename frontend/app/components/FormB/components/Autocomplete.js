@@ -56,6 +56,7 @@ export const fieldToAutocomplete = ({
 export default ({
     formProps={},
     inputParams={},
+    variant,
     options,
     getOptionLabel: propGetOptionLabel,
     ...props
@@ -90,6 +91,7 @@ export default ({
                       autoComplete="disabled"
                       error={showError}
                       helperText={showError ? formattedError : helperText}
+                      variant={variant}
                       {...params}
                       {...inputParams}
                   />

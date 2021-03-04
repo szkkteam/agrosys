@@ -44,17 +44,20 @@ const StepperHeader = ({
                     >
                         <FormattedMessage {...label} />
                     </StepButton>
-                    { orientation && orientation === "vertical"
-                        ? (<StepContent>
-                            {renderStepContent()}
-                        </StepContent>)
-                        : null
-                    }
+                    
                 </Step>
             ))}
         </Stepper> 
     )
 }
+/*
+{ orientation && orientation === "vertical"
+                        ? (<StepContent>
+                            {renderStepContent()}
+                        </StepContent>)
+                        : null
+                    }
+*/
 
 StepperHeader.propTypes = {
 

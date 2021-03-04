@@ -13,8 +13,8 @@ const PlanTabs = ({
     const intl = useIntl()
 
     const routes = [
-        {to: ROUTES.PlanCropPlan, value: {tab: 'crop-plan' },  label: intl.formatMessage(messages.cropPlan) },
-        {to: ROUTES.PlanFieldPlan, value: {tab: 'field-plan' }, label: intl.formatMessage(messages.fieldPlan) },
+        {to: ROUTES.PlanCropPlan, value: {tab: 'crop' },  label: intl.formatMessage(messages.cropPlan) },
+        {to: ROUTES.PlanFieldPlan, value: {tab: 'field' }, label: intl.formatMessage(messages.fieldPlan) },
         //{to: ROUTES.DashboardOverview, label: intl.formatMessage(messages.resource) },
     ]
 

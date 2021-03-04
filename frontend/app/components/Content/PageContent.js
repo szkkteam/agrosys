@@ -2,10 +2,12 @@ import React, { useRef, useState, useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
-import { Spacing } from 'styles'
+import { spacing, shadows } from '@material-ui/system';
+//import { Spacing } from 'styles'
 
-const Container = styled(({spacing, margin, overflow, ...props}) => <div {...props}/>)`
-    ${Spacing}
+const Container = styled(({overflow, component: Component, ...props}) => <Component {...props}/>)`
+    ${spacing}
+    ${shadows}
     ${({theme, overflow=false}) => `
         flex-grow: 1;
         display: flex;        
@@ -15,11 +17,12 @@ const Container = styled(({spacing, margin, overflow, ...props}) => <div {...pro
 `
 
 const PageContent = ({
+    component='div',
     children,
     ...props
 }) => {
     return (
-        <Container {...props}>
+        <Container component={component} {...props}>
             {children}
         </Container>
     )
@@ -27,6 +30,7 @@ const PageContent = ({
 
 PageContent.propTypes = {
     overflow: PropTypes.bool,
+    component: PropTypes.elementType,
     margin: PropTypes.oneOfType([
         PropTypes.number,
         PropTypes.arrayOf(PropTypes.number)

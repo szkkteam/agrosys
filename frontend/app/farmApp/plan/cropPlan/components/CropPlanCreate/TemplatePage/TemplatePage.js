@@ -8,10 +8,10 @@ import styled from 'styled-components'
 import { Formik, Field } from "formik";
 //import { TextField } from 'formik-material-ui';
 import { TextField } from 'components/FormB'
-import * as Yup from 'yup';
+import { spacing } from '@material-ui/system';
 
 import { 
-    PrimaryButton
+    PageHeader
 } from 'components'
 
 
@@ -31,7 +31,7 @@ import {
     TemplateFeatureSection
 } from 'farmApp/plan/template/components'
 
-import StepperNext from '../StepperNext'
+import FormFooter from '../FormFooter'
 
 import schema from './schema'
 
@@ -48,9 +48,8 @@ const SectionTitle = styled.div`
     align-items: center;
     padding-bottom: 15px;
 `
-
-const Section = styled(Grid)`
-    padding-bottom: 45px;
+const Section = styled.div`
+    ${spacing}
 `
 
 const InnerContainer = styled.div`
@@ -61,17 +60,11 @@ const TemplateSection = ({
 
 }) => {
     return (
-        <Section container item xs={12}>
-            <Grid item xs={12} md={8} lg={6}>
-                <SectionTitle>
-                    <FormLabel component="legend">
-                        How would you like to perform your work?
-                    </FormLabel>
-                </SectionTitle>
-                <TemplateSelect name="template.type"
-                    label="Operation template"
-                />
-            </Grid>
+        <Section mt={3}>
+            <TemplateSelect name="template.type"
+                label="Operation template"
+                variant="outlined"
+            />
         </Section>
     )
 }
@@ -81,7 +74,7 @@ const DateSection = ({
     ...props
 }) => {
     return (
-        <Section item xs={12}>
+        <Section mt={3}>
             <TemplatePeriodSection name="template.period"
             />
         </Section>
@@ -94,7 +87,7 @@ const FeatureSection = ({
     ...props
 }) => {
     return (
-        <Section item xs={12}>
+        <Section mt={3}>
             <TemplateFeatureSection name="template.features"
                 
             />
@@ -109,31 +102,35 @@ const TemplatePage = ({
 
     return (
         <>          
-            <InnerContainer>
-                <Grid container>
-                    <Grid container item xs={12} sm={6} md={8}>
-                        <TemplateSection
-                            {...props}
-                        />
-                        <DateSection
-                            {...props}
-                        />
-                        <FeatureSection
-                            {...props}
-                        />
-                    </Grid>
-                    <Grid container item xs={12} sm={6} md={4}>
-                        display
-                    </Grid>
+            <Grid container>
+                <Grid item xs={12}>
+                    <PageHeader
+                        title="Select your task template"
+                        subheader="Every detail will be considered in the application so please be accurate."
+                    />
+                    <TemplateSection
+                        {...props}
+                    />
+                    <DateSection
+                        {...props}
+                    />
+                    <FeatureSection
+                        {...props}
+                    />
                 </Grid>
-
-            </InnerContainer>
-            <StepperNext
+                
+            </Grid>
+            <FormFooter
                 title={globalMessages.save}
             />
         </>     
     )
 }
+/*
+<Grid container item xs={12} sm={6} md={4}>
+                    display
+                </Grid>
+*/
 
 TemplatePage.propTypes = {
 

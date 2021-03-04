@@ -8,10 +8,11 @@ import styled from 'styled-components'
 import { Formik, Field } from "formik";
 //import { TextField } from 'formik-material-ui';
 import { TextField } from 'components/FormB'
+import { spacing } from '@material-ui/system';
 import * as Yup from 'yup';
 
 import { 
-    PrimaryButton
+    PageHeader
 } from 'components'
 
 
@@ -27,7 +28,7 @@ import {
 
 import { CropSelect } from 'farmApp/product/crop/components'
 
-import StepperNext from '../StepperNext'
+import FormFooter from '../FormFooter'
 
 import schema from './schema'
 
@@ -45,8 +46,8 @@ const SectionTitle = styled.div`
     padding-bottom: 15px;
 `
 
-const Section = styled(Grid)`
-    padding-bottom: 45px;
+const Section = styled.div`
+    ${spacing}
 `
 
 const InnerContainer = styled.div`
@@ -70,15 +71,11 @@ const TitleSection = ({
     }, [cropType])
     */
     return (
-        <Section item xs={12}>
-            <SectionTitle>
-                <FormLabel component="legend">
-                    Name your crop plan
-                </FormLabel>
-            </SectionTitle>
+        <Section mt={3}>
             <Field
                 name="title"
                 component={TextField}
+                variant="outlined"
                 label="Title"
                 fullWidth
             />
@@ -93,13 +90,9 @@ const CropSection = ({
     const isCropSelected = _.get(values, "cropType") !== ""
 
     return (
-        <Section item xs={12}>
-            <SectionTitle>
-                <FormLabel component="legend">
-                    What is the main crop you would like to grow?
-                </FormLabel>
-            </SectionTitle>
+        <Section mt={3}>
             <CropSelect name="cropType"
+                variant="outlined"
                 label="Main crop type"
             />
         </Section>
@@ -112,17 +105,13 @@ const YieldSection = ({
     ...props
 }) => {
     return (
-        <Section item xs={12}>
-            <SectionTitle>
-                <FormLabel component="legend">
-                    What is the expected yield in t/ha?
-                </FormLabel>
-            </SectionTitle>
+        <Section mt={3}>
             <Field
                 name="expectedYield"
                 component={TextField}
                 label="Yield"
                 fullWidth
+                variant="outlined"
                 inputProps={{
                     type: "number"
                 }}
@@ -138,23 +127,25 @@ const CropPage = ({
 
     return (
         <>          
-            <InnerContainer>
-                <Grid container>
-                    <Grid container item xs={12} sm={8} md={4}>
-                        <TitleSection
-                            {...props}
-                        />
-                        <CropSection
-                            {...props}
-                        />
-                        <YieldSection
-                            {...props}
-                        />
-                    </Grid>
+            <Grid container>
+                <Grid item xs={12}>
+                    <PageHeader
+                        title="Provide information about the crop you want to grow"
+                        subheader="Every detail will be considered in the application so please be accurate."
+                    />
+                    <TitleSection
+                        {...props}
+                    />
+                    <CropSection
+                        {...props}
+                    />
+                    <YieldSection
+                        {...props}
+                    />  
                 </Grid>
-
-            </InnerContainer>
-            <StepperNext
+                              
+            </Grid>
+            <FormFooter
                 title={globalMessages.next}
             />
         </>     

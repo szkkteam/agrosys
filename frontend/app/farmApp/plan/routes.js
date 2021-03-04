@@ -8,6 +8,7 @@ import {
 
 import {
   CropPlanOverview,
+  FieldPlanOverview,
   CropPlanCreate
 } from 'farmApp/plan/pages'
 
@@ -55,7 +56,6 @@ export const ROUTES = {
 
 export const routes = [  
   {
-    // TODO: This is used by the rail
     key: ROUTES.Plan,
     path: '/plans',
     component: 'div', // Empty div is okay as a componenet, because we are using it as a route group
@@ -68,14 +68,14 @@ export const routes = [
         routes: [
           {
             key: ROUTES.PlanCropPlan,
-            path: '/plans/crop-plan', // Match the same route
+            path: '/plans/crop', // Match the same route
             component: CropPlanOverview,
             props: { absolute: true }, 
           },
           {
             key: ROUTES.PlanFieldPlan,
-            path: '/plans/field-plan', // Match the same route
-            component: 'div',
+            path: '/plans/field', // Match the same route
+            component: FieldPlanOverview,
             props: { absolute: true }, 
           },
         ]

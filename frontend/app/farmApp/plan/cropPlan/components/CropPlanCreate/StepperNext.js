@@ -10,10 +10,7 @@ import {
 
 
 const NextButton = styled(PrimaryButton)`
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    //transform: translateX(-50%);
+   margin: 0;
 `
 
 const StepperNext = (props) => {
