@@ -3,6 +3,10 @@ import styled from 'styled-components'
 import { Redirect, generatePath } from 'react-router-dom'
 
 import {
+  PlanAppBar
+} from 'farmApp/plan/components'
+
+import {
   CropPlanOverview,
   CropPlanCreate
 } from 'farmApp/plan/pages'
@@ -20,12 +24,16 @@ export const ROUTES = {
    * Entry point for navrails
    */
   Plan: 'Plan',
+  PlanViews: 'PlanViews',
   /**
    * CropPlan main view
    */
   PlanCropPlan: 'PlanCropPlan',
   PlanCropPlanCreate: 'PlanCropPlanCreate',
-
+  /**
+   * FieldPlan main view
+   */
+  PlanFieldPlan: 'PlanFieldPlan',
 }
 
 /**
@@ -53,11 +61,26 @@ export const routes = [
     component: 'div', // Empty div is okay as a componenet, because we are using it as a route group
     routes: [
       {
-        key: ROUTES.PlanCropPlan,
-        path: '', // Match the same route
-        component: CropPlanOverview,
+        key: ROUTES.PlanViews,
+        path: '/:tab?',
+        component: PlanAppBar,
         props: { exact: true }, 
-      },      
+        routes: [
+          {
+            key: ROUTES.PlanCropPlan,
+            path: '/plans/crop-plan', // Match the same route
+            component: CropPlanOverview,
+            props: { absolute: true }, 
+          },
+          {
+            key: ROUTES.PlanFieldPlan,
+            path: '/plans/field-plan', // Match the same route
+            component: 'div',
+            props: { absolute: true }, 
+          },
+        ]
+      },
+            
       {
         key: ROUTES.PlanCropPlanCreate,
         path: '/season/:season/new', // Match the same route

@@ -12,10 +12,6 @@ import {
 } from 'farmApp/plan/hooks'
 
 import {
-    AppBar
-} from 'farmApp/components'
-
-import {
     CropPlanOverview
 } from 'farmApp/plan/cropPlan/components'
 
@@ -42,9 +38,6 @@ export default ({
                         {intl.formatMessage(messages.title)}
                     </title>
                 </Helmet>
-                <AppBar
-                    title={messages.title}
-                />
                 <CropPlanOverview
                     season={season}
                 />
