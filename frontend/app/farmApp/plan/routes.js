@@ -9,7 +9,8 @@ import {
 import {
   CropPlanOverview,
   FieldPlanOverview,
-  CropPlanCreate
+  CropPlanCreate,
+  FieldPlanCreate
 } from 'farmApp/plan/pages'
 
 import { ProtectedRoute } from 'utils/route'
@@ -35,6 +36,7 @@ export const ROUTES = {
    * FieldPlan main view
    */
   PlanFieldPlan: 'PlanFieldPlan',
+  PlanFieldPlanCreate: 'PlanFieldPlanCreate',
 }
 
 /**
@@ -83,8 +85,14 @@ export const routes = [
             
       {
         key: ROUTES.PlanCropPlanCreate,
-        path: '/season/:season/new', // Match the same route
+        path: '/crop/:season/new', // Match the same route
         component: CropPlanCreate,
+        //props: { exact: true }, 
+      },
+      {
+        key: ROUTES.PlanFieldPlanCreate,
+        path: '/field/:season/new', // Match the same route
+        component: FieldPlanCreate,
         //props: { exact: true }, 
       }
     ]

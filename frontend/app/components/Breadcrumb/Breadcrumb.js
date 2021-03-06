@@ -38,7 +38,7 @@ const Breadcrumb = ({
     )
 }
 
-Breadcrumb.propTypes = {
+export const BreadcrumbPropTypes = {
     links: PropTypes.arrayOf(PropTypes.shape({
         title: PropTypes.oneOfType([
             PropTypes.string,
@@ -48,5 +48,8 @@ Breadcrumb.propTypes = {
         params: PropTypes.object
     }))
 }
+
+
+Breadcrumb.propTypes = BreadcrumbPropTypes
 
 export default Breadcrumb

@@ -28,7 +28,8 @@ const PageContent = ({
     )
 }
 
-PageContent.propTypes = {
+
+export const PageContentPropTypes = {
     overflow: PropTypes.bool,
     component: PropTypes.elementType,
     margin: PropTypes.oneOfType([
@@ -40,5 +41,8 @@ PageContent.propTypes = {
         PropTypes.arrayOf(PropTypes.number)
     ]),
 }
+
+
+PageContent.propTypes = PageContentPropTypes
 
 export default PageContent

@@ -7,7 +7,8 @@ import styled from 'styled-components'
 import { ROUTES } from 'farmApp/routes'
 
 import {
-    FieldPlanOverview
+    FieldPlanOverview,
+    FieldPlanNewPlanButton
 } from 'farmApp/plan/fieldPlan/components'
 
 import {
@@ -36,6 +37,10 @@ export default ({
                 breadcrumbs={{
                     links
                 }}
+                primaryAction={
+                    <FieldPlanNewPlanButton
+                    />
+                }
             >
                 <FieldPlanOverview
                 />

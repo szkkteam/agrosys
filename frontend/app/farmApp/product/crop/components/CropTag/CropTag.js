@@ -18,10 +18,11 @@ const AnimatedChip = styled(Chip)`
 const CropTag = ({
     title,
     short,
+    defaultExpand=false,
     ...props
 }) => {
 
-    const [clicked, setClicked] = useState(false)
+    const [clicked, setClicked] = useState(defaultExpand)
 
     const toggleExpand = (e) => {
         e.stopPropagation()
@@ -30,7 +31,7 @@ const CropTag = ({
 
     const handleShrink = (e) => {
         e.stopPropagation()
-        setClicked(false)
+        setClicked(defaultExpand)
     }
 
     return (

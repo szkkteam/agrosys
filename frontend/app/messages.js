@@ -1,10 +1,13 @@
 import { defineMessages } from 'react-intl'
 
 export const scope = 'app.global'
-const production = 'app.farmApp.cropProduction.production'
-const validation = 'app.global.form.validationErrors'
+export const constantsScope = 'app.global.constants'
+export const validatonScope = 'app.global.validation'
 
 export default defineMessages({
+    /**
+     * Globals
+     */
     edit: {
         id: `${scope}.edit`,  
         defaultMessage: 'Edit',
@@ -53,22 +56,14 @@ export default defineMessages({
         id: `${scope}.next`,  
         defaultMessage: 'Next',
     },
-    mainCropProduction: {
-        id: `${production}.cropProductionType.mainCropProduction`,
-        defaultMessage: 'Main crop production',
-    },
-    secondaryCropProduction: {
-        id: `${production}.cropProductionType.secondaryCropProduction`,
-        defaultMessage: 'Secondary crop production',
-    },
+    select: {
+        id: `${scope}.select`,  
+        defaultMessage: 'Select',
+    },    
     loading: {
         id: `${scope}.loading`,  
         defaultMessage: 'Loading ...',
-    },
-    validationRequired: {
-        id: `${validation}.required`,  
-        defaultMessage: 'Field required',
-    },
+    },    
     complete: {
         id: `${scope}.complete`,  
         defaultMessage: 'Complete',
@@ -76,6 +71,55 @@ export default defineMessages({
     pending: {
         id: `${scope}.pending`,  
         defaultMessage: 'Pending',
-    }
-    
+    },
+    /**
+     * Constants
+     */
+    planting: {
+        id: `${constantsScope}.planting`,  
+        defaultMessage: 'Planting',
+    },
+    harvest: {
+        id: `${constantsScope}.harvest`,  
+        defaultMessage: 'Harvest',
+    },
+    tilage: {
+        id: `${constantsScope}.tilage`,  
+        defaultMessage: 'Tilage',
+    },
+    productApplication: {
+        id: `${constantsScope}.productApplication`,  
+        defaultMessage: 'Product Application',
+    },
+    scouting: {
+        id: `${constantsScope}.scouting`,  
+        defaultMessage: 'Scouting',
+    },
+    soilSampling: {
+        id: `${constantsScope}.soilSampling`,  
+        defaultMessage: 'Soil Sampling',
+    },
+    irrigation: {
+        id: `${constantsScope}.irrigation`,  
+        defaultMessage: 'Irrigation',
+    },
+    other: {
+        id: `${constantsScope}.other`,  
+        defaultMessage: 'Other',
+    },
+    mainCropProduction: {
+        id: `${constantsScope}.cropProductionType.mainCropProduction`,
+        defaultMessage: 'Main crop production',
+    },
+    secondaryCropProduction: {
+        id: `${constantsScope}.cropProductionType.secondaryCropProduction`,
+        defaultMessage: 'Secondary crop production',
+    },
+    /**
+     * Validation
+     */
+    validationRequired: {
+        id: `${validatonScope}.required`,  
+        defaultMessage: 'Field required',
+    },
   })

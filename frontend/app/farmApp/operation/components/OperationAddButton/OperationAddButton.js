@@ -1,7 +1,8 @@
-import React, { useRef, useMemo, useLayoutEffect, useEffect } from 'react'
+import React, { useRef, useMemo, useLayoutEffect, useEffect, createContext, useContext } from 'react'
+import globalMessages from 'messages'
 import PropTypes from 'prop-types'
 import messages from './messages';
-import { useIntl } from 'react-intl'
+import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import {
@@ -14,17 +15,45 @@ import {
     MenuItem
 } from '@material-ui/core'
 
-const TaskButton = styled(MenuButton)`
-    width: calc(100% - 2 * 5px);
-    margin: 0 5px;
-`
+import { TASK_TYPES } from '../../constants'
 
-const OperationAddButton = ({
+const MenuContext = createContext({
+    handleClick: null
+})
 
+const OperationOption = ({
+    type,
+    ...props
 }) => {
 
+    const {
+        handleClick
+    } = useContext(MenuContext)
+
+    const handleSelect = () => {
+        handleClick && handleClick(type)
+    }
+
     return (
-        <TaskButton
+        <MenuItem onClick={handleSelect}>
+            <FormattedMessage {...globalMessages[type]} />
+        </MenuItem>
+    )
+}
+
+const OperationAddButton = ({
+    className,
+    onClick,
+    ...props
+}) => {
+
+    const contextObject = {
+        handleClick: onClick
+    }
+
+    return (
+        <MenuButton
+            className={className}
             title="New task"
             color="primary"
             variant="contained"
@@ -32,16 +61,17 @@ const OperationAddButton = ({
                 <ArrowDropDownIcon />
             }            
         >
-            <MenuItem>
-                Harvest
-            </MenuItem>
-            <MenuItem>
-                Planting
-            </MenuItem>
-            <MenuItem>
-                Other
-            </MenuItem>
-        </TaskButton>
+            <MenuContext.Provider value={contextObject}>
+                <OperationOption type={TASK_TYPES.PLANTING}/>
+                <OperationOption type={TASK_TYPES.PRODUCT_APPLICATION}/>
+                <OperationOption type={TASK_TYPES.TILAGE}/>
+                <OperationOption type={TASK_TYPES.SCOUTING}/>
+                <OperationOption type={TASK_TYPES.SOIL_SAMPLING}/>
+                <OperationOption type={TASK_TYPES.HARVEST}/>
+                <OperationOption type={TASK_TYPES.IRRIGATION}/>
+                <OperationOption type={TASK_TYPES.OTHER}/>
+            </MenuContext.Provider>            
+        </MenuButton>
     )
 }
 

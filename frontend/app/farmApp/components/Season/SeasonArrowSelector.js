@@ -84,7 +84,10 @@ const SeasonArrowSelector = ({
 */
 
 SeasonArrowSelector.propTypes = {
-    season: PropTypes.number.isRequired,
+    season: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string
+    ]).isRequired,
     onChange: PropTypes.func.isRequired,
 }
 

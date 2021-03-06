@@ -9,12 +9,18 @@ import styled from 'styled-components'
 import { ROUTES } from 'farmApp/routes'
 import { withLinkComponent } from 'utils/hoc'
 
+import { useCreateTask } from 'farmApp/operation/hooks'
+
 import {
     PrimaryActionButton,
 } from 'components'
 import { 
     ExpandPanelGroup,
 } from 'farmApp/components'
+
+import {
+    OperationAddButton
+} from 'farmApp/operation/components'
 
 import {
     Grid,
@@ -35,6 +41,11 @@ const ButtonPadding = styled.div`
 const CropPlanOverview = ({
     season,
 }) => {
+    const handleCreateTask = useCreateTask({
+        season,
+        goUpRoute: {to: ROUTES.PlanCropPlan, dataProps: {search: `season=${season}`}},
+        redirect: {to: ROUTES.PlanCropPlan, dataProps: {search: `season=${season}`}},
+    })
 
     return (          
         <Grid container spacing={3} style={{flexGrow: 1}}>
@@ -55,9 +66,8 @@ const CropPlanOverview = ({
             </Grid>
             <Grid container item xs={12} sm={6} md={4} direction="column">
                 <ButtonPadding>
-                    <PrimaryActionButton
-                        title={messages.addTaskPlan}
-                        //onClick={createGrowSeason}
+                    <OperationAddButton
+                        onClick={handleCreateTask}
                     />
                 </ButtonPadding>
                 <CropPlanTaskList />

@@ -44,7 +44,7 @@ export { ExpandPanel, ExpandPanelGroup } from './ExpandPanel'
 /**
  * Season components
  */
-export { SeasonArrowSelector } from './Season'
+export { SeasonArrowSelector, SeasonSelector } from './Season'
 /**
  * Table components
  */

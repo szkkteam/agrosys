@@ -1,5 +1,11 @@
-export const TAB_OVERVIEW = '#overview'
-export const TAB_TIMELINE = '#timeline'
+export const TASK_TYPES = {
 
-export const VIEW_MODULE = '#module'
-export const VIEW_LIST = '#list'
+    PLANTING: 'planting',
+    HARVEST: 'harvest',
+    TILAGE: 'tilage',
+    PRODUCT_APPLICATION: 'productApplication',
+    SCOUTING: 'scouting',
+    SOIL_SAMPLING: 'soilSampling',
+    IRRIGATION: 'irrigation',
+    OTHER: 'other',
+}

@@ -3,5 +3,6 @@ export {
     Autocomplete,
     DatePicker,
     RadioGroup,
-    Checkbox
+    Checkbox,
+    Number,
 } from './components'

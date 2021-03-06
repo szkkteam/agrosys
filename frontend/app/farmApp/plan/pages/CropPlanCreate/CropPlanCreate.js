@@ -48,7 +48,7 @@ export default ({
                 goUpRoute={{
                     to: ROUTES.PlanCropPlan
                 }}
-                title={messages.title}
+                title={messages.cropPlanOverview}
             />
             <MinimalLayout
                 containerProps={{

@@ -109,7 +109,6 @@ const FieldSideSelector = ({
         onSelected && onSelected(id, newState)
     }
 
-    const result = useSelectFieldsArea(selected)
     const { payload: { area } } = useSelectFieldsArea(selected)
     const convertedArea = useConvertArea(area)
 

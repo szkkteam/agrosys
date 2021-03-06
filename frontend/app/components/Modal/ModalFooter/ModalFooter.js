@@ -45,9 +45,9 @@ const ModalFooter = ({
                         ?   children
                         :   (
                             <div>
-                                <SecondaryButton
+                                {secondaryButtonProps && <SecondaryButton
                                     {...secondaryButtonProps}
-                                />
+                                /> }
                                 <PrimaryButton
                                     {...primaryButtonProps}
                                 />

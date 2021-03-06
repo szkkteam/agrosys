@@ -9,7 +9,7 @@ import {
     Typography
 } from '@material-ui/core'
 
-import Breadcrumbs from '../Breadcrumb/Breadcrumb'
+import Breadcrumbs, { BreadcrumbPropTypes } from '../Breadcrumb/Breadcrumb'
 
 const Container = styled.div` 
     ${spacing}
@@ -48,8 +48,6 @@ const PageHeader = ({
         <FormattedMessage {...subheader} />
     ) : subheader
 
-    console.debug("children: ", children)
-
     return (
         <Container {...props}>
             <div>
@@ -72,8 +70,8 @@ const PageHeader = ({
     )
 }
 
-PageHeader.propTypes = {
-    breadcrumbs: Breadcrumbs.propTypes,
+export const PageHeaderPropTypes = {
+    breadcrumbs: PropTypes.shape(BreadcrumbPropTypes),
     title: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.object
@@ -83,5 +81,7 @@ PageHeader.propTypes = {
         PropTypes.object
     ]),
 }
+
+PageHeader.propTypes = PageHeaderPropTypes
 
 export default PageHeader

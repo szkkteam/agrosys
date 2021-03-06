@@ -20,6 +20,8 @@ import {
     IconButton
 } from '@material-ui/core';
 
+import FieldListItemBoundary from '../FieldListItemBoundary/FieldListItemBoundary'
+
 import { useSelectField, useConvertArea } from '../../hooks'
 
 const ListContainer = styled(MasterListItem)`
@@ -79,16 +81,14 @@ const FieldListItem = ({
             {...props}
         >
             {children}
-            <ListItemAvatar>
-                <Avatar
-                    variant="square"
-                    sizes="48px"
-                    src="https://via.placeholder.com/48/48"
-                >
-
-                </Avatar>
-            </ListItemAvatar>
+            <FieldListItemBoundary />
             <ListItemText 
+                primaryTypographyProps={{
+                    noWrap: true,
+                }}
+                secondaryTypographyProps={{
+                    noWrap: true,
+                }}
                 primary={`${title}, ${area}`}
                 secondary={`(${meparId})`}
             />

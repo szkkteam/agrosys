@@ -6,10 +6,8 @@ import { spacing } from '@material-ui/system';
 import { Redirect, useLocation } from "react-router-dom";
 import { HashRoute } from 'utils/route'
 
-import { 
-    PageHeader,
-    PageContent,
-} from 'components'
+import PageHeader, { PageHeaderPropTypes } from 'components/Content/PageHeader'
+import PageContent, { PageContentPropTypes } from 'components/Content/PageContent'
 
 const Spacer = styled.div`
     flex-grow: 1;
@@ -43,10 +41,12 @@ const MinimalLayout = ({
     )
 }
 
-MinimalLayout.propTypes = {    
-    ...PageHeader.propTypes,
-    containerProps: PageContent.propTypes,
+export const MinimalLayoutPropTypes = {
+    ...PageHeaderPropTypes,
+    containerProps: PropTypes.shape(PageContentPropTypes),
     overflow: PropTypes.bool
 }
+
+MinimalLayout.propTypes = MinimalLayoutPropTypes
 
 export default MinimalLayout

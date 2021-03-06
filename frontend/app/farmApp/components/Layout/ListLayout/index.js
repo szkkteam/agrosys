@@ -64,11 +64,7 @@ const ListLayout = ({
                 py={2}
             >
                 <Spacer/>
-                {primaryAction && 
-                    <PrimaryActionButton
-                        {...primaryAction}
-                    />
-                }
+                {primaryAction}
             </PageHeader>
             {actions && 
                 <ActionBar {...actions} />

@@ -8,13 +8,8 @@ import styled from 'styled-components'
 import { spacing } from '@material-ui/system';
 
 import {
-    PageHeader,
-    PageContent,
     Stepper,
     StepperHeader,
-    PageToolbar,
-    PrimaryActionButton,
-    PrimaryButton
 } from 'components'
 
 import {
@@ -26,7 +21,6 @@ import {
     Grid
 } from '@material-ui/core'
 
-import StepperBack from './StepperBack'
 import CropPage from './CropPage'
 import TemplatePage from './TemplatePage'
 
@@ -34,17 +28,6 @@ const Container = styled.div`
     ${spacing}
 `
 
-const StepperHeaderContainer = styled.div`
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-`
-
-const MediumStepperHeader = styled(props => <StepperHeader {...props} />)`
-    width: 70%;
-    margin: 0 auto;
-    background-color: initial;
-`
 
 const FlexWizzard = styled(WizzardForm)`
     flex-grow: 1;
@@ -103,16 +86,6 @@ const CropPlanCreate = ({
         </Stepper>
     )
 }
-/*
-<StepperHeaderContainer>
-                <StepperBack />
-                
-            </StepperHeaderContainer>
-            
-            <Container >
-                
-            </Container>
-*/
 
 CropPlanCreate.propTypes = {
 
