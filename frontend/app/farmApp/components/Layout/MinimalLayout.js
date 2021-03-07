@@ -18,25 +18,28 @@ const MinimalLayout = ({
     containerProps={},
     tabs,
     action,
-    overflow=false,
+    overflow='hidden',
     children,
     ...props
 }) => {
 
     return (
         <PageContent
-            overflow={overflow}
             px={2}
-            {...containerProps}
+            overflow={overflow}
         >
-            <PageHeader
-                py={2}
-                {...props}
+            <PageContent
+                {...containerProps}
             >
-                <Spacer/>
-                {action}
-            </PageHeader>
-            {children}
+                <PageHeader
+                    py={2}
+                    {...props}
+                >
+                    <Spacer/>
+                    {action}
+                </PageHeader>
+                {children}
+            </PageContent>
         </PageContent>
     )
 }
@@ -44,7 +47,7 @@ const MinimalLayout = ({
 export const MinimalLayoutPropTypes = {
     ...PageHeaderPropTypes,
     containerProps: PropTypes.shape(PageContentPropTypes),
-    overflow: PropTypes.bool
+    overflow: PageContentPropTypes.overflow,
 }
 
 MinimalLayout.propTypes = MinimalLayoutPropTypes

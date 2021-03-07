@@ -15,7 +15,7 @@ const PaddedHeader = styled(PageHeader)`
 
 
 const FullscreenFormLayout = ({
-    overflow=true,
+    overflow='auto',
     headerProps={},
     children,
 }) => {

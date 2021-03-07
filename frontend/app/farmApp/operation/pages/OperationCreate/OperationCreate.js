@@ -19,6 +19,10 @@ import {
     AppBar
 } from 'farmApp/components'
 
+import {
+    OperationCreate
+} from 'farmApp/operation/components'
+
 
 export default ({
     location,
@@ -55,16 +59,23 @@ export default ({
                 title={messages.title}
             />
             <MinimalLayout
+                overflow='auto'
                 containerProps={{
                     component: Container,
-                    maxWidth: 'lg'
+                    maxWidth: 'lg',
+                    overflow: 'initial',
+                    pb: 10
                 }}
                 title={messages.operationCreate}
                 breadcrumbs={{
                     links
                 }}
             >
-                <div>content</div>
+                <OperationCreate
+                    season={season}
+                    taskType={taskType}
+
+                />
             </MinimalLayout>
         </>
     )

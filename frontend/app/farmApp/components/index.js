@@ -27,7 +27,8 @@ export {
     DashboardLayout,
     FullscreenFormLayout,
     ListLayout,
-    MinimalLayout
+    MinimalLayout,
+    StepperFormLayout
 } from './Layout'
 /**
  * Widget components

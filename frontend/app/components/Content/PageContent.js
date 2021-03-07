@@ -8,10 +8,10 @@ import { spacing, shadows } from '@material-ui/system';
 const Container = styled(({overflow, component: Component, ...props}) => <Component {...props}/>)`
     ${spacing}
     ${shadows}
-    ${({theme, overflow=false}) => `
+    ${({theme, overflow='hidden'}) => `
         flex-grow: 1;
         display: flex;        
-        overflow-y: ${overflow? 'auto': 'hidden'};
+        overflow-y: ${overflow};
         flex-direction: column;
     `}
 `
@@ -30,7 +30,9 @@ const PageContent = ({
 
 
 export const PageContentPropTypes = {
-    overflow: PropTypes.bool,
+    overflow: PropTypes.oneOf([
+        'initial', 'auto', 'hidden', 'scroll'
+    ]),
     component: PropTypes.elementType,
     margin: PropTypes.oneOfType([
         PropTypes.number,

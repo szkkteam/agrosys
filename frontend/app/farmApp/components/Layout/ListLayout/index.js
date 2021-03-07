@@ -56,7 +56,7 @@ const ListLayout = ({
 
     return (
         <PageContent
-            overflow
+            overflow='auto'
             px={2}
         >
             <PageHeader
