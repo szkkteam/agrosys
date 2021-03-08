@@ -1,5 +1,6 @@
 import React, { useRef, useMemo, useLayoutEffect, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import globalMessages from 'messages'
 import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
@@ -8,12 +9,8 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { TextField } from 'components/FormB'
 
 import {
-    StepperFormLayout
-} from 'farmApp/components'
-
-import {
-    CropPlanSelect
-} from 'farmApp/plan/cropPlan/components'
+    PrimaryButton
+} from 'components'
 
 import {
     Grid,
@@ -28,71 +25,46 @@ import {
 import OperationTaskTypeSelect from '../OperationTaskTypeSelect/OperationTaskTypeSelect'
 import { getTaskTypeFromId } from '../../constants'
 
+import CropTaskTypeSection from './CropTaskTypeSection'
+import MainSection from './MainSection'
+import PlanningSection from './PlanningSection'
+import ResourceSection from './ResourceSection'
 
 const Section = styled.div`
     ${spacing}
 `
 
 const OperationCreate = ({
-    season,
-    taskType,
+    initialValues
 }) => {
     const intl = useIntl()
+
+    const {
+        taskType,
+        ...copyInitialValues
+    } = initialValues
+
+    copyInitialValues.taskType = getTaskTypeFromId(taskType)
 
     return (
         <Formik
             initialValues={{
-            season,
-            taskType: getTaskTypeFromId(taskType),
-            _error: "",
+                ...MainSection.initialValues,
+                ...CropTaskTypeSection.initialValues,
+                ...PlanningSection.initialValues,
+                ...copyInitialValues,
+                _error: "",
             }}
             //onSubmit={submit(login)}
         >
             {({isSubmitting, dirty, errors, values, ...props}) => (
                 <Form>
                     <Grid container spacing={4}>
-                        <Grid item xs={8}>
-                            <Section>
-                                <Card>
-                                    <CardContent>
-                                        <Field
-                                            name="title"
-                                            fullWidth
-                                            component={TextField}
-                                            variant="outlined"
-                                            label="Task title"
-                                        />
-                                    </CardContent>
-                                </Card>
-                            </Section>
-                            <Section mt={3}>
-                                <Card>
-                                    <CardHeader
-                                        title="Planning"
-                                    />
-                                    <Divider />
-                                    <CardContent>
-                                        <Section>
-                                            <Field
-                                                name="title"
-                                                fullWidth
-                                                component={TextField}
-                                                variant="outlined"
-                                                label="Start date"
-                                            />
-                                        </Section>
-                                        <Section mt={2}>
-                                            <Field
-                                                name="title"
-                                                fullWidth
-                                                component={TextField}
-                                                variant="outlined"
-                                                label="End date"
-                                            />
-                                        </Section>
-                                    </CardContent>
-                                </Card>
-                            </Section>
+                        <Grid item xs={12} md={8}>
+                            <MainSection
+                            />
+                            <PlanningSection
+                            />
                             <Section mt={3}>
                                 <Card>
                                     <CardHeader
@@ -121,67 +93,18 @@ const OperationCreate = ({
                                     </CardContent>
                                 </Card>
                             </Section>
-                            <Section mt={3}>
-                                <Card>
-                                    <CardHeader
-                                        title="Assigned resources"
-                                    />
-                                    <Divider />
-                                    <CardContent>
-                                        <Section>
-                                            <Field
-                                                name="title"
-                                                fullWidth
-                                                component={TextField}
-                                                variant="outlined"
-                                                label="Start date"
-                                            />
-                                        </Section>
-                                        <Section mt={2}>
-                                            <Field
-                                                name="title"
-                                                fullWidth
-                                                component={TextField}
-                                                variant="outlined"
-                                                label="End date"
-                                            />
-                                        </Section>
-                                    </CardContent>
-                                </Card>
-                            </Section>
+                            <ResourceSection
+                            />
                         </Grid>
-                        <Grid item xs={4}>
-                            <Card>
-                                <CardHeader
-                                    title="Organize"
-                                />
-                                <Divider />
-                                <CardContent>
-                                    <Section>
-                                        <CropPlanSelect
-                                            name="cropPlan"
-                                            variant="outlined"
-                                            label="Crop plan"
-                                        />
-                                    </Section>
-                                    <Section mt={2}>
-                                        <OperationTaskTypeSelect 
-                                            name="taskType"
-                                            label="Task Type"
-                                            variant="outlined"
-                                        />                                        
-                                    </Section>
-                                    <Section mt={2}>
-                                        <Field
-                                            name="taskSubtype"
-                                            fullWidth
-                                            component={TextField}
-                                            variant="outlined"
-                                            label="Task subtype"
-                                        />
-                                    </Section>
-                                </CardContent>
-                            </Card>                            
+                        <Grid item xs={12} md={4}>
+                            <CropTaskTypeSection
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <PrimaryButton
+                                type="submit"
+                                title={globalMessages.create}
+                            />
                         </Grid>
                     </Grid>
                 </Form>

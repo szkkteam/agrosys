@@ -4,8 +4,11 @@ import {
 } from '@material-ui/pickers'
 import { getIn } from 'formik'
 import { useDateFnsLocale } from 'utils/hooks'
+import { useFormatError } from 'utils/hooks'
 //import { createErrorHandler } from './errorHandler';
-
+import {
+  TextField,
+} from '@material-ui/core'
 
 export const fieldToDatePicker = ({
     field: { onChange: _onChange, onBlur: fieldOnBlur, ...field },
@@ -18,6 +21,7 @@ export const fieldToDatePicker = ({
   }) => {
     const fieldError = getIn(errors, field.name);
     const showError = getIn(touched, field.name) && !!fieldError;
+    const formattedError = useFormatError(fieldError)
   
     return {
       error: showError,
@@ -34,15 +38,30 @@ export const fieldToDatePicker = ({
           fieldOnBlur(e ?? field.name);
         },
       onError:
-        onError ?? createErrorHandler(fieldError, field.name, setFieldError),
+        onError ?? formattedError,
       ...field,
       ...props,
     };
   }
-  
-  export default ({ children, ...props }) => {
-    const { mask } = useDateFnsLocale()
-    return (
-      <MuiDatePicker mask={mask} {...fieldToDatePicker(props)}>{children}</MuiDatePicker>
-    )
-  }
+
+export default ({
+  fullWidth=false,
+  variant,
+  ...props
+}) => {
+  const { mask } = useDateFnsLocale()
+  return (
+    <MuiDatePicker 
+      mask={mask}
+      {...fieldToDatePicker(props)}
+      renderInput={(props) => 
+        <TextField
+            variant={variant}
+            fullWidth={fullWidth}
+            {...props}
+            //{...inputProps}
+        />
+    }
+    />
+  )
+}

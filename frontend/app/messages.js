@@ -52,6 +52,10 @@ export default defineMessages({
         id: `${scope}.submit`,  
         defaultMessage: 'Submit',
     },
+    create: {
+        id: `${scope}.create`,  
+        defaultMessage: 'Create',
+    },
     next: {
         id: `${scope}.next`,  
         defaultMessage: 'Next',

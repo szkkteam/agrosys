@@ -4,6 +4,7 @@ import messages from './messages';
 import styled from 'styled-components'
 import { ROUTES } from 'farmApp/routes'
 import { useIntl, FormattedMessage } from 'react-intl'
+import { useConvertArea } from 'utils/hooks'
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
@@ -22,7 +23,7 @@ import {
 
 import FieldListItemBoundary from '../FieldListItemBoundary/FieldListItemBoundary'
 
-import { useSelectField, useConvertArea } from '../../hooks'
+import { useSelectField } from '../../hooks'
 
 const ListContainer = styled(MasterListItem)`
     height: 70px;

@@ -72,8 +72,10 @@ export default ({
                 }}
             >
                 <OperationCreate
-                    season={season}
-                    taskType={taskType}
+                    initialValues={{
+                        season,
+                        taskType
+                    }}
 
                 />
             </MinimalLayout>

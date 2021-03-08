@@ -10,10 +10,16 @@ import globals from './globals'
 
 const mobile = 425
 
-export default createMuiTheme({
+const theme = createMuiTheme({
     palette: {
-      primary: { 500: '#239553' },
+        background: {
+            default: "#f4f6f8"
+        },
+        primary: { 
+            500: '#239553' 
+        },
     },
+    
     overrides: {
         ...globals
     },
@@ -41,3 +47,23 @@ export default createMuiTheme({
         }
     }
   })
+/*
+theme.typography.h3 = {
+    fontSize: '1.25rem',
+    fontWeight: '700',
+    lineHeight: '1.167',
+    letterSpacing: '-0.06px',
+    [theme.breakpoints.up('lg')]: {
+        fontSize: '1.5rem',
+    },
+    [theme.breakpoints.up('md')]: {
+        fontSize: '1.5rem',
+    },
+    [theme.breakpoints.up('sm')]: {
+        fontSize: '1.285rem',
+    },
+}
+*/ 
+
+
+export default theme
