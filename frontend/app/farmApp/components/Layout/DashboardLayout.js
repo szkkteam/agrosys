@@ -26,7 +26,7 @@ const Spacer = styled.div`
 
 
 const DashboardLayout = ({
-    overflow=true,
+    overflow='auto',
     sticky=true,
     headerProps={},
     header,

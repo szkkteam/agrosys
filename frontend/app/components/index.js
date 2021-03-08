@@ -35,3 +35,7 @@ export { PageContent, PageHeader, PageToolbar } from './Content'
  * Loading indicator components
  */
 export { DataLoading, Loading, ProgressBar, Spinner } from './Loading'
+/**
+ * Breadcrumb components
+ */
+export { Breadcrumb } from './Breadcrumb'

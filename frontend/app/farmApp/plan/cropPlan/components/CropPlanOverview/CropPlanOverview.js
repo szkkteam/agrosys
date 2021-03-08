@@ -9,17 +9,18 @@ import styled from 'styled-components'
 import { ROUTES } from 'farmApp/routes'
 import { withLinkComponent } from 'utils/hoc'
 
+import { useCreateTask } from 'farmApp/operation/hooks'
+
 import {
-    PageHeader,
-    PageContent,
-    PageToolbar,
     PrimaryActionButton,
-    PrimaryButton
 } from 'components'
 import { 
     ExpandPanelGroup,
-    SeasonArrowSelector
 } from 'farmApp/components'
+
+import {
+    OperationAddButton
+} from 'farmApp/operation/components'
 
 import {
     Grid,
@@ -33,10 +34,6 @@ import CropPlanTaskList from '../CropPlanTaskList/CropPlanTaskList'
 
 const LinkButton = withLinkComponent(PrimaryActionButton)
 
-const Spacer = styled.div`
-    flex-grow: 1;
-`
-
 const ButtonPadding = styled.div`
     padding-bottom: 25px;
 `
@@ -44,57 +41,38 @@ const ButtonPadding = styled.div`
 const CropPlanOverview = ({
     season,
 }) => {
+    const handleCreateTask = useCreateTask({
+        season,
+        goUpRoute: {to: ROUTES.PlanCropPlan, dataProps: {search: `season=${season}`}},
+        redirect: {to: ROUTES.PlanCropPlan, dataProps: {search: `season=${season}`}},
+    })
 
-    const location = useLocation()
-    const history = useHistory()
-
-    const handleSeasonChange = (newSeason) => {
-        history.push({
-            path: location.pathname,
-            search: `season=${newSeason}`
-        })
-    }
-
-    return (
-        <PageContent spacing={[1, 2]}>
-            <PageHeader
-                spacing={[3,2]}
-                title={messages.title}
-                subheader={messages.subheader}
-            >        
-                <Spacer />
-                <SeasonArrowSelector
-                    season={season}
-                    onChange={handleSeasonChange}
-                />
-            </PageHeader>  
-            <Grid container spacing={3} style={{flexGrow: 1}}>
-                <Grid item xs={12} sm={6} md={8}>
-                    <ButtonPadding>
-                        <LinkButton
-                            title={messages.addCropPlan}
-                            to={ROUTES.PlanCropPlanCreate}
-                            params={{season}}
-                            //onClick={createGrowSeason}
-                        />
-                    </ButtonPadding>
-                    <ExpandPanelGroup>
-                        <CropPlanCrop />
-                        <CropPlanCrop />
-                        <CropPlanCrop />
-                    </ExpandPanelGroup>
-                </Grid>
-                <Grid container item xs={12} sm={6} md={4} direction="column">
-                    <ButtonPadding>
-                        <PrimaryActionButton
-                            title={messages.addTaskPlan}
-                            //onClick={createGrowSeason}
-                        />
-                    </ButtonPadding>
-                    <CropPlanTaskList />
-                </Grid>
+    return (          
+        <Grid container spacing={3} style={{flexGrow: 1}}>
+            <Grid item xs={12} sm={6} md={8}>
+                <ButtonPadding>
+                    <LinkButton
+                        title={messages.addCropPlan}
+                        to={ROUTES.PlanCropPlanCreate}
+                        params={{season}}
+                        //onClick={createGrowSeason}
+                    />
+                </ButtonPadding>
+                <ExpandPanelGroup>
+                    <CropPlanCrop />
+                    <CropPlanCrop />
+                    <CropPlanCrop />
+                </ExpandPanelGroup>
             </Grid>
-        </PageContent>
+            <Grid container item xs={12} sm={6} md={4} direction="column">
+                <ButtonPadding>
+                    <OperationAddButton
+                        onClick={handleCreateTask}
+                    />
+                </ButtonPadding>
+                <CropPlanTaskList />
+            </Grid>
+        </Grid>
     )
 }
 

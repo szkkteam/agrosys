@@ -2,16 +2,20 @@ import React, { useRef, useState, useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+import { spacing } from '@material-ui/system';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 
 import {
     Typography
 } from '@material-ui/core'
 
-const Container = styled.div`
+import Breadcrumbs, { BreadcrumbPropTypes } from '../Breadcrumb/Breadcrumb'
+
+const Container = styled.div` 
+    ${spacing}
     display: flex;
     align-items: center;
-    padding: 7px 8px;
+    //padding: 7px 8px;
 `
 
 const ChildContent = styled.div`
@@ -27,9 +31,9 @@ const SubHeader = styled(Typography)`
 `
 
 const PageHeader = ({
-    className,
     noWrap=false,
     title,
+    breadcrumbs,
     subheader,
     children,
     ...props
@@ -44,11 +48,14 @@ const PageHeader = ({
         <FormattedMessage {...subheader} />
     ) : subheader
 
-    console.debug("children: ", children)
-
     return (
-        <Container className={className}>
+        <Container {...props}>
             <div>
+                {breadcrumbs && 
+                    <Breadcrumbs
+                        {...breadcrumbs}
+                    />
+                }
                 {formattedTitle && <Typography variant="h5" component="h1" noWrap={noWrap}>
                     {formattedTitle}
                 </Typography> }
@@ -63,7 +70,8 @@ const PageHeader = ({
     )
 }
 
-PageHeader.propTypes = {
+export const PageHeaderPropTypes = {
+    breadcrumbs: PropTypes.shape(BreadcrumbPropTypes),
     title: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.object
@@ -73,5 +81,7 @@ PageHeader.propTypes = {
         PropTypes.object
     ]),
 }
+
+PageHeader.propTypes = PageHeaderPropTypes
 
 export default PageHeader

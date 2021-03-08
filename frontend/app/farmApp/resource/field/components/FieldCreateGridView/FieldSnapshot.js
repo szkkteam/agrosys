@@ -4,7 +4,7 @@ import messages from './messages';
 import styled from 'styled-components'
 import { ROUTES } from 'farmApp/routes'
 import { useIntl, FormattedMessage } from 'react-intl'
-import { useConvertArea } from '../../hooks'
+import { useConvertArea } from 'utils/hooks'
 
 import {
     ListItem,

@@ -1,4 +1,5 @@
 export { default as FieldListItem } from './FieldListItem'
+export { default as FieldListItemBoundary } from './FieldListItemBoundary'
 export { default as FieldCreateButton } from './FieldCreateButton'
 export { default as FieldDrawDialog } from './FieldDrawDialog'
 export { default as FieldSideSelector } from './FieldSideSelector'

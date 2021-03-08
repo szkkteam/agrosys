@@ -4,6 +4,7 @@ import messages from './messages';
 import styled from 'styled-components'
 import { ROUTES } from 'farmApp/routes'
 import { useIntl, FormattedMessage } from 'react-intl'
+import { useConvertArea } from 'utils/hooks'
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
@@ -20,7 +21,9 @@ import {
     IconButton
 } from '@material-ui/core';
 
-import { useSelectField, useConvertArea } from '../../hooks'
+import FieldListItemBoundary from '../FieldListItemBoundary/FieldListItemBoundary'
+
+import { useSelectField } from '../../hooks'
 
 const ListContainer = styled(MasterListItem)`
     height: 70px;
@@ -79,16 +82,14 @@ const FieldListItem = ({
             {...props}
         >
             {children}
-            <ListItemAvatar>
-                <Avatar
-                    variant="square"
-                    sizes="48px"
-                    src="https://via.placeholder.com/48/48"
-                >
-
-                </Avatar>
-            </ListItemAvatar>
+            <FieldListItemBoundary />
             <ListItemText 
+                primaryTypographyProps={{
+                    noWrap: true,
+                }}
+                secondaryTypographyProps={{
+                    noWrap: true,
+                }}
                 primary={`${title}, ${area}`}
                 secondary={`(${meparId})`}
             />

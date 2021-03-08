@@ -11,7 +11,7 @@ import {
 const StyledPrimaryButton = styled(Button)`
 
     ${({theme}) => `
-        margin: 10px 15px;
+        //margin: 10px 15px;
         padding: 8px 16px;
         min-width: 220px;
     `}

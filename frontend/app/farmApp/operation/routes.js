@@ -8,7 +8,8 @@ import {
 
 import {
   OperationMapOverview,
-  OperationTableOverview
+  OperationTableOverview,
+  OperationCreate
 } from 'farmApp/operation/pages'
 
 import { ProtectedRoute } from 'utils/route'
@@ -27,6 +28,8 @@ export const ROUTES = {
   OperationViews: 'OperationViews',
   OperationMap: 'OperationMap',
   OperationTable: 'OperationTable',
+
+  OperationCreate: 'OperationCreate',
 }
 
 /**
@@ -54,6 +57,12 @@ export const routes = [
     component: 'div', // Empty div is okay as a componenet, because we are using it as a route group
     routes: [
       {
+        key: ROUTES.OperationCreate,
+        path: '/:season/new', // Match the same route
+        component: OperationCreate,
+        //props: { exact: true }, 
+      },
+      {
         key: ROUTES.OperationViews,
         path: '/:tab?', // Match the same route
         component: OperationAppBar,
@@ -72,7 +81,7 @@ export const routes = [
             props: { absolute: true}
           }
         ]
-      },      
+      },
     ]
   }
 ]

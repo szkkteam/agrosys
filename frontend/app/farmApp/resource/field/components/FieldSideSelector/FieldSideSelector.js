@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
 import globalMessages from 'messages'
 import styled from 'styled-components'
+import { useConvertArea } from 'utils/hooks'
 
-import { useFetchFields, useSelectFieldsArea, useConvertArea } from '../../hooks'
+import { useFetchFields, useSelectFieldsArea } from '../../hooks'
 
 
 import {
@@ -109,7 +110,6 @@ const FieldSideSelector = ({
         onSelected && onSelected(id, newState)
     }
 
-    const result = useSelectFieldsArea(selected)
     const { payload: { area } } = useSelectFieldsArea(selected)
     const convertedArea = useConvertArea(area)
 

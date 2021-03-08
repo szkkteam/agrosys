@@ -47,6 +47,7 @@ const ExpandPanel = ({
         <Accordion
             expanded={expanded}
             onChange={onExpandChange}
+            {...props}
             //elevation={2}
             //variant="elevation"
         >

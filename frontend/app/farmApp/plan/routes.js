@@ -3,8 +3,14 @@ import styled from 'styled-components'
 import { Redirect, generatePath } from 'react-router-dom'
 
 import {
+  PlanAppBar
+} from 'farmApp/plan/components'
+
+import {
   CropPlanOverview,
-  CropPlanCreate
+  FieldPlanOverview,
+  CropPlanCreate,
+  FieldPlanCreate
 } from 'farmApp/plan/pages'
 
 import { ProtectedRoute } from 'utils/route'
@@ -20,12 +26,17 @@ export const ROUTES = {
    * Entry point for navrails
    */
   Plan: 'Plan',
+  PlanViews: 'PlanViews',
   /**
    * CropPlan main view
    */
   PlanCropPlan: 'PlanCropPlan',
   PlanCropPlanCreate: 'PlanCropPlanCreate',
-
+  /**
+   * FieldPlan main view
+   */
+  PlanFieldPlan: 'PlanFieldPlan',
+  PlanFieldPlanCreate: 'PlanFieldPlanCreate',
 }
 
 /**
@@ -47,21 +58,41 @@ export const ROUTES = {
 
 export const routes = [  
   {
-    // TODO: This is used by the rail
     key: ROUTES.Plan,
     path: '/plans',
     component: 'div', // Empty div is okay as a componenet, because we are using it as a route group
     routes: [
       {
-        key: ROUTES.PlanCropPlan,
-        path: '', // Match the same route
-        component: CropPlanOverview,
+        key: ROUTES.PlanViews,
+        path: '/:tab?',
+        component: PlanAppBar,
         props: { exact: true }, 
-      },      
+        routes: [
+          {
+            key: ROUTES.PlanCropPlan,
+            path: '/plans/crop', // Match the same route
+            component: CropPlanOverview,
+            props: { absolute: true }, 
+          },
+          {
+            key: ROUTES.PlanFieldPlan,
+            path: '/plans/field', // Match the same route
+            component: FieldPlanOverview,
+            props: { absolute: true }, 
+          },
+        ]
+      },
+            
       {
         key: ROUTES.PlanCropPlanCreate,
-        path: '/season/:season/new', // Match the same route
+        path: '/crop/:season/new', // Match the same route
         component: CropPlanCreate,
+        //props: { exact: true }, 
+      },
+      {
+        key: ROUTES.PlanFieldPlanCreate,
+        path: '/field/:season/new', // Match the same route
+        component: FieldPlanCreate,
         //props: { exact: true }, 
       }
     ]

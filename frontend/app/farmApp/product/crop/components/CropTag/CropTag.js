@@ -18,19 +18,20 @@ const AnimatedChip = styled(Chip)`
 const CropTag = ({
     title,
     short,
+    defaultExpand=false,
     ...props
 }) => {
 
-    const [clicked, setClicked] = useState(false)
+    const [clicked, setClicked] = useState(defaultExpand)
 
-    const handleExpand = (e) => {
+    const toggleExpand = (e) => {
         e.stopPropagation()
         setClicked(!clicked)
     }
 
     const handleShrink = (e) => {
         e.stopPropagation()
-        setClicked(false)
+        setClicked(defaultExpand)
     }
 
     return (
@@ -39,7 +40,7 @@ const CropTag = ({
                 clickable
                 size="small"
                 label={clicked? title: short}
-                onClick={handleExpand}
+                onClick={toggleExpand}
                 {...props}
             />
         </ClickAwayListener>

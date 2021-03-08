@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useLayoutEffect, useState } from 'react'
+import React, { useRef, useMemo, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import messages from './messages';
 import { useIntl } from 'react-intl'
@@ -20,16 +20,15 @@ import {
 } from '@material-ui/core'
 
 
-
-const HoverListItem = styled(MasterListItem)`
-
-`
-
 const ActionIcon = styled(ArrowForwardIosIcon)`
     display: none;
-    ${HoverListItem}:hover & {
+`
+
+
+const HoverListItem = styled(MasterListItem)`
+    &:hover ${ActionIcon} {
         display: inline-block;
-    }   
+    }
 `
 
 const ProgressOutline = styled(CircularProgress)`
@@ -48,12 +47,26 @@ const Spacer = styled.span`
 `
 
 const Progress = ({
+    value,
     ...props
 }) => {
+    /*
+    const [progress, setProgress] = useState(0)
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setProgress((prevProgress) => (prevProgress >= value ? value : prevProgress + 1))
+        }, 20)
+        return () => {
+            clearInterval(timer)
+        }
+    }, [])
+    */
+    //<ProgressOutline variant="determinate" value={100} />
     return (
         <Box position="relative" display="inline-flex">
-            <ProgressOutline variant="determinate" value={100} />
-            <CircularProgress variant="determinate" {...props} />
+            
+            <CircularProgress variant="determinate"  value={value} {...props} />
             <Box
                 top={0}
                 left={0}
@@ -65,7 +78,7 @@ const Progress = ({
                 justifyContent="center"
             >
                 <Typography variant="caption" component="div" color="textSecondary">
-                    {`${Math.round(props.value)}%`}
+                    {`${Math.round(value)}%`}
                 </Typography>
             </Box>
         </Box>
