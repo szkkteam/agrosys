@@ -12,6 +12,7 @@ const Container = styled(({overflow, component: Component, ...props}) => <Compon
         flex-grow: 1;
         display: flex;        
         overflow-y: ${overflow};
+        overflow-x: hidden;
         flex-direction: column;
     `}
 `

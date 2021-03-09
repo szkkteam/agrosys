@@ -6,7 +6,7 @@ import LeafletMap from '../LeafletMap/LeafletMap'
 import MapControlZoom from '../MapControlZoom/MapControlZoom'
 
 import MapContainerContext from '../../context/MapContainerContext'
-
+import MapEventHandler from '../MapEventHandler/MapEventHandler'
 
 
 const Container = styled.div`
@@ -44,6 +44,7 @@ const MapContainer = ({
                     whenCreated={setMapRef}
                     {...mapProps}
                 >
+                    <MapEventHandler />
                     {children}
                 </Map>
                 <MapControlZoom>
