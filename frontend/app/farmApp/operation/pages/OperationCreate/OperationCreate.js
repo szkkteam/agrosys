@@ -41,6 +41,7 @@ export default ({
         taskType="",
         redirect={to: ROUTES.OperationViews},
     } = location.state
+    
     console.debug("state: ", location.state)
     return (
         <>

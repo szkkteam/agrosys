@@ -9,7 +9,8 @@ import {
 import {
   OperationMapOverview,
   OperationTableOverview,
-  OperationCreate
+  OperationCreate,
+  OperationDetail
 } from 'farmApp/operation/pages'
 
 import { ProtectedRoute } from 'utils/route'
@@ -30,6 +31,7 @@ export const ROUTES = {
   OperationTable: 'OperationTable',
 
   OperationCreate: 'OperationCreate',
+  OperationDetail: 'OperationDetail',
 }
 
 /**
@@ -61,6 +63,11 @@ export const routes = [
         path: '/:season/new', // Match the same route
         component: OperationCreate,
         //props: { exact: true }, 
+      },
+      {
+        key: ROUTES.OperationDetail,
+        path: '/:id/detail',
+        component: OperationDetail
       },
       {
         key: ROUTES.OperationViews,

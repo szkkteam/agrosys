@@ -8,12 +8,16 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { TextField } from 'components/FormB'
 
 import {
+    FormCardLayout
+} from 'farmApp/components'
+
+import {
     CropPlanSelect
 } from 'farmApp/plan/cropPlan/components'
 
 
 import OperationTaskTypeSelect from '../../OperationTaskTypeSelect/OperationTaskTypeSelect'
-import FormSection from '../FormSection'
+
 
 const Section = styled.div`
     ${spacing}
@@ -31,7 +35,7 @@ const CropTaskTypeSection = ({
     const intl = useIntl()
 
     return (
-        <FormSection
+        <FormCardLayout
             title="Task setup"
             expandable={false}
         >
@@ -58,7 +62,7 @@ const CropTaskTypeSection = ({
                     label="Task subtype"
                 />
             </Section>
-        </FormSection>
+        </FormCardLayout>
     )
 }
 

@@ -3,4 +3,5 @@ import { useInjectReducer } from 'utils/hooks'
 
 export default () => {
     useInjectReducer(require('../reducers/mapEvents'))
+    useInjectReducer(require('../reducers/mapOverlays'))
 }

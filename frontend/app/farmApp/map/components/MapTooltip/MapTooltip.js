@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
+import { useGetTooltipOverlay } from '../../hooks'
 
 import { 
     Tooltip as LeafletTooltip
@@ -18,8 +19,10 @@ const MapTooltip = ({
     children,
     ...props
 }) => {
-
-    return (
+    const visible = useGetTooltipOverlay()
+    
+    if (!visible) return null
+    else return (
         <Tooltip 
             direction="top"
             offset={[0, 20]}

@@ -17,4 +17,8 @@ export default defineMessages({
         defaultMessage: 'Operations',
     }, 
     
+    operationDetail: {
+        id: `${scope}.operationDetail.title`,  
+        defaultMessage: '{task} - {crop}',
+    }
   })

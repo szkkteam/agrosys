@@ -1,6 +1,5 @@
 import React, { useRef, useMemo, useLayoutEffect, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { spacing } from '@material-ui/system'
@@ -21,7 +20,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
 
-const FormSection = ({
+const FormCardLayout = ({
     className,
     title,
     children,
@@ -64,8 +63,8 @@ const FormSection = ({
     )
 }
 
-FormSection.propTypes = {
+FormCardLayout.propTypes = {
 
 }
 
-export default styled(FormSection)`${spacing}`
+export default styled(FormCardLayout)`${spacing}`

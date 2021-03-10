@@ -7,11 +7,14 @@ import { spacing } from '@material-ui/system'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { DatePicker } from 'components/FormB'
 
+
+import {
+    FormCardLayout
+} from 'farmApp/components'
+
 import {
     Grid
 } from '@material-ui/core'
-
-import FormSection from '../FormSection'
 
 const Section = styled.div`
     ${spacing}
@@ -29,7 +32,7 @@ const PlanningSection = ({
     const intl = useIntl()
 
     return (
-        <FormSection
+        <FormCardLayout
             mt={3}
             title="Planning"
         >
@@ -54,7 +57,7 @@ const PlanningSection = ({
                     />
                 </Grid>
             </Grid>
-        </FormSection>
+        </FormCardLayout>
 
          
     )

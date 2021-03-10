@@ -7,17 +7,8 @@ import { Redirect, useLocation } from "react-router-dom";
 import { HashRoute } from 'utils/route'
 
 import {
-    Grid,
     Paper,
-    Breadcrumbs,
-    Link,
-    Button,
-    IconButton,
-    Tab,
-    Tabs,
     Divider,
-    TextField,
-    InputAdornment
 } from '@material-ui/core';
 
 import SearchIcon from '@material-ui/icons/Search';
@@ -28,10 +19,9 @@ import {
     ViewButtonGroup,
     PageHeader,
     PageContent,
-    PageToolbar
+    Tabs
 } from 'components'
 
-import FilterTabs from './FilterTabs'
 import ActionBar from './ActionBar'
 
 const ActionContainer = styled.div`
@@ -72,7 +62,7 @@ const ListLayout = ({
             <Paper elevation={2}>
                 {tabs && 
                     <>
-                        <FilterTabs {...tabs} />
+                        <Tabs {...tabs} />
                         <Divider />
                     </>
                 }                
@@ -86,7 +76,7 @@ const ListLayout = ({
 
 ListLayout.propTypes = {
     actions: ActionBar.propTypes,
-    tabs: FilterTabs.propTypes,
+    tabs: Tabs.propTypes,
     ...PageHeader.propTypes,
 }
 

@@ -8,7 +8,10 @@ import {
     FeatureGroup,
 } from "react-leaflet";
 
+import MapTooltip from '../MapTooltip/MapTooltip'
+
 const MapFeatureGroup = forwardRef(({
+    tooltip,
     children,
     ...props
 }, ref) => {
@@ -27,6 +30,11 @@ const MapFeatureGroup = forwardRef(({
             {...props}
         >
             {children}
+            {tooltip &&  
+                <MapTooltip>
+                    {tooltip}
+                </MapTooltip>
+            }
         </FeatureGroup>
     )
 })

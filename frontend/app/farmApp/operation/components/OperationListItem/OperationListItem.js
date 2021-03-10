@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
+import { ROUTES } from 'farmApp/routes'
+import { withLinkComponent } from 'utils/hoc'
 
 import MasterListItem from 'components/List/MasterListItem'
 import { CropTag } from 'farmApp/product/crop/components'
@@ -16,12 +18,13 @@ import {
     ListItemText,
     ListItemAvatar,
     ListItemSecondaryAction,
-    ListItemIcon
+    IconButton
 } from '@material-ui/core'
 
 
+// FIXME: This should be on hover, but not working
 const ActionIcon = styled(ArrowForwardIosIcon)`
-    display: none;
+    display: inline-block;
 `
 
 
@@ -45,6 +48,8 @@ const Flex = styled.span`
 const Spacer = styled.span`
     flex-grow: 1;
 `
+
+const IconLink = withLinkComponent(IconButton)
 
 const Progress = ({
     value,
@@ -94,6 +99,8 @@ const OperationListItem = ({
         title: "Őszi búza",
         short: "őb"
     }
+    // FIXME: Get real operation ID
+    const operationId = 1
 
     return (
          <HoverListItem
@@ -132,7 +139,13 @@ const OperationListItem = ({
                 }                
              />
              <ListItemSecondaryAction>
-                <ActionIcon /> 
+                 <IconLink 
+                    edge="end"
+                    to={ROUTES.OperationDetail}
+                    params={{id: operationId}}
+                >
+                    <ActionIcon /> 
+                 </IconLink>
              </ListItemSecondaryAction>
          </HoverListItem>
     )

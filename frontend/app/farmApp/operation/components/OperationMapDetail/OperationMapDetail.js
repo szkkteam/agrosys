@@ -9,7 +9,8 @@ import {
     MapContainer,
     MapControlGeoSearch,
     MapTooltip,
-    MapFeature
+    MapFeature,
+    MapFeatureGroup
 } from 'farmApp/map/components'
 
 import {
@@ -39,6 +40,53 @@ import {
 import {
   CropTag
 } from 'farmApp/product/crop/components'
+
+
+export const geo_0 = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              17.722722887992855,
+              47.13445054358225
+            ],
+            [
+              17.722889184951782,
+              47.13418049411709
+            ],
+            [
+              17.726515531539917,
+              47.135636555401504
+            ],
+            [
+              17.726263403892517,
+              47.1359576863587
+            ],
+            [
+              17.72515833377838,
+              47.13549423537984
+            ],
+            [
+              17.72291600704193,
+              47.13453812689808
+            ],
+            [
+              17.722722887992855,
+              47.13445054358225
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
+
 
 const geo_1 = {
     "type": "FeatureCollection",
@@ -315,10 +363,13 @@ const Inner = ({
     }, [layerRef])
 
     return (
-        <FeatureGroup ref={layerRef}>
+        <MapFeatureGroup ref={layerRef}
+          
+        >
+            <FieldGeo feature={geo_0} />
             <FieldGeo feature={geo_1} />
             <FieldGeo feature={geo_2} />
-        </FeatureGroup>
+        </MapFeatureGroup>
     )
 }
 

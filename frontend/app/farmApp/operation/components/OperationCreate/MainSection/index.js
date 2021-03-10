@@ -7,7 +7,9 @@ import { spacing } from '@material-ui/system'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { TextField } from 'components/FormB'
 
-import FormSection from '../FormSection'
+import {
+    FormCardLayout
+} from 'farmApp/components'
 
 const Section = styled.div`
     ${spacing}
@@ -24,7 +26,7 @@ const MainSection = ({
     const intl = useIntl()
 
     return (
-        <FormSection
+        <FormCardLayout
             //title="General"
         >
             <Field
@@ -45,7 +47,7 @@ const MainSection = ({
                     label="Description"
                 />
             </Section>
-        </FormSection>
+        </FormCardLayout>
     )
 }
 

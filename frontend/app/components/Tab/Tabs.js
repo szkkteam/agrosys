@@ -1,48 +1,74 @@
-import React, { forwardRef } from 'react'
+import React, { useEffect, useState, useContext, useMemo, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { useDynamicMatch } from 'utils/hooks'
-import { useLocation, useRouteMatch, useHistory } from "react-router-dom"
+import { useIntl } from 'react-intl'
+import styled from 'styled-components'
+import { spacing } from '@material-ui/system'
 
-import { Tabs as MuiTabs } from '@material-ui/core';
+import {
+    Tab,
+    Tabs as MuiTabs,
+    Divider,
+} from '@material-ui/core';
 
+const SpacingDivider = styled(Divider)`
+    ${spacing}
+`
 
-
-const Tabs = forwardRef(({
-    id="vertical-tab",
-    //routes,
-    //defaultRoute,
-    //forceDefaultRoute=false,
+const Tabs = ({
+    defaultActive=0,
+    value,
+    tabs,
+    onChange,
+    divider=false,
     children,
     ...props
-}, ref) => {
-
-    //const tabValue = useDynamicMatch(routes, defaultRoute, forceDefaultRoute)
-    const tabProps = (index) => {
-        return {
-            id: `${id}-${index}`,
-            'aria-controls': `vertical-tabpanel-${index}`,
-        }
+}) => {
+    const intl = useIntl()
+    const [activeTab, setActiveTab] = useState(defaultActive)
+  
+    const handleChange = (e, newValue) => {
+        setActiveTab(newValue)
+        onChange && onChange(newValue)
     }
 
-    return (
-        <MuiTabs
-            ref={ref}
-            //value={tabValue}
-            {...props}
-        >
-            { React.Children.map(children, (
-                (child, i) => React.cloneElement(child, tabProps(i))                    
-            ))}
-        </MuiTabs>
-    )
-})
+    const renderChild = useMemo(() => {
+        if (!children) return null
+        else {
+            const activeChild = React.Children.toArray(children)[activeTab]
+            return React.cloneElement(activeChild, {})
+        }
 
-Tabs.propTypes = {
-    id: PropTypes.string,
-    //routes: PropTypes.arrayOf(PropTypes.string),
-    //defaultRoute: PropTypes.string.isRequired,
-    //forceDefaultRoute: PropTypes.bool,
-    children: PropTypes.arrayOf(PropTypes.element)
+    }, [activeTab])
+
+    return (
+        <>
+            <MuiTabs
+                value={value ?? activeTab}
+                onChange={handleChange}
+                indicatorColor="primary"
+                {...props}
+            >
+                {tabs && tabs.map(({title, ...props}, i) => (
+                    <Tab value={i} label={typeof(title) === 'object'? intl.formatMessage(title): title} {...props} />
+                ))}                            
+            </MuiTabs>
+            {divider && <SpacingDivider mb={2} />}
+            {children && renderChild}
+        </>
+    )
 }
 
-export default React.memo(Tabs)
+Tabs.propTypes = {
+    tabs: PropTypes.arrayOf(PropTypes.shape({
+        title: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.object
+        ]).isRequired,
+    })),
+    defaultActive: PropTypes.number,
+    onChange: PropTypes.func,
+    value: PropTypes.any,
+    divider: PropTypes.bool,
+}
+
+export default Tabs

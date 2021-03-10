@@ -28,7 +28,8 @@ export {
     FullscreenFormLayout,
     ListLayout,
     MinimalLayout,
-    StepperFormLayout
+    StepperFormLayout,
+    FormCardLayout
 } from './Layout'
 /**
  * Widget components
