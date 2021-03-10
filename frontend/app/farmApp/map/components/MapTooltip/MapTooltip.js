@@ -11,6 +11,7 @@ import {
 const Tooltip = styled(LeafletTooltip)`
   padding: 0 !important;
   pointer-events: auto !important;
+  transform: opacity 1s ease-in-out;
 `
 
 const MapTooltip = ({
@@ -25,6 +26,7 @@ const MapTooltip = ({
             permanent
             {...props}
             interactive={false /* TODO: If interactive set, its causing an error during unmount */} 
+            //visible={visible}
             opacity={1}
 
         >

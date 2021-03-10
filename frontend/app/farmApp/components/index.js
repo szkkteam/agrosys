@@ -50,3 +50,7 @@ export { SeasonArrowSelector, SeasonSelector } from './Season'
  * Table components
  */
 export { Table } from './Table'
+/**
+ * MapTooltip components
+ */
+export { MapFieldCropTooltip } from './MapTooltip'

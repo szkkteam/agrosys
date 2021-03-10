@@ -18,6 +18,10 @@ import {
     useDispatchAddEvent
 } from 'farmApp/map/hooks'
 
+import {
+  MapFieldCropTooltip
+} from 'farmApp/components'
+
 
 import { 
     FeatureGroup,
@@ -270,9 +274,9 @@ const FieldGeo = ({
     const layerRef = useRef(null)
     const addEvent = useDispatchAddEvent()
 
-    const handleClick = (e) => {
-      console.debug(layerRef.current.getBounds())
-      addEvent(layerRef.current.getBounds())
+    const handleClick = (p, e) => {
+      console.debug(p.getBounds())
+      addEvent(p.getBounds())
     }
 
     return (
@@ -281,15 +285,14 @@ const FieldGeo = ({
             feature={feature}
             onClick={handleClick}
             tooltip={
-            <div style={{padding: "7px 10px", display: "flex", alignItems: "center"}}>
-              <CropTag
-                short="őb"
-                title="Őszi búza"
-              />
-              <Title variant="body" fontWeight="fontWeightBold">
-                12.8 ha
-              </Title>
-            </div> 
+              <MapFieldCropTooltip
+                title="Field 1"
+                area={12570}
+                cropType={{
+                  short: "őb",
+                  title: "Őszi búza"                  
+                }}
+              />            
             }
         />
     )
@@ -307,7 +310,7 @@ const Inner = ({
 
     useEffect(() => {
         const bounds = layerRef && layerRef?.current.getBounds()
-        //addEvent(bounds)
+        addEvent(bounds)
         //mapRef && mapRef.fitBounds(bounds)
     }, [layerRef])
 
