@@ -29,7 +29,8 @@ export {
     ListLayout,
     MinimalLayout,
     StepperFormLayout,
-    FormCardLayout
+    FormCardLayout,
+    DialogCloseLayout
 } from './Layout'
 /**
  * Widget components

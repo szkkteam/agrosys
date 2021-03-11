@@ -22,7 +22,7 @@ export { Stepper, StepperContent, StepperHeader, StepperContext } from './Steppe
 /**
  * Button components
  */
-export { SubmitButton, BackButton, SplitButton, SearchButton, PrimaryActionButton, PrimaryButton, SecondaryButton } from './Button'
+export { Button, SubmitButton, BackButton, SplitButton, SearchButton, PrimaryActionButton, PrimaryButton, SecondaryButton } from './Button'
 /**
  * Tab components
  */
@@ -39,3 +39,7 @@ export { DataLoading, Loading, ProgressBar, Spinner } from './Loading'
  * Breadcrumb components
  */
 export { Breadcrumb } from './Breadcrumb'
+/**
+ * Dialog components
+ */
+export { Dialog } from './Dialog'

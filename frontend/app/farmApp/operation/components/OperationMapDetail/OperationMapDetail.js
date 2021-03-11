@@ -358,7 +358,7 @@ const Inner = ({
 
     useEffect(() => {
         const bounds = layerRef && layerRef?.current.getBounds()
-        addEvent(bounds)
+        addEvent(bounds, false)
         //mapRef && mapRef.fitBounds(bounds)
     }, [layerRef])
 

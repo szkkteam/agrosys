@@ -6,7 +6,10 @@ import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { ROUTES, ROUTE_MAP } from 'farmApp/routes'
 
-import { useCreateTask } from '../../hooks'
+import { 
+    useCreateTask,
+    useTreatmentDialog
+} from '../../hooks'
 
 import { 
     MasterList,
@@ -32,14 +35,22 @@ const OperationMasterList = ({
     // TODO: Get current season
     const season = 2021
 
+    const openDialog = useTreatmentDialog()
+
     const handleCreateTask = useCreateTask({season})
     
+    const handleSelect = (id) => {
+        openDialog({
+
+        })
+    }
 
     return (
         <MasterList
             options={{
                 maxHeight: 570,
             }}
+            onSelect={handleSelect}
             addButton={
                 <TaskButton
                     onClick={handleCreateTask}
