@@ -9,7 +9,7 @@ export default defineMessages({
         defaultMessage: 'Operations',
     },
     operationCreate: {
-        id: `${scope}.operationCreate.title`,  
+        id: `${scope}.taskCreate.title`,  
         defaultMessage: 'Create new task',
     },
     appBarTitle: {
@@ -18,7 +18,7 @@ export default defineMessages({
     }, 
     
     operationDetail: {
-        id: `${scope}.operationDetail.title`,  
+        id: `${scope}.taskDetail.title`,  
         defaultMessage: '{task} - {crop}',
     }
   })

@@ -9,7 +9,7 @@ import styled from 'styled-components'
 import { ROUTES } from 'farmApp/routes'
 import { withLinkComponent } from 'utils/hoc'
 
-import { useCreateTask } from 'farmApp/operation/hooks'
+import { useCreateTask } from 'farmApp/operation/task/hooks'
 
 import {
     PrimaryActionButton,
@@ -19,8 +19,8 @@ import {
 } from 'farmApp/components'
 
 import {
-    OperationAddButton
-} from 'farmApp/operation/components'
+    TaskAddButton
+} from 'farmApp/operation/task/components'
 
 import {
     Grid,
@@ -66,7 +66,7 @@ const CropPlanOverview = ({
             </Grid>
             <Grid container item xs={12} sm={6} md={4} direction="column">
                 <ButtonPadding>
-                    <OperationAddButton
+                    <TaskAddButton
                         onClick={handleCreateTask}
                     />
                 </ButtonPadding>

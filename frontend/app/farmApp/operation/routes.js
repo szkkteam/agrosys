@@ -7,10 +7,11 @@ import {
 } from 'farmApp/operation/components'
 
 import {
-  OperationMapOverview,
   OperationTableOverview,
-  OperationCreate,
-  OperationDetail
+
+  TaskMapOverview,
+  TaskCreate,
+  TaskDetail
 } from 'farmApp/operation/pages'
 
 import { ProtectedRoute } from 'utils/route'
@@ -27,11 +28,13 @@ export const ROUTES = {
    */
   Operation: 'Operation',
   OperationViews: 'OperationViews',
-  OperationMap: 'OperationMap',
+
+  OperationTaskMap: 'OperationTaskMap',
+
   OperationTable: 'OperationTable',
 
-  OperationCreate: 'OperationCreate',
-  OperationDetail: 'OperationDetail',
+  OperationTaskCreate: 'OperationTaskCreate',
+  OperationTaskDetail: 'OperationTaskDetail',
 }
 
 /**
@@ -59,15 +62,16 @@ export const routes = [
     component: 'div', // Empty div is okay as a componenet, because we are using it as a route group
     routes: [
       {
-        key: ROUTES.OperationCreate,
+        key: ROUTES.OperationTaskCreate,
         path: '/:season/new', // Match the same route
-        component: OperationCreate,
-        //props: { exact: true }, 
+        component: TaskCreate,
+        props: { exact: true }, 
       },
       {
-        key: ROUTES.OperationDetail,
-        path: '/:id/detail',
-        component: OperationDetail
+        key: ROUTES.OperationTaskDetail,
+        path: '/tasks/:id/detail',
+        component: TaskDetail,
+        props: { exact: true }, 
       },
       {
         key: ROUTES.OperationViews,
@@ -76,13 +80,13 @@ export const routes = [
         //props: { exact: true }, 
         routes: [
           {
-            key: ROUTES.OperationMap,
-            path: '/operations/map',
-            component: OperationMapOverview,
+            key: ROUTES.OperationTaskMap,
+            path: '/operations/tasks',
+            component: TaskMapOverview,
             props: { absolute: true}
           },
           {
-            key: ROUTES.OperationTable,
+            key: ROUTES.TaskTable,
             path: '/operations/table',
             component: OperationTableOverview,
             props: { absolute: true}
