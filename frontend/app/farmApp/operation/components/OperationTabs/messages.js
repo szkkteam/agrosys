@@ -5,10 +5,10 @@ export const scope = 'app.farmApp.operation.OperationTabs'
 export default defineMessages({
     task: {
         id: `${scope}.tasks.title`,  
-        defaultMessage: 'Tasks',
+        defaultMessage: 'Planning',
     },    
-    table: {
-        id: `${scope}.table.title`,  
-        defaultMessage: 'Table',
+    order: {
+        id: `${scope}.order.title`,  
+        defaultMessage: 'My tasks',
     },        
 })

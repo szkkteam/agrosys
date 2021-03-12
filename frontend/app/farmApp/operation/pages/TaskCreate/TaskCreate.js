@@ -13,11 +13,9 @@ import {
 
 import {
     MinimalLayout,
-} from 'farmApp/components'
-
-import {
     AppBar
 } from 'farmApp/components'
+
 
 import {
     TaskCreate
@@ -33,6 +31,7 @@ export default ({
 
     const links = [
         {title: messages.title, to: ROUTES.Operation},
+        {title: messages.task, to: ROUTES.OperationTaskMap},
         {title: messages.operationCreate, to: ROUTES.OperationTaskCreate, params: {season}},
     ]
 

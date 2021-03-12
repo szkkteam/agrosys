@@ -57,6 +57,7 @@ export default ({
 
     const links = [
         {title: messages.title, to: ROUTES.Operation},
+        {title: messages.task, to: ROUTES.OperationTaskMap},
         {title: pageTitle, to: ROUTES.OperationTaskDetail, params: {id}},
     ]
     const {

@@ -306,15 +306,6 @@ const geo_2 = {
     ]
   }
 
-const TTip = styled(Tooltip)`
-  padding: 0 !important;
-  pointer-events: auto !important;
-`
-
-const Title = styled(Typography)`
-  ${typography}
-  margin-left: 15px;
-`
 
 const FieldGeo = ({
     feature

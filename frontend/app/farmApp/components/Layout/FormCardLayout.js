@@ -25,6 +25,8 @@ const FormCardLayout = ({
     title,
     children,
     expandable=true,
+    divider=true,
+    fab,
     ...props
 }) => {
     const [expanded, setExpanded] = useState(true)
@@ -50,7 +52,8 @@ const FormCardLayout = ({
                           }
                         {...props}
                     />
-                    <Divider /> 
+                    {divider && <Divider />}
+                    {fab}
                 </>
             }
             <Collapse in={expanded} timeout="auto">

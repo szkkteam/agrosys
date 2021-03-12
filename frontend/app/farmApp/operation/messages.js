@@ -8,6 +8,10 @@ export default defineMessages({
         id: `${scope}.title`,  
         defaultMessage: 'Operations',
     },
+    task: {
+        id: `${scope}.task`,  
+        defaultMessage: 'Planning',
+    },
     operationCreate: {
         id: `${scope}.taskCreate.title`,  
         defaultMessage: 'Create new task',

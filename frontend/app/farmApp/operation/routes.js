@@ -11,7 +11,8 @@ import {
 
   TaskMapOverview,
   TaskCreate,
-  TaskDetail
+  TaskDetail,
+  OrderOverview
 } from 'farmApp/operation/pages'
 
 import { ProtectedRoute } from 'utils/route'
@@ -87,8 +88,8 @@ export const routes = [
           },
           {
             key: ROUTES.TaskTable,
-            path: '/operations/table',
-            component: OperationTableOverview,
+            path: '/operations/work-orders/:id?',
+            component: OrderOverview,
             props: { absolute: true}
           }
         ]

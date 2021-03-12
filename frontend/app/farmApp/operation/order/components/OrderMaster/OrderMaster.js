@@ -13,7 +13,7 @@ import {
     Typography
 } from '@material-ui/core'
 
-import TaskMasterList from '../TaskMasterList/TaskMasterList'
+import OrderMasterList from '../OrderMasterList/OrderMasterList'
 
 const Container = styled(Paper)`
     flex-grow: 1;
@@ -21,25 +21,25 @@ const Container = styled(Paper)`
     flex-direction: column;
 `
 
-const TaskMapMaster = ({
+const OrderMaster = ({
 
 }) => {
 
     return (
-         <Container>
-             <PageHeader
+        <Container>
+            <PageHeader
                 p={2}
-                title="Current activites"
-             />
-            
-             <TaskMasterList
+                title="My tasks"
             />
-         </Container>
+        
+            <OrderMasterList 
+            />
+        </Container>
     )
 }
 
-TaskMapMaster.propTypes = {
+OrderMaster.propTypes = {
 
 }
 
-export default TaskMapMaster
+export default OrderMaster

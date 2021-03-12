@@ -16,10 +16,6 @@ import {
     DataLoading
 } from 'components'
 
-import {
-    Button
-} from '@material-ui/core'
-
 import TaskAddButton from '../TaskAddButton/TaskAddButton'
 import TaskListItem from '../TaskListItem/TaskListItem'
 

@@ -14,9 +14,9 @@ const Container = styled(({overflow, component: Component, ...props}) => <Compon
         overflow-y: ${overflow};
         overflow-x: hidden;
         flex-direction: column;
-    `}
+    `}    
 `
-
+//        ${overflow === 'hidden'? 'height: 100%;': ''}
 const PageContent = ({
     component='div',
     children,
@@ -32,7 +32,7 @@ const PageContent = ({
 
 export const PageContentPropTypes = {
     overflow: PropTypes.oneOf([
-        'initial', 'auto', 'hidden', 'scroll'
+        'initial', 'auto', 'hidden', 'scroll', 'visible'
     ]),
     component: PropTypes.elementType,
     margin: PropTypes.oneOfType([
