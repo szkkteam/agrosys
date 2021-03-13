@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.farmApp.cropProduction.fieldProduction.FieldWeather'
+export const scope = 'DELETE'
 
 export default defineMessages({
     title: {

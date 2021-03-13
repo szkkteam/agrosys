@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import { useIntl } from 'react-intl'
 import { Route } from "react-router-dom";
 
-import { FieldLayoutRouter } from 'farmApp/resource/field/components'
 import { VIEW_MAP, VIEW_LIST, VIEW_MODULE } from 'farmApp/resource/field/constants'
 
 import FieldProductionMasterDetail from '../FieldProductionMasterDetail/FieldProductionMasterDetail'
@@ -23,12 +22,7 @@ const FieldProductionLayout = ({
     }
 
     return (
-        <FieldLayoutRouter
-            viewComponents={viewComponents}
-        >
-            <FieldProductionSummaryStats
-            />
-        </FieldLayoutRouter>
+        null
     )
 }
 

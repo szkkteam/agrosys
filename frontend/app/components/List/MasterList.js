@@ -26,10 +26,15 @@ const Container = styled.div`
 `
 
 const ScrollList = styled(props => <List {...props} /> )`
-    overflow-y: auto;
-    padding: 0;
-    margin: 8px 0;
-    flex-grow: 1;
+    ${({theme}) => `
+        overflow-y: auto;
+        position: relative;
+        padding: 0;
+        margin: 8px 0;
+        flex-grow: 1;
+        background-color: ${theme.palette.background.paper}
+    `}
+    
 `
 
 const LoadingContainer = styled.div`
@@ -46,6 +51,7 @@ const MasterList = ({
     isLoading=false,
     buttonProps=null,
     onSelect,
+    listProps={},
     ...props
 }) => {
     const [selected, setSelected] = useState(null)
@@ -74,6 +80,7 @@ const MasterList = ({
                 ) : (
                     <ScrollList
                         component="ul"
+                        {...listProps}
                     >
                         { React.Children.map(children, (
                             (child, i) => {

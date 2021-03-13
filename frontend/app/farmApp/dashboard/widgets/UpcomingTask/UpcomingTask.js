@@ -12,9 +12,9 @@ import {
 } from 'components'
 
 import {
-    OperationMasterList,
-    OperationListItem
-} from 'farmApp/operation/components'
+    TaskMasterList,
+    TaskListItem
+} from 'farmApp/operation/task/components'
 
 import {
     WidgetMedium,
@@ -46,7 +46,7 @@ const UpcomingTask = ({
             title="Upcoming tasks"
             subheader="For all crops"
             link={{
-                to: ROUTES.OperationMap,
+                to: ROUTES.OperationTaskMap,
                 title: "show more"
             }}
             headerProps={{
@@ -57,7 +57,7 @@ const UpcomingTask = ({
                 //isLoading={isLoading}
             >
                 {data.map((d, i) => (
-                    <OperationListItem key={i} {...d} />
+                    <TaskListItem key={i} {...d} />
                 ))}
             </MasterList>
         </WidgetMedium>

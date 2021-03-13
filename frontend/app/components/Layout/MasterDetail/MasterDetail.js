@@ -48,6 +48,7 @@ const DetailContainer = styled(Grid)`
     ${({theme}) => `
         height: 100%;
         width: 100%;
+        position: relative;
 
         ${theme.breakpoints.up('md')} {
             max-width: 100%;

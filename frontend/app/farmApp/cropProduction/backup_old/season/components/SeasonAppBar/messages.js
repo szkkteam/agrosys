@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.farmApp.resource.field.FieldMapAppBar'
+export const scope = 'DELETE'
 
 export default defineMessages({
     title: {

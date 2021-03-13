@@ -32,29 +32,26 @@ const FieldDetailMapSnapshot = ({
 
 }) => {
     return (
-        <Grid container item xs={12}>
-            <Grid item xs={7}>
-                <MapSnapshot
-                />
-            </Grid>
-            <Grid item xs={5} style={{marginTop: "20px"}}>
-                <DescriptionContainer>
-                    <Typography variant="h6">
-                        <FormattedMessage {...messages.borderEditTitle}/>
-                    </Typography>
-                    <Typography variant="body2">
-                        <FormattedMessage {...messages.borderEditDesc}/>
-                    </Typography>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={onBorderEditClick}
-                    >
-                        <FormattedMessage {...messages.borderEditButtonTitle}/>
-                    </Button>
-                </DescriptionContainer>
-            </Grid>
-        </Grid>
+        <>
+        <MapSnapshot
+        />
+        <DescriptionContainer>
+            <Typography variant="h6">
+                <FormattedMessage {...messages.borderEditTitle}/>
+            </Typography>
+            <Typography variant="body2">
+                <FormattedMessage {...messages.borderEditDesc}/>
+            </Typography>
+            <Button
+                variant="contained"
+                color="primary"
+                onClick={onBorderEditClick}
+            >
+                <FormattedMessage {...messages.borderEditButtonTitle}/>
+            </Button>
+        </DescriptionContainer>
+        </>
+        
     )
 }
 

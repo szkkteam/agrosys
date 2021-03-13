@@ -1,20 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import messages from './messages'
 import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Modal, ModalHeader, ModalContent } from 'components'
-import BackButton from 'components/Modal/components/BackButton'
-import { useModalContext } from 'components/Modal/hooks'
+import ModalContext from 'components/Dialog/Context'
+
+import { 
+    Dialog,
+} from 'components'
 
 import {
-    DialogTitle,
-    DialogActions,
-    DialogContent,
-    Typography,
-    IconButton,
-    Button,
     Drawer,
 } from '@material-ui/core';
 
@@ -31,11 +27,6 @@ const Container = styled.div`
     position: relative;
     width: 100%;
     height: 100%;
-`
-
-
-const Content = styled(DialogContent)`
-    padding: 0;
 `
 
 const FixedFieldList = styled(props => <FieldList {...props}/>)`
@@ -135,27 +126,27 @@ const FieldDrawDialog = ({
     const {
         handleCancel,
         handleConfirm
-    } = useModalContext()
+    } = useContext(ModalContext)
  
     const handleSubmit = () => {
         handleConfirm && handleConfirm(dummyPayload)
     }
 
     return (
-        <Modal
-            fullWidth
-            maxWidth="sm"
-            fullScreen={true}
-            //disableBackdropClick={true}
+      <Dialog
+          fullWidth
+          maxWidth="sm"
+          fullScreen={true}
         >   
-            <ModalHeader
-                title={messages.title}
+            <Dialog.FullHeader
+                title={messages.title}    
                 startComponent={
-                    <BackButton />
-                }
-            >                
-            </ModalHeader>            
-            <Content className="dialog-content">
+                  <Dialog.BackButton />
+                }            
+            />
+            <Dialog.Content
+              p={0}
+            >
                 <Drawer
                     anchor="right"
                     open={open}
@@ -180,9 +171,10 @@ const FieldDrawDialog = ({
                         
                     </MapContainer>
                 </Container>
-            </Content>
-        </Modal>
+            </Dialog.Content>            
+        </Dialog>
     )
+
 }
 
 

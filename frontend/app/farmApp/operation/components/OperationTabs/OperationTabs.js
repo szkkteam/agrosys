@@ -13,8 +13,8 @@ const OperationTabs = ({
     const intl = useIntl()
 
     const routes = [
-        {to: ROUTES.OperationViews, value: {tab: 'map' },  label: intl.formatMessage(messages.map) },
-        {to: ROUTES.OperationViews, value: {tab: 'table' }, label: intl.formatMessage(messages.table) },
+        {to: ROUTES.OperationViews, value: {tab: 'tasks' },  label: intl.formatMessage(messages.task) },
+        {to: ROUTES.OperationViews, value: {tab: 'work-orders' }, label: intl.formatMessage(messages.order) },
         //{to: ROUTES.DashboardOverview, label: intl.formatMessage(messages.resource) },
     ]
 

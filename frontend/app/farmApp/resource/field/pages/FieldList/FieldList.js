@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import { useIntl } from 'react-intl'
 import { Route } from "react-router-dom";
 
-import { FieldLayoutRouter } from '../../components'
 
 const Container = styled.div`
     height: 100%;
@@ -24,8 +23,7 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <FieldLayoutRouter
-            />
+        
         </>
     )
 }

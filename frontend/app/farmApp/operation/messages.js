@@ -8,8 +8,12 @@ export default defineMessages({
         id: `${scope}.title`,  
         defaultMessage: 'Operations',
     },
+    task: {
+        id: `${scope}.task`,  
+        defaultMessage: 'Planning',
+    },
     operationCreate: {
-        id: `${scope}.operationCreate.title`,  
+        id: `${scope}.taskCreate.title`,  
         defaultMessage: 'Create new task',
     },
     appBarTitle: {
@@ -17,4 +21,8 @@ export default defineMessages({
         defaultMessage: 'Operations',
     }, 
     
+    operationDetail: {
+        id: `${scope}.taskDetail.title`,  
+        defaultMessage: '{task} - {crop}',
+    }
   })

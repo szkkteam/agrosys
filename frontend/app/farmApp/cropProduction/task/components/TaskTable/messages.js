@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.farmApp.task.TaskTable'
+export const scope = 'DELETE'
 
 export default defineMessages({
     tableTitle: {

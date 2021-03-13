@@ -25,11 +25,13 @@ const CropTag = ({
     const [clicked, setClicked] = useState(defaultExpand)
 
     const toggleExpand = (e) => {
+        e.preventDefault()
         e.stopPropagation()
         setClicked(!clicked)
     }
 
     const handleShrink = (e) => {
+        e.preventDefault()
         e.stopPropagation()
         setClicked(defaultExpand)
     }

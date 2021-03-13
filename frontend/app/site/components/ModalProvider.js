@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux'
 import { bindActionCreators } from 'redux'
 import { useSelector } from 'react-redux'
-import { ModalContext } from 'components'
+import ModalContext from 'components/Dialog/Context'
 
 import { popModalWindow } from 'redux-promising-modals';
 import Dialog from '@material-ui/core/Dialog';
@@ -15,10 +15,10 @@ import { getModal, isModalActive } from '../selectors'
 // Import modals
 import { TestModal } from 'site/components'
 import { FarmPickOnMap } from 'farmApp/resource/farm/components'
-//import { BlockCreateModal, BlockDrawModal } from 'farmApp/resource/block/components'
 import { FieldDrawDialog, FieldCreateDialog } from 'farmApp/resource/field/components'
 import { MachineryForm } from 'farmApp/resource/machinery/components'
 import { FieldPlanSeasonSelectDialog } from 'farmApp/plan/fieldPlan/components'
+//import { OperationTreatmentDialog } from 'farmApp/operation/components'
 
 import { PlanCropDialog } from 'farmApp/cropProduction/plan/components'
 
@@ -31,8 +31,9 @@ import {
     FIELD_DRAW_DIALOG,
     MACHINERY_DIALOG,
     FIELD_PLAN_SEASON_SELECT,
+    OPERATION_TREATMENT_DIALOG,
 
-    PLAN_CROP_DIALOG
+    PLAN_CROP_DIALOG,
  } from '../modalTypes'
 
 const ModalProvider = ({
@@ -48,10 +49,10 @@ const ModalProvider = ({
             [EDIT_FILE_DIALOG, TestModal],
             [FARM_PICK_ON_MAP_DIALOG, FarmPickOnMap],
             [FIELD_CREATE_DIALOG, FieldCreateDialog],
-            //[BLOCK_DRAW_DIALOG, BlockDrawModal],
             [FIELD_DRAW_DIALOG, FieldDrawDialog],
             [MACHINERY_DIALOG, MachineryForm],
             [FIELD_PLAN_SEASON_SELECT, FieldPlanSeasonSelectDialog],
+            //[OPERATION_TREATMENT_DIALOG, OperationTreatmentDialog],
 
             [PLAN_CROP_DIALOG, PlanCropDialog]
     ]))

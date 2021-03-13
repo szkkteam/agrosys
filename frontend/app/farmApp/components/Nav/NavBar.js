@@ -47,7 +47,7 @@ const NavBar = ({
         { isTablet && <NavRail>
           <DashboardRailItem />   
           <OperationRailItem />
-          <CropRailItem />
+
           <PlanRailItem />
           <InventoryRailItem disabled/>
           <ResourceRailItem />
@@ -56,6 +56,8 @@ const NavBar = ({
       </NavigationContext.Provider>      
   )
 }
+
+//          <CropRailItem />
 
 const withConnect = connect(
   (state) => ({ isAuthenticated: state.security.isAuthenticated }),

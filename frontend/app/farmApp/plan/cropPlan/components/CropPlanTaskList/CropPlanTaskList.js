@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+import { useGroupBy } from 'utils/hooks'
 
 import { TemplateListItem } from 'farmApp/plan/template/components'
 
@@ -33,20 +34,6 @@ const PinnedLi = styled.li`
     background-color: inherit;
 `
 
-function groupBy(list, keyGetter) {
-    const map = new Map();
-    list.forEach((item) => {
-         const key = keyGetter(item);
-         const collection = map.get(key);
-         if (!collection) {
-             map.set(key, [item]);
-         } else {
-             collection.push(item);
-         }
-    });
-    return map;
-}
-
 const CropPlanTaskList = ({
 
 }) => {
@@ -65,7 +52,8 @@ const CropPlanTaskList = ({
         {title: "Corn planting", startDate: new Date(2021, 6, 22), type: "Planting"},
         {title: "Harvesting", startDate: new Date(2021, 8, 13), type: "Harvest"},
     ]
-    const grouped = groupBy(tasks, task => task.type)
+
+    const grouped = useGroupBy(tasks, task => task.type)
 
     const taskTypes = ['Tiling', 'Planting', 'Harvest']
 

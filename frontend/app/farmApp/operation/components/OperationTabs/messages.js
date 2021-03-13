@@ -3,12 +3,12 @@ import { defineMessages } from 'react-intl'
 export const scope = 'app.farmApp.operation.OperationTabs'
 
 export default defineMessages({
-    map: {
-        id: `${scope}.map.title`,  
-        defaultMessage: 'Map',
+    task: {
+        id: `${scope}.tasks.title`,  
+        defaultMessage: 'Planning',
     },    
-    table: {
-        id: `${scope}.table.title`,  
-        defaultMessage: 'Table',
+    order: {
+        id: `${scope}.order.title`,  
+        defaultMessage: 'My tasks',
     },        
 })

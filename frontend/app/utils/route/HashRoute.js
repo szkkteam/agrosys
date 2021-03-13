@@ -8,8 +8,9 @@ export default ({
 }) => (
   <Route
     {...routeProps}
-    render={({ location, ...props}) => 
-      location.hash === path && <Component location={location} {...props} />
+    render={({ location, ...props}) => (
+        location.hash === path && <Component location={location} {...props} />
+      )
   } 
   />
 )
