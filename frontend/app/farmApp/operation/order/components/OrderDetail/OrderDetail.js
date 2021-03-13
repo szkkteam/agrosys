@@ -24,7 +24,9 @@ import {
     ListItemAvatar,
     Avatar,
     ListItemSecondaryAction,
-    IconButton
+    IconButton,
+    Fab,
+    Chip
 } from '@material-ui/core'
 
 import ScheduleIcon from '@material-ui/icons/Schedule';
@@ -32,6 +34,7 @@ import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import WarningIcon from '@material-ui/icons/Warning';
 
 import {
     MinimalLayout,
@@ -85,6 +88,12 @@ const TypoBold = styled(Typography)`
     ${typography}
 `
 
+const NestedListItem = styled(ListItem)`
+    ${({theme}) => `
+        padding-left: ${theme.spacing(2)}
+    `}
+`
+
 const PlanTab = ({
 
 }) => {
@@ -92,41 +101,157 @@ const PlanTab = ({
         <Grid container spacing={4}>
             <Grid item xs={8}>
                 <FormCardLayout
-                    title="Equipment"
-                    subheader="Planned equipment to use"
+                    title="Plan"
+                    //subheader="Planned equipment to use"
                     
-                >
-                    <List component='ul'>
-                        <ListItem component='li'>
-                            <ListItemAvatar>
-                                <Avatar>T</Avatar>
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary="John Deere 1770D"
-                                secondary="Tractor"
-                            />
-                            <ListItemSecondaryAction>
-                                <IconButton>
-                                    <RemoveCircleIcon />
-                                </IconButton>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                    </List>
+                >                    
+                    No planned values
                 </FormCardLayout>
                 <FormCardLayout
                     mt={2}
-                    title="Inputs"
-                    subheader="Planned inputs to use"
+                    title="Actuals"
+                    //subheader="Planned inputs to use"
                     
                 >
-                    
+                    <List>
+                        <ListItem
+                            divider
+                        >
+                            <ListItemText
+                                disableTypography
+                                primary={
+                                    <Typography variant="body1">
+                                        Working hours
+                                    </Typography>
+                                }
+                                secondary={
+                                    <ul style={{listStyle: "none", paddingLeft: "0px", display: "flex", alignItems: "center"}}>
+                                        <li>
+                                            <Typography variant="body2">
+                                                00:01:22
+                                            </Typography>
+                                        </li>                                        
+                                        <Spacer />
+                                        <li>
+                                            <Chip label="Add"
+                                                icon={
+                                                    <AddCircleIcon />
+                                                }
+                                                onClick={() => null}
+                                            />
+                                        </li>
+
+                                    </ul>
+                                }
+                            />
+                        </ListItem>
+                        <ListItem
+                            divider
+                        >
+                            <ListItemText
+                                disableTypography
+                                primary={
+                                    <Typography variant="body1">
+                                        Equipment
+                                    </Typography>
+                                }
+                                secondary={
+                                    <ul style={{listStyle: "none", paddingLeft: "0px", display: "flex", alignItems: "center"}}>
+                                        <li>
+                                            <Chip label="John Deere 1770D"
+                                                onDelete={() => null}
+                                            />
+                                        </li>
+                                        <li>
+                                            <Chip label="XFD-56 Cultivator"
+                                                onDelete={() => null}
+                                            />
+                                        </li>
+                                        <Spacer />
+                                        <li>
+                                            <Chip label="Add"
+                                                icon={
+                                                    <AddCircleIcon />
+                                                }
+                                                onClick={() => null}
+                                            />
+                                        </li>
+
+                                    </ul>
+                                }
+                            />                            
+                        </ListItem>                        
+                        <ListItem
+                            divider
+                        >
+                            <ListItemText
+                                disableTypography
+                                primary={
+                                    <Typography variant="body1">
+                                        Area covered
+                                    </Typography>
+                                }
+                                secondary={
+                                    <ul style={{listStyle: "none", paddingLeft: "0px", display: "flex", alignItems: "center"}}>
+                                        <li>
+                                            <Chip label="5.8 ha" />
+                                        </li>
+                                        
+                                        <Spacer />
+                                        <li>
+                                            <Chip label="Add"
+                                                icon={
+                                                    <AddCircleIcon />
+                                                }
+                                                onClick={() => null}
+                                            />
+                                        </li>
+
+                                    </ul>
+                                }
+                            />
+                        </ListItem>
+                        <ListItem
+                            divider
+                        >
+                            <ListItemText
+                                disableTypography
+                                primary={
+                                    <Typography variant="body1">
+                                        Inputs
+                                    </Typography>
+                                }
+                                secondary={
+                                    <ul style={{listStyle: "none", paddingLeft: "0px", display: "flex", alignItems: "center"}}>
+                                        <li>
+                                            <Typography variant="body2">
+                                                No inputs
+                                            </Typography>
+                                        </li>
+                                        
+                                        <Spacer />
+                                        <li>
+                                            <Chip label="Add"
+                                                icon={
+                                                    <AddCircleIcon />
+                                                }
+                                                onClick={() => null}
+                                            />
+                                        </li>
+
+                                    </ul>
+                                }
+                            />
+                        </ListItem>
+                    </List>
+
                 </FormCardLayout>
             </Grid>
             <Grid item xs={4}>
                 <FormCardLayout
                     expandable={false}
                     divider={false}
-                    title="Task summary"
+                    title="Task summary"                   
                 >
                     <List component='ul'
                     >
@@ -148,7 +273,35 @@ const PlanTab = ({
                                 Cultivator
                             </TypoBold>
                         </TaskDetailListItem>
+                        <TaskDetailListItem component='li' divider py={2} px={0}
+                        >
+                            <TypoBold variant="body2" fontWeight="fontWeightBold">
+                                Operator
+                            </TypoBold>
+                            <TypoBold variant="body2" fontWeight="fontWeightBold">
+                                John Doe
+                            </TypoBold>
+                        </TaskDetailListItem>
+                        <TaskDetailListItem component='li' divider py={2} px={0}
+                        >
+                            <TypoBold variant="body2" fontWeight="fontWeightBold">
+                                Hours
+                            </TypoBold>
+                            <TypoBold variant="body2" fontWeight="fontWeightBold">
+                                00:01:22
+                            </TypoBold>
+                        </TaskDetailListItem>
+                        <TaskDetailListItem component='li' divider py={2} px={0}
+                        >
+                            <TypoBold variant="body2" fontWeight="fontWeightBold">
+                                Area
+                            </TypoBold>
+                            <TypoBold variant="body2" fontWeight="fontWeightBold">
+                                5.8 / 12 ha
+                            </TypoBold>
+                        </TaskDetailListItem>
                     </List>
+
                 </FormCardLayout>
             </Grid>
         </Grid>
@@ -172,11 +325,17 @@ const Content = ({
             <Tabs
                 divider
                 tabs={[
-                    {title: messages.plan},
                     {title: messages.actual},
+                    {title: messages.map},
+                    {title: messages.note},
+                    {title: messages.photo},
+                    {title: messages.activity},
                 ]}
             >
                 <PlanTab />
+                <div>ch 4</div>
+                <div>ch 4</div>
+                <div>ch 4</div>
                 <div>ch 4</div>
             </Tabs>
             <Spacer />

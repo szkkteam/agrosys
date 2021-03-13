@@ -5,8 +5,12 @@ import styled from 'styled-components'
 import { spacing } from '@material-ui/system'
 
 import {
-    DialogContent
+    DialogContent as MuiDialogContent
 } from '@material-ui/core';
+
+const DialogContent = styled(MuiDialogContent)`
+    ${spacing}
+`
 
 const Content = ({
     children,

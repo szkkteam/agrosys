@@ -1,14 +1,26 @@
 import React, { useEffect } from 'react'
 import Helmet from 'react-helmet'
-import messages from './messages';
+import localMessages from './messages';
+import messages from 'farmApp/resource/field/messages';
+import domainMessages from 'farmApp/resource/messages'
 import { useIntl } from 'react-intl'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { Content } from 'components'
+import { ROUTES } from 'farmApp/routes'
 
 import { 
-    FieldEdit,
-    FieldAppBar
-} from '../../components'
+    FieldDetail,
+} from 'farmApp/resource/field/components'
+
+import {
+    Container
+} from '@material-ui/core'
+
+import {
+    MinimalLayout,
+    AppBar
+} from 'farmApp/components'
+
 
 /**
  * 1) Render a form component
@@ -24,10 +36,15 @@ export default ({
     ...rest  
 }) => {
     const intl = useIntl()
+    const { id } = useParams()
         
-    useEffect(() => {
-        console.debug("Mount - FieldCreateDraw")
-    }, [])
+
+    const links = [
+        {title: domainMessages.title, to: ROUTES.Resource},
+        {title: messages.title, to: ROUTES.ResourceField}, 
+        {title: messages.fieldEdit, to: ROUTES.ResourceFieldEdit, params: {id}},
+    ]
+
 
     return (
         <>
@@ -36,13 +53,30 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <FieldAppBar
+            <AppBar
+                goUpRoute={{
+                    to: ROUTES.ResourceField
+                }}
+                title={messages.title}
+            />
+            <MinimalLayout
+                overflow='auto'
+                containerProps={{
+                    component: Container,
+                    maxWidth: 'lg',
+                    overflow: 'initial',
+                    pb: 10
+                }}
                 title={{
                     values: { fieldTitle: 'Saját földem 1' },
-                    ...messages.title}}
-            />
-            <FieldEdit 
-            />
+                    ...localMessages.title}}
+                breadcrumbs={{
+                    links
+                }}
+            >
+                <FieldDetail
+                />
+            </MinimalLayout>
         </>
     )
 }

@@ -6,11 +6,12 @@ import styled from 'styled-components'
 import { spacing } from '@material-ui/system'
 
 import {
-    FormCardLayout
+    FormCardLayout,
+    Table
 } from 'farmApp/components'
 
 import {
-    FieldListItemBoundary
+    FieldListItem
 } from 'farmApp/resource/field/components'
 
 import {
@@ -25,8 +26,18 @@ import {
     Card,
     CardHeader,
     CardContent,
-    LinearProgress
+    LinearProgress,
+
+    Avatar,
+
+    TableContainer,
+    TableBody,
+    TableHead,
+    TableRow,
+    TableCell
 } from '@material-ui/core'
+
+import AvatarGroup from '@material-ui/lab/AvatarGroup';
 
 const ProgressContainer = styled.div`
     width: 100%;
@@ -41,6 +52,65 @@ const Flex = styled.div`
 const Spacer = styled.div`
     flex-grow: 1;
 `
+
+const Assigment = ({
+     
+}) => {
+    return (
+        <FormCardLayout
+            title="Assignments"
+            subheader="2 unassigned"
+        >
+            <Table
+                data={[                    
+                    {test: "bbb", cropType: {title: "Kukorica", short: "ku"}},
+                    {test: "cica", cropType: {title: "Árpa", short: "ár"}},
+                ]}
+                columns={[
+                    {
+                        title: 'Field',
+                        render: (rowData) => (
+                            <FieldListItem
+                                id={1}
+                                disableAction
+                                disableButton
+                            />
+                        )
+                    },
+                    {
+                        title: 'Assignments',
+                        render: (rowData) => (
+                            <AvatarGroup max={2}>
+                                <Avatar>JF</Avatar>
+                                <Avatar>JD</Avatar>
+                                <Avatar>PB</Avatar>
+                            </AvatarGroup>
+                        )
+                    },
+                    {
+                        title: 'Date',
+                        render: (rowData) => (
+                            <Typography variant="body2">
+                                2021 Január 14
+                            </Typography>
+                        )
+                    }
+                    
+
+                ]}
+                options={{
+                    paging: false,
+                }}
+                components={{
+                    Toolbar: () => null,
+                    Header: () => null,
+                }}
+                
+            />
+            
+        </FormCardLayout>
+    )
+}
 
 const Progress = ({
 
@@ -98,7 +168,7 @@ const TaskDetailOverview = ({
     return (
         <Grid container spacing={4}>
             <Grid item xs={12} md={8}>
-                <Progress
+                <Assigment
                 />
             </Grid>
             <Grid item xs={12} md={4}>

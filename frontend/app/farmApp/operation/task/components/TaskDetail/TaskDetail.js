@@ -51,20 +51,23 @@ const TaskDetail = ({
                 </Flex>                
             </Flex>
             <Tabs
-                value={tab}
-                onChange={setTab}
+                //value={tab}
+                hash
+                //onChange={setTab}
                 divider
                 tabs={[
-                    {title: messages.overview},
-                    {title: messages.treatment},
-                    {title: messages.resource},
-                    {title: messages.field},
+                    {title: messages.overview, value: 'overview'},
+                    {title: messages.plan, value: 'plan'},
+                    {title: messages.schedule, value: 'schedule'},
+                    {title: messages.activity, value: 'activity'},
+                    {title: messages.field, value: 'field'},
                 ]}
             >
                 <TaskDetailOverview
                 />
                 <div>ch 2</div>
                 <div>ch 3</div>
+                <div>ch 4</div>
                 <div>ch 4</div>
             </Tabs>
         </>

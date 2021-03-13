@@ -9,19 +9,14 @@ import { Redirect, Switch, Route, useRouteMatch } from 'react-router-dom'
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
-import { FieldLayoutRouter } from '../../components'
+import {
+    MasterDetail
+} from 'components'
 
-const Master = () => <div>Master list</div>
-const Detail = () => <div>Map</div>
-
-
-import { withLinkComponent } from 'utils/hoc'
-
-import { Button } from "@material-ui/core";
-import { routes } from '../../../routes';
-
-const Link = withLinkComponent(Button)
-
+import { 
+    FieldMapMaster,
+    FieldMapDetail
+} from 'farmApp/resource/field/components'
 
 export default ({
 
@@ -38,7 +33,14 @@ export default ({
                     {intl.formatMessage(messages.title)}
                 </title>
             </Helmet>
-            <FieldLayoutRouter />
+            <MasterDetail
+                spacing={0}
+            >
+                <FieldMapMaster
+                />
+                <FieldMapDetail
+                />
+            </MasterDetail>
         </>
     )
 }

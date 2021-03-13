@@ -4,14 +4,15 @@ import globalMessages from 'messages'
 import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
+import { spacing } from '@material-ui/system'
+import { ROUTES, ROUTE_MAP } from 'farmApp/routes'
+import { withLinkComponent } from 'utils/hoc'
+
+import ModalContext from 'components/Dialog/Context'
 
 import { 
-    Modal,
-    ModalHeader,
-    ModalContent,
-    ModalFooter,
-    ModalContext,
-    PageHeader,
+    Dialog,
+    Button,
 } from 'components'
 
 import {
@@ -21,8 +22,11 @@ import {
 import {    
     Grid,
     CardMedia,
-    Typography
+    Typography,
+    Link as MuiLink
 } from '@material-ui/core'
+
+const Link = withLinkComponent(MuiLink)
 
 const Media = styled(({width, height, ...props}) => <CardMedia {...props} />)`
     ${({theme, width, height}) => `
@@ -38,46 +42,19 @@ const Text = styled.div`
 `
 
 const Container = styled.div`
-    margin-top: 50px;
-    margin-bottom: 70px;
-    max-width: 400px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    ${spacing}
+    width: 100%;
 `
 
-const Content = ({
-    children
-}) => {
+const AlignedSeasonSelector = styled(props => <SeasonSelector {...props} />)`
+    margin: 0 auto;
+`
 
 
-    return (
-        <Grid container alignItems="flex-start" justify="center" style={{flexGrow: 1}}>
-            <Grid item >
-                <Container>
-                    <Media
-                        width={200}
-                        height={120}
-                        image="https://via.placeholder.com/200x120"
-                    />
-                    <Text>
-                        <Typography variant="h6">
-                            Select your season in which you want to grow crops
-                        </Typography>
-                    </Text>
-                    <div style={{width: "220px"}}>
-                        {children}
-                    </div>
-
-                    
-                </Container>
-            </Grid>
-            
-        </Grid>
-        
-    )
-}
+const SubmitButton = styled(Button)`
+    ${spacing}
+    width: 100%;
+`
 
 const FieldPlanSeasonSelectDialog = ({
     headerProps,
@@ -95,16 +72,32 @@ const FieldPlanSeasonSelectDialog = ({
     }
 
     return (
-        <Modal
+        <Dialog
             fullWidth
             maxWidth="sm"
         >   
-            <ModalHeader
+            <Dialog.SimpleHeader
                 title={messages.title}
-            />
-            <ModalContent>
-                <Content>
-                    <SeasonSelector
+                subheader={{
+                    ...messages.subheader,
+                    values: {
+                        a: chunks => (
+                            <Link to={ROUTES.PlanCropPlan}>
+                                {chunks}
+                            </Link>
+                        )
+                    }
+                }}
+            >
+                <Dialog.CloseButton />
+            </Dialog.SimpleHeader>
+            <Dialog.Content
+                dividers
+            >
+                <Container
+                    my={3}
+                >
+                    <AlignedSeasonSelector
                         label="Season"
                         value={season}
                         onChange={handleChangeSeason}
@@ -113,17 +106,21 @@ const FieldPlanSeasonSelectDialog = ({
                         ]}
 
                     />
-                </Content>
-            </ModalContent>
-            <ModalFooter
-                primaryButtonProps={{
-                    title: globalMessages.select,
-                    disabled: season === "",
-                    onClick: handleSelect
-                }}
-                
-            />
-        </Modal>
+                </Container>
+            </Dialog.Content>
+            <Dialog.Footer
+                py={3}
+                px={2}
+            >
+                <SubmitButton 
+                    color="primary"
+                    variant="contained"
+                    title={globalMessages.select}
+                    disabled={season === ""}
+                    onClick={handleSelect}
+                />
+            </Dialog.Footer>
+        </Dialog>
     )
 }
 

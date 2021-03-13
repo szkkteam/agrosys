@@ -15,13 +15,14 @@ const Container = styled.div`
 `
 
 const SeasonSelector = ({
+    className,
     seasons,
     ...props
 }) => {
    
 
     return (
-        <Container>
+        <Container className={className}>
             <TextField
                 select
                 variant="outlined"

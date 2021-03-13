@@ -6,6 +6,10 @@ import { FormattedMessage } from 'react-intl';
 import { ROUTES } from 'farmApp/routes'
 
 import { Modal, ModalHeader, ModalContent } from 'components'
+import { 
+    Dialog,
+    Button,
+} from 'components'
 
 import {
     Grid,
@@ -31,17 +35,21 @@ const FieldCreateDialog = ({
     ...props
 }) => {
 
-   
     return (
-        <Modal
+        <Dialog
             fullWidth
             maxWidth="sm"
             disableBackdropClick={true}
         >   
-            <ModalHeader
-                title={messages.title}
-            />
-            <PaddedContent>
+            <Dialog.SimpleHeader
+                title={messages.title}                
+            >
+                <Dialog.CloseButton />
+            </Dialog.SimpleHeader>
+            <Dialog.Content
+                py={3}
+                //dividers
+            >
                 <Grid 
                     container
                     direction="column"
@@ -53,10 +61,12 @@ const FieldCreateDialog = ({
                         <FieldCreateOption key={optionProps.to} {...optionProps} />
                     ))
                     }
-                </Grid>  
-            </PaddedContent>
-        </Modal>
+                </Grid> 
+            </Dialog.Content>
+            
+        </Dialog>
     )
+    
 }
 
 

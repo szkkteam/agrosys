@@ -7,13 +7,17 @@ export default defineMessages({
         id: `${scope}.tab.overview`,  
         defaultMessage: 'Overview',
     },    
-    treatment: {
-        id: `${scope}.tab.treatment`,  
-        defaultMessage: 'Activity',
+    plan: {
+        id: `${scope}.tab.plan`,  
+        defaultMessage: 'Planning',
     },    
-    resource: {
-        id: `${scope}.tab.resource`,  
-        defaultMessage: 'Resources',
+    schedule: {
+        id: `${scope}.tab.scheduling`,  
+        defaultMessage: 'Scheduling',
+    },    
+    activity: {
+        id: `${scope}.tab.activity`,  
+        defaultMessage: 'activity',
     },    
     field: {
         id: `${scope}.tab.field`,  

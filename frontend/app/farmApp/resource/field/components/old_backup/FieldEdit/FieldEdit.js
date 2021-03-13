@@ -15,7 +15,7 @@ import { FIELD_DRAW_DIALOG } from 'site/modalTypes'
 import { MODAL_TYPE_CONFIRM } from 'site/modalResultTypes'
 import { usePushModalWindow } from 'utils/hooks'
 
-import { FIELD_FORM } from '../../constants'
+import { FIELD_FORM } from '../../../constants'
 
 import {
     Typography,
@@ -27,7 +27,7 @@ import {
 } from '@material-ui/core';
 
 import FieldDetailLayout from '../FieldDetailLayout/FieldDetailLayout'
-import FieldDetailPage from '../FieldDetailPage/FieldDetailPage'
+import FieldDetailPage from '../../FieldDetailPage/FieldDetailPage'
 
 
 const Form = styled.form`

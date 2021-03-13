@@ -21,7 +21,8 @@ const CloseButton = forwardRef(({
 }, ref) => {
     const { handleCancel } = useContext()
     return (
-        <IconButton     
+        <IconButton    
+            style={{alignSelf: "flex-start"}} 
             ref={ref}
             aria-label="close"
             onClick={onClose ?? handleCancel}
