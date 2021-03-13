@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.farmApp.cropProduction.plan.PlanCropDialog.CropAndTaskPage'
+export const scope = 'DELETE'
 
 export default defineMessages({
     mainCropTitle: {

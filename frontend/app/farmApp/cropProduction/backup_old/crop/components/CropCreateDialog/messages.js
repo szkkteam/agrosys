@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.farmApp.cropProduction.crop.CropCreateDialog'
+export const scope = 'DELETE'
 const validationScope = `${scope}.Validation`
 
 export default defineMessages({
