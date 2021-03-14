@@ -20,10 +20,11 @@ export class CropPlan extends Model {
     }
 
     static parse(data) {
-        const { CropType } = this.session
+        const { CropType, Task } = this.session
         let clonedData = {
             ...data,
             cropType: CropType.parse({...data.cropType}),
+            tasks: data.tasks && data.tasks.map(task => Task.parse({...task, cropPlanId: data.id}))
         }
         // TODO: Do some parsing magic with relations
         return this.upsert(clonedData)

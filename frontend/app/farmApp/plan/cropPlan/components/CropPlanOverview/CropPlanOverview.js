@@ -76,7 +76,9 @@ const CropPlanOverview = ({
                         onClick={handleCreateTask}
                     />
                 </ButtonPadding>
-                <CropPlanTaskList />
+                <CropPlanTaskList 
+                    cropPlanIds={payload}
+                />
             </Grid>
         </Grid>
     )

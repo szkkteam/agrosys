@@ -7,6 +7,8 @@ import { useIntl, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { CropTag } from 'farmApp/product/crop/components'
+import { useSelectCropPlan } from 'farmApp/plan/cropPlan/hooks'
+
 
 import {
     Typography,
@@ -20,10 +22,11 @@ import {
 const TemplateListItem = ({
     className,
     title,
-    cropType,
+    cropPlanId,
     ...props
 }) => {
-
+    const { payload, isLoading } = useSelectCropPlan(cropPlanId)
+    
     return (
         <ListItem 
             className={className}
@@ -37,13 +40,10 @@ const TemplateListItem = ({
                         {title}
                     </Typography>
                 }
-                secondary={
-                    <CropTag
-                    {...cropType}
             />
-                }
-
-            />
+            {!isLoading && <CropTag
+                {...payload.cropType}
+            />}
             
         </ListItem>
     )

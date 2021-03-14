@@ -2,6 +2,7 @@ import { ORM } from "redux-orm";
 import { CropType } from './product/crop/models'
 import { Field } from './resource/field/models'
 import { CropPlan } from './plan/cropPlan/models'
+import { Task } from './operation/task/models'
 
 //import { Season } from 'season/models'
 //import { Farm } from 'farm/models'
@@ -14,6 +15,7 @@ orm.register(
     Field,
     CropType,
     CropPlan,
+    Task,
     //Farm,
     //Season,
     //ReferenceParcel,

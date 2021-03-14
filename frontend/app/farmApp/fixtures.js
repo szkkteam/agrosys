@@ -386,12 +386,35 @@ export const cropType_canola =
     {id: 4, title: "Repce", short: 're', category: "Takarmány növény"}
 
 /**
+ * Task fixtures
+ */
+export const task_winterWheat2020_disking = 
+  {id: 1, title: 'Tárcsázás', type: 'tilage', subType: 'disking', dates: {start: new Date(2021, 4, 1).toISOString(), end: new Date(2021, 4, 20).toISOString()}}
+export const task_winterWheat2020_planting = 
+  {id: 2, title: 'Téli búza ültetés', type: 'planting', subType: 'mainCropPlant', dates: {start: new Date(2021, 4, 1).toISOString(), end: new Date(2021, 4, 20).toISOString()}}
+export const task_winterWheat2020_harvest = 
+  {id: 3, title: 'Aratás', type: 'harvest', subType: 'grainHarvest', dates: {start: new Date(2021, 4, 1).toISOString(), end: new Date(2021, 4, 20).toISOString()}}
+export const task_cropPlan_springWheatExperimental_disking = 
+  {id: 4, title: 'Tárcsázás', type: 'tilage', subType: 'disking', dates: {start: new Date(2021, 4, 1).toISOString(), end: new Date(2021, 4, 20).toISOString()}}
+export const task_cropPlan_springWheatExperimental_planting = 
+  {id: 5, title: 'Tavaszi búza ültetés', type: 'planting', subType: 'mainCropPlant', dates: {start: new Date(2021, 4, 1).toISOString(), end: new Date(2021, 4, 20).toISOString()}}
+export const task_cropPlan_springWheatExperimental_harvest = 
+  {id: 6, title: 'Aratás', type: 'harvest', subType: 'grainHarvest', dates: {start: new Date(2021, 4, 1).toISOString(), end: new Date(2021, 4, 20).toISOString()}}
+/**
  * CropPlan fixtures
  */
 export const cropPlan_winterWheat2020 = 
-  {id: 1, title: 'Téli búza - 2021', season: 2021, cropType: cropType_winterWheat}  
+  {id: 1, title: 'Téli búza - 2021', season: 2021, cropType: cropType_winterWheat, tasks: [
+    task_winterWheat2020_disking,
+    task_winterWheat2020_planting,
+    task_winterWheat2020_harvest
+  ]}  
 export const cropPlan_springWheatExperimental = 
-  {id: 2, title: 'Tavaszi búza (kísérleti)', season: 2021, cropType: cropType_springWheat}
+  {id: 2, title: 'Tavaszi búza (kísérleti)', season: 2021, cropType: cropType_springWheat, tasks: [
+    task_cropPlan_springWheatExperimental_disking,
+    task_cropPlan_springWheatExperimental_planting,
+    task_cropPlan_springWheatExperimental_harvest
+  ]}
 
 // OLD DELETE
 export const fieldProduction_wheat2020_mainCrop_field_table1 = 
@@ -429,6 +452,15 @@ export const cropTypes = [
     cropType_springWheat,
     cropType_corn,
     cropType_canola
+]
+
+export const tasks = [
+    task_winterWheat2020_disking,
+    task_winterWheat2020_planting,
+    task_winterWheat2020_harvest,
+    task_cropPlan_springWheatExperimental_disking,
+    task_cropPlan_springWheatExperimental_planting,
+    task_cropPlan_springWheatExperimental_harvest,
 ]
 
 export const cropPlans = [

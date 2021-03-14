@@ -7,12 +7,15 @@ import styled from 'styled-components'
 import { useGroupBy } from 'utils/hooks'
 
 import { TemplateListItem } from 'farmApp/plan/template/components'
+import { taskTypeOptions } from 'farmApp/operation/task/constants'
 
 import {
     Paper,
     List,
     ListSubheader,
 } from '@material-ui/core'
+
+import { useSelectTaskIdsByCropPlanGroupByType } from '../../hooks'
 
 
 const PinnedList = styled(List)`
@@ -35,27 +38,10 @@ const PinnedLi = styled.li`
 `
 
 const CropPlanTaskList = ({
-
+    cropPlanIds,
+    ...props
 }) => {
-    const cropType = {
-        title: "Őszi búza",
-        short: "őb"
-    }
-    const tasks = [
-        {title: "Disking", startDate: new Date(2021, 5, 12), type: "Tiling"},
-        {title: "Corn planting", startDate: new Date(2021, 6, 22), type: "Planting"},
-        {title: "Harvesting", startDate: new Date(2021, 8, 13), type: "Harvest"},
-        {title: "Disking", startDate: new Date(2021, 5, 12), type: "Tiling"},
-        {title: "Corn planting", startDate: new Date(2021, 6, 22), type: "Planting"},
-        {title: "Harvesting", startDate: new Date(2021, 8, 13), type: "Harvest"},
-        {title: "Disking", startDate: new Date(2021, 5, 12), type: "Tiling"},
-        {title: "Corn planting", startDate: new Date(2021, 6, 22), type: "Planting"},
-        {title: "Harvesting", startDate: new Date(2021, 8, 13), type: "Harvest"},
-    ]
-
-    const grouped = useGroupBy(tasks, task => task.type)
-
-    const taskTypes = ['Tiling', 'Planting', 'Harvest']
+    const { payload, isLoading } = useSelectTaskIdsByCropPlanGroupByType(cropPlanIds)
 
     return (
         <PinnedList
@@ -63,14 +49,16 @@ const CropPlanTaskList = ({
                 <li/>
             }
         >
-            {taskTypes.map((type) => (
+            {taskTypeOptions.map(({id: type, title}) => (
                 <PinnedLi key={`group-${type}`}>
                     <PinnedUl component='ul'>
-                        <ListSubheader>{type}</ListSubheader>
-                        {grouped.get(type).map(({title}, i) => (
+                        <ListSubheader>
+                            <FormattedMessage {...title} />
+                        </ListSubheader>
+                        {!isLoading && payload.get(type) && payload.get(type).map(({title, cropPlanId}, i) => (
                             <TemplateListItem key={`item-${title}-${i}`}
                                 title={title}
-                                cropType={cropType}
+                                cropPlanId={cropPlanId}
                             />
                         ))}
                     </PinnedUl>

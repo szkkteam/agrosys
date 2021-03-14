@@ -70,6 +70,7 @@ const CropPlanCrop = ({
             }
         >
             <CropPlanTasks
+                cropPlanId={id}
                 data={tasks}
             />
         </ExpandPanel>
