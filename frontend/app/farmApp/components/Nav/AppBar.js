@@ -3,13 +3,16 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { useIntl, FormattedMessage } from 'react-intl'
 import { withLinkComponent } from 'utils/hoc'
+import { spacing } from '@material-ui/system'
 import sizeMe, { SizeMe } from 'react-sizeme'
 
 import {
     AppBar as MuiAppBar,
     Toolbar,
     IconButton,
-    Typography
+    Typography,
+    Button,
+    Avatar
 } from '@material-ui/core';
 
 import BackButton from 'components/Button/BackButton'
@@ -46,6 +49,19 @@ const StyledAppBar = styled(MuiAppBar)`
     `}
 `
 
+const ToolbarFlexEnd = styled(Toolbar)`
+    ${({theme}) => `
+        align-items: center;        
+        ${theme.breakpoints.down('sm')} {
+            padding-top: ${theme.spacing(1)}px;
+            align-items: flex-start;    
+            min-height: 128px;
+        }
+    `}
+    //align-items: flex-end;
+
+`
+
 // TODO: +2px because 64-8 looks not enough
 const ContentSpacer = styled(({height: dummy = null, ...rest}) => <div {...rest}/> )`
     ${({ theme, height }) => `
@@ -57,21 +73,47 @@ const ContentSpacer = styled(({height: dummy = null, ...rest}) => <div {...rest}
 `
 
 const PageTitle = styled(Typography)`
-    min-width: 200px;
-    font-size: 1.5rem;
+    ${({theme}) => `
+        //margin: auto;
+        font-size: 1.5rem;
+        width: calc(350px - ${theme.spacing(2)}px);
+    `}
 `
 
-const FlexWrapper = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+const TabContainer = styled.div`
+    ${({theme}) => `
+    ${theme.breakpoints.down('sm')} {
+        align-self: flex-end;    
+    }
+    `}
+`
+
+const CenterAlign = styled.div`
+    //margin: auto;
 `
 
 const FlexNoWrap = styled.div`
+    //margin: auto;
     display: flex;
     flex-wrap: nowrap;
 `
 
+const AvatarIcon = styled(Avatar)`
+    ${({theme}) => `
+        width: 32px;
+        height: 32px;
+    `}
+`
+
+const AccountMenuItem = styled(Button)`
+    ${spacing}
+    & p {
+        text-transform: initial;
+    }
+    
+`
+
+const IconWrapper = styled.div`${spacing}`
 
 const AppBar = forwardRef(({
     title,
@@ -101,36 +143,35 @@ const AppBar = forwardRef(({
                         ref={ref}
                         position="fixed"
                     >
-                        <Toolbar>
-                            <FlexWrapper>
-                                <div>
+                        <ToolbarFlexEnd>
+                                <CenterAlign>
                                     { goUpRoute &&
                                         <BackButtonLink {...goUpRoute} />
                                     }
-                                </div>  
+                                </CenterAlign>  
                                 <PageTitle variant="h1">
                                     {appTitle}
                                 </PageTitle>
-                                <div>
+                                <TabContainer>
                                     {children}
-                                </div>
-                            </FlexWrapper>               
+                                </TabContainer>
                             <div style={{flexGrow: 1}} />
                             <FlexNoWrap>
-                                <TaskCalendarButton />
                                 <NotificationButton />
-                                <IconButton
-                                    edge="end"
-                                    aria-label="account of current user"
-                                    aria-controls="primary-search-account-menu"
-                                    aria-haspopup="true"
-                                    //onClick={handleProfileMenuOpen}
+                                <AccountMenuItem
+                                    ml={2}
                                     color="inherit"
+                                    startIcon={
+                                        <AvatarIcon></AvatarIcon>
+                                    }
                                 >
-                                    <AccountCircle />
-                                </IconButton>                    
+                                    
+                                    <Typography variant="body2" color="inherit">
+                                        user@user.com
+                                    </Typography>
+                                </AccountMenuItem>
                             </FlexNoWrap>
-                        </Toolbar>
+                        </ToolbarFlexEnd>
                     </StyledAppBar>
                     <ContentSpacer height={size.height} />
                 </>
@@ -140,6 +181,16 @@ const AppBar = forwardRef(({
     )
 })
 /*
+<IconButton
+                                    edge="end"
+                                    aria-label="account of current user"
+                                    aria-controls="primary-search-account-menu"
+                                    aria-haspopup="true"
+                                    //onClick={handleProfileMenuOpen}
+                                    color="inherit"
+                                >
+                                    <AccountCircle />
+                                </IconButton>     
                     <TutorialProgressBar />
 */
 

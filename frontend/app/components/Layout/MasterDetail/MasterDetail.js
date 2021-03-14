@@ -30,14 +30,15 @@ const MasterContainer = styled(({spacing: dummy, ...props}) => <Grid {...props}/
         flex-grow: 0;
         max-width: 100%;
         flex-basis: 100%;
-        
+        /*
         ${theme.breakpoints.up(MASTER_DETAIL_BREAKPOINT)} {
             flex-grow: 0;
             max-width: 33.333333%;
             flex-basis: 33.333333%;
             padding-right: ${spacing}px;
         }
-
+        */
+        max-width: 350px;
         ${theme.breakpoints.up('md')} {
             max-width: 350px;
         }

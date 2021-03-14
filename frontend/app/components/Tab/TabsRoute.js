@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { useRouteMatch, useParams, Redirect } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
 import { ROUTES, ROUTE_MAP } from 'farmApp/routes'
 
 import {
@@ -10,6 +11,13 @@ import {
 } from '@material-ui/core';
 
 import TabLink from './TabLink'
+
+
+const useStyles = makeStyles((theme) => ({
+    indicator: {
+        backgroundColor: theme.palette.common.white,
+      },
+}));
 
 
 const TabsRoute = ({
@@ -29,12 +37,15 @@ const TabsRoute = ({
    console.debug("Params: ", params)
    const isMatchFound = !!value
 
+   const classes = useStyles();
+
     return (
         <>
         { !isMatchFound
             ? redirect ? <Redirect to={redirectToRoute.toPath(redirectParams)} /> : null
             : <Tabs
                 orientation="horizontal"
+                classes={{ indicator: classes.indicator }} 
                 {...props}
                 value={value}
             >

@@ -21,7 +21,7 @@ const DashboardTabs = ({
 
     return (
         <TabsRoute
-        valueAccessor="tab"
+            valueAccessor="tab"
             items={routes}
         />
     )
