@@ -18,6 +18,9 @@ export default (action, selector, force=false) => {
             dispatch(action.maybeTrigger())
         }
     }, [])
-
-    return useSelector(selector)
+    
+    if (selector) {
+        return useSelector(selector)
+    }
+    
 }

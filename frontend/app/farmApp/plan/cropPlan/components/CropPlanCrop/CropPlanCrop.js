@@ -20,6 +20,8 @@ import {
 import CropSummary from './CropSummary'
 import CropPlanTasks from './CropPlanTasks'
 
+import { useSelectCropPlan } from '../../hooks'
+
 const Flex = styled.div`
     display: flex;
     align-items: center;
@@ -30,23 +32,17 @@ const Spacer = styled.div`
 `
 
 const CropPlanCrop = ({
-    cropPlanId,
+    id,
     ...props
 }) => {
     // TODO: Fetch the data based on cropPlanId
-    const payload = {
-        title: "Őszi búza - 2020",
-        cropType: {
-            title: "Őszi búza",
-            short: "őb"
-        },
-        tasks: [
-            {title: "Disking", startDate: new Date(2021, 5, 12), type: "Tiling"},
-            {title: "Corn planting", startDate: new Date(2021, 6, 22), type: "Planting"},
-            {title: "Harvesting", startDate: new Date(2021, 8, 13), type: "Harvest"}
-        ]
-        
-    }
+    const { payload, isLoading } = useSelectCropPlan(id)
+
+    const tasks = [
+        {title: "Disking", startDate: new Date(2021, 5, 12), type: "Tiling"},
+        {title: "Corn planting", startDate: new Date(2021, 6, 22), type: "Planting"},
+        {title: "Harvesting", startDate: new Date(2021, 8, 13), type: "Harvest"}
+    ]
 
     const menuItems = [
         {title: globalMessages.edit, onClink: null},
@@ -54,7 +50,8 @@ const CropPlanCrop = ({
         {title: globalMessages.delete, onClink: null}
     ]
 
-    return (
+    if (isLoading) return null
+    else return (
         <ExpandPanel
             {...props}
             summary={
@@ -73,7 +70,7 @@ const CropPlanCrop = ({
             }
         >
             <CropPlanTasks
-                data={payload.tasks}
+                data={tasks}
             />
         </ExpandPanel>
     )

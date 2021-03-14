@@ -15,10 +15,6 @@ import {
   ROUTES as resourceRoutesKeys,
 } from 'farmApp/resource/routes'
 
-import {
-  routes as productionRoutes,
-  ROUTES as productionRoutesKeys,
-} from 'farmApp/cropProduction/routes'
 
 import {
   routes as planRoutes,
@@ -89,7 +85,7 @@ export const ROUTES = {
   FarmCreate: 'FarmCreate',
   FarmDashboard: 'FarmDashboard',
   
-  ...productionRoutesKeys,
+  //...productionRoutesKeys,
   ...resourceRoutesKeys,
   ...planRoutesKeys,
   ...operationRoutesKeys,
@@ -158,7 +154,7 @@ export const routes = [
   /**
    * Production routes
    */
-  ...productionRoutes,
+  //...productionRoutes,
   /**
    * Plan routes
    */
