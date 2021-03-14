@@ -61,6 +61,7 @@ const FieldListItem = ({
 
     const { 
         title,
+        geometry,
         area: areaM2,
         lpis,
     } = payload || {}
@@ -82,7 +83,9 @@ const FieldListItem = ({
             {...props}
         >
             {children}
-            <FieldListItemBoundary />
+            <FieldListItemBoundary 
+                geometry={geometry}
+            />
             <ListItemText 
                 primaryTypographyProps={{
                     noWrap: true,

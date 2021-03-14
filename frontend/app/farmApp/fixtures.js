@@ -369,9 +369,9 @@ export const field_table_bence_8 =
 export const field_table_bence_1 = 
     {id: 3, title: "Tábla 1", area: 2.7263*10000, geometry: bencex0x5fv18_1, lpis: { ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "X0X5FV18"}}
 export const field_table_bence_4 = 
-    {id: 4, title: "Tábla 4", area: 2.4422*10000, geometry: bencexnkcfd18_4, lpis: { ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "XNKCFD18"}}
+    {id: 4, title: "Tábla 4", area: 16.7575*10000, geometry: bencexnkcfd18_4, lpis: { ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "XNKCFD18"}}
 export const field_table_bence_7 = 
-    {id: 5, title: "Tábla 7", area: 16.7575*10000, geometry: bencexnnyf418_7, lpis: { ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "XNNYF418"}}
+    {id: 5, title: "Tábla 7", area: 2.4422*10000, geometry: bencexnnyf418_7, lpis: { ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "XNNYF418"}}
 
 /**
  * CropType fixtures
@@ -432,7 +432,7 @@ export const cropTypes = [
 ]
 
 export const fields = [
-    field_table1,
+    //field_table1,
     field_table_bence_1,
     field_table_bence_4,
     field_table_bence_7,

@@ -13,7 +13,7 @@ import { useFetchFields } from '../../hooks'
 
 import FieldCreateButton from '../FieldCreateButton/FieldCreateButton'
 import FieldListItem from '../FieldListItem/FieldListItem'
-
+/*
 const BottomButton = styled(forwardRef((props, ref) => <FieldCreateButton {...props} ref={ref} /> ))`
     position: absolute;
     margin-bottom: 10px;
@@ -21,11 +21,17 @@ const BottomButton = styled(forwardRef((props, ref) => <FieldCreateButton {...pr
     left: 0;
     width: 100%;
 `
+*/
 
 const BorderFieldListItem = styled(props => <FieldListItem {...props} />)`
     border-top: 1px solid rgba(214, 220, 225, 0.5);
     padding: 10px 20px;
     min-width: 220px;
+`
+
+const CreateButton = styled(FieldCreateButton)`
+    width: calc(100% - 2 * 5px);
+    margin: 0 5px;
 `
 
 const FieldMasterList = ({
@@ -41,7 +47,7 @@ const FieldMasterList = ({
                 maxHeight: 570,
             }}
             addButton={
-                <BottomButton
+                <CreateButton
                 />
             }
             {...props}

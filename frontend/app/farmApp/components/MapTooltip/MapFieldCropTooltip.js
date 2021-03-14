@@ -56,6 +56,7 @@ const MapFieldCropTooltip = ({
   title,
   area,
   cropType,
+  onClick
 }) => {
 
   const convertedArea = useConvertArea(area)
@@ -74,9 +75,9 @@ const MapFieldCropTooltip = ({
           defaultExpand={true}
           {...cropType}
           />
-        <MoreButton size="small">
+        {onClick && <MoreButton size="small" onClick={onClick}>
           <ChevronRightIcon fontSize="small" />
-        </MoreButton>
+        </MoreButton> }
       </Flex> }
     </Container>
   )
