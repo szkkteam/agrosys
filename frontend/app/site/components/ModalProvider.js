@@ -20,8 +20,6 @@ import { MachineryForm } from 'farmApp/resource/machinery/components'
 import { FieldPlanSeasonSelectDialog } from 'farmApp/plan/fieldPlan/components'
 //import { OperationTreatmentDialog } from 'farmApp/operation/components'
 
-import { PlanCropDialog } from 'farmApp/cropProduction/plan/components'
-
 
 import { 
     EDIT_FILE_DIALOG,
@@ -33,7 +31,6 @@ import {
     FIELD_PLAN_SEASON_SELECT,
     OPERATION_TREATMENT_DIALOG,
 
-    PLAN_CROP_DIALOG,
  } from '../modalTypes'
 
 const ModalProvider = ({
@@ -53,8 +50,6 @@ const ModalProvider = ({
             [MACHINERY_DIALOG, MachineryForm],
             [FIELD_PLAN_SEASON_SELECT, FieldPlanSeasonSelectDialog],
             //[OPERATION_TREATMENT_DIALOG, OperationTreatmentDialog],
-
-            [PLAN_CROP_DIALOG, PlanCropDialog]
     ]))
     const Component = modalsMap.get(modalType) || null;
 
