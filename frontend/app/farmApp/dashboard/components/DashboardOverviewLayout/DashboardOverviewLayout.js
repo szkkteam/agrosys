@@ -15,7 +15,7 @@ import {
     CropCashFlow,
     CropROI,
     CultivatedArea
-} from 'farmApp/cropProduction/widgets'
+} from 'farmApp/cropProduction_old/widgets'
 
 import {
     CropsByArea,

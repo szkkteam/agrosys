@@ -29,7 +29,6 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 
 import { TutorialProgressBar } from 'farmApp/tutorial/components'
 import { NotificationButton } from 'farmApp/notification/components'
-import { TaskCalendarButton } from 'farmApp/cropProduction/task/components'
 
 const StyledAppBar = styled(MuiAppBar)`
     ${({theme}) => `

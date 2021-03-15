@@ -7,7 +7,6 @@ import { NavRail } from 'components/NavRail'
 
 import { ResourceRailItem } from 'farmApp/resource/menus'
 import { OperationRailItem } from 'farmApp/operation/menus'
-import { CropRailItem } from 'farmApp/cropProduction/menus'
 import { PlanRailItem } from 'farmApp/plan/menus'
 import { InventoryRailItem } from 'farmApp/resource/inventory/menus'
 import { DashboardRailItem } from 'farmApp/dashboard/menus'
