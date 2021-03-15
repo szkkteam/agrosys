@@ -1,1 +1,0 @@
-webpackJsonp([15],{"./frontend/app/site/pages/NotFound/NotFound.js":function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0});var o=t("./node_modules/react/index.js"),a=t.n(o),u=t("./frontend/app/components/Content/index.js");n.default=function(){return a.a.createElement(u.a,null,a.a.createElement("h2",null,"404! Page not found."))}}});
