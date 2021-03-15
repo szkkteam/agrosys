@@ -31,6 +31,8 @@ import {
 import CropPlanCrop from '../CropPlanCrop/CropPlanCrop'
 import CropPlanTaskList from '../CropPlanTaskList/CropPlanTaskList'
 
+import { useSelectCropPlansBySeason } from '../../hooks'
+
 
 const LinkButton = withLinkComponent(PrimaryActionButton)
 
@@ -47,6 +49,10 @@ const CropPlanOverview = ({
         redirect: {to: ROUTES.PlanCropPlan, dataProps: {search: `season=${season}`}},
     })
 
+    const { payload, isLoading } = useSelectCropPlansBySeason(parseInt(season))
+    console.debug("Payload: ", payload)
+    console.debug("isLoading: ", isLoading)
+
     return (          
         <Grid container spacing={3} style={{flexGrow: 1}}>
             <Grid item xs={12} sm={6} md={8}>
@@ -59,9 +65,9 @@ const CropPlanOverview = ({
                     />
                 </ButtonPadding>
                 <ExpandPanelGroup>
-                    <CropPlanCrop />
-                    <CropPlanCrop />
-                    <CropPlanCrop />
+                    {!isLoading && payload && payload.map((cropPlanId, i) => (
+                        <CropPlanCrop id={cropPlanId}/>
+                    ))}
                 </ExpandPanelGroup>
             </Grid>
             <Grid container item xs={12} sm={6} md={4} direction="column">
@@ -70,7 +76,9 @@ const CropPlanOverview = ({
                         onClick={handleCreateTask}
                     />
                 </ButtonPadding>
-                <CropPlanTaskList />
+                <CropPlanTaskList 
+                    cropPlanIds={payload}
+                />
             </Grid>
         </Grid>
     )

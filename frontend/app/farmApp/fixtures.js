@@ -369,61 +369,84 @@ export const field_table_bence_8 =
 export const field_table_bence_1 = 
     {id: 3, title: "Tábla 1", area: 2.7263*10000, geometry: bencex0x5fv18_1, lpis: { ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "X0X5FV18"}}
 export const field_table_bence_4 = 
-    {id: 4, title: "Tábla 4", area: 2.4422*10000, geometry: bencexnkcfd18_4, lpis: { ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "XNKCFD18"}}
+    {id: 4, title: "Tábla 4", area: 16.7575*10000, geometry: bencexnkcfd18_4, lpis: { ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "XNKCFD18"}}
 export const field_table_bence_7 = 
-    {id: 5, title: "Tábla 7", area: 16.7575*10000, geometry: bencexnnyf418_7, lpis: { ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "XNNYF418"}}
+    {id: 5, title: "Tábla 7", area: 2.4422*10000, geometry: bencexnnyf418_7, lpis: { ownership: "Tulajdon", cadastralPlot: "116/2, 117/2", meparId: "XNNYF418"}}
 
 /**
  * CropType fixtures
  */
 export const cropType_winterWheat = 
-    {id: 1, title: "Téli búza", category: "Takarmány növény"}
+    {id: 1, title: "Téli búza", short: 'téb', category: "Takarmány növény"}
 export const cropType_springWheat =
-    {id: 2, title: "Tavaszi búza", category: "Takarmány növény"}
+    {id: 2, title: "Tavaszi búza", short: 'tab', category: "Takarmány növény"}
 export const cropType_corn =
-    {id: 3, title: "Kukorica", category: "Takarmány növény"}
+    {id: 3, title: "Kukorica", short: 'ku', category: "Takarmány növény"}
 export const cropType_canola = 
-    {id: 4, title: "Repce", category: "Takarmány növény"}
-
-
+    {id: 4, title: "Repce", short: 're', category: "Takarmány növény"}
 
 /**
- * FieldProduction fixtures
+ * Task fixtures
  */
+export const task_winterWheat2020_disking = 
+  {id: 1, title: 'Tárcsázás', type: 'tilage', subType: 'disking', dates: {start: new Date(2021, 4, 1).toISOString(), end: new Date(2021, 4, 20).toISOString()}}
+export const task_winterWheat2020_planting = 
+  {id: 2, title: 'Téli búza ültetés', type: 'planting', subType: 'mainCropPlant', dates: {start: new Date(2021, 4, 1).toISOString(), end: new Date(2021, 4, 20).toISOString()}}
+export const task_winterWheat2020_harvest = 
+  {id: 3, title: 'Aratás', type: 'harvest', subType: 'grainHarvest', dates: {start: new Date(2021, 4, 1).toISOString(), end: new Date(2021, 4, 20).toISOString()}}
+export const task_cropPlan_springWheatExperimental_disking = 
+  {id: 4, title: 'Tárcsázás', type: 'tilage', subType: 'disking', dates: {start: new Date(2021, 4, 1).toISOString(), end: new Date(2021, 4, 20).toISOString()}}
+export const task_cropPlan_springWheatExperimental_planting = 
+  {id: 5, title: 'Tavaszi búza ültetés', type: 'planting', subType: 'mainCropPlant', dates: {start: new Date(2021, 4, 1).toISOString(), end: new Date(2021, 4, 20).toISOString()}}
+export const task_cropPlan_springWheatExperimental_harvest = 
+  {id: 6, title: 'Aratás', type: 'harvest', subType: 'grainHarvest', dates: {start: new Date(2021, 4, 1).toISOString(), end: new Date(2021, 4, 20).toISOString()}}
+/**
+ * CropPlan fixtures
+ */
+export const cropPlan_winterWheat2020 = 
+  {id: 1, title: 'Téli búza - 2021', season: 2021, cropType: cropType_winterWheat, tasks: [
+    task_winterWheat2020_disking,
+    task_winterWheat2020_planting,
+    task_winterWheat2020_harvest
+  ]}  
+export const cropPlan_springWheatExperimental = 
+  {id: 2, title: 'Tavaszi búza (kísérleti)', season: 2021, cropType: cropType_springWheat, tasks: [
+    task_cropPlan_springWheatExperimental_disking,
+    task_cropPlan_springWheatExperimental_planting,
+    task_cropPlan_springWheatExperimental_harvest
+  ]}
+
+// OLD DELETE
 export const fieldProduction_wheat2020_mainCrop_field_table1 = 
   { id: 1, fieldId: field_table1.id, /*TODO: Crop ,variant, yield, etc? */ }
 
-/**
- * Production fixtures
- */
+// OLD DELETE
 export const production_wheat2020_mainCrop =
   { id: 1, fields: [fieldProduction_wheat2020_mainCrop_field_table1, ], productionType: 'mainCropProduction' }
 
-/**
- * Season fixtures
- */
+// OLD DELETE
 export const season_wheat2020 = 
     {id: 1, title: 'Búza 2020', /* userCrop: userCrop_wheat, */ productions: [ production_wheat2020_mainCrop ] }
 
-/**
- * UserCrop fixtures
- */
+// OLD DELETE
 export const userCrop_wheat = 
     {id: 1, title: "Búza", cropType: cropType_winterWheat, seasons: [season_wheat2020]}
 
 
 
-/**
- * Api fetch
- */
+// OLD DELETE
 export const userCrops = [
     userCrop_wheat
 ]
-
+// OLD DELETE
 export const seasons = [
   season_wheat2020
 ]
 
+
+/**
+ * Api fetch
+ */
 export const cropTypes = [
     cropType_winterWheat,
     cropType_springWheat,
@@ -431,8 +454,22 @@ export const cropTypes = [
     cropType_canola
 ]
 
+export const tasks = [
+    task_winterWheat2020_disking,
+    task_winterWheat2020_planting,
+    task_winterWheat2020_harvest,
+    task_cropPlan_springWheatExperimental_disking,
+    task_cropPlan_springWheatExperimental_planting,
+    task_cropPlan_springWheatExperimental_harvest,
+]
+
+export const cropPlans = [
+  cropPlan_winterWheat2020,
+  cropPlan_springWheatExperimental,
+]
+
 export const fields = [
-    field_table1,
+    //field_table1,
     field_table_bence_1,
     field_table_bence_4,
     field_table_bence_7,

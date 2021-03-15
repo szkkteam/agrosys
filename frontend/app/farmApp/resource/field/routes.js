@@ -45,7 +45,7 @@ export const ROUTES = {
 export const fieldOverview = [
     {
         key: ROUTES.ResourceField,
-        path: '/resources/overview/fields',
+        path: '/resources/overview/fields/:id?',
         component: FieldOverview, 
         props: { absolute: true }
     },
@@ -61,13 +61,6 @@ export const fieldOverview = [
 
 export const fieldDetail = [
     
-    {
-        // Used for mobile screens
-        key: ROUTES.ResourceFieldMap,
-        path: '/fields/:id',
-        component: FieldMap,
-        props: { exact: true }
-    },
     {
         // Used for mobile screens
         key: ROUTES.ResourceFieldEdit,

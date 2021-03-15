@@ -14,6 +14,6 @@ export default () => {
             }
         }
         
-        dispatch(mapEventAdd(data))
+        bounds.isValid() && dispatch(mapEventAdd(data))
     }
 }

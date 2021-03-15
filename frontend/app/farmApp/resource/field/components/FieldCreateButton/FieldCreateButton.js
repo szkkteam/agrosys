@@ -10,10 +10,6 @@ import { usePushModalWindow } from 'utils/hooks'
 
 import { PrimaryActionButton } from 'components'
 
-const FullWidthButton = styled(PrimaryActionButton)`
-    width: 100%;
-`
-
 const FieldCreateButton = forwardRef(({
     customRef,
     onClick,
@@ -38,9 +34,10 @@ const FieldCreateButton = forwardRef(({
     
 
     return (
-        <FullWidthButton
+        <PrimaryActionButton
             title={messages.title}
             onClick={openFieldCreation}
+            {...props}
         />
     )
 })

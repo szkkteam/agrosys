@@ -15,18 +15,42 @@ import {
     IconButton
 } from '@material-ui/core';
 
+import { useFetchFields, useSelectField } from '../../hooks'
+
 const FieldListItemBoundary = ({    
-    id,
+    geometry,
     className,
     ...props
 }) => {
-    
+
+    const style = {
+        "properties": {
+            "stroke": "#eeed0e",
+            "stroke-width": 1.5,
+            "stroke-opacity": 1,
+            "fill": "#ffffff",
+            "fill-opacity": 0.2
+          },
+    }
+    const mapBoxURL = useMemo(() => {
+        if (geometry) {
+            const mergedGeoJson = Object.assign(geometry.features[0], style)
+            const geoJsonUrlEncoded = encodeURIComponent(JSON.stringify(mergedGeoJson))
+            return `https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/geojson(${geoJsonUrlEncoded})/auto/48x48@2x?access_token=pk.eyJ1Ijoib25lc29pbCIsImEiOiJjamsydmM2Yngwd3EyM3FyeWVyOWF0cTByIn0.Crc52Fh0B1P-2M_mLrlllg&attribution=false`            
+        } else {
+            return "https://via.placeholder.com/48/48"
+        }
+
+    }, [geometry])
+
+
     return (
         <ListItemAvatar>
             <Avatar
-                variant="square"
+                style={{width: "48px", height: "48px"}}
+                variant="rounded"
                 sizes="48px"
-                src="https://via.placeholder.com/48/48"
+                src={mapBoxURL }
             >
 
             </Avatar>

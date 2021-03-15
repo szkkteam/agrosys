@@ -10,12 +10,15 @@ import { useDateFnsLocale } from 'utils/hooks'
 import {
     TableBase
 } from 'components/Table'
+import { getTaskTypeFromId } from 'farmApp/operation/task/constants'
 
 import {
     Typography,
     Avatar,
     Chip
 } from '@material-ui/core'
+
+import { useSelectTasksByCropPlan } from '../../hooks'
 
 const Flex = styled.div`
     display: flex;
@@ -24,10 +27,12 @@ const Flex = styled.div`
 
 
 const CropPlanTasks = ({
+    cropPlanId,
     data,
     ...props
 }) => {
     const { locale }  = useDateFnsLocale()
+    const { payload, isLoading } = useSelectTasksByCropPlan(cropPlanId)
     
     const columns = [
         {
@@ -38,19 +43,25 @@ const CropPlanTasks = ({
             title: 'Date',
             render: (rowData) => (
                 <span>
-                    {`${format(rowData.startDate, 'yyyy MMMM dd', {locale})}`}
+                    {`${format(new Date(rowData.dates.start), 'yyyy MMMM dd', {locale})}`}
                 </span>
             )
         },
         {
             title: 'Type',
-            field: 'type'
+            render: (rowData) => {
+                const { title } = getTaskTypeFromId(rowData.type)
+                return (
+                    <FormattedMessage {...title} />
+                )
+            }
         }
     ]
-
+    //{`${format(new Date(rowData.start), 'yyyy MMMM dd', {locale})}`}
     return (
         <TableBase
-            data={data}
+            isLoading={isLoading}
+            data={payload}
             columns={columns}
             components={{
                 Header: () => null,

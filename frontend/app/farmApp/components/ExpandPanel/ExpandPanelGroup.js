@@ -19,8 +19,8 @@ const ExpandPanelGroup = forwardRef(({
             setExpanded({[i]: true})
         },        
     }));
- 
-    return (
+    if (!children) return null
+    else return (
         <>
             {React.Children.map(children, (child, i) => (
                 React.cloneElement(child, {

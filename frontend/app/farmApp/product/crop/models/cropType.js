@@ -24,6 +24,15 @@ export class CropType extends Model {
         // TODO: Do some parsing magic with relations
         return this.upsert(clonedData)
     }
+
+
+    toJSON() {
+        const data = {
+            ...this.ref,
+        }
+
+        return data
+    }
 }
 
 CropType.modelName = "CropType";
