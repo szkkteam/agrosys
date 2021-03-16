@@ -29,7 +29,7 @@ const OrderMaster = ({
         <Container>
             <PageHeader
                 p={2}
-                title="My tasks"
+                title={messages.title}
             />
         
             <OrderMasterList 

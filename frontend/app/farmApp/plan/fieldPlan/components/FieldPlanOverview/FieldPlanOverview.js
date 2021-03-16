@@ -31,7 +31,7 @@ const YieldTred = styled(KeyboardArrowUpIcon)`
 const FieldPlanOverview = ({
 
 }) => {
-   
+    const intl = useIntl()
 
     return (
         <Table
@@ -47,21 +47,21 @@ const FieldPlanOverview = ({
             ]}
             columns={[
                 {
-                    title: 'Field name',
+                    title: intl.formatMessage(messages.title),
                     field: 'test'
                 },
                 {
-                    title: 'Boundary',
+                    title: intl.formatMessage(messages.boundary),
                     render: (rowData) => (
                         <FieldListItemBoundary />
                     )
                 },
                 {
-                    title: 'Area',
+                    title: intl.formatMessage(messages.area),
                     field: 'test'
                 },
                 {
-                    title: 'Crop',
+                    title: intl.formatMessage(messages.crop),
                     render: (rowData) => (
                         <>
                         <Typography variant="body2">
@@ -72,7 +72,7 @@ const FieldPlanOverview = ({
                     )
                 },
                 {
-                    title: 'Expected yield',
+                    title: intl.formatMessage(messages.yield),
                     render: (rowData) => (
                         <div style={{display: "flex", alignItems: "center"}}>
                             <Tooltip title="23% more than in season 2019">

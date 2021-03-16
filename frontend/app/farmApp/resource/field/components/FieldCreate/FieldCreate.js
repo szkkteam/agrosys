@@ -44,7 +44,7 @@ const AddFieldRow = ({
         <TableRow>
             <TableCell style={{borderBottom: "none"}}>
                 <PrimaryActionButton
-                    title="Add field"
+                    title={messages.addField}
                     onClick={onClick}
                 />                 
             </TableCell>
@@ -78,6 +78,7 @@ const FieldGrid = ({
     values,
     ...props
 }) => {
+    const intl = useIntl()
     const arrayRef = useRef();
     const history = useHistory()
     const converter = useConverter()
@@ -107,14 +108,14 @@ const FieldGrid = ({
 
     const columns = [
         {
-            title: 'Boundary',
+            title: intl.formatMessage(messages.boundary),
             render: (row, i) => (
-                <FieldListItemBoundary />
+                <FieldListItemBoundary geometry={row.geometry}/>
             ),
             
         },
         {
-            title: 'Area',
+            title: intl.formatMessage(messages.area),
             render: (row, i) => (
                 <Typography variant="body2">
                     {converter({value: row.area, metric: 'area'})}
@@ -122,24 +123,24 @@ const FieldGrid = ({
                 )
         },
         {
-            title: 'Title',
+            title: intl.formatMessage(messages.title),
             render: (row, i) => (
                 <Field
                     name={`fields[${i}].title`}
                     component={TextField}
                     variant="outlined"
-                    label="Title"
+                    label={intl.formatMessage(messages.title)}
                 />
             )
         },
         {
-            title: 'Ownership',
+            title: intl.formatMessage(messages.ownership),
             render: (row, i) => (
                 <Field
                     name={`fields[${i}].lpis.ownership`}
                     component={Autocomplete}
                     variant="outlined"
-                    label="Ownership"
+                    label={intl.formatMessage(messages.ownership)}
                     formProps={{fullWidth: true}}
                     disableClearable={true}
                     options={ownership}
@@ -148,24 +149,24 @@ const FieldGrid = ({
             )
         },
         {
-            title: 'Cadastral plot',
+            title: intl.formatMessage(messages.cadastralPlot),
             render: (row, i) => (
                 <Field
                     name={`fields[${i}].lpis.cadastralPlot`}
                     component={TextField}
                     variant="outlined"
-                    label="Cadastral plot"
+                    label={intl.formatMessage(messages.cadastralPlot)}
                 />
             )
         },
         {
-            title: 'MePAR block',
+            title: intl.formatMessage(messages.lpis),
             render: (row, i) => (
                 <Field
                     name={`fields[${i}].lpis.meparId`}
                     component={TextField}
                     variant="outlined"
-                    label="MePAR block identifier"
+                    label={intl.formatMessage(messages.lpisLabel)}
                 />
             )
         },

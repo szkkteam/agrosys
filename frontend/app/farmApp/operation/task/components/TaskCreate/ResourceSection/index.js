@@ -1,6 +1,6 @@
 import React, { useRef, useMemo, useLayoutEffect, useEffect } from 'react'
 import PropTypes from 'prop-types'
-//import messages from './messages';
+import messages from '../messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { spacing } from '@material-ui/system'
@@ -23,26 +23,9 @@ const ResourceSection = ({
     return (
         <FormCardLayout
             mt={3}
-            title="Resource reservation"
+            title={intl.formatMessage(messages.resource)}
         >
-            <Section>
-                <Field
-                    name="title"
-                    fullWidth
-                    component={TextField}
-                    variant="outlined"
-                    label="Start date"
-                />
-            </Section>
-            <Section mt={2}>
-                <Field
-                    name="title"
-                    fullWidth
-                    component={TextField}
-                    variant="outlined"
-                    label="End date"
-                />
-            </Section>
+            
         </FormCardLayout>
     )
 }

@@ -40,6 +40,17 @@ const TaskMasterList = ({
 
         })
     }
+    const data = [
+        {
+            cropType: { title: "Őszi búza", short: "őb" }, title: "Szántás", totalArea: 120, completedArea: 80, dates: { start: new Date() },
+        },
+        {
+            cropType: { title: "Őszi búza", short: "őb" }, title: "Őszi búza vetés", totalArea: 120, completedArea: 35.2, dates: { start: new Date(2021, 5, 1) },
+        },
+        {
+            cropType: { title: "Őszi búza", short: "őb" }, title: "Őszi búza aratás", totalArea: 120, completedArea: 0, dates: { start: new Date(2021, 7, 11) },            
+        }
+    ]
 
     return (
         <MasterList
@@ -54,11 +65,9 @@ const TaskMasterList = ({
             }
             {...props}
         >
-            <TaskListItem />
-            <TaskListItem />
-            <TaskListItem />
-            <TaskListItem />
-            
+            {data.map((data, i) => (
+                <TaskListItem key={i} data={data} />
+            ))}
         </MasterList>
     )
 }

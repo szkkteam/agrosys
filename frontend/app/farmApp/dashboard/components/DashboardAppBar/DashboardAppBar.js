@@ -1,6 +1,6 @@
 import React, { useRef, useMemo, useLayoutEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import messages from './messages';
+import domainMessages from 'farmApp/dashboard/messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 
@@ -13,7 +13,7 @@ const DashboardAppBar = ({
 }) => {
     return (
         <AppBar
-            title={messages.title}
+            title={domainMessages.dashboard}
         >
             <DashboardTabs />
         </AppBar>

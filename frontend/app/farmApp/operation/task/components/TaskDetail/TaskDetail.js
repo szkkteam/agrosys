@@ -1,7 +1,9 @@
 import React, { useRef, useMemo, useLayoutEffect, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import globalMessages from 'messages'
 import messages from './messages';
-import { useIntl } from 'react-intl'
+import { FormattedMessage, useIntl } from 'react-intl'
+import { differenceInCalendarDays, add } from 'date-fns'
 import { spacing } from '@material-ui/system'
 import styled from 'styled-components'
 
@@ -32,7 +34,8 @@ const InfoTitle = styled(Typography)`
 const TaskDetail = ({
 
 }) => {
-    const [tab, setTab] = useState(0)
+    const intl = useIntl()
+    const dueDate = differenceInCalendarDays(add(new Date(), {days: 14}), new Date())
 
     return (
         <>
@@ -40,13 +43,13 @@ const TaskDetail = ({
                 <Flex m={2} mt={1}>
                     <DoneIcon />
                     <InfoTitle pl={1} variant="body2">
-                        Active
+                        <FormattedMessage {...globalMessages.done} />
                     </InfoTitle>
                 </Flex>
                 <Flex m={2} mt={1}>
                     <CalendarTodayIcon />
                     <InfoTitle pl={1} variant="body2">
-                        Deadline in 14 days
+                        {`${intl.formatMessage(globalMessages.deadline)} ${intl.formatRelativeTime(dueDate, 'days')}`}
                     </InfoTitle>
                 </Flex>                
             </Flex>
@@ -65,10 +68,10 @@ const TaskDetail = ({
             >
                 <TaskDetailOverview
                 />
-                <div>ch 2</div>
-                <div>ch 3</div>
-                <div>ch 4</div>
-                <div>ch 4</div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
             </Tabs>
         </>
     )

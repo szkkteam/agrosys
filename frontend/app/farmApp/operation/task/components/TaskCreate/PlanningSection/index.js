@@ -1,6 +1,6 @@
 import React, { useRef, useMemo, useLayoutEffect, useEffect } from 'react'
 import PropTypes from 'prop-types'
-//import messages from './messages';
+import messages from '../messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { spacing } from '@material-ui/system'
@@ -34,7 +34,7 @@ const PlanningSection = ({
     return (
         <FormCardLayout
             mt={3}
-            title="Planning"
+            title={intl.formatMessage(messages.planning)}
         >
 
             <Grid container spacing={3}>
@@ -44,7 +44,7 @@ const PlanningSection = ({
                         fullWidth
                         component={DatePicker}
                         variant="outlined"
-                        label="Start date"
+                        title={intl.formatMessage(messages.startDate)}
                     />
                 </Grid>
                 <Grid item xs={6}>
@@ -53,7 +53,7 @@ const PlanningSection = ({
                         fullWidth
                         component={DatePicker}
                         variant="outlined"
-                        label="End date"
+                        title={intl.formatMessage(messages.endDate)}
                     />
                 </Grid>
             </Grid>

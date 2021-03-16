@@ -91,8 +91,6 @@ export default ({
                 }}
                 action={
                     <>
-                        <TaskAddTreatmentButton
-                        />
                         <EditButton
                             mx={2}
                             color="primary"

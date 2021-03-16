@@ -1,10 +1,11 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.farmApp.dashboard.DashboardAppBar'
+export const scope = 'app.farmApp.dashboard'
 
 export default defineMessages({
-    title: {
-        id: `${scope}.title`,  
+    dashboard: {
+        id: `${scope}.title.dashboard`,  
         defaultMessage: 'Dashboard',
-    },    
+    },
+
 })

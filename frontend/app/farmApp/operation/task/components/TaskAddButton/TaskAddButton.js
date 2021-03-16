@@ -54,7 +54,7 @@ const TaskAddButton = ({
     return (
         <MenuButton
             className={className}
-            title="New task"
+            title={messages.addTask}
             color="primary"
             variant="contained"
             endIcon={

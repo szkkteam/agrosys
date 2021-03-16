@@ -50,7 +50,7 @@ const FieldPlanCreate = ({
 
     const steps = [
         messages.stepCrop,
-        messages.stepTask,
+        messages.stepLpis,
     ]
 
 

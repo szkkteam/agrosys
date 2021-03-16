@@ -17,7 +17,7 @@ const MasterListItem = ({
     children,
     ...props
 }) => {
-
+  
     const {
         onSelect,
     } = useMasterListContext()

@@ -76,6 +76,51 @@ export default defineMessages({
         id: `${scope}.pending`,  
         defaultMessage: 'Pending',
     },
+    showMore: {
+        id: `${scope}.showMore`,  
+        defaultMessage: 'Show more',
+    },
+    undo: {
+        id: `${scope}.undo`,  
+        defaultMessage: 'Undo',
+    },
+    redo: {
+        id: `${scope}.redo`,  
+        defaultMessage: 'Redo',
+    },
+    active: {
+        id: `${scope}.active`,  
+        defaultMessage: 'Active',
+    },
+    inProgress: {
+        id: `${scope}.inProgress`,  
+        defaultMessage: 'In progress',
+    },
+    pending: {
+        id: `${scope}.pending`,  
+        defaultMessage: 'Pending',
+    },
+    done: {
+        id: `${scope}.done`,  
+        defaultMessage: 'Done',
+    },
+    deadline: {
+        id: `${scope}.deadline`,  
+        defaultMessage: 'Deadline',
+    },
+    paused: {
+        id: `${scope}.paused`,  
+        defaultMessage: 'Paused',
+    },
+    notStarted: {
+        id: `${scope}.notStarted`,  
+        defaultMessage: 'Not started',
+    },
+    add: {
+        id: `${scope}.add`,  
+        defaultMessage: 'Add',
+    },
+
     /**
      * Constants
      */

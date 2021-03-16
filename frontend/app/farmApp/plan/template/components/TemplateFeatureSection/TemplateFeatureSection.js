@@ -27,22 +27,23 @@ const TemplateFeatureSection = ({
     name="",
     onChange,
 }) => {
+    const intl = useIntl()
 
     return (
         <FlexForm component="fieldset">
             <FormLabel component="legend">
-                Select features
+                <FormattedMessage {...messages.title} />
             </FormLabel>
             <FormGroup>
                 <Field name={`${name}.chemicalFertilizer`}
                     component={Checkbox}
                     //onChange={onChange}
-                    label="Műtrágya" 
+                    label={intl.formatMessage(messages.fertalizer)}
                 />
                 <Field name={`${name}.chemicalSpraying`}
                     component={Checkbox}
                     //onChange={onChange}
-                    label="Vegyszeres kezelések" 
+                    label={intl.formatMessage(messages.chemicalTreatment)}
                 />
             </FormGroup>
         </FlexForm>

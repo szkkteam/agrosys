@@ -1,6 +1,6 @@
 import React, { useRef, useMemo, useLayoutEffect, useEffect } from 'react'
 import PropTypes from 'prop-types'
-//import messages from './messages';
+import messages from '../messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { spacing } from '@material-ui/system'
@@ -36,21 +36,21 @@ const CropTaskTypeSection = ({
 
     return (
         <FormCardLayout
-            title="Task setup"
+            title={intl.formatMessage(messages.taskSetup)}
             expandable={false}
         >
             <Section>
                 <CropPlanSelect
                     name="cropPlan"
                     variant="outlined"
-                    label="Crop plan"
+                    label={intl.formatMessage(messages.cropPlan)}
                 />
             </Section>
             <Section mt={2}>
                 <TaskTaskTypeSelect 
                     name="taskType"
-                    label="Task Type"
                     variant="outlined"
+                    label={intl.formatMessage(messages.taskType)}
                 />                                        
             </Section>
             <Section mt={2}>
@@ -59,7 +59,7 @@ const CropTaskTypeSection = ({
                     fullWidth
                     component={TextField}
                     variant="outlined"
-                    label="Task subtype"
+                    label={intl.formatMessage(messages.taskSubType)}
                 />
             </Section>
         </FormCardLayout>

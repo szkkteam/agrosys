@@ -6,7 +6,6 @@ import styled from 'styled-components'
 
 import { 
     DashboardContainer,
-    DashboardLayout
 } from 'farmApp/components'
 
 
@@ -90,22 +89,15 @@ const DashboardOverviewLayout = ({
     ]
 
     return (
-        <DashboardLayout
-            headerProps={{
-                title: "Dashboard",
-                subheader: "Farm overview"
-            }}
-           
-        >
-            <DashboardContainer
-                //disabled
-                //compactType="horizontal"
-                //verticalCompact={false}
-                //rowHeight={30}
-                layouts={layouts}
-                components={components}
-            />
-        </DashboardLayout>
+    
+        <DashboardContainer
+            //disabled
+            //compactType="horizontal"
+            //verticalCompact={false}
+            //rowHeight={30}
+            layouts={layouts}
+            components={components}
+        />
     )
 }
 

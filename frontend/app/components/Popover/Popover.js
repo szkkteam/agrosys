@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
+import { useFormatTitle } from 'utils/hooks'
+
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -60,6 +62,8 @@ const Popover = ({
         open,
     }
     
+    const formattedTitle = useFormatTitle(title)
+
     return (
         <>
             <Component 
@@ -69,7 +73,7 @@ const Popover = ({
                 onClick={handleToggle}
                 {...props}
             >
-                {title}
+                {formattedTitle}
             </Component>
             <Popper 
                 open={open}

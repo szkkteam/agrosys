@@ -116,17 +116,18 @@ const AreaLabel = ({
 const CropsByArea = ({
 
 }) => {
+    const intl = useIntl()
     const [activeIndex, setActiveIndex] = useState(0)
 
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
     const data = [
-        { name: 'Őszi búza', value: 400 },
-        { name: 'Kukorica', value: 300 },
-        { name: 'Repce', value: 300 },
-        { name: 'Tavaszi búza', value: 200 },
-        { name: 'Lucerna', value: 800 },
-        { name: 'Bíborhere', value: 400 },
+        { name: 'Őszi búza', value: 12.6 },
+        { name: 'Kukorica', value: 33.2 },
+        { name: 'Repce', value: 56.8 },
+        { name: 'Tavaszi búza', value: 20.0 },
+        { name: 'Lucerna', value: 45.2 },
+        { name: 'Bíborhere', value: 6.8 },
     ];
     const total = data.reduce((prev, curr) => {
         return prev + curr.value;
@@ -142,7 +143,7 @@ const CropsByArea = ({
     
     return (
         <WidgetLight
-            title="Crops by area"
+            title={intl.formatMessage(messages.title)}
         >
             <Grid container>
                 <Grid item xs={6} sm={4}>
