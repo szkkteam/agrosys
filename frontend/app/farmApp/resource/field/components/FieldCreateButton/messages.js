@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.farmApp.field.FieldCreateButton'
+export const scope = 'app.farmApp.resource.field.FieldCreateButton'
 
 export default defineMessages({
     title: {

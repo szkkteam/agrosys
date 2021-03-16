@@ -24,7 +24,7 @@ import {
     useDispatchAddEvent
 } from 'farmApp/map/hooks'
 
-import { useFetchFields, useSelectField } from '../../hooks'
+import { useFetchFieldIds, useSelectField } from '../../hooks'
 
 const FieldGeo = ({
     id,
@@ -86,7 +86,7 @@ const Inner = ({
 const FieldMapDetail = ({
     
 }) => {
-    const { payload, isLoading } = useFetchFields()
+    const { payload, isLoading } = useFetchFieldIds()
   
     return (
         <MapContainer

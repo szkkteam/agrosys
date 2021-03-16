@@ -15,8 +15,6 @@ import {
     IconButton
 } from '@material-ui/core';
 
-import { useFetchFields, useSelectField } from '../../hooks'
-
 const FieldListItemBoundary = ({    
     geometry,
     className,

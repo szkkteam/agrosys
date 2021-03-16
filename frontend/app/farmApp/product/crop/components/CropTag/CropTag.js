@@ -18,7 +18,7 @@ const AnimatedChip = styled(Chip)`
 const CropTag = ({
     title,
     short,
-    defaultExpand=false,
+    defaultExpand=true,
     ...props
 }) => {
 

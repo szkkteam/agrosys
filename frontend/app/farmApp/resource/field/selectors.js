@@ -31,6 +31,22 @@ export const getFieldIds = createSelectorOrm(
     }
 )
 
+export const getFields = createSelectorOrm(
+    schema,
+    selectFieldRequest,
+    (session, request) => {
+        const { isLoading = true, error = null } = request || {}
+        let response = {payload: [], isLoading, error }
+        if (isLoading || error) return response
+
+        const { Field } = session
+        const payload = Field.all().toModelArray().map(field => getIfExists(Field, field.id))
+           
+        response.payload = payload
+        return response
+    }
+)
+
 
 export const getField = () => createSelectorOrm(
     schema,

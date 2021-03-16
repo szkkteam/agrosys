@@ -7,11 +7,11 @@ const unit = {narrow: 'ha', long: 'hectare'}
 const convertArea = (areaM2) => convert(areaM2).from('m2').to(unit.narrow)
 const formatArea = (intl, areaUnit, fixed=2) => `${intl.formatNumber(areaUnit.toFixed(fixed), {unit: unit.long, style: 'unit', unitDisplay: 'narrow'})} ha`
 
-export default () => {
+export default (unit) => {
     const intl = useIntl()
 
-    return ({value, metric}, fixed=2) => {
-        switch (metric) {
+    return (value, fixed=2) => {
+        switch (unit) {
             case 'area': 
                 return formatArea(intl, convertArea(value), fixed)
             default:

@@ -4,6 +4,8 @@ import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { color } from '@material-ui/system'
+import { useFetchFields } from 'farmApp/resource/field/hooks'
+import { useConverter } from 'utils/hooks'
 
 import {
     Typography,
@@ -32,33 +34,36 @@ const FieldPlanOverview = ({
 
 }) => {
     const intl = useIntl()
+    const converter = useConverter('area')
+    const { payload, isLoading } = useFetchFields()
+
+    const data = useMemo(() => 
+        payload.map((field, i) => ({
+            cropType: {title: "Őszi búza", short: "őb"},
+            ...field
+        }))
+    , [payload])
 
     return (
         <Table
-            data={[
-                {test: "test 1", cropType: {title: "Őszi búza", short: "őb"}},
-                {test: "asd", cropType: {title: "Lucerna", short: "lu"}},
-                {test: "bbb", cropType: {title: "Kukorica", short: "ku"}},
-                {test: "cica", cropType: {title: "Árpa", short: "ár"}},
-                {test: "test 1", cropType: {title: "Őszi búza", short: "őb"}},
-                {test: "asd", cropType: {title: "Lucerna", short: "lu"}},
-                {test: "bbb", cropType: {title: "Kukorica", short: "ku"}},
-                {test: "cica", cropType: {title: "Árpa", short: "ár"}},
-            ]}
+            data={data}
+            isLoading={isLoading}
             columns={[
                 {
                     title: intl.formatMessage(messages.title),
-                    field: 'test'
+                    field: 'title'
                 },
                 {
                     title: intl.formatMessage(messages.boundary),
                     render: (rowData) => (
-                        <FieldListItemBoundary />
+                        <FieldListItemBoundary geometry={rowData.geometry}/>
                     )
                 },
                 {
                     title: intl.formatMessage(messages.area),
-                    field: 'test'
+                    render: (rowData) => (
+                        converter(rowData.area)
+                    )
                 },
                 {
                     title: intl.formatMessage(messages.crop),
