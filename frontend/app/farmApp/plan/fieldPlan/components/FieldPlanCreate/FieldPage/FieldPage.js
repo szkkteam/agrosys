@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useCallback } from 'react'
-import messages from './messages';
+import messages from '../messages';
 import globalMessages from 'messages'
 import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
@@ -71,7 +71,7 @@ const AddFieldRow = ({
         <TableRow>
             <TableCell style={{borderBottom: "none"}}>
                 <PrimaryActionButton
-                    title="Add field"
+                    title={messages.addField}
                     onClick={onClick}
                 />                 
             </TableCell>
@@ -84,6 +84,7 @@ const FieldPage = ({
     values,
     ...props
 }) => {
+    const intl = useIntl()
     const arrayRef = useRef();
     const [open, setOpen] = useState(false)
 
@@ -113,7 +114,7 @@ const FieldPage = ({
 
     const columns = [
         {
-            title: 'Field',
+            title: intl.formatMessage(messages.cropFieldTitle),
             render: (row, i) => (
                 <FieldListItem
                     disableAction
@@ -123,34 +124,34 @@ const FieldPage = ({
             )
         },
         {
-            title: 'Crop',
+            title: intl.formatMessage(messages.cropFieldCrop),
             render: (row, i) => (
                 <CropPlanSelect
                     name={`fields[${i}].cropPlan`}
                     variant="outlined"
-                    label="Crop plan"
+                    label={intl.formatMessage(messages.cropFieldCrop)}
                 />
             )
         },
         {
-            title: 'Vaiant',
+            title: intl.formatMessage(messages.cropFieldVariant),
             render: (row, i) => (
                 <Field
                     name={`fields[${i}].variant`}
                     component={TextField}
                     variant="outlined"
-                    label="Variant"
+                    label={intl.formatMessage(messages.cropFieldVariant)}
                 />
             )
         },
         {
-            title: 'Yield',
+            title: intl.formatMessage(messages.cropFieldYield),
             render: (row, i) => (
                 <Field
                     name={`fields[${i}].yield`}
                     component={Number}
                     variant="outlined"
-                    label="Yield"
+                    label={intl.formatMessage(messages.cropFieldYield)}
                 />
             )
         },
@@ -185,8 +186,8 @@ const FieldPage = ({
             <Grid container>
                 <Grid item xs={12}>
                     <PageHeader
-                        title="Select your fields where you want to grow"
-                        subheader="Every detail will be considered in the application so please be accurate."
+                        title={messages.stepCropTitle}
+                        subheader={messages.stepCropSubheader}
                     />
                     
                 </Grid>

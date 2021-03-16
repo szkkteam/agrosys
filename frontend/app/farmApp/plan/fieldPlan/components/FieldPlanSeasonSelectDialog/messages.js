@@ -11,6 +11,10 @@ export default defineMessages({
     subheader: {
         id: `${scope}.subheader`,  
         defaultMessage: "If you cannot find your season this means you dont have crop plan created yet. Click <a>here</a> to create a crop plan.",        
+    },
+    season: {
+        id: `${scope}.field.season`,  
+        defaultMessage: "Season",        
     }
     
   })

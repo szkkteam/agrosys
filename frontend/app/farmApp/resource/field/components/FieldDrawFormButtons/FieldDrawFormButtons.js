@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import messages from './messages'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
@@ -11,6 +12,7 @@ import {
 } from '@material-ui/core'
 
 import { PrimaryButton, SecondaryButton } from 'components'
+import { FormattedMessage } from 'react-intl';
 
 const Container = styled.div`
     position: absolute;
@@ -45,7 +47,12 @@ const FieldDrawFormButtons = ({
         <Container>
             <SummaryContainer>
                 <Typography variant="body2">
-                    3 fields
+                    <FormattedMessage 
+                        {...messages.fieldCount}
+                        values={{
+                            fieldCount: 3
+                        }}
+                    />
                 </Typography>
                 <Typography variant="h6">
                     34 ha

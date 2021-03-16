@@ -74,20 +74,20 @@ const TaskCreate = ({
                                     <CardContent>
                                         <Section>
                                             <Field
-                                                name="title"
+                                                name="dates.start"
                                                 fullWidth
                                                 component={TextField}
                                                 variant="outlined"
-                                                label="Start date"
+                                                label={intl.formatMessage(messages.startDate)}
                                             />
                                         </Section>
                                         <Section mt={2}>
                                             <Field
-                                                name="title"
+                                                name="dates.end"
                                                 fullWidth
                                                 component={TextField}
                                                 variant="outlined"
-                                                label="End date"
+                                                label={intl.formatMessage(messages.endDate)}
                                             />
                                         </Section>
                                     </CardContent>

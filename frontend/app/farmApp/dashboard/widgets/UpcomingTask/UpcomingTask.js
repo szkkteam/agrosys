@@ -1,5 +1,6 @@
 import React, { useRef, useState, useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import globalMessages from 'messages'
 import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
@@ -33,21 +34,28 @@ const ScrollList = styled(List)`
 const UpcomingTask = ({
 
 }) => {
+    const intl = useIntl()
     const params = useParams()
 
     const data = [
-        {title: "Pruning", area: 136791, dates: {start: new Date(2021, 1, 26)}},
-        {title: "Planting", area: 136791, dates: {start: new Date(2021, 2, 26)}},
-        {title: "Harvesting", area: 136791, dates: {start: new Date(2021, 3, 26)}},
+        {
+            cropType: { title: "Őszi búza", short: "őb" }, title: "Szántás", totalArea: 120, completedArea: 80, dates: { start: new Date() },
+        },
+        {
+            cropType: { title: "Őszi búza", short: "őb" }, title: "Őszi búza vetés", totalArea: 120, completedArea: 35.2, dates: { start: new Date(2021, 5, 1) },
+        },
+        {
+            cropType: { title: "Őszi búza", short: "őb" }, title: "Őszi búza aratás", totalArea: 120, completedArea: 0, dates: { start: new Date(2021, 7, 11) },            
+        }
     ]
     
     return (
         <WidgetMedium
-            title="Upcoming tasks"
-            subheader="For all crops"
+            title={intl.formatMessage(messages.title)}
+            subheader={intl.formatMessage(messages.subheader)}
             link={{
                 to: ROUTES.OperationTaskMap,
-                title: "show more"
+                title: intl.formatMessage(globalMessages.showMore)
             }}
             headerProps={{
                 shrinkHeader: true
@@ -57,7 +65,7 @@ const UpcomingTask = ({
                 //isLoading={isLoading}
             >
                 {data.map((d, i) => (
-                    <TaskListItem key={i} {...d} />
+                    <TaskListItem key={i} data={d} />
                 ))}
             </MasterList>
         </WidgetMedium>

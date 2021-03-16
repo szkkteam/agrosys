@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 
 
+
 import MasterListItem from 'components/List/MasterListItem'
 import { CropTag } from 'farmApp/product/crop/components'
 
@@ -39,31 +40,48 @@ const Spacer = styled.span`
 `
 
 const OrderListItem = ({
-
+    id,
+    data: initData = {},
+    ...props
 }) => {
-    const cropType = {
-        title: "Őszi búza",
-        short: "őb"
+
+    const data = {
+        cropType: {
+            title: "Őszi búza",
+            short: "őb"
+        },
+        title: "Aratás",
+        fieldTitle: 'Tábla 1',
+        area: 12,
+        user: 'KB',
+        ...initData
     }
+
+    console.debug("Props: ", props)
+    
 
     return (
         <ListContainer
             button
             divider
+            data={id}
+            {...props}
         >
             <AvatarContainer>
-                <Avatar>JD</Avatar>
+                <Avatar>
+                    {data.user}
+                </Avatar>
             </AvatarContainer>
             <ListItemText
                 disableTypography
                 primary={
                     <Flex>
                         <Typography variant="body1">
-                            Havesting - Őszi búza 2020
+                            {`${data.title} - ${data.cropType.title}`}
                         </Typography>
                         <Spacer />     
                         <CropTag
-                            {...cropType}
+                            {...data.cropType}
                         />                   
                     </Flex>
                 }
@@ -71,7 +89,7 @@ const OrderListItem = ({
                 secondary={
                     <Flex>
                         <Typography variant="caption">
-                            Field 1, 12 ha
+                            {`${data.fieldTitle}, ${data.area} ha`}
                         </Typography>
                         <Spacer />
                                               

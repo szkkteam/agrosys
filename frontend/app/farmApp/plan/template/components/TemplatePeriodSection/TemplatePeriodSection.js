@@ -97,6 +97,7 @@ const TemplatePeriodSection = ({
     startDate,
     ...props
 }) => {
+    const intl = useIntl()
 
     const getContent = () => {
         switch(startDate?.mode) {
@@ -121,12 +122,12 @@ const TemplatePeriodSection = ({
                     //onChange={onChange}
                     formLabel={
                         <FormLabel component="legend">
-                            Adjust when do you want to start
+                            <FormattedMessage {...messages.title} />
                         </FormLabel>
                     }
                 >
                     <FormControlLabel 
-                        label="Automatic" 
+                        label={intl.formatMessage(messages.automatic)}
                         value={DATE_AUTOMATIC} 
                         control={
                             <Radio />
@@ -134,7 +135,7 @@ const TemplatePeriodSection = ({
                     />
                     <FormControlLabel 
                         disabled // TODO: Implement this feature
-                        label="Fixed" 
+                        label={intl.formatMessage(messages.fixed)}
                         value={DATE_MANUAL} 
                         control={
                             <Radio />
@@ -142,7 +143,7 @@ const TemplatePeriodSection = ({
                     />
                     <FormControlLabel 
                         disabled // TODO: Implement this feature
-                        label="Key event" 
+                        label={intl.formatMessage(messages.keyEvent)}
                         value={DATE_KEY_EVENT}
                         control={
                             <Radio />

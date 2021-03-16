@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import PropTypes from 'prop-types'
+import messages from 'messages'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import UndoIcon from '@material-ui/icons/Undo';
@@ -73,7 +75,7 @@ const MapControlUndoRedo = ({
                             <UndoIcon  />
                         }
                     >
-                        Undo
+                        <FormattedMessage {...messages.undo} />
                     </IconButton>
                 </li>
                 <li>
@@ -84,7 +86,7 @@ const MapControlUndoRedo = ({
                             <RedoIcon  />
                         }
                     >
-                        Redo
+                        <FormattedMessage {...messages.redo} />
                     </IconButton>
                 </li>
             </ControlGroup>

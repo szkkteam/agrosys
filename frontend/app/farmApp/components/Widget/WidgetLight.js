@@ -2,6 +2,7 @@ import React, { useRef, useState, useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
+import { useFormatTitle } from 'utils/hooks'
 
 import Card from '../Card/Card'
 import CardHeader from '../Card/CardHeader'

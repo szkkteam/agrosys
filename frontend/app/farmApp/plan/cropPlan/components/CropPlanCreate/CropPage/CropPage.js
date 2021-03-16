@@ -1,5 +1,5 @@
 import React, { useContext, useMemo, useEffect } from 'react'
-import messages from './messages';
+import messages from '../messages';
 import globalMessages from 'messages'
 import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
@@ -32,116 +32,51 @@ import FormFooter from '../FormFooter'
 
 import schema from './schema'
 
-const ColoredCheckBox = styled(Checkbox)`
-    ${({theme, checked}) => `
-        &.Mui-checked {
-            color: ${theme.palette.success.main};
-        }
-    `}
-`
-
-const SectionTitle = styled.div`
-    display: flex;
-    align-items: center;
-    padding-bottom: 15px;
-`
-
 const Section = styled.div`
     ${spacing}
 `
-
-const InnerContainer = styled.div`
-    padding: 0px 25px;
-`
-
-const TitleSection = ({
-    values,
-    setFieldValue,
-    ...props
-}) => {
-    /*
-    const cropType = _.get(values, "cropType")
-    const season = _.get(values, "season")
-    const title = _.get(values, "title")
-
-    useEffect(() => {
-        if (title === "") {
-            //setFieldValue('cropType', `${cropType} - ${season}`)
-        }
-    }, [cropType])
-    */
-    return (
-        <Section mt={3}>
-            <Field
-                name="title"
-                component={TextField}
-                variant="outlined"
-                label="Title"
-                fullWidth
-            />
-        </Section>
-    )
-}
-
-const CropSection = ({
-    values,
-    ...props
-}) => {
-    const isCropSelected = _.get(values, "cropType") !== ""
-
-    return (
-        <Section mt={3}>
-            <CropSelect name="cropType"
-                variant="outlined"
-                label="Main crop type"
-            />
-        </Section>
-        
-    )
-}
-
-const YieldSection = ({
-    values,
-    ...props
-}) => {
-    return (
-        <Section mt={3}>
-            <Field
-                name="expectedYield"
-                component={TextField}
-                label="Yield"
-                fullWidth
-                variant="outlined"
-                inputProps={{
-                    type: "number"
-                }}
-            />
-        </Section>
-    )
-}
 
 
 const CropPage = ({
     ...props
 }) => {
+    const intl = useIntl()
 
     return (
         <>          
             <Grid container>
                 <Grid item xs={12}>
                     <PageHeader
-                        title="Provide information about the crop you want to grow"
-                        subheader="Every detail will be considered in the application so please be accurate."
+                        title={messages.stepCropTitle}
+                        subheader={messages.stepCropSubheader}
                     />
-                    <TitleSection
-                        {...props}
-                    />
-                    <CropSection
-                        {...props}
-                    />
-                    <YieldSection
-                        {...props}
-                    />  
+                    <Section mt={3}>
+                        <Field
+                            name="title"
+                            component={TextField}
+                            variant="outlined"
+                            label={intl.formatMessage(messages.cropfieldTitle)}
+                            fullWidth
+                        />
+                    </Section>
+                    <Section mt={3}>
+                        <CropSelect name="cropType"
+                            variant="outlined"
+                            label={intl.formatMessage(messages.cropfieldCropType)}
+                        />
+                    </Section>
+                    <Section mt={3}>
+                        <Field
+                            name="expectedYield"
+                            component={TextField}
+                            label={intl.formatMessage(messages.cropfieldYield)}
+                            fullWidth
+                            variant="outlined"
+                            inputProps={{
+                                type: "number"
+                            }}
+                        />
+                    </Section>
                 </Grid>
                               
             </Grid>

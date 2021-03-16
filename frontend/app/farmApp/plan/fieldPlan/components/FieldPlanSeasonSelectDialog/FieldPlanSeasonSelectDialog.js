@@ -23,7 +23,8 @@ import {
     Grid,
     CardMedia,
     Typography,
-    Link as MuiLink
+    Link as MuiLink,
+    formatMs
 } from '@material-ui/core'
 
 const Link = withLinkComponent(MuiLink)
@@ -60,6 +61,7 @@ const FieldPlanSeasonSelectDialog = ({
     headerProps,
     ...props
 }) => {
+    const intl = useIntl()
     const [season, setSeason] = useState("")
     const { handleConfirm } = useContext(ModalContext)
 
@@ -98,7 +100,7 @@ const FieldPlanSeasonSelectDialog = ({
                     my={3}
                 >
                     <AlignedSeasonSelector
-                        label="Season"
+                        label={intl.formatMessage(messages.season)}
                         value={season}
                         onChange={handleChangeSeason}
                         seasons={[

@@ -94,22 +94,38 @@ const NestedListItem = styled(ListItem)`
     `}
 `
 
+const AddChip = ({
+
+}) => {
+    const intl = useIntl()
+    return (
+        <Chip label={intl.formatMessage(globalMessage.add)}
+            icon={
+                <AddCircleIcon />
+            }
+            onClick={() => null}
+        />
+    )
+}
+
 const PlanTab = ({
 
 }) => {
+    const intl = useIntl()
+
     return (
         <Grid container spacing={4}>
             <Grid item xs={8}>
                 <FormCardLayout
-                    title="Plan"
+                    title={intl.formatMessage(messages.plan)}
                     //subheader="Planned equipment to use"
                     
                 >                    
-                    No planned values
+                    <FormattedMessage {...messages.noPlannedValues} />
                 </FormCardLayout>
                 <FormCardLayout
                     mt={2}
-                    title="Actuals"
+                    title={intl.formatMessage(messages.actual)}
                     //subheader="Planned inputs to use"
                     
                 >
@@ -121,7 +137,7 @@ const PlanTab = ({
                                 disableTypography
                                 primary={
                                     <Typography variant="body1">
-                                        Working hours
+                                        <FormattedMessage {...messages.workingHours} />
                                     </Typography>
                                 }
                                 secondary={
@@ -133,12 +149,7 @@ const PlanTab = ({
                                         </li>                                        
                                         <Spacer />
                                         <li>
-                                            <Chip label="Add"
-                                                icon={
-                                                    <AddCircleIcon />
-                                                }
-                                                onClick={() => null}
-                                            />
+                                            <AddChip />
                                         </li>
 
                                     </ul>
@@ -152,7 +163,7 @@ const PlanTab = ({
                                 disableTypography
                                 primary={
                                     <Typography variant="body1">
-                                        Equipment
+                                        <FormattedMessage {...messages.equipment} />
                                     </Typography>
                                 }
                                 secondary={
@@ -169,12 +180,7 @@ const PlanTab = ({
                                         </li>
                                         <Spacer />
                                         <li>
-                                            <Chip label="Add"
-                                                icon={
-                                                    <AddCircleIcon />
-                                                }
-                                                onClick={() => null}
-                                            />
+                                            <AddChip />
                                         </li>
 
                                     </ul>
@@ -188,7 +194,7 @@ const PlanTab = ({
                                 disableTypography
                                 primary={
                                     <Typography variant="body1">
-                                        Area covered
+                                        <FormattedMessage {...messages.areaCovered} />
                                     </Typography>
                                 }
                                 secondary={
@@ -199,12 +205,7 @@ const PlanTab = ({
                                         
                                         <Spacer />
                                         <li>
-                                            <Chip label="Add"
-                                                icon={
-                                                    <AddCircleIcon />
-                                                }
-                                                onClick={() => null}
-                                            />
+                                            <AddChip />
                                         </li>
 
                                     </ul>
@@ -218,25 +219,20 @@ const PlanTab = ({
                                 disableTypography
                                 primary={
                                     <Typography variant="body1">
-                                        Inputs
+                                        <FormattedMessage {...messages.inputs} />
                                     </Typography>
                                 }
                                 secondary={
                                     <ul style={{listStyle: "none", paddingLeft: "0px", display: "flex", alignItems: "center"}}>
                                         <li>
                                             <Typography variant="body2">
-                                                No inputs
+                                                <FormattedMessage {...messages.noInputs} />
                                             </Typography>
                                         </li>
                                         
                                         <Spacer />
                                         <li>
-                                            <Chip label="Add"
-                                                icon={
-                                                    <AddCircleIcon />
-                                                }
-                                                onClick={() => null}
-                                            />
+                                            <AddChip />
                                         </li>
 
                                     </ul>
@@ -258,25 +254,25 @@ const PlanTab = ({
                         <TaskDetailListItem component='li' divider py={2} px={0}
                         >
                             <TypoBold variant="body2" fontWeight="fontWeightBold">
-                                Task type
+                                <FormattedMessage {...messages.taskType} />
                             </TypoBold>
                             <TypoBold variant="body2" fontWeight="fontWeightBold">
-                                Cultivation
-                            </TypoBold>
-                        </TaskDetailListItem>
-                        <TaskDetailListItem component='li' divider py={2} px={0}
-                        >
-                            <TypoBold variant="body2" fontWeight="fontWeightBold">
-                                Implement
-                            </TypoBold>
-                            <TypoBold variant="body2" fontWeight="fontWeightBold">
-                                Cultivator
+                                <FormattedMessage {...messages.cultivation} />
                             </TypoBold>
                         </TaskDetailListItem>
                         <TaskDetailListItem component='li' divider py={2} px={0}
                         >
                             <TypoBold variant="body2" fontWeight="fontWeightBold">
-                                Operator
+                                <FormattedMessage {...messages.implement} />
+                            </TypoBold>
+                            <TypoBold variant="body2" fontWeight="fontWeightBold">
+                            <FormattedMessage {...messages.cultivator} />
+                            </TypoBold>
+                        </TaskDetailListItem>
+                        <TaskDetailListItem component='li' divider py={2} px={0}
+                        >
+                            <TypoBold variant="body2" fontWeight="fontWeightBold">
+                                <FormattedMessage {...messages.operator} />
                             </TypoBold>
                             <TypoBold variant="body2" fontWeight="fontWeightBold">
                                 John Doe
@@ -285,7 +281,7 @@ const PlanTab = ({
                         <TaskDetailListItem component='li' divider py={2} px={0}
                         >
                             <TypoBold variant="body2" fontWeight="fontWeightBold">
-                                Hours
+                                <FormattedMessage {...messages.hours} />
                             </TypoBold>
                             <TypoBold variant="body2" fontWeight="fontWeightBold">
                                 00:01:22
@@ -294,7 +290,7 @@ const PlanTab = ({
                         <TaskDetailListItem component='li' divider py={2} px={0}
                         >
                             <TypoBold variant="body2" fontWeight="fontWeightBold">
-                                Area
+                                <FormattedMessage {...messages.area} />
                             </TypoBold>
                             <TypoBold variant="body2" fontWeight="fontWeightBold">
                                 5.8 / 12 ha
@@ -317,7 +313,7 @@ const Content = ({
                 <FlexRow m={2} mt={1}>
                     <ScheduleIcon />
                     <InfoTitle pl={1} variant="body2">
-                        In progress
+                        <FormattedMessage {...globalMessage.inProgress} />
                     </InfoTitle>
                 </FlexRow>
                                
@@ -333,10 +329,10 @@ const Content = ({
                 ]}
             >
                 <PlanTab />
-                <div>ch 4</div>
-                <div>ch 4</div>
-                <div>ch 4</div>
-                <div>ch 4</div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
             </Tabs>
             <Spacer />
             <ActionButtonContainer>
@@ -346,7 +342,7 @@ const Content = ({
                     variant="contained"
                     color="primary"
                 >
-                    Start working on Harvesting
+                    <FormattedMessage {...messages.startWork} />
                 </ActionButton>
             </ActionButtonContainer>
         </Flex>

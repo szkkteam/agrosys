@@ -29,7 +29,7 @@ const FieldMapMaster = ({
          <Container>
              <PageHeader
                 p={2}
-                title="My fields"
+                title={messages.title}
              />
             
              <FieldMasterList

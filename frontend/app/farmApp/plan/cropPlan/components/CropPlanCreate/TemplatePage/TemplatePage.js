@@ -1,5 +1,5 @@
 import React, { useContext, useMemo, useState } from 'react'
-import messages from './messages';
+import messages from '../messages';
 import globalMessages from 'messages'
 import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
@@ -35,88 +35,38 @@ import FormFooter from '../FormFooter'
 
 import schema from './schema'
 
-const ColoredCheckBox = styled(Checkbox)`
-    ${({theme, checked}) => `
-        &.Mui-checked {
-            color: ${theme.palette.success.main};
-        }
-    `}
-`
-
-const SectionTitle = styled.div`
-    display: flex;
-    align-items: center;
-    padding-bottom: 15px;
-`
 const Section = styled.div`
     ${spacing}
 `
 
-const InnerContainer = styled.div`
-    padding: 0px 25px;
-`
-
-const TemplateSection = ({
-
-}) => {
-    return (
-        <Section mt={3}>
-            <TemplateSelect name="template.type"
-                label="Operation template"
-                variant="outlined"
-            />
-        </Section>
-    )
-}
-
-const DateSection = ({
-    values,
-    ...props
-}) => {
-    return (
-        <Section mt={3}>
-            <TemplatePeriodSection name="template.period"
-            />
-        </Section>
-        
-    )
-}
-
-const FeatureSection = ({
-    values,
-    ...props
-}) => {
-    return (
-        <Section mt={3}>
-            <TemplateFeatureSection name="template.features"
-                
-            />
-        </Section>
-    )
-}
-
-
 const TemplatePage = ({
     ...props
 }) => {
+    const intl = useIntl()
 
     return (
         <>          
             <Grid container>
                 <Grid item xs={12}>
                     <PageHeader
-                        title="Select your task template"
-                        subheader="Every detail will be considered in the application so please be accurate."
+                        title={messages.stepTemplateTitle}
+                        subheader={messages.stepTemplateSubheader}
                     />
-                    <TemplateSection
-                        {...props}
-                    />
-                    <DateSection
-                        {...props}
-                    />
-                    <FeatureSection
-                        {...props}
-                    />
+                    <Section mt={3}>
+                        <TemplateSelect name="template.type"
+                            label={intl.formatMessage(messages.templateFieldTemplate)}
+                            variant="outlined"
+                        />
+                    </Section>
+                    <Section mt={3}>
+                        <TemplatePeriodSection name="template.period"
+                        />
+                    </Section>
+                    <Section mt={3}>
+                        <TemplateFeatureSection name="template.features"
+                            
+                        />
+                    </Section>
                 </Grid>
                 
             </Grid>

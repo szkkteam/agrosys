@@ -4,6 +4,7 @@ import messages from './messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { ROUTES } from 'farmApp/routes'
+import { differenceInCalendarDays } from 'date-fns'
 import { withLinkComponent } from 'utils/hoc'
 
 import MasterListItem from 'components/List/MasterListItem'
@@ -55,19 +56,7 @@ const Progress = ({
     value,
     ...props
 }) => {
-    /*
-    const [progress, setProgress] = useState(0)
 
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setProgress((prevProgress) => (prevProgress >= value ? value : prevProgress + 1))
-        }, 20)
-        return () => {
-            clearInterval(timer)
-        }
-    }, [])
-    */
-    //<ProgressOutline variant="determinate" value={100} />
     return (
         <Box position="relative" display="inline-flex">
             
@@ -91,14 +80,26 @@ const Progress = ({
 }
 
 const TaskListItem = ({
-
+    data: inputData = {},
+    ...props
 }) => {
-    
+    const intl = useIntl()
+    const data = {
+        cropType: {
+            title: "Őszi búza",
+            short: "őb",            
+        },
+        title: "Őszi búza aratás",
+        totalArea: 120,
+        completedArea: 35.2,
+        dates: {
+            start: new Date()
+        },
+        ...inputData
+    }   
 
-    const cropType = {
-        title: "Őszi búza",
-        short: "őb"
-    }
+    const startDueDate = differenceInCalendarDays(data.dates.start, new Date())
+
     // FIXME: Get real operation ID
     const operationId = 1
 
@@ -109,18 +110,18 @@ const TaskListItem = ({
          >
              <ListItemAvatar>
                  <Progress 
-                    value={30} 
+                    value={data.completedArea / data.totalArea * 100 } 
                  />
              </ListItemAvatar>
              <ListItemText
                 primary={
                     <Flex>
                         <Typography variant="body1">
-                            Havesting whatever
+                            {data.title}
                         </Typography>
                         <Spacer />
                         <CropTag
-                            {...cropType}
+                            {...data.cropType}
                         />
                     </Flex>
                 }
@@ -128,11 +129,11 @@ const TaskListItem = ({
                 secondary={
                     <Flex>
                         <Typography variant="caption">
-                            12/120 ha
+                            {`${data.completedArea}/${data.totalArea} ha`}
                         </Typography>
                         <Spacer />
                         <Typography variant="caption">
-                            in 3 days
+                            {intl.formatRelativeTime(startDueDate, 'days')}
                         </Typography>
                     </Flex>
                     

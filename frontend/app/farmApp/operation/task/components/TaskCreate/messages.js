@@ -1,14 +1,46 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.farmApp.operation.TaskCreate'
+export const scope = 'app.farmApp.operation.task.TaskCreate'
 
 export default defineMessages({
-    stepCrop: {
-        id: `${scope}.step1.title`,  
-        defaultMessage: 'Crop & Fields',        
+    startDate: {
+        id: `${scope}.field.startDate`,  
+        defaultMessage: 'Start date',        
     },
-    stepParams: {
-        id: `${scope}.step2.title`,  
-        defaultMessage: 'Parameters',        
-    },    
+    endDate: {
+        id: `${scope}.field.endDate`,  
+        defaultMessage: 'End date',        
+    },   
+    title: {
+        id: `${scope}.field.title`,  
+        defaultMessage: 'Title',        
+    },   
+    description: {
+        id: `${scope}.field.description`,  
+        defaultMessage: 'Description',        
+    },   
+    taskSetup: {
+        id: `${scope}.taskSetup.title`,  
+        defaultMessage: 'Task setup',        
+    },   
+    cropPlan: {
+        id: `${scope}.field.cropPlan`,  
+        defaultMessage: 'Crop plan',        
+    },
+    taskType: {
+        id: `${scope}.field.taskType`,  
+        defaultMessage: 'Task type',        
+    },
+    taskSubType: {
+        id: `${scope}.field.taskSubType`,  
+        defaultMessage: 'Task subtype',        
+    },
+    resource: {
+        id: `${scope}.resource.title`,  
+        defaultMessage: 'Resource reservation',        
+    },
+    planning: {
+        id: `${scope}.planning.title`,  
+        defaultMessage: 'Planning',        
+    },
   })

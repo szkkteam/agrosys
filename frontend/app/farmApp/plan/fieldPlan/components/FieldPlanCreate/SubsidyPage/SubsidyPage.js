@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useCallback } from 'react'
-import messages from './messages';
+import messages from '../messages';
 import globalMessages from 'messages'
 import PropTypes from 'prop-types'
 import { useIntl, FormattedMessage } from 'react-intl'
@@ -59,28 +59,11 @@ const fieldInitialValue = {
     }
 }
 
-
-const AddFieldRow = ({
-    onClick,
-}) => {
-    
-    return (
-        <TableRow>
-            <TableCell style={{borderBottom: "none"}}>
-                <PrimaryActionButton
-                    title="Add field"
-                    onClick={onClick}
-                />                 
-            </TableCell>
-        </TableRow>
-    )
-}
-
-
 const SubsidyPage = ({
     values,
     ...props
 }) => {
+    const intl = useIntl()
     const arrayRef = useRef();
     const [open, setOpen] = useState(false)
 
@@ -110,7 +93,7 @@ const SubsidyPage = ({
 
     const columns = [
         {
-            title: 'Field',
+            title: intl.formatMessage(messages.cropFieldTitle),
             render: (row, i) => (
                 <FieldListItem
                     disableAction
@@ -120,57 +103,57 @@ const SubsidyPage = ({
             )
         },
         {
-            title: 'Table number',
+            title: intl.formatMessage(messages.lpisFieldTable),
             render: (row, i) => (
                 <Field
                     name={`fields[${i}].lpis.cropCode`}
                     component={TextField}
                     variant="outlined"
-                    label="CropCode"
+                    label={intl.formatMessage(messages.lpisFieldTable)}
                     />
             )
         },
         {
-            title: 'Crop code',
+            title: intl.formatMessage(messages.lpisFieldCropCode),
             render: (row, i) => (
                 <Field
                     name={`fields[${i}].crop.variant`}
                     component={TextField}
                     variant="outlined"
-                    label="Variant"
+                    label={intl.formatMessage(messages.lpisFieldCropCode)}
                 />
             )
         },
         {
-            title: 'AKG',
+            title: intl.formatMessage(messages.lpisFieldAkg),
             render: (row, i) => (
                 <Field
                     name={`fields[${i}].crop.yield`}
                     component={TextField}
                     variant="outlined"
-                    label="Yield"
+                    label={intl.formatMessage(messages.lpisFieldAkg)}
                 />
             )
         },
         {
-            title: 'Subsidies',
+            title: intl.formatMessage(messages.lpisFieldSubsidies),
             render: (row, i) => (
                 <Field
                     name={`fields[${i}].crop.yield`}
                     component={TextField}
                     variant="outlined"
-                    label="Yield"
+                    label={intl.formatMessage(messages.lpisFieldSubsidies)}
                 />
             )
         },
         {
-            title: 'KET/KAT',
+            title: intl.formatMessage(messages.lpisFieldKetKat),
             render: (row, i) => (
                 <Field
                     name={`fields[${i}].crop.yield`}
                     component={TextField}
                     variant="outlined"
-                    label="Yield"
+                    label={intl.formatMessage(messages.lpisFieldKetKat)}
                 />
             )
         },

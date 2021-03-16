@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import Helmet from 'react-helmet'
-import messages from './messages';
+import messages from 'farmApp/resource/field/messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { ROUTES } from 'farmApp/routes'

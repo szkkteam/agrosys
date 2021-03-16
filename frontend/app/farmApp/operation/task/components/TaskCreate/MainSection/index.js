@@ -1,6 +1,6 @@
 import React, { useRef, useMemo, useLayoutEffect, useEffect } from 'react'
 import PropTypes from 'prop-types'
-//import messages from './messages';
+import messages from '../messages';
 import { useIntl } from 'react-intl'
 import styled from 'styled-components'
 import { spacing } from '@material-ui/system'
@@ -34,7 +34,7 @@ const MainSection = ({
                 fullWidth
                 component={TextField}
                 variant="outlined"
-                label="Task title"
+                label={intl.formatMessage(messages.title)}
             />
             <Section mt={2}>
                 <Field
@@ -44,7 +44,7 @@ const MainSection = ({
                     rows={8}
                     component={TextField}
                     variant="outlined"
-                    label="Description"
+                    label={intl.formatMessage(messages.description)}
                 />
             </Section>
         </FormCardLayout>

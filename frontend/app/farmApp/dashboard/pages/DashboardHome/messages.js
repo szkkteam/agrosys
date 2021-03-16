@@ -7,4 +7,8 @@ export default defineMessages({
         id: `${scope}.title`,  
         defaultMessage: 'Dashboard',
     },
+    subheader: {
+        id: `${scope}.subheader`,  
+        defaultMessage: 'Farm overview',
+    }
   })
