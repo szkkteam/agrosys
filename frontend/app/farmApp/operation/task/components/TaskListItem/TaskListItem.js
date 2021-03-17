@@ -59,7 +59,7 @@ const Progress = ({
 
     return (
         <Box position="relative" display="inline-flex">
-            
+            <ProgressOutline variant="determinate"  value={100} {...props} />
             <CircularProgress variant="determinate"  value={value} {...props} />
             <Box
                 top={0}

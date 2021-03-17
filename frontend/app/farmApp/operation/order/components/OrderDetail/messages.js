@@ -5,7 +5,7 @@ export const scope = 'app.farmApp.operation.order.OrderDetail'
 export default defineMessages({
     actual: {
         id: `${scope}.tab.actual`,  
-        defaultMessage: 'Actuals',
+        defaultMessage: 'Status',
     },        
     note: {
         id: `${scope}.tab.note`,  

@@ -9,7 +9,7 @@ import {
     DataLoading
 } from 'components'
 
-import { useFetchFields } from '../../hooks'
+import { useFetchFieldIds } from '../../hooks'
 
 import FieldCreateButton from '../FieldCreateButton/FieldCreateButton'
 import FieldListItem from '../FieldListItem/FieldListItem'
@@ -38,7 +38,7 @@ const FieldMasterList = ({
     ...props
 }) => {
 
-    const { payload, isLoading } = useFetchFields()
+    const { payload, isLoading } = useFetchFieldIds()
 
     return (
         <MasterList

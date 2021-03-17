@@ -5,7 +5,7 @@ import globalMessages from 'messages'
 import styled from 'styled-components'
 import { useConvertArea } from 'utils/hooks'
 
-import { useFetchFields, useSelectFieldsArea } from '../../hooks'
+import { useFetchFieldIds, useSelectFieldsArea } from '../../hooks'
 
 
 import {
@@ -103,7 +103,7 @@ const FieldSideSelector = ({
         {id: 6, selected: false},
     ])
     */
-   const { payload, isLoading } = useFetchFields()
+   const { payload, isLoading } = useFetchFieldIds()
 
     const handleSelected = (id) => {
         const newState = !selected.find(x => x === id)

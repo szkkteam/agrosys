@@ -81,7 +81,7 @@ const FieldGrid = ({
     const intl = useIntl()
     const arrayRef = useRef();
     const history = useHistory()
-    const converter = useConverter()
+    const converter = useConverter('area')
     
 
     const pushDialogResult = (payload) => {
@@ -118,7 +118,7 @@ const FieldGrid = ({
             title: intl.formatMessage(messages.area),
             render: (row, i) => (
                 <Typography variant="body2">
-                    {converter({value: row.area, metric: 'area'})}
+                    {converter(row.area)}
                 </Typography>
                 )
         },
