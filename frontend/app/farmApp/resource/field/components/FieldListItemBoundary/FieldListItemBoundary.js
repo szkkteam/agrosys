@@ -4,6 +4,7 @@ import messages from './messages';
 import styled from 'styled-components'
 import { ROUTES } from 'farmApp/routes'
 import { useIntl, FormattedMessage } from 'react-intl'
+import { useTheme } from '@material-ui/core/styles';
 
 import {
     ListItemText,
@@ -20,10 +21,11 @@ const FieldListItemBoundary = ({
     className,
     ...props
 }) => {
+    const theme = useTheme()
 
     const style = {
         "properties": {
-            "stroke": "#eeed0e",
+            "stroke": theme.palette.secondary.main,
             "stroke-width": 1.5,
             "stroke-opacity": 1,
             "fill": "#ffffff",
