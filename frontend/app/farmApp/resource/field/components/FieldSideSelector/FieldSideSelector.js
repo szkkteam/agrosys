@@ -73,6 +73,7 @@ const Selector = ({
             <SelectIcon>
                 <Checkbox
                     edge="start"
+                    color="primary"
                     disabled={disabled}
                     checked={selectedField}
                     tabIndex={-1}
