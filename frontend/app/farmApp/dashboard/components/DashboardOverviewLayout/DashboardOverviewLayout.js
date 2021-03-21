@@ -34,7 +34,7 @@ const DashboardOverviewLayout = ({
     const cropCashFlowAreaDefaults = {...widgetDefaults, i: 'CropCashFlow', x: 3, y: 5}
     const cropsByAreaDefaults = {...widgetDefaults, i: 'CropsByArea', x: 6, y: 0, w: 6, h: 10}
     const upcomingTaskDefaults = {...widgetDefaults, i: 'UpcomingTask', x: 0, y: 10, w: 4, h: 10}
-    
+
     const layouts = {
         xxs: [
             cropsByAreaDefaults,
