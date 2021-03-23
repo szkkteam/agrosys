@@ -20,6 +20,15 @@ const Flex = styled.div`
     display: flex;
     padding-bottom: 8px;
 
+    ${({active}) => active ?`
+        & p {
+            text-shadow: 0px 0px 2px;
+        }
+    ` : `
+        & p {
+            text-shadow: none;
+        }
+    `}
 `
 
 const Connector = styled.div`
