@@ -12,12 +12,20 @@ const mobile = 425
 
 const theme = createMuiTheme({
     palette: {
+        type: 'light',
         background: {
             default: "#f4f6f8"
         },
         primary: { 
-            500: '#239553' 
+            //500: '#239553' 
+            main: '#0e7a0d',
         },
+        secondary: {
+            //main: '#fcaf3b'
+            //main: '#eeed0e'
+            main: '#fde100'
+        }
+
     },
     
     overrides: {

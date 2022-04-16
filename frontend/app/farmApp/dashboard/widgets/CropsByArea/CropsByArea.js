@@ -22,11 +22,11 @@ const Flex = styled.div`
 
     ${({active}) => active ?`
         & p {
-            font-weight: 600;
+            text-shadow: 0px 0px 2px;
         }
     ` : `
         & p {
-            font-weight: 400;
+            text-shadow: none;
         }
     `}
 `
