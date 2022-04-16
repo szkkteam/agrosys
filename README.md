@@ -9,6 +9,19 @@ Farm management software help to manage farm operations and production activitie
 
 # Features
 
+- Localized frontend with i18n
+- Local state management on the frontend with redux
+- REST Api
+- React framework
+
+Demo can be found here: [Demo](https://agrosys-staging.herokuapp.com/security/login?next=/)
+
+Login details
+```
+username: user1@user.com
+password: password
+```
+
 # Flask Backend
 
 - [SQLAlchemy](http://docs.sqlalchemy.org/en/rel_1_1/) ORM with [Flask-SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.2/) and migrations provided by [Flask-Alembic](https://flask-alembic.readthedocs.io/en/stable/)
