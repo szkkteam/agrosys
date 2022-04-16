@@ -1,5 +1,5 @@
 # Agro-Systems
-Farm management software help to manage farm operations and production activities
+Farm management software which aims to help manage farm operations and production activities
 ## Table of contents
 - [Features](#features)
 - [Flask Backend](#flask-backend)
