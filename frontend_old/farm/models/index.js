@@ -1,1 +1,0 @@
-export { Farm } from './Farm'
